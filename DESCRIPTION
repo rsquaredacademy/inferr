@@ -1,13 +1,19 @@
 Package: inferr
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Inferential Statistics
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Authors@R: person("Aravind", "Hebbali", email = "hebbali.aravind@gmail.com", role = c("aut", "cre"))
+Description: A set of tools for performing parametric and non-parametric
+    statistics.
+Depends:
+    R(>= 3.2.4)
+License: MIT + file LICENSE
+URL: https://github.com/rsquaredacademy/inferr
+BugReports: https://github.com/rsquaredacademy/inferr/issues
+Suggests:
+    testthat,
+    covr
 Encoding: UTF-8
 LazyData: true
-Suggests: testthat,
-    covr
+VignetteBuilder: knitr
+RoxygenNote: 5.0.1
