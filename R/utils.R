@@ -1,5 +1,5 @@
 # converts argument to type character and
-# formats it by adding a width of 12 and 
+# formats it by adding a width of 12 and
 # justification of centre
 formatter_freq <- function(x) {
     if (missing(x))
@@ -42,7 +42,7 @@ bin_size <- function(data, bins) {
 
 # intervals
 intervals <- function(data, bins, na.rm = TRUE) {
-    binsize <- bin_size(data, bins) 
+    binsize <- bin_size(data, bins)
     bin <- bins - 1
     interval <- min(data)
     for (i in seq_len(bin)) {
@@ -94,7 +94,7 @@ summary_mode <- function(x) {
 }
 
 
-# range 
+# range
 summary_range <- function(data) {
     result <- diff(range(data))
     return(result)
@@ -181,7 +181,7 @@ summary_correctss <- function(x) {
 }
 
 
-# inter-quartile range 
+# inter-quartile range
 summary_iqr <- function(x) {
     iqr <- quantile(x, 0.75) - quantile(x, 0.25)
     return(iqr)
@@ -332,7 +332,7 @@ rounda <- function(x) {
 
 l <- function(x) {
     x <- as.character(x)
-    k <- grep("\\$", x) 
+    k <- grep("\\$", x)
     if (length(k) == 1) {
         temp <- strsplit(x, "\\$")
         out <- temp[[1]][2]
@@ -558,4 +558,61 @@ formats_t <- function() {
 
 lns <- function(w) {
     cat(rep('-', w), sep = "")
-} 
+}
+
+
+fl <- function(x, w) {
+    x <- as.character(x)
+    ret <- format(x, width = w, justify = "left")
+    return(ret)
+}
+
+fc <- function(x, w) {
+    x <- as.character(x)
+    ret <- format(x, width = w, justify = "centre")
+    return(ret)
+}
+
+# helper functions: fitted line properties
+l <- function(x) {
+    x <- as.character(x)
+    k <- grep("\\$", x)
+    if (length(k) == 1) {
+        temp <- strsplit(x, "\\$")
+        out <- temp[[1]][2]
+    } else {
+        out <- x
+    }
+    return(out)
+}
+
+
+# one-samp-var-test
+formatter_t <- function(x, w) {
+  ret <- format(x, width = w, justify = "centre")
+  return(ret)
+}
+
+formatter_n <- function(x, w) {
+  ret <- format(x, nsmall = 3)
+  ret1 <- format(ret, width = w, justify = "centre")
+  return(ret1)
+}
+
+
+combinations <- function(n, r) {
+    factorial(n) / (factorial(n - r) * factorial(r))
+}
+
+
+format_cil <- function(x, w) {
+  ret <- format(x, nsmall = 3)
+  ret1 <- format(ret, width = w, justify = "left")
+  return(ret1)
+}
+
+format_ciu <- function(x, w) {
+  ret <- format(x, nsmall = 3)
+  ret1 <- format(ret, width = w, justify = "left")
+  return(ret1)
+}

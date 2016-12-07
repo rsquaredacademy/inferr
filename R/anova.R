@@ -1,62 +1,49 @@
-source('helper.R')
 library(dplyr)
 
-# one way anova
 owanova <- function(data, x, y) UseMethod('owanova')
-
-# data: name of the data set
-# y: grouping variable
-# x: continuous variable
 
 owanova.default <- function(data, x, y) {
 
 	sample_stats <- anova_split(data, x, y)
 	overall_stat <- overall_stats(data, x)
 
-	sample_mean <- anova_avg(data, x)[1, 1]
+	sample_mean  <- anova_avg(data, x)[1, 1]
 
 	sample_stats <- mutate(sample_stats,
 	    sst = length * ((mean - sample_mean) ^ 2),
 	    sse = (length - 1) * var
 	)
 
-	sstr <- round(sum(sample_stats$sst), 3)
-	ssee <- round(sum(sample_stats$sse), 3)
-	total <- round(sstr + ssee, 3)
-
+	sstr    <- round(sum(sample_stats$sst), 3)
+	ssee    <- round(sum(sample_stats$sse), 3)
+	total   <- round(sstr + ssee, 3)
 	df_sstr <- nrow(sample_stats) - 1
-	df_sse <- nrow(data) - nrow(sample_stats)
-	df_sst <- nrow(data) - 1
+	df_sse  <- nrow(data) - nrow(sample_stats)
+	df_sst  <- nrow(data) - 1
+	mstr    <- round(sstr / df_sstr, 3)
+	mse     <- round(ssee / df_sse, 3)
+	f       <- round(mstr / mse, 3)
+	sig     <- round(1- pf(f, df_sstr, df_sse), 3)
+	obs     <- nrow(data)
+	regs    <- paste(x, '~ as.factor(', y, ')')
+	model   <- lm(as.formula(regs), data = data)
+	reg     <- summary(model)
 
-	mstr <- round(sstr / df_sstr, 3)
-	mse <- round(ssee / df_sse, 3)
-
-	f <- round(mstr / mse, 3)
-	sig <- round(1- pf(f, df_sstr, df_sse), 3)
-
-	obs <- nrow(data)
-
-	# regression output
-	regs <- paste(x, '~ as.factor(', y, ')')
-	model <- lm(as.formula(regs), data = data)
-	reg <- summary(model)
-
-	result <- list(between = sstr,
-		within = ssee,
-		total = total,
-		df_btw = df_sstr,
-		df_within = df_sse,
-		df_total = df_sst,
-		ms_btw = mstr,
-		ms_within = mse,
-		f = f,
-		p = sig,
-		r2 = round(reg$r.squared, 4),
-		ar2 = round(reg$adj.r.squared, 4),
-		sigma = round(reg$sigma, 4),
-		obs = obs,
-		tab = format(sample_stats[, c(1, 2, 3, 5)], nsmall = 3)
-	)
+	result <- list(between   = sstr,
+								 within    = ssee,
+		       			 total     = total,
+								 df_btw    = df_sstr,
+								 df_within = df_sse,
+								 df_total  = df_sst,
+								 ms_btw    = mstr,
+								 ms_within = mse,
+								 f         = f,
+								 p         = sig,
+								 r2        = round(reg$r.squared, 4),
+								 ar2       = round(reg$adj.r.squared, 4),
+								 sigma     = round(reg$sigma, 4),
+								 obs       = obs,
+								 tab       = format(sample_stats[, c(1, 2, 3, 5)], nsmall = 3))
 
 	class(result) <- 'owanova'
 	return(result)
@@ -112,5 +99,3 @@ print.owanova <- function(data, ...) {
 	cat(fl('Number of obs', 13), '=', fl(data$obs, w7), fs(), fl('R-squared', 13), '=', data$r2, '\n')
 	cat(fl('Root MSE', 13), '=', data$sigma, fs(), fl('Adj R-squared', 13), '=', data$ar2, '\n\n')
 }
-
-
