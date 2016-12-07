@@ -1,0 +1,25 @@
+context('anova')
+
+test_that('output from owanova matches the expected output', {
+    k <- owanova(mtcars, 'mpg', 'cyl')
+    expect_equal(k$between, 824.785)
+    expect_equal(k$within, 301.263)
+    expect_equal(k$total, 1126.048)
+    expect_equal(k$df_btw, 2)
+    expect_equal(k$df_within, 29)
+    expect_equal(k$df_total, 31)
+    expect_equal(k$ms_btw, 412.392)
+    expect_equal(k$ms_within, 10.388)
+    expect_equal(k$f, 39.699)
+    expect_equal(k$p, 0)
+    expect_equal(k$r2, 0.7325)
+    expect_equal(k$ar2, 0.714)
+    expect_equal(k$sigma, 3.2231)
+    expect_equal(k$obs, 32)
+})
+
+test_that('owanova throws the appropriate error', {
+    expect_error(owanova('mtcars', 'mpg', 'cyl'), 'data must be a data frame')
+    expect_error(owanova(mtcars, 'mpgs', 'cyl'), 'x must be a column in data')
+    expect_error(owanova(mtcars, 'mpg', 'cyls'), 'y must be a column in data')
+})
