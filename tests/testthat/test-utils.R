@@ -19,4 +19,8 @@ test_that('output from text formatting matches the expected result', {
   expect_equivalent(fs(),  "  ")
   expect_equivalent(fl(3, 10),  "3         ")
   expect_equivalent(fc(3, 10),  "    3     ")
+  expect_equivalent(formatter_t(3, 10),  "    3     ")
+  expect_equivalent(format_cil(3, 10),  "    3     ")
+  expect_equivalent(format_ciu(3, 10),  "    3     ")
+  expect_equivalent(formats_t(),  "  ")
 })

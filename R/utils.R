@@ -38,3 +38,24 @@ fc <- function(x, w) {
     as.character() %>%
     format(width = w, justify = 'centre')
 }
+
+formatter_t <- function(x, w) {
+  x %>%
+    as.character() %>%
+    format(width = w, justify = 'centre')
+}
+
+format_cil <- function(x, w) {
+  x %>%
+    as.character() %>%
+    format(width = w, justify = 'centre')}
+
+format_ciu <- function(x, w) {
+  x %>%
+    as.character() %>%
+    format(width = w, justify = 'centre')
+}
+
+formats_t <- function() {
+    rep("  ")
+}
