@@ -674,3 +674,131 @@ print_ts_prop_test <- function(data) {
 	}
 
 }
+
+
+print_os_vartest(data) {
+
+	null_l <- paste0("Ho: sd(", data$var_name, ") >= ", as.character(data$sd))
+  alt_l <- paste0(" Ha: sd(", data$var_name, ") < ", as.character(data$sd))
+  null_u <- paste0("Ho: sd(", data$var_name, ") <= ", as.character(data$sd))
+  alt_u <- paste0("Ha: sd(", data$var_name, ") > ", as.character(data$sd))
+  null_t <- paste0("Ho: sd(", data$var_name, ") = ", as.character(data$sd))
+  alt_t <- paste0("Ha: sd(", data$var_name, ") != ", as.character(data$sd))
+  all_l <- paste("Ha: sd <", as.character(data$sd))
+  all_u <- paste("Ha: sd >", as.character(data$sd))
+  all_t <- paste("Ha: sd ~=", as.character(data$sd))
+  char_p_l <- format(data$p_lower, digits = 0, nsmall = 4)
+  char_p_u <- format(data$p_upper, digits = 0, nsmall = 4)
+  char_p <- format(data$p_two, digits = 0, nsmall = 4)
+  all_p_l <- paste("Pr(C < c) =", char_p_l)
+  all_p_t <- paste("2 * Pr(C > c) =", char_p)
+  all_p_u <- paste("Pr(C > c) =", char_p_u)
+  all_tval <- paste0(" c = ", as.character(data$chi))
+
+
+  # formatting output
+  # compute the characters of each output and decide the overall width
+  var_width <- max(nchar('Variable'), nchar(data$var_name))
+  obs_width <- max(nchar('Obs'), nchar(data$n))
+  mean_width <- max(nchar('Mean'), nchar(data$xbar))
+  se_width <- max(nchar('Std. Err.'), nchar(data$se))
+  sd_width <- max(nchar('Std. Dev.'), nchar(data$sigma))
+  conf_length <- nchar(data$c_lwr) + nchar(data$c_upr)
+  conf_str <- paste0('[', data$conf * 100, '% Conf. Interval]')
+  confint_length <- nchar(conf_str)
+  if (conf_length > confint_length) {
+    conf_width <- round(conf_length / 2)
+  } else {
+    conf_width <- round(confint_length / 2)
+  }
+  c_width <- nchar(data$chi)
+  df_width <- max(nchar('DF'), nchar(data$df))
+  p_width <- max(nchar('2 Tailed'), nchar(round(data$p_two, 5)))
+  md_width <- max(nchar('Difference'), nchar(data$mean_diff))
+  md_length <- nchar(data$mean_diff_l) + nchar(data$mean_diff_u)
+
+  width_1 <- sum(var_width, obs_width, mean_width, se_width, sd_width, ceiling(conf_width * 2), 21)
+  width_2 <- sum(var_width, c_width, df_width, p_width, 12)
+  all_width <- round(width_1 / 3)
+
+    cat(format("One-Sample Statistics", width = width_1, justify = "centre"),
+     "\n")
+    cat(rep("-", width_1), sep = "")
+    cat("\n", formatter_t("Variable", var_width), formats_t(),
+      formatter_t("Obs", obs_width), formats_t(),
+      formatter_t("Mean", mean_width),
+      formats_t(), formatter_t("Std. Err.", se_width), formats_t(),
+      formatter_t("Std. Dev.", sd_width), formats_t(),
+      formatter_t(conf_str, conf_width), "\n")
+    cat(rep("-", width_1), sep = "")
+    cat("\n", formatter_t(data$var_name, var_width), formats_t(),
+      formatter_t(data$n, obs_width), formats_t(),
+      formatter_t(data$xbar, mean_width),
+      formats_t(), formatter_t(data$se, se_width), formats_t(),
+      formatter_t(data$sigma, sd_width), formats_t(),
+      format_cil(data$c_lwr, conf_width),
+      format_ciu(data$c_upr, conf_width), "\n")
+    cat(rep("-", width_1), sep = "")
+
+  # print result
+  if (data$type == "less") {
+
+    cat("\n\n", format("Lower Tail Test", width = width_2, justify = "centre"))
+    cat("\n", format("---------------", width = width_2, justify = "centre"))
+    cat("\n", format(null_l, width = width_2, justify = "centre"))
+    cat("\n", format(alt_l, width = width_2, justify = "centre"), "\n\n")
+    cat(format('Chi-Square Test for Variance', width = width_2, justify = 'centre'), '\n')
+    cat(rep("-", width_2), sep = "")
+    cat("\n", formatter_t("Variable", var_width), formats_t(), formatter_t("c", c_width), formats_t(), formatter_t("DF", df_width), formats_t(),
+      formatter_t("Sig", p_width), formats_t(), "\n")
+    cat(rep("-", width_2), sep = "")
+    cat("\n", formatter_t(data$var_name, var_width), formats_t(),
+      formatter_t(round(data$chi, 3), t_width), formats_t(),
+      formatter_t(data$df, df_width), formats_t(),
+      formatter_t(char_p_l, p_width), "\n")
+    cat(rep("-", width_2), sep = "")
+
+  } else if (data$type == "greater") {
+
+    cat("\n\n", format("Upper Tail Test", width = width_2, justify = "centre"))
+    cat("\n", format("---------------", width = width_2, justify = "centre"))
+    cat("\n", format(null_u, width = width_2, justify = "centre"))
+    cat("\n", format(alt_u, width = width_2, justify = "centre"), "\n\n")
+    cat(format('Chi-Square Test for Variance', width = width_2, justify = 'centre'), '\n')
+    cat(rep("-", width_2), sep = "")
+    cat("\n", formatter_t("Variable", var_width), formats_t(), formatter_t("c", c_width), formats_t(), formatter_t("DF", df_width), formats_t(),
+      formatter_t("Sig", p_width), "\n")
+    cat(rep("-", width_2), sep = "")
+    cat("\n", formatter_t(data$var_name, var_width), formats_t(),
+      formatter_t(round(data$chi, 3), c_width), formats_t(),
+      formatter_t(data$df, df_width), formats_t(),
+      formatter_t(char_p_u, p_width), "\n")
+    cat(rep("-", width_2), sep = "")
+
+  } else if (data$type == "both") {
+
+    cat("\n\n", format("Two Tail Test", width = width_2, justify = "centre"))
+    cat("\n", format("---------------", width = width_2, justify = "centre"))
+    cat("\n", format(null_t, width = width_2, justify = "centre"))
+    cat("\n", format(alt_t, width = width_2, justify = "centre"), "\n\n")
+    cat(format('Chi-Square Test for Variance', width = width_2, justify = 'centre'), '\n')
+    cat(rep("-", width_2), sep = "")
+    cat("\n", formatter_t("Variable", var_width), formats_t(), formatter_t("c", c_width), formats_t(), formatter_t("DF", df_width), formats_t(),
+      formatter_t("Sig", p_width), "\n")
+    cat(rep("-", width_2), sep = "")
+    cat("\n", formatter_t(data$var_name, var_width), formats_t(),
+      formatter_t(round(data$chi, 3), c_width), formats_t(),
+      formatter_t(data$df, df_width), formats_t(),
+      formatter_t(char_p, p_width), "\n")
+    cat(rep("-", width_2), sep = "")
+
+  } else {
+
+    cat("\n\n", format(null_t, width = width_2, justify = "centre"))
+    cat("\n\n", format(all_l, width = all_width, justify = "centre"), format(all_t, width = all_width, justify = "centre"), format(all_u, width = all_width, justify = "centre"), "\n")
+    cat(format(all_tval, width = all_width, justify = 'centre'), format(all_tval, width = all_width, justify = 'centre'), format(all_tval, width = all_width, justify = 'centre'))
+    cat("\n", format(all_p_l, width = all_width, justify = 'centre'), format(all_p_t, width = all_width, justify = 'centre'), format(all_p_u, width = all_width, justify = 'centre'))
+
+  }
+
+}
