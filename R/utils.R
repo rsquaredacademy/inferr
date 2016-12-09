@@ -191,3 +191,7 @@ fn <- function(x, w) {
     as.character() %>%
     format(width = w, justify = 'centre')
 }
+
+formats <- function() {
+    rep("    ")
+}

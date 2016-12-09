@@ -561,3 +561,72 @@ print_two_ttest <- function(data) {
   cat(rep("-", w3), sep = "")
 
 }
+
+
+print_prop_test <- function(data) {
+
+	cwidth <- max(nchar('z'), nchar('DF'), nchar('Pr(|Z| > |z|)'), nchar('Sample Size'), nchar('phat'))
+	nwidth <- max(nchar(data$z), nchar(data$p0), nchar(data$sig[1]), nchar(data$n), nchar(data$phat))
+	w1 <- sum(cwidth, nwidth, 6)
+	lw <- max(nchar('Variable'), nchar(data$varname))
+	ow <- max(nchar('Observed'), nchar(data$n))
+	ew <- max(nchar('Expected'), nchar(data$exp))
+	dw <- max(nchar('% Deviation'), nchar(data$deviation))
+	rw <- max(nchar('Std. Residuals'), nchar(data$std))
+	w <- sum(lw, ow, ew, dw, rw, 16)
+	names <- c(0, 1)
+
+	if (data$alt == 'less') {
+
+			cat(format("Test Statistics", width = w1, justify = "centre"), "\n")
+			cat(rep("-", w1), sep = "", '\n')
+			cat(format('Sample Size', width = cwidth, justify = 'left'), formats(), format(data$n, width = nwidth, justify = 'right'), '\n')
+			cat(format('Exp Prop', width = cwidth, justify = 'left'), formats(), format(data$p, width = nwidth, justify = 'right'), '\n')
+			cat(format('Obs Prop', width = cwidth, justify = 'left'), formats(), format(data$phat, width = nwidth, justify = 'right'), '\n')
+			cat(format('z', width = cwidth, justify = 'left'), formats(), format(data$z, width = nwidth, justify = 'right'), '\n')
+			cat(format('Pr(Z < z)', width = cwidth, justify = 'left'), formats(), format(data$sig, width = nwidth, justify = 'right'), '\n\n')
+
+	} else if (data$alt == 'greater') {
+
+			cat(format("Test Statistics", width = w1, justify = "centre"), "\n")
+			cat(rep("-", w1), sep = "", '\n')
+			cat(format('Sample Size', width = cwidth, justify = 'left'), formats(), format(data$n, width = nwidth, justify = 'right'), '\n')
+			cat(format('Exp Prop', width = cwidth, justify = 'left'), formats(), format(data$p, width = nwidth, justify = 'right'), '\n')
+			cat(format('Obs Prop', width = cwidth, justify = 'left'), formats(), format(data$phat, width = nwidth, justify = 'right'), '\n')
+			cat(format('z', width = cwidth, justify = 'left'), formats(), format(data$z, width = nwidth, justify = 'right'), '\n')
+			cat(format('Pr(Z > z)', width = cwidth, justify = 'left'), formats(), format(data$sig, width = nwidth, justify = 'right'), '\n\n')
+
+	} else if (data$alt == 'both') {
+
+			cat(format("Test Statistics", width = w1, justify = "centre"), "\n")
+			cat(rep("-", w1), sep = "", '\n')
+			cat(format('Sample Size', width = cwidth, justify = 'left'), formats(), format(data$n, width = nwidth, justify = 'right'), '\n')
+			cat(format('Exp Prop', width = cwidth, justify = 'left'), formats(), format(data$p, width = nwidth, justify = 'right'), '\n')
+			cat(format('Obs Prop', width = cwidth, justify = 'left'), formats(), format(data$phat, width = nwidth, justify = 'right'), '\n')
+			cat(format('z', width = cwidth, justify = 'left'), formats(), format(data$z, width = nwidth, justify = 'right'), '\n')
+			cat(format('Pr(|Z| > |z|)', width = cwidth, justify = 'left'), formats(), format(data$sig, width = nwidth, justify = 'right'), '\n\n')
+
+	} else {
+
+			cat(format("Test Statistics", width = w1, justify = "centre"), "\n")
+			cat(rep("-", w1), sep = "", '\n')
+			cat(format('Sample Size', width = cwidth, justify = 'left'), formats(), format(data$n, width = nwidth, justify = 'right'), '\n')
+			cat(format('Exp Prop', width = cwidth, justify = 'left'), formats(), format(data$p, width = nwidth, justify = 'right'), '\n')
+			cat(format('Obs Prop', width = cwidth, justify = 'left'), formats(), format(data$phat, width = nwidth, justify = 'right'), '\n')
+			cat(format('z', width = cwidth, justify = 'left'), formats(), format(data$z, width = nwidth, justify = 'right'), '\n')
+			cat(format('Pr(|Z| > |z|)', width = cwidth, justify = 'left'), formats(), format(unname(data$sig[1]), width = nwidth, justify = 'right'), '\n')
+			cat(format('Pr(Z < z)', width = cwidth, justify = 'left'), formats(), format(unname(data$sig[2]), width = nwidth, justify = 'right'), '\n')
+			cat(format('Pr(Z > z)', width = cwidth, justify = 'left'), formats(), format(unname(data$sig[3]), width = nwidth, justify = 'right'), '\n\n')
+
+	}
+
+	cat(rep("-", w), sep = "", '\n')
+	cat(fg('Category', lw), fs(), fg('Observed', ow), fs(), fg('Expected', ew), fs(), fg('% Deviation', dw), fs(), fg('Std. Residuals', rw), '\n')
+	cat(rep("-", w), sep = "", '\n')
+	for (i in seq_len(data$level)) {
+		cat(fg(names[i], lw), fs(), fg(data$obs[i], ow), fs(), fg(data$exp[i], ew), fs(),
+			fg(data$deviation[i], dw), fs(), fg(data$std[i], rw), '\n')
+	}
+	cat(rep("-", w), sep = "", '\n')
+
+}
