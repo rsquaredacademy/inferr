@@ -23,4 +23,21 @@ test_that('output from text formatting matches the expected result', {
   expect_equivalent(format_cil(3, 10),  "    3     ")
   expect_equivalent(format_ciu(3, 10),  "    3     ")
   expect_equivalent(formats_t(),  "  ")
+  expect_equivalent(formatter_pair(3, 6), " 3.00 ")
+})
+
+test_that('output from l matches the expected result', {
+
+    expect_equal(l(deparse(substitute(mtcars$mpg))), "mpg")
+    expect_equal(l(deparse(substitute(mpg))), "mpg")
+    expect_equal(l(deparse(substitute(mtcars@mpg))), "mtcars@mpg")
+
+})
+
+test_that('output from extract matches the expected result', {
+  x <- c(1, 2, 3)
+  y <- c(3, 2, 1)
+  actual <- extract(x, y)
+  expected <- data.frame(x = 1:3, y = 3:1, z = c(-2, 0, 2))
+  expect_equivalent(actual, expected)
 })

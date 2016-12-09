@@ -261,3 +261,303 @@ print_ttest <- function(data) {
   }
 
 }
+
+
+print_paired_ttest <- function(data) {
+
+	char_p_u <- format(data$p_upper, digits = 0, nsmall = 3)
+  char_p_l <- format(data$p_lower, digits = 0, nsmall = 3)
+  char_p <- format(data$p_two_tail, digits = 0, nsmall = 3)
+
+  # hypothesis heading
+  hyp_null <- paste0('Ho: mean(', data$var_names[1], ' - ', data$var_names[2], ') = ', '0')
+  hyp_lt <- paste0('Ha: mean(', data$var_names[1], ' - ', data$var_names[2], ') < ', '0')
+  hyp_ut <- paste0('Ha: mean(', data$var_names[1], ' - ', data$var_names[2], ') > ', '0')
+  hyp_2t <- paste0('Ha: mean(', data$var_names[1], ' - ', data$var_names[2], ') ~= ', '0')
+  conf <- data$confint * 100
+  conf_char <- paste0('[', conf, '% Conf. Interval]')
+
+  # all tests combines
+  all_null <- paste0('Ho: mean(', data$var_names[1], ' - ', data$var_names[2], ') = mean(diff) = ', '0')
+  all_p_l <- paste("P < t =", char_p_l)
+  all_p_t <- paste("P > |t| =", char_p)
+  all_p_u <- paste("P > t =", char_p_u)
+  all_tval <- paste0(" t = ", as.character(data$tstat))
+
+  # formatting output
+  var_width1 <- max(nchar('Variables'), nchar(data$var_names[1]), nchar(data$var_names[2]), nchar('diff'))
+  var_width <- max(nchar('Variables'), nchar(data$xy))
+  obs_width <- max(nchar('Obs'), nchar(data$Obs))
+  mean_width <- max(nchar('Mean'), nchar(format(max(data$b[1, ]), nsmall = 2)))
+  se_width <- max(nchar('Std. Err.'), nchar(format(max(data$b[3, ]), nsmall = 2)))
+  sd_width <- max(nchar('Std. Dev.'), nchar(format(max(data$b[2, ]), nsmall = 2)))
+  corr_width <- nchar('Correlation')
+  corsig_width <- max(nchar('Sig.'), nchar(data$corsig))
+  t_width <- nchar(data$tstat)
+  df_width <- max(nchar('DF'), nchar(data$df))
+  p_width <- max(nchar('Sig.'), nchar(format(data$corsig, nsmall = 3)))
+  conf_length <- max(sum(nchar(data$conf_int1)), sum(nchar(data$conf_int2)))
+  if (conf_length > 20) {
+    conf_width <- conf_length
+    conf_l_width <- ceiling(conf_width / 2)
+    conf_u_width <- ceiling(conf_width / 2)
+  } else {
+    conf_width <- 20
+    conf_l_width <- 10
+    conf_u_width <- 10
+  }
+  space1 <- 20
+  space2 <- 13
+  space3 <- 13
+  width_1 <- sum(var_width1, obs_width, mean_width, se_width, sd_width, conf_width,space1)
+  width_2 <- sum(var_width, obs_width, corr_width, corsig_width, space2)
+  width_3 <- sum(var_width, t_width, df_width, p_width, space3)
+
+  cat(format("Paired Samples Statistics", width = width_1, justify = "centre"), "\n")
+  cat(rep("-", width_1), sep = "", "\n")
+  cat(formatter_pair("Variables", var_width1), formats_t(), formatter_pair("Obs", obs_width), formats_t(), formatter_pair("Mean", mean_width),
+      formats_t(), formatter_pair("Std. Err.", se_width), formats_t(), formatter_pair("Std. Dev.", sd_width), formats_t(), conf_char, "\n")
+  cat(rep("-", width_1), sep = "")
+  cat('\n', formatter_pair(data$var_names[1], var_width1), formats_t(), formatter_pair(data$Obs, obs_width), formats_t(), formatter_pair(data$b[1], mean_width),
+    formats_t(), formatter_pair(data$b[3], se_width), formats_t(), formatter_pair(data$b[2], sd_width), formats_t(), format_cil(data$conf_int1[[1]], conf_l_width),
+    format_ciu(data$conf_int1[[2]], conf_u_width))
+  cat('\n', formatter_pair(data$var_names[2], var_width1), formats_t(), formatter_pair(data$Obs, obs_width), formats_t(), formatter_pair(data$b[4], mean_width), formats_t(), formatter_pair(data$b[6], se_width),
+     formats_t(), formatter_pair(data$b[5], sd_width), formats_t(), format_cil(data$conf_int2[[1]], conf_l_width),
+    format_ciu(data$conf_int2[[2]], conf_u_width), "\n")
+  cat(rep("-", width_1), sep = "")
+  cat("\n", formatter_pair('diff', var_width1), formats_t(), formatter_pair(data$Obs, obs_width), formats_t(), formatter_pair(data$b[7], mean_width), formats_t(), formatter_pair(data$b[9], se_width),
+     formats_t(), formatter_pair(data$b[8], sd_width), formats_t(), format_cil(data$conf_int_diff[[1]], conf_l_width),
+    format_ciu(data$conf_int_diff[[2]], conf_u_width), "\n")
+  cat(rep("-", width_1), sep = "")
+  cat("\n\n", format("Paired Samples Correlations", width = width_2, justify = "centre"), "\n")
+  cat(rep("-", width_2), sep = "")
+  cat("\n", formatter_pair("Variables", var_width), formats_t(), formatter_pair("Obs", obs_width), formats_t(), formatter_pair("Correlation", corr_width),
+     formats_t(), formatter_pair("Sig.", corsig_width))
+  cat("\n", formatter_pair(paste(data$var_names[1], "&", data$var_names[2]), var_width), formats_t(), formatter_pair(data$Obs, obs_width),
+   formats_t(), formatter_pair(data$corr, corr_width), formats_t(), format(data$corsig, corsig_width), "\n")
+  cat(rep("-", width_2), sep = "", "\n\n")
+
+  # print output
+  if (data$alternative == 'less') {
+
+  cat(format("Paired Samples Test", width = width_3, justify = "centre"), "\n")
+  cat(format('-------------------', width = width_3, justify = "centre"), "\n")
+  cat(format(hyp_null, width = width_3, justify = 'centre'), "\n")
+  cat(format(hyp_lt, width = width_3, justify = 'centre'), "\n\n")
+  cat(rep("-", width_3), sep = "")
+  cat("\n", formatter_pair("Variables", var_width), formats_t(), formatter_pair("t", t_width),
+     formats_t(), formatter_pair("df", df_width), formats_t(), formatter_pair("Sig.", p_width), "\n")
+  cat(rep("-", width_3), sep = "")
+  cat("\n", formatter_pair(paste(data$var_names[1], "-", data$var_names[2]), var_width), formats_t(), formatter_pair(data$tstat, t_width), formats_t(), format(data$df, df_width),
+    formats_t(), formatter_pair(char_p_l, p_width), "\n")
+  cat(rep("-", width_3), sep = "")
+
+    } else if (data$alternative == 'greater') {
+
+  cat(format("Paired Samples Test", width = width_3, justify = "centre"), "\n")
+  cat(format('-------------------', width = width_3, justify = "centre"), "\n")
+  cat(format(hyp_null, width = width_3, justify = 'centre'), "\n")
+  cat(format(hyp_ut, width = width_3, justify = 'centre'), "\n\n")
+  cat(rep("-", width_3), sep = "")
+  cat("\n", formatter_pair("Variables", var_width), formats_t(), formatter_pair("t", t_width),
+     formats_t(), formatter_pair("df", df_width), formats_t(), formatter_pair("Sig.", p_width), "\n")
+  cat(rep("-", width_3), sep = "")
+  cat("\n", formatter_pair(paste(data$var_names[1], "-", data$var_names[2]), var_width), formats_t(), formatter_pair(data$tstat, t_width), formats_t(), format(data$df, df_width),
+    formats_t(), formatter_pair(char_p_u, p_width), "\n")
+  cat(rep("-", width_3), sep = "")
+
+    } else if (data$alternative == 'both') {
+
+  cat(format("Paired Samples Test", width = width_3, justify = "centre"), "\n")
+  cat(format('-------------------', width = width_3, justify = "centre"), "\n")
+  cat(format(hyp_null, width = width_3, justify = 'centre'), "\n")
+  cat(format(hyp_2t, width = width_3, justify = 'centre'), "\n\n")
+  cat(rep("-", width_3), sep = "")
+  cat("\n", formatter_pair("Variables", var_width), formats_t(), formatter_pair("t", t_width),
+     formats_t(), formatter_pair("df", df_width), formats_t(), formatter_pair("Sig.", p_width), "\n")
+  cat(rep("-", width_3), sep = "")
+  cat("\n", formatter_pair(paste(data$var_names[1], "-", data$var_names[2]), var_width), formats_t(), formatter_pair(data$tstat, t_width), formats_t(), format(data$df, df_width),
+    formats_t(), formatter_pair(char_p, p_width), "\n")
+  cat(rep("-", width_3), sep = "")
+
+    } else {
+
+  cat(format(all_null, width = 72, justify = 'centre'), "\n\n")
+  cat(format('Ha: mean(diff) < 0', width = 24, justify = 'centre'), format('Ha: mean(diff) ~= 0', width = 24, justify = 'centre'),
+    format('Ha: mean(diff) > 0', width = 24, justify = 'centre'), "\n")
+  cat(format(all_tval, width = 24, justify = 'centre'), format(all_tval, width = 24, justify = 'centre'), format(all_tval, width = 24, justify = 'centre'), "\n")
+  cat(format(all_p_l, width = 24, justify = 'centre'), format(all_p_t, width = 24, justify = 'centre'), format(all_p_u, width = 24, justify = 'centre'), "\n")
+
+
+  }
+
+}
+
+
+print_two_ttest <- function(data) {
+
+	char_sig <- format(data$sig, digits = 0, nsmall = 4)
+  char_sig_l <- format(data$sig_l, digits = 0, nsmall = 4)
+  char_sig_u <- format(data$sig_u, digits = 0, nsmall = 4)
+  char_sig_pooled <- format(data$sig_pooled, digits = 0, nsmall = 4)
+  char_sig_pooled_l <- format(data$sig_pooled_l, digits = 0, nsmall = 4)
+  char_sig_pooled_u <- format(data$sig_pooled_u, digits = 0, nsmall = 4)
+
+  # hypothesis heading
+  hyp_null <- paste0('Ho: mean( ', data$levels[1], ' ) - mean( ', data$levels[2], ' ) = diff = ', '0')
+  hyp_lt <- paste0('Ha: diff < ', '0')
+  hyp_2t <- paste0('Ha: diff ~= ', '0')
+  hyp_ut <- paste0('Ha: diff > ', '0')
+  conf <- data$confint * 100
+  conf_char <- paste0('[', conf, '% Conf. Interval]')
+
+  # all tests combines
+  all_p_l <- paste("P < t =", char_sig_pooled_l)
+  all_p_t <- paste("P > |t| =", char_sig_pooled)
+  all_p_u <- paste("P > t =", char_sig_pooled_u)
+  all_s_l <- paste("P < t =", char_sig_l)
+  all_s_t <- paste("P > |t| =", char_sig)
+  all_s_u <- paste("P > t =", char_sig_u)
+  p_tval <- paste0(" t = ", as.character(data$t_pooled))
+  s_tval <- paste0(" t = ", as.character(data$t_satterthwaite))
+
+  # format output
+  grp_w <- max(nchar(data$levels[1]), nchar(data$levels[2]), nchar('Combined'), 10)
+  obs_w <- max(nchar('Obs'), nchar(data$obs[1]), nchar(data$obs[2]), nchar(data$n))
+  mean_w <- max(nchar('Mean'), nchar(data$mean[1]), nchar(data$mean[2]), nchar(data$mean_diff), nchar(data$combined[2]))
+  se_w <- max(nchar('Std. Err.'), nchar(data$se[1]), nchar(data$se[2]), nchar(data$combined[4]), nchar(data$se_dif))
+  sd_w <- max(nchar('Std. Dev.'), nchar(data$sd[1]), nchar(data$sd[2]), nchar(data$combined[3]), nchar(data$sd_dif))
+  df_w <- max(nchar('DF'), nchar(as.vector(data$df_pooled)), nchar(as.vector(data$df_satterthwaite)))
+  t_w <- max(nchar('t Value'), nchar(as.vector(data$t_pooled)), nchar(as.vector(data$t_satterthwaite)))
+  pt_w <- max(nchar('P > |t|'), nchar(as.vector(char_sig)), nchar(as.vector(char_sig_l)), nchar(as.vector(char_sig_u)),
+    nchar(as.vector(char_sig_pooled)), nchar(as.vector(char_sig_pooled_l)), nchar(as.vector(char_sig_u)))
+  numdf_w <- max(nchar('Num DF'), nchar(as.vector(data$num_df)), nchar(as.vector(data$den_df)))
+  f_w <- max(nchar('F Value'), nchar(as.vector(data$f)))
+  fp_w <- max(nchar('P > F'), nchar(as.vector(data$f_sig)))
+  conf_length <- nchar(data$lower[1]) + nchar(data$upper[1])
+  if (conf_length > 20) {
+    conf_width <- conf_length
+    conf_l_width <- ceiling(conf_width / 2)
+    conf_u_width <- floor(conf_width / 2)
+  } else {
+    conf_width <- 20
+    conf_l_width <- 10
+    conf_u_width <- 10
+  }
+  w1 <- sum(grp_w, obs_w, mean_w, se_w, sd_w, conf_width, 20)
+  w2 <- sum(grp_w, 13, 9, df_w, t_w, pt_w, 20)
+  w3 <- sum(grp_w, 8, numdf_w, numdf_w, f_w, fp_w, 20)
+
+
+  cat(fw('Group Statistics', w = w1), "\n")
+  cat(rep("-", w1), sep = "", "\n")
+  cat(fw('Group', w = grp_w), formats_t(), fw('Obs', w = obs_w), formats_t(),
+    fw('Mean', w = mean_w), formats_t(), fw('Std. Err.', w = se_w), formats_t(),
+    fw('Std. Dev.', w = sd_w), formats_t(), conf_char, "\n")
+  cat(rep("-", w1), sep = "", "\n")
+  cat(fw((data$levels[1]), w = grp_w), formats_t(), fn(data$obs[1], w = obs_w), formats_t(),
+    fn(data$mean[1], w = mean_w), formats_t(), fn(data$se[1], w = se_w), formats_t(),
+    fn(data$sd[1], w = sd_w), formats_t(), fn(data$lower[1], w = conf_l_width), fn(data$upper[1], w = conf_u_width), "\n")
+  cat(fw((data$levels[2]), w = grp_w), formats_t(), fn(data$obs[2], w = obs_w), formats_t(),
+    fn(data$mean[2], w = mean_w), formats_t(), fn(data$se[2], w = se_w), formats_t(),
+    fn(data$sd[2], w = sd_w), formats_t(), fn(data$lower[2], w = conf_l_width), fn(data$upper[2], w = conf_u_width),  "\n")
+  cat(rep("-", w1), sep = "", "\n")
+  cat(fw('combined', w = grp_w), formats_t(), fn(data$n, w = obs_w), formats_t(),
+    fn(data$combined[2], w = mean_w), formats_t(), fn(data$combined[4], w = se_w), formats_t(),
+    fn(data$combined[3], w = sd_w), formats_t(), fn(data$combined[7], w = conf_l_width), fn(data$combined[8], w = conf_u_width),  "\n")
+  cat(rep("-", w1), sep = "", "\n")
+  cat(fw(('diff'), w = grp_w), formats_t(), fn(data$n, w = obs_w), formats_t(),
+    fn(data$mean_diff, w = mean_w), formats_t(), fn(as.vector(data$se_dif), w = se_w), formats_t(),
+    fn(as.vector(data$sd_dif), w = sd_w), formats_t(), fn(as.vector(data$conf_diff[1]), w = conf_l_width),
+    fn(as.vector(data$conf_diff[2]), w = conf_u_width),  "\n")
+  cat(rep("-", w1), sep = "", "\n\n")
+
+  if (data$alternative == 'less') {
+
+  cat(fw('Independent Samples Test', w = w2), "\n")
+  cat(fw('------------------------', w = w2), "\n\n")
+  cat(fw(hyp_null, w = w2), "\n")
+  cat(fw(hyp_lt, w = w2), "\n\n")
+  cat(rep("-", w2), sep = "", "\n")
+  cat(fw('Variable', w  = grp_w), formats_t(), fw('Method', w = 13), formats_t(),
+    fw('Variances', w = 9), formats_t(), fw('DF', w = df_w), formats_t(),
+    fw('t Value', w = t_w), formats_t(), fw('P < t', w = pt_w), "\n")
+  cat(rep("-", w2), sep = "", "\n")
+  cat(fw(data$var_y, w = grp_w), formats_t(), fw('Pooled', w = 13), formats_t(),
+    fw('Equal', w = 9), formats_t(), fn(data$df_pooled, w = df_w), formats_t(),
+    fw(data$t_pooled, w = t_w), formats_t(), fw(char_sig_pooled_l, w = pt_w), "\n")
+  cat(fw(data$var_y, w = grp_w), formats_t(), fw('Satterthwaite', w = 13), formats_t(),
+    fw('Unequal', w = 9), formats_t(), fn(data$df_satterthwaite, w = df_w), formats_t(),
+    fw(data$t_satterthwaite, w = t_w), formats_t(), fw(char_sig_l, w = pt_w), "\n")
+  cat(rep("-", w2), sep = "", "\n\n")
+
+  } else if (data$alternative == 'greater') {
+
+  cat(fw('Independent Samples Test', w = w2), "\n")
+  cat(fw('------------------------', w = w2), "\n\n")
+  cat(fw(hyp_null, w = w2), "\n")
+  cat(fw(hyp_ut, w = w2), "\n\n")
+  cat(rep("-", w2), sep = "", "\n")
+  cat(fw('Variable', w  = grp_w), formats_t(), fw('Method', w = 13), formats_t(),
+    fw('Variances', w = 9), formats_t(), fw('DF', w = df_w), formats_t(),
+    fw('t Value', w = t_w), formats_t(), fw('P > t', w = pt_w), "\n")
+  cat(rep("-", w2), sep = "", "\n")
+  cat(fw(data$var_y, w = grp_w), formats_t(), fw('Pooled', w = 13), formats_t(),
+    fw('Equal', w = 9), formats_t(), fn(data$df_pooled, w = df_w), formats_t(),
+    fw(data$t_pooled, w = t_w), formats_t(), fw(char_sig_pooled_u, w = pt_w), "\n")
+  cat(fw(data$var_y, w = grp_w), formats_t(), fw('Satterthwaite', w = 13), formats_t(),
+    fw('Unequal', w = 9), formats_t(), fn(data$df_satterthwaite, w = df_w), formats_t(),
+    fw(data$t_satterthwaite, w = t_w), formats_t(), fw(char_sig_u, w = pt_w), "\n")
+  cat(rep("-", w2), sep = "", "\n\n")
+
+  } else if (data$alternative == 'both') {
+
+  cat(fw('Independent Samples Test', w = w2), "\n")
+  cat(fw('------------------------', w = w2), "\n\n")
+  cat(fw(hyp_null, w = w2), "\n")
+  cat(fw(hyp_2t, w = w2), "\n\n")
+  cat(rep("-", w2), sep = "", "\n")
+  cat(fw('Variable', w  = grp_w), formats_t(), fw('Method', w = 13), formats_t(),
+    fw('Variances', w = 9), formats_t(), fw('DF', w = df_w), formats_t(),
+    fw('t Value', w = t_w), formats_t(), fw('P > |t|', w = pt_w), "\n")
+  cat(rep("-", w2), sep = "", "\n")
+  cat(fw(data$var_y, w = grp_w), formats_t(), fw('Pooled', w = 13), formats_t(),
+    fw('Equal', w = 9), formats_t(), fn(data$df_pooled, w = df_w), formats_t(),
+    fw(data$t_pooled, w = t_w), formats_t(), fw(char_sig_pooled, w = pt_w), "\n")
+  cat(fw(data$var_y, w = grp_w), formats_t(), fw('Satterthwaite', w = 13), formats_t(),
+    fw('Unequal', w = 9), formats_t(), fn(data$df_satterthwaite, w = df_w), formats_t(),
+    fw(data$t_satterthwaite, w = t_w), formats_t(), fw(char_sig, w = pt_w), "\n")
+  cat(rep("-", w2), sep = "", "\n\n")
+
+  } else {
+
+    cat(fw('Independent Samples Test', w = 72), "\n")
+    cat(fw('------------------------', w = w2), "\n\n")
+    cat(format(hyp_null, width = 72, justify = 'centre'), "\n\n")
+    cat(format('Ha: diff < 0', width = 24, justify = 'centre'), format('Ha: diff ~= 0', width = 24, justify = 'centre'),
+      format('Ha: diff > 0', width = 24, justify = 'centre'), "\n\n")
+    cat(format('', width = 24, justify = 'centre'), format('Pooled', width = 24, justify = 'centre'),
+      format('', width = 24, justify = 'centre'), "\n")
+    cat(rep("-", 72), sep = "", "\n")
+    cat(format(p_tval, width = 24, justify = 'centre'), format(p_tval, width = 24, justify = 'centre'), format(p_tval, width = 24, justify = 'centre'), "\n")
+    cat(format(all_p_l, width = 24, justify = 'centre'), format(all_p_t, width = 24, justify = 'centre'), format(all_p_u, width = 24, justify = 'centre'), "\n\n")
+    cat(format('', width = 24, justify = 'centre'), format('Satterthwaite', width = 24, justify = 'centre'),
+      format('', width = 24, justify = 'centre'), "\n")
+    cat(rep("-", 72), sep = "", "\n")
+    cat(format(s_tval, width = 24, justify = 'centre'), format(s_tval, width = 24, justify = 'centre'), format(s_tval, width = 24, justify = 'centre'), "\n")
+    cat(format(all_s_l, width = 24, justify = 'centre'), format(all_s_t, width = 24, justify = 'centre'), format(all_s_u, width = 24, justify = 'centre'), "\n\n\n")
+
+  }
+
+	cat(fw('Test for Equality of Variances', w = w3), "\n")
+  cat(rep("-", w3), sep = "", "\n")
+  cat(fw("Variable", w = grp_w), formats_t(), fw('Method', w = 8), formats_t(),
+    fw('Num DF', w = numdf_w), formats_t(), fw('Den DF', w = numdf_w), formats_t(),
+    fw('F Value', w = f_w), formats_t(), fw('P > F', w = fp_w), "\n")
+  cat(rep("-", w3), sep = "", "\n")
+  cat(fw(data$var_y, w = grp_w), formats_t(), fw('Folded F', w = 8), formats_t(),
+    fn(data$num_df, w = numdf_w), formats_t(), fn(data$den_df, w = numdf_w), formats_t(),
+    fn(data$f, w = f_w), formats_t(), fn(data$f_sig, w = fp_w), "\n")
+  cat(rep("-", w3), sep = "")
+
+}
