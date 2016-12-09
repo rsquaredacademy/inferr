@@ -676,7 +676,7 @@ print_ts_prop_test <- function(data) {
 }
 
 
-print_os_vartest(data) {
+print_os_vartest <- function(data) {
 
 	null_l <- paste0("Ho: sd(", data$var_name, ") >= ", as.character(data$sd))
   alt_l <- paste0(" Ha: sd(", data$var_name, ") < ", as.character(data$sd))
