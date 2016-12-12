@@ -195,3 +195,90 @@ fn <- function(x, w) {
 formats <- function() {
     rep("    ")
 }
+
+return_pos <- function(data, number) {
+    out <- c()
+    for (i in seq_len(length(data))) {
+        if (data[i] == number) {
+            out <- c(out, i)
+        }
+    }
+    return(out)
+}
+
+sums <- function(data) {
+
+	cl <- colSums(data)
+	cls_sum <- sum(cl ^ 2)
+	g <- rowSums(data)
+	gs_sum <- sum(g ^ 2)
+	result <- list(cl = cl, cls_sum = cls_sum, g = g, gs_sum = gs_sum)
+
+}
+
+coch <- function(k, cls_sum, cl, g, gs_sum) {
+
+	out <- ((k - 1) * ((k * cls_sum) - (sum(cl) ^ 2))) / ((k * sum(g)) - gs_sum)
+	return(out)
+
+}
+
+# function for binary coding
+nruns <- function(data, value) {
+    if (data > value)
+        return(1)
+    else if (data < value)
+        return(0)
+    else
+        return(NA)
+}
+
+nruns2 <- function(data, value) {
+    if (data <= value)
+        return(0)
+    else
+        return(1)
+}
+
+# function for binary coding if split == TRUE
+binner <- function(x, threshold) {
+    x_bin <- sapply(x, nruns, threshold)
+    t_index <- return_pos(x, threshold)
+    l_t <- length(t_index)
+    w <- c(0, 1)
+    r_t <- sample(w, size = l_t, TRUE)
+    for (i in seq_len(l_t)) {
+        if (r_t[i] > 0) {
+            x_bin[t_index[i]] <- 1
+        } else
+            x_bin[t_index[i]] <- 0
+    }
+    return(x_bin)
+}
+
+# function for count of runs
+nsign <- function(x) {
+    n <- length(x)
+    count <- 1
+    k <- x[1]
+    j <- 2:n
+    for (i in j) {
+        l <- i - 1
+        if (x[i] != x[l])
+            count <- count + 1
+    }
+    return(count)
+}
+
+# expected runs
+expruns <- function(n0, n1) {
+    N <- n0 + n1
+    return(((2 * n0 * n1) / N) + 1)
+}
+
+# standard deviation of runs
+sdruns <- function(n0, n1) {
+    N <- n0 + n1
+    n <- 2 * n0 * n1
+    return(((n * (n - N)) / ((N ^ 2) *(N - 1))))
+}
