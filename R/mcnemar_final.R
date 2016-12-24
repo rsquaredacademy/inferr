@@ -1,5 +1,41 @@
+#' @importFrom stats qnorm
+#' @title McNemar Test
+#' @description Test if the proportions of two dichotomous variables are
+#' equal in the same population.
+#' @param data a data frame
+#' @param x 2 x 2 matrix/table or numeric/factor variable
+#' @param y numeric/factor variable
+#' @return \code{mcnemar_test} returns an object of class \code{"mcnemar_test"}.
+#' An object of class \code{"mcnemar_test"} is a list containing the
+#' following components:
+#'
+#' \item{statistic}{chi square statistic}
+#' \item{df}{degrees of freedom}
+#' \item{pvalue}{p-value}
+#' \item{exactp}{exact p-value}
+#' \item{cstat}{continuity correction chi square statistic}
+#' \item{cpvalue}{continuity correction p-value}
+#' \item{kappa}{kappa}
+#' \item{std_err}{asymptotic standard error}
+#' \item{kappa_cil}{95% lower confidence limit}
+#' \item{kappa_ciu}{95% upper confidence limit}
+#' \item{cases}{cases}
+#' \item{controls}{controls}
+#' \item{ratio}{ratio of cases/controls}
+#' \item{odratio}{odds ratio}
+#' \item{x}{\code{x} data}
+#' \item{y}{\code{y} data}
+#'
+#' @examples
+#' mcnemar_test(matrix(c(172, 7, 6, 15), nrow = 2))
+#' mcnemar_test(matrix(c(15, 7, 6, 172), nrow = 2))
+#' mcnemar_test(table(hsb$female, hsb$schtyp))
+#' @export
+#'
 mcnemar_test <- function(x, y = NULL) UseMethod('mcnemar_test')
 
+#' @export
+#'
 mcnemar_test.default <- function(x, y = NULL) {
 
 	if (is.null(y)) {
@@ -22,7 +58,7 @@ mcnemar_test.default <- function(x, y = NULL) {
 			stop('x and y should be of the same length')
 		}
 
-		if ((!is.numeric(x) & !is.numeric(y)) & 
+		if ((!is.numeric(x) & !is.numeric(y)) &
 			 (!is.factor(x) & !is.factor(y))) {
 			 stop('x and y must be either numeric or factor')
 		}
@@ -50,7 +86,7 @@ mcnemar_test.default <- function(x, y = NULL) {
 	# expected agreement
 	expected <- sum(rowSums(dat) * colSums(dat)) / (sum(dat) ^ 2)
 
-	# kappa 
+	# kappa
 	kappa <- (agreement - expected) / (1 - expected)
 
 	# variance
@@ -64,7 +100,7 @@ mcnemar_test.default <- function(x, y = NULL) {
 	dat_per[d1[1], d1[2]] <- 1.0
 	diagonal <- diag(dat_per)
 	a <- diagonal[1] * (1 - (row_sum[1] + col_sum[1]) * (1 - kappa)) ^ 2 +
-	    diagonal[2] * (1 - (row_sum[2] + col_sum[2]) * (1 - kappa)) ^ 2 
+	    diagonal[2] * (1 - (row_sum[2] + col_sum[2]) * (1 - kappa)) ^ 2
 
 	x1 <- dat_per[lower.tri(dat_per)][1]
 	x2 <- dat_per[upper.tri(dat_per)][1]
@@ -84,7 +120,7 @@ mcnemar_test.default <- function(x, y = NULL) {
 	# proportions
 	controls   <- 1 - col_sum[2]
 	cases      <- 1 - row_sum[2]
-	ratio      <- var2 / var1
+	ratio      <- cases / controls
 	odds_ratio <- p[1] / p[2]
 
 	result <- list(statistic = test_stat,
@@ -105,7 +141,12 @@ mcnemar_test.default <- function(x, y = NULL) {
 		             y         = y)
 
 	class(result) <- 'mcnemar_test'
-
 	return(result)
 
+}
+
+#' @export
+#'
+print.mcnemar_test <- function(x, ...) {
+	print_mcnemar_test(x)
 }

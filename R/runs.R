@@ -1,14 +1,48 @@
+#' @title Test for Random Order
+#' @description runtest tests whether the observations of \code{x} are serially
+#' independent -- that is, whether they occur in a random order -- by counting
+#' how many runs there are above and below a threshold.  By default, the median
+#' is used as the threshold.  A small number of runs indicates positive serial
+#' correlation; a large number indicates negative serial correlation.
+#' @param x numeric vector
+#' @param drop logical; if TRUE, values equal to the threshold will be dropped
+#' from \code{x}
+#' @param split logical; if TRUE, data will be recoded in binary format
+#' @param mean logical; if TRUE, mean will be used as threshold
+#' @param threshold threshold to be used for counting runs, specify 0 if data
+#' is coded as a binary.
+#' @return \code{runs_test} returns an object of class \code{"runs_test"}.
+#' An object of class \code{"runs_test"} is a list containing the
+#' following components:
+#'
+#' \item{n}{number of observations}
+#' \item{threshold}{within group sum of squares}
+#' \item{n_below}{number below the threshold}
+#' \item{n_above}{number above the threshold}
+#' \item{mean}{expected number of runs}
+#' \item{var}{variance of the number of runs}
+#' \item{n_runs}{number of runs}
+#' \item{z}{z statistic}
+#' \item{p}{p-value of \code{z}}
+#'
+#' @examples
+#' reg <- lm(mpg ~ disp, data = mtcars)
+#' runs_test(residuals(reg))
+#' runs_test(residuals(reg), drop = TRUE)
+#' runs_test(residuals(reg), split = TRUE)
+#' runs_test(residuals(reg), mean = TRUE)
+#' runs_test(residuals(reg), threshold = 0)
+#' @export
+#'
 runs_test <- function(x, drop = FALSE, split = FALSE, mean = FALSE,
     threshold = NA) UseMethod("runs_test")
 
-# default method
+#' @export
+#'
 runs_test.default <- function(x, drop = FALSE,
                               split = FALSE, mean = FALSE,
                               threshold = NA) {
-    # length of data
     n <- length(x)
-
-    # error handling
     if (missing(x))
         stop("Argument x is missing. Please provide
              appropriate data.")
@@ -21,15 +55,6 @@ runs_test.default <- function(x, drop = FALSE,
         if (sum(y) == 1)
             stop("Use 0 as threshold if the data is coded as a binary.")
     }
-
-#     if (drop != TRUE || drop != FALSE)
-#         stop("drop must be either TRUE/FALSE.")
-#
-#     if (split != TRUE || split != FALSE)
-#         stop("split must be either TRUE/FALSE.")
-#
-#     if (mean != TRUE || mean != FALSE)
-#         stop("mean must be either TRUE/FALSE.")
 
     # compute threshold
     if (!(is.na(threshold))) {
@@ -66,13 +91,13 @@ runs_test.default <- function(x, drop = FALSE,
     sig <- 2 * (1 - pnorm(abs(test_stat), lower.tail = TRUE))
 
     # result
-    result <- list(N = n,
+    result <- list(n = n,
                    threshold = thresh,
-                   N_below = n0,
-                   N_above = n1,
+                   n_below = n0,
+                   n_above = n1,
                    mean = exp_runs,
-                   Var = sd_runs,
-                   N_runs = n_runs,
+                   var = sd_runs,
+                   n_runs = n_runs,
                    z = test_stat,
                    p = sig)
 
@@ -82,16 +107,8 @@ runs_test.default <- function(x, drop = FALSE,
 }
 
 
-# print method
+#' @export
+#'
 print.runs_test <- function(x, ...) {
-    cat("Runs Test\n",
-        "Total Cases: ", x$N, "\n",
-        "Test Value : ", x$threshold, "\n",
-        "Cases < Test Value: ", x$N_below, "\n",
-        "Cases > Test Value: ", x$N_above, "\n",
-        "Number of Runs: ", x$N_runs, "\n",
-        "Expected Runs: ", x$mean, "\n",
-        "Variance (Runs): ", x$Var, "\n",
-        "z Statistic: ", x$z, "\n",
-        "p-value: ", x$p, "\n")
+  print_runs_test(x)
 }

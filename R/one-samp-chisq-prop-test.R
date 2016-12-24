@@ -1,14 +1,41 @@
-# to do
-# 1. contrast in case k > 2
-#   1.1 1 category vs all others
-#   1.2 collapsing levels
-#   1.3 just two categories
-# 2. tune function to accept a matrix/table/vector
-# 3. test theoretical distribution
-
-# data and expected count
+#' @importFrom stats qnorm
+#' @title One Sample Chi Square Test
+#' @description Test whether a single categorical variable follows a
+#' hypothesized population distribution.
+#' @param x categorical variable
+#' @param y expected proportion/frequencies
+#' @param correct logical; if TRUE continuity correction is applied
+#' @param conf.int confidence level
+#' @return \code{os_chisqgof} returns an object of class \code{"os_chisqgof"}.
+#' An object of class \code{"os_chisqgof"} is a list containing the
+#' following components:
+#'
+#' \item{chisquare}{chi square statistic}
+#' \item{pvalue}{p-value}
+#' \item{df}{chi square degrees of freedom}
+#' \item{ssize}{number of observations}
+#' \item{names}{levels of \code{x}}
+#' \item{level}{number of levels of \code{x}}
+#' \item{obs}{observed frequency/proportion}
+#' \item{exp}{expected frequency/proportion}
+#' \item{deviation}{deviation of observed from frequency}
+#' \item{std}{standardized residuals}
+#' \item{varname}{name of categorical variable}
+#' \item{c_low}{lower confidence limit for mean}
+#' \item{c_up}{upper confidence limit for mean}
+#'
+#' @examples
+#' os_chisqgof(hsb$female, c(100, 100))
+#' os_chisqgof(hsb$race, c(50, 50, 50, 50))
+#'
+#' # continuity correction
+#' os_chisqgof(hsb$female, c(100, 100), correct = TRUE)
+#' @export
+#'
 os_chisqgof <- function(x, y, correct = FALSE, conf.int = 0.95) UseMethod('os_chisqgof')
 
+#' @export
+#'
 os_chisqgof.default <- function(x, y, correct = FALSE, conf.int = 0.95) {
     len <- length(x)
 	x1 <- as.factor(x)
@@ -58,50 +85,23 @@ os_chisqgof.default <- function(x, y, correct = FALSE, conf.int = 0.95) {
     }
 
     if (n == 2) {
-        result <- list(Chisquare = chi, pvalue = sig, df = df, ssize = length(x1),
+        result <- list(chisquare = chi, pvalue = sig, df = df, ssize = length(x1),
             names = levels(x1), level = nlevels(x1), obs = x, exp = y,
             deviation = format(dev, nsmall = 2), std = format(std, nsmall = 2),
             varname = varname, c_low = cl, c_up = cu)
     } else {
-        result <- list(Chisquare = chi, pvalue = sig, df = df, ssize = length(x1),
+        result <- list(chisquare = chi, pvalue = sig, df = df, ssize = length(x1),
             names = levels(x1), level = nlevels(x1), obs = x, exp = y,
             deviation = format(dev, nsmall = 2), std = format(std, nsmall = 2),
             varname = varname)
     }
 
     class(result) <- 'os_chisqgof'
-
     return(result)
 }
 
-print.os_chisqgof <- function(data, ...) {
-
-	cwidth <- max(nchar('Chi-Square'), nchar('DF'), nchar('Pr > Chi Sq'), nchar('Sample Size'))
-	nwidth <- max(nchar(data$Chisquare), nchar(data$df), nchar(data$pvalue), nchar(data$ssize))
-	w1 <- sum(cwidth, nwidth, 6)
-	lw <- max(nchar('Variable'), nchar(data$names))
-	ow <- max(nchar('Observed'), nchar(data$obs))
-	ew <- max(nchar('Expected'), nchar(data$exp))
-	dw <- max(nchar('% Deviation'), nchar(data$deviation))
-	rw <- max(nchar('Std. Residuals'), nchar(data$std))
-	w <- sum(lw, ow, ew, dw, rw, 16)
-
-
-	cat(format("Test Statistics", width = w1, justify = "centre"), "\n")
-	cat(rep("-", w1), sep = "", '\n')
-	cat(format('Chi-Square', width = cwidth, justify = 'left'), formats(), format(data$Chisquare, width = nwidth, justify = 'right'), '\n')
-	cat(format('DF', width = cwidth, justify = 'left'), formats(), format(data$df, width = nwidth, justify = 'right'), '\n')
-	cat(format('Pr > Chi Sq', width = cwidth, justify = 'left'), formats(), format(data$pvalue, width = nwidth, justify = 'right'), '\n')
-	cat(format('Sample Size', width = cwidth, justify = 'left'), formats(), format(data$ssize, width = nwidth, justify = 'right'), '\n\n')
-	cat(format(paste('Variable:', data$varname), width = w, justify = 'centre'), '\n')
-	cat(rep("-", w), sep = "", '\n')
-	cat(fg('Category', lw), fs(), fg('Observed', ow), fs(), fg('Expected', ew), fs(), fg('% Deviation', dw), fs(), fg('Std. Residuals', rw), '\n')
-	cat(rep("-", w), sep = "", '\n')
-	for (i in seq_len(data$level)) {
-		cat(fg(data$names[i], lw), fs(), fg(data$obs[i], ow), fs(), fg(data$exp[i], ew), fs(),
-			fg(data$deviation[i], dw), fs(), fg(data$std[i], rw), '\n')
-	}
-	cat(rep("-", w), sep = "", '\n')
-
-
+#' @export
+#'
+print.os_chisqgof <- function(x, ...) {
+  print_os_chisqgof(x)
 }

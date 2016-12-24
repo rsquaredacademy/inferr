@@ -1,9 +1,36 @@
-# data and expected count
-gof <- function(x, y, correct = FALSE) UseMethod('gof')
+#' @title Chi Square Goodness of Fit Test
+#' @description Test whether the observed proportions for a categorical variable
+#' differ from hypothesized proportions
+#' @param x categorical variable
+#' @param y expected proportions
+#' @param correct logical; if TRUE continuiuty correction is applied
+#' @return \code{chisq_gof} returns an object of class \code{"chisq_gof"}.
+#' An object of class \code{"chisq_gof"} is a list containing the
+#' following components:
+#'
+#' \item{chisquare}{chi square statistic}
+#' \item{pvalue}{p-value}
+#' \item{df}{chi square degrees of freedom}
+#' \item{ssize}{number of observations}
+#' \item{names}{levels of \code{x}}
+#' \item{level}{number of levels of \code{x}}
+#' \item{obs}{observed frequency/proportion}
+#' \item{exp}{expected frequency/proportion}
+#' \item{deviation}{deviation of observed from frequency}
+#' \item{std}{standardized residuals}
+#' \item{varname}{name of categorical variable}
+#'
+#' @examples
+#' chisq_gof(hsb$race, c(20, 20, 20 , 140))
+#' chisq_gof(hsb$race, c(20, 20, 20 , 140), correct = TRUE)
+#' @export
+#'
+chisq_gof <- function(x, y, correct = FALSE) UseMethod('chisq_gof')
 
-gof.default <- function(x, y, correct = FALSE) {
-	x1 <- as.factor(x)
-	varname <- l(deparse(substitute(x)))
+#' @export
+chisq_gof.default <- function(x, y, correct = FALSE) {
+		x1 <- as.factor(x)
+		varname <- l(deparse(substitute(x)))
     x <- as.vector(table(x))
     n <- length(x)
     df <- n - 1
@@ -25,50 +52,23 @@ gof.default <- function(x, y, correct = FALSE) {
     	chi <- round(sum(dif2 / y), 4)
     }
     sig <- round(1 - pchisq(chi, df), 4)
-    result <- list(Chisquare = chi,
-    				pvalue = sig,
-    				df = df,
-    				ssize = length(x1),
-    				names = levels(x1),
-    				level = nlevels(x1),
-    				obs = x,
-    				exp = y,
-    				deviation = format(dev, nsmall = 2),
-    				std = format(std, nsmall = 2),
-    				varname = varname)
+    result <- list(chisquare = chi,
+    							 pvalue = sig,
+    					 		 df = df,
+    					 		 ssize = length(x1),
+    					 		 names = levels(x1),
+    					 		 level = nlevels(x1),
+    					 		 obs = x,
+    					 		 exp = y,
+    					 		 deviation = format(dev, nsmall = 2),
+    					 		 std = format(std, nsmall = 2),
+    					 		 varname = varname)
 
-    class(result) <- 'gof'
+    class(result) <- 'chisq_gof'
     return(result)
 }
 
-print.gof <- function(data, ...) {
-
-	cwidth <- max(nchar('Chi-Square'), nchar('DF'), nchar('Pr > Chi Sq'), nchar('Sample Size'))
-	nwidth <- max(nchar(data$Chisquare), nchar(data$df), nchar(data$pvalue), nchar(data$ssize))
-	w1 <- sum(cwidth, nwidth, 6)
-	lw <- max(nchar('Variable'), nchar(data$names))
-	ow <- max(nchar('Observed'), nchar(data$obs))
-	ew <- max(nchar('Expected'), nchar(data$exp))
-	dw <- max(nchar('% Deviation'), nchar(data$deviation))
-	rw <- max(nchar('Std. Residuals'), nchar(data$std))
-	w <- sum(lw, ow, ew, dw, rw, 16)
-
-
-	cat(format("Test Statistics", width = w1, justify = "centre"), "\n")
-	cat(rep("-", w1), sep = "", '\n')
-	cat(format('Chi-Square', width = cwidth, justify = 'left'), formats(), format(data$Chisquare, width = nwidth, justify = 'right'), '\n')
-	cat(format('DF', width = cwidth, justify = 'left'), formats(), format(data$df, width = nwidth, justify = 'right'), '\n')
-	cat(format('Pr > Chi Sq', width = cwidth, justify = 'left'), formats(), format(data$pvalue, width = nwidth, justify = 'right'), '\n')
-	cat(format('Sample Size', width = cwidth, justify = 'left'), formats(), format(data$ssize, width = nwidth, justify = 'right'), '\n\n')
-	cat(format(paste('Variable:', data$varname), width = w, justify = 'centre'), '\n')
-	cat(rep("-", w), sep = "", '\n')
-	cat(fg('Category', lw), fs(), fg('Observed', ow), fs(), fg('Expected', ew), fs(), fg('% Deviation', dw), fs(), fg('Std. Residuals', rw), '\n')
-	cat(rep("-", w), sep = "", '\n')
-	for (i in seq_len(data$level)) {
-		cat(fg(data$names[i], lw), fs(), fg(data$obs[i], ow), fs(), fg(data$exp[i], ew), fs(),
-			fg(data$deviation[i], dw), fs(), fg(data$std[i], rw), '\n')
-	}
-	cat(rep("-", w), sep = "", '\n')
-
-
+#' @export
+print.chisq_gof <- function(x, ...) {
+	print_chisq_gof(x)
 }

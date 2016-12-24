@@ -802,3 +802,134 @@ print_os_vartest <- function(data) {
   }
 
 }
+
+
+print_chisq_test <- function(x) {
+	width1 <- nchar('Likelihood Ratio Chi-Square')
+	width2 <- max(nchar(x$df))
+	width3 <- max(nchar(x$chi), nchar(x$chilr), nchar(x$chimh), nchar(x$chiy), nchar(x$phi),
+			nchar(x$cc), nchar(x$cv))
+	width4 <- 6
+	widthn <- sum(width1, width2, width3, width4, 12)
+
+	if (x$ds == 4) {
+
+			cat(format('Chi Square Statistics', width = widthn, justify = 'centre'), "\n\n")
+			cat(format('Statistics', width = width1, justify = 'left'), formats(), format('DF', width = width2, justify = 'centre'), formats(),
+					format('Value', width = width3, justify = 'centre'), formats(), format('Prob', width = width4, justify = 'centre'), "\n", sep = '')
+			cat(rep('-', widthn), sep = '', '\n')
+			cat(format('Chi-Square', width = width1, justify = 'left'), formats(), format(x$df, width = width2, justify = 'centre'), formats(),
+					format(x$chi, width = width3, justify = 'centre', nsmall = 4, scientific = F), formats(), format(x$sig, width = width4, justify = 'right', nsmall = 4, scientific = F), "\n", sep = '')
+			cat(format('Likelihood Ratio Chi-Square', width = width1, justify = 'left'), formats(), format(x$df, width = width2, justify = 'centre'), formats(),
+					format(x$chilr, width = width3, justify = 'centre', nsmall = 4, scientific = F), formats(), format(x$siglr, width = width4, justify = 'right', nsmall = 4, scientific = F), "\n", sep = '')
+			cat(format('Continuity Adj. Chi-Square', width = width1, justify = 'left'), formats(), format(x$df, width = width2, justify = 'right'), formats(),
+					format(x$chiy, width = width3, justify = 'centre', nsmall = 4, scientific = F), formats(), format(x$sigy, width = width4, justify = 'right', nsmall = 4, scientific = F), "\n", sep = '')
+			cat(format('Mantel-Haenszel Chi-Square', width = width1, justify = 'left'), formats(), format(x$df, width = width2, justify = 'right'), formats(),
+					format(x$chimh, width = width3, justify = 'centre', nsmall = 4, scientific = F), formats(), format(x$sigmh, width = width4, justify = 'right', nsmall = 4, scientific = F), "\n", sep = '')
+			cat(format('Phi Coefficient', width = width1, justify = 'left'), formats(), format(' ', width = width2, justify = 'right'), formats(),
+					format(x$phi, width = width3, justify = 'centre', nsmall = 4, scientific = F), formats(), format(' ', width = width4, justify = 'right'), "\n", sep = '')
+			cat(format('Contingency Coefficient', width = width1, justify = 'left'), formats(), format(' ', width = width2, justify = 'right'), formats(),
+					format(x$cc, width = width3, justify = 'centre', nsmall = 4, scientific = F), formats(), format(' ', width = width4, justify = 'right'), "\n", sep = '')
+			cat(format("Cramer's V", width = width1, justify = 'left'), formats(), format(' ', width = width2, justify = 'right'), formats(),
+					format(x$cv, width = width3, justify = 'centre', nsmall = 4, scientific = F), formats(), format(' ', width = width4, justify = 'right'), "\n", sep = '')
+			cat(rep('-', widthn), sep = '', '\n')
+
+	} else {
+
+			cat(format('Chi Square Statistics', width = widthn, justify = 'centre'), "\n\n")
+			cat(format('Statistics', width = width1, justify = 'left'), formats(), format('DF', width = width2, justify = 'centre'), formats(),
+					format('Value', width = width3, justify = 'centre'), formats(), format('Prob', width = width4, justify = 'centre'), "\n", sep = '')
+			cat(rep('-', widthn), sep = '', '\n')
+			cat(format('Chi-Square', width = width1, justify = 'left'), formats(), format(x$df, width = width2, justify = 'centre'), formats(),
+					format(x$chi, width = width3, justify = 'centre', nsmall = 4, scientific = F), formats(), format(x$sig, width = width4, justify = 'right', nsmall = 4, scientific = F), "\n", sep = '')
+			cat(format('Likelihood Ratio Chi-Square', width = width1, justify = 'left'), formats(), format(x$df, width = width2, justify = 'centre'), formats(),
+					format(x$chilr, width = width3, justify = 'centre', nsmall = 4, scientific = F), formats(), format(x$siglr, width = width4, justify = 'right', nsmall = 4, scientific = F), "\n", sep = '')
+			cat(format('Phi Coefficient', width = width1, justify = 'left'), formats(), format(' ', width = width2, justify = 'right'), formats(),
+					format(x$phi, width = width3, justify = 'centre', nsmall = 4, scientific = F), formats(), format(' ', width = width4, justify = 'right'), "\n", sep = '')
+			cat(format('Contingency Coefficient', width = width1, justify = 'left'), formats(), format(' ', width = width2, justify = 'right'), formats(),
+					format(x$cc, width = width3, justify = 'centre', nsmall = 4, scientific = F), formats(), format(' ', width = width4, justify = 'right'), "\n", sep = '')
+			cat(format("Cramer's V", width = width1, justify = 'left'), formats(), format(' ', width = width2, justify = 'right'), formats(),
+					format(x$cv, width = width3, justify = 'centre', nsmall = 4, scientific = F), formats(), format(' ', width = width4, justify = 'right'), "\n", sep = '')
+			cat(rep('-', widthn), sep = '', '\n')
+
+	}
+
+}
+
+
+print_chisq_gof <- function(data) {
+
+	cwidth <- max(nchar('Chi-Square'), nchar('DF'), nchar('Pr > Chi Sq'), nchar('Sample Size'))
+	nwidth <- max(nchar(data$chisquare), nchar(data$df), nchar(data$pvalue), nchar(data$ssize))
+	w1 <- sum(cwidth, nwidth, 6)
+	lw <- max(nchar('Variable'), nchar(data$names))
+	ow <- max(nchar('Observed'), nchar(data$obs))
+	ew <- max(nchar('Expected'), nchar(data$exp))
+	dw <- max(nchar('% Deviation'), nchar(data$deviation))
+	rw <- max(nchar('Std. Residuals'), nchar(data$std))
+	w <- sum(lw, ow, ew, dw, rw, 16)
+
+
+	cat(format("Test Statistics", width = w1, justify = "centre"), "\n")
+	cat(rep("-", w1), sep = "", '\n')
+	cat(format('Chi-Square', width = cwidth, justify = 'left'), formats(), format(data$chisquare, width = nwidth, justify = 'right'), '\n')
+	cat(format('DF', width = cwidth, justify = 'left'), formats(), format(data$df, width = nwidth, justify = 'right'), '\n')
+	cat(format('Pr > Chi Sq', width = cwidth, justify = 'left'), formats(), format(data$pvalue, width = nwidth, justify = 'right'), '\n')
+	cat(format('Sample Size', width = cwidth, justify = 'left'), formats(), format(data$ssize, width = nwidth, justify = 'right'), '\n\n')
+	cat(format(paste('Variable:', data$varname), width = w, justify = 'centre'), '\n')
+	cat(rep("-", w), sep = "", '\n')
+	cat(fg('Category', lw), fs(), fg('Observed', ow), fs(), fg('Expected', ew), fs(), fg('% Deviation', dw), fs(), fg('Std. Residuals', rw), '\n')
+	cat(rep("-", w), sep = "", '\n')
+	for (i in seq_len(data$level)) {
+		cat(fg(data$names[i], lw), fs(), fg(data$obs[i], ow), fs(), fg(data$exp[i], ew), fs(),
+			fg(data$deviation[i], dw), fs(), fg(data$std[i], rw), '\n')
+	}
+	cat(rep("-", w), sep = "", '\n')
+
+}
+
+
+print_os_chisqgof <- function(data) {
+
+	cwidth <- max(nchar('Chi-Square'), nchar('DF'), nchar('Pr > Chi Sq'), nchar('Sample Size'))
+	nwidth <- max(nchar(data$chisquare), nchar(data$df), nchar(data$pvalue), nchar(data$ssize))
+	w1 <- sum(cwidth, nwidth, 6)
+	lw <- max(nchar('Variable'), nchar(data$names))
+	ow <- max(nchar('Observed'), nchar(data$obs))
+	ew <- max(nchar('Expected'), nchar(data$exp))
+	dw <- max(nchar('% Deviation'), nchar(data$deviation))
+	rw <- max(nchar('Std. Residuals'), nchar(data$std))
+	w <- sum(lw, ow, ew, dw, rw, 16)
+
+
+	cat(format("Test Statistics", width = w1, justify = "centre"), "\n")
+	cat(rep("-", w1), sep = "", '\n')
+	cat(format('Chi-Square', width = cwidth, justify = 'left'), formats(), format(data$chisquare, width = nwidth, justify = 'right'), '\n')
+	cat(format('DF', width = cwidth, justify = 'left'), formats(), format(data$df, width = nwidth, justify = 'right'), '\n')
+	cat(format('Pr > Chi Sq', width = cwidth, justify = 'left'), formats(), format(data$pvalue, width = nwidth, justify = 'right'), '\n')
+	cat(format('Sample Size', width = cwidth, justify = 'left'), formats(), format(data$ssize, width = nwidth, justify = 'right'), '\n\n')
+	cat(format(paste('Variable:', data$varname), width = w, justify = 'centre'), '\n')
+	cat(rep("-", w), sep = "", '\n')
+	cat(fg('Category', lw), fs(), fg('Observed', ow), fs(), fg('Expected', ew), fs(), fg('% Deviation', dw), fs(), fg('Std. Residuals', rw), '\n')
+	cat(rep("-", w), sep = "", '\n')
+	for (i in seq_len(data$level)) {
+		cat(fg(data$names[i], lw), fs(), fg(data$obs[i], ow), fs(), fg(data$exp[i], ew), fs(),
+			fg(data$deviation[i], dw), fs(), fg(data$std[i], rw), '\n')
+	}
+	cat(rep("-", w), sep = "", '\n')
+
+}
+
+
+print_runs_test <- function(x) {
+	cat("Runs Test\n",
+			"Total Cases: ", x$n, "\n",
+			"Test Value : ", x$threshold, "\n",
+			"Cases < Test Value: ", x$n_below, "\n",
+			"Cases > Test Value: ", x$n_above, "\n",
+			"Number of Runs: ", x$n_runs, "\n",
+			"Expected Runs: ", x$mean, "\n",
+			"Variance (Runs): ", x$var, "\n",
+			"z Statistic: ", x$z, "\n",
+			"p-value: ", x$p, "\n")
+}

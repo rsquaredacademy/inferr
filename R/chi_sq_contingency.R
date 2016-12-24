@@ -1,4 +1,36 @@
-exp_f <- function(x, y) {
+#' @importFrom stats pchisq
+#' @title Chi Square Test
+#' @description Chi Square contingency table test to examine if there is a
+#' relationship between two categorical variables.
+#' @param x a categorical variable
+#' @param y a categorical variable
+#' @return \code{chisq_test} returns an object of class \code{"chisq_test"}.
+#' An object of class \code{"chisq_test"} is a list containing the
+#' following components:
+#'
+#' \item{chi}{chi square}
+#' \item{chilr}{likelihood ration chi square}
+#' \item{chimh}{mantel haenszel chi square}
+#' \item{chiy}{continuity adjusted chi square}
+#' \item{sig}{p-value of chi square}
+#' \item{siglr}{p-value of likelihood ratio chi square}
+#' \item{sigmh}{p-value of mantel haenszel chi square}
+#' \item{sigy}{p-value of continuity adjusted chi square}
+#' \item{phi}{phi coefficient}
+#' \item{cc}{contingency coefficient}
+#' \item{cv}{cramer's v}
+#' \item{ds}{product of dimensions of the table of \code{x} and \code{y}}
+#' \item{df}{degrees of freedom}
+#'
+#' @examples
+#' chisq_test(hsb$female, hsb$schtyp)
+#' chisq_test(hsb$female, hsb$ses)
+#' @export
+#'
+chisq_test <- function(x, y) UseMethod('chisq_test')
+
+#' @export
+chisq_test.default <- function(x, y) {
 
     # dimensions
     k <- table(x, y)
@@ -55,7 +87,7 @@ exp_f <- function(x, y) {
 
     # # pearson chi square
     twoway <- matrix(table(x, y), nrow = nlevels(as.factor(x)),
-                     ncol = nlevels(as.factor(y)))
+                    ncol = nlevels(as.factor(y)))
     # mat1 <- matrix(rowSums(twoway) / sum(twoway), nrow = 2)
     # mat2 <- matrix(colSums(twoway), nrow = 1)
     # ef <- mat1 %*% mat2
@@ -64,21 +96,21 @@ exp_f <- function(x, y) {
     # sig <- round(pchisq(chi, df, lower.tail = F), 4)
 
     # # likelihood ratio chi square
-    chilr <- round(2 * sum(matrix(log(twoway / ef), nrow = 1) %*% matrix(twoway, nrow = 4)), 4)
-    sig_lr <- round(pchisq(chilr, df, lower.tail = F), 4)
+    # chilr <- round(2 * sum(matrix(log(twoway / ef), nrow = 1) %*% matrix(twoway, nrow = 4)), 4)
+    # sig_lr <- round(pchisq(chilr, df, lower.tail = F), 4)
 
     # # Yates continuity correction
-    way2 <- twoway[, c(2, 1)]
+    # way2 <- twoway[, c(2, 1)]
     total <- sum(twoway)
-    prods <- prod(diag(twoway)) - prod(diag(way2))
-    prod_totals <- prod(rowSums(twoway)) * prod(colSums(twoway))
-    chi_y <- round((total *  (abs(prods) - (total / 2)) ^ 2) / prod_totals, 4)
+    # prods <- prod(diag(twoway)) - prod(diag(way2))
+    # prod_totals <- prod(rowSums(twoway)) * prod(colSums(twoway))
+    # chi_y <- round((total *  (abs(prods) - (total / 2)) ^ 2) / prod_totals, 4)
     # sig_y <- round(pchisq(chi_y, 1, lower.tail = F), 4)
 
     # # mantel haenszel chi square
-    num <- twoway[1] - ((rowSums(twoway)[1] * colSums(twoway)[1]) / total)
-    den <- prod_totals / ((total ^ 3) - (total ^ 2))
-    chimh <- round((num ^ 2) / den, 4)
+    # num <- twoway[1] - ((rowSums(twoway)[1] * colSums(twoway)[1]) / total)
+    # den <- prod_totals / ((total ^ 3) - (total ^ 2))
+    # chimh <- round((num ^ 2) / den, 4)
     # sig_mh <- round(pchisq(chimh, 1, lower.tail = F), 4)
 
 
@@ -92,57 +124,38 @@ exp_f <- function(x, y) {
     q <- min(nrow(twoway), ncol(twoway))
     cv <- round(sqrt(chi / (total * (q - 1))), 4)
 
-    # format output
-    # print(cross_table(x, y))
-    # cat("\n\n")
-
-    width1 <- nchar('Likelihood Ratio Chi-Square')
-    width2 <- max(nchar(df))
-    width3 <- max(nchar(chi), nchar(chilr), nchar(chimh), nchar(chi_y), nchar(phi),
-        nchar(cc), nchar(cv))
-    width4 <- 6
-    widthn <- sum(width1, width2, width3, width4, 12)
-
-    if (ds == 4) {
-
-        cat(format('Chi Square Statistics', width = widthn, justify = 'centre'), "\n\n")
-        cat(format('Statistics', width = width1, justify = 'left'), formats(), format('DF', width = width2, justify = 'centre'), formats(),
-            format('Value', width = width3, justify = 'centre'), formats(), format('Prob', width = width4, justify = 'centre'), "\n", sep = '')
-        cat(rep('-', widthn), sep = '', '\n')
-        cat(format('Chi-Square', width = width1, justify = 'left'), formats(), format(df, width = width2, justify = 'centre'), formats(),
-            format(chi, width = width3, justify = 'centre', nsmall = 4, scientific = F), formats(), format(sig, width = width4, justify = 'right', nsmall = 4, scientific = F), "\n", sep = '')
-        cat(format('Likelihood Ratio Chi-Square', width = width1, justify = 'left'), formats(), format(df, width = width2, justify = 'centre'), formats(),
-            format(chilr, width = width3, justify = 'centre', nsmall = 4, scientific = F), formats(), format(sig_lr, width = width4, justify = 'right', nsmall = 4, scientific = F), "\n", sep = '')
-        cat(format('Continuity Adj. Chi-Square', width = width1, justify = 'left'), formats(), format(df, width = width2, justify = 'right'), formats(),
-            format(chi_y, width = width3, justify = 'centre', nsmall = 4, scientific = F), formats(), format(sig_y, width = width4, justify = 'right', nsmall = 4, scientific = F), "\n", sep = '')
-        cat(format('Mantel-Haenszel Chi-Square', width = width1, justify = 'left'), formats(), format(df, width = width2, justify = 'right'), formats(),
-            format(chimh, width = width3, justify = 'centre', nsmall = 4, scientific = F), formats(), format(sig_mh, width = width4, justify = 'right', nsmall = 4, scientific = F), "\n", sep = '')
-        cat(format('Phi Coefficient', width = width1, justify = 'left'), formats(), format(' ', width = width2, justify = 'right'), formats(),
-            format(phi, width = width3, justify = 'centre', nsmall = 4, scientific = F), formats(), format(' ', width = width4, justify = 'right'), "\n", sep = '')
-        cat(format('Contingency Coefficient', width = width1, justify = 'left'), formats(), format(' ', width = width2, justify = 'right'), formats(),
-            format(cc, width = width3, justify = 'centre', nsmall = 4, scientific = F), formats(), format(' ', width = width4, justify = 'right'), "\n", sep = '')
-        cat(format("Cramer's V", width = width1, justify = 'left'), formats(), format(' ', width = width2, justify = 'right'), formats(),
-            format(cv, width = width3, justify = 'centre', nsmall = 4, scientific = F), formats(), format(' ', width = width4, justify = 'right'), "\n", sep = '')
-        cat(rep('-', widthn), sep = '', '\n')
-
+    result <- if (ds == 4) {
+      list(chi = chi,
+           chilr = chilr,
+           chimh = chimh,
+           chiy = chi_y,
+           sig = sig,
+           siglr = sig_lr,
+           sigy = sig_y,
+           sigmh = sig_mh,
+           phi = phi,
+           cc = cc,
+           cv = cv,
+           ds = ds,
+           df = df)
     } else {
-
-        cat(format('Chi Square Statistics', width = widthn, justify = 'centre'), "\n\n")
-        cat(format('Statistics', width = width1, justify = 'left'), formats(), format('DF', width = width2, justify = 'centre'), formats(),
-            format('Value', width = width3, justify = 'centre'), formats(), format('Prob', width = width4, justify = 'centre'), "\n", sep = '')
-        cat(rep('-', widthn), sep = '', '\n')
-        cat(format('Chi-Square', width = width1, justify = 'left'), formats(), format(df, width = width2, justify = 'centre'), formats(),
-            format(chi, width = width3, justify = 'centre', nsmall = 4, scientific = F), formats(), format(sig, width = width4, justify = 'right', nsmall = 4, scientific = F), "\n", sep = '')
-        cat(format('Likelihood Ratio Chi-Square', width = width1, justify = 'left'), formats(), format(df, width = width2, justify = 'centre'), formats(),
-            format(chilr, width = width3, justify = 'centre', nsmall = 4, scientific = F), formats(), format(sig_lr, width = width4, justify = 'right', nsmall = 4, scientific = F), "\n", sep = '')
-        cat(format('Phi Coefficient', width = width1, justify = 'left'), formats(), format(' ', width = width2, justify = 'right'), formats(),
-            format(phi, width = width3, justify = 'centre', nsmall = 4, scientific = F), formats(), format(' ', width = width4, justify = 'right'), "\n", sep = '')
-        cat(format('Contingency Coefficient', width = width1, justify = 'left'), formats(), format(' ', width = width2, justify = 'right'), formats(),
-            format(cc, width = width3, justify = 'centre', nsmall = 4, scientific = F), formats(), format(' ', width = width4, justify = 'right'), "\n", sep = '')
-        cat(format("Cramer's V", width = width1, justify = 'left'), formats(), format(' ', width = width2, justify = 'right'), formats(),
-            format(cv, width = width3, justify = 'centre', nsmall = 4, scientific = F), formats(), format(' ', width = width4, justify = 'right'), "\n", sep = '')
-        cat(rep('-', widthn), sep = '', '\n')
-
+      list(df = df,
+           chi = chi,
+           chilr = chilr,
+           sig = sig,
+           siglr = sig_lr,
+           phi = phi,
+           cc = cc,
+           cv = cv,
+           ds = ds)
     }
 
+    class(result) <- 'chisq_test'
+    return(result)
+
+}
+
+#' @export
+print.chisq_test <- function(x, ...) {
+  print_chisq_test(x)
 }

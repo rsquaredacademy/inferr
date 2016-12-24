@@ -14,13 +14,13 @@
 #' \item{exp_k}{expected number of successes}
 #' \item{obs_p}{assumed probability of success}
 #' \item{exp_p}{expected probability of success}
-#' \item{ik}{the largest number <= \code{exp_k} such that Pr(k = ik) <= Pr(k = kobs)}
+#' \item{ik}{the largest number <= \code{exp_k} such that Pr(k = ik) <= Pr(k = kobs)}
 #' \item{lower}{lower one sided p value}
 #' \item{upper}{upper one sided p value}
 #' \item{two_tail}{two sided p value}
 #'
 #' @examples
-#' # binom_test(32, 13, prob = 0.5)
+#' binom_test(32, 13, prob = 0.5)
 #'
 #' # using data set
 #' binom_test(as.factor(mtcars$am), prob = 0.5)
