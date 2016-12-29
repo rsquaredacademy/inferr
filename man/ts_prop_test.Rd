@@ -53,21 +53,21 @@ large-sample statistics.
 }
 \examples{
 # using variables
-# ts_prop_test(var1 = mtcars$am, var2 = mtcars$vs, alternative = 'less')
-# ts_prop_test(var1 = mtcars$am, var2 = mtcars$vs, alternative = 'greater')
-# ts_prop_test(var1 = mtcars$am, var2 = mtcars$vs, alternative = 'both')
-# ts_prop_test(var1 = mtcars$am, var2 = mtcars$vs, alternative = 'all')
+ts_prop_test(var1 = mtcars$am, var2 = mtcars$vs, alternative = 'less')
+ts_prop_test(var1 = mtcars$am, var2 = mtcars$vs, alternative = 'greater')
+ts_prop_test(var1 = mtcars$am, var2 = mtcars$vs, alternative = 'both')
+ts_prop_test(var1 = mtcars$am, var2 = mtcars$vs, alternative = 'all')
 
 # using groups
-# ts_prop_grp(var = mtcars$am, group = mtcars$vs, alternative = 'less')
-# ts_prop_grp(var = mtcars$am, group = mtcars$vs, alternative = 'greater')
-# ts_prop_grp(var = mtcars$am, group = mtcars$vs, alternative = 'both')
-# ts_prop_grp(var = mtcars$am, group = mtcars$vs, alternative = 'all')
+ts_prop_grp(var = mtcars$am, group = mtcars$vs, alternative = 'less')
+ts_prop_grp(var = mtcars$am, group = mtcars$vs, alternative = 'greater')
+ts_prop_grp(var = mtcars$am, group = mtcars$vs, alternative = 'both')
+ts_prop_grp(var = mtcars$am, group = mtcars$vs, alternative = 'all')
 
 # using sample size and proportions
-# ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'less')
-# ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'greater')
-# ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'both')
-# ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'all')
+ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'less')
+ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'greater')
+ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'both')
+ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'all')
 }
 

@@ -1,9 +1,10 @@
 #' @importFrom dplyr mutate
+#' @importFrom stats as.formula
 #' @title One Way ANOVA
 #' @description One way analysis of variance
 #' @param data a data frame
-#' @param x name of a continuous variable from \code{data}
-#' @param y name of a categorical variable from \code{data}
+#' @param x character vector; name of a continuous variable from \code{data}
+#' @param y character vector; name of a categorical variable from \code{data}
 #' @return \code{owanova} returns an object of class \code{"owanova"}.
 #' An object of class \code{"owanova"} is a list containing the
 #' following components:
@@ -26,6 +27,7 @@
 #'
 #' @examples
 #' owanova(mtcars, 'mpg', 'cyl')
+#' owanova(hsb, 'write', 'prog')
 #' @export
 #'
 owanova <- function(data, x, y) UseMethod('owanova')

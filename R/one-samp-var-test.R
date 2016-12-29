@@ -5,7 +5,7 @@
 #' \code{sd}.
 #' @param x a numeric vector
 #' @param sd hypothesised standard deviation
-#' @param conf.int confidence level
+#' @param confint confidence level
 #' @param alternative a character string specifying the alternative hypothesis,
 #' must be one of "both" (default), "greater", "less" or "all". You can specify
 #' just the initial letter.
@@ -37,12 +37,26 @@
 #'
 #' @export
 #'
-os_vartest <- function(x, sd, conf.int = 0.95,
+os_vartest <- function(x, sd, confint = 0.95,
 	alternative = c('both', 'less', 'greater', 'all')) UseMethod('os_vartest')
 
-# default
-os_vartest.default <- function(x, sd, alpha = 0.05,
+#' @export
+#'
+os_vartest.default <- function(x, sd, confint = 0.95,
 	alternative = c('both', 'less', 'greater', 'all')) {
+
+	if (!is.numeric(x)) {
+		stop('x must be numeric')
+	}
+
+	if (!is.numeric(sd)) {
+		stop('sd must be numeric')
+	}
+
+	if (!is.numeric(confint)) {
+		stop('confint must be numeric')
+	}
+
 
 	type    <- match.arg(alternative)
 	varname <- l(deparse(substitute(x)))
@@ -57,7 +71,7 @@ os_vartest.default <- function(x, sd, alpha = 0.05,
 	p_upper <- pchisq(chi, df, lower.tail = F)
 	p_two   <- pchisq(chi, df, lower.tail = F) * 2
 
-	conf    <- conf.int
+	conf    <- confint
 	a       <- (1 - conf) / 2
 	al      <- 1 - a
 	tv      <- df * sigma

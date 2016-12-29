@@ -4,15 +4,15 @@
 \alias{os_vartest}
 \title{One sample variance comparison test}
 \usage{
-os_vartest(x, sd, conf.int = 0.95, alternative = c("both", "less",
-  "greater", "all"))
+os_vartest(x, sd, confint = 0.95, alternative = c("both", "less", "greater",
+  "all"))
 }
 \arguments{
 \item{x}{a numeric vector}
 
 \item{sd}{hypothesised standard deviation}
 
-\item{conf.int}{confidence level}
+\item{confint}{confidence level}
 
 \item{alternative}{a character string specifying the alternative hypothesis,
 must be one of "both" (default), "greater", "less" or "all". You can specify

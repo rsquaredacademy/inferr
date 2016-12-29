@@ -6,23 +6,18 @@
 \alias{levene_test.lm}
 \title{Levene test for equality of variances}
 \usage{
-levene_test(variable, ..., group_var = NA, alternative = c("mean", "median",
-  "trimmed-mean", "all"), trim.mean = 0.1)
+levene_test(variable, ...)
 
-\method{levene_test}{lm}(model)
+\method{levene_test}{lm}(variable, ...)
 
-\method{levene_test}{formula}(formula, data)
+\method{levene_test}{formula}(variable, data, ...)
 }
 \arguments{
 \item{variable}{a numeric vector}
 
 \item{...}{numeric vectors}
 
-\item{group_var}{a grouping variable}
-
-\item{alternative}{a character string specifying the alternative hypothesis,
-must be one of "both" (default), "greater", "less" or "all". You can specify
-just the initial letter.}
+\item{data}{a data frame}
 }
 \value{
 \code{levene_test} returns an object of class \code{"levene_test"}.
@@ -56,16 +51,17 @@ the mean with the 10% trimmed mean (W_10).
 }
 \examples{
 # using grouping variable
-levene_test(mtcars$mpg, group_var = mtcars$cyl, alternative = 'mean')
-levene_test(mtcars$mpg, group_var = mtcars$cyl, alternative = 'median')
-levene_test(mtcars$mpg, group_var = mtcars$cyl, alternative = 'trimmed-mean')
-levene_test(mtcars$mpg, group_var = mtcars$cyl, alternative = 'all')
+levene_test(mtcars$mpg, group_var = mtcars$vs)
 
 # using two variables
-levene_test(mtcars$mpg, mtcars$qsec, alternative = 'mean')
-levene_test(mtcars$mpg, mtcars$qsec, alternative = 'median')
-levene_test(mtcars$mpg, mtcars$qsec, alternative = 'trimmed-mean')
-levene_test(mtcars$mpg, mtcars$qsec, alternative = 'all')
+levene_test(mtcars$mpg, mtcars$qsec)
+
+# using model
+m <- lm(mpg ~ vs, data = mtcars)
+levene_test(m)
+
+# using formula
+levene_test(as.formula(paste0('mpg ~ vs')), mtcars)
 
 }
 

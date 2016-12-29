@@ -1,4 +1,4 @@
-#' @importFrom stats anova lm
+#' @importFrom stats anova lm model.frame formula
 #' @title Levene test for equality of variances
 #' @description  \code{levene_test} reports Levene's robust test statistic (W_0)
 #' for the equality of variances between the groups defined by groupvar and the
@@ -7,11 +7,8 @@
 #' (W_50) replaces the mean with the median.  The second alternative replaces
 #' the mean with the 10% trimmed mean (W_10).
 #' @param variable a numeric vector
-#' @param group_var a grouping variable
 #' @param ... numeric vectors
-#' @param alternative a character string specifying the alternative hypothesis,
-#' must be one of "both" (default), "greater", "less" or "all". You can specify
-#' just the initial letter.
+#' @param data a data frame
 #' @return \code{levene_test} returns an object of class \code{"levene_test"}.
 #' An object of class \code{"levene_test"} is a list containing the
 #' following components:
@@ -35,26 +32,27 @@
 #'
 #' @examples
 #' # using grouping variable
-#' levene_test(mtcars$mpg, group_var = mtcars$cyl, alternative = 'mean')
-#' levene_test(mtcars$mpg, group_var = mtcars$cyl, alternative = 'median')
-#' levene_test(mtcars$mpg, group_var = mtcars$cyl, alternative = 'trimmed-mean')
-#' levene_test(mtcars$mpg, group_var = mtcars$cyl, alternative = 'all')
+#' levene_test(mtcars$mpg, group_var = mtcars$vs)
 #'
 #' # using two variables
-#' levene_test(mtcars$mpg, mtcars$qsec, alternative = 'mean')
-#' levene_test(mtcars$mpg, mtcars$qsec, alternative = 'median')
-#' levene_test(mtcars$mpg, mtcars$qsec, alternative = 'trimmed-mean')
-#' levene_test(mtcars$mpg, mtcars$qsec, alternative = 'all')
+#' levene_test(mtcars$mpg, mtcars$qsec)
+#'
+#' # using model
+#' m <- lm(mpg ~ vs, data = mtcars)
+#' levene_test(m)
+#'
+#' # using formula
+#' levene_test(as.formula(paste0('mpg ~ vs')), mtcars)
 #'
 #' @export
 #'
-levene_test <- function(variable, ..., group_var = NA,
-	alternative = c("mean", "median", "trimmed-mean", "all"), trim.mean = 0.1) UseMethod('levene_test')
+levene_test <- function(variable, ...) UseMethod('levene_test')
 
+#' @export
+#'
 levene_test.default <- function(variable, ..., group_var = NA,
-	alternative = c("mean", "median", "trimmed-mean", "all"), trim.mean = 0.1) {
+	trim.mean = 0.1) {
 
-	type    <- match.arg(alternative)
 	varname <- deparse(substitute(variable))
 
 	suppressWarnings(
@@ -138,8 +136,7 @@ levene_test.default <- function(variable, ..., group_var = NA,
               levs  = levels(group_var),
 		          n_df  = n_df,
               d_df  = d_df,
-              lens  = lens,
-              type  = type)
+              lens  = lens)
 
 	class(out) <- 'levene_test'
   return(out)
@@ -149,15 +146,15 @@ levene_test.default <- function(variable, ..., group_var = NA,
 #' @export
 #' @rdname levene_test
 #'
-levene_test.lm <- function(model) {
-	levene_test.formula(formula(model), data=model.frame(model), ...)
+levene_test.lm <- function(variable, ...) {
+	levene_test.formula(variable = formula(variable), data = model.frame(variable))
 }
 
 #' @export
 #' @rdname levene_test
 #'
-levene_test.formula <- function(formula, data) {
-	dat       <- model.frame(formula, data)
+levene_test.formula <- function(variable, data, ...) {
+	dat       <- model.frame(variable, data)
 	variable  <- dat[, 1]
 	group_var <- dat[, 2]
 	levene_test.default(variable = variable, group_var = group_var)

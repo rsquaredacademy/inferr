@@ -1,4 +1,4 @@
-#' @importFrom dplyr group_by_ select_ summarise_each
+#' @importFrom dplyr group_by_ select_ summarise_each funs
 #' @importFrom magrittr %>%
 #' @importFrom stats var sd
 anova_split <- function(data, x, y) {
@@ -123,6 +123,11 @@ mean_t <- function(x) {
 sd_t <- function(x) {
     s <- sd(x)
     return(round(s, 3))
+}
+
+std_err <- function(x) {
+  se <- sd(x) / sqrt(length(x))
+  return(round(se, 3))
 }
 
 data_split <- function(data, x, y) {

@@ -26,22 +26,22 @@
 #'
 #' @examples
 #' # using variables
-#' # ts_prop_test(var1 = mtcars$am, var2 = mtcars$vs, alternative = 'less')
-#' # ts_prop_test(var1 = mtcars$am, var2 = mtcars$vs, alternative = 'greater')
-#' # ts_prop_test(var1 = mtcars$am, var2 = mtcars$vs, alternative = 'both')
-#' # ts_prop_test(var1 = mtcars$am, var2 = mtcars$vs, alternative = 'all')
+#' ts_prop_test(var1 = mtcars$am, var2 = mtcars$vs, alternative = 'less')
+#' ts_prop_test(var1 = mtcars$am, var2 = mtcars$vs, alternative = 'greater')
+#' ts_prop_test(var1 = mtcars$am, var2 = mtcars$vs, alternative = 'both')
+#' ts_prop_test(var1 = mtcars$am, var2 = mtcars$vs, alternative = 'all')
 #'
 #' # using groups
-#' # ts_prop_grp(var = mtcars$am, group = mtcars$vs, alternative = 'less')
-#' # ts_prop_grp(var = mtcars$am, group = mtcars$vs, alternative = 'greater')
-#' # ts_prop_grp(var = mtcars$am, group = mtcars$vs, alternative = 'both')
-#' # ts_prop_grp(var = mtcars$am, group = mtcars$vs, alternative = 'all')
+#' ts_prop_grp(var = mtcars$am, group = mtcars$vs, alternative = 'less')
+#' ts_prop_grp(var = mtcars$am, group = mtcars$vs, alternative = 'greater')
+#' ts_prop_grp(var = mtcars$am, group = mtcars$vs, alternative = 'both')
+#' ts_prop_grp(var = mtcars$am, group = mtcars$vs, alternative = 'all')
 #'
 #' # using sample size and proportions
-#' # ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'less')
-#' # ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'greater')
-#' # ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'both')
-#' # ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'all')
+#' ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'less')
+#' ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'greater')
+#' ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'both')
+#' ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'all')
 #' @export
 #'
 ts_prop_test <- function(var1, var2,
@@ -70,7 +70,7 @@ ts_prop_test.default <- function(var1, var2,
 
 	lt <- round(pnorm(z), 4)
 	ut <- round(pnorm(z, lower.tail = FALSE), 4)
-	tt <- round(ut * 2, 4)
+	tt <- round(pnorm(abs(z), lower.tail = FALSE) * 2, 4)
 
 	alt <- match.arg(alternative)
 

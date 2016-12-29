@@ -29,10 +29,24 @@ chisq_gof <- function(x, y, correct = FALSE) UseMethod('chisq_gof')
 
 #' @export
 chisq_gof.default <- function(x, y, correct = FALSE) {
+
+		if (!is.numeric(y)) {
+			stop('y must be numeric')
+		}
+
+		if (!is.logical(correct)) {
+			stop('correct must be either TRUE or FALSE')
+		}
+
 		x1 <- as.factor(x)
 		varname <- l(deparse(substitute(x)))
     x <- as.vector(table(x))
     n <- length(x)
+
+		if (length(y) != n) {
+			stop('Length of y must be equal to the number of categories in x')
+		}
+
     df <- n - 1
     if (sum(y) == 1) {
         y <- length(x1) * y
@@ -41,15 +55,15 @@ chisq_gof.default <- function(x, y, correct = FALSE) {
         diff <- x - y - 0.5
         dif <- abs(x - y) - 0.5
         dif2 <- dif ^ 2
-    	dev <- round((diff / y) * 100, 2)
-    	std <- round(diff / sqrt(y), 2)
-    	chi <- round(sum(dif2 / y), 4)
+    		dev <- round((diff / y) * 100, 2)
+    		std <- round(diff / sqrt(y), 2)
+    		chi <- round(sum(dif2 / y), 4)
     } else {
         dif <- x - y
         dif2 <- dif ^ 2
-    	dev <- round((dif / y) * 100, 2)
-    	std <- round(dif / sqrt(y), 2)
-    	chi <- round(sum(dif2 / y), 4)
+    		dev <- round((dif / y) * 100, 2)
+    		std <- round(dif / sqrt(y), 2)
+    		chi <- round(sum(dif2 / y), 4)
     }
     sig <- round(1 - pchisq(chi, df), 4)
     result <- list(chisquare = chi,

@@ -623,7 +623,7 @@ print_prop_test <- function(data) {
 	cat(rep("-", w), sep = "", '\n')
 	cat(fg('Category', lw), fs(), fg('Observed', ow), fs(), fg('Expected', ew), fs(), fg('% Deviation', dw), fs(), fg('Std. Residuals', rw), '\n')
 	cat(rep("-", w), sep = "", '\n')
-	for (i in seq_len(data$level)) {
+	for (i in seq_len(length(data$obs))) {
 		cat(fg(names[i], lw), fs(), fg(data$obs[i], ow), fs(), fg(data$exp[i], ew), fs(),
 			fg(data$deviation[i], dw), fs(), fg(data$std[i], rw), '\n')
 	}
@@ -753,7 +753,7 @@ print_os_vartest <- function(data) {
       formatter_t("Sig", p_width), formats_t(), "\n")
     cat(rep("-", width_2), sep = "")
     cat("\n", formatter_t(data$var_name, var_width), formats_t(),
-      formatter_t(round(data$chi, 3), t_width), formats_t(),
+      formatter_t(round(data$chi, 3), c_width), formats_t(),
       formatter_t(data$df, df_width), formats_t(),
       formatter_t(char_p_l, p_width), "\n")
     cat(rep("-", width_2), sep = "")
@@ -932,4 +932,231 @@ print_runs_test <- function(x) {
 			"Variance (Runs): ", x$var, "\n",
 			"z Statistic: ", x$z, "\n",
 			"p-value: ", x$p, "\n")
+}
+
+
+print_cochran_test <- function(data) {
+
+	cwidth <- max(nchar('N'), nchar("Cochran's Q"), nchar('df'), nchar('p value'))
+	nwidth <- max(nchar(data$n), nchar(data$q), nchar(data$df), nchar(data$pvalue))
+	w1 <- sum(cwidth, nwidth, 6)
+
+	cat(format("Test Statistics", width = w1, justify = "centre"), "\n")
+	cat(rep("-", w1), sep = "", '\n')
+	cat(format('N', width = cwidth, justify = 'left'), formats(), format(data$n, width = nwidth, justify = 'right'), '\n')
+	cat(format("Cochran's Q", width = cwidth, justify = 'left'), formats(), format(data$q, width = nwidth, justify = 'right'), '\n')
+	cat(format('df', width = cwidth, justify = 'left'), formats(), format(data$df, width = nwidth, justify = 'right'), '\n')
+	cat(format('p value', width = cwidth, justify = 'left'), formats(), format(data$pvalue, width = nwidth, justify = 'right'), '\n')
+	cat(rep("-", w1), sep = "", '\n')
+
+}
+
+
+print_mcnemar_test <- function(data) {
+
+	cwidth1 <- max(nchar("McNemar's chi2"), nchar("DF"), nchar('Pr > chi2'),
+		nchar('Exact Pr >= chi2'))
+	nwidth1 <- max(nchar(data$tatistic), nchar(data$df), nchar(data$pvalue),
+		nchar(data$exactp))
+	w1 <- sum(cwidth1, nwidth1, 6)
+
+	cwidth2 <- max(nchar("Kappa"), nchar("ASE"), nchar('95% Lower Conf Limit'),
+		nchar('95% Upper Conf Limit'))
+	nwidth2 <- max(nchar(data$kappa), nchar(data$std_err), nchar(data$kappa_cil),
+		nchar(data$kappa_ciu))
+	w2 <- sum(cwidth2, nwidth2, 6)
+
+	cwidth3 <- max(nchar("Cases"), nchar("Controls"), nchar('Ratio'),
+		nchar('Odds Ratio'))
+	nwidth3 <- max(nchar(data$cases), nchar(data$controls), nchar(data$ratio),
+		nchar(data$odratio))
+	w3 <- sum(cwidth3, nwidth3, 6)
+
+	cat(format("McNemar's Test", width = w1, justify = "centre"), "\n")
+	cat(rep("-", w1), sep = "", '\n')
+	cat(format("McNemar's chi2", width = cwidth1, justify = 'left'), formats(), format(data$statistic, width = nwidth1, justify = 'right'), '\n')
+	cat(format("DF", width = cwidth1, justify = 'left'), formats(), format(data$df, width = nwidth1, justify = 'right'), '\n')
+	cat(format('Pr > chi2', width = cwidth1, justify = 'left'), formats(), format(data$pvalue, width = nwidth1, justify = 'right'), '\n')
+	cat(format('Exact Pr >= chi2', width = cwidth1, justify = 'left'), formats(), format(data$exactp, width = nwidth1, justify = 'right'), '\n')
+	cat(rep("-", w1), sep = "", '\n\n')
+
+	cat(format("Kappa Coefficient", width = w2, justify = "centre"), "\n")
+	cat(rep("-", w2), sep = "", '\n')
+	cat(format("Kappa", width = cwidth2, justify = 'left'), formats(), format(data$kappa, width = nwidth2, justify = 'right'), '\n')
+	cat(format("ASE", width = cwidth2, justify = 'left'), formats(), format(data$std_err, width = nwidth2, justify = 'right'), '\n')
+	cat(format('95% Lower Conf Limit', width = cwidth2, justify = 'left'), formats(), format(data$kappa_cil, width = nwidth2, justify = 'right'), '\n')
+	cat(format('95% Upper Conf Limit', width = cwidth2, justify = 'left'), formats(), format(data$kappa_ciu, width = nwidth2, justify = 'right'), '\n')
+	cat(rep("-", w2), sep = "", '\n\n')
+
+	cat(format("Proportion With Factor", width = w3, justify = "centre"), "\n")
+	cat(rep("-", w3), sep = "", '\n')
+	cat(format("cases", width = cwidth3, justify = 'left'), formats(), format(data$cases, width = nwidth3, justify = 'right'), '\n')
+	cat(format("controls", width = cwidth3, justify = 'left'), formats(), format(data$controls, width = nwidth3, justify = 'right'), '\n')
+	cat(format('ratio', width = cwidth3, justify = 'left'), formats(), format(data$ratio, width = nwidth3, justify = 'right'), '\n')
+	cat(format('odds ratio', width = cwidth3, justify = 'left'), formats(), format(data$odratio, width = nwidth3, justify = 'right'), '\n')
+	cat(rep("-", w3), sep = "", '\n')
+
+}
+
+
+print_levene_test <- function(data) {
+
+	lw <- max(nchar('Levels'), nchar(data$levs), nchar('Total'))
+	ow <- max(nchar('Frequency'), nchar(data$lens), nchar(data$n))
+	ew <- max(nchar('Mean'), nchar(data$avgs), nchar(data$avg))
+	dw <- max(nchar('Std. Dev.'), nchar(data$sds), nchar(data$sd))
+	w <- sum(lw, ow, ew, dw, 12)
+
+	cwidth <- max(nchar('Statistic'), nchar('Brown and Forsythe'), nchar('Levene'),
+		nchar('Brown and Forsythe (Trimmed Mean)'))
+	nwidth <- max(nchar('Num DF'), nchar(data$n_df))
+	dwidth <- max(nchar('Den DF'), nchar(data$d_df))
+	ewidth <- max(nchar('F'), nchar(data$bf), nchar(data$lev), nchar(data$bft))
+	fwidth <- max(nchar('Pr > F'), nchar(data$p_bf), nchar(data$p_lev), nchar(data$p_bft))
+	w1 <- sum(cwidth, nwidth, dwidth, ewidth, fwidth, 16)
+
+	cat(format("Summary Statistics", width = w, justify = "centre"), "\n")
+	cat(fg('Levels', lw), fs(), fg('Frequency', ow), fs(), fg('Mean', ew), fs(),
+		fg('Std. Dev', dw), '\n')
+	cat(rep("-", w), sep = "", '\n')
+	for (i in seq_len(length(data$levs))) {
+		cat(fg(data$levs[i], lw), fs(), fg(data$lens[i], ow), fs(), fg(data$avgs[i], ew), fs(),
+			fg(data$sds[i], dw), '\n')
+	}
+	cat(rep("-", w), sep = "", '\n')
+	cat(fg('Total', lw), fs(), fg(data$n, ow), fs(), fg(data$avg, ew), fs(),
+		fg(data$sd, dw), '\n')
+	cat(rep("-", w), sep = "", '\n\n')
+
+	cat(format("Test Statistics", width = w1, justify = "centre"), "\n")
+	cat(rep("-", w1), sep = "", '\n')
+	cat(format('Statistic', width = cwidth, justify = 'left'), fs(),
+		format('Num DF', width = nwidth, justify = 'right'), fs(), format('Den DF', width = dwidth, justify = 'right'),
+		fs(), format('F', width = ewidth, justify = 'right'), fs(), format('Pr > F', width = fwidth, justify = 'right'), '\n')
+	cat(format('Brown and Forsythe', width = cwidth, justify = 'left'), fs(),
+		format(data$n_df, width = nwidth, justify = 'right'),  fs(), format(data$d_df, width = dwidth, justify = 'right'),
+		fs(), format(data$bf, width = ewidth, justify = 'right'),  fs(), format(data$p_bf, width = fwidth, justify = 'right'), '\n')
+	cat(format('Levene', width = cwidth, justify = 'left'), fs(),
+		format(data$n_df, width = nwidth, justify = 'right'), fs(), format(data$d_df, width = dwidth, justify = 'right'),
+		fs(), format(data$lev, width = ewidth, justify = 'right'), fs(), format(data$p_lev, width = fwidth, justify = 'right'), '\n')
+	cat(format('Brown and Forsythe (Trimmed Mean)', width = cwidth, justify = 'left'), fs(),
+		format(data$n_df, width = nwidth, justify = 'right'), fs(), format(data$d_df, width = dwidth, justify = 'right'),
+		fs(), format(data$bft, width = ewidth, justify = 'right'), fs(), format(data$p_bft, width = fwidth, justify = 'right'), '\n')
+	cat(rep("-", w1), sep = "", '\n')
+
+}
+
+
+print_var_test <- function(data) {
+
+	var_width <- max(nchar('combined'), nchar(data$lev))
+  obs_width <- max(nchar('Obs'), nchar(data$lens), nchar(data$len))
+  mean_width <- max(nchar('Mean'), nchar(data$avgs), nchar(data$avg))
+  se_width <- max(nchar('Std. Err.'), nchar(data$ses), nchar(data$se))
+  sd_width <- max(nchar('Std. Dev.'), nchar(data$sds), nchar(data$sd))
+	width_1 <- sum(var_width, obs_width, mean_width, se_width, sd_width, 16)
+
+	rto <- paste0('ratio = sd(', data$lev[1], ') / (', data$lev[2], ')')
+	nhyp <- 'Ho: ratio = 1'
+	lhyp <- 'Ha: ratio < 1'
+	uhyp <- 'Ha: ratio > 1'
+	char_p_l <- format(data$lower, digits = 0, nsmall = 4)
+  char_p_u <- format(data$upper, digits = 0, nsmall = 4)
+  all_p_l <- paste("Pr(F < f) =", char_p_l)
+  all_p_u <- paste("Pr(F > f) =", char_p_u)
+
+
+  f_width <- nchar(data$f)
+  df1_width <- max(nchar('Num DF'), nchar(data$n1))
+	df2_width <- max(nchar('Den DF'), nchar(data$n2))
+  p_width <- max(nchar('p'), nchar(char_p_l))
+  width_2 <- sum(f_width, df1_width, df2_width, p_width, 12)
+	width_3 <- sum(f_width, df1_width, df2_width, 8)
+  all_width <- sum(nchar(all_p_l), nchar(all_p_u), 4)
+
+    cat(format("Variance Ratio Test", width = width_1, justify = "centre"),
+     "\n")
+    cat(rep("-", width_1), sep = "")
+    cat("\n", formatter_t("Group", var_width), formats_t(),
+      formatter_t("Obs", obs_width), formats_t(),
+      formatter_t("Mean", mean_width),
+      formats_t(), formatter_t("Std. Err.", se_width), formats_t(),
+      formatter_t("Std. Dev.", sd_width), "\n")
+    cat(rep("-", width_1), sep = "", '\n')
+		for (i in seq_len(length(data$avgs))) {
+			cat(formatter_t(data$lev[i], var_width), formats_t(),
+	      formatter_t(data$lens[i], obs_width), formats_t(),
+	      formatter_t(data$avgs[i], mean_width),
+	      formats_t(), formatter_t(data$ses[i], se_width), formats_t(),
+	      formatter_t(data$sds[i], sd_width), "\n")
+		}
+		cat(rep("-", width_1), sep = "")
+    cat("\n", formatter_t('combined', var_width), formats_t(),
+      formatter_t(data$len, obs_width), formats_t(),
+      formatter_t(data$avg, mean_width),
+      formats_t(), formatter_t(data$se, se_width), formats_t(),
+      formatter_t(data$sd, sd_width), "\n")
+    cat(rep("-", width_1), sep = "")
+
+		if (data$type == "less") {
+
+    cat("\n\n", format("Lower Tail Test", width = width_2, justify = "centre"))
+    cat("\n", format("---------------", width = width_2, justify = "centre"))
+		cat("\n", format(rto, width = width_2, justify = "centre"))
+		cat("\n", format(nhyp, width = width_2, justify = "centre"))
+    cat("\n", format(lhyp, width = width_2, justify = "centre"), "\n\n")
+    cat(format('Variance Ratio Test', width = width_2, justify = 'centre'), '\n')
+    cat(rep("-", width_2), sep = "")
+    cat("\n", formatter_t("F", f_width), formats_t(), formatter_t("Num DF", df1_width),
+			formats_t(), formatter_t("Den DF", df2_width), formats_t(),
+      formatter_t("p", p_width), "\n")
+    cat(rep("-", width_2), sep = "")
+    cat("\n", formatter_t(data$f, f_width), formats_t(),
+      formatter_t(data$n1, df1_width), formats_t(),
+      formatter_t(data$n2, df2_width), formats_t(),
+      formatter_t(char_p_l, p_width), "\n")
+    cat(rep("-", width_2), sep = "")
+
+  } else if (data$type == "greater") {
+
+    cat("\n\n", format("Upper Tail Test", width = width_2, justify = "centre"))
+    cat("\n", format("---------------", width = width_2, justify = "centre"))
+    cat("\n", format(nhyp, width = width_2, justify = "centre"))
+    cat("\n", format(uhyp, width = width_2, justify = "centre"), "\n\n")
+    cat(format('Variance Ratio Test', width = width_2, justify = 'centre'), '\n')
+    cat(rep("-", width_2), sep = "")
+		cat("\n", formatter_t("F", f_width), formats_t(), formatter_t("Num DF", df1_width),
+			formats_t(), formatter_t("Den DF", df2_width), formats_t(),
+      formatter_t("p", p_width), "\n")
+    cat(rep("-", width_2), sep = "")
+    cat("\n", formatter_t(data$f, f_width), formats_t(),
+      formatter_t(data$n1, df1_width), formats_t(),
+      formatter_t(data$n2, df2_width), formats_t(),
+      formatter_t(char_p_u, p_width), "\n")
+    cat(rep("-", width_2), sep = "")
+
+  } else {
+
+		cat('\n\n', format('Variance Ratio Test', width = width_1, justify = 'centre'), '\n')
+    cat(rep("-", width_1), sep = "")
+		cat("\n", formatter_t("F", (width_1 / 3)), formatter_t("Num DF", (width_1 / 3)),
+			formatter_t("Den DF", (width_1 / 3)), "\n")
+    cat(rep("-", width_1), sep = "")
+    cat("\n", formatter_t(data$f, (width_1 / 3)),
+      formatter_t(data$n1, (width_1 / 3)),
+      formatter_t(data$n2, (width_1 / 3)), "\n")
+    cat(rep("-", width_1), sep = "")
+
+		cat('\n\n', format('Null & Alternate Hypothesis', width = all_width, justify = 'centre'), '\n')
+		cat(rep("-", all_width), sep = "", '\n')
+		cat(format(rto, width = all_width, justify = "centre"))
+    cat("\n", format(nhyp, width = all_width, justify = "centre"))
+    cat("\n\n", format(lhyp, width = (all_width / 2), justify = "centre"),
+			format(uhyp, width = (all_width / 2), justify = "centre"))
+    cat("\n", format(all_p_l, width = (all_width / 2), justify = 'centre'),
+			format(all_p_u, width = (all_width / 2), justify = 'centre'))
+		cat('\n', rep("-", all_width), sep = "")
+
+  }
+
 }

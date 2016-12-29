@@ -4,8 +4,8 @@
 \alias{var_test}
 \title{Two sample variance comparison test}
 \usage{
-var_test(variable, ..., group_var = NA, alternative = c("both", "less",
-  "greater", "all"))
+var_test(variable, ..., group_var = NA, alternative = c("less", "greater",
+  "all"))
 }
 \arguments{
 \item{variable}{a numeric vector}
@@ -49,14 +49,12 @@ deviations (variances).
 # using grouping variable
 var_test(mtcars$mpg, group_var = mtcars$vs, alternative = 'less')
 var_test(mtcars$mpg, group_var = mtcars$vs, alternative = 'greater')
-var_test(mtcars$mpg, group_var = mtcars$vs, alternative = 'both')
 var_test(mtcars$mpg, group_var = mtcars$vs, alternative = 'all')
 
 # using two variables
-os_vartest(mtcars$mpg, mtcars$qsec, alternative = 'less')
-os_vartest(mtcars$mpg, mtcars$qsec, alternative = 'greater')
-os_vartest(mtcars$mpg, mtcars$qsec, alternative = 'both')
-os_vartest(mtcars$mpg, mtcars$qsec, alternative = 'all')
+var_test(mtcars$mpg, mtcars$qsec, alternative = 'less')
+var_test(mtcars$mpg, mtcars$qsec, alternative = 'greater')
+var_test(mtcars$mpg, mtcars$qsec, alternative = 'all')
 
 }
 

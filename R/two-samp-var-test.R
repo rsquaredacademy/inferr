@@ -34,24 +34,35 @@
 #' # using grouping variable
 #' var_test(mtcars$mpg, group_var = mtcars$vs, alternative = 'less')
 #' var_test(mtcars$mpg, group_var = mtcars$vs, alternative = 'greater')
-#' var_test(mtcars$mpg, group_var = mtcars$vs, alternative = 'both')
 #' var_test(mtcars$mpg, group_var = mtcars$vs, alternative = 'all')
 #'
 #' # using two variables
-#' os_vartest(mtcars$mpg, mtcars$qsec, alternative = 'less')
-#' os_vartest(mtcars$mpg, mtcars$qsec, alternative = 'greater')
-#' os_vartest(mtcars$mpg, mtcars$qsec, alternative = 'both')
-#' os_vartest(mtcars$mpg, mtcars$qsec, alternative = 'all')
+#' var_test(mtcars$mpg, mtcars$qsec, alternative = 'less')
+#' var_test(mtcars$mpg, mtcars$qsec, alternative = 'greater')
+#' var_test(mtcars$mpg, mtcars$qsec, alternative = 'all')
 #'
 #' @export
 #'
 var_test <- function(variable, ..., group_var = NA,
-	alternative = c("both", "less", "greater", "all")) UseMethod('var_test')
+	alternative = c("less", "greater", "all")) UseMethod('var_test')
 
 #' @export
 #'
 var_test.default <- function(variable, ..., group_var = NA,
-	alternative = c("both", "less", "greater", "all")) {
+	alternative = c("less", "greater", "all")) {
+
+	suppressWarnings(
+		if (is.na(group_var)) {
+			name1 <- l(unlist(strsplit(deparse(substitute(c(variable, ...))), ','))[1])
+			name2 <- unlist(strsplit(l(unlist(strsplit(deparse(substitute(c(variable, ...))), ','))[2]), ')'))[1]
+			lev <- c(name1, name2)
+		} else {
+			if (!is.factor(group_var)) {
+				group_var <- as.factor(group_var)
+			}
+			lev  <- levels(group_var)
+		}
+	)
 
 	suppressWarnings(
 
@@ -84,11 +95,7 @@ var_test.default <- function(variable, ..., group_var = NA,
 
 	)
 
-	if (!is.factor(group_var)) {
-		group_var <- as.factor(group_var)
-	}
 
-	lev      <- levels(group_var)
 	type     <- match.arg(alternative)
 	comp     <- complete.cases(variable, group_var)
 	vars     <- tapply(variable[comp], group_var[comp], var)
@@ -104,13 +111,11 @@ var_test.default <- function(variable, ..., group_var = NA,
 	n1       <- lens[1] - 1
 	n2       <- lens[2] - 1
 	lower    <- pf(f, n1, n2)
-	upper    <- 1 - pf(f, n1, n2)
-	two_tail <- pf(f, n1, n2) * 2
+	upper    <- pf(f, n1, n2, lower.tail = FALSE)
 
 	out <- list(f        = round(f, 4),
               lower    = round(lower, 4),
               upper    = round(upper, 4),
-              two_tail = round(two_tail, 4),
               vars     = round(vars, 2),
               avgs     = round(avgs, 2),
               sds      = round(sds, 2),

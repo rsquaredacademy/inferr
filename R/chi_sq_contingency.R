@@ -9,7 +9,7 @@
 #' following components:
 #'
 #' \item{chi}{chi square}
-#' \item{chilr}{likelihood ration chi square}
+#' \item{chilr}{likelihood ratio chi square}
 #' \item{chimh}{mantel haenszel chi square}
 #' \item{chiy}{continuity adjusted chi square}
 #' \item{sig}{p-value of chi square}
@@ -23,14 +23,22 @@
 #' \item{df}{degrees of freedom}
 #'
 #' @examples
-#' chisq_test(hsb$female, hsb$schtyp)
-#' chisq_test(hsb$female, hsb$ses)
+#' chisq_test(as.factor(hsb$female), as.factor(hsb$schtyp))
+#' chisq_test(as.factor(hsb$female), as.factor(hsb$ses))
 #' @export
 #'
 chisq_test <- function(x, y) UseMethod('chisq_test')
 
 #' @export
 chisq_test.default <- function(x, y) {
+
+    if (!is.factor(x)) {
+      stop('x must be a categorical variable')
+    }
+
+    if (!is.factor(y)) {
+      stop('y must be a categorical variable')
+    }
 
     # dimensions
     k <- table(x, y)

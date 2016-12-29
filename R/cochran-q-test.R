@@ -14,7 +14,7 @@
 #' \item{pvalue}{p-value}
 #'
 #' @examples
-#' cochran_test(exam[, c(-1)])
+#' cochran_test(exam)
 #' @export
 #'
 cochran_test <- function(x, ...) UseMethod('cochran_test')
@@ -33,13 +33,15 @@ cochran_test.default <- function(x, ...) {
 		    `-`(1) %>%
 		    as.data.frame()
 
+	}
 		if (ncol(data) < 3) {
 			stop('Please specify at least 3 variables.')
 		}
-		if (any(sapply(lapply(data, as.factor), nlevels)) > 2) {
+
+		if (any(sapply(lapply(data, as.factor), nlevels) > 2)) {
 			stop('Please specify dichotomous/binary variables only.')
 		}
-	}
+
 
 	n 	   <- nrow(data)
 	k      <- ncol(data)
@@ -51,7 +53,7 @@ cochran_test.default <- function(x, ...) {
 	result <- list(n      = n,
 		             df     = df,
 		             q      = q,
-		             pvalue = pvalue)
+		             pvalue = round(pvalue, 4))
 
 	class(result) <- 'cochran_test'
 	return(result)

@@ -1,3 +1,4 @@
+#' @importFrom stats median
 #' @title Test for Random Order
 #' @description runtest tests whether the observations of \code{x} are serially
 #' independent -- that is, whether they occur in a random order -- by counting
@@ -43,9 +44,6 @@ runs_test.default <- function(x, drop = FALSE,
                               split = FALSE, mean = FALSE,
                               threshold = NA) {
     n <- length(x)
-    if (missing(x))
-        stop("Argument x is missing. Please provide
-             appropriate data.")
 
     if (!(is.numeric(x) || is.integer(x)))
         stop("x must be numeric or integer")

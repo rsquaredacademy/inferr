@@ -8,6 +8,8 @@ two_sample_test(data, x, y, confint = 0.95, alternative = c("both", "less",
   "greater", "all"))
 }
 \arguments{
+\item{data}{a data frame}
+
 \item{x}{grouping variable; object of type \code{factor}}
 
 \item{y}{a \code{numeric} vector}
@@ -60,9 +62,9 @@ confidence limit of mean of \code{y}}
 within the two groups defined by \code{x}
 }
 \examples{
-two_sample_test(mtcars$mpg, mtcars$am, type = 'less')
-paired_ttest(mtcars$mpg, mtcars$am, type = 'greater')
-paired_ttest(mtcars$mpg, mtcars$am, type = 'both')
-paired_ttest(mtcars$mpg, mtcars$am, type = 'all')
+two_sample_test(mtcars, 'am', 'mpg', alternative = 'less')
+two_sample_test(mtcars, 'am', 'mpg', alternative = 'greater')
+two_sample_test(mtcars, 'am', 'mpg', alternative = 'both')
+two_sample_test(mtcars, 'am', 'mpg', alternative = 'all')
 }
 

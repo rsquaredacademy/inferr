@@ -32,10 +32,10 @@
 #' \item{xy}{string used in printing results of the test}
 #'
 #' @examples
-#' paired_ttest(mtcars$mpg, mtcars$qsec, type = 'less')
-#' paired_ttest(mtcars$mpg, mtcars$qsec, type = 'greater')
-#' paired_ttest(mtcars$mpg, mtcars$qsec, type = 'both')
-#' paired_ttest(mtcars$mpg, mtcars$qsec, type = 'all')
+#' paired_ttest(mtcars$mpg, mtcars$qsec, alternative = 'less')
+#' paired_ttest(mtcars$mpg, mtcars$qsec, alternative = 'greater')
+#' paired_ttest(mtcars$mpg, mtcars$qsec, alternative = 'both')
+#' paired_ttest(mtcars$mpg, mtcars$qsec, alternative = 'all')
 #' @export
 #'
 paired_ttest <- function(x, y, confint = 0.95,
@@ -45,6 +45,18 @@ paired_ttest <- function(x, y, confint = 0.95,
 #'
 paired_ttest.default <- function(x, y, confint = 0.95,
   alternative = c('both', 'less', 'greater', 'all')) {
+
+  if (!is.numeric(x)) {
+    stop('x must be numeric')
+  }
+
+  if (!is.numeric(y)) {
+    stop('y must be numeric')
+  }
+
+  if (!is.numeric(confint)) {
+    stop('confint must be numeric')
+  }
 
   method <- match.arg(alternative)
   var_x <- l(deparse(substitute(x)))

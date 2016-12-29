@@ -9,9 +9,9 @@ owanova(data, x, y)
 \arguments{
 \item{data}{a data frame}
 
-\item{x}{name of a continuous variable from \code{data}}
+\item{x}{character vector; name of a continuous variable from \code{data}}
 
-\item{y}{name of a categorical variable from \code{data}}
+\item{y}{character vector; name of a categorical variable from \code{data}}
 }
 \value{
 \code{owanova} returns an object of class \code{"owanova"}.
@@ -39,5 +39,6 @@ One way analysis of variance
 }
 \examples{
 owanova(mtcars, 'mpg', 'cyl')
+owanova(hsb, 'write', 'prog')
 }
 

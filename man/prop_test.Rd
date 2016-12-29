@@ -6,10 +6,10 @@
 \title{One sample test of proportion}
 \usage{
 prop_test(n, phat, prob = 0.5, alternative = c("both", "less", "greater",
-  "all"))
+  "all"), ...)
 
-\method{prop_test}{factor}(data, prob = 0.5, alternative = c("both", "less",
-  "greater", "all"))
+\method{prop_test}{factor}(n, phat = NA, prob = 0.5,
+  alternative = c("both", "less", "greater", "all"), ...)
 }
 \arguments{
 \item{n}{number of observations}
@@ -22,7 +22,7 @@ prop_test(n, phat, prob = 0.5, alternative = c("both", "less", "greater",
 must be one of "both" (default), "greater", "less" or "all". You can specify
 just the initial letter.}
 
-\item{data}{a categorical variable}
+\item{...}{other arguments}
 }
 \value{
 \code{prop_test} returns an object of class \code{"prop_test"}.
@@ -45,7 +45,7 @@ following components:
 using large-sample statistics.
 }
 \examples{
-# prop_test(200, 0.3, prob = 0.5)
+prop_test(200, 0.3, prob = 0.5)
 
 # using data set
 prop_test(as.factor(hsb$female), prob = 0.5)

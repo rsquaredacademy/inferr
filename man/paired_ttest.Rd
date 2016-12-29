@@ -47,9 +47,9 @@ and \code{y}}
 same mean, assuming paired data.
 }
 \examples{
-paired_ttest(mtcars$mpg, mtcars$qsec, type = 'less')
-paired_ttest(mtcars$mpg, mtcars$qsec, type = 'greater')
-paired_ttest(mtcars$mpg, mtcars$qsec, type = 'both')
-paired_ttest(mtcars$mpg, mtcars$qsec, type = 'all')
+paired_ttest(mtcars$mpg, mtcars$qsec, alternative = 'less')
+paired_ttest(mtcars$mpg, mtcars$qsec, alternative = 'greater')
+paired_ttest(mtcars$mpg, mtcars$qsec, alternative = 'both')
+paired_ttest(mtcars$mpg, mtcars$qsec, alternative = 'all')
 }
 

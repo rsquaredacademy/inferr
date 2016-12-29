@@ -2,6 +2,7 @@
 #' @title Two sample t test
 #' @description \code{two_sample_test} tests that \code{y} has the same mean
 #' within the two groups defined by \code{x}
+#' @param data a data frame
 #' @param x grouping variable; object of type \code{factor}
 #' @param y a \code{numeric} vector
 #' @param confint confidence level
@@ -45,10 +46,10 @@
 #' \item{alternative}{alternative hypothesis}
 #'
 #' @examples
-#' two_sample_test(mtcars$mpg, mtcars$am, type = 'less')
-#' paired_ttest(mtcars$mpg, mtcars$am, type = 'greater')
-#' paired_ttest(mtcars$mpg, mtcars$am, type = 'both')
-#' paired_ttest(mtcars$mpg, mtcars$am, type = 'all')
+#' two_sample_test(mtcars, 'am', 'mpg', alternative = 'less')
+#' two_sample_test(mtcars, 'am', 'mpg', alternative = 'greater')
+#' two_sample_test(mtcars, 'am', 'mpg', alternative = 'both')
+#' two_sample_test(mtcars, 'am', 'mpg', alternative = 'all')
 #' @export
 #'
 two_sample_test <- function(data, x, y, confint = 0.95,
@@ -59,13 +60,29 @@ two_sample_test <- function(data, x, y, confint = 0.95,
 two_sample_test.default <- function(data, x, y, confint = 0.95,
   alternative = c('both', 'less', 'greater', 'all')) {
 
+    if (!is.data.frame(data)) {
+      stop('data must be a data frame')
+    }
+
+    if (!x %in% colnames(data)) {
+      stop('x must be a column in data')
+    }
+
+    if (!y %in% colnames(data)) {
+      stop('y must be a column in data')
+    }
+
+  method <- match.arg(alternative)
+
   var_y <- y
-  h <- data_split(data, x, y)
+  h2 <- data_split(data, x, y)
   alpha <- 1 - confint
   a <- alpha / 2
-  h <- mutate(h,
+  h1 <- mutate(h2,
           df = length - 1,
-          error = round(qt(a, df), 3) * -1,
+          error = round(qt(a, df), 3) * -1
+  )
+  h <- mutate(h1,
           lower = round(mean_t - (error * std_err), 3),
           upper = round(mean_t + (error * std_err), 3)
   )
@@ -73,10 +90,12 @@ two_sample_test.default <- function(data, x, y, confint = 0.95,
   means <- grp_stat[, 3]
   g_stat <- as.matrix(h)
 
-  comb <- da(data, y)
-  comb <- mutate(comb,
+  comb2 <- da(data, y)
+  comb1 <- mutate(comb2,
           df = length - 1,
-          error = round(qt(a, df), 3) * -1,
+          error = round(qt(a, df), 3) * -1
+  )
+  comb <- mutate(comb1,
           lower = round(mean_t - (error * std_err), 3),
           upper = round(mean_t + (error * std_err), 3)
   )
@@ -146,7 +165,7 @@ two_sample_test.default <- function(data, x, y, confint = 0.95,
                  f_sig            = round((1 - pf(round(s1 / s2, 4), (n1 - 1), (n2 -1))) * 2, 4),
                  var_y            = var_y,
                  confint          = confint,
-                 alternative      = alternative)
+                 alternative      = method)
 
   class(result) <- 'two_sample_test'
   return(result)

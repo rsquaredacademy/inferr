@@ -23,7 +23,7 @@
 #' binom_test(32, 13, prob = 0.5)
 #'
 #' # using data set
-#' binom_test(as.factor(mtcars$am), prob = 0.5)
+#' binom_calc(as.factor(mtcars$am), prob = 0.5)
 #' @export
 binom_test <- function(n, success, prob = 0.5) UseMethod('binom_test')
 

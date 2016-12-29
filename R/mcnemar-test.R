@@ -2,9 +2,8 @@
 #' @title McNemar Test
 #' @description Test if the proportions of two dichotomous variables are
 #' equal in the same population.
-#' @param data a data frame
-#' @param x 2 x 2 matrix/table or numeric/factor variable
-#' @param y numeric/factor variable
+#' @param x 2 x 2 matrix or 2 x 2 table or numeric variable or factor variable
+#' @param y numeric or factor variable
 #' @return \code{mcnemar_test} returns an object of class \code{"mcnemar_test"}.
 #' An object of class \code{"mcnemar_test"} is a list containing the
 #' following components:
@@ -17,14 +16,13 @@
 #' \item{cpvalue}{continuity correction p-value}
 #' \item{kappa}{kappa}
 #' \item{std_err}{asymptotic standard error}
-#' \item{kappa_cil}{95% lower confidence limit}
-#' \item{kappa_ciu}{95% upper confidence limit}
+#' \item{kappa_cil}{95\% lower confidence limit}
+#' \item{kappa_ciu}{95\%upper confidence limit}
 #' \item{cases}{cases}
 #' \item{controls}{controls}
-#' \item{ratio}{ratio of cases/controls}
+#' \item{ratio}{ratio of cases by controls}
 #' \item{odratio}{odds ratio}
-#' \item{x}{\code{x} data}
-#' \item{y}{\code{y} data}
+#' \item{tbl}{two way table}
 #'
 #' @examples
 #' mcnemar_test(matrix(c(172, 7, 6, 15), nrow = 2))
@@ -123,22 +121,21 @@ mcnemar_test.default <- function(x, y = NULL) {
 	ratio      <- cases / controls
 	odds_ratio <- p[1] / p[2]
 
-	result <- list(statistic = test_stat,
+	result <- list(statistic = round(test_stat, 4),
 		             df        = df,
-		             pvalue    = pvalue,
-		             exactp    = exactp,
+		             pvalue    = round(pvalue, 4),
+		             exactp    = round(exactp, 4),
 		             cstat     = cstat,
 		             cpvalue   = cpvalue,
-		             kappa     = kappa,
-		             std_err   = std_err,
-		             kappa_cil = ci_lower,
-		             kappa_ciu = ci_upper,
-		             cases     = cases,
-		             controls  = controls,
-		             ratio     = ratio,
-		             odratio   = odds_ratio,
-		             x         = x,
-		             y         = y)
+		             kappa     = round(kappa, 4),
+		             std_err   = round(std_err, 4),
+		             kappa_cil = round(ci_lower, 4),
+		             kappa_ciu = round(ci_upper, 4),
+		             cases     = round(cases, 4),
+		             controls  = round(controls, 4),
+		             ratio     = round(ratio, 4),
+		             odratio   = round(odds_ratio, 4),
+		             tbl       = dat)
 
 	class(result) <- 'mcnemar_test'
 	return(result)
