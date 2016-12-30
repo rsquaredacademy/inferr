@@ -75,31 +75,39 @@ two_sample_test.default <- function(data, x, y, confint = 0.95,
   method <- match.arg(alternative)
 
   var_y <- y
-  h2 <- data_split(data, x, y)
+  h <- data_split(data, x, y)
   alpha <- 1 - confint
   a <- alpha / 2
-  h1 <- mutate(h2,
-          df = length - 1,
-          error = round(qt(a, df), 3) * -1
-  )
-  h <- mutate(h1,
-          lower = round(mean_t - (error * std_err), 3),
-          upper = round(mean_t + (error * std_err), 3)
-  )
+  h$df <- h$length - 1
+  h$error <- round(qt(a, h$df), 3) * -1
+  h$lower <- round(h$mean_t - (h$error * h$std_err), 3)
+  h$upper <- round(h$mean_t + (h$error * h$std_err), 3)
+  # h1 <- mutate(h2,
+  #         df = length - 1,
+  #         error = round(qt(a, df), 3) * -1
+  # )
+  # h <- mutate(h1,
+  #         lower = round(mean_t - (error * std_err), 3),
+  #         upper = round(mean_t + (error * std_err), 3)
+  # )
   grp_stat <- h
   means <- grp_stat[, 3]
   g_stat <- as.matrix(h)
 
-  comb2 <- da(data, y)
-  comb1 <- mutate(comb2,
-          df = length - 1,
-          error = round(qt(a, df), 3) * -1
-  )
-  comb <- mutate(comb1,
-          lower = round(mean_t - (error * std_err), 3),
-          upper = round(mean_t + (error * std_err), 3)
-  )
+  comb <- da(data, y)
+  comb$df <- comb$length - 1
+  comb$error <- round(qt(a, comb$df), 3) * -1
+  comb$lower <- round(comb$mean_t - (comb$error * comb$std_err), 3)
+  comb$upper <- round(comb$mean_t + (comb$error * comb$std_err), 3)
 
+  # comb1 <- mutate(comb2,
+  #         df = length - 1,
+  #         error = round(qt(a, df), 3) * -1
+  # )
+  # comb <- mutate(comb1,
+  #         lower = round(mean_t - (error * std_err), 3),
+  #         upper = round(mean_t + (error * std_err), 3)
+  # )
 
   names(comb) <- NULL
   n1 <- grp_stat[1, 2]
