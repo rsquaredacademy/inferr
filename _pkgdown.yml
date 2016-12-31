@@ -1,0 +1,49 @@
+templates:
+  params:
+    bootswatch: cerulean
+
+home:
+  links:
+  - text: Learn more
+    href: http://www.rsquaredacademy.com
+
+
+reference:
+- title: Parametric Tests
+
+  contents:
+  - ttest
+  - paired_ttest
+  - two_sample_test
+  - binom_test
+  - binom_calc
+  - prop_test
+  - ts_prop_test
+  - os_vartest
+  - var_test
+  - levene test
+
+- title: Non-parametric Tests
+
+  contents:
+  - chisq_test
+  - chisq_gof
+  - cochran_test
+  - mcnemar_test
+  - os_chisqgof
+  - runs
+
+- title: ANOVA
+
+  contents:
+  - owanova
+
+- title: Data
+  desc: >
+    descriptr comes with a built-in datasets which are used to
+    illustrate the functions as well as for running tests.
+  contents:
+  - hsb
+  - fitness
+  - cement
+  - rivers
