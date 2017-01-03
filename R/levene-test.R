@@ -1,5 +1,5 @@
 #' @importFrom stats anova lm model.frame formula
-#' @title Levene test for equality of variances
+#' @title Levene's test for equality of variances
 #' @description  \code{levene_test} reports Levene's robust test statistic (W_0)
 #' for the equality of variances between the groups defined by groupvar and the
 #' two statistics proposed by Brown and Forsythe that replace the mean in
@@ -30,6 +30,16 @@
 #' \item{lens}{number of observations for each level of the grouping variable}
 #' \item{type}{alternative hypothesis}
 #'
+#' @references
+#' {Bland, M. 2000. An Introduction to Medical Statistics. 3rd ed. Oxford: Oxford University Press.}
+#'
+#' {Brown, M. B., and A. B. Forsythe. 1974. Robust tests for the equality of variances. Journal of the American Statistical
+#' Association 69: 364–367.}
+#'
+#' {Carroll, R. J., and H. Schneider. 1985. A note on Levene’s tests for equality of variances. Statistics and Probability
+#' Letters 3: 191–194.}
+#' @seealso \code{\link[lawstat]{levene.test}} \code{\link[car]{leveneTest}}
+#' \code{\link[LaplacesDemon]{LeveneTest}}
 #' @examples
 #' # using grouping variable
 #' levene_test(mtcars$mpg, group_var = mtcars$vs)

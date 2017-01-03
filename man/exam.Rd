@@ -10,6 +10,9 @@
   \item{exam2}{result of exam2}
   \item{exam3}{result of exam3}
 }}
+\source{
+\url{http://www.spss-tutorials.com/spss-cochran-q-test/}
+}
 \usage{
 exam
 }

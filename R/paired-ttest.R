@@ -31,6 +31,9 @@
 #' \item{var_names}{names of \code{x} and \code{y}}
 #' \item{xy}{string used in printing results of the test}
 #'
+#' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
+#' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
+#' @seealso \code{\link[stats]{t.test}}
 #' @examples
 #' paired_ttest(mtcars$mpg, mtcars$qsec, alternative = 'less')
 #' paired_ttest(mtcars$mpg, mtcars$qsec, alternative = 'greater')

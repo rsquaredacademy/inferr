@@ -1,6 +1,8 @@
 #' @title Two sample test of proportion
 #' @description tests on the equality of proportions using
-#' large-sample statistics.
+#' large-sample statistics. It tests that \code{var} has the same proportion
+#' within two groups defined by \code{group} or that two variables \code{var1} and
+#' \code{var2} have the same proportion.
 #' @param var1 a categorical variable
 #' @param var2 a categorical variable
 #' @param var a categorical variable
@@ -24,6 +26,9 @@
 #' \item{sig}{p-value for z statistic}
 #' \item{alt}{alternative hypothesis}
 #'
+#' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
+#' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
+#' @seealso \code{\link[stats]{prop.test}}
 #' @examples
 #' # using variables
 #' ts_prop_test(var1 = mtcars$am, var2 = mtcars$vs, alternative = 'less')

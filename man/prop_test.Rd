@@ -5,16 +5,14 @@
 \alias{prop_test.factor}
 \title{One sample test of proportion}
 \usage{
-prop_test(n, phat, prob = 0.5, alternative = c("both", "less", "greater",
-  "all"), ...)
+prop_test(n, prob = 0.5, alternative = c("both", "less", "greater", "all"),
+  ...)
 
-\method{prop_test}{factor}(n, phat = NA, prob = 0.5,
-  alternative = c("both", "less", "greater", "all"), ...)
+\method{prop_test}{factor}(n, prob = 0.5, alternative = c("both", "less",
+  "greater", "all"), ...)
 }
 \arguments{
 \item{n}{number of observations}
-
-\item{phat}{observed proportion}
 
 \item{prob}{hypothesised proportion}
 
@@ -49,5 +47,12 @@ prop_test(200, 0.3, prob = 0.5)
 
 # using data set
 prop_test(as.factor(hsb$female), prob = 0.5)
+}
+\references{
+Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
+Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
+}
+\seealso{
+\code{\link[stats]{prop.test}} \code{\link[stats]{binom.test}}
 }
 

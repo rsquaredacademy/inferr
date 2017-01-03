@@ -1,6 +1,7 @@
 #' @importFrom stats pbinom dbinom
-#' @title Binomial Probability Test
-#' @description Exact hypothesis test for binomial random variables.
+#' @title Binomial Test
+#' @description Test whether the proportion of successes on a two-level
+#' categorical dependent variable significantly differs from a hypothesized value.
 #' @param n number of observations
 #' @param success number of successes
 #' @param prob assumed probability of success on a trial
@@ -18,13 +19,17 @@
 #' \item{lower}{lower one sided p value}
 #' \item{upper}{upper one sided p value}
 #' \item{two_tail}{two sided p value}
+#' @references Hoel, P. G. 1984. Introduction to Mathematical Statistics.
+#' 5th ed. New York: Wiley.
 #'
+#' @seealso \code{\link[stats]{binom.test}}
 #' @examples
 #' binom_test(32, 13, prob = 0.5)
 #'
 #' # using data set
 #' binom_calc(as.factor(mtcars$am), prob = 0.5)
 #' @export
+#'
 binom_test <- function(n, success, prob = 0.5) UseMethod('binom_test')
 
 #' @export
@@ -49,34 +54,41 @@ binom_test.default <- function(n, success, prob = 0.5) {
     n     <- n
     k     <- success
     obs_p <- k / n
-    exp_k <- n * prob
+    exp_k <- round(n * prob)
     lt    <- pbinom(k, n, prob, lower.tail = T)
     ut    <- pbinom(k - 1, n, prob, lower.tail = F)
     p_opp <- round(dbinom(k, n, prob), 9)
     i_p   <- dbinom(exp_k, n, prob)
     i_k   <- exp_k
 
-    if (k < exp_k) {
 
-        while (i_p > p_opp) {
-            i_k <- i_k + 1
-            i_p <- round(dbinom(i_k, n, prob), 9)
-        }
 
-        tt <- pbinom(k, n, prob, lower.tail = T) +
-            pbinom(i_k - 1, n, prob, lower.tail = F)
+      if (k < exp_k) {
 
-    } else {
+          while (i_p > p_opp) {
+              i_k <- i_k + 1
+              i_p <- round(dbinom(i_k, n, prob), 9)
+          }
 
-        while (i_p <= p_opp) {
-            i_k <- i_k - 1
-            i_p <- dbinom(i_k, n, prob)
-        }
+          ttf <- pbinom(k, n, prob, lower.tail = T) +
+              pbinom(i_k - 1, n, prob, lower.tail = F)
 
-        tt <- pbinom(i_k, n, prob, lower.tail = T) +
-            pbinom(k - 1, n, prob, lower.tail = F)
+        } else {
 
-    }
+          while (p_opp <= i_p) {
+              i_k <- i_k - 1
+              i_p <- dbinom(i_k, n, prob)
+          }
+
+          i_k <- i_k
+
+          tt <- pbinom(i_k, n, prob, lower.tail = T) +
+              pbinom(k - 1, n, prob, lower.tail = F)
+
+          ttf <- ifelse(tt <= 1, tt, 1)
+
+          }
+
 
     out <- list(n        = n,
                 k        = k,
@@ -86,7 +98,7 @@ binom_test.default <- function(n, success, prob = 0.5) {
                 ik       = i_k,
                 lower    = round(lt, 6),
                 upper    = round(ut, 6),
-                two_tail = round(tt, 6))
+                two_tail = round(ttf, 6))
 
     class(out) <- 'binom_test'
     return(out)

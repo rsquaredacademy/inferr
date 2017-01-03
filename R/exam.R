@@ -9,4 +9,5 @@
 #'   \item{exam3}{result of exam3}
 #' }
 #'
+#' @source \url{http://www.spss-tutorials.com/spss-cochran-q-test/}
 "exam"

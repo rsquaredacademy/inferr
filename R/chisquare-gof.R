@@ -20,6 +20,7 @@
 #' \item{std}{standardized residuals}
 #' \item{varname}{name of categorical variable}
 #'
+#' @seealso \code{\link[stats]{chisq.test}}
 #' @examples
 #' chisq_gof(hsb$race, c(20, 20, 20 , 140))
 #' chisq_gof(hsb$race, c(20, 20, 20 , 140), correct = TRUE)

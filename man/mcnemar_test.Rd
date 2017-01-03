@@ -41,4 +41,11 @@ mcnemar_test(matrix(c(172, 7, 6, 15), nrow = 2))
 mcnemar_test(matrix(c(15, 7, 6, 172), nrow = 2))
 mcnemar_test(table(hsb$female, hsb$schtyp))
 }
+\references{
+Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
+Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
+}
+\seealso{
+\code{\link[RVAideMemoire]{cochran.qtest}}
+}
 

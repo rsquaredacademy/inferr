@@ -52,4 +52,11 @@ paired_ttest(mtcars$mpg, mtcars$qsec, alternative = 'greater')
 paired_ttest(mtcars$mpg, mtcars$qsec, alternative = 'both')
 paired_ttest(mtcars$mpg, mtcars$qsec, alternative = 'all')
 }
+\references{
+Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
+Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
+}
+\seealso{
+\code{\link[stats]{t.test}}
+}
 

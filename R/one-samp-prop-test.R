@@ -3,7 +3,6 @@
 #' @description  \code{prop_test} performs tests on the equality of proportions
 #' using large-sample statistics.
 #' @param n number of observations
-#' @param phat observed proportion
 #' @param prob hypothesised proportion
 #' @param alternative a character string specifying the alternative hypothesis,
 #' must be one of "both" (default), "greater", "less" or "all". You can specify
@@ -24,6 +23,9 @@
 #' \item{deviation}{deviation of observed from expected}
 #' \item{std}{standardized resiudals}
 #'
+#' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
+#' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
+#' @seealso \code{\link[stats]{prop.test}} \code{\link[stats]{binom.test}}
 #' @examples
 #' prop_test(200, 0.3, prob = 0.5)
 #'
@@ -31,7 +33,7 @@
 #' prop_test(as.factor(hsb$female), prob = 0.5)
 #' @export
 #'
-prop_test <- function(n, phat, prob = 0.5, alternative = c('both', 'less',
+prop_test <- function(n, prob = 0.5, alternative = c('both', 'less',
   'greater', 'all'),...) UseMethod('prop_test')
 
 #' @export
@@ -113,7 +115,7 @@ print.prop_test <- function(x, ...) {
 #' @export
 #' @rdname prop_test
 #'
-prop_test.factor <- function(n, phat = NA, prob = 0.5,
+prop_test.factor <- function(n, prob = 0.5,
   alternative = c('both', 'less', 'greater', 'all'), ...) {
 
   if (!is.numeric(prob)) {

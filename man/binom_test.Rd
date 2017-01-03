@@ -3,7 +3,7 @@
 \name{binom_test}
 \alias{binom_calc}
 \alias{binom_test}
-\title{Binomial Probability Test}
+\title{Binomial Test}
 \usage{
 binom_test(n, success, prob = 0.5)
 
@@ -34,12 +34,20 @@ following components:
 \item{two_tail}{two sided p value}
 }
 \description{
-Exact hypothesis test for binomial random variables.
+Test whether the proportion of successes on a two-level
+categorical dependent variable significantly differs from a hypothesized value.
 }
 \examples{
 binom_test(32, 13, prob = 0.5)
 
 # using data set
 binom_calc(as.factor(mtcars$am), prob = 0.5)
+}
+\references{
+Hoel, P. G. 1984. Introduction to Mathematical Statistics.
+5th ed. New York: Wiley.
+}
+\seealso{
+\code{\link[stats]{binom.test}}
 }
 

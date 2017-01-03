@@ -50,4 +50,11 @@ ttest(mtcars$mpg, mu = 50, type = 'greater')
 ttest(mtcars$mpg, mu = 50, type = 'both')
 ttest(mtcars$mpg, mu = 50, type = 'all')
 }
+\references{
+Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
+Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
+}
+\seealso{
+\code{\link[stats]{t.test}}
+}
 

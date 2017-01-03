@@ -21,7 +21,7 @@ reference:
   - ts_prop_test
   - os_vartest
   - var_test
-  - levene test
+  - levene_test
 
 - title: Non-parametric Tests
 
@@ -31,7 +31,7 @@ reference:
   - cochran_test
   - mcnemar_test
   - os_chisqgof
-  - runs
+  - runs_test
 
 - title: ANOVA
 
@@ -40,10 +40,8 @@ reference:
 
 - title: Data
   desc: >
-    descriptr comes with a built-in datasets which are used to
+    inferr comes with a built-in datasets which are used to
     illustrate the functions as well as for running tests.
   contents:
   - hsb
-  - fitness
-  - cement
-  - rivers
+  - exam

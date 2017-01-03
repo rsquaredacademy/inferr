@@ -45,6 +45,9 @@
 #' \item{confint}{confidence level}
 #' \item{alternative}{alternative hypothesis}
 #'
+#' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
+#' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
+#' @seealso \code{\link[stats]{t.test}}
 #' @examples
 #' two_sample_test(mtcars, 'am', 'mpg', alternative = 'less')
 #' two_sample_test(mtcars, 'am', 'mpg', alternative = 'greater')
@@ -126,8 +129,13 @@ two_sample_test.default <- function(data, x, y, confint = 0.95,
   d_f <- as.vector(df(n1, n2, s1, s2))
   t <- round(mean_diff / (((s1 / n1) + (s2 / n2)) ^ 0.5), 4)
   sig_l <- round(pt(t, d_f), 4)
-  sig_u <- round(1 - pt(t, d_f), 4)
-  sig <- round(pt(t, d_f) * 2, 4)
+  sig_u <- round(pt(t, d_f, lower.tail = FALSE), 4)
+  if (sig_l < 0.5) {
+    sig <- round(pt(t, d_f) * 2, 4)
+  } else {
+    sig <- round(pt(t, d_f, lower.tail = FALSE) * 2, 4)
+  }
+
   se <- se_sw(s1, s2, n1, n2)
   err_mar <- se * -qt(0.025, 170)
   con_lower <- mean_diff - err_mar
@@ -137,8 +145,12 @@ two_sample_test.default <- function(data, x, y, confint = 0.95,
   df_pooled <- (n1 + n2) - 2
   t_pooled <- round(mean_diff / se_dif, 4)
   sig_pooled_l <- round(pt(t_pooled, df_pooled), 4)
-  sig_pooled_u <- round(1 - pt(t_pooled, df_pooled), 4)
-  sig_pooled <- round(pt(t_pooled, df_pooled) * 2, 4)
+  sig_pooled_u <- round(pt(t_pooled, df_pooled, lower.tail = FALSE), 4)
+  if (sig_pooled_l < 0.5) {
+    sig_pooled <- round(pt(t_pooled, df_pooled) * 2, 4)
+  } else {
+    sig_pooled <- round(pt(t_pooled, df_pooled, lower.tail = FALSE) * 2, 4)
+  }
   error_margin <- se_dif * -qt(0.025, 198)
   conf_lower <- mean_diff - error_margin
   conf_upper <- mean_diff + error_margin

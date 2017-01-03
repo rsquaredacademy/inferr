@@ -38,4 +38,7 @@ differ from hypothesized proportions
 chisq_gof(hsb$race, c(20, 20, 20 , 140))
 chisq_gof(hsb$race, c(20, 20, 20 , 140), correct = TRUE)
 }
+\seealso{
+\code{\link[stats]{chisq.test}}
+}
 

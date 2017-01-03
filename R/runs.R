@@ -26,6 +26,18 @@
 #' \item{z}{z statistic}
 #' \item{p}{p-value of \code{z}}
 #'
+#' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
+#' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
+#'
+#' Edgington, E. S. 1961. Probability table for number of runs of signs of first differences in ordered series. Journal of
+#' the American Statistical Association 56: 156–159.
+#'
+#' Madansky, A. 1988. Prescriptions for Working Statisticians. New York: Springer.
+#'
+#' Swed, F. S., and C. Eisenhart. 1943. Tables for testing randomness of grouping in a sequence of alternatives. Annals
+#' of Mathematical Statistics 14: 66–87.
+#' @seealso \code{\link[tseries]{runs.test}} \code{\link[randtests]{runs.test}}
+#' \code{\link[DescTools]{RunsTest}} \code{\link[lawstat]{runs.test}}
 #' @examples
 #' reg <- lm(mpg ~ disp, data = mtcars)
 #' runs_test(residuals(reg))

@@ -28,4 +28,11 @@ equal in the same population.
 \examples{
 cochran_test(exam)
 }
+\references{
+Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
+Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
+}
+\seealso{
+\code{\link[RVAideMemoire]{cochran.qtest}}
+}
 

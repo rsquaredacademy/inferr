@@ -24,7 +24,10 @@
 #' \item{sigma}{root mean squared error}
 #' \item{obs}{number of observations}
 #' \item{tab}{group statistics}
+#' @references Kutner, M. H., Nachtsheim, C., Neter, J., & Li, W. (2005).
+#' Applied linear statistical models. Boston: McGraw-Hill Irwin.
 #'
+#' @seealso \code{\link[stats]{anova}}
 #' @examples
 #' owanova(mtcars, 'mpg', 'cyl')
 #' owanova(hsb, 'write', 'prog')

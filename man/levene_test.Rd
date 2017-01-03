@@ -4,7 +4,7 @@
 \alias{levene_test}
 \alias{levene_test.formula}
 \alias{levene_test.lm}
-\title{Levene test for equality of variances}
+\title{Levene's test for equality of variances}
 \usage{
 levene_test(variable, ...)
 
@@ -63,5 +63,18 @@ levene_test(m)
 # using formula
 levene_test(as.formula(paste0('mpg ~ vs')), mtcars)
 
+}
+\references{
+{Bland, M. 2000. An Introduction to Medical Statistics. 3rd ed. Oxford: Oxford University Press.}
+
+{Brown, M. B., and A. B. Forsythe. 1974. Robust tests for the equality of variances. Journal of the American Statistical
+Association 69: 364–367.}
+
+{Carroll, R. J., and H. Schneider. 1985. A note on Levene’s tests for equality of variances. Statistics and Probability
+Letters 3: 191–194.}
+}
+\seealso{
+\code{\link[lawstat]{levene.test}} \code{\link[car]{leveneTest}}
+\code{\link[LaplacesDemon]{LeveneTest}}
 }
 

@@ -30,6 +30,9 @@
 #' \item{lev}{levels of the grouping variable}
 #' \item{type}{alternative hypothesis}
 #'
+#' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
+#' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
+#' @seealso \code{\link[stats]{var.test}}
 #' @examples
 #' # using grouping variable
 #' var_test(mtcars$mpg, group_var = mtcars$vs, alternative = 'less')

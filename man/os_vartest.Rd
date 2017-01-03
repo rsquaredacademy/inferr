@@ -51,4 +51,11 @@ os_vartest(mtcars$mpg, 0.3, alternative = 'both')
 os_vartest(mtcars$mpg, 0.3, alternative = 'all')
 
 }
+\references{
+Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
+Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
+}
+\seealso{
+\code{\link[stats]{var.test}} \code{\link[stats]{binom.test}}
+}
 

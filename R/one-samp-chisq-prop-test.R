@@ -24,6 +24,9 @@
 #' \item{c_low}{lower confidence limit for mean}
 #' \item{c_up}{upper confidence limit for mean}
 #'
+#' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
+#' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
+#' @seealso \code{\link[stats]{prop.test}} \code{\link[stats]{binom.test}}
 #' @examples
 #' os_chisqgof(hsb$female, c(100, 100))
 #' os_chisqgof(hsb$race, c(50, 50, 50, 50))

@@ -29,6 +29,9 @@
 #' \item{conf}{confidence level}
 #' \item{type}{alternative hypothesis}
 #'
+#' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
+#' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
+#' @seealso \code{\link[stats]{var.test}} \code{\link[stats]{binom.test}}
 #' @examples
 #' os_vartest(mtcars$mpg, 0.3, alternative = 'less')
 #' os_vartest(mtcars$mpg, 0.3, alternative = 'greater')
@@ -69,7 +72,12 @@ os_vartest.default <- function(x, sd, confint = 0.95,
 
 	p_lower <- pchisq(chi, df)
 	p_upper <- pchisq(chi, df, lower.tail = F)
-	p_two   <- pchisq(chi, df, lower.tail = F) * 2
+	if (p_lower < 0.5) {
+			p_two <- pchisq(chi, df) * 2
+	} else {
+			p_two   <- pchisq(chi, df, lower.tail = F) * 2
+	}
+
 
 	conf    <- confint
 	a       <- (1 - conf) / 2

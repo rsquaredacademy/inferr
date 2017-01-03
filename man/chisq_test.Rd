@@ -38,4 +38,7 @@ relationship between two categorical variables.
 chisq_test(as.factor(hsb$female), as.factor(hsb$schtyp))
 chisq_test(as.factor(hsb$female), as.factor(hsb$ses))
 }
+\seealso{
+\code{\link[stats]{chisq.test}}
+}
 

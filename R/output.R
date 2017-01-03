@@ -686,12 +686,16 @@ print_os_vartest <- function(data) {
   alt_t <- paste0("Ha: sd(", data$var_name, ") != ", as.character(data$sd))
   all_l <- paste("Ha: sd <", as.character(data$sd))
   all_u <- paste("Ha: sd >", as.character(data$sd))
-  all_t <- paste("Ha: sd ~=", as.character(data$sd))
+  all_t <- paste("Ha: sd !=", as.character(data$sd))
   char_p_l <- format(data$p_lower, digits = 0, nsmall = 4)
   char_p_u <- format(data$p_upper, digits = 0, nsmall = 4)
   char_p <- format(data$p_two, digits = 0, nsmall = 4)
   all_p_l <- paste("Pr(C < c) =", char_p_l)
-  all_p_t <- paste("2 * Pr(C > c) =", char_p)
+	if (data$p_lower < 0.5) {
+			all_p_t <- paste("2 * Pr(C < c) =", char_p)
+	} else {
+			all_p_t <- paste("2 * Pr(C > c) =", char_p)
+	}
   all_p_u <- paste("Pr(C > c) =", char_p_u)
   all_tval <- paste0(" c = ", as.character(data$chi))
 

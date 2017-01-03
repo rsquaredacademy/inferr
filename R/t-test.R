@@ -30,6 +30,9 @@
 #' \item{type}{alternative hypothesis}
 #' \item{var_name}{name of \code{x}}
 #'
+#' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
+#' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
+#' @seealso \code{\link[stats]{t.test}}
 #' @examples
 #' ttest(mtcars$mpg, mu = 50, type = 'less')
 #' ttest(mtcars$mpg, mu = 50, type = 'greater')
@@ -78,8 +81,13 @@ ttest.default <- function(x, mu = 0, alpha = 0.05,
   mean_diff_l <- confint[1] - mu
   mean_diff_u <- confint[2] - mu
   p_l 				<- pt(test_stat, df)
-  p_u 				<- 1 - p_l
-  p 					<- p_u * 2
+  p_u 				<- pt(test_stat, df, lower.tail = FALSE)
+  if (p_l < 0.5) {
+    p <- p_l * 2
+  } else {
+    p <- p_u * 2
+  }
+
 
   result <- list(mu 				 = mu,
 								 n 					 = n,
