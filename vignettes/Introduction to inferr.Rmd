@@ -19,81 +19,217 @@ library(dplyr)
 
 A one-way analysis of variance (ANOVA) is used when you have a categorical independent variable (with two or more categories) and a normally distributed interval dependent variable and you wish to test for differences in the means of the dependent variable broken down by the levels of the independent variable.  For example, using the hsb2 data file, say we wish to test whether the mean of write differs between the three program types (prog).
 
+```{r anova}
+owanova(hsb, 'write', 'prog')
+```
 
 ## Binomial Probability Test
 
 A one sample binomial test allows us to test whether the proportion of successes on a two-level categorical dependent variable significantly differs from a hypothesized value.  For example, using the hsb2 data file, say we wish to test whether the proportion of females (female) differs significantly from 50%, i.e., from 0.5.
 
+```{r binom_test}
+binom_test(32, 18, prob = 0.5)
+```
+
+```{r binom_calc}
+binom_calc(as.factor(mtcars$am), prob = 0.5)
+```
 
 ## One Sample Variance Test
 
 One sample variance comparison test performs tests on the equality of standard deviations (variances).It tests that the standard deviation of
 a continuous variable is equal to a hypothesized value.
 
+```{r os_var}
+os_vartest(mtcars$mpg, 0.3, alternative = 'less')
+```
+
+```{r os_varall}
+os_vartest(mtcars$mpg, 0.3, alternative = 'all')
+```
 
 ## Paired t test
 
 A paired (samples) t-test is used when you have two related observations (i.e., two observations per subject) and you want to see if the means on these two normally distributed interval variables differ from one another.  For example, using the hsb2 data, we will test whether the mean of read is equal to the mean of write.
 
 
+```{r pair1}
+paired_ttest(mtcars$mpg, mtcars$qsec, alternative = 'less')
+```
+
+```{r pairall}
+paired_ttest(mtcars$mpg, mtcars$qsec, alternative = 'all')
+```
+
 ## One Sample Test of Proportion
 
 One sample test of proportion performs tests on the equality of proportions using large-sample statistics. It tests that proportion of
 a categorical variable is equal to a hypothesized value.
+
+```{r os_prop1}
+prop_test(200, 0.3, prob = 0.5)
+```
+
+```{r os_prop2}
+prop_test(as.factor(hsb$female), prob = 0.5)
+```
 
 ## Two Sample Test of Proportion
 
 Two sample test of proportion performs tests on the equality of proportions using large-sample statistics. It tests that a categorical
 variable has the same proportion within two groups or that two variables have the same proportion.
 
+```{r ts_prop1}
+ts_prop_test(var1 = mtcars$am, var2 = mtcars$vs, alternative = 'all')
+```
+
+```{r ts_prop2}
+ts_prop_grp(var = mtcars$am, group = mtcars$vs, alternative = 'all')
+```
+
+```{r ts_prop3}
+ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'all')
+```
 
 ## One Sample t Test
 
 A one sample t-test allows us to test whether a sample mean (from a normally distributed interval variable) significantly differs from a hypothesized value.  For example, using the hsb2 data , say we wish to test whether the average writing score (write) differs significantly from 50.
 
+```{r ttest}
+ttest(mtcars$mpg, mu = 50, type = 'all')
+```
 
-## Two Independent Sample t Test
 
+## Two Independent Sample t Test](#ind)
 An independent samples t-test is used when you want to compare the means of a normally distributed interval dependent variable for two independent groups.  For example, using the hsb2 data , say we wish to test whether the mean for write is the same for males and females.
 
+```{r ind}
+two_sample_test(mtcars, 'am', 'mpg', alternative = 'all')
+```
 
 ## Two Sample Variance Test
 
 Two sample variance comparison tests equality of standard deviations (variances). It tests that the standard deviation of a continuous
 variable is same within two groups or the standard deviation of two continuous variables is equal.
 
+```{r ts_var1}
+var_test(mtcars$mpg, group_var = mtcars$vs, alternative = 'all')
+```
+
+```{r ts_var2}
+var_test(mtcars$mpg, mtcars$qsec, alternative = 'all')
+```
 
 ## Levene's Test
 
 Levene's robust test statistic for the equality of variances between the groups defined by a categorical variable and the two statistics proposed by Brown and Forsythe that replace the mean in Levene's formula with alternative location estimators. The first alternative replaces the mean with the median.  The second alternative replaces the mean with the 10% trimmed mean.
 
+```{r lev1}
+levene_test(mtcars$mpg, group_var = mtcars$vs)
+```
+
+```{r lev2}
+levene_test(mtcars$mpg, mtcars$qsec)
+```
+
+```{r lev3}
+m <- lm(mpg ~ vs, data = mtcars)
+levene_test(m)
+```
+
+```{r lev4}
+levene_test(as.formula(paste0('mpg ~ vs')), mtcars)
+```
+
+
 
 ## Chi Square Goodness of Fit Test
-
 A chi-square goodness of fit test allows us to test whether the observed proportions for a categorical variable differ from hypothesized proportions.  For example, let's suppose that we believe that the general population consists of 10% Hispanic, 10% Asian, 10% African American and 70% White folks.  We want to test whether the observed proportions from our sample differ significantly from these hypothesized proportions.
+
+```{r gof1}
+chisq_gof(hsb$race, c(20, 20, 20 , 140))
+```
+
+```{r gof2}
+chisq_gof(hsb$race, c(20, 20, 20 , 140), correct = TRUE)
+```
 
 
 ## Chi Square Test
 
 A chi-square test is used when you want to see if there is a relationship between two categorical variables.  In SAS, the chisq option is used on the tables statement to obtain the test statistic and its associated p-value.  Using the hsb data , let's see if there is a relationship between the type of school attended (schtyp) and students' gender (female).  Remember that the chi-square test assumes that the expected value for each cell is five or higher.
 
+```{r chi1}
+chisq_test(as.factor(hsb$female), as.factor(hsb$schtyp))
+```
+
+```{r chi2}
+chisq_test(as.factor(hsb$female), as.factor(hsb$ses))
+```
 
 ## One Sample Chi Square Proportion Test
 
 One-sample chi-square test is used to test whether a single categorical variable follows a hypothesized population distribution.
+
+```{r chiprop1}
+os_chisqgof(hsb$female, c(100, 100))
+```
+
+```{r chiprop2}
+os_chisqgof(hsb$female, c(100, 100), correct = TRUE)
+```
 
 
 ## McNemar Test
 
 You would perform McNemar's test if you were interested in the marginal frequencies of two binary outcomes. These binary outcomes may be the same outcome variable on matched pairs (like a case-control study) or two outcome variables from a single group.  Let us consider two questions, Q1 and Q2, from a test taken by 200 students. Suppose 172 students answered both questions correctly, 15 students answered both questions incorrectly, 7 answered Q1 correctly and Q2 incorrectly, and 6 answered Q2 correctly and Q1 incorrectly. These counts can be considered in a two-way contingency table.  The null hypothesis is that the two questions are answered correctly or incorrectly at the same rate (or that the contingency table is symmetric).
 
+```{r mc1}
+mcnemar_test(matrix(c(172, 7, 6, 15), nrow = 2))
+```
+
+```{r mc2}
+mcnemar_test(matrix(c(15, 7, 6, 172), nrow = 2))
+```
+
+```{r mc3}
+mcnemar_test(table(hsb$female, hsb$schtyp))
+```
+
 
 ## Runs Test for Randomness
 
 runtest tests whether the observations of varname are serially independent -- that is, whether they occur in a random order -- by counting how many runs there are above and below a threshold.  By default, the median is used as the threshold.  A small number of runs indicates positive serial correlation; a large number indicates negative serial correlation.
 
+```{r runs1}
+reg <- lm(mpg ~ disp, data = mtcars)
+runs_test(residuals(reg))
+```
 
+```{r runs2}
+reg <- lm(mpg ~ disp, data = mtcars)
+runs_test(residuals(reg), drop = TRUE)
+```
+
+```{r runs3}
+reg <- lm(mpg ~ disp, data = mtcars)
+runs_test(residuals(reg), split = TRUE)
+```
+
+```{r runs4}
+reg <- lm(mpg ~ disp, data = mtcars)
+runs_test(residuals(reg), mean = TRUE)
+```
+
+```{r runs5}
+reg <- lm(mpg ~ disp, data = mtcars)
+runs_test(residuals(reg), threshold = 0)
+```
 
 ## Cochran's Q Test
 
 Cochran Q test is a procedure for testing if the proportions of 3 or more dichotomous variables are equal in some population. These outcome variables have been measured on the same people or other statistical units.
+
+```{r cochran}
+cochran_test(exam)
+```
