@@ -17,7 +17,14 @@ Suggests:
     testthat,
     covr,
     knitr,
-    rmarkdown
+    rmarkdown,
+    RVAideMemoire,
+    lawstat,
+    car,
+    DescTools,
+    LaplacesDemon,
+    tseries,
+    randtests
 Encoding: UTF-8
 LazyData: true
 VignetteBuilder: knitr

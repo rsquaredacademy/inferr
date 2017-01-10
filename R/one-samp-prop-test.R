@@ -1,9 +1,10 @@
 #' @importFrom stats pnorm
 #' @title One sample test of proportion
-#' @description  \code{prop_test} performs tests on the equality of proportions
-#' using large-sample statistics.
+#' @description  \code{prop_test} compares proportion in one group to a
+#' specified population proportion.
 #' @param n number of observations
 #' @param prob hypothesised proportion
+#' @param phat observed proportion
 #' @param alternative a character string specifying the alternative hypothesis,
 #' must be one of "both" (default), "greater", "less" or "all". You can specify
 #' just the initial letter.
@@ -27,7 +28,7 @@
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #' @seealso \code{\link[stats]{prop.test}} \code{\link[stats]{binom.test}}
 #' @examples
-#' prop_test(200, 0.3, prob = 0.5)
+#' prop_test(200, prob = 0.5, phat = 0.3)
 #'
 #' # using data set
 #' prop_test(as.factor(hsb$female), prob = 0.5)
@@ -37,9 +38,9 @@ prop_test <- function(n, prob = 0.5, alternative = c('both', 'less',
   'greater', 'all'),...) UseMethod('prop_test')
 
 #' @export
-#'
-prop_test.default <- function(n, phat, prob = 0.5,
-                      alternative = c('both', 'less', 'greater', 'all'), ...) {
+#' @rdname prop_test
+prop_test.default <- function(n, prob = 0.5,
+                      alternative = c('both', 'less', 'greater', 'all'), phat, ...) {
 
 
   if (!is.numeric(n)) {
@@ -137,6 +138,6 @@ prop_test.factor <- function(n, prob = 0.5,
   prob <- prob
   alternative <- alternative
 
-  prop_test.default(n1, phat, prob, alternative)
+  prop_test.default(n1, prob, alternative, phat)
 
 }

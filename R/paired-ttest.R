@@ -35,10 +35,10 @@
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #' @seealso \code{\link[stats]{t.test}}
 #' @examples
-#' paired_ttest(mtcars$mpg, mtcars$qsec, alternative = 'less')
-#' paired_ttest(mtcars$mpg, mtcars$qsec, alternative = 'greater')
-#' paired_ttest(mtcars$mpg, mtcars$qsec, alternative = 'both')
-#' paired_ttest(mtcars$mpg, mtcars$qsec, alternative = 'all')
+#' paired_ttest(hsb$read, hsb$write, alternative = 'less')
+#' paired_ttest(hsb$read, hsb$write, alternative = 'greater')
+#' paired_ttest(hsb$read, hsb$write, alternative = 'both')
+#' paired_ttest(hsb$read, hsb$write, alternative = 'all')
 #' @export
 #'
 paired_ttest <- function(x, y, confint = 0.95,

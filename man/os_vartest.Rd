@@ -5,7 +5,7 @@
 \title{One sample variance comparison test}
 \usage{
 os_vartest(x, sd, confint = 0.95, alternative = c("both", "less", "greater",
-  "all"))
+  "all"), ...)
 }
 \arguments{
 \item{x}{a numeric vector}
@@ -16,7 +16,9 @@ os_vartest(x, sd, confint = 0.95, alternative = c("both", "less", "greater",
 
 \item{alternative}{a character string specifying the alternative hypothesis,
 must be one of "both" (default), "greater", "less" or "all". You can specify
-just the initial letter.}
+just the initial letter}
+
+\item{...}{additional arguments passed to or from other methods}
 }
 \value{
 \code{os_vartest} returns an object of class \code{"os_vartest"}.
@@ -45,10 +47,10 @@ deviations (variances).It tests that the standard deviation of \code{x} is
 \code{sd}.
 }
 \examples{
-os_vartest(mtcars$mpg, 0.3, alternative = 'less')
-os_vartest(mtcars$mpg, 0.3, alternative = 'greater')
-os_vartest(mtcars$mpg, 0.3, alternative = 'both')
-os_vartest(mtcars$mpg, 0.3, alternative = 'all')
+os_vartest(mtcars$mpg, 5, alternative = 'less')
+os_vartest(mtcars$mpg, 5, alternative = 'greater')
+os_vartest(mtcars$mpg, 5, alternative = 'both')
+os_vartest(mtcars$mpg, 5, alternative = 'all')
 
 }
 \references{

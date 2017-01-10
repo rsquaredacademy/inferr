@@ -4,7 +4,7 @@
 \alias{owanova}
 \title{One Way ANOVA}
 \usage{
-owanova(data, x, y)
+owanova(data, x, y, ...)
 }
 \arguments{
 \item{data}{a data frame}
@@ -12,6 +12,8 @@ owanova(data, x, y)
 \item{x}{character vector; name of a continuous variable from \code{data}}
 
 \item{y}{character vector; name of a categorical variable from \code{data}}
+
+\item{...}{additional arguments passed to or from other methods}
 }
 \value{
 \code{owanova} returns an object of class \code{"owanova"}.

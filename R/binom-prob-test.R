@@ -6,6 +6,7 @@
 #' @param success number of successes
 #' @param prob assumed probability of success on a trial
 #' @param data a numeric vector
+#' @param ... additional arguments passed to or from other methods
 #' @return \code{binom_test} returns an object of class \code{"binom_test"}.
 #' An object of class \code{"binom_test"} is a list containing the
 #' following components:
@@ -24,16 +25,16 @@
 #'
 #' @seealso \code{\link[stats]{binom.test}}
 #' @examples
-#' binom_test(32, 13, prob = 0.5)
+#' binom_calc(32, 13, prob = 0.5)
 #'
 #' # using data set
-#' binom_calc(as.factor(mtcars$am), prob = 0.5)
+#' binom_test(as.factor(hsb$female), prob = 0.5)
 #' @export
 #'
-binom_test <- function(n, success, prob = 0.5) UseMethod('binom_test')
+binom_calc <- function(n, success, prob = 0.5, ...) UseMethod('binom_calc')
 
 #' @export
-binom_test.default <- function(n, success, prob = 0.5) {
+binom_calc.default <- function(n, success, prob = 0.5, ...) {
 
     if (!is.numeric(n)) {
       stop('n must be an integer')
@@ -100,18 +101,18 @@ binom_test.default <- function(n, success, prob = 0.5) {
                 upper    = round(ut, 6),
                 two_tail = round(ttf, 6))
 
-    class(out) <- 'binom_test'
+    class(out) <- 'binom_calc'
     return(out)
 }
 
 #' @export
-print.binom_test <- function(x, ...) {
+print.binom_calc <- function(x, ...) {
   print_binom(x)
 }
 
 #' @export
-#' @rdname binom_test
-binom_calc <- function(data, prob = 0.5) {
+#' @rdname binom_calc
+binom_test <- function(data, prob = 0.5) {
 
     if (!is.factor(data)) {
       stop('data must be of type factor')
@@ -127,5 +128,5 @@ binom_calc <- function(data, prob = 0.5) {
 
     n <- length(data)
     k <- table(data)[[2]]
-    binom_test.default(n, k, prob)
+    binom_calc.default(n, k, prob)
 }

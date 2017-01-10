@@ -13,7 +13,8 @@
 #' @param p2 sample 2 proportion
 #' @param alternative a character string specifying the alternative hypothesis,
 #' must be one of "both" (default), "greater", "less" or "all". You can specify
-#' just the initial letter.
+#' just the initial letter
+#' @param ... additional arguments passed to or from other methods
 #' @return an object of class \code{"prop_test"}.
 #' An object of class \code{"prop_test"} is a list containing the
 #' following components:
@@ -50,12 +51,12 @@
 #' @export
 #'
 ts_prop_test <- function(var1, var2,
-  alternative = c('both', 'less', 'greater', 'all')) UseMethod('ts_prop_test')
+  alternative = c('both', 'less', 'greater', 'all'), ...) UseMethod('ts_prop_test')
 
 #' @export
 #'
 ts_prop_test.default <- function(var1, var2,
-  alternative = c('both', 'less', 'greater', 'all')) {
+  alternative = c('both', 'less', 'greater', 'all'), ...) {
 
 
 	n1 <- length(var1)
@@ -167,7 +168,7 @@ ts_prop_grp <- function(var, group,
 #' @rdname ts_prop_test
 #'
 ts_prop_calc <- function(n1, n2, p1, p2,
-  alternative = c('both', 'less', 'greater', 'all')) {
+  alternative = c('both', 'less', 'greater', 'all'), ...) {
 
 	n1 <- n1
 	n2 <- n2

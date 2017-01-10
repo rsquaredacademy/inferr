@@ -16,7 +16,7 @@ test_that('output from ttest matches the expected output', {
     expect_equal(k$mean_diff, -29.9094)
     expect_equal(k$p_l, 6.592161e-24)
     expect_equal(k$p_u, 1)
-    expect_equal(k$p, 2)
+    expect_equal(k$p, 1.31843219487798e-23)
     expect_equal(k$conf, 0.95)
     expect_equivalent(k$type, 'less')
     expect_equivalent(k$var_name, 'mpg')

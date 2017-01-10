@@ -14,7 +14,7 @@ reference:
   contents:
   - ttest
   - paired_ttest
-  - two_sample_test
+  - ind_ttest
   - binom_test
   - binom_calc
   - prop_test
@@ -30,7 +30,6 @@ reference:
   - chisq_gof
   - cochran_test
   - mcnemar_test
-  - os_chisqgof
   - runs_test
 
 - title: ANOVA

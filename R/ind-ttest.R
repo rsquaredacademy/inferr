@@ -8,9 +8,10 @@
 #' @param confint confidence level
 #' @param alternative a character string specifying the alternative hypothesis,
 #' must be one of "both" (default), "greater", "less" or "all". You can specify
-#' just the initial letter.
-#' @return \code{two_sample_test} returns an object of class \code{"two_sample_test"}.
-#' An object of class \code{"two_sample_test"} is a list containing the
+#' just the initial letter
+#' @param ... additional arguments passed to or from other methods
+#' @return \code{ind_ttest} returns an object of class \code{"ind_ttest"}.
+#' An object of class \code{"ind_ttest"} is a list containing the
 #' following components:
 #'
 #' \item{levels}{levels of \code{x}}
@@ -49,19 +50,19 @@
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #' @seealso \code{\link[stats]{t.test}}
 #' @examples
-#' two_sample_test(mtcars, 'am', 'mpg', alternative = 'less')
-#' two_sample_test(mtcars, 'am', 'mpg', alternative = 'greater')
-#' two_sample_test(mtcars, 'am', 'mpg', alternative = 'both')
-#' two_sample_test(mtcars, 'am', 'mpg', alternative = 'all')
+#' ind_ttest(mtcars, 'am', 'mpg', alternative = 'less')
+#' ind_ttest(mtcars, 'am', 'mpg', alternative = 'greater')
+#' ind_ttest(mtcars, 'am', 'mpg', alternative = 'both')
+#' ind_ttest(mtcars, 'am', 'mpg', alternative = 'all')
 #' @export
 #'
-two_sample_test <- function(data, x, y, confint = 0.95,
-  alternative = c('both', 'less', 'greater', 'all')) UseMethod('two_sample_test')
+ind_ttest <- function(data, x, y, confint = 0.95,
+  alternative = c('both', 'less', 'greater', 'all'), ...) UseMethod('ind_ttest')
 
 #' @export
 #'
-two_sample_test.default <- function(data, x, y, confint = 0.95,
-  alternative = c('both', 'less', 'greater', 'all')) {
+ind_ttest.default <- function(data, x, y, confint = 0.95,
+  alternative = c('both', 'less', 'greater', 'all'), ...) {
 
     if (!is.data.frame(data)) {
       stop('data must be a data frame')
@@ -182,18 +183,18 @@ two_sample_test.default <- function(data, x, y, confint = 0.95,
                  num_df           = n1 - 1,
                  den_df           = n2 - 1,
                  f                = round(s1 / s2, 4),
-                 f_sig            = round((1 - pf(round(s1 / s2, 4), (n1 - 1), (n2 -1))) * 2, 4),
+                 f_sig            = round(min(pf(round(s1 / s2, 4), (n1 - 1), (n2 -1)), pf(round(s1 / s2, 4), (n1 - 1), (n2 -1), lower.tail = FALSE)) * 2, 4),
                  var_y            = var_y,
                  confint          = confint,
                  alternative      = method)
 
-  class(result) <- 'two_sample_test'
+  class(result) <- 'ind_ttest'
   return(result)
 
 }
 
 #' @export
 #'
-print.two_sample_test <- function(x, ...) {
+print.ind_ttest <- function(x, ...) {
   print_two_ttest(x)
 }

@@ -6,12 +6,13 @@
 \alias{ts_prop_test}
 \title{Two sample test of proportion}
 \usage{
-ts_prop_test(var1, var2, alternative = c("both", "less", "greater", "all"))
+ts_prop_test(var1, var2, alternative = c("both", "less", "greater", "all"),
+  ...)
 
 ts_prop_grp(var, group, alternative = c("both", "less", "greater", "all"))
 
 ts_prop_calc(n1, n2, p1, p2, alternative = c("both", "less", "greater",
-  "all"))
+  "all"), ...)
 }
 \arguments{
 \item{var1}{a categorical variable}
@@ -20,7 +21,9 @@ ts_prop_calc(n1, n2, p1, p2, alternative = c("both", "less", "greater",
 
 \item{alternative}{a character string specifying the alternative hypothesis,
 must be one of "both" (default), "greater", "less" or "all". You can specify
-just the initial letter.}
+just the initial letter}
+
+\item{...}{additional arguments passed to or from other methods}
 
 \item{var}{a categorical variable}
 

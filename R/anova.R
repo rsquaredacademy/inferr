@@ -5,6 +5,7 @@
 #' @param data a data frame
 #' @param x character vector; name of a continuous variable from \code{data}
 #' @param y character vector; name of a categorical variable from \code{data}
+#' @param ... additional arguments passed to or from other methods
 #' @return \code{owanova} returns an object of class \code{"owanova"}.
 #' An object of class \code{"owanova"} is a list containing the
 #' following components:
@@ -33,10 +34,10 @@
 #' owanova(hsb, 'write', 'prog')
 #' @export
 #'
-owanova <- function(data, x, y) UseMethod('owanova')
+owanova <- function(data, x, y, ...) UseMethod('owanova')
 
 #' @export
-owanova.default <- function(data, x, y) {
+owanova.default <- function(data, x, y, ...) {
 
 		if (!is.data.frame(data)) {
       stop('data must be a data frame')

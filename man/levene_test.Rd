@@ -2,20 +2,28 @@
 % Please edit documentation in R/levene-test.R
 \name{levene_test}
 \alias{levene_test}
+\alias{levene_test.default}
 \alias{levene_test.formula}
 \alias{levene_test.lm}
 \title{Levene's test for equality of variances}
 \usage{
 levene_test(variable, ...)
 
+\method{levene_test}{default}(variable, ..., group_var = NA,
+  trim.mean = 0.1)
+
 \method{levene_test}{lm}(variable, ...)
 
 \method{levene_test}{formula}(variable, data, ...)
 }
 \arguments{
-\item{variable}{a numeric vector}
+\item{variable}{a numeric vector or formula or object of class \code{lm}}
 
 \item{...}{numeric vectors}
+
+\item{group_var}{a grouping variable}
+
+\item{trim.mean}{trimmed mean}
 
 \item{data}{a data frame}
 }
@@ -75,6 +83,6 @@ Letters 3: 191–194.}
 }
 \seealso{
 \code{\link[lawstat]{levene.test}} \code{\link[car]{leveneTest}}
-\code{\link[LaplacesDemon]{LeveneTest}}
+\code{\link[DescTools]{LeveneTest}} \code{\link[LaplacesDemon]{Levene.Test}}
 }
 

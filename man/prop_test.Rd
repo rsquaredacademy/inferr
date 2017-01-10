@@ -2,11 +2,15 @@
 % Please edit documentation in R/one-samp-prop-test.R
 \name{prop_test}
 \alias{prop_test}
+\alias{prop_test.default}
 \alias{prop_test.factor}
 \title{One sample test of proportion}
 \usage{
 prop_test(n, prob = 0.5, alternative = c("both", "less", "greater", "all"),
   ...)
+
+\method{prop_test}{default}(n, prob = 0.5, alternative = c("both", "less",
+  "greater", "all"), phat, ...)
 
 \method{prop_test}{factor}(n, prob = 0.5, alternative = c("both", "less",
   "greater", "all"), ...)
@@ -21,6 +25,8 @@ must be one of "both" (default), "greater", "less" or "all". You can specify
 just the initial letter.}
 
 \item{...}{other arguments}
+
+\item{phat}{observed proportion}
 }
 \value{
 \code{prop_test} returns an object of class \code{"prop_test"}.
@@ -39,11 +45,11 @@ following components:
 \item{std}{standardized resiudals}
 }
 \description{
-\code{prop_test} performs tests on the equality of proportions
-using large-sample statistics.
+\code{prop_test} compares proportion in one group to a
+specified population proportion.
 }
 \examples{
-prop_test(200, 0.3, prob = 0.5)
+prop_test(200, prob = 0.5, phat = 0.3)
 
 # using data set
 prop_test(as.factor(hsb$female), prob = 0.5)

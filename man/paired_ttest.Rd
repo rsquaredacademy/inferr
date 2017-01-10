@@ -47,10 +47,10 @@ and \code{y}}
 same mean, assuming paired data.
 }
 \examples{
-paired_ttest(mtcars$mpg, mtcars$qsec, alternative = 'less')
-paired_ttest(mtcars$mpg, mtcars$qsec, alternative = 'greater')
-paired_ttest(mtcars$mpg, mtcars$qsec, alternative = 'both')
-paired_ttest(mtcars$mpg, mtcars$qsec, alternative = 'all')
+paired_ttest(hsb$read, hsb$write, alternative = 'less')
+paired_ttest(hsb$read, hsb$write, alternative = 'greater')
+paired_ttest(hsb$read, hsb$write, alternative = 'both')
+paired_ttest(hsb$read, hsb$write, alternative = 'all')
 }
 \references{
 Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric

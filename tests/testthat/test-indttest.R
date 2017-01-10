@@ -1,8 +1,8 @@
-context('two-sample-ttest')
+context('ind_ttest')
 
-test_that('output from two_sample_test matches expected result', {
+test_that('output from ind_ttest matches expected result', {
 
-    k <- two_sample_test(hsb, 'female', 'write')
+    k <- ind_ttest(hsb, 'female', 'write')
     expect_equivalent(k$levels, c(0, 1))
     expect_equivalent(k$obs, c(91, 109))
     expect_equal(k$n, 200)
@@ -37,8 +37,8 @@ test_that('output from two_sample_test matches expected result', {
 })
 
 
-test_that('two_sample_test throws the appropriate error', {
-    expect_error(two_sample_test('mtcars', 'mpg', 'cyl'), 'data must be a data frame')
-    expect_error(two_sample_test(mtcars, 'mpgs', 'cyl'), 'x must be a column in data')
-    expect_error(two_sample_test(mtcars, 'mpg', 'cyls'), 'y must be a column in data')
+test_that('ind_ttest throws the appropriate error', {
+    expect_error(ind_ttest('mtcars', 'mpg', 'cyl'), 'data must be a data frame')
+    expect_error(ind_ttest(mtcars, 'mpgs', 'cyl'), 'x must be a column in data')
+    expect_error(ind_ttest(mtcars, 'mpg', 'cyls'), 'y must be a column in data')
 })

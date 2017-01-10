@@ -63,6 +63,8 @@ cochran_test.default <- function(x, ...) {
 
 }
 
+#' @export
+#'
 print.cochran_test <- function(x, ...) {
 	print_cochran_test(x)
 }

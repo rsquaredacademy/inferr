@@ -4,7 +4,8 @@
 \alias{ttest}
 \title{One sample t test}
 \usage{
-ttest(x, mu = 0, alpha = 0.05, type = c("both", "less", "greater", "all"))
+ttest(x, mu = 0, alpha = 0.05, type = c("both", "less", "greater", "all"),
+  ...)
 }
 \arguments{
 \item{x}{a numeric vector}
@@ -15,7 +16,9 @@ ttest(x, mu = 0, alpha = 0.05, type = c("both", "less", "greater", "all"))
 
 \item{type}{a character string specifying the alternative hypothesis, must be
 one of "both" (default), "greater", "less" or "all". You can specify just the
-initial letter.}
+initial letter}
+
+\item{...}{additional arguments passed to or from other methods}
 }
 \value{
 \code{ttest} returns an object of class \code{"ttest"}.

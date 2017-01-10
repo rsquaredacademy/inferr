@@ -7,7 +7,8 @@
 #' @param alpha acceptable tolerance for type I error
 #' @param type a character string specifying the alternative hypothesis, must be
 #' one of "both" (default), "greater", "less" or "all". You can specify just the
-#' initial letter.
+#' initial letter
+#' @param ... additional arguments passed to or from other methods
 #' @return \code{ttest} returns an object of class \code{"ttest"}.
 #' An object of class \code{"ttest"} is a list containing the
 #' following components:
@@ -41,12 +42,12 @@
 #' @export
 #'
 ttest <- function(x, mu = 0, alpha = 0.05,
-                  type = c("both", "less", "greater", "all")) UseMethod('ttest')
+                  type = c("both", "less", "greater", "all"), ...) UseMethod('ttest')
 
 #' @export
 #'
 ttest.default <- function(x, mu = 0, alpha = 0.05,
-                  type = c("both", "less", "greater", "all")) {
+                  type = c("both", "less", "greater", "all"), ...) {
 
 	if (!is.numeric(x)) {
 		stop('x must be numeric')

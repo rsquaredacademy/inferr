@@ -6,9 +6,11 @@
 #' Levene's formula with alternative location estimators. The first alternative
 #' (W_50) replaces the mean with the median.  The second alternative replaces
 #' the mean with the 10% trimmed mean (W_10).
-#' @param variable a numeric vector
-#' @param ... numeric vectors
+#' @param variable a numeric vector or formula or object of class \code{lm}
+#' @param group_var a grouping variable
+#' @param trim.mean trimmed mean
 #' @param data a data frame
+#' @param ... numeric vectors
 #' @return \code{levene_test} returns an object of class \code{"levene_test"}.
 #' An object of class \code{"levene_test"} is a list containing the
 #' following components:
@@ -39,7 +41,7 @@
 #' {Carroll, R. J., and H. Schneider. 1985. A note on Levene’s tests for equality of variances. Statistics and Probability
 #' Letters 3: 191–194.}
 #' @seealso \code{\link[lawstat]{levene.test}} \code{\link[car]{leveneTest}}
-#' \code{\link[LaplacesDemon]{LeveneTest}}
+#' \code{\link[DescTools]{LeveneTest}} \code{\link[LaplacesDemon]{Levene.Test}}
 #' @examples
 #' # using grouping variable
 #' levene_test(mtcars$mpg, group_var = mtcars$vs)
@@ -59,7 +61,7 @@
 levene_test <- function(variable, ...) UseMethod('levene_test')
 
 #' @export
-#'
+#' @rdname levene_test
 levene_test.default <- function(variable, ..., group_var = NA,
 	trim.mean = 0.1) {
 

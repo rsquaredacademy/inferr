@@ -8,7 +8,8 @@
 #' @param confint confidence level
 #' @param alternative a character string specifying the alternative hypothesis,
 #' must be one of "both" (default), "greater", "less" or "all". You can specify
-#' just the initial letter.
+#' just the initial letter
+#' @param ... additional arguments passed to or from other methods
 #' @return \code{os_vartest} returns an object of class \code{"os_vartest"}.
 #' An object of class \code{"os_vartest"} is a list containing the
 #' following components:
@@ -33,20 +34,20 @@
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #' @seealso \code{\link[stats]{var.test}} \code{\link[stats]{binom.test}}
 #' @examples
-#' os_vartest(mtcars$mpg, 0.3, alternative = 'less')
-#' os_vartest(mtcars$mpg, 0.3, alternative = 'greater')
-#' os_vartest(mtcars$mpg, 0.3, alternative = 'both')
-#' os_vartest(mtcars$mpg, 0.3, alternative = 'all')
+#' os_vartest(mtcars$mpg, 5, alternative = 'less')
+#' os_vartest(mtcars$mpg, 5, alternative = 'greater')
+#' os_vartest(mtcars$mpg, 5, alternative = 'both')
+#' os_vartest(mtcars$mpg, 5, alternative = 'all')
 #'
 #' @export
 #'
 os_vartest <- function(x, sd, confint = 0.95,
-	alternative = c('both', 'less', 'greater', 'all')) UseMethod('os_vartest')
+	alternative = c('both', 'less', 'greater', 'all'), ...) UseMethod('os_vartest')
 
 #' @export
 #'
 os_vartest.default <- function(x, sd, confint = 0.95,
-	alternative = c('both', 'less', 'greater', 'all')) {
+	alternative = c('both', 'less', 'greater', 'all'), ...) {
 
 	if (!is.numeric(x)) {
 		stop('x must be numeric')
