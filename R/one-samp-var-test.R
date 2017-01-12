@@ -32,7 +32,7 @@
 #'
 #' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
-#' @seealso \code{\link[stats]{var.test}} \code{\link[stats]{binom.test}}
+#' @seealso \code{\link[stats]{var.test}} 
 #' @examples
 #' os_vartest(mtcars$mpg, 5, alternative = 'less')
 #' os_vartest(mtcars$mpg, 5, alternative = 'greater')

@@ -40,8 +40,6 @@
 #'
 #' {Carroll, R. J., and H. Schneider. 1985. A note on Levene’s tests for equality of variances. Statistics and Probability
 #' Letters 3: 191–194.}
-#' @seealso \code{\link[lawstat]{levene.test}} \code{\link[car]{leveneTest}}
-#' \code{\link[DescTools]{LeveneTest}} \code{\link[LaplacesDemon]{Levene.Test}}
 #' @examples
 #' # using grouping variable
 #' levene_test(mtcars$mpg, group_var = mtcars$vs)

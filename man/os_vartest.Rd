@@ -58,6 +58,6 @@ Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 }
 \seealso{
-\code{\link[stats]{var.test}} \code{\link[stats]{binom.test}}
+\code{\link[stats]{var.test}}
 }
 

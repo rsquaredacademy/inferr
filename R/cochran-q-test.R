@@ -15,7 +15,6 @@
 #' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #'
-#' @seealso \code{\link[RVAideMemoire]{cochran.qtest}}
 #' @examples
 #' cochran_test(exam)
 #' @export
