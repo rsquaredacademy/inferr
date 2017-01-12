@@ -52,9 +52,9 @@ var_test(mtcars$mpg, group_var = mtcars$vs, alternative = 'greater')
 var_test(mtcars$mpg, group_var = mtcars$vs, alternative = 'all')
 
 # using two variables
-var_test(mtcars$mpg, mtcars$qsec, alternative = 'less')
-var_test(mtcars$mpg, mtcars$qsec, alternative = 'greater')
-var_test(mtcars$mpg, mtcars$qsec, alternative = 'all')
+var_test(hsb$read, hsb$write, alternative = 'less')
+var_test(hsb$read, hsb$write, alternative = 'greater')
+var_test(hsb$read, hsb$write, alternative = 'all')
 
 }
 \references{

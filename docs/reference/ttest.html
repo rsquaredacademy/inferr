@@ -121,66 +121,66 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>ttest</span>(<span class='no'>mtcars</span>$<span class='no'>mpg</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;                               One-Sample Statistics                                
-#&gt; ----------------------------------------------------------------------------------
-#&gt;  Variable    Obs     Mean      Std. Err.    Std. Dev.    [95% Conf. Interval] 
-#&gt; ----------------------------------------------------------------------------------
-#&gt;    mpg       32     20.0906     6.0269       1.0654         -Inf     21.8974   
-#&gt; ----------------------------------------------------------------------------------
-#&gt; 
-#&gt;                                   Lower Tail Test                                 
-#&gt;                                   ---------------                                  
-#&gt; 
-#&gt;                                Ho: mean( mpg ) &gt;= 50                              
-#&gt;                                 Ha: mean( mpg ) &lt; 50                               
+    <pre class="examples"><div class='input'><span class='fu'>ttest</span>(<span class='no'>hsb</span>$<span class='no'>write</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;                               One-Sample Statistics                               
 #&gt; ---------------------------------------------------------------------------------
-#&gt;  Variable       t       DF      Sig       Mean Diff.    [95% Conf. Interval] 
+#&gt;  Variable    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
 #&gt; ---------------------------------------------------------------------------------
-#&gt;    mpg       -28.073    31       0         -29.9094        -Inf     -28.1026  
-#&gt; ---------------------------------------------------------------------------------</div><div class='input'><span class='fu'>ttest</span>(<span class='no'>mtcars</span>$<span class='no'>mpg</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>'greater'</span>)</div><div class='output co'>#&gt;                               One-Sample Statistics                                
-#&gt; ----------------------------------------------------------------------------------
-#&gt;  Variable    Obs     Mean      Std. Err.    Std. Dev.    [95% Conf. Interval] 
-#&gt; ----------------------------------------------------------------------------------
-#&gt;    mpg       32     20.0906     6.0269       1.0654       18.2846      Inf     
-#&gt; ----------------------------------------------------------------------------------
-#&gt; 
-#&gt;                                   Upper Tail Test                                 
-#&gt;                                   ---------------                                  
-#&gt; 
-#&gt;                                Ho: mean( mpg ) &lt;= 50                              
-#&gt;                                Ha: mean( mpg ) &gt; 50                                
+#&gt;   write      200    52.775     9.4786       0.6702         -Inf     53.8828   
 #&gt; ---------------------------------------------------------------------------------
-#&gt;  Variable       t       DF      Sig       Mean Diff.    [95% Conf. Interval] 
-#&gt; ---------------------------------------------------------------------------------
-#&gt;    mpg       -28.073    31       0         -29.9094      -31.7154     Inf     
-#&gt; ---------------------------------------------------------------------------------</div><div class='input'><span class='fu'>ttest</span>(<span class='no'>mtcars</span>$<span class='no'>mpg</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>'both'</span>)</div><div class='output co'>#&gt;                               One-Sample Statistics                                
-#&gt; ----------------------------------------------------------------------------------
-#&gt;  Variable    Obs     Mean      Std. Err.    Std. Dev.    [95% Conf. Interval] 
-#&gt; ----------------------------------------------------------------------------------
-#&gt;    mpg       32     20.0906     6.0269       1.0654       17.9181    22.2639   
-#&gt; ----------------------------------------------------------------------------------
 #&gt; 
-#&gt;                                    Two Tail Test                                  
-#&gt;                                   ---------------                                  
+#&gt;                                  Lower Tail Test                                 
+#&gt;                                  ---------------                                  
 #&gt; 
-#&gt;                                Ho: mean( mpg ) = 50                               
-#&gt;                                Ha: mean( mpg ) != 50                               
+#&gt;                              Ho: mean( write ) &gt;= 50                             
+#&gt;                               Ha: mean( write ) &lt; 50                              
+#&gt; --------------------------------------------------------------------------------
+#&gt;  Variable      t      DF       Sig       Mean Diff.    [95% Conf. Interval] 
+#&gt; --------------------------------------------------------------------------------
+#&gt;   write      4.141    199    0.99997       2.775          -Inf      3.8828   
+#&gt; --------------------------------------------------------------------------------</div><div class='input'><span class='fu'>ttest</span>(<span class='no'>hsb</span>$<span class='no'>write</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>'greater'</span>)</div><div class='output co'>#&gt;                               One-Sample Statistics                               
 #&gt; ---------------------------------------------------------------------------------
-#&gt;  Variable       t       DF      Sig       Mean Diff.    [95% Conf. Interval] 
+#&gt;  Variable    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
 #&gt; ---------------------------------------------------------------------------------
-#&gt;    mpg       -28.073    31       0         -29.9094      -32.0819   -27.7361  
-#&gt; ---------------------------------------------------------------------------------</div><div class='input'><span class='fu'>ttest</span>(<span class='no'>mtcars</span>$<span class='no'>mpg</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>'all'</span>)</div><div class='output co'>#&gt;                               One-Sample Statistics                                
-#&gt; ----------------------------------------------------------------------------------
-#&gt;  Variable    Obs     Mean      Std. Err.    Std. Dev.    [95% Conf. Interval] 
-#&gt; ----------------------------------------------------------------------------------
-#&gt;    mpg       32     20.0906     6.0269       1.0654       17.9181    22.2639   
-#&gt; ----------------------------------------------------------------------------------
+#&gt;   write      200    52.775     9.4786       0.6702       51.6678      Inf     
+#&gt; ---------------------------------------------------------------------------------
 #&gt; 
-#&gt;                                Ho: mean( mpg ) = 50                               
+#&gt;                                  Upper Tail Test                                 
+#&gt;                                  ---------------                                  
+#&gt; 
+#&gt;                              Ho: mean( write ) &lt;= 50                             
+#&gt;                               Ha: mean( write ) &gt; 50                              
+#&gt; --------------------------------------------------------------------------------
+#&gt;  Variable      t      DF       Sig       Mean Diff.    [95% Conf. Interval] 
+#&gt; --------------------------------------------------------------------------------
+#&gt;   write      4.141    199    0.99997       2.775         1.6678      Inf     
+#&gt; --------------------------------------------------------------------------------</div><div class='input'><span class='fu'>ttest</span>(<span class='no'>hsb</span>$<span class='no'>write</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>'both'</span>)</div><div class='output co'>#&gt;                               One-Sample Statistics                               
+#&gt; ---------------------------------------------------------------------------------
+#&gt;  Variable    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
+#&gt; ---------------------------------------------------------------------------------
+#&gt;   write      200    52.775     9.4786       0.6702       51.4537    54.0969   
+#&gt; ---------------------------------------------------------------------------------
+#&gt; 
+#&gt;                                   Two Tail Test                                  
+#&gt;                                  ---------------                                  
+#&gt; 
+#&gt;                               Ho: mean( write ) = 50                             
+#&gt;                              Ha: mean( write ) != 50                              
+#&gt; --------------------------------------------------------------------------------
+#&gt;  Variable      t      DF       Sig       Mean Diff.    [95% Conf. Interval] 
+#&gt; --------------------------------------------------------------------------------
+#&gt;   write      4.141    199    0.99997       2.775         1.4537     4.0969   
+#&gt; --------------------------------------------------------------------------------</div><div class='input'><span class='fu'>ttest</span>(<span class='no'>hsb</span>$<span class='no'>write</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>'all'</span>)</div><div class='output co'>#&gt;                               One-Sample Statistics                               
+#&gt; ---------------------------------------------------------------------------------
+#&gt;  Variable    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
+#&gt; ---------------------------------------------------------------------------------
+#&gt;   write      200    52.775     9.4786       0.6702       51.4537    54.0969   
+#&gt; ---------------------------------------------------------------------------------
+#&gt; 
+#&gt;                               Ho: mean( write ) = 50                             
 #&gt; 
 #&gt;         Ha: mean &lt; 50              Ha: mean ~= 50               Ha: mean &gt; 50        
-#&gt;         t = -28.073                 t = -28.073                 t = -28.073        
-#&gt;        P &lt; t = 0.0000             P &gt; |t| = 0.0000             P &gt; t = 1.0000       </div></pre>
+#&gt;          t = 4.141                   t = 4.141                   t = 4.141         
+#&gt;        P &lt; t = 1.0000             P &gt; |t| = 0.0001             P &gt; t = 0.0000       </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -29,9 +29,13 @@
 #'
 #' @seealso \code{\link[stats]{mcnemar.test}}
 #' @examples
-#' mcnemar_test(matrix(c(172, 7, 6, 15), nrow = 2))
-#' mcnemar_test(matrix(c(15, 7, 6, 172), nrow = 2))
-#' mcnemar_test(table(hsb$female, hsb$schtyp))
+#' test if the proportion of students in himath and hiread group is same
+#' himath <- ifelse(hsb$math > 60, 1, 0)
+#' hiread <- ifelse(hsb$read > 60, 1, 0)
+#' mcnemar_test(table(himath, hiread))
+#'
+#' using matrix
+#' mcnemar_test(matrix(c(135, 18, 21, 26), nrow = 2))
 #' @export
 #'
 mcnemar_test <- function(x, y = NULL) UseMethod('mcnemar_test')

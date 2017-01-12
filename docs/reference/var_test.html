@@ -187,71 +187,71 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
 #&gt;   Pr(F &lt; f) = 0.0999   Pr(F &gt; f) = 0.9001 
 #&gt; ----------------------------------------</div><div class='input'>
 <span class='co'># using two variables</span>
-<span class='fu'>var_test</span>(<span class='no'>mtcars</span>$<span class='no'>mpg</span>, <span class='no'>mtcars</span>$<span class='no'>qsec</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;                Variance Ratio Test                 
+<span class='fu'>var_test</span>(<span class='no'>hsb</span>$<span class='no'>read</span>, <span class='no'>hsb</span>$<span class='no'>write</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;                Variance Ratio Test                 
 #&gt; --------------------------------------------------
 #&gt;   Group      Obs    Mean     Std. Err.    Std. Dev. 
 #&gt; --------------------------------------------------
-#&gt;   mpg       32     20.09      1.07         6.03    
-#&gt;   qsec      32     17.85      0.32         1.79    
+#&gt;   read      200    52.23      0.72         10.25   
+#&gt;  write      200    52.77      0.67         9.48    
 #&gt; --------------------------------------------------
-#&gt;  combined    64     18.97      0.57         4.55    
+#&gt;  combined    400    52.5       0.49         9.86    
 #&gt; --------------------------------------------------
 #&gt; 
-#&gt;             Lower Tail Test           
-#&gt;             ---------------           
-#&gt;        ratio = sd(mpg) / (qsec)       
-#&gt;              Ho: ratio = 1            
-#&gt;              Ha: ratio &lt; 1             
+#&gt;            Lower Tail Test           
+#&gt;            ---------------           
+#&gt;       ratio = sd(read) / (write)     
+#&gt;             Ho: ratio = 1            
+#&gt;             Ha: ratio &lt; 1             
 #&gt; 
-#&gt;          Variance Ratio Test          
-#&gt; -------------------------------------
-#&gt;     F       Num DF    Den DF      p    
-#&gt; -------------------------------------
-#&gt;  11.3756      31        31      1.0000 
-#&gt; -------------------------------------</div><div class='input'><span class='fu'>var_test</span>(<span class='no'>mtcars</span>$<span class='no'>mpg</span>, <span class='no'>mtcars</span>$<span class='no'>qsec</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'greater'</span>)</div><div class='output co'>#&gt;                Variance Ratio Test                 
+#&gt;         Variance Ratio Test          
+#&gt; ------------------------------------
+#&gt;    F       Num DF    Den DF      p    
+#&gt; ------------------------------------
+#&gt;  1.1701     199       199      0.8656 
+#&gt; ------------------------------------</div><div class='input'><span class='fu'>var_test</span>(<span class='no'>hsb</span>$<span class='no'>read</span>, <span class='no'>hsb</span>$<span class='no'>write</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'greater'</span>)</div><div class='output co'>#&gt;                Variance Ratio Test                 
 #&gt; --------------------------------------------------
 #&gt;   Group      Obs    Mean     Std. Err.    Std. Dev. 
 #&gt; --------------------------------------------------
-#&gt;   mpg       32     20.09      1.07         6.03    
-#&gt;   qsec      32     17.85      0.32         1.79    
+#&gt;   read      200    52.23      0.72         10.25   
+#&gt;  write      200    52.77      0.67         9.48    
 #&gt; --------------------------------------------------
-#&gt;  combined    64     18.97      0.57         4.55    
+#&gt;  combined    400    52.5       0.49         9.86    
 #&gt; --------------------------------------------------
 #&gt; 
-#&gt;             Upper Tail Test           
-#&gt;             ---------------           
-#&gt;              Ho: ratio = 1            
-#&gt;              Ha: ratio &gt; 1             
+#&gt;            Upper Tail Test           
+#&gt;            ---------------           
+#&gt;             Ho: ratio = 1            
+#&gt;             Ha: ratio &gt; 1             
 #&gt; 
-#&gt;          Variance Ratio Test          
-#&gt; -------------------------------------
-#&gt;     F       Num DF    Den DF      p    
-#&gt; -------------------------------------
-#&gt;  11.3756      31        31      0.0000 
-#&gt; -------------------------------------</div><div class='input'><span class='fu'>var_test</span>(<span class='no'>mtcars</span>$<span class='no'>mpg</span>, <span class='no'>mtcars</span>$<span class='no'>qsec</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'all'</span>)</div><div class='output co'>#&gt;                Variance Ratio Test                 
+#&gt;         Variance Ratio Test          
+#&gt; ------------------------------------
+#&gt;    F       Num DF    Den DF      p    
+#&gt; ------------------------------------
+#&gt;  1.1701     199       199      0.1344 
+#&gt; ------------------------------------</div><div class='input'><span class='fu'>var_test</span>(<span class='no'>hsb</span>$<span class='no'>read</span>, <span class='no'>hsb</span>$<span class='no'>write</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'all'</span>)</div><div class='output co'>#&gt;                Variance Ratio Test                 
 #&gt; --------------------------------------------------
 #&gt;   Group      Obs    Mean     Std. Err.    Std. Dev. 
 #&gt; --------------------------------------------------
-#&gt;   mpg       32     20.09      1.07         6.03    
-#&gt;   qsec      32     17.85      0.32         1.79    
+#&gt;   read      200    52.23      0.72         10.25   
+#&gt;  write      200    52.77      0.67         9.48    
 #&gt; --------------------------------------------------
-#&gt;  combined    64     18.97      0.57         4.55    
+#&gt;  combined    400    52.5       0.49         9.86    
 #&gt; --------------------------------------------------
 #&gt; 
 #&gt;                 Variance Ratio Test                 
 #&gt; --------------------------------------------------
 #&gt;         F              Num DF           Den DF      
 #&gt; --------------------------------------------------
-#&gt;      11.3756             31               31        
+#&gt;       1.1701            199              199        
 #&gt; --------------------------------------------------
 #&gt; 
 #&gt;        Null &amp; Alternate Hypothesis        
 #&gt; ----------------------------------------
-#&gt;         ratio = sd(mpg) / (qsec)        
+#&gt;        ratio = sd(read) / (write)       
 #&gt;               Ho: ratio = 1              
 #&gt; 
 #&gt;     Ha: ratio &lt; 1        Ha: ratio &gt; 1    
-#&gt;   Pr(F &lt; f) = 1.0000   Pr(F &gt; f) = 0.0000 
+#&gt;   Pr(F &lt; f) = 0.8656   Pr(F &gt; f) = 0.1344 
 #&gt; ----------------------------------------</div><div class='input'>
 </div></pre>
   </div>

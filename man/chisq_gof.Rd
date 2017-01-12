@@ -36,6 +36,8 @@ differ from hypothesized proportions
 }
 \examples{
 chisq_gof(hsb$race, c(20, 20, 20 , 140))
+
+# apply continuity correction
 chisq_gof(hsb$race, c(20, 20, 20 , 140), correct = TRUE)
 }
 \seealso{

@@ -74,19 +74,19 @@
 <div id="example" class="section level3">
 <h3 class="hasAnchor"><html><body><a href="#example" class="anchor"> </a></body></html>Example</h3>
 <p>Using the hsb data, test whether the average of write differs significantly from 50.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/ttest.html">ttest</a></span>(mtcars$mpg, <span class="dt">mu =</span> <span class="dv">50</span>, <span class="dt">type =</span> <span class="st">'all'</span>)</code></pre></div>
-<pre><code>##                               One-Sample Statistics                                
-## ----------------------------------------------------------------------------------
-##  Variable    Obs     Mean      Std. Err.    Std. Dev.    [95% Conf. Interval] 
-## ----------------------------------------------------------------------------------
-##    mpg       32     20.0906     6.0269       1.0654       17.9181    22.2639   
-## ----------------------------------------------------------------------------------
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/ttest.html">ttest</a></span>(hsb$write, <span class="dt">mu =</span> <span class="dv">50</span>, <span class="dt">type =</span> <span class="st">'all'</span>)</code></pre></div>
+<pre><code>##                               One-Sample Statistics                               
+## ---------------------------------------------------------------------------------
+##  Variable    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
+## ---------------------------------------------------------------------------------
+##   write      200    52.775     9.4786       0.6702       51.4537    54.0969   
+## ---------------------------------------------------------------------------------
 ## 
-##                                Ho: mean( mpg ) = 50                               
+##                               Ho: mean( write ) = 50                             
 ## 
 ##         Ha: mean &lt; 50              Ha: mean ~= 50               Ha: mean &gt; 50        
-##         t = -28.073                 t = -28.073                 t = -28.073        
-##        P &lt; t = 0.0000             P &gt; |t| = 0.0000             P &gt; t = 1.0000</code></pre>
+##          t = 4.141                   t = 4.141                   t = 4.141         
+##        P &lt; t = 1.0000             P &gt; |t| = 0.0001             P &gt; t = 0.0000</code></pre>
 </div>
 </div>
 <div id="paired-t-test" class="section level2">
@@ -155,22 +155,22 @@
 <li>average salaries of graduate students differ based on gender?</li>
 </ul><div id="example-1" class="section level3">
 <h3 class="hasAnchor"><html><body><a href="#example-1" class="anchor"> </a></body></html>Example</h3>
-<p>Using the hsb2 data , test whether the mean for write is the same for males and females.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/ind_ttest.html">ind_ttest</a></span>(mtcars, <span class="st">'am'</span>, <span class="st">'mpg'</span>, <span class="dt">alternative =</span> <span class="st">'all'</span>)</code></pre></div>
+<p>Using the hsb data, test whether the mean for write is the same for males and females.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/ind_ttest.html">ind_ttest</a></span>(hsb, <span class="st">'female'</span>, <span class="st">'write'</span>, <span class="dt">alternative =</span> <span class="st">'all'</span>)</code></pre></div>
 <pre><code>##                               Group Statistics                                
 ## -----------------------------------------------------------------------------
 ##   Group       Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
 ## -----------------------------------------------------------------------------
-##     0         19     17.147      0.88         3.834        15.298     18.996   
-##     1         13     24.392      1.71         6.167        20.666     28.118   
+##     0         91     50.121      1.08        10.305        47.975     52.267   
+##     1         109    54.991      0.779        8.134        53.447     56.535   
 ## -----------------------------------------------------------------------------
-##  combined     32     20.091      1.065        6.027        17.918     22.264   
+##  combined     200    52.775      0.67         9.479        51.454     54.096   
 ## -----------------------------------------------------------------------------
-##    diff       32     -7.245      1.765        5.074       -10.704     -3.786   
+##    diff       200    -4.87       1.304        9.231        -7.426     -2.314   
 ## -----------------------------------------------------------------------------
 ## 
 ##                         Independent Samples Test                         
-##                       ------------------------                       
+##                       ------------------------                        
 ## 
 ##                   Ho: mean( 0 ) - mean( 1 ) = diff = 0                   
 ## 
@@ -178,20 +178,20 @@
 ## 
 ##                                   Pooled                                   
 ## ------------------------------------------------------------------------
-##        t = -4.1048              t = -4.1048              t = -4.1048       
-##      P &lt; t = 0.0001          P &gt; |t| = 0.0003          P &gt; t = 0.9999      
+##        t = -3.7347              t = -3.7347              t = -3.7347       
+##      P &lt; t = 0.0001          P &gt; |t| = 0.0002          P &gt; t = 0.9999      
 ## 
 ##                               Satterthwaite                                
 ## ------------------------------------------------------------------------
-##        t = -3.7669              t = -3.7669              t = -3.7669       
-##      P &lt; t = 0.0007          P &gt; |t| = 0.0014          P &gt; t = 0.9993      
+##        t = -3.6564              t = -3.6564              t = -3.6564       
+##      P &lt; t = 0.0002          P &gt; |t| = 0.0003          P &gt; t = 0.9998      
 ## 
 ## 
 ##                 Test for Equality of Variances                  
 ## ---------------------------------------------------------------
 ##  Variable      Method     Num DF    Den DF    F Value    P &gt; F  
 ## ---------------------------------------------------------------
-##    mpg        Folded F      18        12      0.3865     0.0669 
+##   write       Folded F      90       108       1.605     0.0188 
 ## ---------------------------------------------------------------</code></pre>
 </div>
 </div>
@@ -217,6 +217,7 @@
 ##    0           91         100          -9.00           -0.90      
 ##    1          109         100           9.00            0.90      
 ## -----------------------------------------------------------------</code></pre>
+<p>Using Calculator</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Calculator</span>
 <span class="kw"><a href="../reference/prop_test.html">prop_test</a></span>(<span class="dv">200</span>, <span class="dt">prob =</span> <span class="fl">0.5</span>, <span class="dt">phat =</span> <span class="fl">0.3</span>)</code></pre></div>
 <pre><code>##      Test Statistics       
@@ -240,24 +241,27 @@
 <p>Two sample test of proportion performs tests on the equality of proportions using large-sample statistics. It tests that a categorical variable has the same proportion within two groups or that two variables have the same proportion.</p>
 <div id="examples-2" class="section level3">
 <h3 class="hasAnchor"><html><body><a href="#examples-2" class="anchor"> </a></body></html>Examples</h3>
+<p>Using the treatment data, test equality of proportion of two treatments</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Using Variables</span>
-<span class="kw"><a href="../reference/ts_prop_test.html">ts_prop_test</a></span>(<span class="dt">var1 =</span> mtcars$am, <span class="dt">var2 =</span> mtcars$vs, <span class="dt">alternative =</span> <span class="st">'all'</span>)</code></pre></div>
-<pre><code>##      Test Statistics       
-## --------------------------
-## Sample Size             32 
-## z                  -0.2535 
-## Pr(|Z| &gt; |z|)       0.7999 
-## Pr(Z &lt; z)           0.3999 
-## Pr(Z &gt; z)           0.6001</code></pre>
+<span class="kw"><a href="../reference/ts_prop_test.html">ts_prop_test</a></span>(<span class="dt">var1 =</span> treatment$treatment1, <span class="dt">var2 =</span> treatment$treatment2, <span class="dt">alternative =</span> <span class="st">'all'</span>)</code></pre></div>
+<pre><code>##      Test Statistics      
+## -------------------------
+## Sample Size            50 
+## z                  0.4029 
+## Pr(|Z| &gt; |z|)       0.687 
+## Pr(Z &lt; z)          0.6565 
+## Pr(Z &gt; z)          0.3435</code></pre>
+<p>Using the treatment2 data, test whether outcome has same proportion for male and female</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Using Grouping Variable</span>
-<span class="kw"><a href="../reference/ts_prop_test.html">ts_prop_grp</a></span>(<span class="dt">var =</span> mtcars$am, <span class="dt">group =</span> mtcars$vs, <span class="dt">alternative =</span> <span class="st">'all'</span>)</code></pre></div>
+<span class="kw"><a href="../reference/ts_prop_test.html">ts_prop_grp</a></span>(<span class="dt">var =</span> treatment2$outcome, <span class="dt">group =</span> treatment2$female, <span class="dt">alternative =</span> <span class="st">'all'</span>)</code></pre></div>
 <pre><code>##           Test Statistics            
 ## ------------------------------------
-## Sample Size                       18 
-## z                         -0.9523038 
-## Pr(|Z| &gt; |z|)              0.3409429 
-## Pr(Z &lt; z)                  0.1704715 
-## Pr(Z &gt; z)                  0.8295285</code></pre>
+## Sample Size                       91 
+## z                          0.3509961 
+## Pr(|Z| &gt; |z|)               1.274409 
+## Pr(Z &lt; z)                  0.6372043 
+## Pr(Z &gt; z)                  0.3627957</code></pre>
+<p>Test whether the same proportion of people from two batches will pass a review exam for a training program. In the first batch of 30 participants, 30% passed the review, whereas in the second batch of 25 participants, 50% passed the review.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Calculator</span>
 <span class="kw"><a href="../reference/ts_prop_test.html">ts_prop_calc</a></span>(<span class="dt">n1 =</span> <span class="dv">30</span>, <span class="dt">n2 =</span> <span class="dv">25</span>, <span class="dt">p1 =</span> <span class="fl">0.3</span>, <span class="dt">p2 =</span> <span class="fl">0.5</span>, <span class="dt">alternative =</span> <span class="st">'all'</span>)</code></pre></div>
 <pre><code>##           Test Statistics            
@@ -319,14 +323,15 @@
 <p>Two sample variance comparison tests equality of standard deviations (variances). It tests that the standard deviation of a continuous variable is same within two groups or the standard deviation of two continuous variables is equal.</p>
 <div id="example-2" class="section level3">
 <h3 class="hasAnchor"><html><body><a href="#example-2" class="anchor"> </a></body></html>Example</h3>
+<p>Using the mtcars data, compare the standard deviation in miles per gallon for automatic and manual vehicles.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Using Grouping Variable</span>
-<span class="kw"><a href="../reference/var_test.html">var_test</a></span>(mtcars$mpg, <span class="dt">group_var =</span> mtcars$vs, <span class="dt">alternative =</span> <span class="st">'all'</span>)</code></pre></div>
+<span class="kw"><a href="../reference/var_test.html">var_test</a></span>(mtcars$mpg, <span class="dt">group_var =</span> mtcars$am, <span class="dt">alternative =</span> <span class="st">'all'</span>)</code></pre></div>
 <pre><code>##                Variance Ratio Test                 
 ## --------------------------------------------------
 ##   Group      Obs    Mean     Std. Err.    Std. Dev. 
 ## --------------------------------------------------
-##    0        18     16.62      0.91         3.86    
-##    1        14     24.56      1.44         5.38    
+##    0        19     17.15      0.88         3.83    
+##    1        13     24.39      1.71         6.17    
 ## --------------------------------------------------
 ##  combined    32     20.09      1.07         6.03    
 ## --------------------------------------------------
@@ -335,7 +340,7 @@
 ## --------------------------------------------------
 ##         F              Num DF           Den DF      
 ## --------------------------------------------------
-##       0.5151             17               13        
+##       0.3866             18               12        
 ## --------------------------------------------------
 ## 
 ##        Null &amp; Alternate Hypothesis        
@@ -344,34 +349,35 @@
 ##               Ho: ratio = 1              
 ## 
 ##     Ha: ratio &lt; 1        Ha: ratio &gt; 1    
-##   Pr(F &lt; f) = 0.0999   Pr(F &gt; f) = 0.9001 
+##   Pr(F &lt; f) = 0.0335   Pr(F &gt; f) = 0.9665 
 ## ----------------------------------------</code></pre>
+<p>Using the hsb data, compare the standard deviation of reading and writing scores.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Using Variables</span>
-<span class="kw"><a href="../reference/var_test.html">var_test</a></span>(mtcars$mpg, mtcars$qsec, <span class="dt">alternative =</span> <span class="st">'all'</span>)</code></pre></div>
+<span class="kw"><a href="../reference/var_test.html">var_test</a></span>(hsb$read, hsb$write, <span class="dt">alternative =</span> <span class="st">'all'</span>)</code></pre></div>
 <pre><code>##                Variance Ratio Test                 
 ## --------------------------------------------------
 ##   Group      Obs    Mean     Std. Err.    Std. Dev. 
 ## --------------------------------------------------
-##   mpg       32     20.09      1.07         6.03    
-##   qsec      32     17.85      0.32         1.79    
+##   read      200    52.23      0.72         10.25   
+##  write      200    52.77      0.67         9.48    
 ## --------------------------------------------------
-##  combined    64     18.97      0.57         4.55    
+##  combined    400    52.5       0.49         9.86    
 ## --------------------------------------------------
 ## 
 ##                 Variance Ratio Test                 
 ## --------------------------------------------------
 ##         F              Num DF           Den DF      
 ## --------------------------------------------------
-##      11.3756             31               31        
+##       1.1701            199              199        
 ## --------------------------------------------------
 ## 
 ##        Null &amp; Alternate Hypothesis        
 ## ----------------------------------------
-##         ratio = sd(mpg) / (qsec)        
+##        ratio = sd(read) / (write)       
 ##               Ho: ratio = 1              
 ## 
 ##     Ha: ratio &lt; 1        Ha: ratio &gt; 1    
-##   Pr(F &lt; f) = 1.0000   Pr(F &gt; f) = 0.0000 
+##   Pr(F &lt; f) = 0.8656   Pr(F &gt; f) = 0.1344 
 ## ----------------------------------------</code></pre>
 </div>
 </div>
@@ -400,7 +406,8 @@
 ##   Upper    Pr(k &gt;= 109)               0.114623 
 ##   Two      Pr(k &lt;= 91 or k &gt;= 109)    0.229247 
 ##  ---------------------------------------------</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Using calculator</span>
+<p>Use as a calculator.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># calculator</span>
 <span class="kw"><a href="../reference/binom_calc.html">binom_calc</a></span>(<span class="dv">32</span>, <span class="dv">16</span>, <span class="dt">prob =</span> <span class="fl">0.5</span>)</code></pre></div>
 <pre><code>##             Binomial Test              
 ##  --------------------------------------
@@ -475,6 +482,7 @@
 ##    3           20          20           0.00            0.00      
 ##    4          145         140           3.57            0.42      
 ## -----------------------------------------------------------------</code></pre>
+<p>Use continuity correction.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># using continuity correction</span>
 <span class="kw"><a href="../reference/chisq_gof.html">chisq_gof</a></span>(hsb$race, <span class="kw">c</span>(<span class="dv">20</span>, <span class="dv">20</span>, <span class="dv">20</span> , <span class="dv">140</span>), <span class="dt">correct =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <pre><code>##     Test Statistics     
@@ -514,6 +522,18 @@
 ## Contingency Coefficient             0.0153          
 ## Cramer's V                          0.0153          
 ## ----------------------------------------------------</code></pre>
+<p>Using the hsb data, test if there is a relationship between the type of school attended (schtyp) and students&rsquo; socio economic status (ses).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/chisq_test.html">chisq_test</a></span>(<span class="kw">as.factor</span>(hsb$schtyp), <span class="kw">as.factor</span>(hsb$ses))</code></pre></div>
+<pre><code>##                Chi Square Statistics                 
+## 
+## Statistics                     DF    Value      Prob 
+## ----------------------------------------------------
+## Chi-Square                     2    6.3342    0.0421
+## Likelihood Ratio Chi-Square    2    7.9060    0.0192
+## Phi Coefficient                     0.1780          
+## Contingency Coefficient             0.1752          
+## Cramer's V                          0.1780          
+## ----------------------------------------------------</code></pre>
 </div>
 </div>
 <div id="levenes-test" class="section level2">
@@ -521,78 +541,85 @@
 <p>Levene&rsquo;s test is used to determine if k samples have equal variances. It is less sensitive to departures from normality and is an alternative to Bartlett&rsquo;s test. This test returns Levene&rsquo;s robust test statistic and the two statistics proposed by Brown and Forsythe that replace the mean in Levene&rsquo;s formula with alternative location estimators. The first alternative replaces the mean with the median and the second alternative replaces the mean with the 10% trimmed mean.</p>
 <div id="examples-7" class="section level3">
 <h3 class="hasAnchor"><html><body><a href="#examples-7" class="anchor"> </a></body></html>Examples</h3>
+<p>Using the hsb data, test whether variance in reading score is same across race.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Using Grouping Variable</span>
-<span class="kw"><a href="../reference/levene_test.html">levene_test</a></span>(mtcars$mpg, <span class="dt">group_var =</span> mtcars$vs)</code></pre></div>
+<span class="kw"><a href="../reference/levene_test.html">levene_test</a></span>(hsb$read, <span class="dt">group_var =</span> hsb$race)</code></pre></div>
 <pre><code>##            Summary Statistics             
 ## Levels    Frequency    Mean     Std. Dev  
 ## -----------------------------------------
-##   0          18        16.62      3.86    
-##   1          14        24.56      5.38    
+##   1          24        46.67      10.24   
+##   2          11        51.91      7.66    
+##   3          20        46.8       7.12    
+##   4          145       53.92      10.28   
 ## -----------------------------------------
-## Total        32        20.09      6.03    
+## Total        200       52.23      10.25   
 ## -----------------------------------------
 ## 
 ##                              Test Statistics                              
 ## -------------------------------------------------------------------------
 ## Statistic                            Num DF    Den DF         F    Pr &gt; F 
-## Brown and Forsythe                        1        30    3.0862    0.0892 
-## Levene                                    1        30    1.5922    0.2167 
-## Brown and Forsythe (Trimmed Mean)         1        30    2.8559    0.1014 
+## Brown and Forsythe                        3       196      3.44    0.0179 
+## Levene                                    3       196    3.4792     0.017 
+## Brown and Forsythe (Trimmed Mean)         3       196    3.3936     0.019 
 ## -------------------------------------------------------------------------</code></pre>
+<p>Using the hsb data, test whether variance is equal for reading, writing and social studies scores.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Using Variables</span>
-<span class="kw"><a href="../reference/levene_test.html">levene_test</a></span>(mtcars$mpg, mtcars$qsec)</code></pre></div>
+<span class="kw"><a href="../reference/levene_test.html">levene_test</a></span>(hsb$read, hsb$write, hsb$socst)</code></pre></div>
 <pre><code>##            Summary Statistics             
 ## Levels    Frequency    Mean     Std. Dev  
 ## -----------------------------------------
-##   1          32        20.09      6.03    
-##   2          32        17.85      1.79    
+##   1          200       52.23      10.25   
+##   2          200       52.77      9.48    
+##   3          200       52.41      10.74   
 ## -----------------------------------------
-## Total        64        18.97      4.55    
+## Total        600       52.47      10.15   
 ## -----------------------------------------
 ## 
-##                              Test Statistics                               
-## --------------------------------------------------------------------------
-## Statistic                            Num DF    Den DF          F    Pr &gt; F 
-## Brown and Forsythe                        1        62    24.3932         0 
-## Levene                                    1        62    20.9464         0 
-## Brown and Forsythe (Trimmed Mean)         1        62    22.7064         0 
-## --------------------------------------------------------------------------</code></pre>
+##                              Test Statistics                              
+## -------------------------------------------------------------------------
+## Statistic                            Num DF    Den DF         F    Pr &gt; F 
+## Brown and Forsythe                        2       597    1.1683    0.3116 
+## Levene                                    2       597    1.3803    0.2523 
+## Brown and Forsythe (Trimmed Mean)         2       597    1.3258    0.2664 
+## -------------------------------------------------------------------------</code></pre>
+<p>Using the hsb data, test whether variance in reading score is same for male and female students.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Using Linear Regression Model</span>
-m &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"> </span>vs, <span class="dt">data =</span> mtcars)
+m &lt;-<span class="st"> </span><span class="kw">lm</span>(read ~<span class="st"> </span>female, <span class="dt">data =</span> hsb)
 <span class="kw"><a href="../reference/levene_test.html">levene_test</a></span>(m)</code></pre></div>
 <pre><code>##            Summary Statistics             
 ## Levels    Frequency    Mean     Std. Dev  
 ## -----------------------------------------
-##   0          18        16.62      3.86    
-##   1          14        24.56      5.38    
+##   0          91        52.82      10.51   
+##   1          109       51.73      10.06   
 ## -----------------------------------------
-## Total        32        20.09      6.03    
+## Total        200       52.23      10.25   
 ## -----------------------------------------
 ## 
 ##                              Test Statistics                              
 ## -------------------------------------------------------------------------
 ## Statistic                            Num DF    Den DF         F    Pr &gt; F 
-## Brown and Forsythe                        1        30    3.0862    0.0892 
-## Levene                                    1        30    1.5922    0.2167 
-## Brown and Forsythe (Trimmed Mean)         1        30    2.8559    0.1014 
+## Brown and Forsythe                        1       198    0.4542    0.5011 
+## Levene                                    1       198    0.6024    0.4386 
+## Brown and Forsythe (Trimmed Mean)         1       198     0.494     0.483 
 ## -------------------------------------------------------------------------</code></pre>
+<p>Using the hsb data, test whether variance in reading score is same across school types.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Using Formula</span>
-<span class="kw"><a href="../reference/levene_test.html">levene_test</a></span>(<span class="kw">as.formula</span>(<span class="kw">paste0</span>(<span class="st">'mpg ~ vs'</span>)), mtcars)</code></pre></div>
+<span class="kw"><a href="../reference/levene_test.html">levene_test</a></span>(<span class="kw">as.formula</span>(<span class="kw">paste0</span>(<span class="st">'read ~ schtyp'</span>)), hsb)</code></pre></div>
 <pre><code>##            Summary Statistics             
 ## Levels    Frequency    Mean     Std. Dev  
 ## -----------------------------------------
-##   0          18        16.62      3.86    
-##   1          14        24.56      5.38    
+##   1          168       51.85      10.42   
+##   2          32        54.25       9.2    
 ## -----------------------------------------
-## Total        32        20.09      6.03    
+## Total        200       52.23      10.25   
 ## -----------------------------------------
 ## 
 ##                              Test Statistics                              
 ## -------------------------------------------------------------------------
 ## Statistic                            Num DF    Den DF         F    Pr &gt; F 
-## Brown and Forsythe                        1        30    3.0862    0.0892 
-## Levene                                    1        30    1.5922    0.2167 
-## Brown and Forsythe (Trimmed Mean)         1        30    2.8559    0.1014 
+## Brown and Forsythe                        1       198    0.5643    0.4534 
+## Levene                                    1       198    0.6153    0.4337 
+## Brown and Forsythe (Trimmed Mean)         1       198    0.5886    0.4439 
 ## -------------------------------------------------------------------------</code></pre>
 </div>
 </div>
@@ -620,91 +647,36 @@ m &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"
 <li>proportion of voters significantly change prior to and following a significant political development?</li>
 </ul><div id="examples-8" class="section level3">
 <h3 class="hasAnchor"><html><body><a href="#examples-8" class="anchor"> </a></body></html>Examples</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># http://www.ats.ucla.edu/stat/sas/whatstat/whatstat.htm#Mcnemar</span>
-<span class="kw"><a href="../reference/mcnemar_test.html">mcnemar_test</a></span>(<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">172</span>, <span class="dv">7</span>, <span class="dv">6</span>, <span class="dv">15</span>), <span class="dt">nrow =</span> <span class="dv">2</span>))</code></pre></div>
-<pre><code>##            Controls 
-## ---------------------------------
-## Cases       0       1       Total 
-## ---------------------------------
-##   0        172       6        178 
-##   1          7      15         22 
-## ---------------------------------
-## Total      179      21        200 
-## ---------------------------------
-## 
-##        McNemar's Test        
-## ----------------------------
-## McNemar's chi2        0.0769 
-## DF                         1 
-## Pr &gt; chi2             0.7815 
-## Exact Pr &gt;= chi2           1 
-## ----------------------------
-## 
-##        Kappa Coefficient         
-## --------------------------------
-## Kappa                     0.6613 
-## ASE                       0.0873 
-## 95% Lower Conf Limit      0.4901 
-## 95% Upper Conf Limit      0.8324 
-## --------------------------------
-## 
-## Proportion With Factor 
-## ----------------------
-## cases             0.89 
-## controls         0.895 
-## ratio           0.9944 
-## odds ratio      0.8571 
-## ----------------------</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># http://www.ats.ucla.edu/stat/stata/whatstat/whatstat.htm#Mcnemar</span>
-<span class="kw"><a href="../reference/mcnemar_test.html">mcnemar_test</a></span>(<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">15</span>, <span class="dv">7</span>, <span class="dv">6</span>, <span class="dv">172</span>), <span class="dt">nrow =</span> <span class="dv">2</span>))</code></pre></div>
-<pre><code>##            Controls 
-## ---------------------------------
-## Cases      0        1       Total 
-## ---------------------------------
-##   0        15        6         21 
-##   1         7      172        179 
-## ---------------------------------
-## Total      22      178        200 
-## ---------------------------------
-## 
-##        McNemar's Test        
-## ----------------------------
-## McNemar's chi2        0.0769 
-## DF                         1 
-## Pr &gt; chi2             0.7815 
-## Exact Pr &gt;= chi2           1 
-## ----------------------------
-## 
-##        Kappa Coefficient         
-## --------------------------------
-## Kappa                     0.6613 
-## ASE                       0.0873 
-## 95% Lower Conf Limit      0.4901 
-## 95% Upper Conf Limit      0.8324 
-## --------------------------------
-## 
-## Proportion With Factor 
-## ----------------------
-## cases            0.105 
-## controls          0.11 
-## ratio           0.9545 
-## odds ratio      0.8571 
-## ----------------------</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># http://www.ats.ucla.edu/stat/spss/whatstat/whatstat.htm#Mcnemar</span>
-himath &lt;-<span class="st"> </span><span class="kw">ifelse</span>(hsb$math &gt;<span class="st"> </span><span class="dv">60</span>, <span class="dv">1</span>, <span class="dv">0</span>)
+<p>Using the hsb data, test if the proportion of students in himath and hiread group is equal.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">himath &lt;-<span class="st"> </span><span class="kw">ifelse</span>(hsb$math &gt;<span class="st"> </span><span class="dv">60</span>, <span class="dv">1</span>, <span class="dv">0</span>)
 hiread &lt;-<span class="st"> </span><span class="kw">ifelse</span>(hsb$read &gt;<span class="st"> </span><span class="dv">60</span>, <span class="dv">1</span>, <span class="dv">0</span>)
 <span class="kw"><a href="../reference/mcnemar_test.html">mcnemar_test</a></span>(<span class="kw">table</span>(himath, hiread))</code></pre></div>
-<pre><code>##            Controls 
-## ---------------------------------
-## Cases       0       1       Total 
-## ---------------------------------
-##   0        135      21        156 
-##   1         18      26         44 
-## ---------------------------------
-## Total      153      47        200 
-## ---------------------------------
+<pre><code>##        McNemar's Test        
+## ----------------------------
+## McNemar's chi2        0.2308 
+## DF                         1 
+## Pr &gt; chi2              0.631 
+## Exact Pr &gt;= chi2      1.4776 
+## ----------------------------
 ## 
-##        McNemar's Test        
+##        Kappa Coefficient         
+## --------------------------------
+## Kappa                     0.4454 
+## ASE                        0.075 
+## 95% Lower Conf Limit      0.2984 
+## 95% Upper Conf Limit      0.5923 
+## --------------------------------
+## 
+## Proportion With Factor 
+## ----------------------
+## cases             0.78 
+## controls         0.765 
+## ratio           1.0196 
+## odds ratio      1.1667 
+## ----------------------</code></pre>
+<p>Perform the above test using matrix as input.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/mcnemar_test.html">mcnemar_test</a></span>(<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">135</span>, <span class="dv">18</span>, <span class="dv">21</span>, <span class="dv">26</span>), <span class="dt">nrow =</span> <span class="dv">2</span>))</code></pre></div>
+<pre><code>##        McNemar's Test        
 ## ----------------------------
 ## McNemar's chi2        0.2308 
 ## DF                         1 

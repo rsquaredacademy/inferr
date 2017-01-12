@@ -35,10 +35,10 @@
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #' @seealso \code{\link[stats]{t.test}}
 #' @examples
-#' ttest(mtcars$mpg, mu = 50, type = 'less')
-#' ttest(mtcars$mpg, mu = 50, type = 'greater')
-#' ttest(mtcars$mpg, mu = 50, type = 'both')
-#' ttest(mtcars$mpg, mu = 50, type = 'all')
+#' ttest(hsb$write, mu = 50, type = 'less')
+#' ttest(hsb$write, mu = 50, type = 'greater')
+#' ttest(hsb$write, mu = 50, type = 'both')
+#' ttest(hsb$write, mu = 50, type = 'all')
 #' @export
 #'
 ttest <- function(x, mu = 0, alpha = 0.05,

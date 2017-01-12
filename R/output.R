@@ -734,6 +734,7 @@ print_os_vartest <- function(data) {
   width_1 <- sum(var_width, obs_width, mean_width, se_width, sd_width, ceiling(conf_width * 2), 21)
   width_2 <- sum(var_width, c_width, df_width, p_width, 12)
   all_width <- round(width_1 / 3)
+	width_3 <- all_width * 3
 
     cat(format("One-Sample Statistics", width = width_1, justify = "centre"),
      "\n")
@@ -808,7 +809,7 @@ print_os_vartest <- function(data) {
 
   } else {
 
-    cat("\n\n", format(null_t, width = width_2, justify = "centre"))
+    cat("\n\n", format(null_t, width = width_3, justify = "centre"))
     cat("\n\n", format(all_l, width = all_width, justify = "centre"), format(all_t, width = all_width, justify = "centre"), format(all_u, width = all_width, justify = "centre"), "\n")
     cat(format(all_tval, width = all_width, justify = 'centre'), format(all_tval, width = all_width, justify = 'centre'), format(all_tval, width = all_width, justify = 'centre'))
     cat("\n", format(all_p_l, width = all_width, justify = 'centre'), format(all_p_t, width = all_width, justify = 'centre'), format(all_p_u, width = all_width, justify = 'centre'))

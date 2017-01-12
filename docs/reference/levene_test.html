@@ -132,73 +132,76 @@ Letters 3: 191–194.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># using grouping variable</span>
-<span class='fu'>levene_test</span>(<span class='no'>mtcars</span>$<span class='no'>mpg</span>, <span class='kw'>group_var</span> <span class='kw'>=</span> <span class='no'>mtcars</span>$<span class='no'>vs</span>)</div><div class='output co'>#&gt;            Summary Statistics             
+<span class='fu'>levene_test</span>(<span class='no'>hsb</span>$<span class='no'>read</span>, <span class='kw'>group_var</span> <span class='kw'>=</span> <span class='no'>hsb</span>$<span class='no'>race</span>)</div><div class='output co'>#&gt;            Summary Statistics             
 #&gt; Levels    Frequency    Mean     Std. Dev  
 #&gt; -----------------------------------------
-#&gt;   0          18        16.62      3.86    
-#&gt;   1          14        24.56      5.38    
+#&gt;   1          24        46.67      10.24   
+#&gt;   2          11        51.91      7.66    
+#&gt;   3          20        46.8       7.12    
+#&gt;   4          145       53.92      10.28   
 #&gt; -----------------------------------------
-#&gt; Total        32        20.09      6.03    
+#&gt; Total        200       52.23      10.25   
 #&gt; -----------------------------------------
 #&gt; 
 #&gt;                              Test Statistics                              
 #&gt; -------------------------------------------------------------------------
 #&gt; Statistic                            Num DF    Den DF         F    Pr &gt; F 
-#&gt; Brown and Forsythe                        1        30    3.0862    0.0892 
-#&gt; Levene                                    1        30    1.5922    0.2167 
-#&gt; Brown and Forsythe (Trimmed Mean)         1        30    2.8559    0.1014 
+#&gt; Brown and Forsythe                        3       196      3.44    0.0179 
+#&gt; Levene                                    3       196    3.4792     0.017 
+#&gt; Brown and Forsythe (Trimmed Mean)         3       196    3.3936     0.019 
 #&gt; -------------------------------------------------------------------------</div><div class='input'>
 <span class='co'># using two variables</span>
-<span class='fu'>levene_test</span>(<span class='no'>mtcars</span>$<span class='no'>mpg</span>, <span class='no'>mtcars</span>$<span class='no'>qsec</span>)</div><div class='output co'>#&gt;            Summary Statistics             
+<span class='fu'>levene_test</span>(<span class='no'>hsb</span>$<span class='no'>read</span>, <span class='no'>hsb</span>$<span class='no'>write</span>, <span class='no'>hsb</span>$<span class='no'>socst</span>)</div><div class='output co'>#&gt;            Summary Statistics             
 #&gt; Levels    Frequency    Mean     Std. Dev  
 #&gt; -----------------------------------------
-#&gt;   1          32        20.09      6.03    
-#&gt;   2          32        17.85      1.79    
+#&gt;   1          200       52.23      10.25   
+#&gt;   2          200       52.77      9.48    
+#&gt;   3          200       52.41      10.74   
 #&gt; -----------------------------------------
-#&gt; Total        64        18.97      4.55    
+#&gt; Total        600       52.47      10.15   
 #&gt; -----------------------------------------
 #&gt; 
-#&gt;                              Test Statistics                               
-#&gt; --------------------------------------------------------------------------
-#&gt; Statistic                            Num DF    Den DF          F    Pr &gt; F 
-#&gt; Brown and Forsythe                        1        62    24.3932         0 
-#&gt; Levene                                    1        62    20.9464         0 
-#&gt; Brown and Forsythe (Trimmed Mean)         1        62    22.7064         0 
-#&gt; --------------------------------------------------------------------------</div><div class='input'>
+#&gt;                              Test Statistics                              
+#&gt; -------------------------------------------------------------------------
+#&gt; Statistic                            Num DF    Den DF         F    Pr &gt; F 
+#&gt; Brown and Forsythe                        2       597    1.1683    0.3116 
+#&gt; Levene                                    2       597    1.3803    0.2523 
+#&gt; Brown and Forsythe (Trimmed Mean)         2       597    1.3258    0.2664 
+#&gt; -------------------------------------------------------------------------</div><div class='input'>
 <span class='co'># using model</span>
-<span class='no'>m</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>vs</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
+<span class='no'>m</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>read</span> ~ <span class='no'>female</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>hsb</span>)
 <span class='fu'>levene_test</span>(<span class='no'>m</span>)</div><div class='output co'>#&gt;            Summary Statistics             
 #&gt; Levels    Frequency    Mean     Std. Dev  
 #&gt; -----------------------------------------
-#&gt;   0          18        16.62      3.86    
-#&gt;   1          14        24.56      5.38    
+#&gt;   0          91        52.82      10.51   
+#&gt;   1          109       51.73      10.06   
 #&gt; -----------------------------------------
-#&gt; Total        32        20.09      6.03    
+#&gt; Total        200       52.23      10.25   
 #&gt; -----------------------------------------
 #&gt; 
 #&gt;                              Test Statistics                              
 #&gt; -------------------------------------------------------------------------
 #&gt; Statistic                            Num DF    Den DF         F    Pr &gt; F 
-#&gt; Brown and Forsythe                        1        30    3.0862    0.0892 
-#&gt; Levene                                    1        30    1.5922    0.2167 
-#&gt; Brown and Forsythe (Trimmed Mean)         1        30    2.8559    0.1014 
+#&gt; Brown and Forsythe                        1       198    0.4542    0.5011 
+#&gt; Levene                                    1       198    0.6024    0.4386 
+#&gt; Brown and Forsythe (Trimmed Mean)         1       198     0.494     0.483 
 #&gt; -------------------------------------------------------------------------</div><div class='input'>
 <span class='co'># using formula</span>
-<span class='fu'>levene_test</span>(<span class='fu'>as.formula</span>(<span class='fu'>paste0</span>(<span class='st'>'mpg ~ vs'</span>)), <span class='no'>mtcars</span>)</div><div class='output co'>#&gt;            Summary Statistics             
+<span class='fu'>levene_test</span>(<span class='fu'>as.formula</span>(<span class='fu'>paste0</span>(<span class='st'>'read ~ schtyp'</span>)), <span class='no'>hsb</span>)</div><div class='output co'>#&gt;            Summary Statistics             
 #&gt; Levels    Frequency    Mean     Std. Dev  
 #&gt; -----------------------------------------
-#&gt;   0          18        16.62      3.86    
-#&gt;   1          14        24.56      5.38    
+#&gt;   1          168       51.85      10.42   
+#&gt;   2          32        54.25       9.2    
 #&gt; -----------------------------------------
-#&gt; Total        32        20.09      6.03    
+#&gt; Total        200       52.23      10.25   
 #&gt; -----------------------------------------
 #&gt; 
 #&gt;                              Test Statistics                              
 #&gt; -------------------------------------------------------------------------
 #&gt; Statistic                            Num DF    Den DF         F    Pr &gt; F 
-#&gt; Brown and Forsythe                        1        30    3.0862    0.0892 
-#&gt; Levene                                    1        30    1.5922    0.2167 
-#&gt; Brown and Forsythe (Trimmed Mean)         1        30    2.8559    0.1014 
+#&gt; Brown and Forsythe                        1       198    0.5643    0.4534 
+#&gt; Levene                                    1       198    0.6153    0.4337 
+#&gt; Brown and Forsythe (Trimmed Mean)         1       198    0.5886    0.4439 
 #&gt; -------------------------------------------------------------------------</div><div class='input'>
 </div></pre>
   </div>

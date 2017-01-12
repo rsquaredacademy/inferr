@@ -42,17 +42,17 @@
 #' Letters 3: 191–194.}
 #' @examples
 #' # using grouping variable
-#' levene_test(mtcars$mpg, group_var = mtcars$vs)
+#' levene_test(hsb$read, group_var = hsb$race)
 #'
 #' # using two variables
-#' levene_test(mtcars$mpg, mtcars$qsec)
+#' levene_test(hsb$read, hsb$write, hsb$socst)
 #'
 #' # using model
-#' m <- lm(mpg ~ vs, data = mtcars)
+#' m <- lm(read ~ female, data = hsb)
 #' levene_test(m)
 #'
 #' # using formula
-#' levene_test(as.formula(paste0('mpg ~ vs')), mtcars)
+#' levene_test(as.formula(paste0('read ~ schtyp')), hsb)
 #'
 #' @export
 #'

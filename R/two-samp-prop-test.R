@@ -32,16 +32,16 @@
 #' @seealso \code{\link[stats]{prop.test}}
 #' @examples
 #' # using variables
-#' ts_prop_test(var1 = mtcars$am, var2 = mtcars$vs, alternative = 'less')
-#' ts_prop_test(var1 = mtcars$am, var2 = mtcars$vs, alternative = 'greater')
-#' ts_prop_test(var1 = mtcars$am, var2 = mtcars$vs, alternative = 'both')
-#' ts_prop_test(var1 = mtcars$am, var2 = mtcars$vs, alternative = 'all')
+#' ts_prop_test(var1 = treatment$treatment1, var2 = treatment$treatment2, alternative = 'less')
+#' ts_prop_test(var1 = treatment$treatment1, var2 = treatment$treatment2, alternative = 'greater')
+#' ts_prop_test(var1 = treatment$treatment1, var2 = treatment$treatment2, alternative = 'both')
+#' ts_prop_test(var1 = treatment$treatment1, var2 = treatment$treatment2, alternative = 'all')
 #'
 #' # using groups
-#' ts_prop_grp(var = mtcars$am, group = mtcars$vs, alternative = 'less')
-#' ts_prop_grp(var = mtcars$am, group = mtcars$vs, alternative = 'greater')
-#' ts_prop_grp(var = mtcars$am, group = mtcars$vs, alternative = 'both')
-#' ts_prop_grp(var = mtcars$am, group = mtcars$vs, alternative = 'all')
+#' ts_prop_grp(var = treatment2$outcome, group = treatment2$female, alternative = 'less')
+#' ts_prop_grp(var = treatment2$outcome, group = treatment2$female, alternative = 'greater')
+#' ts_prop_grp(var = treatment2$outcome, group = treatment2$female, alternative = 'both')
+#' ts_prop_grp(var = treatment2$outcome, group = treatment2$female, alternative = 'all')
 #'
 #' # using sample size and proportions
 #' ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'less')

@@ -64,10 +64,10 @@ confidence limit of mean of \code{y}}
 within the two groups defined by \code{x}
 }
 \examples{
-ind_ttest(mtcars, 'am', 'mpg', alternative = 'less')
-ind_ttest(mtcars, 'am', 'mpg', alternative = 'greater')
-ind_ttest(mtcars, 'am', 'mpg', alternative = 'both')
-ind_ttest(mtcars, 'am', 'mpg', alternative = 'all')
+ind_ttest(hsb, 'female', 'write', alternative = 'less')
+ind_ttest(hsb, 'female', 'write', alternative = 'greater')
+ind_ttest(hsb, 'female', 'write', alternative = 'both')
+ind_ttest(hsb, 'female', 'write', alternative = 'all')
 }
 \references{
 Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric

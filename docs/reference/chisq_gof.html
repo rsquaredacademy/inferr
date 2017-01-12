@@ -124,7 +124,9 @@ following components:</p>
 #&gt;    2           11          20         -45.00           -2.01      
 #&gt;    3           20          20           0.00            0.00      
 #&gt;    4          145         140           3.57            0.42      
-#&gt; -----------------------------------------------------------------</div><div class='input'><span class='fu'>chisq_gof</span>(<span class='no'>hsb</span>$<span class='no'>race</span>, <span class='fu'>c</span>(<span class='fl'>20</span>, <span class='fl'>20</span>, <span class='fl'>20</span> , <span class='fl'>140</span>), <span class='kw'>correct</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;     Test Statistics     
+#&gt; -----------------------------------------------------------------</div><div class='input'>
+<span class='co'># apply continuity correction</span>
+<span class='fu'>chisq_gof</span>(<span class='no'>hsb</span>$<span class='no'>race</span>, <span class='fu'>c</span>(<span class='fl'>20</span>, <span class='fl'>20</span>, <span class='fl'>20</span> , <span class='fl'>140</span>), <span class='kw'>correct</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;     Test Statistics     
 #&gt; -----------------------
 #&gt; Chi-Square       4.3821 
 #&gt; DF                    3 

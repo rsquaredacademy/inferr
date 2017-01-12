@@ -50,10 +50,10 @@
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #' @seealso \code{\link[stats]{t.test}}
 #' @examples
-#' ind_ttest(mtcars, 'am', 'mpg', alternative = 'less')
-#' ind_ttest(mtcars, 'am', 'mpg', alternative = 'greater')
-#' ind_ttest(mtcars, 'am', 'mpg', alternative = 'both')
-#' ind_ttest(mtcars, 'am', 'mpg', alternative = 'all')
+#' ind_ttest(hsb, 'female', 'write', alternative = 'less')
+#' ind_ttest(hsb, 'female', 'write', alternative = 'greater')
+#' ind_ttest(hsb, 'female', 'write', alternative = 'both')
+#' ind_ttest(hsb, 'female', 'write', alternative = 'all')
 #' @export
 #'
 ind_ttest <- function(data, x, y, confint = 0.95,

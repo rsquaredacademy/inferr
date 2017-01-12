@@ -28,6 +28,7 @@
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #' @seealso \code{\link[stats]{prop.test}} \code{\link[stats]{binom.test}}
 #' @examples
+#' # use as a calculator
 #' prop_test(200, prob = 0.5, phat = 0.3)
 #'
 #' # using data set

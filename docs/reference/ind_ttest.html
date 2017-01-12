@@ -123,110 +123,110 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>ind_ttest</span>(<span class='no'>mtcars</span>, <span class='st'>'am'</span>, <span class='st'>'mpg'</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;                               Group Statistics                                
+    <pre class="examples"><div class='input'><span class='fu'>ind_ttest</span>(<span class='no'>hsb</span>, <span class='st'>'female'</span>, <span class='st'>'write'</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;                               Group Statistics                                
 #&gt; -----------------------------------------------------------------------------
 #&gt;   Group       Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
 #&gt; -----------------------------------------------------------------------------
-#&gt;     0         19     17.147      0.88         3.834        15.298     18.996   
-#&gt;     1         13     24.392      1.71         6.167        20.666     28.118   
+#&gt;     0         91     50.121      1.08        10.305        47.975     52.267   
+#&gt;     1         109    54.991      0.779        8.134        53.447     56.535   
 #&gt; -----------------------------------------------------------------------------
-#&gt;  combined     32     20.091      1.065        6.027        17.918     22.264   
+#&gt;  combined     200    52.775      0.67         9.479        51.454     54.096   
 #&gt; -----------------------------------------------------------------------------
-#&gt;    diff       32     -7.245      1.765        5.074       -10.704     -3.786   
+#&gt;    diff       200    -4.87       1.304        9.231        -7.426     -2.314   
 #&gt; -----------------------------------------------------------------------------
 #&gt; 
-#&gt;                       Independent Samples Test                       
-#&gt;                       ------------------------                       
+#&gt;                       Independent Samples Test                        
+#&gt;                       ------------------------                        
 #&gt; 
-#&gt;                 Ho: mean( 0 ) - mean( 1 ) = diff = 0                 
-#&gt;                             Ha: diff &lt; 0                             
+#&gt;                 Ho: mean( 0 ) - mean( 1 ) = diff = 0                  
+#&gt;                             Ha: diff &lt; 0                              
 #&gt; 
-#&gt; --------------------------------------------------------------------
-#&gt;  Variable        Method        Variances    DF    t Value     P &lt; t  
-#&gt; --------------------------------------------------------------------
-#&gt;    mpg           Pooled          Equal      30    -4.1048    0.0001  
-#&gt;    mpg        Satterthwaite     Unequal     18    -3.7669    0.0007  
-#&gt; --------------------------------------------------------------------
+#&gt; ---------------------------------------------------------------------
+#&gt;  Variable        Method        Variances    DF     t Value     P &lt; t  
+#&gt; ---------------------------------------------------------------------
+#&gt;   write          Pooled          Equal      198    -3.7347    0.0001  
+#&gt;   write       Satterthwaite     Unequal     170    -3.6564    0.0002  
+#&gt; ---------------------------------------------------------------------
 #&gt; 
 #&gt;                 Test for Equality of Variances                  
 #&gt; ---------------------------------------------------------------
 #&gt;  Variable      Method     Num DF    Den DF    F Value    P &gt; F  
 #&gt; ---------------------------------------------------------------
-#&gt;    mpg        Folded F      18        12      0.3865     0.0669 
-#&gt; ---------------------------------------------------------------</div><div class='input'><span class='fu'>ind_ttest</span>(<span class='no'>mtcars</span>, <span class='st'>'am'</span>, <span class='st'>'mpg'</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'greater'</span>)</div><div class='output co'>#&gt;                               Group Statistics                                
+#&gt;   write       Folded F      90       108       1.605     0.0188 
+#&gt; ---------------------------------------------------------------</div><div class='input'><span class='fu'>ind_ttest</span>(<span class='no'>hsb</span>, <span class='st'>'female'</span>, <span class='st'>'write'</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'greater'</span>)</div><div class='output co'>#&gt;                               Group Statistics                                
 #&gt; -----------------------------------------------------------------------------
 #&gt;   Group       Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
 #&gt; -----------------------------------------------------------------------------
-#&gt;     0         19     17.147      0.88         3.834        15.298     18.996   
-#&gt;     1         13     24.392      1.71         6.167        20.666     28.118   
+#&gt;     0         91     50.121      1.08        10.305        47.975     52.267   
+#&gt;     1         109    54.991      0.779        8.134        53.447     56.535   
 #&gt; -----------------------------------------------------------------------------
-#&gt;  combined     32     20.091      1.065        6.027        17.918     22.264   
+#&gt;  combined     200    52.775      0.67         9.479        51.454     54.096   
 #&gt; -----------------------------------------------------------------------------
-#&gt;    diff       32     -7.245      1.765        5.074       -10.704     -3.786   
+#&gt;    diff       200    -4.87       1.304        9.231        -7.426     -2.314   
 #&gt; -----------------------------------------------------------------------------
 #&gt; 
-#&gt;                       Independent Samples Test                       
-#&gt;                       ------------------------                       
+#&gt;                       Independent Samples Test                        
+#&gt;                       ------------------------                        
 #&gt; 
-#&gt;                 Ho: mean( 0 ) - mean( 1 ) = diff = 0                 
-#&gt;                             Ha: diff &gt; 0                             
+#&gt;                 Ho: mean( 0 ) - mean( 1 ) = diff = 0                  
+#&gt;                             Ha: diff &gt; 0                              
 #&gt; 
-#&gt; --------------------------------------------------------------------
-#&gt;  Variable        Method        Variances    DF    t Value     P &gt; t  
-#&gt; --------------------------------------------------------------------
-#&gt;    mpg           Pooled          Equal      30    -4.1048    0.9999  
-#&gt;    mpg        Satterthwaite     Unequal     18    -3.7669    0.9993  
-#&gt; --------------------------------------------------------------------
+#&gt; ---------------------------------------------------------------------
+#&gt;  Variable        Method        Variances    DF     t Value     P &gt; t  
+#&gt; ---------------------------------------------------------------------
+#&gt;   write          Pooled          Equal      198    -3.7347    0.9999  
+#&gt;   write       Satterthwaite     Unequal     170    -3.6564    0.9998  
+#&gt; ---------------------------------------------------------------------
 #&gt; 
 #&gt;                 Test for Equality of Variances                  
 #&gt; ---------------------------------------------------------------
 #&gt;  Variable      Method     Num DF    Den DF    F Value    P &gt; F  
 #&gt; ---------------------------------------------------------------
-#&gt;    mpg        Folded F      18        12      0.3865     0.0669 
-#&gt; ---------------------------------------------------------------</div><div class='input'><span class='fu'>ind_ttest</span>(<span class='no'>mtcars</span>, <span class='st'>'am'</span>, <span class='st'>'mpg'</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'both'</span>)</div><div class='output co'>#&gt;                               Group Statistics                                
+#&gt;   write       Folded F      90       108       1.605     0.0188 
+#&gt; ---------------------------------------------------------------</div><div class='input'><span class='fu'>ind_ttest</span>(<span class='no'>hsb</span>, <span class='st'>'female'</span>, <span class='st'>'write'</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'both'</span>)</div><div class='output co'>#&gt;                               Group Statistics                                
 #&gt; -----------------------------------------------------------------------------
 #&gt;   Group       Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
 #&gt; -----------------------------------------------------------------------------
-#&gt;     0         19     17.147      0.88         3.834        15.298     18.996   
-#&gt;     1         13     24.392      1.71         6.167        20.666     28.118   
+#&gt;     0         91     50.121      1.08        10.305        47.975     52.267   
+#&gt;     1         109    54.991      0.779        8.134        53.447     56.535   
 #&gt; -----------------------------------------------------------------------------
-#&gt;  combined     32     20.091      1.065        6.027        17.918     22.264   
+#&gt;  combined     200    52.775      0.67         9.479        51.454     54.096   
 #&gt; -----------------------------------------------------------------------------
-#&gt;    diff       32     -7.245      1.765        5.074       -10.704     -3.786   
+#&gt;    diff       200    -4.87       1.304        9.231        -7.426     -2.314   
 #&gt; -----------------------------------------------------------------------------
 #&gt; 
-#&gt;                       Independent Samples Test                       
-#&gt;                       ------------------------                       
+#&gt;                       Independent Samples Test                        
+#&gt;                       ------------------------                        
 #&gt; 
-#&gt;                 Ho: mean( 0 ) - mean( 1 ) = diff = 0                 
-#&gt;                            Ha: diff ~= 0                             
+#&gt;                 Ho: mean( 0 ) - mean( 1 ) = diff = 0                  
+#&gt;                             Ha: diff ~= 0                             
 #&gt; 
-#&gt; --------------------------------------------------------------------
-#&gt;  Variable        Method        Variances    DF    t Value    P &gt; |t| 
-#&gt; --------------------------------------------------------------------
-#&gt;    mpg           Pooled          Equal      30    -4.1048    0.0003  
-#&gt;    mpg        Satterthwaite     Unequal     18    -3.7669    0.0014  
-#&gt; --------------------------------------------------------------------
+#&gt; ---------------------------------------------------------------------
+#&gt;  Variable        Method        Variances    DF     t Value    P &gt; |t| 
+#&gt; ---------------------------------------------------------------------
+#&gt;   write          Pooled          Equal      198    -3.7347    0.0002  
+#&gt;   write       Satterthwaite     Unequal     170    -3.6564    0.0003  
+#&gt; ---------------------------------------------------------------------
 #&gt; 
 #&gt;                 Test for Equality of Variances                  
 #&gt; ---------------------------------------------------------------
 #&gt;  Variable      Method     Num DF    Den DF    F Value    P &gt; F  
 #&gt; ---------------------------------------------------------------
-#&gt;    mpg        Folded F      18        12      0.3865     0.0669 
-#&gt; ---------------------------------------------------------------</div><div class='input'><span class='fu'>ind_ttest</span>(<span class='no'>mtcars</span>, <span class='st'>'am'</span>, <span class='st'>'mpg'</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'all'</span>)</div><div class='output co'>#&gt;                               Group Statistics                                
+#&gt;   write       Folded F      90       108       1.605     0.0188 
+#&gt; ---------------------------------------------------------------</div><div class='input'><span class='fu'>ind_ttest</span>(<span class='no'>hsb</span>, <span class='st'>'female'</span>, <span class='st'>'write'</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'all'</span>)</div><div class='output co'>#&gt;                               Group Statistics                                
 #&gt; -----------------------------------------------------------------------------
 #&gt;   Group       Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
 #&gt; -----------------------------------------------------------------------------
-#&gt;     0         19     17.147      0.88         3.834        15.298     18.996   
-#&gt;     1         13     24.392      1.71         6.167        20.666     28.118   
+#&gt;     0         91     50.121      1.08        10.305        47.975     52.267   
+#&gt;     1         109    54.991      0.779        8.134        53.447     56.535   
 #&gt; -----------------------------------------------------------------------------
-#&gt;  combined     32     20.091      1.065        6.027        17.918     22.264   
+#&gt;  combined     200    52.775      0.67         9.479        51.454     54.096   
 #&gt; -----------------------------------------------------------------------------
-#&gt;    diff       32     -7.245      1.765        5.074       -10.704     -3.786   
+#&gt;    diff       200    -4.87       1.304        9.231        -7.426     -2.314   
 #&gt; -----------------------------------------------------------------------------
 #&gt; 
 #&gt;                         Independent Samples Test                         
-#&gt;                       ------------------------                       
+#&gt;                       ------------------------                        
 #&gt; 
 #&gt;                   Ho: mean( 0 ) - mean( 1 ) = diff = 0                   
 #&gt; 
@@ -234,20 +234,20 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
 #&gt; 
 #&gt;                                   Pooled                                   
 #&gt; ------------------------------------------------------------------------
-#&gt;        t = -4.1048              t = -4.1048              t = -4.1048       
-#&gt;      P &lt; t = 0.0001          P &gt; |t| = 0.0003          P &gt; t = 0.9999      
+#&gt;        t = -3.7347              t = -3.7347              t = -3.7347       
+#&gt;      P &lt; t = 0.0001          P &gt; |t| = 0.0002          P &gt; t = 0.9999      
 #&gt; 
 #&gt;                               Satterthwaite                                
 #&gt; ------------------------------------------------------------------------
-#&gt;        t = -3.7669              t = -3.7669              t = -3.7669       
-#&gt;      P &lt; t = 0.0007          P &gt; |t| = 0.0014          P &gt; t = 0.9993      
+#&gt;        t = -3.6564              t = -3.6564              t = -3.6564       
+#&gt;      P &lt; t = 0.0002          P &gt; |t| = 0.0003          P &gt; t = 0.9998      
 #&gt; 
 #&gt; 
 #&gt;                 Test for Equality of Variances                  
 #&gt; ---------------------------------------------------------------
 #&gt;  Variable      Method     Num DF    Den DF    F Value    P &gt; F  
 #&gt; ---------------------------------------------------------------
-#&gt;    mpg        Folded F      18        12      0.3865     0.0669 
+#&gt;   write       Folded F      90       108       1.605     0.0188 
 #&gt; ---------------------------------------------------------------</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

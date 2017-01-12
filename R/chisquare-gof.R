@@ -23,6 +23,8 @@
 #' @seealso \code{\link[stats]{chisq.test}}
 #' @examples
 #' chisq_gof(hsb$race, c(20, 20, 20 , 140))
+#'
+#' # apply continuity correction
 #' chisq_gof(hsb$race, c(20, 20, 20 , 140), correct = TRUE)
 #' @export
 #'

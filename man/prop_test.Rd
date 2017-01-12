@@ -49,6 +49,7 @@ following components:
 specified population proportion.
 }
 \examples{
+# use as a calculator
 prop_test(200, prob = 0.5, phat = 0.3)
 
 # using data set

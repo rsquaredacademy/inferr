@@ -48,10 +48,10 @@ ttest performs t tests on the equality of means. It tests the
 hypothesis that \code{x} has a mean of \code{mu}.
 }
 \examples{
-ttest(mtcars$mpg, mu = 50, type = 'less')
-ttest(mtcars$mpg, mu = 50, type = 'greater')
-ttest(mtcars$mpg, mu = 50, type = 'both')
-ttest(mtcars$mpg, mu = 50, type = 'all')
+ttest(hsb$write, mu = 50, type = 'less')
+ttest(hsb$write, mu = 50, type = 'greater')
+ttest(hsb$write, mu = 50, type = 'both')
+ttest(hsb$write, mu = 50, type = 'all')
 }
 \references{
 Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
