@@ -108,11 +108,21 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p><code><a href='http://www.rdocumentation.org/packages/RVAideMemoire/topics/cochran.qtest'>cochran.qtest</a></code></p>
+    <p><code><a href='http://www.rdocumentation.org/packages/stats/topics/mcnemar.test'>mcnemar.test</a></code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>mcnemar_test</span>(<span class='fu'>matrix</span>(<span class='fu'>c</span>(<span class='fl'>172</span>, <span class='fl'>7</span>, <span class='fl'>6</span>, <span class='fl'>15</span>), <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>2</span>))</div><div class='output co'>#&gt;        McNemar&#39;s Test        
+    <pre class="examples"><div class='input'><span class='fu'>mcnemar_test</span>(<span class='fu'>matrix</span>(<span class='fu'>c</span>(<span class='fl'>172</span>, <span class='fl'>7</span>, <span class='fl'>6</span>, <span class='fl'>15</span>), <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>2</span>))</div><div class='output co'>#&gt;            Controls 
+#&gt; ---------------------------------
+#&gt; Cases       0       1       Total 
+#&gt; ---------------------------------
+#&gt;   0        172       6        178 
+#&gt;   1          7      15         22 
+#&gt; ---------------------------------
+#&gt; Total      179      21        200 
+#&gt; ---------------------------------
+#&gt; 
+#&gt;        McNemar&#39;s Test        
 #&gt; ----------------------------
 #&gt; McNemar&#39;s chi2        0.0769 
 #&gt; DF                         1 
@@ -134,7 +144,17 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
 #&gt; controls         0.895 
 #&gt; ratio           0.9944 
 #&gt; odds ratio      0.8571 
-#&gt; ----------------------</div><div class='input'><span class='fu'>mcnemar_test</span>(<span class='fu'>matrix</span>(<span class='fu'>c</span>(<span class='fl'>15</span>, <span class='fl'>7</span>, <span class='fl'>6</span>, <span class='fl'>172</span>), <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>2</span>))</div><div class='output co'>#&gt;        McNemar&#39;s Test        
+#&gt; ----------------------</div><div class='input'><span class='fu'>mcnemar_test</span>(<span class='fu'>matrix</span>(<span class='fu'>c</span>(<span class='fl'>15</span>, <span class='fl'>7</span>, <span class='fl'>6</span>, <span class='fl'>172</span>), <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>2</span>))</div><div class='output co'>#&gt;            Controls 
+#&gt; ---------------------------------
+#&gt; Cases      0        1       Total 
+#&gt; ---------------------------------
+#&gt;   0        15        6         21 
+#&gt;   1         7      172        179 
+#&gt; ---------------------------------
+#&gt; Total      22      178        200 
+#&gt; ---------------------------------
+#&gt; 
+#&gt;        McNemar&#39;s Test        
 #&gt; ----------------------------
 #&gt; McNemar&#39;s chi2        0.0769 
 #&gt; DF                         1 
@@ -156,7 +176,17 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
 #&gt; controls          0.11 
 #&gt; ratio           0.9545 
 #&gt; odds ratio      0.8571 
-#&gt; ----------------------</div><div class='input'><span class='fu'>mcnemar_test</span>(<span class='fu'>table</span>(<span class='no'>hsb</span>$<span class='no'>female</span>, <span class='no'>hsb</span>$<span class='no'>schtyp</span>))</div><div class='output co'>#&gt;     McNemar&#39;s Test      
+#&gt; ----------------------</div><div class='input'><span class='fu'>mcnemar_test</span>(<span class='fu'>table</span>(<span class='no'>hsb</span>$<span class='no'>female</span>, <span class='no'>hsb</span>$<span class='no'>schtyp</span>))</div><div class='output co'>#&gt;            Controls 
+#&gt; ---------------------------------
+#&gt; Cases       0       1       Total 
+#&gt; ---------------------------------
+#&gt;   0         77      14         91 
+#&gt;   1         91      18        109 
+#&gt; ---------------------------------
+#&gt; Total      168      32        200 
+#&gt; ---------------------------------
+#&gt; 
+#&gt;     McNemar&#39;s Test      
 #&gt; -----------------------
 #&gt; McNemar&#39;s chi2        56.4667 
 #&gt; DF                    1 

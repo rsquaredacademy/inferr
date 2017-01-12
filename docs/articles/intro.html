@@ -622,7 +622,17 @@ m &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"
 <h3 class="hasAnchor"><html><body><a href="#examples-8" class="anchor"> </a></body></html>Examples</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># http://www.ats.ucla.edu/stat/sas/whatstat/whatstat.htm#Mcnemar</span>
 <span class="kw"><a href="../reference/mcnemar_test.html">mcnemar_test</a></span>(<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">172</span>, <span class="dv">7</span>, <span class="dv">6</span>, <span class="dv">15</span>), <span class="dt">nrow =</span> <span class="dv">2</span>))</code></pre></div>
-<pre><code>##        McNemar's Test        
+<pre><code>##            Controls 
+## ---------------------------------
+## Cases       0       1       Total 
+## ---------------------------------
+##   0        172       6        178 
+##   1          7      15         22 
+## ---------------------------------
+## Total      179      21        200 
+## ---------------------------------
+## 
+##        McNemar's Test        
 ## ----------------------------
 ## McNemar's chi2        0.0769 
 ## DF                         1 
@@ -647,7 +657,17 @@ m &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"
 ## ----------------------</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># http://www.ats.ucla.edu/stat/stata/whatstat/whatstat.htm#Mcnemar</span>
 <span class="kw"><a href="../reference/mcnemar_test.html">mcnemar_test</a></span>(<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">15</span>, <span class="dv">7</span>, <span class="dv">6</span>, <span class="dv">172</span>), <span class="dt">nrow =</span> <span class="dv">2</span>))</code></pre></div>
-<pre><code>##        McNemar's Test        
+<pre><code>##            Controls 
+## ---------------------------------
+## Cases      0        1       Total 
+## ---------------------------------
+##   0        15        6         21 
+##   1         7      172        179 
+## ---------------------------------
+## Total      22      178        200 
+## ---------------------------------
+## 
+##        McNemar's Test        
 ## ----------------------------
 ## McNemar's chi2        0.0769 
 ## DF                         1 
@@ -674,7 +694,17 @@ m &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg ~<span class="st"
 himath &lt;-<span class="st"> </span><span class="kw">ifelse</span>(hsb$math &gt;<span class="st"> </span><span class="dv">60</span>, <span class="dv">1</span>, <span class="dv">0</span>)
 hiread &lt;-<span class="st"> </span><span class="kw">ifelse</span>(hsb$read &gt;<span class="st"> </span><span class="dv">60</span>, <span class="dv">1</span>, <span class="dv">0</span>)
 <span class="kw"><a href="../reference/mcnemar_test.html">mcnemar_test</a></span>(<span class="kw">table</span>(himath, hiread))</code></pre></div>
-<pre><code>##        McNemar's Test        
+<pre><code>##            Controls 
+## ---------------------------------
+## Cases       0       1       Total 
+## ---------------------------------
+##   0        135      21        156 
+##   1         18      26         44 
+## ---------------------------------
+## Total      153      47        200 
+## ---------------------------------
+## 
+##        McNemar's Test        
 ## ----------------------------
 ## McNemar's chi2        0.2308 
 ## DF                         1 

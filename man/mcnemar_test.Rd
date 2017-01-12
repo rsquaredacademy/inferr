@@ -22,13 +22,13 @@ following components:
 \item{exactp}{exact p-value}
 \item{cstat}{continuity correction chi square statistic}
 \item{cpvalue}{continuity correction p-value}
-\item{kappa}{kappa}
+\item{kappa}{kappa coefficient}
 \item{std_err}{asymptotic standard error}
 \item{kappa_cil}{95\% lower confidence limit}
 \item{kappa_ciu}{95\%upper confidence limit}
 \item{cases}{cases}
 \item{controls}{controls}
-\item{ratio}{ratio of cases by controls}
+\item{ratio}{ratio of proportion with factor}
 \item{odratio}{odds ratio}
 \item{tbl}{two way table}
 }
@@ -46,6 +46,6 @@ Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 }
 \seealso{
-\code{\link[RVAideMemoire]{cochran.qtest}}
+\code{\link[stats]{mcnemar.test}}
 }
 
