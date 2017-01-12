@@ -986,6 +986,39 @@ print_mcnemar_test <- function(data) {
 		nchar(data$odratio))
 	w3 <- sum(cwidth3, nwidth3, 6)
 
+	tcs <- colSums(data$tbl)
+	trs <- rowSums(data$tbl)
+	twidth1 <- 5
+	twidth2 <- max(nchar(data$tbl[, 1]), nchar(tcs[1]))
+	twidth3 <- max(nchar(data$tbl[, 2]), nchar(tcs[2]))
+	twidth4 <- max(5, nchar(sum(trs)))
+	w4 <- sum(twidth1, twidth2, twidth3, twidth4, 18)
+	twidth5 <- sum(twidth2, twidth3)
+
+	cat(format('     ', width = twidth1, justify = 'centre'), formats(),
+		format('Controls', width = twidth5, justify = 'left'), '\n')
+	cat(rep("-", w4), sep = "", '\n')
+	cat(format('Cases', width = twidth1, justify = 'centre'), formats(),
+		format('0', width = twidth2, justify = 'centre'), formats(),
+		format('1', width = twidth3, justify = 'centre'), formats(),
+		format('Total', width = twidth4, justify = 'centre'), '\n')
+	cat(rep("-", w4), sep = "", '\n')
+	cat(format('0', width = twidth1, justify = 'centre'), formats(),
+		format(data$tbl[1, 1], width = twidth2, justify = 'centre'), formats(),
+		format(data$tbl[1, 2], width = twidth3, justify = 'centre'), formats(),
+		format(trs[1], width = twidth4, justify = 'centre'), '\n')
+	cat(format('1', width = twidth1, justify = 'centre'), formats(),
+		format(data$tbl[2, 1], width = twidth2, justify = 'centre'), formats(),
+		format(data$tbl[2, 2], width = twidth3, justify = 'centre'), formats(),
+		format(trs[2], width = twidth4, justify = 'centre'), '\n')
+	cat(rep("-", w4), sep = "", '\n')
+	cat(format('Total', width = twidth1, justify = 'centre'), formats(),
+		format(tcs[1], width = twidth2, justify = 'centre'), formats(),
+		format(tcs[2], width = twidth3, justify = 'centre'), formats(),
+		format(sum(trs), width = twidth4, justify = 'centre'), '\n')
+	cat(rep("-", w4), sep = "", '\n\n')
+
+
 	cat(format("McNemar's Test", width = w1, justify = "centre"), "\n")
 	cat(rep("-", w1), sep = "", '\n')
 	cat(format("McNemar's chi2", width = cwidth1, justify = 'left'), formats(), format(data$statistic, width = nwidth1, justify = 'right'), '\n')
