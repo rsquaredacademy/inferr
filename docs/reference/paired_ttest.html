@@ -52,6 +52,9 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
+  <a href="../articles/index.html">Articles</a>
+</li>
+<li>
   <a href="../news/index.html">News</a>
 </li>
       </ul>
@@ -105,21 +108,113 @@ initial letter.</dd>
 An object of class <code>&quot;paired_ttest&quot;</code> is a list containing the
 following components:</p>
     
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
+Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p><code><a href='http://www.rdocumentation.org/packages/stats/topics/t.test'>t.test</a></code></p>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>paired_ttest</span>(<span class='no'>mtcars</span>$<span class='no'>mpg</span>, <span class='no'>mtcars</span>$<span class='no'>qsec</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;                          Paired Samples Statistics                          
+    <pre class="examples"><div class='input'><span class='fu'>paired_ttest</span>(<span class='no'>hsb</span>$<span class='no'>read</span>, <span class='no'>hsb</span>$<span class='no'>write</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;                          Paired Samples Statistics                          
 #&gt; ---------------------------------------------------------------------------
 #&gt; Variables    Obs    Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
-#&gt; ---------------------------------------------------------------------------</div><div class='output co'>#&gt; <span class='error'>Error in format_cil(data$conf_int1[[1]], conf_l_width): could not find function &quot;%&gt;%&quot;</span></div><div class='input'><span class='fu'>paired_ttest</span>(<span class='no'>mtcars</span>$<span class='no'>mpg</span>, <span class='no'>mtcars</span>$<span class='no'>qsec</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'greater'</span>)</div><div class='output co'>#&gt;                          Paired Samples Statistics                          
+#&gt; ---------------------------------------------------------------------------
+#&gt;    read       200    52.23      0.72         10.25         50.8      53.66   
+#&gt;    write      200    52.77      0.67         9.48         51.45      54.09    
+#&gt; ---------------------------------------------------------------------------
+#&gt;    diff       200    -0.55      0.63         8.89         -1.79       0.69    
+#&gt; ---------------------------------------------------------------------------
+#&gt; 
+#&gt;          Paired Samples Correlations         
+#&gt; -------------------------------------------
+#&gt;   Variables      Obs    Correlation    Sig.
+#&gt;  read &amp; write    200       0.60        0 
+#&gt; -------------------------------------------
+#&gt; 
+#&gt;           Paired Samples Test           
+#&gt;           -------------------           
+#&gt;       Ho: mean(read - write) = 0        
+#&gt;       Ha: mean(read - write) &lt; 0        
+#&gt; 
+#&gt; ---------------------------------------
+#&gt;   Variables        t       df     Sig.  
+#&gt; ---------------------------------------
+#&gt;  read - write    -0.873    199    0.192 
+#&gt; ---------------------------------------</div><div class='input'><span class='fu'>paired_ttest</span>(<span class='no'>hsb</span>$<span class='no'>read</span>, <span class='no'>hsb</span>$<span class='no'>write</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'greater'</span>)</div><div class='output co'>#&gt;                          Paired Samples Statistics                          
 #&gt; ---------------------------------------------------------------------------
 #&gt; Variables    Obs    Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
-#&gt; ---------------------------------------------------------------------------</div><div class='output co'>#&gt; <span class='error'>Error in format_cil(data$conf_int1[[1]], conf_l_width): could not find function &quot;%&gt;%&quot;</span></div><div class='input'><span class='fu'>paired_ttest</span>(<span class='no'>mtcars</span>$<span class='no'>mpg</span>, <span class='no'>mtcars</span>$<span class='no'>qsec</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'both'</span>)</div><div class='output co'>#&gt;                          Paired Samples Statistics                          
+#&gt; ---------------------------------------------------------------------------
+#&gt;    read       200    52.23      0.72         10.25         50.8      53.66   
+#&gt;    write      200    52.77      0.67         9.48         51.45      54.09    
+#&gt; ---------------------------------------------------------------------------
+#&gt;    diff       200    -0.55      0.63         8.89         -1.79       0.69    
+#&gt; ---------------------------------------------------------------------------
+#&gt; 
+#&gt;          Paired Samples Correlations         
+#&gt; -------------------------------------------
+#&gt;   Variables      Obs    Correlation    Sig.
+#&gt;  read &amp; write    200       0.60        0 
+#&gt; -------------------------------------------
+#&gt; 
+#&gt;           Paired Samples Test           
+#&gt;           -------------------           
+#&gt;       Ho: mean(read - write) = 0        
+#&gt;       Ha: mean(read - write) &gt; 0        
+#&gt; 
+#&gt; ---------------------------------------
+#&gt;   Variables        t       df     Sig.  
+#&gt; ---------------------------------------
+#&gt;  read - write    -0.873    199    0.808 
+#&gt; ---------------------------------------</div><div class='input'><span class='fu'>paired_ttest</span>(<span class='no'>hsb</span>$<span class='no'>read</span>, <span class='no'>hsb</span>$<span class='no'>write</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'both'</span>)</div><div class='output co'>#&gt;                          Paired Samples Statistics                          
 #&gt; ---------------------------------------------------------------------------
 #&gt; Variables    Obs    Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
-#&gt; ---------------------------------------------------------------------------</div><div class='output co'>#&gt; <span class='error'>Error in format_cil(data$conf_int1[[1]], conf_l_width): could not find function &quot;%&gt;%&quot;</span></div><div class='input'><span class='fu'>paired_ttest</span>(<span class='no'>mtcars</span>$<span class='no'>mpg</span>, <span class='no'>mtcars</span>$<span class='no'>qsec</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'all'</span>)</div><div class='output co'>#&gt;                          Paired Samples Statistics                          
+#&gt; ---------------------------------------------------------------------------
+#&gt;    read       200    52.23      0.72         10.25         50.8      53.66   
+#&gt;    write      200    52.77      0.67         9.48         51.45      54.09    
+#&gt; ---------------------------------------------------------------------------
+#&gt;    diff       200    -0.55      0.63         8.89         -1.79       0.69    
+#&gt; ---------------------------------------------------------------------------
+#&gt; 
+#&gt;          Paired Samples Correlations         
+#&gt; -------------------------------------------
+#&gt;   Variables      Obs    Correlation    Sig.
+#&gt;  read &amp; write    200       0.60        0 
+#&gt; -------------------------------------------
+#&gt; 
+#&gt;           Paired Samples Test           
+#&gt;           -------------------           
+#&gt;       Ho: mean(read - write) = 0        
+#&gt;       Ha: mean(read - write) ~= 0       
+#&gt; 
+#&gt; ---------------------------------------
+#&gt;   Variables        t       df     Sig.  
+#&gt; ---------------------------------------
+#&gt;  read - write    -0.873    199    0.384 
+#&gt; ---------------------------------------</div><div class='input'><span class='fu'>paired_ttest</span>(<span class='no'>hsb</span>$<span class='no'>read</span>, <span class='no'>hsb</span>$<span class='no'>write</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'all'</span>)</div><div class='output co'>#&gt;                          Paired Samples Statistics                          
 #&gt; ---------------------------------------------------------------------------
 #&gt; Variables    Obs    Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
-#&gt; ---------------------------------------------------------------------------</div><div class='output co'>#&gt; <span class='error'>Error in format_cil(data$conf_int1[[1]], conf_l_width): could not find function &quot;%&gt;%&quot;</span></div></pre>
+#&gt; ---------------------------------------------------------------------------
+#&gt;    read       200    52.23      0.72         10.25         50.8      53.66   
+#&gt;    write      200    52.77      0.67         9.48         51.45      54.09    
+#&gt; ---------------------------------------------------------------------------
+#&gt;    diff       200    -0.55      0.63         8.89         -1.79       0.69    
+#&gt; ---------------------------------------------------------------------------
+#&gt; 
+#&gt;          Paired Samples Correlations         
+#&gt; -------------------------------------------
+#&gt;   Variables      Obs    Correlation    Sig.
+#&gt;  read &amp; write    200       0.60        0 
+#&gt; -------------------------------------------
+#&gt; 
+#&gt;                 Ho: mean(read - write) = mean(diff) = 0                  
+#&gt; 
+#&gt;    Ha: mean(diff) &lt; 0      Ha: mean(diff) ~= 0       Ha: mean(diff) &gt; 0    
+#&gt;        t = -0.873               t = -0.873               t = -0.873        
+#&gt;      P &lt; t = 0.192           P &gt; |t| = 0.384           P &gt; t = 0.808       </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -127,6 +222,10 @@ following components:</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

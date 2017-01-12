@@ -52,6 +52,9 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
+  <a href="../articles/index.html">Articles</a>
+</li>
+<li>
   <a href="../news/index.html">News</a>
 </li>
       </ul>
@@ -81,7 +84,7 @@
     <p>One way analysis of variance</p>
     
 
-    <pre><span class='fu'>owanova</span>(<span class='no'>data</span>, <span class='no'>x</span>, <span class='no'>y</span>)</pre>
+    <pre><span class='fu'>owanova</span>(<span class='no'>data</span>, <span class='no'>x</span>, <span class='no'>y</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <dl class="dl-horizontal">
@@ -91,6 +94,8 @@
       <dd>character vector; name of a continuous variable from <code>data</code></dd>
       <dt>y</dt>
       <dd>character vector; name of a categorical variable from <code>data</code></dd>
+      <dt>...</dt>
+      <dd>additional arguments passed to or from other methods</dd>
     </dl>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -99,9 +104,60 @@
 An object of class <code>&quot;owanova&quot;</code> is a list containing the
 following components:</p>
     
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Kutner, M. H., Nachtsheim, C., Neter, J., &amp; Li, W. (2005).
+Applied linear statistical models. Boston: McGraw-Hill Irwin.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p><code><a href='http://www.rdocumentation.org/packages/stats/topics/anova'>anova</a></code></p>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>owanova</span>(<span class='no'>mtcars</span>, <span class='st'>'mpg'</span>, <span class='st'>'cyl'</span>)</div><div class='output co'>#&gt; <span class='error'>Error in anova_split(data, x, y): could not find function &quot;%&gt;%&quot;</span></div><div class='input'><span class='fu'>owanova</span>(<span class='no'>hsb</span>, <span class='st'>'write'</span>, <span class='st'>'prog'</span>)</div><div class='output co'>#&gt; <span class='error'>Error in anova_split(data, x, y): could not find function &quot;%&gt;%&quot;</span></div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>owanova</span>(<span class='no'>mtcars</span>, <span class='st'>'mpg'</span>, <span class='st'>'cyl'</span>)</div><div class='output co'>#&gt;                                ANOVA                                 
+#&gt; --------------------------------------------------------------------
+#&gt;                    Sum of                                           
+#&gt;                   Squares     DF    Mean Square      F        Sig.  
+#&gt; --------------------------------------------------------------------
+#&gt; Between Groups    824.785     2       412.392      39.699    0.0000 
+#&gt; Within Groups     301.263     29      10.388                        
+#&gt; Total             1126.048    31                                    
+#&gt; --------------------------------------------------------------------
+#&gt; 
+#&gt;                  Report                  
+#&gt; ----------------------------------------
+#&gt; Category    N       Mean      Std. Dev. 
+#&gt; ----------------------------------------
+#&gt;  4.000      11    26.66364    4.509828  
+#&gt;  6.000       7    19.74286    1.453567  
+#&gt;  8.000      14    15.10000    2.560048  
+#&gt; ----------------------------------------
+#&gt; 
+#&gt; Number of obs = 32        R-squared     = 0.7325 
+#&gt; Root MSE      = 3.2231    Adj R-squared = 0.714 
+#&gt; </div><div class='input'><span class='fu'>owanova</span>(<span class='no'>hsb</span>, <span class='st'>'write'</span>, <span class='st'>'prog'</span>)</div><div class='output co'>#&gt;                                 ANOVA                                  
+#&gt; ----------------------------------------------------------------------
+#&gt;                    Sum of                                             
+#&gt;                    Squares     DF     Mean Square      F        Sig.  
+#&gt; ----------------------------------------------------------------------
+#&gt; Between Groups    3175.698      2      1587.849      21.275    0.0000 
+#&gt; Within Groups     14703.177    197      74.635                        
+#&gt; Total             17878.875    199                                    
+#&gt; ----------------------------------------------------------------------
+#&gt; 
+#&gt;                  Report                   
+#&gt; -----------------------------------------
+#&gt; Category     N       Mean      Std. Dev. 
+#&gt; -----------------------------------------
+#&gt;    1         45    51.33333    9.397775  
+#&gt;    2        105    56.25714    7.943343  
+#&gt;    3         50    46.76000    9.318754  
+#&gt; -----------------------------------------
+#&gt; 
+#&gt; Number of obs = 200       R-squared     = 0.1776 
+#&gt; Root MSE      = 8.6392    Adj R-squared = 0.1693 
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -109,6 +165,10 @@ following components:</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

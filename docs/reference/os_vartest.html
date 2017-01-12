@@ -52,6 +52,9 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
+  <a href="../articles/index.html">Articles</a>
+</li>
+<li>
   <a href="../news/index.html">News</a>
 </li>
       </ul>
@@ -84,7 +87,7 @@ deviations (variances).It tests that the standard deviation of <code>x</code> is
     
 
     <pre><span class='fu'>os_vartest</span>(<span class='no'>x</span>, <span class='no'>sd</span>, <span class='kw'>confint</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"both"</span>, <span class='st'>"less"</span>, <span class='st'>"greater"</span>,
-  <span class='st'>"all"</span>))</pre>
+  <span class='st'>"all"</span>), <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <dl class="dl-horizontal">
@@ -97,7 +100,9 @@ deviations (variances).It tests that the standard deviation of <code>x</code> is
       <dt>alternative</dt>
       <dd>a character string specifying the alternative hypothesis,
 must be one of &quot;both&quot; (default), &quot;greater&quot;, &quot;less&quot; or &quot;all&quot;. You can specify
-just the initial letter.</dd>
+just the initial letter</dd>
+      <dt>...</dt>
+      <dd>additional arguments passed to or from other methods</dd>
     </dl>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -106,13 +111,80 @@ just the initial letter.</dd>
 An object of class <code>&quot;os_vartest&quot;</code> is a list containing the
 following components:</p>
     
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
+Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p><code><a href='http://www.rdocumentation.org/packages/stats/topics/var.test'>var.test</a></code> <code><a href='http://www.rdocumentation.org/packages/stats/topics/binom.test'>binom.test</a></code></p>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>os_vartest</span>(<span class='no'>mtcars</span>$<span class='no'>mpg</span>, <span class='fl'>0.3</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;                             One-Sample Statistics                             
-#&gt; -----------------------------------------------------------------------------</div><div class='output co'>#&gt; <span class='error'>Error in formatter_t(&quot;Variable&quot;, var_width): could not find function &quot;%&gt;%&quot;</span></div><div class='input'><span class='fu'>os_vartest</span>(<span class='no'>mtcars</span>$<span class='no'>mpg</span>, <span class='fl'>0.3</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'greater'</span>)</div><div class='output co'>#&gt;                             One-Sample Statistics                             
-#&gt; -----------------------------------------------------------------------------</div><div class='output co'>#&gt; <span class='error'>Error in formatter_t(&quot;Variable&quot;, var_width): could not find function &quot;%&gt;%&quot;</span></div><div class='input'><span class='fu'>os_vartest</span>(<span class='no'>mtcars</span>$<span class='no'>mpg</span>, <span class='fl'>0.3</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'both'</span>)</div><div class='output co'>#&gt;                             One-Sample Statistics                             
-#&gt; -----------------------------------------------------------------------------</div><div class='output co'>#&gt; <span class='error'>Error in formatter_t(&quot;Variable&quot;, var_width): could not find function &quot;%&gt;%&quot;</span></div><div class='input'><span class='fu'>os_vartest</span>(<span class='no'>mtcars</span>$<span class='no'>mpg</span>, <span class='fl'>0.3</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'all'</span>)</div><div class='output co'>#&gt;                             One-Sample Statistics                             
-#&gt; -----------------------------------------------------------------------------</div><div class='output co'>#&gt; <span class='error'>Error in formatter_t(&quot;Variable&quot;, var_width): could not find function &quot;%&gt;%&quot;</span></div><div class='input'>
+    <pre class="examples"><div class='input'><span class='fu'>os_vartest</span>(<span class='no'>mtcars</span>$<span class='no'>mpg</span>, <span class='fl'>5</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;                             One-Sample Statistics                             
+#&gt; -----------------------------------------------------------------------------
+#&gt;  Variable    Obs     Mean      Std. Err.    Std. Dev.    [95% Conf. Interval] 
+#&gt; -----------------------------------------------------------------------------
+#&gt;    mpg       32     20.0906     1.0654       6.0269        3.8737    10.6526   
+#&gt; -----------------------------------------------------------------------------
+#&gt; 
+#&gt;             Lower Tail Test           
+#&gt;             ---------------           
+#&gt;            Ho: sd(mpg) &gt;= 5           
+#&gt;             Ha: sd(mpg) &lt; 5            
+#&gt; 
+#&gt;     Chi-Square Test for Variance      
+#&gt; -------------------------------------
+#&gt;  Variable       c       DF      Sig       
+#&gt; -------------------------------------
+#&gt;    mpg       45.041     31     0.9506  
+#&gt; -------------------------------------</div><div class='input'><span class='fu'>os_vartest</span>(<span class='no'>mtcars</span>$<span class='no'>mpg</span>, <span class='fl'>5</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'greater'</span>)</div><div class='output co'>#&gt;                             One-Sample Statistics                             
+#&gt; -----------------------------------------------------------------------------
+#&gt;  Variable    Obs     Mean      Std. Err.    Std. Dev.    [95% Conf. Interval] 
+#&gt; -----------------------------------------------------------------------------
+#&gt;    mpg       32     20.0906     1.0654       6.0269        3.8737    10.6526   
+#&gt; -----------------------------------------------------------------------------
+#&gt; 
+#&gt;             Upper Tail Test           
+#&gt;             ---------------           
+#&gt;            Ho: sd(mpg) &lt;= 5           
+#&gt;             Ha: sd(mpg) &gt; 5            
+#&gt; 
+#&gt;     Chi-Square Test for Variance      
+#&gt; -------------------------------------
+#&gt;  Variable       c       DF      Sig    
+#&gt; -------------------------------------
+#&gt;    mpg       45.041     31     0.0494  
+#&gt; -------------------------------------</div><div class='input'><span class='fu'>os_vartest</span>(<span class='no'>mtcars</span>$<span class='no'>mpg</span>, <span class='fl'>5</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'both'</span>)</div><div class='output co'>#&gt;                             One-Sample Statistics                             
+#&gt; -----------------------------------------------------------------------------
+#&gt;  Variable    Obs     Mean      Std. Err.    Std. Dev.    [95% Conf. Interval] 
+#&gt; -----------------------------------------------------------------------------
+#&gt;    mpg       32     20.0906     1.0654       6.0269        3.8737    10.6526   
+#&gt; -----------------------------------------------------------------------------
+#&gt; 
+#&gt;              Two Tail Test            
+#&gt;             ---------------           
+#&gt;             Ho: sd(mpg) = 5           
+#&gt;            Ha: sd(mpg) != 5            
+#&gt; 
+#&gt;     Chi-Square Test for Variance      
+#&gt; -------------------------------------
+#&gt;  Variable       c       DF      Sig    
+#&gt; -------------------------------------
+#&gt;    mpg       45.041     31     0.0989  
+#&gt; -------------------------------------</div><div class='input'><span class='fu'>os_vartest</span>(<span class='no'>mtcars</span>$<span class='no'>mpg</span>, <span class='fl'>5</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'all'</span>)</div><div class='output co'>#&gt;                             One-Sample Statistics                             
+#&gt; -----------------------------------------------------------------------------
+#&gt;  Variable    Obs     Mean      Std. Err.    Std. Dev.    [95% Conf. Interval] 
+#&gt; -----------------------------------------------------------------------------
+#&gt;    mpg       32     20.0906     1.0654       6.0269        3.8737    10.6526   
+#&gt; -----------------------------------------------------------------------------
+#&gt; 
+#&gt;             Ho: sd(mpg) = 5           
+#&gt; 
+#&gt;          Ha: sd &lt; 5                Ha: sd != 5                 Ha: sd &gt; 5         
+#&gt;         c = 45.0412                c = 45.0412                c = 45.0412       
+#&gt;      Pr(C &lt; c) = 0.9506       2 * Pr(C &gt; c) = 0.0989       Pr(C &gt; c) = 0.0494    </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -121,6 +193,10 @@ following components:</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

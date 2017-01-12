@@ -52,6 +52,9 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
+  <a href="../articles/index.html">Articles</a>
+</li>
+<li>
   <a href="../news/index.html">News</a>
 </li>
       </ul>
@@ -79,15 +82,18 @@
 
     
     <p>tests on the equality of proportions using
-large-sample statistics.</p>
+large-sample statistics. It tests that <code>var</code> has the same proportion
+within two groups defined by <code>group</code> or that two variables <code>var1</code> and
+<code>var2</code> have the same proportion.</p>
     
 
-    <pre><span class='fu'>ts_prop_test</span>(<span class='no'>var1</span>, <span class='no'>var2</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"both"</span>, <span class='st'>"less"</span>, <span class='st'>"greater"</span>, <span class='st'>"all"</span>))
+    <pre><span class='fu'>ts_prop_test</span>(<span class='no'>var1</span>, <span class='no'>var2</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"both"</span>, <span class='st'>"less"</span>, <span class='st'>"greater"</span>, <span class='st'>"all"</span>),
+  <span class='no'>...</span>)
 
 <span class='fu'>ts_prop_grp</span>(<span class='no'>var</span>, <span class='no'>group</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"both"</span>, <span class='st'>"less"</span>, <span class='st'>"greater"</span>, <span class='st'>"all"</span>))
 
 <span class='fu'>ts_prop_calc</span>(<span class='no'>n1</span>, <span class='no'>n2</span>, <span class='no'>p1</span>, <span class='no'>p2</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"both"</span>, <span class='st'>"less"</span>, <span class='st'>"greater"</span>,
-  <span class='st'>"all"</span>))</pre>
+  <span class='st'>"all"</span>), <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <dl class="dl-horizontal">
@@ -98,7 +104,9 @@ large-sample statistics.</p>
       <dt>alternative</dt>
       <dd>a character string specifying the alternative hypothesis,
 must be one of &quot;both&quot; (default), &quot;greater&quot;, &quot;less&quot; or &quot;all&quot;. You can specify
-just the initial letter.</dd>
+just the initial letter</dd>
+      <dt>...</dt>
+      <dd>additional arguments passed to or from other methods</dd>
       <dt>var</dt>
       <dd>a categorical variable</dd>
       <dt>group</dt>
@@ -118,6 +126,15 @@ just the initial letter.</dd>
     <p>an object of class <code>&quot;prop_test&quot;</code>.
 An object of class <code>&quot;prop_test&quot;</code> is a list containing the
 following components:</p>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
+Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p><code><a href='http://www.rdocumentation.org/packages/stats/topics/prop.test'>prop.test</a></code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -200,6 +217,10 @@ following components:</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

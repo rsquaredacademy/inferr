@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Levene test for equality of variances — levene_test â€¢ inferr</title>
+<title>Levene&#39;s test for equality of variances — levene_test â€¢ inferr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -52,6 +52,9 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
+  <a href="../articles/index.html">Articles</a>
+</li>
+<li>
   <a href="../news/index.html">News</a>
 </li>
       </ul>
@@ -74,7 +77,7 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Levene test for equality of variances</h1>
+    <h1>Levene&#39;s test for equality of variances</h1>
     </div>
 
     
@@ -88,6 +91,10 @@ the mean with the 10<!-- % trimmed mean (W_10). --></p>
 
     <pre><span class='fu'>levene_test</span>(<span class='no'>variable</span>, <span class='no'>...</span>)
 
+<span class='co'># S3 method for default</span>
+<span class='fu'>levene_test</span>(<span class='no'>variable</span>, <span class='no'>...</span>, <span class='kw'>group_var</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>trim.mean</span> <span class='kw'>=</span> <span class='fl'>0.1</span>)
+
 <span class='co'># S3 method for lm</span>
 <span class='fu'>levene_test</span>(<span class='no'>variable</span>, <span class='no'>...</span>)
 
@@ -97,9 +104,13 @@ the mean with the 10<!-- % trimmed mean (W_10). --></p>
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <dl class="dl-horizontal">
       <dt>variable</dt>
-      <dd>a numeric vector</dd>
+      <dd>a numeric vector or formula or object of class <code>lm</code></dd>
       <dt>...</dt>
       <dd>numeric vectors</dd>
+      <dt>group_var</dt>
+      <dd>a grouping variable</dd>
+      <dt>trim.mean</dt>
+      <dd>trimmed mean</dd>
       <dt>data</dt>
       <dd>a data frame</dd>
     </dl>
@@ -110,17 +121,90 @@ the mean with the 10<!-- % trimmed mean (W_10). --></p>
 An object of class <code>&quot;levene_test&quot;</code> is a list containing the
 following components:</p>
     
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Bland, M. 2000. An Introduction to Medical Statistics. 3rd ed. Oxford: Oxford University Press.</p>
+    <p>Brown, M. B., and A. B. Forsythe. 1974. Robust tests for the equality of variances. Journal of the American Statistical
+Association 69: 364–367.</p>
+    <p>Carroll, R. J., and H. Schneider. 1985. A note on Levene’s tests for equality of variances. Statistics and Probability
+Letters 3: 191–194.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p><code><a href='http://www.rdocumentation.org/packages/lawstat/topics/levene.test'>levene.test</a></code> <code><a href='http://www.rdocumentation.org/packages/car/topics/leveneTest'>leveneTest</a></code>
+<code><a href='http://www.rdocumentation.org/packages/DescTools/topics/LeveneTest'>LeveneTest</a></code> <code><a href='http://www.rdocumentation.org/packages/LaplacesDemon/topics/Levene.Test'>Levene.Test</a></code></p>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># using grouping variable</span>
-<span class='fu'>levene_test</span>(<span class='no'>mtcars</span>$<span class='no'>mpg</span>, <span class='kw'>group_var</span> <span class='kw'>=</span> <span class='no'>mtcars</span>$<span class='no'>vs</span>)</div><div class='output co'>#&gt;            Summary Statistics             </div><div class='output co'>#&gt; <span class='error'>Error in fg(&quot;Levels&quot;, lw): could not find function &quot;%&gt;%&quot;</span></div><div class='input'>
+<span class='fu'>levene_test</span>(<span class='no'>mtcars</span>$<span class='no'>mpg</span>, <span class='kw'>group_var</span> <span class='kw'>=</span> <span class='no'>mtcars</span>$<span class='no'>vs</span>)</div><div class='output co'>#&gt;            Summary Statistics             
+#&gt; Levels    Frequency    Mean     Std. Dev  
+#&gt; -----------------------------------------
+#&gt;   0          18        16.62      3.86    
+#&gt;   1          14        24.56      5.38    
+#&gt; -----------------------------------------
+#&gt; Total        32        20.09      6.03    
+#&gt; -----------------------------------------
+#&gt; 
+#&gt;                              Test Statistics                              
+#&gt; -------------------------------------------------------------------------
+#&gt; Statistic                            Num DF    Den DF         F    Pr &gt; F 
+#&gt; Brown and Forsythe                        1        30    3.0862    0.0892 
+#&gt; Levene                                    1        30    1.5922    0.2167 
+#&gt; Brown and Forsythe (Trimmed Mean)         1        30    2.8559    0.1014 
+#&gt; -------------------------------------------------------------------------</div><div class='input'>
 <span class='co'># using two variables</span>
-<span class='fu'>levene_test</span>(<span class='no'>mtcars</span>$<span class='no'>mpg</span>, <span class='no'>mtcars</span>$<span class='no'>qsec</span>)</div><div class='output co'>#&gt;            Summary Statistics             </div><div class='output co'>#&gt; <span class='error'>Error in fg(&quot;Levels&quot;, lw): could not find function &quot;%&gt;%&quot;</span></div><div class='input'>
+<span class='fu'>levene_test</span>(<span class='no'>mtcars</span>$<span class='no'>mpg</span>, <span class='no'>mtcars</span>$<span class='no'>qsec</span>)</div><div class='output co'>#&gt;            Summary Statistics             
+#&gt; Levels    Frequency    Mean     Std. Dev  
+#&gt; -----------------------------------------
+#&gt;   1          32        20.09      6.03    
+#&gt;   2          32        17.85      1.79    
+#&gt; -----------------------------------------
+#&gt; Total        64        18.97      4.55    
+#&gt; -----------------------------------------
+#&gt; 
+#&gt;                              Test Statistics                               
+#&gt; --------------------------------------------------------------------------
+#&gt; Statistic                            Num DF    Den DF          F    Pr &gt; F 
+#&gt; Brown and Forsythe                        1        62    24.3932         0 
+#&gt; Levene                                    1        62    20.9464         0 
+#&gt; Brown and Forsythe (Trimmed Mean)         1        62    22.7064         0 
+#&gt; --------------------------------------------------------------------------</div><div class='input'>
 <span class='co'># using model</span>
 <span class='no'>m</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>vs</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
-<span class='fu'>levene_test</span>(<span class='no'>m</span>)</div><div class='output co'>#&gt;            Summary Statistics             </div><div class='output co'>#&gt; <span class='error'>Error in fg(&quot;Levels&quot;, lw): could not find function &quot;%&gt;%&quot;</span></div><div class='input'>
+<span class='fu'>levene_test</span>(<span class='no'>m</span>)</div><div class='output co'>#&gt;            Summary Statistics             
+#&gt; Levels    Frequency    Mean     Std. Dev  
+#&gt; -----------------------------------------
+#&gt;   0          18        16.62      3.86    
+#&gt;   1          14        24.56      5.38    
+#&gt; -----------------------------------------
+#&gt; Total        32        20.09      6.03    
+#&gt; -----------------------------------------
+#&gt; 
+#&gt;                              Test Statistics                              
+#&gt; -------------------------------------------------------------------------
+#&gt; Statistic                            Num DF    Den DF         F    Pr &gt; F 
+#&gt; Brown and Forsythe                        1        30    3.0862    0.0892 
+#&gt; Levene                                    1        30    1.5922    0.2167 
+#&gt; Brown and Forsythe (Trimmed Mean)         1        30    2.8559    0.1014 
+#&gt; -------------------------------------------------------------------------</div><div class='input'>
 <span class='co'># using formula</span>
-<span class='fu'>levene_test</span>(<span class='fu'>as.formula</span>(<span class='fu'>paste0</span>(<span class='st'>'mpg ~ vs'</span>)), <span class='no'>mtcars</span>)</div><div class='output co'>#&gt;            Summary Statistics             </div><div class='output co'>#&gt; <span class='error'>Error in fg(&quot;Levels&quot;, lw): could not find function &quot;%&gt;%&quot;</span></div><div class='input'>
+<span class='fu'>levene_test</span>(<span class='fu'>as.formula</span>(<span class='fu'>paste0</span>(<span class='st'>'mpg ~ vs'</span>)), <span class='no'>mtcars</span>)</div><div class='output co'>#&gt;            Summary Statistics             
+#&gt; Levels    Frequency    Mean     Std. Dev  
+#&gt; -----------------------------------------
+#&gt;   0          18        16.62      3.86    
+#&gt;   1          14        24.56      5.38    
+#&gt; -----------------------------------------
+#&gt; Total        32        20.09      6.03    
+#&gt; -----------------------------------------
+#&gt; 
+#&gt;                              Test Statistics                              
+#&gt; -------------------------------------------------------------------------
+#&gt; Statistic                            Num DF    Den DF         F    Pr &gt; F 
+#&gt; Brown and Forsythe                        1        30    3.0862    0.0892 
+#&gt; Levene                                    1        30    1.5922    0.2167 
+#&gt; Brown and Forsythe (Trimmed Mean)         1        30    2.8559    0.1014 
+#&gt; -------------------------------------------------------------------------</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -129,6 +213,10 @@ following components:</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

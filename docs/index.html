@@ -19,6 +19,9 @@
   <a href="reference/index.html">Reference</a>
 </li>
 <li>
+  <a href="articles/index.html">Articles</a>
+</li>
+<li>
   <a href="news/index.html">News</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
@@ -43,31 +46,39 @@
 <div id="inferr" class="section level1">
 <div class="page-header"><h1 class="hasAnchor"><a href="#inferr" class="anchor"> </a>inferr</h1></div>
 
-</div>
-<div id="overview" class="section level1">
-<h1 class="hasAnchor"><a href="#overview" class="anchor"> </a>Overview</h1>
-<p>inferr provides a comprehensive suite of statistical tests (both parametric and non-parametric). In the first release, we have included the most popular tests and the list will be expanded in the coming releases. Below is a list of tests available in the initial release:</p>
+<div id="overview" class="section level2">
+<h2 class="hasAnchor"><a href="#overview" class="anchor"> </a>Overview</h2>
+<p>Inferential statistics allows us to make generalizations about populations using data drawn from the population. We use them when it is impractical or impossible to collect data about the whole population under study and instead, we have a sample that represents the population under study and using inferential statistics technique, we make generalizations about the population from the sample. <strong>inferr</strong> builds upon the solid set of statistical tests provided in <strong>stats</strong> package by including additional data types as inputs, expanding and restructuring the test results.</p>
+<p>The <strong>inferr</strong> package:</p>
+<ul><li>builds upon the statistical tests provided in <strong>stats</strong><br></li>
+<li>provides additional and flexible input options</li>
+<li>more detailed and structured test results</li>
+</ul><p>As of version 0.1, <strong>inferr</strong> includes a select set of parametric and non-parametric statistical tests which are listed below:</p>
 <ul><li>One Sample t Test</li>
-<li>One Sample Variance Test</li>
-<li>One Sample Proportion Test</li>
-<li>One Sample Chi Square Proportion Test</li>
-<li>Two Sample Proportion Test</li>
-<li>Two Sample Variance Test</li>
-<li>Independent Sample t Test</li>
 <li>Paired Sample t Test</li>
-<li>Binomial Probability Test</li>
-<li>Chi Square Contingency Test</li>
+<li>Independent Sample t Test</li>
+<li>One Sample Proportion Test</li>
+<li>Two Sample Proportion Test</li>
+<li>One Sample Variance Test</li>
+<li>Two Sample Variance Test</li>
+<li>Binomial Test</li>
+<li>ANOVA</li>
 <li>Chi Square Goodness of Fit Test</li>
+<li>Chi Square Independence Test</li>
+<li>Levene&rsquo;s Test</li>
 <li>Cochran&rsquo;s Q Test</li>
-<li>Levene Test</li>
 <li>McNemar Test</li>
-<li>Runs Test</li>
-<li>One Way ANOVA</li>
-</ul><div id="installation" class="section level2">
+<li>Runs Test for Randomness</li>
+</ul></div>
+<div id="installation" class="section level2">
 <h2 class="hasAnchor"><a href="#installation" class="anchor"> </a>Installation</h2>
-<p>You can install inferr from github with:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages("devtools")</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install inferr from CRAN</span>
+<span class="kw">install.packages</span>(<span class="st">"inferr"</span>)
+
+<span class="co"># the development version from github</span>
+<span class="co"># install.packages("devtools")</span>
 devtools::<span class="kw">install_github</span>(<span class="st">"rsquaredacademy/inferr"</span>)</code></pre></div>
+<p>Please note that this project is released with a <a href="CONDUCT.md">Contributor Code of Conduct</a>. By participating in this project you agree to abide by its terms.</p>
 </div>
 </div>
 </div>

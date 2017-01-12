@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Chi Square Goodness of Fit Test — chisq_gof â€¢ inferr</title>
+<title>Binomial Test — binom_calc â€¢ inferr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -77,69 +77,84 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Chi Square Goodness of Fit Test</h1>
+    <h1>Binomial Test</h1>
     </div>
 
     
-    <p>Test whether the observed proportions for a categorical variable
-differ from hypothesized proportions</p>
+    <p>Test whether the proportion of successes on a two-level
+categorical dependent variable significantly differs from a hypothesized value.</p>
     
 
-    <pre><span class='fu'>chisq_gof</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>correct</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre><span class='fu'>binom_calc</span>(<span class='no'>n</span>, <span class='no'>success</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='no'>...</span>)
+
+<span class='fu'>binom_test</span>(<span class='no'>data</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <dl class="dl-horizontal">
-      <dt>x</dt>
-      <dd>categorical variable</dd>
-      <dt>y</dt>
-      <dd>expected proportions</dd>
-      <dt>correct</dt>
-      <dd>logical; if TRUE continuiuty correction is applied</dd>
+      <dt>n</dt>
+      <dd>number of observations</dd>
+      <dt>success</dt>
+      <dd>number of successes</dd>
+      <dt>prob</dt>
+      <dd>assumed probability of success on a trial</dd>
+      <dt>...</dt>
+      <dd>additional arguments passed to or from other methods</dd>
+      <dt>data</dt>
+      <dd>a numeric vector</dd>
     </dl>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>chisq_gof</code> returns an object of class <code>&quot;chisq_gof&quot;</code>.
-An object of class <code>&quot;chisq_gof&quot;</code> is a list containing the
+    <p><code>binom_test</code> returns an object of class <code>&quot;binom_test&quot;</code>.
+An object of class <code>&quot;binom_test&quot;</code> is a list containing the
 following components:</p>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Hoel, P. G. 1984. Introduction to Mathematical Statistics.
+5th ed. New York: Wiley.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p><code><a href='http://www.rdocumentation.org/packages/stats/topics/chisq.test'>chisq.test</a></code></p>
+    <p><code><a href='http://www.rdocumentation.org/packages/stats/topics/binom.test'>binom.test</a></code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>chisq_gof</span>(<span class='no'>hsb</span>$<span class='no'>race</span>, <span class='fu'>c</span>(<span class='fl'>20</span>, <span class='fl'>20</span>, <span class='fl'>20</span> , <span class='fl'>140</span>))</div><div class='output co'>#&gt;     Test Statistics     
-#&gt; -----------------------
-#&gt; Chi-Square       5.0286 
-#&gt; DF                    3 
-#&gt; Pr &gt; Chi Sq      0.1697 
-#&gt; Sample Size         200 
+    <pre class="examples"><div class='input'><span class='fu'>binom_calc</span>(<span class='fl'>32</span>, <span class='fl'>13</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt;             Binomial Test              
+#&gt;  --------------------------------------
+#&gt;   Group    N     Obs. Prop    Exp. Prop 
+#&gt;  --------------------------------------
+#&gt;     0      19      0.59375        0.500 
+#&gt;     1      13      0.40625        0.500 
+#&gt;  --------------------------------------
 #&gt; 
-#&gt;                          Variable: race                           
-#&gt; -----------------------------------------------------------------
-#&gt; Category    Observed    Expected    % Deviation    Std. Residuals 
-#&gt; -----------------------------------------------------------------
-#&gt;    1           24          20          20.00            0.89      
-#&gt;    2           11          20         -45.00           -2.01      
-#&gt;    3           20          20           0.00            0.00      
-#&gt;    4          145         140           3.57            0.42      
-#&gt; -----------------------------------------------------------------</div><div class='input'><span class='fu'>chisq_gof</span>(<span class='no'>hsb</span>$<span class='no'>race</span>, <span class='fu'>c</span>(<span class='fl'>20</span>, <span class='fl'>20</span>, <span class='fl'>20</span> , <span class='fl'>140</span>), <span class='kw'>correct</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;     Test Statistics     
-#&gt; -----------------------
-#&gt; Chi-Square       4.3821 
-#&gt; DF                    3 
-#&gt; Pr &gt; Chi Sq      0.2231 
-#&gt; Sample Size         200 
 #&gt; 
-#&gt;                          Variable: race                           
-#&gt; -----------------------------------------------------------------
-#&gt; Category    Observed    Expected    % Deviation    Std. Residuals 
-#&gt; -----------------------------------------------------------------
-#&gt;    1           24          20          17.50            0.78      
-#&gt;    2           11          20         -47.50           -2.12      
-#&gt;    3           20          20          -2.50           -0.11      
-#&gt;    4          145         140           3.21            0.38      
-#&gt; -----------------------------------------------------------------</div></pre>
+#&gt;                  Test Summary                 
+#&gt;  --------------------------------------------
+#&gt;   Tail              Prob             p-value  
+#&gt;  --------------------------------------------
+#&gt;   Lower    Pr(k &lt;= 13)               0.188543 
+#&gt;   Upper    Pr(k &gt;= 13)               0.892336 
+#&gt;   Two      Pr(k &lt;= 13 or k &gt;= 19)    0.377086 
+#&gt;  --------------------------------------------</div><div class='input'>
+<span class='co'># using data set</span>
+<span class='fu'>binom_test</span>(<span class='fu'>as.factor</span>(<span class='no'>hsb</span>$<span class='no'>female</span>), <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt;              Binomial Test              
+#&gt;  ---------------------------------------
+#&gt;   Group     N     Obs. Prop    Exp. Prop 
+#&gt;  ---------------------------------------
+#&gt;     0       91        0.455        0.500 
+#&gt;     1      109        0.545        0.500 
+#&gt;  ---------------------------------------
+#&gt; 
+#&gt; 
+#&gt;                  Test Summary                  
+#&gt;  ---------------------------------------------
+#&gt;   Tail              Prob              p-value  
+#&gt;  ---------------------------------------------
+#&gt;   Lower    Pr(k &lt;= 109)               0.910518 
+#&gt;   Upper    Pr(k &gt;= 109)               0.114623 
+#&gt;   Two      Pr(k &lt;= 91 or k &gt;= 109)    0.229247 
+#&gt;  ---------------------------------------------</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -147,6 +162,8 @@ following components:</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#references">References</a></li>
 
       <li><a href="#see-also">See also</a></li>
       

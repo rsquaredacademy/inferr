@@ -16,7 +16,7 @@ library(dplyr)
 Inferential statistics allows us to make generalizations about populations using data drawn from the population.
 We use them when it is impractical or impossible to collect data about the whole population under study and instead,
 we have a sample that represents the population under study and using inferential statistics technique, we make
-generalizations about the population from the sample. The **stats** package provides a solid set of statistical tests but leaves enough flexibility to add more details in terms of data input options, expanding and structuring the test results.
+generalizations about the population from the sample. **inferr** builds upon the solid set of statistical tests provided in **stats** package by including additional data types as inputs, expanding and restructuring the test results.
 
 The **inferr** package:
 
@@ -26,13 +26,13 @@ The **inferr** package:
 
 As of version 0.1, **inferr** includes a select set of parametric and non-parametric statistical tests which are listed below:
 
-- 1 Sample t Test
+- One Sample t Test
 - Paired Sample t Test
 - Independent Sample t Test
-- 1 Sample Proportion Test
-- 2 Sample Proportion Test
-- 1 Sample Variance Test
-- 2 Sample Variance Test
+- One Sample Proportion Test
+- Two Sample Proportion Test
+- One Sample Variance Test
+- Two Sample Variance Test
 - Binomial Test
 - ANOVA
 - Chi Square Goodness of Fit Test

@@ -52,6 +52,9 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
+  <a href="../articles/index.html">Articles</a>
+</li>
+<li>
   <a href="../news/index.html">News</a>
 </li>
       </ul>
@@ -78,23 +81,25 @@
     </div>
 
     
-    <p><code>prop_test</code> performs tests on the equality of proportions
-using large-sample statistics.</p>
+    <p><code>prop_test</code> compares proportion in one group to a
+specified population proportion.</p>
     
 
-    <pre><span class='fu'>prop_test</span>(<span class='no'>n</span>, <span class='no'>phat</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"both"</span>, <span class='st'>"less"</span>, <span class='st'>"greater"</span>,
-  <span class='st'>"all"</span>), <span class='no'>...</span>)
+    <pre><span class='fu'>prop_test</span>(<span class='no'>n</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"both"</span>, <span class='st'>"less"</span>, <span class='st'>"greater"</span>, <span class='st'>"all"</span>),
+  <span class='no'>...</span>)
+
+<span class='co'># S3 method for default</span>
+<span class='fu'>prop_test</span>(<span class='no'>n</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"both"</span>, <span class='st'>"less"</span>,
+  <span class='st'>"greater"</span>, <span class='st'>"all"</span>), <span class='no'>phat</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for factor</span>
-<span class='fu'>prop_test</span>(<span class='no'>n</span>, <span class='kw'>phat</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
-  <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"both"</span>, <span class='st'>"less"</span>, <span class='st'>"greater"</span>, <span class='st'>"all"</span>), <span class='no'>...</span>)</pre>
+<span class='fu'>prop_test</span>(<span class='no'>n</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"both"</span>, <span class='st'>"less"</span>,
+  <span class='st'>"greater"</span>, <span class='st'>"all"</span>), <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <dl class="dl-horizontal">
       <dt>n</dt>
       <dd>number of observations</dd>
-      <dt>phat</dt>
-      <dd>observed proportion</dd>
       <dt>prob</dt>
       <dd>hypothesised proportion</dd>
       <dt>alternative</dt>
@@ -103,6 +108,8 @@ must be one of &quot;both&quot; (default), &quot;greater&quot;, &quot;less&quot;
 just the initial letter.</dd>
       <dt>...</dt>
       <dd>other arguments</dd>
+      <dt>phat</dt>
+      <dd>observed proportion</dd>
     </dl>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -111,9 +118,18 @@ just the initial letter.</dd>
 An object of class <code>&quot;prop_test&quot;</code> is a list containing the
 following components:</p>
     
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
+Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p><code><a href='http://www.rdocumentation.org/packages/stats/topics/prop.test'>prop.test</a></code> <code><a href='http://www.rdocumentation.org/packages/stats/topics/binom.test'>binom.test</a></code></p>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>prop_test</span>(<span class='fl'>200</span>, <span class='fl'>0.3</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt;      Test Statistics       
+    <pre class="examples"><div class='input'><span class='fu'>prop_test</span>(<span class='fl'>200</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>phat</span> <span class='kw'>=</span> <span class='fl'>0.3</span>)</div><div class='output co'>#&gt;      Test Statistics       
 #&gt; --------------------------
 #&gt; Sample Size            200 
 #&gt; Exp Prop               0.5 
@@ -121,9 +137,27 @@ following components:</p>
 #&gt; z                  -5.6569 
 #&gt; Pr(|Z| &gt; |z|)            0 
 #&gt; 
-#&gt; -----------------------------------------------------------------</div><div class='output co'>#&gt; <span class='error'>Error in fg(&quot;Category&quot;, lw): could not find function &quot;%&gt;%&quot;</span></div><div class='input'>
+#&gt; -----------------------------------------------------------------
+#&gt; Category    Observed    Expected    % Deviation    Std. Residuals 
+#&gt; -----------------------------------------------------------------
+#&gt;    0          140         100          40.00            4.00      
+#&gt;    1           60         100         -40.00           -4.00      
+#&gt; -----------------------------------------------------------------</div><div class='input'>
 <span class='co'># using data set</span>
-<span class='fu'>prop_test</span>(<span class='fu'>as.factor</span>(<span class='no'>hsb</span>$<span class='no'>female</span>), <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt; <span class='error'>Error in table(n1)[[2]]: subscript out of bounds</span></div></pre>
+<span class='fu'>prop_test</span>(<span class='fu'>as.factor</span>(<span class='no'>hsb</span>$<span class='no'>female</span>), <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt;      Test Statistics      
+#&gt; -------------------------
+#&gt; Sample Size           200 
+#&gt; Exp Prop              0.5 
+#&gt; Obs Prop            0.545 
+#&gt; z                  1.2728 
+#&gt; Pr(|Z| &gt; |z|)      0.2031 
+#&gt; 
+#&gt; -----------------------------------------------------------------
+#&gt; Category    Observed    Expected    % Deviation    Std. Residuals 
+#&gt; -----------------------------------------------------------------
+#&gt;    0           91         100          -9.00           -0.90      
+#&gt;    1          109         100           9.00            0.90      
+#&gt; -----------------------------------------------------------------</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -131,6 +165,10 @@ following components:</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
