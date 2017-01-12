@@ -112,16 +112,56 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>test if the proportion of students in himath and hiread group is same
-himath <- ifelse(hsb$math > 60, 1, 0)
-hiread <- ifelse(hsb$read > 60, 1, 0)
-mcnemar_test(table(himath, hiread))
-
-using matrix
-mcnemar_test(matrix(c(135, 18, 21, 26), nrow = 2))
-</div><div class='output co'>#&gt; <span class='error'>Error: &lt;text&gt;:1:6: unexpected &#39;if&#39;</span>
-#&gt; <span class='error'>1: test if</span>
-#&gt; <span class='error'>         ^</span></div></pre>
+    <pre class="examples"><div class='input'><span class='co'># test if the proportion of students in himath and hiread group is same</span>
+<span class='no'>himath</span> <span class='kw'>&lt;-</span> <span class='fu'>ifelse</span>(<span class='no'>hsb</span>$<span class='no'>math</span> <span class='kw'>&gt;</span> <span class='fl'>60</span>, <span class='fl'>1</span>, <span class='fl'>0</span>)
+<span class='no'>hiread</span> <span class='kw'>&lt;-</span> <span class='fu'>ifelse</span>(<span class='no'>hsb</span>$<span class='no'>read</span> <span class='kw'>&gt;</span> <span class='fl'>60</span>, <span class='fl'>1</span>, <span class='fl'>0</span>)
+<span class='fu'>mcnemar_test</span>(<span class='fu'>table</span>(<span class='no'>himath</span>, <span class='no'>hiread</span>))</div><div class='output co'>#&gt;        McNemar&#39;s Test        
+#&gt; ----------------------------
+#&gt; McNemar&#39;s chi2        0.2308 
+#&gt; DF                         1 
+#&gt; Pr &gt; chi2              0.631 
+#&gt; Exact Pr &gt;= chi2      1.4776 
+#&gt; ----------------------------
+#&gt; 
+#&gt;        Kappa Coefficient         
+#&gt; --------------------------------
+#&gt; Kappa                     0.4454 
+#&gt; ASE                        0.075 
+#&gt; 95% Lower Conf Limit      0.2984 
+#&gt; 95% Upper Conf Limit      0.5923 
+#&gt; --------------------------------
+#&gt; 
+#&gt; Proportion With Factor 
+#&gt; ----------------------
+#&gt; cases             0.78 
+#&gt; controls         0.765 
+#&gt; ratio           1.0196 
+#&gt; odds ratio      1.1667 
+#&gt; ----------------------</div><div class='input'>
+<span class='co'># using matrix</span>
+<span class='fu'>mcnemar_test</span>(<span class='fu'>matrix</span>(<span class='fu'>c</span>(<span class='fl'>135</span>, <span class='fl'>18</span>, <span class='fl'>21</span>, <span class='fl'>26</span>), <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>2</span>))</div><div class='output co'>#&gt;        McNemar&#39;s Test        
+#&gt; ----------------------------
+#&gt; McNemar&#39;s chi2        0.2308 
+#&gt; DF                         1 
+#&gt; Pr &gt; chi2              0.631 
+#&gt; Exact Pr &gt;= chi2      1.4776 
+#&gt; ----------------------------
+#&gt; 
+#&gt;        Kappa Coefficient         
+#&gt; --------------------------------
+#&gt; Kappa                     0.4454 
+#&gt; ASE                        0.075 
+#&gt; 95% Lower Conf Limit      0.2984 
+#&gt; 95% Upper Conf Limit      0.5923 
+#&gt; --------------------------------
+#&gt; 
+#&gt; Proportion With Factor 
+#&gt; ----------------------
+#&gt; cases             0.78 
+#&gt; controls         0.765 
+#&gt; ratio           1.0196 
+#&gt; odds ratio      1.1667 
+#&gt; ----------------------</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

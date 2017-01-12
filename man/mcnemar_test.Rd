@@ -37,12 +37,12 @@ Test if the proportions of two dichotomous variables are
 equal in the same population.
 }
 \examples{
-test if the proportion of students in himath and hiread group is same
+# test if the proportion of students in himath and hiread group is same
 himath <- ifelse(hsb$math > 60, 1, 0)
 hiread <- ifelse(hsb$read > 60, 1, 0)
 mcnemar_test(table(himath, hiread))
 
-using matrix
+# using matrix
 mcnemar_test(matrix(c(135, 18, 21, 26), nrow = 2))
 }
 \references{
