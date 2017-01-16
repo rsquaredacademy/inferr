@@ -91,16 +91,17 @@ prop_test.default <- function(n, prob = 0.5,
         sig = tt
     }
 
-    result <- list(n = n,
-                   phat = phat,
-                   p = prob,
-                   z = z,
-                   sig = sig,
-                   alt = alt,
-                   obs = obs,
-    	             exp = exp,
-                   deviation = format(dev, nsmall = 2),
-                   std = format(std, nsmall = 2))
+    result <- list(
+              n = n,
+           phat = phat,
+              p = prob,
+              z = z,
+            sig = sig,
+            alt = alt,
+            obs = obs,
+            exp = exp,
+      deviation = format(dev, nsmall = 2),
+            std = format(std, nsmall = 2))
 
     class(result) <- 'prop_test'
     return(result)

@@ -1,5 +1,4 @@
-#' @importFrom dplyr mutate
-#' @importFrom stats as.formula
+#' @importFrom stats as.formula lm pf
 #' @title One Way ANOVA
 #' @description One way analysis of variance
 #' @param data a data frame
@@ -51,43 +50,39 @@ owanova.default <- function(data, x, y, ...) {
       stop('y must be a column in data')
     }
 
-	sample_stats <- anova_split(data, x, y)
-	sample_mean  <- anova_avg(data, x)[1, 1]
-	sample_stats <- mutate(sample_stats,
-	    sst = length * ((mean - sample_mean) ^ 2),
-	    sse = (length - 1) * var
-	)
+	  sample_mean <- anova_avg(data, x)
+	  sample_stats <- anova_split(data, x, y, sample_mean)
 
-	sstr    <- round(sum(sample_stats$sst), 3)
-	ssee    <- round(sum(sample_stats$sse), 3)
-	total   <- round(sstr + ssee, 3)
+	   sstr <- round(sum(sample_stats$sst), 3)
+	   ssee <- round(sum(sample_stats$sse), 3)
+	  total <- round(sstr + ssee, 3)
 	df_sstr <- nrow(sample_stats) - 1
-	df_sse  <- nrow(data) - nrow(sample_stats)
-	df_sst  <- nrow(data) - 1
-	mstr    <- round(sstr / df_sstr, 3)
-	mse     <- round(ssee / df_sse, 3)
-	f       <- round(mstr / mse, 3)
-	sig     <- round(1- pf(f, df_sstr, df_sse), 3)
-	obs     <- nrow(data)
-	regs    <- paste(x, '~ as.factor(', y, ')')
-	model   <- lm(as.formula(regs), data = data)
-	reg     <- summary(model)
+	 df_sse <- nrow(data) - nrow(sample_stats)
+	 df_sst <- nrow(data) - 1
+	   mstr <- round(sstr / df_sstr, 3)
+	    mse <- round(ssee / df_sse, 3)
+	      f <- round(mstr / mse, 3)
+	    sig <- round(1- pf(f, df_sstr, df_sse), 3)
+	    obs <- nrow(data)
+	   regs <- paste(x, '~ as.factor(', y, ')')
+	  model <- lm(as.formula(regs), data = data)
+	    reg <- summary(model)
 
-	result <- list(between   = sstr,
-								 within    = ssee,
-		       			 total     = total,
-								 df_btw    = df_sstr,
+	 result <- list( between = sstr,
+								    within = ssee,
+		       			     total = total,
+								    df_btw = df_sstr,
 								 df_within = df_sse,
-								 df_total  = df_sst,
-								 ms_btw    = mstr,
+								  df_total = df_sst,
+								    ms_btw = mstr,
 								 ms_within = mse,
-								 f         = f,
-								 p         = sig,
-								 r2        = round(reg$r.squared, 4),
-								 ar2       = round(reg$adj.r.squared, 4),
-								 sigma     = round(reg$sigma, 4),
-								 obs       = obs,
-								 tab       = format(sample_stats[, c(1, 2, 3, 5)], nsmall = 3))
+								         f = f,
+								         p = sig,
+								        r2 = round(reg$r.squared, 4),
+								       ar2 = round(reg$adj.r.squared, 4),
+								     sigma = round(reg$sigma, 4),
+								       obs = obs,
+								       tab = format(sample_stats[, c(1, 2, 3, 5)], nsmall = 3))
 
 	class(result) <- 'owanova'
 	return(result)

@@ -10,11 +10,14 @@ Description: Select set of parametric and non-parametric statistical tests. **in
 Depends:
     R(>= 3.2.4)
 License: MIT + file LICENSE
-URL: https://github.com/rsquaredacademy/inferr
+URL: https://rsquaredacademy.github.io/inferr/, https://github.com/rsquaredacademy/inferr
 BugReports: https://github.com/rsquaredacademy/inferr/issues
 Imports:
     dplyr,
-    magrittr
+    magrittr,
+    Rcpp,
+    tibble,
+    purrr
 Suggests:
     testthat,
     covr,
@@ -24,3 +27,4 @@ Encoding: UTF-8
 LazyData: true
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1
+LinkingTo: Rcpp

@@ -1,4 +1,5 @@
 #' @importFrom stats complete.cases
+#' @importFrom purrr map_dbl
 #' @title Two sample variance comparison test
 #' @description  \code{var_test} performs tests on the equality of standard
 #' deviations (variances).
@@ -72,19 +73,14 @@ var_test.default <- function(variable, ..., group_var = NA,
 		if (is.na(group_var)) {
 
 			z   <- list(variable, ...)
-		  ln  <- lapply(z, length)
-		  ly  <- length(z)
+			ln <- z %>% map_int(length)
+			ly <- seq_len(length(z))
 
-		  if (ly < 2) {
+		  if (length(z) < 2) {
     		stop('Please specify at least two variables.', call. = FALSE)
     	}
 
-		  out <- list()
-
-		  for (i in seq_len(ly)) {
-		    out[[i]] <- as.factor(rep(i, ln[i]))
-		  }
-
+		        out <- gvar(ln, ly)
 		  variable  <- unlist(z)
 		  group_var <- unlist(out)
 
@@ -98,19 +94,19 @@ var_test.default <- function(variable, ..., group_var = NA,
 
 	)
 
-
 	type     <- match.arg(alternative)
 	comp     <- complete.cases(variable, group_var)
-	vars     <- tapply(variable[comp], group_var[comp], var)
-	lens     <- tapply(variable[comp], group_var[comp], length)
-	avgs     <- tapply(variable[comp], group_var[comp], mean)
-	sds      <- tapply(variable[comp], group_var[comp], sd)
-	ses      <- sds / sqrt(lens)
-	len      <- length(variable)
-	avg      <- mean(variable)
-	sd       <- sd(variable)
-	se       <- sd / sqrt(len)
-	f        <- as.vector(vars[1] / vars[2])
+	cvar		 <- variable[comp]
+	gvar     <- group_var[comp]
+
+	   d     <- tibble(cvar, gvar)
+	vals     <- tibble_stats(d, 'cvar', 'gvar')
+	lass     <- tbl_stats(d, 'cvar')
+
+	lens     <- vals[[2]] %>% map_int(1)
+	vars     <- vals[[4]] %>% map_dbl(1)
+
+	f        <- vars[1] / vars[2]
 	n1       <- lens[1] - 1
 	n2       <- lens[2] - 1
 	lower    <- pf(f, n1, n2)
@@ -120,16 +116,16 @@ var_test.default <- function(variable, ..., group_var = NA,
               lower    = round(lower, 4),
               upper    = round(upper, 4),
               vars     = round(vars, 2),
-              avgs     = round(avgs, 2),
-              sds      = round(sds, 2),
-              ses      = round(ses, 2),
-              avg      = round(avg, 2),
-              sd       = round(sd, 2),
-              se       = round(se, 2),
+              avgs     = round((vals[[3]] %>% map_dbl(1)), 2),
+              sds      = round((vals[[5]] %>% map_dbl(1)), 2),
+              ses      = round((vals[[6]] %>% map_dbl(1)), 2),
+              avg      = round(lass[2], 2),
+              sd       = round(lass[3], 2),
+              se       = round(lass[4], 2),
               n1       = n1,
               n2       = n2,
               lens     = lens,
-              len      = len,
+              len      = lass[1],
               lev      = lev,
               type     = type)
 

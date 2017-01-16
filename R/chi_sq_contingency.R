@@ -42,7 +42,7 @@ chisq_test.default <- function(x, y) {
     }
 
     # dimensions
-    k <- table(x, y)
+     k <- table(x, y)
     dk <- dim(k)
     ds <- prod(dk)
     nr <- dk[1]
@@ -53,43 +53,43 @@ chisq_test.default <- function(x, y) {
 
         # pearson chi square
         twoway <- matrix(table(x, y), nrow = 2)
-        mat1 <- matrix(rowSums(twoway) / sum(twoway), nrow = 2)
-        mat2 <- matrix(colSums(twoway), nrow = 1)
-        ef <- mat1 %*% mat2
-        chi <- round(sum(((twoway - ef) ^ 2) / ef), 4)
-        df <- (nrow(twoway) - 1) *  (ncol(twoway) - 1)
-        sig <- round(pchisq(chi, df, lower.tail = F), 4)
+          mat1 <- matrix(rowSums(twoway) / sum(twoway), nrow = 2)
+          mat2 <- matrix(colSums(twoway), nrow = 1)
+            ef <- mat1 %*% mat2
+           chi <- round(sum(((twoway - ef) ^ 2) / ef), 4)
+            df <- (nrow(twoway) - 1) *  (ncol(twoway) - 1)
+           sig <- round(pchisq(chi, df, lower.tail = F), 4)
 
         # likelihood ratio chi square
-        chilr <- round(2 * sum(matrix(log(twoway / ef), nrow = 1) %*% matrix(twoway, nrow = 4)), 4)
+         chilr <- round(2 * sum(matrix(log(twoway / ef), nrow = 1) %*% matrix(twoway, nrow = 4)), 4)
         sig_lr <- round(pchisq(chilr, df, lower.tail = F), 4)
 
         # Yates continuity correction
-        way2 <- twoway[, c(2, 1)]
-        total <- sum(twoway)
-        prods <- prod(diag(twoway)) - prod(diag(way2))
+              way2 <- twoway[, c(2, 1)]
+              total <- sum(twoway)
+              prods <- prod(diag(twoway)) - prod(diag(way2))
         prod_totals <- prod(rowSums(twoway)) * prod(colSums(twoway))
-        chi_y <- round((total *  (abs(prods) - (total / 2)) ^ 2) / prod_totals, 4)
-        sig_y <- round(pchisq(chi_y, 1, lower.tail = F), 4)
+              chi_y <- round((total *  (abs(prods) - (total / 2)) ^ 2) / prod_totals, 4)
+              sig_y <- round(pchisq(chi_y, 1, lower.tail = F), 4)
 
         # mantel haenszel chi square
-        num <- twoway[1] - ((rowSums(twoway)[1] * colSums(twoway)[1]) / total)
-        den <- prod_totals / ((total ^ 3) - (total ^ 2))
-        chimh <- round((num ^ 2) / den, 4)
+           num <- twoway[1] - ((rowSums(twoway)[1] * colSums(twoway)[1]) / total)
+           den <- prod_totals / ((total ^ 3) - (total ^ 2))
+         chimh <- round((num ^ 2) / den, 4)
         sig_mh <- round(pchisq(chimh, 1, lower.tail = F), 4)
 
     } else {
 
         twoway <- matrix(table(x, y), nrow = dk[1])
-        mat1 <- matrix(rowSums(twoway) / sum(twoway), nrow = dk[1])
-        mat2 <- matrix(colSums(twoway), ncol = dk[2])
-        ef <- mat1 %*% mat2
-        chi <- round(sum(((twoway - ef) ^ 2) / ef), 4)
-        df <- (nrow(twoway) - 1) *  (ncol(twoway) - 1)
-        sig <- round(pchisq(chi, df, lower.tail = F), 4)
+          mat1 <- matrix(rowSums(twoway) / sum(twoway), nrow = dk[1])
+          mat2 <- matrix(colSums(twoway), ncol = dk[2])
+            ef <- mat1 %*% mat2
+           chi <- round(sum(((twoway - ef) ^ 2) / ef), 4)
+            df <- (nrow(twoway) - 1) *  (ncol(twoway) - 1)
+           sig <- round(pchisq(chi, df, lower.tail = F), 4)
 
         # likelihood ratio chi square
-        chilr <- round(2 * sum(matrix(twoway, ncol = ds) %*% matrix(log(twoway / ef), nrow = ds)), 4)
+         chilr <- round(2 * sum(matrix(twoway, ncol = ds) %*% matrix(log(twoway / ef), nrow = ds)), 4)
         sig_lr <- round(pchisq(chilr, df, lower.tail = F), 4)
 
     }
@@ -97,31 +97,7 @@ chisq_test.default <- function(x, y) {
     # # pearson chi square
     twoway <- matrix(table(x, y), nrow = nlevels(as.factor(x)),
                     ncol = nlevels(as.factor(y)))
-    # mat1 <- matrix(rowSums(twoway) / sum(twoway), nrow = 2)
-    # mat2 <- matrix(colSums(twoway), nrow = 1)
-    # ef <- mat1 %*% mat2
-    # chi <- round(sum(((twoway - ef) ^ 2) / ef), 4)
-    # df <- (nrow(twoway) - 1) *  (ncol(twoway) - 1)
-    # sig <- round(pchisq(chi, df, lower.tail = F), 4)
-
-    # # likelihood ratio chi square
-    # chilr <- round(2 * sum(matrix(log(twoway / ef), nrow = 1) %*% matrix(twoway, nrow = 4)), 4)
-    # sig_lr <- round(pchisq(chilr, df, lower.tail = F), 4)
-
-    # # Yates continuity correction
-    # way2 <- twoway[, c(2, 1)]
-    total <- sum(twoway)
-    # prods <- prod(diag(twoway)) - prod(diag(way2))
-    # prod_totals <- prod(rowSums(twoway)) * prod(colSums(twoway))
-    # chi_y <- round((total *  (abs(prods) - (total / 2)) ^ 2) / prod_totals, 4)
-    # sig_y <- round(pchisq(chi_y, 1, lower.tail = F), 4)
-
-    # # mantel haenszel chi square
-    # num <- twoway[1] - ((rowSums(twoway)[1] * colSums(twoway)[1]) / total)
-    # den <- prod_totals / ((total ^ 3) - (total ^ 2))
-    # chimh <- round((num ^ 2) / den, 4)
-    # sig_mh <- round(pchisq(chimh, 1, lower.tail = F), 4)
-
+     total <- sum(twoway)
 
     # phi coefficient
     phi <- round(sqrt(chi / total), 4)
@@ -130,7 +106,7 @@ chisq_test.default <- function(x, y) {
     cc <- round(sqrt(chi / (chi + total)), 4)
 
     # cramer's v
-    q <- min(nrow(twoway), ncol(twoway))
+     q <- min(nrow(twoway), ncol(twoway))
     cv <- round(sqrt(chi / (total * (q - 1))), 4)
 
     result <- if (ds == 4) {

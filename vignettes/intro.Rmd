@@ -218,14 +218,16 @@ hypothesized proportions.
 
 ```{r gof1}
 # basic example
-chisq_gof(hsb$race, c(20, 20, 20 , 140))
+race <- as.factor(hsb$race)
+chisq_gof(race, c(20, 20, 20 , 140))
 ```
 
 Use continuity correction.
 
 ```{r gof2}
 # using continuity correction
-chisq_gof(hsb$race, c(20, 20, 20 , 140), correct = TRUE)
+race <- as.factor(hsb$race)
+chisq_gof(race, c(20, 20, 20 , 140), correct = TRUE)
 ```
 
 ## Chi Square Test of Independence

@@ -22,16 +22,20 @@
 #'
 #' @seealso \code{\link[stats]{chisq.test}}
 #' @examples
-#' chisq_gof(hsb$race, c(20, 20, 20 , 140))
+#' chisq_gof(as.factor(hsb$race), c(20, 20, 20, 140))
 #'
 #' # apply continuity correction
-#' chisq_gof(hsb$race, c(20, 20, 20 , 140), correct = TRUE)
+#' chisq_gof(as.factor(hsb$race), c(20, 20, 20, 140), correct = TRUE)
 #' @export
 #'
 chisq_gof <- function(x, y, correct = FALSE) UseMethod('chisq_gof')
 
 #' @export
 chisq_gof.default <- function(x, y, correct = FALSE) {
+
+		if (!is.factor(x)) {
+			stop('x must be an object of class factor')
+		}
 
 		if (!is.numeric(y)) {
 			stop('y must be numeric')
@@ -41,10 +45,10 @@ chisq_gof.default <- function(x, y, correct = FALSE) {
 			stop('correct must be either TRUE or FALSE')
 		}
 
-		x1 <- as.factor(x)
+		     x1 <- x
 		varname <- l(deparse(substitute(x)))
-    x <- as.vector(table(x))
-    n <- length(x)
+          x <- as.vector(table(x))
+          n <- length(x)
 
 		if (length(y) != n) {
 			stop('Length of y must be equal to the number of categories in x')
@@ -56,30 +60,34 @@ chisq_gof.default <- function(x, y, correct = FALSE) {
     }
     if ((df == 1) || (correct == TRUE)) {
         diff <- x - y - 0.5
-        dif <- abs(x - y) - 0.5
+         dif <- abs(x - y) - 0.5
         dif2 <- dif ^ 2
-    		dev <- round((diff / y) * 100, 2)
-    		std <- round(diff / sqrt(y), 2)
-    		chi <- round(sum(dif2 / y), 4)
+    		 dev <- round((diff / y) * 100, 2)
+    		 std <- round(diff / sqrt(y), 2)
+    		 chi <- round(sum(dif2 / y), 4)
     } else {
-        dif <- x - y
+         dif <- x - y
         dif2 <- dif ^ 2
-    		dev <- round((dif / y) * 100, 2)
-    		std <- round(dif / sqrt(y), 2)
-    		chi <- round(sum(dif2 / y), 4)
+    		 dev <- round((dif / y) * 100, 2)
+    		 std <- round(dif / sqrt(y), 2)
+    		 chi <- round(sum(dif2 / y), 4)
     }
-    sig <- round(1 - pchisq(chi, df), 4)
-    result <- list(chisquare = chi,
-    							 pvalue = sig,
-    					 		 df = df,
-    					 		 ssize = length(x1),
-    					 		 names = levels(x1),
-    					 		 level = nlevels(x1),
-    					 		 obs = x,
-    					 		 exp = y,
-    					 		 deviation = format(dev, nsmall = 2),
-    					 		 std = format(std, nsmall = 2),
-    					 		 varname = varname)
+
+		sig <- round(pchisq(chi, df, lower.tail = FALSE), 4)
+
+		result <- list(
+			chisquare = chi,
+			   pvalue = sig,
+    	       df = df,
+    	    ssize = length(x1),
+    	    names = levels(x1),
+    	    level = nlevels(x1),
+    	      obs = x,
+    	      exp = y,
+    	deviation = format(dev, nsmall = 2),
+    	      std = format(std, nsmall = 2),
+    	  varname = varname
+			)
 
     class(result) <- 'chisq_gof'
     return(result)

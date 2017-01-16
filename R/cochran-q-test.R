@@ -1,4 +1,3 @@
-#' @importFrom magrittr %>%
 #' @title Cochran Q Test
 #' @description Test if the proportions of 3 or more dichotomous variables are
 #' equal in the same population.
@@ -45,17 +44,18 @@ cochran_test.default <- function(x, ...) {
 		}
 
 
-	n 	   <- nrow(data)
-	k      <- ncol(data)
-	df     <- k - 1
-	cs     <- sums(data)
-	q      <- coch(k, cs$cls_sum, cs$cl, cs$g, cs$gs_sum)
+	     n <- nrow(data)
+	     k <- ncol(data)
+	    df <- k - 1
+	    cs <- sums(data)
+	     q <- coch(k, cs$cls_sum, cs$cl, cs$g, cs$gs_sum)
 	pvalue <- 1 - pchisq(q, df)
 
-	result <- list(n      = n,
-		             df     = df,
-		             q      = q,
-		             pvalue = round(pvalue, 4))
+	result <- list(
+		     n = n,
+		    df = df,
+		     q = q,
+		pvalue = round(pvalue, 4))
 
 	class(result) <- 'cochran_test'
 	return(result)

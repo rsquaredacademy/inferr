@@ -61,46 +61,47 @@ paired_ttest.default <- function(x, y, confint = 0.95,
     stop('confint must be numeric')
   }
 
-  method <- match.arg(alternative)
-  var_x <- l(deparse(substitute(x)))
-  var_y <- l(deparse(substitute(y)))
+     method <- match.arg(alternative)
+      var_x <- l(deparse(substitute(x)))
+      var_y <- l(deparse(substitute(y)))
   var_names <- c(var_x, var_y)
-  n <- length(x)
-  df <- (n - 1)
-  xy <- paste(var_names[1], '-', var_names[2])
-  trial <- extract(x, y)
-  a <- sapply(trial, stat)
-  b <- apply(a, c(1, 2), round, 2)
-  corr <- round(cor(x, y), 4)
-  corsig <- cor_sig(corr, n)
-  alpha <- 1 - confint
-  confint1 <- conf_int_t(b[1, 1], b[2, 1], n, alpha = alpha)
+          n <- length(x)
+         df <- (n - 1)
+         xy <- paste(var_names[1], '-', var_names[2])
+      trial <- extract(x, y)
+          a <- sapply(trial, stat)
+          b <- apply(a, c(1, 2), round, 2)
+       corr <- round(cor(x, y), 4)
+     corsig <- cor_sig(corr, n)
+      alpha <- 1 - confint
+   confint1 <- conf_int_t(b[1, 1], b[2, 1], n, alpha = alpha)
   conf_int1 <- lapply(confint1, round, 2)
-  confint2 <- conf_int_t(b[1, 2], b[2, 2], n, alpha = alpha)
+   confint2 <- conf_int_t(b[1, 2], b[2, 2], n, alpha = alpha)
   conf_int2 <- lapply(confint2, round, 2)
-  confint3 <- conf_int_t(b[1, 3], b[2, 3], n, alpha = alpha)
+   confint3 <- conf_int_t(b[1, 3], b[2, 3], n, alpha = alpha)
   conf_int3 <- lapply(confint3, round, 2)
-  t <- round(b[1, 3] / b[3, 3], 4)
-  p_l <- pt(t, df)
-  p_u <- pt(t, df, lower.tail = FALSE)
-  p <- pt(abs(t), df, lower.tail = FALSE) * 2
+          t <- round(b[1, 3] / b[3, 3], 4)
+        p_l <- pt(t, df)
+        p_u <- pt(t, df, lower.tail = FALSE)
+          p <- pt(abs(t), df, lower.tail = FALSE) * 2
 
-  result <- list(Obs           = n,
-                 b             = b,
-                 conf_int1     = conf_int1,
-                 conf_int2     = conf_int2,
-                 conf_int_diff = conf_int3,
-                 corr          = round(corr, 2),
-                 corsig        = round(corsig, 2),
-                 tstat         = t,
-                 p_lower       = p_l,
-                 p_upper       = p_u,
-                 p_two_tail    = p,
-                 var_names     = var_names,
-                 xy            = xy,
-                 df            = df,
-                 alternative   = method,
-                 confint       = confint)
+  result <- list(
+              Obs = n,
+                b = b,
+        conf_int1 = conf_int1,
+        conf_int2 = conf_int2,
+    conf_int_diff = conf_int3,
+             corr = round(corr, 2),
+           corsig = round(corsig, 2),
+            tstat = t,
+          p_lower = p_l,
+          p_upper = p_u,
+       p_two_tail = p,
+        var_names = var_names,
+               xy = xy,
+               df = df,
+      alternative = method,
+          confint = confint)
 
   class(result) <- 'paired_ttest'
   return(result)

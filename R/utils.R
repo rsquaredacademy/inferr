@@ -1,22 +1,85 @@
-#' @importFrom dplyr group_by_ select_ summarise_each funs
+#' @importFrom dplyr group_by_ select_ summarise_each funs mutate
 #' @importFrom magrittr %>%
 #' @importFrom stats var sd
-anova_split <- function(data, x, y) {
+#' @importFrom tibble tibble as_data_frame
+anova_split <- function(data, x, y, sample_mean) {
     by_factor <- data %>%
         group_by_(y) %>%
         select_(y, x) %>%
         summarise_each(funs(length, mean, var, sd)) %>%
-        as.data.frame()
+        as_data_frame() %>%
+    		mutate(
+    			sst = length * ((mean - sample_mean) ^ 2),
+    		  sse = (length - 1) * var
+    		)
     return(by_factor)
 }
 
 anova_avg <- function(data, y) {
     avg <- data %>%
         select_(y) %>%
-        summarise_each(funs(mean)) %>%
-        as.data.frame()
-    return(avg)
+        summarise_each(funs(mean))
+    return(unlist(avg, use.names = FALSE))
 }
+
+lev_metric <- function(cvar, gvar, loc, ...) {
+  metric <- tapply(cvar, gvar, loc, ...)
+       y <- abs(cvar - metric[gvar])
+  result <- anova(lm(y ~ gvar))
+     out <- list(
+              fstat = result$`F value`[1],
+                  p = result$`Pr(>F)`[1]
+            )
+  return(out)
+}
+
+serr <- function(dat, kappa, expected) {
+   dat_per <- dat / sum(dat)
+   row_sum <- rowSums(dat_per)
+row_sum[3] <- sum(row_sum)
+   col_sum <- colSums(dat_per)
+   dat_per <- rbind(dat_per, col_sum)
+   dat_per <- cbind(dat_per, row_sum)
+        d1 <- dim(dat_per)
+dat_per[d1[1], d1[2]] <- 1.0
+  diagonal <- diag(dat_per)
+         a <- diagonal[1] * (1 - (row_sum[1] + col_sum[1]) * (1 - kappa)) ^ 2 +
+               diagonal[2] * (1 - (row_sum[2] + col_sum[2]) * (1 - kappa)) ^ 2
+
+        x1 <- dat_per[lower.tri(dat_per)][1]
+        x2 <- dat_per[upper.tri(dat_per)][1]
+         b <- ((1 - kappa) ^ 2) * ((x1 * (row_sum[1] + col_sum[2]) ^ 2) +
+              (x2 * (row_sum[2] + col_sum[1]) ^ 2))
+
+         c <- ((kappa) - expected * (1 - kappa)) ^ 2
+  variance <- ((a + b -c) / ((1 - expected) ^ 2)) / sum(dat)
+
+    return(sqrt(variance))
+}
+
+tibble_stats <- function(data, x, y) {
+    by_factor <- data %>%
+        group_by_(y) %>%
+        select_(y, x) %>%
+        summarise_each(funs(length, mean, var, sd)) %>%
+        as_data_frame() %>%
+        mutate(
+          ses = sd / sqrt(length)
+        )
+    return(by_factor)
+}
+
+tbl_stats <- function(data, y) {
+    avg <- data %>%
+        select_(y) %>%
+        summarise_each(funs(length, mean, sd)) %>%
+        as_data_frame() %>%
+        mutate(
+          se = sd / sqrt(length)
+        )
+    return(unlist(avg, use.names = FALSE))
+}
+
 
 fg <- function(x, w) {
   x %>%
@@ -74,9 +137,9 @@ l <- function(x) {
 }
 
 extract <- function(x, y) {
-  z <- x - y
-  dat <- as.data.frame(cbind(x, y, z))
-  return(dat)
+  d <- tibble(x, y) %>%
+    mutate(z = x - y)
+  return(d)
 }
 
 stat <- function(x) {

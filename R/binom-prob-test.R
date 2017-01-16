@@ -52,17 +52,15 @@ binom_calc.default <- function(n, success, prob = 0.5, ...) {
       stop('prob must be between 0 and 1')
     }
 
-    n     <- n
-    k     <- success
+        n <- n
+        k <- success
     obs_p <- k / n
     exp_k <- round(n * prob)
-    lt    <- pbinom(k, n, prob, lower.tail = T)
-    ut    <- pbinom(k - 1, n, prob, lower.tail = F)
+       lt <- pbinom(k, n, prob, lower.tail = T)
+       ut <- pbinom(k - 1, n, prob, lower.tail = F)
     p_opp <- round(dbinom(k, n, prob), 9)
-    i_p   <- dbinom(exp_k, n, prob)
-    i_k   <- exp_k
-
-
+      i_p <- dbinom(exp_k, n, prob)
+      i_k <- exp_k
 
       if (k < exp_k) {
 
@@ -91,15 +89,17 @@ binom_calc.default <- function(n, success, prob = 0.5, ...) {
           }
 
 
-    out <- list(n        = n,
-                k        = k,
-                exp_k    = exp_k,
-                obs_p    = obs_p,
-                exp_p    = prob,
-                ik       = i_k,
-                lower    = round(lt, 6),
-                upper    = round(ut, 6),
-                two_tail = round(ttf, 6))
+    out <- list(
+             n = n,
+             k = k,
+         exp_k = exp_k,
+         obs_p = obs_p,
+         exp_p = prob,
+            ik = i_k,
+         lower = round(lt, 6),
+         upper = round(ut, 6),
+      two_tail = round(ttf, 6)
+    )
 
     class(out) <- 'binom_calc'
     return(out)

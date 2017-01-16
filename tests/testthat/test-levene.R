@@ -35,7 +35,7 @@ test_that('output from levene_test matches the expected result', {
     expect_equal(k$avg, 18.97)
     expect_equal(k$sd, 4.55)
     expect_equal(k$n, 64)
-    expect_equivalent(k$levs, c('1', '2'))
+    expect_equivalent(k$levs, c('0', '1'))
     expect_equal(k$n_df, 1)
     expect_equal(k$d_df, 62)
     expect_equivalent(as.vector(k$lens), c(32, 32))

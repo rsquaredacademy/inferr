@@ -35,10 +35,10 @@ Test whether the observed proportions for a categorical variable
 differ from hypothesized proportions
 }
 \examples{
-chisq_gof(hsb$race, c(20, 20, 20 , 140))
+chisq_gof(as.factor(hsb$race), c(20, 20, 20, 140))
 
 # apply continuity correction
-chisq_gof(hsb$race, c(20, 20, 20 , 140), correct = TRUE)
+chisq_gof(as.factor(hsb$race), c(20, 20, 20, 140), correct = TRUE)
 }
 \seealso{
 \code{\link[stats]{chisq.test}}

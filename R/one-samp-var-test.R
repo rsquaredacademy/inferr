@@ -1,4 +1,4 @@
-#' @importFrom stats pchisq qchisq
+#' @importFrom stats qchisq
 #' @title One sample variance comparison test
 #' @description  \code{os_vartest} performs tests on the equality of standard
 #' deviations (variances).It tests that the standard deviation of \code{x} is
@@ -32,7 +32,7 @@
 #'
 #' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
-#' @seealso \code{\link[stats]{var.test}} 
+#' @seealso \code{\link[stats]{var.test}}
 #' @examples
 #' os_vartest(mtcars$mpg, 5, alternative = 'less')
 #' os_vartest(mtcars$mpg, 5, alternative = 'greater')
@@ -61,15 +61,14 @@ os_vartest.default <- function(x, sd, confint = 0.95,
 		stop('confint must be numeric')
 	}
 
-
-	type    <- match.arg(alternative)
+	   type <- match.arg(alternative)
 	varname <- l(deparse(substitute(x)))
-	n       <- length(x)
-	df      <- n - 1
-	xbar    <- round(mean(x), 4)
-	sigma   <- round(sd(x), 4)
-	se      <- round(sigma / sqrt(n), 4)
-	chi     <- round((df * (sigma / sd) ^ 2), 4)
+	      n <- length(x)
+	     df <- n - 1
+	   xbar <- round(mean(x), 4)
+	  sigma <- round(sd(x), 4)
+	     se <- round(sigma / sqrt(n), 4)
+	    chi <- round((df * (sigma / sd) ^ 2), 4)
 
 	p_lower <- pchisq(chi, df)
 	p_upper <- pchisq(chi, df, lower.tail = F)
@@ -80,28 +79,29 @@ os_vartest.default <- function(x, sd, confint = 0.95,
 	}
 
 
-	conf    <- confint
-	a       <- (1 - conf) / 2
-	al      <- 1 - a
-	tv      <- df * sigma
-	c_lwr   <- round(tv / qchisq(al, df), 4)
-	c_upr   <- round(tv / qchisq(a, df), 4)
+	 conf <- confint
+	    a <- (1 - conf) / 2
+	   al <- 1 - a
+	   tv <- df * sigma
+	c_lwr <- round(tv / qchisq(al, df), 4)
+	c_upr <- round(tv / qchisq(a, df), 4)
 
-	result <- list(n        = n,
-                 sd       = sd,
-                 sigma    = sigma,
-                 se       = se,
-                 chi      = chi,
-		             df       = df,
-                 p_lower  = p_lower,
-                 p_upper  = p_upper,
-                 p_two    = p_two,
-                 xbar     = xbar,
-		             c_lwr    = c_lwr,
-                 c_upr    = c_upr,
-                 var_name = varname,
-                 conf     = conf,
-                 type     = type)
+	result <- list(
+		       n = n,
+		      sd = sd,
+		   sigma = sigma,
+		      se = se,
+		     chi = chi,
+		      df = df,
+		 p_lower = p_lower,
+		 p_upper = p_upper,
+		   p_two = p_two,
+		    xbar = xbar,
+			 c_lwr = c_lwr,
+			 c_upr = c_upr,
+		var_name = varname,
+		    conf = conf,
+		    type = type)
 
 	class(result) <- 'os_vartest'
 	return(result)

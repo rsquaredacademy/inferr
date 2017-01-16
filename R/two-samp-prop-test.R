@@ -59,26 +59,26 @@ ts_prop_test.default <- function(var1, var2,
   alternative = c('both', 'less', 'greater', 'all'), ...) {
 
 
-	n1 <- length(var1)
-	n2 <- length(var2)
-	y1 <- table(var1)[[2]]
-	y2 <- table(var2)[[2]]
+  	 n1 <- length(var1)
+  	 n2 <- length(var2)
+  	 y1 <- table(var1)[[2]]
+	   y2 <- table(var2)[[2]]
 	phat1 <- round(y1 / n1, 4)
 	phat2 <- round(y2 / n2, 4)
-	phat <- sum(y1, y2) / sum(n1, n2)
+	 phat <- sum(y1, y2) / sum(n1, n2)
 
 	# test statistic
-	num <- (phat1 - phat2)
+	 num <- (phat1 - phat2)
 	den1 <- phat * (1 - phat)
 	den2 <- (1 / n1) + (1 / n2)
-	den <- sqrt(den1 * den2)
-	z <- round(num / den, 4)
+	 den <- sqrt(den1 * den2)
+	   z <- round(num / den, 4)
 
-	lt <- round(pnorm(z), 4)
-	ut <- round(pnorm(z, lower.tail = FALSE), 4)
-	tt <- round(pnorm(abs(z), lower.tail = FALSE) * 2, 4)
+	  lt <- round(pnorm(z), 4)
+	  ut <- round(pnorm(z, lower.tail = FALSE), 4)
+	  tt <- round(pnorm(abs(z), lower.tail = FALSE) * 2, 4)
 
-	alt <- match.arg(alternative)
+	 alt <- match.arg(alternative)
 
     if (alt == "all") {
         sig = c('two-tail' = tt, 'lower-tail' = lt, 'upper-tail' = ut)
@@ -91,13 +91,14 @@ ts_prop_test.default <- function(var1, var2,
     }
 
     # result
-    result <- list(n1 = n1,
-                   n2 = n2,
-                   phat1 = phat1,
-                   phat2 = phat2,
-                   z = z,
-    	             sig = sig,
-                   alt = alt)
+    result <- list(
+         n1 = n1,
+         n2 = n2,
+      phat1 = phat1,
+      phat2 = phat2,
+          z = z,
+        sig = sig,
+        alt = alt)
 
     class(result) <- 'ts_prop_test'
     return(result)
@@ -118,25 +119,25 @@ ts_prop_grp <- function(var, group,
   alternative = c('both', 'less', 'greater', 'all')) {
 
 
-	n <- tapply(var, group, length)
-	n1 <- n[[1]]
-	n2 <- n[[2]]
-	y <- tapply(var, group, table)
-	y1 <- y[[1]][[2]]
-	y2 <- y[[2]][[2]]
+	    n <- tapply(var, group, length)
+	   n1 <- n[[1]]
+	   n2 <- n[[2]]
+	    y <- tapply(var, group, table)
+	   y1 <- y[[1]][[2]]
+	   y2 <- y[[2]][[2]]
 	phat1 <- y1 / n1
 	phat2 <- y2 / n2
-	phat <- sum(y1, y2) / sum(n1, n2)
-	num <- (phat1 - phat2)
-	den1 <- phat * (1 - phat)
-	den2 <- (1 / n1) + (1 / n2)
-	den <- sqrt(den1 * den2)
-	z <- num / den
+	 phat <- sum(y1, y2) / sum(n1, n2)
+	  num <- (phat1 - phat2)
+	 den1 <- phat * (1 - phat)
+	 den2 <- (1 / n1) + (1 / n2)
+	  den <- sqrt(den1 * den2)
+	    z <- num / den
 
 
 	lt <- pnorm(z)
-	ut <- 1 - pnorm(z)
-	tt <- pnorm(z) * 2
+	ut <- round(pnorm(z, lower.tail = FALSE), 4)
+	tt <- round(pnorm(abs(z), lower.tail = FALSE) * 2, 4)
 
 	alt <- match.arg(alternative)
 
@@ -150,13 +151,14 @@ ts_prop_grp <- function(var, group,
         sig = tt
     }
 
-    out <- list(n1    = n1,
-                n2    = n2,
-                phat1 = phat1,
-                phat2 = phat2,
-                z     = z,
-                sig   = sig,
-                alt   = alt)
+    out <- list(
+         n1 = n1,
+         n2 = n2,
+      phat1 = phat1,
+      phat2 = phat2,
+          z = z,
+        sig = sig,
+        alt = alt)
 
     class(out) <- 'ts_prop_test'
     return(out)
@@ -170,20 +172,20 @@ ts_prop_grp <- function(var, group,
 ts_prop_calc <- function(n1, n2, p1, p2,
   alternative = c('both', 'less', 'greater', 'all'), ...) {
 
-	n1 <- n1
-	n2 <- n2
+	   n1 <- n1
+	   n2 <- n2
 	phat1 <- p1
 	phat2 <- p2
-	phat <- sum(n1 * p1, n2 * p2) / sum(n1, n2)
-	num <- (phat1 - phat2)
-	den1 <- phat * (1 - phat)
-	den2 <- (1 / n1) + (1 / n2)
-	den <- sqrt(den1 * den2)
-	z <- num / den
+	 phat <- sum(n1 * p1, n2 * p2) / sum(n1, n2)
+	  num <- (phat1 - phat2)
+	 den1 <- phat * (1 - phat)
+	 den2 <- (1 / n1) + (1 / n2)
+	  den <- sqrt(den1 * den2)
+	    z <- num / den
 
 	lt <- pnorm(z)
-	ut <- 1 - pnorm(z)
-	tt <- pnorm(z) * 2
+	ut <- round(pnorm(z, lower.tail = FALSE), 4)
+	tt <- round(pnorm(abs(z), lower.tail = FALSE) * 2, 4)
 
 	alt <- match.arg(alternative)
 
@@ -197,13 +199,14 @@ ts_prop_calc <- function(n1, n2, p1, p2,
         sig = tt
     }
 
-    out <- list(n1    = n1,
-                n2    = n2,
-                phat1 = phat1,
-                phat2 = phat2,
-                z     = z,
-                sig   = sig,
-                alt   = alt)
+    out <- list(
+         n1 = n1,
+         n2 = n2,
+      phat1 = phat1,
+      phat2 = phat2,
+          z = z,
+        sig = sig,
+        alt = alt)
 
     class(out) <- 'ts_prop_test'
     return(out)

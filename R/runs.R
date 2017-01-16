@@ -1,4 +1,7 @@
+#' @useDynLib inferr
+#' @importFrom Rcpp sourceCpp
 #' @importFrom stats median
+#' @importFrom purrr map
 #' @title Test for Random Order
 #' @description runtest tests whether the observations of \code{x} are serially
 #' independent -- that is, whether they occur in a random order -- by counting
@@ -59,7 +62,7 @@ runs_test.default <- function(x, drop = FALSE,
         stop("x must be numeric or integer")
 
     if (is.na(threshold)) {
-        y <- sort(unique(x))
+        y <- unique(x)
         if (sum(y) == 1)
             stop("Use 0 as threshold if the data is coded as a binary.")
     }
@@ -68,7 +71,7 @@ runs_test.default <- function(x, drop = FALSE,
     if (!(is.na(threshold))) {
         thresh <- threshold
     } else if (mean == TRUE) {
-        thresh <- mean
+        thresh <- mean(x)
     } else {
         thresh <- median(x, na.rm = TRUE)
     }
@@ -80,34 +83,35 @@ runs_test.default <- function(x, drop = FALSE,
 
     # binary coding the data based on the threshold
     if (split == TRUE) {
-        x_binary <- binner(x, thresh)
+        x_binary <- ifelse(x > thresh, 1, 0)
     } else {
-        x_binary <- sapply(x, nruns2, thresh)
+        x_binary <- x %>% map(nruns2, thresh) %>% unlist(use.names = FALSE)
     }
 
     # compute the number of runs
-    n_runs <- nsign(x_binary)
-    n1 <- sum(x_binary)
-    n0 <- length(x_binary) - n1
+    n_runs <- nsignC(x_binary)
+        n1 <- sum(x_binary)
+        n0 <- length(x_binary) - n1
 
     # compute expected runs and sd of runs
     exp_runs <- expruns(n0, n1)
-    sd_runs <- sdruns(n0, n1)
+     sd_runs <- sdruns(n0, n1)
 
     # compute the test statistic
     test_stat <- (n_runs - exp_runs) / (sd_runs ^ 0.5)
-    sig <- 2 * (1 - pnorm(abs(test_stat), lower.tail = TRUE))
+          sig <- 2 * (1 - pnorm(abs(test_stat), lower.tail = TRUE))
 
     # result
-    result <- list(n = n,
-                   threshold = thresh,
-                   n_below = n0,
-                   n_above = n1,
-                   mean = exp_runs,
-                   var = sd_runs,
-                   n_runs = n_runs,
-                   z = test_stat,
-                   p = sig)
+    result <- list(
+              n = n,
+      threshold = thresh,
+        n_below = n0,
+        n_above = n1,
+           mean = exp_runs,
+            var = sd_runs,
+         n_runs = n_runs,
+              z = test_stat,
+              p = sig)
 
     class(result) <- "runs_test"
     return(result)

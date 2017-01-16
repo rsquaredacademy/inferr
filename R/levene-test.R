@@ -1,4 +1,5 @@
-#' @importFrom stats anova lm model.frame formula
+#' @importFrom stats anova model.frame formula
+#' @importFrom purrr map_int
 #' @title Levene's test for equality of variances
 #' @description  \code{levene_test} reports Levene's robust test statistic (W_0)
 #' for the equality of variances between the groups defined by groupvar and the
@@ -69,20 +70,15 @@ levene_test.default <- function(variable, ..., group_var = NA,
 
 		if (is.na(group_var)) {
 
-			z   <- list(variable, ...)
-		  ln  <- lapply(z, length)
-		  ly  <- length(z)
+			 z <- list(variable, ...)
+			ln <- z %>% map_int(length)
+			ly <- seq_len(length(z))
 
-		  if (ly < 2) {
+		  if (length(z) < 2) {
     		stop('Please specify at least two variables.', call. = FALSE)
     	}
 
-		  out <- list()
-
-		  for (i in seq_len(ly)) {
-		    out[[i]] <- as.factor(rep(i, ln[i]))
-		  }
-
+		        out <- gvar(ln, ly)
 		  variable  <- unlist(z)
 		  group_var <- unlist(out)
 
@@ -100,52 +96,33 @@ levene_test.default <- function(variable, ..., group_var = NA,
 		group_var <- as.factor(group_var)
 	}
 
-	comp       <- complete.cases(variable, group_var)
-	n          <- length(comp)
-  k          <- nlevels(group_var)
-  lens       <- tapply(variable[comp], group_var[comp], length)
-  avgs       <- tapply(variable[comp], group_var[comp], mean)
-	sds        <- tapply(variable[comp], group_var[comp], sd)
+	comp <- complete.cases(variable, group_var)
+	   n <- length(comp)
+     k <- nlevels(group_var)
+	cvar <- variable[comp]
+	gvar <- group_var[comp]
+  lens <- tapply(cvar, gvar, length)
+  avgs <- tapply(cvar, gvar, mean)
+	 sds <- tapply(cvar, gvar, sd)
 
-	len        <- length(variable)
-	avg        <- mean(variable)
-	sd         <- sd(variable)
+	 bf <- lev_metric(cvar, gvar, mean)
+	lev <- lev_metric(cvar, gvar, median)
+	bft <- lev_metric(cvar, gvar, mean, trim = trim.mean)
 
-	metric_bf  <- tapply(variable[comp], group_var[comp], mean)
-	y_bf       <- abs(variable - metric_bf[group_var])
-	result_bf  <- anova(lm(y_bf ~ group_var))
-	fstat_bf   <- result_bf$`F value`[1]
-	p_bf       <- result_bf$`Pr(>F)`[1]
-
-	metric_lev <- tapply(variable[comp], group_var[comp], median)
-	y_lev      <- abs(variable - metric_lev[group_var])
-	result_lev <- anova(lm(y_lev ~ group_var))
-	fstat_lev  <- result_lev$`F value`[1]
-	p_lev      <- result_lev$`Pr(>F)`[1]
-
-	metric_bft <- tapply(variable[comp], group_var[comp], mean, trim = trim.mean)
-	y_bft      <- abs(variable - metric_bft[group_var])
-	result_bft <- anova(lm(y_bft ~ group_var))
-	fstat_bft  <- result_bft$`F value`[1]
-	p_bft      <- result_bft$`Pr(>F)`[1]
-
-	n_df       <- k - 1
-	d_df       <- n - k
-
-	out <- list(bf    = round(fstat_bf, 4),
-              p_bf  = round(p_bf, 4),
-              lev   = round(fstat_lev, 4),
-		          p_lev = round(p_lev, 4),
-              bft   = round(fstat_bft, 4),
-              p_bft = round(p_bft, 4),
+	out <- list(bf    = round(bf$fstat, 4),
+              p_bf  = round(bf$p, 4),
+              lev   = round(lev$fstat, 4),
+		          p_lev = round(lev$p, 4),
+              bft   = round(bft$fstat, 4),
+              p_bft = round(bft$p, 4),
               avgs  = round(avgs, 2),
               sds   = round(sds, 2),
-              avg   = round(avg, 2),
-              sd    = round(sd, 2),
+              avg   = round(mean(cvar), 2),
+              sd    = round(sd(cvar), 2),
               n     = n,
-              levs  = levels(group_var),
-		          n_df  = n_df,
-              d_df  = d_df,
+              levs  = levels(gvar),
+		          n_df  = (k - 1),
+              d_df  = (n - k),
               lens  = lens)
 
 	class(out) <- 'levene_test'
