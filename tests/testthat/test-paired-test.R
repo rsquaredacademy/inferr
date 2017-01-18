@@ -1,6 +1,6 @@
 context('paired t test')
 
-test_that('output form paired_ttest matches expected output', {
+test_that('output from paired_ttest matches expected output', {
 
     k <- paired_ttest(mtcars$mpg, mtcars$qsec)
     expect_equal(k$Obs, 32)

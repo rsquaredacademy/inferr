@@ -68,7 +68,8 @@ paired_ttest.default <- function(x, y, confint = 0.95,
           n <- length(x)
          df <- (n - 1)
          xy <- paste(var_names[1], '-', var_names[2])
-          b <- paired_stats(x, y)
+  data_prep <- paired_data(x, y)
+         b  <- paired_stats(data_prep, 'key', 'value')
        corr <- round(cor(x, y), 4)
      corsig <- cor_sig(corr, n)
       alpha <- 1 - confint

@@ -74,8 +74,17 @@ test_that('output from tbl_stats matches the expected result', {
   expect_equal(round(k[[4]], 3), 1.065)
 })
 
-test_that('output from paired_stats matches the expected result', {
-  k <- paired_stats(hsb$read, hsb$write)
+test_that('output from paired_data and paired_stats matches the expected result', {
+  x <- c(2, 4, 6, 8, 10)
+  y <- c(1, 3, 5, 7, 9)
+  z <- paired_data(x, y)
+  key <- c(rep('x', 5), rep('y', 5), rep('z', 5))
+  value <- c(c(2, 4, 6, 8, 10), c(1, 3, 5, 7, 9), rep(1, 5))
+  kv <- tibble(key, value)
+  expect_equal(z, kv)
+
+  j <- paired_data(hsb$read, hsb$write)
+  k <- paired_stats(j, 'key', 'value')
   expect_equivalent(k[[1]], c(52.23, 52.77, -0.55))
   expect_equivalent(k[[2]], c(10.25, 9.48, 8.89))
   expect_equivalent(k[[3]], c(0.72, 0.67, 0.63))
@@ -86,7 +95,8 @@ test_that('output from cor_sig matches the expected output', {
 })
 
 test_that('output from conf_int_t matches the expected output', {
-    b <- paired_stats(hsb$read, hsb$write)
+    j <- paired_data(hsb$read, hsb$write)
+    b <- paired_stats(j, 'key', 'value')
     n <- length(hsb$read)
     expect_equivalent(round(conf_int_t(b[[1, 1]], b[[2, 1]], n, alpha = 0.025), 2), c(43.80, 60.66))
 })
@@ -133,5 +143,5 @@ test_that('output from sums and coch matches the expected result', {
 
 
 test_that('output from sdruns and expruns match the expected result', {
-  
+
 })

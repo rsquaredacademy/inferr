@@ -137,18 +137,24 @@ l <- function(x) {
 }
 
 #' @importFrom tidyr gather
-paired_stats <- function(x, y) {
+paired_data <- function(x, y) {
   d <- tibble(x = x, y = y) %>%
     mutate(z = x - y) %>%
-    gather() %>%
-    group_by(key) %>%
-    select(value, key) %>%
+    gather()
+  return(d)
+}
+
+#' @importFrom dplyr select
+paired_stats <- function(data, key, value) {
+  d <- data %>%
+    group_by_(key) %>%
+    select_(value, key) %>%
     summarise_each(funs(length, mean, sd)) %>%
     as_data_frame() %>%
     mutate(
         se = sd / sqrt(length)
     ) %>%
-    select(mean, sd, se) %>%
+    select(-(key:length)) %>%
     round(2)
   return(d)
 }
