@@ -17,7 +17,8 @@ Imports:
     magrittr,
     Rcpp,
     tibble,
-    purrr
+    purrr,
+    tidyr
 Suggests:
     testthat,
     covr,

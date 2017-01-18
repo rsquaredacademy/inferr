@@ -78,7 +78,7 @@ mcnemar_test.default <- function(x, y = NULL) {
 	test_stat <- ((p[1] - p[2]) ^ 2) / sum(p)
 	       df <- nrow(dat) - 1
 	   pvalue <- 1 - pchisq(test_stat, df)
-	   exactp <- 2 * pbinom(dat[3], sum(dat[2], dat[3]), 0.5)
+	   exactp <- 2 * min(pbinom(dat[2], sum(dat[2], dat[3]), 0.5), pbinom(dat[3], sum(dat[2], dat[3]), 0.5))
 	    cstat <- ((abs(p[1] - p[2]) - 1) ^ 2) / sum(p)
 	  cpvalue <- 1 - pchisq(cstat, df)
 	agreement <- sum(diag(dat)) / sum(dat)

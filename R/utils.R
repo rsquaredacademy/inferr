@@ -136,20 +136,23 @@ l <- function(x) {
     return(out)
 }
 
-extract <- function(x, y) {
-  d <- tibble(x, y) %>%
-    mutate(z = x - y)
+#' @importFrom tidyr gather
+paired_stats <- function(x, y) {
+  d <- tibble(x = x, y = y) %>%
+    mutate(z = x - y) %>%
+    gather() %>%
+    group_by(key) %>%
+    select(value, key) %>%
+    summarise_each(funs(length, mean, sd)) %>%
+    as_data_frame() %>%
+    mutate(
+        se = sd / sqrt(length)
+    ) %>%
+    select(mean, sd, se) %>%
+    round(2)
   return(d)
 }
 
-stat <- function(x) {
-  n <- length(x)
-  Mean <- mean(x)
-  stdev <- sd(x)
-  serror <- samp_err(stdev, n)
-  out <- c(Mean, stdev, serror)
-  return(out)
-}
 
 cor_sig <- function(corr, n) {
   t <- corr / ((1 - (corr ^ 2)) / (n - 2)) ^ 0.5
@@ -264,16 +267,6 @@ formats <- function() {
     rep("    ")
 }
 
-return_pos <- function(data, number) {
-    out <- c()
-    for (i in seq_len(length(data))) {
-        if (data[i] == number) {
-            out <- c(out, i)
-        }
-    }
-    return(out)
-}
-
 sums <- function(data) {
 
 	cl <- colSums(data)
@@ -306,36 +299,6 @@ nruns2 <- function(data, value) {
         return(0)
     else
         return(1)
-}
-
-# function for binary coding if split == TRUE
-binner <- function(x, threshold) {
-    x_bin <- sapply(x, nruns, threshold)
-    t_index <- return_pos(x, threshold)
-    l_t <- length(t_index)
-    w <- c(0, 1)
-    r_t <- sample(w, size = l_t, TRUE)
-    for (i in seq_len(l_t)) {
-        if (r_t[i] > 0) {
-            x_bin[t_index[i]] <- 1
-        } else
-            x_bin[t_index[i]] <- 0
-    }
-    return(x_bin)
-}
-
-# function for count of runs
-nsign <- function(x) {
-    n <- length(x)
-    count <- 1
-    k <- x[1]
-    j <- 2:n
-    for (i in j) {
-        l <- i - 1
-        if (x[i] != x[l])
-            count <- count + 1
-    }
-    return(count)
 }
 
 # expected runs

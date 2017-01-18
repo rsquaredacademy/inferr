@@ -298,9 +298,9 @@ print_paired_ttest <- function(data) {
   var_width1 <- max(nchar('Variables'), nchar(data$var_names[1]), nchar(data$var_names[2]), nchar('diff'))
   var_width <- max(nchar('Variables'), nchar(data$xy))
   obs_width <- max(nchar('Obs'), nchar(data$Obs))
-  mean_width <- max(nchar('Mean'), nchar(format(max(data$b[1, ]), nsmall = 2)))
-  se_width <- max(nchar('Std. Err.'), nchar(format(max(data$b[3, ]), nsmall = 2)))
-  sd_width <- max(nchar('Std. Dev.'), nchar(format(max(data$b[2, ]), nsmall = 2)))
+  mean_width <- max(nchar('Mean'), nchar(format(max(data$b[['mean']]), nsmall = 2)))
+  se_width <- max(nchar('Std. Err.'), nchar(format(max(data$b[['se']]), nsmall = 2)))
+  sd_width <- max(nchar('Std. Dev.'), nchar(format(max(data$b[['sd']]), nsmall = 2)))
   corr_width <- nchar('Correlation')
   corsig_width <- max(nchar('Sig.'), nchar(data$corsig))
   t_width <- nchar(data$tstat)
@@ -328,15 +328,15 @@ print_paired_ttest <- function(data) {
   cat(formatter_pair("Variables", var_width1), formats_t(), formatter_pair("Obs", obs_width), formats_t(), formatter_pair("Mean", mean_width),
       formats_t(), formatter_pair("Std. Err.", se_width), formats_t(), formatter_pair("Std. Dev.", sd_width), formats_t(), conf_char, "\n")
   cat(rep("-", width_1), sep = "")
-  cat('\n', formatter_pair(data$var_names[1], var_width1), formats_t(), formatter_pair(data$Obs, obs_width), formats_t(), formatter_pair(data$b[1], mean_width),
-    formats_t(), formatter_pair(data$b[3], se_width), formats_t(), formatter_pair(data$b[2], sd_width), formats_t(), format_cil(data$conf_int1[[1]], conf_l_width),
+  cat('\n', formatter_pair(data$var_names[1], var_width1), formats_t(), formatter_pair(data$Obs, obs_width), formats_t(), formatter_pair(data$b[[1, 1]], mean_width),
+    formats_t(), formatter_pair(data$b[[1, 3]], se_width), formats_t(), formatter_pair(data$b[[1,2]], sd_width), formats_t(), format_cil(data$conf_int1[[1]], conf_l_width),
     format_ciu(data$conf_int1[[2]], conf_u_width))
-  cat('\n', formatter_pair(data$var_names[2], var_width1), formats_t(), formatter_pair(data$Obs, obs_width), formats_t(), formatter_pair(data$b[4], mean_width), formats_t(), formatter_pair(data$b[6], se_width),
-     formats_t(), formatter_pair(data$b[5], sd_width), formats_t(), format_cil(data$conf_int2[[1]], conf_l_width),
+  cat('\n', formatter_pair(data$var_names[2], var_width1), formats_t(), formatter_pair(data$Obs, obs_width), formats_t(), formatter_pair(data$b[[2, 1]], mean_width), formats_t(), formatter_pair(data$b[[2, 3]], se_width),
+     formats_t(), formatter_pair(data$b[[2, 2]], sd_width), formats_t(), format_cil(data$conf_int2[[1]], conf_l_width),
     format_ciu(data$conf_int2[[2]], conf_u_width), "\n")
   cat(rep("-", width_1), sep = "")
-  cat("\n", formatter_pair('diff', var_width1), formats_t(), formatter_pair(data$Obs, obs_width), formats_t(), formatter_pair(data$b[7], mean_width), formats_t(), formatter_pair(data$b[9], se_width),
-     formats_t(), formatter_pair(data$b[8], sd_width), formats_t(), format_cil(data$conf_int_diff[[1]], conf_l_width),
+  cat("\n", formatter_pair('diff', var_width1), formats_t(), formatter_pair(data$Obs, obs_width), formats_t(), formatter_pair(data$b[[3, 1]], mean_width), formats_t(), formatter_pair(data$b[[3, 3]], se_width),
+     formats_t(), formatter_pair(data$b[[3, 2]], sd_width), formats_t(), format_cil(data$conf_int_diff[[1]], conf_l_width),
     format_ciu(data$conf_int_diff[[2]], conf_u_width), "\n")
   cat(rep("-", width_1), sep = "")
   cat("\n\n", format("Paired Samples Correlations", width = width_2, justify = "centre"), "\n")
