@@ -7,8 +7,8 @@ test_that('output from ts_prop_test matches the expected result', {
     expect_equal(k$n2, 32)
     expect_equal(k$phat1, 0.4062)
     expect_equal(k$phat2, 0.4375)
-    expect_equal(k$z, -0.2535)
-    expect_equal(k$sig, 0.3999)
+    expect_equal(round(k$z, 3), -0.254)
+    expect_equal(round(k$sig,3), 0.4)
     expect_equivalent(k$alt, 'less')
 })
 
@@ -17,7 +17,7 @@ test_that('output from ts_prop_test matches the expected result', {
 
     k <- ts_prop_test(var1 = mtcars$am, var2 = mtcars$vs,
                       alternative = 'greater')
-    expect_equal(k$sig, 0.6001)
+    expect_equal(round(k$sig, 3), 0.6)
     expect_equivalent(k$alt, 'greater')
 })
 
@@ -26,7 +26,7 @@ test_that('output from ts_prop_test matches the expected result', {
 
     k <- ts_prop_test(var1 = mtcars$am, var2 = mtcars$vs,
                       alternative = 'both')
-    expect_equal(k$sig, 0.7999)
+    expect_equal(round(k$sig, 3), 0.8)
     expect_equivalent(k$alt, 'both')
 })
 
@@ -34,7 +34,7 @@ test_that('output from ts_prop_test matches the expected result', {
 
     k <- ts_prop_test(var1 = mtcars$am, var2 = mtcars$vs,
                       alternative = 'all')
-    expect_equal(unname(k$sig), c(0.7999, 0.3999, 0.6001))
+    expect_equal(unname(round(k$sig, 3)), c(0.8, 0.4, 0.6))
     expect_equivalent(k$alt, 'all')
 })
 

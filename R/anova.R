@@ -82,7 +82,7 @@ owanova.default <- function(data, x, y, ...) {
 								       ar2 = round(reg$adj.r.squared, 4),
 								     sigma = round(reg$sigma, 4),
 								       obs = obs,
-								       tab = format(sample_stats[, c(1, 2, 3, 5)], nsmall = 3))
+								       tab = round(sample_stats[, c(1, 2, 3, 5)], 3))
 
 	class(result) <- 'owanova'
 	return(result)

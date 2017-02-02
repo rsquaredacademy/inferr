@@ -13,9 +13,9 @@ print_owanova <- function(data) {
 	dc <- as.vector(data$tab[, 1])
 
 	w8 <- max(nchar('Category'), max(nchar(dc)))
-	w9 <- max(nchar('N'), max(nchar(data$tab[, 2])))
-	w10 <- max(nchar('Mean'), max(nchar(format(data$tab[, 3], nsmall = 3))))
-	w11 <- max(nchar('Std. Dev.'), max(nchar(data$tab[, 4])))
+	w9 <- max(nchar('N'), max(nchar(data$tab[[2]])))
+	w10 <- max(nchar('Mean'), max(nchar(format(data$tab[[3]], nsmall = 3))))
+	w11 <- max(nchar('Std. Dev.'), max(nchar(format(data$tab[[4]], nsmall = 3))))
 	wr <- sum(w8, w9, w10, w11, 13)
 
 
@@ -39,7 +39,8 @@ print_owanova <- function(data) {
 	cat(fg('Category', w8), fs(), fg('N', w9), fs(), fg('Mean', w10), fs(), fg('Std. Dev.', w11), '\n')
 	cat(rep("-", wr), sep = "", '\n')
 	for (i in seq_len(q)) {
-		cat(fc(data$tab[i, 1], w8), fs(), fg(data$tab[i, 2], w9), fs(), fg(data$tab[i, 3], w10), fs(), fg(data$tab[i, 4], w11), '\n')
+		cat(fc(data$tab[[i, 1]], w8), fs(), fg(data$tab[[i, 2]], w9), fs(), fk(data$tab[[i, 3]], w10),
+		fs(), fk(data$tab[[i, 4]], w11), '\n')
 	}
 	cat(rep("-", wr), sep = "", '\n\n')
 
@@ -136,12 +137,12 @@ print_binom <- function(data) {
 
 print_ttest <- function(data) {
 
-	null_l <- paste("Ho: mean(", data$var_name, ") >=", as.character(data$mu))
-  alt_l <- paste(" Ha: mean(", data$var_name, ") <", as.character(data$mu))
-  null_u <- paste("Ho: mean(", data$var_name, ") <=", as.character(data$mu))
-  alt_u <- paste("Ha: mean(", data$var_name, ") >", as.character(data$mu))
-  null_t <- paste("Ho: mean(", data$var_name, ") =", as.character(data$mu))
-  alt_t <- paste("Ha: mean(", data$var_name, ") !=", as.character(data$mu))
+	null_l <- paste0("Ho: mean(", data$var_name, ") >=", as.character(data$mu))
+  alt_l <- paste0(" Ha: mean(", data$var_name, ") <", as.character(data$mu))
+  null_u <- paste0("Ho: mean(", data$var_name, ") <=", as.character(data$mu))
+  alt_u <- paste0("Ha: mean(", data$var_name, ") >", as.character(data$mu))
+  null_t <- paste0("Ho: mean(", data$var_name, ") ~=", as.character(data$mu))
+  alt_t <- paste0("Ha: mean(", data$var_name, ") !=", as.character(data$mu))
   all_l <- paste("Ha: mean <", as.character(data$mu))
   all_u <- paste("Ha: mean >", as.character(data$mu))
   all_t <- paste("Ha: mean ~=", as.character(data$mu))
@@ -197,8 +198,8 @@ print_ttest <- function(data) {
     cat("\n", formatter_t(data$var_name, var_width), formats_t(),
       formatter_t(data$n, obs_width), formats_t(),
       formatter_t(data$Mean, mean_width),
-      formats_t(), formatter_t(data$stddev, sd_width), formats_t(),
-      formatter_t(data$std_err, se_width), formats_t(),
+      formats_t(), formatter_t(data$std_err, sd_width), formats_t(),
+      formatter_t(data$stddev, se_width), formats_t(),
       format_cil(data$confint[1], conf_width),
       format_ciu(data$confint[2], conf_width), "\n")
     cat(rep("-", width_1), sep = "")
@@ -414,7 +415,7 @@ print_two_ttest <- function(data) {
   char_sig_pooled_u <- format(data$sig_pooled_u, digits = 0, nsmall = 4)
 
   # hypothesis heading
-  hyp_null <- paste0('Ho: mean( ', data$levels[1], ' ) - mean( ', data$levels[2], ' ) = diff = ', '0')
+  hyp_null <- paste0('Ho: mean(', data$levels[1], ') - mean(', data$levels[2], ') = diff = ', '0')
   hyp_lt <- paste0('Ha: diff < ', '0')
   hyp_2t <- paste0('Ha: diff ~= ', '0')
   hyp_ut <- paste0('Ha: diff > ', '0')

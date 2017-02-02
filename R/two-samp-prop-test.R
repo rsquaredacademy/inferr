@@ -96,8 +96,8 @@ ts_prop_test.default <- function(var1, var2,
          n2 = n2,
       phat1 = phat1,
       phat2 = phat2,
-          z = z,
-        sig = sig,
+          z = round(z, 3),
+        sig = round(sig, 3),
         alt = alt)
 
     class(result) <- 'ts_prop_test'
@@ -156,8 +156,8 @@ ts_prop_grp <- function(var, group,
          n2 = n2,
       phat1 = phat1,
       phat2 = phat2,
-          z = z,
-        sig = sig,
+          z = round(z, 3),
+        sig = round(sig, 3),
         alt = alt)
 
     class(out) <- 'ts_prop_test'
@@ -202,10 +202,10 @@ ts_prop_calc <- function(n1, n2, p1, p2,
     out <- list(
          n1 = n1,
          n2 = n2,
-      phat1 = phat1,
-      phat2 = phat2,
-          z = z,
-        sig = sig,
+      phat1 = round(phat1, 3),
+      phat2 = round(phat2, 3),
+          z = round(z, 3),
+        sig = round(sig, 3),
         alt = alt)
 
     class(out) <- 'ts_prop_test'

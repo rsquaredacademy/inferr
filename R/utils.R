@@ -87,6 +87,12 @@ fg <- function(x, w) {
     format(width = w, justify = 'centre')
 }
 
+fk <- function(x, w) {
+    x %>%
+        format(width = w, justify = 'centre', nsmall = 3)
+}
+
+
 fs <- function() {
   rep("  ")
 }

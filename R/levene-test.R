@@ -70,7 +70,12 @@ levene_test.default <- function(variable, ..., group_var = NA,
 
 		if (is.na(group_var)) {
 
-			 z <- list(variable, ...)
+			if (is.data.frame(variable)) {
+				z <- as.list(variable)
+			} else {
+				z <- list(variable, ...)
+			}
+			
 			ln <- z %>% map_int(length)
 			ly <- seq_len(length(z))
 
