@@ -1,5 +1,5 @@
 #' @importFrom stats pnorm
-#' @title One sample test of proportion
+#' @title One Sample Test of Proportion
 #' @description  \code{prop_test} compares proportion in one group to a
 #' specified population proportion.
 #' @param n number of observations
@@ -64,44 +64,11 @@ prop_test.default <- function(n, prob = 0.5,
     stop('prob must be between 0 and 1')
   }
 
-	n    <- n
-	phat <- phat
-	p    <- prob
-	q    <- 1 - p
-	obs  <- c(n * (1 - phat), n * phat)
-	exp  <- n * c(q, p)
-	dif  <- obs - exp
-  dev  <- round((dif / exp) * 100, 2)
-  std  <- round(dif / sqrt(exp), 2)
-	num  <- phat - prob
-	den  <- sqrt((p * q) / n)
-	z    <- round(num / den, 4)
-	lt   <- round(pnorm(z), 4)
-	ut   <- round(1 - pnorm(z), 4)
-	tt   <- round((1 - pnorm(abs(z))) * 2, 4)
-	alt  <- match.arg(alternative)
-
-    if (alt == "all") {
-        sig = c('two-both' = tt, 'less' = lt, 'greater' = ut)
-    } else if (alt == "greater") {
-        sig = ut
-    } else if (alt == "less"){
-        sig = lt
-    } else {
-        sig = tt
-    }
-
-    result <- list(
-              n = n,
-           phat = phat,
-              p = prob,
-              z = z,
-            sig = sig,
-            alt = alt,
-            obs = obs,
-            exp = exp,
-      deviation = format(dev, nsmall = 2),
-            std = format(std, nsmall = 2))
+  k <- prop_comp(n, prob, alternative, phat)
+	
+  result <- list(n = k$n, phat = k$phat, p = k$p, z = k$z, sig = k$sig, 
+      alt = k$alt, obs = k$obs, exp = k$exp, deviation = k$deviation, 
+            std = k$std)
 
     class(result) <- 'prop_test'
     return(result)

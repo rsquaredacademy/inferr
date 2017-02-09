@@ -25,6 +25,7 @@
 #'
 #' @seealso \code{\link[stats]{binom.test}}
 #' @examples
+#' # using calculator
 #' binom_calc(32, 13, prob = 0.5)
 #'
 #' # using data set
@@ -52,54 +53,11 @@ binom_calc.default <- function(n, success, prob = 0.5, ...) {
       stop('prob must be between 0 and 1')
     }
 
-        n <- n
-        k <- success
-    obs_p <- k / n
-    exp_k <- round(n * prob)
-       lt <- pbinom(k, n, prob, lower.tail = T)
-       ut <- pbinom(k - 1, n, prob, lower.tail = F)
-    p_opp <- round(dbinom(k, n, prob), 9)
-      i_p <- dbinom(exp_k, n, prob)
-      i_k <- exp_k
+    k <- binom_comp(n, success, prob)
 
-      if (k < exp_k) {
-
-          while (i_p > p_opp) {
-              i_k <- i_k + 1
-              i_p <- round(dbinom(i_k, n, prob), 9)
-          }
-
-          ttf <- pbinom(k, n, prob, lower.tail = T) +
-              pbinom(i_k - 1, n, prob, lower.tail = F)
-
-        } else {
-
-          while (p_opp <= i_p) {
-              i_k <- i_k - 1
-              i_p <- dbinom(i_k, n, prob)
-          }
-
-          i_k <- i_k
-
-          tt <- pbinom(i_k, n, prob, lower.tail = T) +
-              pbinom(k - 1, n, prob, lower.tail = F)
-
-          ttf <- ifelse(tt <= 1, tt, 1)
-
-          }
-
-
-    out <- list(
-             n = n,
-             k = k,
-         exp_k = exp_k,
-         obs_p = obs_p,
-         exp_p = prob,
-            ik = i_k,
-         lower = round(lt, 6),
-         upper = round(ut, 6),
-      two_tail = round(ttf, 6)
-    )
+    out <- list(n = n, k = k$k, exp_k = k$exp_k, obs_p = k$obs_p, 
+           exp_p = k$exp_p, ik = k$ik, lower = k$lower, upper = k$upper, 
+           two_tail = k$two_tail)
 
     class(out) <- 'binom_calc'
     return(out)

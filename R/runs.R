@@ -102,15 +102,8 @@ runs_test.default <- function(x, drop = FALSE,
           sig <- 2 * (1 - pnorm(abs(test_stat), lower.tail = TRUE))
 
     # result
-    result <- list(
-              n = n,
-      threshold = thresh,
-        n_below = n0,
-        n_above = n1,
-           mean = exp_runs,
-            var = sd_runs,
-         n_runs = n_runs,
-              z = test_stat,
+    result <- list(n = n, threshold = thresh, n_below = n0, n_above = n1,
+              mean = exp_runs, var = sd_runs, n_runs = n_runs, z = test_stat,
               p = sig)
 
     class(result) <- "runs_test"

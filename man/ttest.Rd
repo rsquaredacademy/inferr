@@ -2,7 +2,7 @@
 % Please edit documentation in R/t-test.R
 \name{ttest}
 \alias{ttest}
-\title{One sample t test}
+\title{One Sample t Test}
 \usage{
 ttest(x, mu = 0, alpha = 0.05, type = c("both", "less", "greater", "all"),
   ...)
@@ -44,13 +44,20 @@ following components:
 \item{var_name}{name of \code{x}}
 }
 \description{
-ttest performs t tests on the equality of means. It tests the
+\code{ttest} performs t tests on the equality of means. It tests the
 hypothesis that \code{x} has a mean of \code{mu}.
 }
 \examples{
+# lower tail
 ttest(hsb$write, mu = 50, type = 'less')
+
+# upper tail
 ttest(hsb$write, mu = 50, type = 'greater')
+
+# both tails
 ttest(hsb$write, mu = 50, type = 'both')
+
+# all tails
 ttest(hsb$write, mu = 50, type = 'all')
 }
 \references{

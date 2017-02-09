@@ -1,12 +1,12 @@
 #' @importFrom stats anova model.frame formula
 #' @importFrom purrr map_int
 #' @title Levene's test for equality of variances
-#' @description  \code{levene_test} reports Levene's robust test statistic (W_0)
-#' for the equality of variances between the groups defined by groupvar and the
+#' @description  \code{levene_test} reports Levene's robust test statistic
+#' for the equality of variances between the groups defined by \code{group_var} and the
 #' two statistics proposed by Brown and Forsythe that replace the mean in
 #' Levene's formula with alternative location estimators. The first alternative
-#' (W_50) replaces the mean with the median.  The second alternative replaces
-#' the mean with the 10% trimmed mean (W_10).
+#' replaces the mean with the median.  The second alternative replaces
+#' the mean with the 10% trimmed mean.
 #' @param variable a numeric vector or formula or object of class \code{lm}
 #' @param group_var a grouping variable
 #' @param trim.mean trimmed mean
@@ -75,7 +75,7 @@ levene_test.default <- function(variable, ..., group_var = NA,
 			} else {
 				z <- list(variable, ...)
 			}
-			
+
 			ln <- z %>% map_int(length)
 			ly <- seq_len(length(z))
 
@@ -100,35 +100,24 @@ levene_test.default <- function(variable, ..., group_var = NA,
 	if (!is.factor(group_var)) {
 		group_var <- as.factor(group_var)
 	}
+		 k <- lev_comp(variable, group_var, trim.mean)
+	# comp <- complete.cases(variable, group_var)
+	#    n <- length(comp)
+ #     k <- nlevels(group_var)
+	# cvar <- variable[comp]
+	# gvar <- group_var[comp]
+ #  lens <- tapply(cvar, gvar, length)
+ #  avgs <- tapply(cvar, gvar, mean)
+	#  sds <- tapply(cvar, gvar, sd)
 
-	comp <- complete.cases(variable, group_var)
-	   n <- length(comp)
-     k <- nlevels(group_var)
-	cvar <- variable[comp]
-	gvar <- group_var[comp]
-  lens <- tapply(cvar, gvar, length)
-  avgs <- tapply(cvar, gvar, mean)
-	 sds <- tapply(cvar, gvar, sd)
+	#  bf <- lev_metric(cvar, gvar, mean)
+	# lev <- lev_metric(cvar, gvar, median)
+	# bft <- lev_metric(cvar, gvar, mean, trim = trim.mean)
 
-	 bf <- lev_metric(cvar, gvar, mean)
-	lev <- lev_metric(cvar, gvar, median)
-	bft <- lev_metric(cvar, gvar, mean, trim = trim.mean)
-
-	out <- list(bf    = round(bf$fstat, 4),
-              p_bf  = round(bf$p, 4),
-              lev   = round(lev$fstat, 4),
-		          p_lev = round(lev$p, 4),
-              bft   = round(bft$fstat, 4),
-              p_bft = round(bft$p, 4),
-              avgs  = round(avgs, 2),
-              sds   = round(sds, 2),
-              avg   = round(mean(cvar), 2),
-              sd    = round(sd(cvar), 2),
-              n     = n,
-              levs  = levels(gvar),
-		          n_df  = (k - 1),
-              d_df  = (n - k),
-              lens  = lens)
+	out <- list(bf    = k$bf, p_bf  = k$p_bf, lev = k$lev, p_lev = k$p_lev,
+              bft   = k$bft, p_bft = k$p_bft, avgs  = k$avgs, sds   = k$sds,
+              avg   = k$avg, sd = k$sd, n = k$n, levs  = k$levs, n_df  = k$n_df,
+              d_df  = k$d_df, lens  = k$lens)
 
 	class(out) <- 'levene_test'
   return(out)

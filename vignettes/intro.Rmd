@@ -21,7 +21,7 @@ generalizations about the population from the sample. **inferr** builds upon the
 The **inferr** package:
 
 - builds upon the statistical tests provided in **stats**  
-- provides additional and flexible input options
+- provides additional and flexible options
 - more detailed and structured test results
 
 As of version 0.1, **inferr** includes a select set of parametric and non-parametric statistical tests which are listed below:
@@ -46,7 +46,7 @@ These tests are described in more detail in the following sections.
 
 ## One Sample t Test
 
-A one sample t-test is used to determine whether a sample of comes from a population with a specific mean. The observations must be continuous, independent of each other, approximately distributed and should not contain any outliers.
+A one sample t-test is used to determine whether a sample of data comes from a population with a specific mean. The observations must be continuous, independent of each other, approximately distributed and should not contain any outliers.
 
 ### Example
 

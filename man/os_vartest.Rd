@@ -2,7 +2,7 @@
 % Please edit documentation in R/one-samp-var-test.R
 \name{os_vartest}
 \alias{os_vartest}
-\title{One sample variance comparison test}
+\title{One Sample Variance Comparison Test}
 \usage{
 os_vartest(x, sd, confint = 0.95, alternative = c("both", "less", "greater",
   "all"), ...)
@@ -47,11 +47,17 @@ deviations (variances).It tests that the standard deviation of \code{x} is
 \code{sd}.
 }
 \examples{
+# lower tail
 os_vartest(mtcars$mpg, 5, alternative = 'less')
-os_vartest(mtcars$mpg, 5, alternative = 'greater')
-os_vartest(mtcars$mpg, 5, alternative = 'both')
-os_vartest(mtcars$mpg, 5, alternative = 'all')
 
+# upper tail
+os_vartest(mtcars$mpg, 5, alternative = 'greater')
+
+# both tails
+os_vartest(mtcars$mpg, 5, alternative = 'both')
+
+# all tails
+os_vartest(mtcars$mpg, 5, alternative = 'all')
 }
 \references{
 Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric

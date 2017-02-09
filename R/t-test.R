@@ -1,5 +1,5 @@
-#' @title One sample t test
-#' @description ttest performs t tests on the equality of means. It tests the
+#' @title One Sample t Test
+#' @description \code{ttest} performs t tests on the equality of means. It tests the
 #' hypothesis that \code{x} has a mean of \code{mu}.
 #' @param x a numeric vector
 #' @param mu a number indicating the true value of the mean
@@ -33,10 +33,18 @@
 #' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #' @seealso \code{\link[stats]{t.test}}
+#'
 #' @examples
+#' # lower tail
 #' ttest(hsb$write, mu = 50, type = 'less')
+#'
+#' # upper tail
 #' ttest(hsb$write, mu = 50, type = 'greater')
+#'
+#' # both tails
 #' ttest(hsb$write, mu = 50, type = 'both')
+#'
+#' # all tails
 #' ttest(hsb$write, mu = 50, type = 'all')
 #' @export
 #'
@@ -60,56 +68,44 @@ ttest.default <- function(x, mu = 0, alpha = 0.05,
 
        type <- match.arg(type)
    var_name <- l(deparse(substitute(x)))
-          n <- length(x)
-          a <- (alpha / 2)
-         df <- n - 1
-       conf <- 1 - alpha
-       Mean <- round(mean(x), 4)
-     stddev <- round(sd(x), 4)
-    std_err <- round(stddev / sqrt(n), 4)
-  test_stat <- round((Mean - mu) / std_err, 3)
+          k <- ttest_comp(x, mu, alpha, type)
+  #         n <- length(x)
+  #         a <- (alpha / 2)
+  #        df <- n - 1
+  #      conf <- 1 - alpha
+  #      Mean <- round(mean(x), 4)
+  #    stddev <- round(sd(x), 4)
+  #   std_err <- round(stddev / sqrt(n), 4)
+  # test_stat <- round((Mean - mu) / std_err, 3)
 
-  if (type == 'less') {
-    cint <- c(-Inf, test_stat + qt(1 - alpha, df) )
-  } else if (type == 'greater') {
-    cint <- c(test_stat - qt(1 - alpha, df), Inf)
-  } else {
-    cint <- qt(1 - a, df)
-    cint <- test_stat + c(-cint, cint)
-  }
+  # if (type == 'less') {
+  #   cint <- c(-Inf, test_stat + qt(1 - alpha, df) )
+  # } else if (type == 'greater') {
+  #   cint <- c(test_stat - qt(1 - alpha, df), Inf)
+  # } else {
+  #   cint <- qt(1 - a, df)
+  #   cint <- test_stat + c(-cint, cint)
+  # }
 
-      confint <- round(mu + cint * std_err, 4)
-    mean_diff <- round((Mean - mu), 4)
-  mean_diff_l <- confint[1] - mu
-  mean_diff_u <- confint[2] - mu
-          p_l <- pt(test_stat, df)
-          p_u <- pt(test_stat, df, lower.tail = FALSE)
+  #     confint <- round(mu + cint * std_err, 4)
+  #   mean_diff <- round((Mean - mu), 4)
+  # mean_diff_l <- confint[1] - mu
+  # mean_diff_u <- confint[2] - mu
+  #         p_l <- pt(test_stat, df)
+  #         p_u <- pt(test_stat, df, lower.tail = FALSE)
 
-  if (p_l < 0.5) {
-    p <- p_l * 2
-  } else {
-    p <- p_u * 2
-  }
+  # if (p_l < 0.5) {
+  #   p <- p_l * 2
+  # } else {
+  #   p <- p_u * 2
+  # }
 
 
-  result <- list(
-             mu = mu,
-              n = n,
-             df = df,
-           Mean = Mean,
-         stddev = stddev,
-        std_err = std_err,
-      test_stat = test_stat,
-        confint = confint,
-      mean_diff = mean_diff,
-    mean_diff_l = mean_diff_l,
-    mean_diff_u = mean_diff_u,
-            p_l = p_l,
-            p_u = p_u,
-              p = p,
-		       conf = conf,
-           type = type,
-       var_name = var_name)
+  result <- list(mu = k$mu, n = k$n, df = k$df, Mean = k$Mean, stddev = k$stddev, 
+    std_err = k$std_err, test_stat = k$test_stat, confint = k$confint, 
+    mean_diff = k$mean_diff, mean_diff_l = k$mean_diff_l, 
+    mean_diff_u = k$mean_diff_u, p_l = k$p_l, p_u = k$p_u, p = k$p, conf = k$conf, 
+    type = type, var_name = var_name)
 
   class(result) <- 'ttest'
   return(result)

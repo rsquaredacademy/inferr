@@ -50,12 +50,12 @@ following components:
 \item{type}{alternative hypothesis}
 }
 \description{
-\code{levene_test} reports Levene's robust test statistic (W_0)
-for the equality of variances between the groups defined by groupvar and the
+\code{levene_test} reports Levene's robust test statistic
+for the equality of variances between the groups defined by \code{group_var} and the
 two statistics proposed by Brown and Forsythe that replace the mean in
 Levene's formula with alternative location estimators. The first alternative
-(W_50) replaces the mean with the median.  The second alternative replaces
-the mean with the 10% trimmed mean (W_10).
+replaces the mean with the median.  The second alternative replaces
+the mean with the 10% trimmed mean.
 }
 \examples{
 # using grouping variable

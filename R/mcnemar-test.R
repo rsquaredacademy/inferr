@@ -14,10 +14,10 @@
 #' \item{exactp}{exact p-value}
 #' \item{cstat}{continuity correction chi square statistic}
 #' \item{cpvalue}{continuity correction p-value}
-#' \item{kappa}{kappa coefficient}
+#' \item{kappa}{kappa coefficient; measure of interrater agreement}
 #' \item{std_err}{asymptotic standard error}
 #' \item{kappa_cil}{95\% lower confidence limit}
-#' \item{kappa_ciu}{95\%upper confidence limit}
+#' \item{kappa_ciu}{95\% upper confidence limit}
 #' \item{cases}{cases}
 #' \item{controls}{controls}
 #' \item{ratio}{ratio of proportion with factor}
@@ -46,17 +46,7 @@ mcnemar_test.default <- function(x, y = NULL) {
 
 	if (is.null(y)) {
 
-		if (!is.matrix(x)) {
-			stop('x must be either a table or a matrix')
-		}
-
-		if (is.matrix(x)) {
-			if (length(x) != 4) {
-				stop('x must be a 2 x 2 matrix')
-			}
-		}
-
-		dat <- x
+		dat <- mcdata(x, y)
 
 	} else {
 
@@ -73,49 +63,13 @@ mcnemar_test.default <- function(x, y = NULL) {
 
 	}
 
-	 retrieve <- matrix(c(1, 2, 2, 1), nrow = 2)
-	        p <- dat[retrieve]
-	test_stat <- ((p[1] - p[2]) ^ 2) / sum(p)
-	       df <- nrow(dat) - 1
-	   pvalue <- 1 - pchisq(test_stat, df)
-	   exactp <- 2 * min(pbinom(dat[2], sum(dat[2], dat[3]), 0.5), pbinom(dat[3], sum(dat[2], dat[3]), 0.5))
-	    cstat <- ((abs(p[1] - p[2]) - 1) ^ 2) / sum(p)
-	  cpvalue <- 1 - pchisq(cstat, df)
-	agreement <- sum(diag(dat)) / sum(dat)
-	 expected <- sum(rowSums(dat) * colSums(dat)) / (sum(dat) ^ 2)
-	    kappa <- (agreement - expected) / (1 - expected)
-	  std_err <- serr(dat, kappa, expected)
+  k <- mccomp(dat)
 
-	# confidence intervals
-	    alpha <- 0.05
-	 interval <- qnorm(1 - (alpha /2)) * std_err
-	 ci_lower <- kappa - interval
-	 ci_upper <- kappa + interval
-
-	# proportions
-	  dat_per <- dat / sum(dat)
-	  row_sum <- rowSums(dat_per)
-	  col_sum <- colSums(dat_per)
-	 controls <- 1 - col_sum[2]
-	    cases <- 1 - row_sum[2]
-	    ratio <- cases / controls
- odds_ratio <- p[1] / p[2]
-
-	result <- list(statistic = round(test_stat, 4),
-		             df        = df,
-		             pvalue    = round(pvalue, 4),
-		             exactp    = round(exactp, 4),
-		             cstat     = cstat,
-		             cpvalue   = cpvalue,
-		             kappa     = round(kappa, 4),
-		             std_err   = round(std_err, 4),
-		             kappa_cil = round(ci_lower, 4),
-		             kappa_ciu = round(ci_upper, 4),
-		             cases     = round(cases, 4),
-		             controls  = round(controls, 4),
-		             ratio     = round(ratio, 4),
-		             odratio   = round(odds_ratio, 4),
-		             tbl       = dat)
+	result <- list(statistic = k$statistic, df = k$df, pvalue = k$pvalue, 
+		exactp = k$exactp, cstat = k$cstat, cpvalue = k$cpvalue, kappa = k$kappa,
+    std_err = k$std_err, kappa_cil = k$kappa_cil, kappa_ciu = k$kappa_ciu, 
+    cases = k$cases, controls = k$controls, ratio = k$ratio,  
+    odratio = k$odratio, tbl = dat)
 
 	class(result) <- 'mcnemar_test'
 	return(result)

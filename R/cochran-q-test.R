@@ -23,40 +23,18 @@ cochran_test <- function(x, ...) UseMethod('cochran_test')
 #' @export
 cochran_test.default <- function(x, ...) {
 
-	if (is.data.frame(x)) {
-		data <- x %>%
-		    lapply(as.numeric) %>%
-		    as.data.frame() %>%
-		    `-`(1)
-	} else {
-		data <- cbind(x, ...) %>%
-		    apply(2, as.numeric) %>%
-		    `-`(1) %>%
-		    as.data.frame()
-
+	data <- coch_data(x, ...)
+	
+	if (ncol(data) < 3) {
+		stop('Please specify at least 3 variables.')
 	}
-		if (ncol(data) < 3) {
-			stop('Please specify at least 3 variables.')
-		}
 
-		if (any(sapply(lapply(data, as.factor), nlevels) > 2)) {
-			stop('Please specify dichotomous/binary variables only.')
-		}
+	if (any(sapply(lapply(data, as.factor), nlevels) > 2)) {
+		stop('Please specify dichotomous/binary variables only.')
+	}
 
-
-	     n <- nrow(data)
-	     k <- ncol(data)
-	    df <- k - 1
-	    cs <- sums(data)
-	     q <- coch(k, cs$cls_sum, cs$cl, cs$g, cs$gs_sum)
-	pvalue <- 1 - pchisq(q, df)
-
-	result <- list(
-		     n = n,
-		    df = df,
-		     q = q,
-		pvalue = round(pvalue, 4))
-
+	k <- cochran_comp(data)		
+	result <- list(n = k$n, df = k$df, q = k$q, pvalue = k$pvalue)
 	class(result) <- 'cochran_test'
 	return(result)
 

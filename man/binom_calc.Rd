@@ -40,6 +40,7 @@ Test whether the proportion of successes on a two-level
 categorical dependent variable significantly differs from a hypothesized value.
 }
 \examples{
+# using calculator
 binom_calc(32, 13, prob = 0.5)
 
 # using data set

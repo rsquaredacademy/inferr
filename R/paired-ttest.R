@@ -35,9 +35,16 @@
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #' @seealso \code{\link[stats]{t.test}}
 #' @examples
+#' # lower tail
 #' paired_ttest(hsb$read, hsb$write, alternative = 'less')
+#'
+#' # upper tail
 #' paired_ttest(hsb$read, hsb$write, alternative = 'greater')
+#'
+#' # both tails
 #' paired_ttest(hsb$read, hsb$write, alternative = 'both')
+#'
+#' # all tails
 #' paired_ttest(hsb$read, hsb$write, alternative = 'all')
 #' @export
 #'
@@ -65,39 +72,13 @@ paired_ttest.default <- function(x, y, confint = 0.95,
       var_x <- l(deparse(substitute(x)))
       var_y <- l(deparse(substitute(y)))
   var_names <- c(var_x, var_y)
-          n <- length(x)
-         df <- (n - 1)
-         xy <- paste(var_names[1], '-', var_names[2])
-  data_prep <- paired_data(x, y)
-         b  <- paired_stats(data_prep, 'key', 'value')
-       corr <- round(cor(x, y), 4)
-     corsig <- cor_sig(corr, n)
-      alpha <- 1 - confint
-   confint1 <- conf_int_t(b[[1, 1]], b[[1, 2]], n, alpha = alpha) %>% round(2)
-   confint2 <- conf_int_t(b[[2, 1]], b[[2, 2]], n, alpha = alpha) %>% round(2)
-   confint3 <- conf_int_t(b[[3, 1]], b[[3, 2]], n, alpha = alpha) %>% round(2)
-          t <- round(b[[3, 1]] / b[[3, 3]], 4)
-        p_l <- pt(t, df)
-        p_u <- pt(t, df, lower.tail = FALSE)
-          p <- pt(abs(t), df, lower.tail = FALSE) * 2
+          k <- paired_comp(x, y, confint, var_names)
 
-  result <- list(
-              Obs = n,
-                b = b,
-        conf_int1 = confint1,
-        conf_int2 = confint2,
-    conf_int_diff = confint3,
-             corr = round(corr, 2),
-           corsig = round(corsig, 2),
-            tstat = t,
-          p_lower = p_l,
-          p_upper = p_u,
-       p_two_tail = p,
-        var_names = var_names,
-               xy = xy,
-               df = df,
-      alternative = method,
-          confint = confint)
+  result <- list(Obs = k$Obs, b = k$b, conf_int1 = k$conf_int1, 
+    conf_int2 = k$conf_int2, conf_int_diff = k$conf_int_diff, corr = k$corr, 
+    corsig = k$corsig, tstat = k$tstat, p_lower = k$p_lower, 
+    p_upper = k$p_upper, p_two_tail = k$p_two_tail, var_names = var_names,
+    xy = k$xy, df = k$df, alternative = method, confint = confint)
 
   class(result) <- 'paired_ttest'
   return(result)

@@ -1,5 +1,5 @@
-#' @title Two sample test of proportion
-#' @description tests on the equality of proportions using
+#' @title Two Sample Test of Proportion
+#' @description Tests on the equality of proportions using
 #' large-sample statistics. It tests that \code{var} has the same proportion
 #' within two groups defined by \code{group} or that two variables \code{var1} and
 #' \code{var2} have the same proportion.
@@ -32,21 +32,42 @@
 #' @seealso \code{\link[stats]{prop.test}}
 #' @examples
 #' # using variables
+#' # lower tail
 #' ts_prop_test(var1 = treatment$treatment1, var2 = treatment$treatment2, alternative = 'less')
+#'
+#' # upper tail
 #' ts_prop_test(var1 = treatment$treatment1, var2 = treatment$treatment2, alternative = 'greater')
+#'
+#' # both tails
 #' ts_prop_test(var1 = treatment$treatment1, var2 = treatment$treatment2, alternative = 'both')
+#'
+#' # all tails
 #' ts_prop_test(var1 = treatment$treatment1, var2 = treatment$treatment2, alternative = 'all')
 #'
 #' # using groups
+#' # lower tail
 #' ts_prop_grp(var = treatment2$outcome, group = treatment2$female, alternative = 'less')
+#'
+#' # upper tail
 #' ts_prop_grp(var = treatment2$outcome, group = treatment2$female, alternative = 'greater')
+#'
+#' # both tails
 #' ts_prop_grp(var = treatment2$outcome, group = treatment2$female, alternative = 'both')
+#'
+#' # # all tails
 #' ts_prop_grp(var = treatment2$outcome, group = treatment2$female, alternative = 'all')
 #'
 #' # using sample size and proportions
+#' # lower tail
 #' ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'less')
+#'
+#' # upper tail
 #' ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'greater')
+#'
+#' # both tails
 #' ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'both')
+#'
+#' # all tails
 #' ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'all')
 #' @export
 #'
@@ -58,50 +79,14 @@ ts_prop_test <- function(var1, var2,
 ts_prop_test.default <- function(var1, var2,
   alternative = c('both', 'less', 'greater', 'all'), ...) {
 
+  alt <- match.arg(alternative)
+    k <- prop_comp2(var1, var2, alt)
 
-  	 n1 <- length(var1)
-  	 n2 <- length(var2)
-  	 y1 <- table(var1)[[2]]
-	   y2 <- table(var2)[[2]]
-	phat1 <- round(y1 / n1, 4)
-	phat2 <- round(y2 / n2, 4)
-	 phat <- sum(y1, y2) / sum(n1, n2)
+  result <- list(n1 = k$n1, n2 = k$n2, phat1 = k$phat1, phat2 = k$phat2, 
+    z = k$z, sig = k$sig, alt = alt)
 
-	# test statistic
-	 num <- (phat1 - phat2)
-	den1 <- phat * (1 - phat)
-	den2 <- (1 / n1) + (1 / n2)
-	 den <- sqrt(den1 * den2)
-	   z <- round(num / den, 4)
-
-	  lt <- round(pnorm(z), 4)
-	  ut <- round(pnorm(z, lower.tail = FALSE), 4)
-	  tt <- round(pnorm(abs(z), lower.tail = FALSE) * 2, 4)
-
-	 alt <- match.arg(alternative)
-
-    if (alt == "all") {
-        sig = c('two-tail' = tt, 'lower-tail' = lt, 'upper-tail' = ut)
-    } else if (alt == "greater") {
-        sig = ut
-    } else if (alt == "less"){
-        sig = lt
-    } else {
-        sig = tt
-    }
-
-    # result
-    result <- list(
-         n1 = n1,
-         n2 = n2,
-      phat1 = phat1,
-      phat2 = phat2,
-          z = round(z, 3),
-        sig = round(sig, 3),
-        alt = alt)
-
-    class(result) <- 'ts_prop_test'
-    return(result)
+  class(result) <- 'ts_prop_test'
+  return(result)
 
 }
 

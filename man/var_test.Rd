@@ -2,7 +2,7 @@
 % Please edit documentation in R/two-samp-var-test.R
 \name{var_test}
 \alias{var_test}
-\title{Two sample variance comparison test}
+\title{Two Sample Variance Comparison Test}
 \usage{
 var_test(variable, ..., group_var = NA, alternative = c("less", "greater",
   "all"))
@@ -47,13 +47,23 @@ deviations (variances).
 }
 \examples{
 # using grouping variable
+# lower tail
 var_test(mtcars$mpg, group_var = mtcars$vs, alternative = 'less')
+
+# upper tail
 var_test(mtcars$mpg, group_var = mtcars$vs, alternative = 'greater')
+
+# all tails
 var_test(mtcars$mpg, group_var = mtcars$vs, alternative = 'all')
 
 # using two variables
+# lower tail
 var_test(hsb$read, hsb$write, alternative = 'less')
+
+# upper tail
 var_test(hsb$read, hsb$write, alternative = 'greater')
+
+# all tails
 var_test(hsb$read, hsb$write, alternative = 'all')
 
 }

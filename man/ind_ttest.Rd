@@ -2,7 +2,7 @@
 % Please edit documentation in R/ind-ttest.R
 \name{ind_ttest}
 \alias{ind_ttest}
-\title{Two sample t test}
+\title{Two Independent Sample t Test}
 \usage{
 ind_ttest(data, x, y, confint = 0.95, alternative = c("both", "less",
   "greater", "all"), ...)
@@ -60,13 +60,20 @@ confidence limit of mean of \code{y}}
 \item{alternative}{alternative hypothesis}
 }
 \description{
-\code{two_sample_test} tests that \code{y} has the same mean
+\code{ind_ttest} tests that \code{y} has the same mean
 within the two groups defined by \code{x}
 }
 \examples{
+# lower tail
 ind_ttest(hsb, 'female', 'write', alternative = 'less')
+
+# upper tail
 ind_ttest(hsb, 'female', 'write', alternative = 'greater')
+
+# both tails
 ind_ttest(hsb, 'female', 'write', alternative = 'both')
+
+# all tails
 ind_ttest(hsb, 'female', 'write', alternative = 'all')
 }
 \references{

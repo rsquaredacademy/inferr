@@ -4,7 +4,7 @@
 \alias{ts_prop_calc}
 \alias{ts_prop_grp}
 \alias{ts_prop_test}
-\title{Two sample test of proportion}
+\title{Two Sample Test of Proportion}
 \usage{
 ts_prop_test(var1, var2, alternative = c("both", "less", "greater", "all"),
   ...)
@@ -51,28 +51,49 @@ following components:
 \item{alt}{alternative hypothesis}
 }
 \description{
-tests on the equality of proportions using
+Tests on the equality of proportions using
 large-sample statistics. It tests that \code{var} has the same proportion
 within two groups defined by \code{group} or that two variables \code{var1} and
 \code{var2} have the same proportion.
 }
 \examples{
 # using variables
+# lower tail
 ts_prop_test(var1 = treatment$treatment1, var2 = treatment$treatment2, alternative = 'less')
+
+# upper tail
 ts_prop_test(var1 = treatment$treatment1, var2 = treatment$treatment2, alternative = 'greater')
+
+# both tails
 ts_prop_test(var1 = treatment$treatment1, var2 = treatment$treatment2, alternative = 'both')
+
+# all tails
 ts_prop_test(var1 = treatment$treatment1, var2 = treatment$treatment2, alternative = 'all')
 
 # using groups
+# lower tail
 ts_prop_grp(var = treatment2$outcome, group = treatment2$female, alternative = 'less')
+
+# upper tail
 ts_prop_grp(var = treatment2$outcome, group = treatment2$female, alternative = 'greater')
+
+# both tails
 ts_prop_grp(var = treatment2$outcome, group = treatment2$female, alternative = 'both')
+
+# # all tails
 ts_prop_grp(var = treatment2$outcome, group = treatment2$female, alternative = 'all')
 
 # using sample size and proportions
+# lower tail
 ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'less')
+
+# upper tail
 ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'greater')
+
+# both tails
 ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'both')
+
+# all tails
 ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'all')
 }
 \references{

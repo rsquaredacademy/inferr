@@ -47,9 +47,16 @@ and \code{y}}
 same mean, assuming paired data.
 }
 \examples{
+# lower tail
 paired_ttest(hsb$read, hsb$write, alternative = 'less')
+
+# upper tail
 paired_ttest(hsb$read, hsb$write, alternative = 'greater')
+
+# both tails
 paired_ttest(hsb$read, hsb$write, alternative = 'both')
+
+# all tails
 paired_ttest(hsb$read, hsb$write, alternative = 'all')
 }
 \references{

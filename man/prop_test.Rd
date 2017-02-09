@@ -4,7 +4,7 @@
 \alias{prop_test}
 \alias{prop_test.default}
 \alias{prop_test.factor}
-\title{One sample test of proportion}
+\title{One Sample Test of Proportion}
 \usage{
 prop_test(n, prob = 0.5, alternative = c("both", "less", "greater", "all"),
   ...)

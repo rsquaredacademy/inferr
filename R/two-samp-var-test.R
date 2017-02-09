@@ -1,6 +1,6 @@
 #' @importFrom stats complete.cases
 #' @importFrom purrr map_dbl
-#' @title Two sample variance comparison test
+#' @title Two Sample Variance Comparison Test
 #' @description  \code{var_test} performs tests on the equality of standard
 #' deviations (variances).
 #' @param variable a numeric vector
@@ -36,13 +36,23 @@
 #' @seealso \code{\link[stats]{var.test}}
 #' @examples
 #' # using grouping variable
+#' # lower tail
 #' var_test(mtcars$mpg, group_var = mtcars$vs, alternative = 'less')
+#'
+#' # upper tail
 #' var_test(mtcars$mpg, group_var = mtcars$vs, alternative = 'greater')
+#'
+#' # all tails
 #' var_test(mtcars$mpg, group_var = mtcars$vs, alternative = 'all')
 #'
 #' # using two variables
+#' # lower tail
 #' var_test(hsb$read, hsb$write, alternative = 'less')
+#'
+#' # upper tail
 #' var_test(hsb$read, hsb$write, alternative = 'greater')
+#'
+#' # all tails
 #' var_test(hsb$read, hsb$write, alternative = 'all')
 #'
 #' @export
@@ -94,40 +104,13 @@ var_test.default <- function(variable, ..., group_var = NA,
 
 	)
 
-	type     <- match.arg(alternative)
-	comp     <- complete.cases(variable, group_var)
-	cvar		 <- variable[comp]
-	gvar     <- group_var[comp]
-
-	   d     <- tibble(cvar, gvar)
-	vals     <- tibble_stats(d, 'cvar', 'gvar')
-	lass     <- tbl_stats(d, 'cvar')
-
-	lens     <- vals[[2]] %>% map_int(1)
-	vars     <- vals[[4]] %>% map_dbl(1)
-
-	f        <- vars[1] / vars[2]
-	n1       <- lens[1] - 1
-	n2       <- lens[2] - 1
-	lower    <- pf(f, n1, n2)
-	upper    <- pf(f, n1, n2, lower.tail = FALSE)
-
-	out <- list(f        = round(f, 4),
-              lower    = round(lower, 4),
-              upper    = round(upper, 4),
-              vars     = round(vars, 2),
-              avgs     = round((vals[[3]] %>% map_dbl(1)), 2),
-              sds      = round((vals[[5]] %>% map_dbl(1)), 2),
-              ses      = round((vals[[6]] %>% map_dbl(1)), 2),
-              avg      = round(lass[2], 2),
-              sd       = round(lass[3], 2),
-              se       = round(lass[4], 2),
-              n1       = n1,
-              n2       = n2,
-              lens     = lens,
-              len      = lass[1],
-              lev      = lev,
-              type     = type)
+	type <- match.arg(alternative)
+	   k <- var_comp(variable, group_var)
+	   
+	out <- list(f = k$f, lower = k$lower, upper = k$upper, vars = k$vars,
+         avgs = k$avgs, sds = k$sds, ses = k$ses, avg = k$avg, sd = k$sd,
+         se = k$se, n1 = k$n1, n2 = k$n2, lens = k$lens, len = k$len,
+         lev = lev, type = type)
 
 	class(out) <- 'var_test'
   return(out)
