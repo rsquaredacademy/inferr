@@ -16,8 +16,8 @@
 #' \item{cpvalue}{continuity correction p-value}
 #' \item{kappa}{kappa coefficient; measure of interrater agreement}
 #' \item{std_err}{asymptotic standard error}
-#' \item{kappa_cil}{95\% lower confidence limit}
-#' \item{kappa_ciu}{95\% upper confidence limit}
+#' \item{kappa_cil}{95\% kappa lower confidence limit}
+#' \item{kappa_ciu}{95\% kappa upper confidence limit}
 #' \item{cases}{cases}
 #' \item{controls}{controls}
 #' \item{ratio}{ratio of proportion with factor}

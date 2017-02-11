@@ -2,7 +2,7 @@
 % Please edit documentation in R/chi_sq_contingency.R
 \name{chisq_test}
 \alias{chisq_test}
-\title{Chi Square Test}
+\title{Chi Square Test of Association}
 \usage{
 chisq_test(x, y)
 }
@@ -31,12 +31,16 @@ following components:
 \item{df}{degrees of freedom}
 }
 \description{
-Chi Square contingency table test to examine if there is a
+Chi Square test of association to examine if there is a
 relationship between two categorical variables.
 }
 \examples{
 chisq_test(as.factor(hsb$female), as.factor(hsb$schtyp))
 chisq_test(as.factor(hsb$female), as.factor(hsb$ses))
+}
+\references{
+Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
+Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 }
 \seealso{
 \code{\link[stats]{chisq.test}}

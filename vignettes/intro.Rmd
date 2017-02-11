@@ -46,7 +46,7 @@ These tests are described in more detail in the following sections.
 
 ## One Sample t Test
 
-A one sample t-test is used to determine whether a sample of data comes from a population with a specific mean. The observations must be continuous, independent of each other, approximately distributed and should not contain any outliers.
+A one sample t-test is used to determine whether a sample of observations comes from a population with a specific mean. The observations must be continuous, independent of each other, approximately distributed and should not contain any outliers.
 
 ### Example
 
@@ -73,7 +73,8 @@ paired_ttest(hsb$read, hsb$write, alternative = 'all')
 ```
 
 ## Two Independent Sample t Test
-An independent samples t-test is used to compare the means of a normally distributed continuous dependent variable for two unrelated groups. The dependent variable must be approximately normally distributed and the cases/subjects in the two groups  must be different i.e. a subject in one group cannot also be a subject of the other group. It can be used to answer whether:
+An independent samples t-test is used to compare the means of a normally distributed continuous dependent variable for two unrelated groups. The dependent variable must be approximately normally distributed and the cases/subjects in the two groups  must be 
+different i.e. a subject in one group cannot also be a subject of the other group. It can be used to answer whether:
 
 - average number of products produced by two machines differ significantly?
 - average salaries of graduate students differ based on gender?
@@ -112,11 +113,15 @@ Two sample test of proportion performs tests on the equality of proportions usin
 
 ### Examples
 
+#### Using Variables
+
 Using the treatment data, test equality of proportion of two treatments
 ```{r ts_prop1}
 # Using Variables
 ts_prop_test(var1 = treatment$treatment1, var2 = treatment$treatment2, alternative = 'all')
 ```
+
+#### Use Grouping Variable
 
 Using the treatment2 data, test whether outcome has same proportion for male and female
 
@@ -124,6 +129,8 @@ Using the treatment2 data, test whether outcome has same proportion for male and
 # Using Grouping Variable
 ts_prop_grp(var = treatment2$outcome, group = treatment2$female, alternative = 'all')
 ```
+
+#### Using Calculator
 
 Test whether the same proportion of people from two batches will pass a review
 exam for a training program. In the first batch of 30 participants, 30%
@@ -161,12 +168,16 @@ Two sample variance comparison tests equality of standard deviations (variances)
 
 ### Example
 
+#### Use Grouping Variable
+
 Using the mtcars data, compare the standard deviation in miles per gallon for automatic and manual vehicles.
 
 ```{r ts_var1}
 # Using Grouping Variable
 var_test(mtcars$mpg, group_var = mtcars$am, alternative = 'all')
 ```
+
+#### Using Variables
 
 Using the hsb data, compare the standard deviation of reading and writing scores.
 
@@ -188,7 +199,7 @@ Using the hsb data, test whether the proportion of females and males are equal.
 binom_test(as.factor(hsb$female), prob = 0.5)
 ```
 
-Use as a calculator.
+#### Using Calculator
 
 ```{r binom_calc2}
 # calculator
@@ -222,7 +233,7 @@ race <- as.factor(hsb$race)
 chisq_gof(race, c(20, 20, 20 , 140))
 ```
 
-Use continuity correction.
+#### Continuity Correction
 
 ```{r gof2}
 # using continuity correction
@@ -256,12 +267,16 @@ Levene's test is used to determine if k samples have equal variances. It is less
 
 ### Examples
 
+#### Use Grouping Variable
+
 Using the hsb data, test whether variance in reading score is same across race.
 
 ```{r lev1}
 # Using Grouping Variable
 levene_test(hsb$read, group_var = hsb$race)
 ```
+
+#### Using Variables
 
 Using the hsb data, test whether variance is equal for reading, writing and
 social studies scores.
@@ -271,6 +286,8 @@ social studies scores.
 levene_test(hsb$read, hsb$write, hsb$socst)
 ```
 
+#### Use Simple Linear Model
+
 Using the hsb data, test whether variance in reading score is same for male and female
 students.
 
@@ -279,6 +296,8 @@ students.
 m <- lm(read ~ female, data = hsb)
 levene_test(m)
 ```
+
+#### Using Formula
 
 Using the hsb data, test whether variance in reading score is same across school types.
 

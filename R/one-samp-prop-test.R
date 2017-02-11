@@ -64,7 +64,8 @@ prop_test.default <- function(n, prob = 0.5,
     stop('prob must be between 0 and 1')
   }
 
-  k <- prop_comp(n, prob, alternative, phat)
+  method <- match.arg(alternative)
+  k <- prop_comp(n, prob, method, phat)
 	
   result <- list(n = k$n, phat = k$phat, p = k$p, z = k$z, sig = k$sig, 
       alt = k$alt, obs = k$obs, exp = k$exp, deviation = k$deviation, 

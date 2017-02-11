@@ -40,6 +40,10 @@ chisq_gof(as.factor(hsb$race), c(20, 20, 20, 140))
 # apply continuity correction
 chisq_gof(as.factor(hsb$race), c(20, 20, 20, 140), correct = TRUE)
 }
+\references{
+Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
+Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
+}
 \seealso{
 \code{\link[stats]{chisq.test}}
 }

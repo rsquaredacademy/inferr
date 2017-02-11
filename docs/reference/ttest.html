@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>One sample t test — ttest â€¢ inferr</title>
+<title>One Sample t Test — ttest â€¢ inferr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -77,11 +77,11 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>One sample t test</h1>
+    <h1>One Sample t Test</h1>
     </div>
 
     
-    <p>ttest performs t tests on the equality of means. It tests the
+    <p><code>ttest</code> performs t tests on the equality of means. It tests the
 hypothesis that <code>x</code> has a mean of <code>mu</code>.</p>
     
 
@@ -121,62 +121,69 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>ttest</span>(<span class='no'>hsb</span>$<span class='no'>write</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;                               One-Sample Statistics                               
+    <pre class="examples"><div class='input'><span class='co'># lower tail</span>
+<span class='fu'>ttest</span>(<span class='no'>hsb</span>$<span class='no'>write</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;                               One-Sample Statistics                               
 #&gt; ---------------------------------------------------------------------------------
 #&gt;  Variable    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
 #&gt; ---------------------------------------------------------------------------------
-#&gt;   write      200    52.775     9.4786       0.6702         -Inf     53.8828   
+#&gt;   write      200    52.775     0.6702       9.4786         -Inf     53.8828   
 #&gt; ---------------------------------------------------------------------------------
 #&gt; 
 #&gt;                                  Lower Tail Test                                 
 #&gt;                                  ---------------                                  
 #&gt; 
-#&gt;                              Ho: mean( write ) &gt;= 50                             
-#&gt;                               Ha: mean( write ) &lt; 50                              
+#&gt;                                Ho: mean(write) &gt;=50                              
+#&gt;                                 Ha: mean(write) &lt;50                               
 #&gt; --------------------------------------------------------------------------------
 #&gt;  Variable      t      DF       Sig       Mean Diff.    [95% Conf. Interval] 
 #&gt; --------------------------------------------------------------------------------
 #&gt;   write      4.141    199    0.99997       2.775          -Inf      3.8828   
-#&gt; --------------------------------------------------------------------------------</div><div class='input'><span class='fu'>ttest</span>(<span class='no'>hsb</span>$<span class='no'>write</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>'greater'</span>)</div><div class='output co'>#&gt;                               One-Sample Statistics                               
+#&gt; --------------------------------------------------------------------------------</div><div class='input'>
+<span class='co'># upper tail</span>
+<span class='fu'>ttest</span>(<span class='no'>hsb</span>$<span class='no'>write</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>'greater'</span>)</div><div class='output co'>#&gt;                               One-Sample Statistics                               
 #&gt; ---------------------------------------------------------------------------------
 #&gt;  Variable    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
 #&gt; ---------------------------------------------------------------------------------
-#&gt;   write      200    52.775     9.4786       0.6702       51.6678      Inf     
+#&gt;   write      200    52.775     0.6702       9.4786       51.6678      Inf     
 #&gt; ---------------------------------------------------------------------------------
 #&gt; 
 #&gt;                                  Upper Tail Test                                 
 #&gt;                                  ---------------                                  
 #&gt; 
-#&gt;                              Ho: mean( write ) &lt;= 50                             
-#&gt;                               Ha: mean( write ) &gt; 50                              
+#&gt;                                Ho: mean(write) &lt;=50                              
+#&gt;                                Ha: mean(write) &gt;50                                
 #&gt; --------------------------------------------------------------------------------
 #&gt;  Variable      t      DF       Sig       Mean Diff.    [95% Conf. Interval] 
 #&gt; --------------------------------------------------------------------------------
 #&gt;   write      4.141    199    0.99997       2.775         1.6678      Inf     
-#&gt; --------------------------------------------------------------------------------</div><div class='input'><span class='fu'>ttest</span>(<span class='no'>hsb</span>$<span class='no'>write</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>'both'</span>)</div><div class='output co'>#&gt;                               One-Sample Statistics                               
+#&gt; --------------------------------------------------------------------------------</div><div class='input'>
+<span class='co'># both tails</span>
+<span class='fu'>ttest</span>(<span class='no'>hsb</span>$<span class='no'>write</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>'both'</span>)</div><div class='output co'>#&gt;                               One-Sample Statistics                               
 #&gt; ---------------------------------------------------------------------------------
 #&gt;  Variable    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
 #&gt; ---------------------------------------------------------------------------------
-#&gt;   write      200    52.775     9.4786       0.6702       51.4537    54.0969   
+#&gt;   write      200    52.775     0.6702       9.4786       51.4537    54.0969   
 #&gt; ---------------------------------------------------------------------------------
 #&gt; 
 #&gt;                                   Two Tail Test                                  
 #&gt;                                  ---------------                                  
 #&gt; 
-#&gt;                               Ho: mean( write ) = 50                             
-#&gt;                              Ha: mean( write ) != 50                              
+#&gt;                                Ho: mean(write) ~=50                              
+#&gt;                                Ha: mean(write) !=50                               
 #&gt; --------------------------------------------------------------------------------
 #&gt;  Variable      t      DF       Sig       Mean Diff.    [95% Conf. Interval] 
 #&gt; --------------------------------------------------------------------------------
 #&gt;   write      4.141    199    0.99997       2.775         1.4537     4.0969   
-#&gt; --------------------------------------------------------------------------------</div><div class='input'><span class='fu'>ttest</span>(<span class='no'>hsb</span>$<span class='no'>write</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>'all'</span>)</div><div class='output co'>#&gt;                               One-Sample Statistics                               
+#&gt; --------------------------------------------------------------------------------</div><div class='input'>
+<span class='co'># all tails</span>
+<span class='fu'>ttest</span>(<span class='no'>hsb</span>$<span class='no'>write</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>'all'</span>)</div><div class='output co'>#&gt;                               One-Sample Statistics                               
 #&gt; ---------------------------------------------------------------------------------
 #&gt;  Variable    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
 #&gt; ---------------------------------------------------------------------------------
-#&gt;   write      200    52.775     9.4786       0.6702       51.4537    54.0969   
+#&gt;   write      200    52.775     0.6702       9.4786       51.4537    54.0969   
 #&gt; ---------------------------------------------------------------------------------
 #&gt; 
-#&gt;                               Ho: mean( write ) = 50                             
+#&gt;                                Ho: mean(write) ~=50                              
 #&gt; 
 #&gt;         Ha: mean &lt; 50              Ha: mean ~= 50               Ha: mean &gt; 50        
 #&gt;          t = 4.141                   t = 4.141                   t = 4.141         

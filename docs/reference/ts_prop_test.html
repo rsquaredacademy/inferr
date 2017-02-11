@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Two sample test of proportion — ts_prop_test â€¢ inferr</title>
+<title>Two Sample Test of Proportion — ts_prop_test â€¢ inferr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -77,11 +77,11 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Two sample test of proportion</h1>
+    <h1>Two Sample Test of Proportion</h1>
     </div>
 
     
-    <p>tests on the equality of proportions using
+    <p>Tests on the equality of proportions using
 large-sample statistics. It tests that <code>var</code> has the same proportion
 within two groups defined by <code>group</code> or that two variables <code>var1</code> and
 <code>var2</code> have the same proportion.</p>
@@ -139,76 +139,97 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># using variables</span>
-<span class='fu'>ts_prop_test</span>(<span class='kw'>var1</span> <span class='kw'>=</span> <span class='no'>treatment</span>$<span class='no'>treatment1</span>, <span class='kw'>var2</span> <span class='kw'>=</span> <span class='no'>treatment</span>$<span class='no'>treatment2</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;      Test Statistics      
-#&gt; -------------------------
-#&gt; Sample Size            50 
-#&gt; z                  0.4029 
-#&gt; Pr(Z &lt; z)          0.6565 
-#&gt; </div><div class='input'><span class='fu'>ts_prop_test</span>(<span class='kw'>var1</span> <span class='kw'>=</span> <span class='no'>treatment</span>$<span class='no'>treatment1</span>, <span class='kw'>var2</span> <span class='kw'>=</span> <span class='no'>treatment</span>$<span class='no'>treatment2</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'greater'</span>)</div><div class='output co'>#&gt;      Test Statistics      
-#&gt; -------------------------
-#&gt; Sample Size            50 
-#&gt; z                  0.4029 
-#&gt; Pr(Z &gt; z)          0.3435 
-#&gt; </div><div class='input'><span class='fu'>ts_prop_test</span>(<span class='kw'>var1</span> <span class='kw'>=</span> <span class='no'>treatment</span>$<span class='no'>treatment1</span>, <span class='kw'>var2</span> <span class='kw'>=</span> <span class='no'>treatment</span>$<span class='no'>treatment2</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'both'</span>)</div><div class='output co'>#&gt;      Test Statistics      
-#&gt; -------------------------
-#&gt; Sample Size            50 
-#&gt; z                  0.4029 
-#&gt; Pr(|Z| &gt; |z|)       0.687 
-#&gt; </div><div class='input'><span class='fu'>ts_prop_test</span>(<span class='kw'>var1</span> <span class='kw'>=</span> <span class='no'>treatment</span>$<span class='no'>treatment1</span>, <span class='kw'>var2</span> <span class='kw'>=</span> <span class='no'>treatment</span>$<span class='no'>treatment2</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'all'</span>)</div><div class='output co'>#&gt;      Test Statistics      
-#&gt; -------------------------
-#&gt; Sample Size            50 
-#&gt; z                  0.4029 
-#&gt; Pr(|Z| &gt; |z|)       0.687 
-#&gt; Pr(Z &lt; z)          0.6565 
-#&gt; Pr(Z &gt; z)          0.3435 
+<span class='co'># lower tail</span>
+<span class='fu'>ts_prop_test</span>(<span class='kw'>var1</span> <span class='kw'>=</span> <span class='no'>treatment</span>$<span class='no'>treatment1</span>, <span class='kw'>var2</span> <span class='kw'>=</span> <span class='no'>treatment</span>$<span class='no'>treatment2</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;     Test Statistics      
+#&gt; ------------------------
+#&gt; Sample Size           50 
+#&gt; z                  0.403 
+#&gt; Pr(Z &lt; z)          0.656 
+#&gt; </div><div class='input'>
+<span class='co'># upper tail</span>
+<span class='fu'>ts_prop_test</span>(<span class='kw'>var1</span> <span class='kw'>=</span> <span class='no'>treatment</span>$<span class='no'>treatment1</span>, <span class='kw'>var2</span> <span class='kw'>=</span> <span class='no'>treatment</span>$<span class='no'>treatment2</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'greater'</span>)</div><div class='output co'>#&gt;     Test Statistics      
+#&gt; ------------------------
+#&gt; Sample Size           50 
+#&gt; z                  0.403 
+#&gt; Pr(Z &gt; z)          0.344 
+#&gt; </div><div class='input'>
+<span class='co'># both tails</span>
+<span class='fu'>ts_prop_test</span>(<span class='kw'>var1</span> <span class='kw'>=</span> <span class='no'>treatment</span>$<span class='no'>treatment1</span>, <span class='kw'>var2</span> <span class='kw'>=</span> <span class='no'>treatment</span>$<span class='no'>treatment2</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'both'</span>)</div><div class='output co'>#&gt;     Test Statistics      
+#&gt; ------------------------
+#&gt; Sample Size           50 
+#&gt; z                  0.403 
+#&gt; Pr(|Z| &gt; |z|)      0.687 
+#&gt; </div><div class='input'>
+<span class='co'># all tails</span>
+<span class='fu'>ts_prop_test</span>(<span class='kw'>var1</span> <span class='kw'>=</span> <span class='no'>treatment</span>$<span class='no'>treatment1</span>, <span class='kw'>var2</span> <span class='kw'>=</span> <span class='no'>treatment</span>$<span class='no'>treatment2</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'all'</span>)</div><div class='output co'>#&gt;     Test Statistics      
+#&gt; ------------------------
+#&gt; Sample Size           50 
+#&gt; z                  0.403 
+#&gt; Pr(|Z| &gt; |z|)      0.687 
+#&gt; Pr(Z &lt; z)          0.656 
+#&gt; Pr(Z &gt; z)          0.344 
 #&gt; </div><div class='input'>
 <span class='co'># using groups</span>
-<span class='fu'>ts_prop_grp</span>(<span class='kw'>var</span> <span class='kw'>=</span> <span class='no'>treatment2</span>$<span class='no'>outcome</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>treatment2</span>$<span class='no'>female</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;           Test Statistics            
-#&gt; ------------------------------------
-#&gt; Sample Size                       91 
-#&gt; z                          0.3509961 
-#&gt; Pr(Z &lt; z)                  0.6372043 
-#&gt; </div><div class='input'><span class='fu'>ts_prop_grp</span>(<span class='kw'>var</span> <span class='kw'>=</span> <span class='no'>treatment2</span>$<span class='no'>outcome</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>treatment2</span>$<span class='no'>female</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'greater'</span>)</div><div class='output co'>#&gt;           Test Statistics            
-#&gt; ------------------------------------
-#&gt; Sample Size                       91 
-#&gt; z                          0.3509961 
-#&gt; Pr(Z &gt; z)                  0.3627957 
-#&gt; </div><div class='input'><span class='fu'>ts_prop_grp</span>(<span class='kw'>var</span> <span class='kw'>=</span> <span class='no'>treatment2</span>$<span class='no'>outcome</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>treatment2</span>$<span class='no'>female</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'both'</span>)</div><div class='output co'>#&gt;           Test Statistics            
-#&gt; ------------------------------------
-#&gt; Sample Size                       91 
-#&gt; z                          0.3509961 
-#&gt; Pr(|Z| &gt; |z|)               1.274409 
-#&gt; </div><div class='input'><span class='fu'>ts_prop_grp</span>(<span class='kw'>var</span> <span class='kw'>=</span> <span class='no'>treatment2</span>$<span class='no'>outcome</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>treatment2</span>$<span class='no'>female</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'all'</span>)</div><div class='output co'>#&gt;           Test Statistics            
-#&gt; ------------------------------------
-#&gt; Sample Size                       91 
-#&gt; z                          0.3509961 
-#&gt; Pr(|Z| &gt; |z|)               1.274409 
-#&gt; Pr(Z &lt; z)                  0.6372043 
-#&gt; Pr(Z &gt; z)                  0.3627957 
+<span class='co'># lower tail</span>
+<span class='fu'>ts_prop_grp</span>(<span class='kw'>var</span> <span class='kw'>=</span> <span class='no'>treatment2</span>$<span class='no'>outcome</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>treatment2</span>$<span class='no'>female</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;     Test Statistics      
+#&gt; ------------------------
+#&gt; Sample Size           91 
+#&gt; z                  0.351 
+#&gt; Pr(Z &lt; z)          0.637 
+#&gt; </div><div class='input'>
+<span class='co'># upper tail</span>
+<span class='fu'>ts_prop_grp</span>(<span class='kw'>var</span> <span class='kw'>=</span> <span class='no'>treatment2</span>$<span class='no'>outcome</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>treatment2</span>$<span class='no'>female</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'greater'</span>)</div><div class='output co'>#&gt;     Test Statistics      
+#&gt; ------------------------
+#&gt; Sample Size           91 
+#&gt; z                  0.351 
+#&gt; Pr(Z &gt; z)          0.363 
+#&gt; </div><div class='input'>
+<span class='co'># both tails</span>
+<span class='fu'>ts_prop_grp</span>(<span class='kw'>var</span> <span class='kw'>=</span> <span class='no'>treatment2</span>$<span class='no'>outcome</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>treatment2</span>$<span class='no'>female</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'both'</span>)</div><div class='output co'>#&gt;     Test Statistics      
+#&gt; ------------------------
+#&gt; Sample Size           91 
+#&gt; z                  0.351 
+#&gt; Pr(|Z| &gt; |z|)      0.726 
+#&gt; </div><div class='input'>
+<span class='co'># # all tails</span>
+<span class='fu'>ts_prop_grp</span>(<span class='kw'>var</span> <span class='kw'>=</span> <span class='no'>treatment2</span>$<span class='no'>outcome</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>treatment2</span>$<span class='no'>female</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'all'</span>)</div><div class='output co'>#&gt;     Test Statistics      
+#&gt; ------------------------
+#&gt; Sample Size           91 
+#&gt; z                  0.351 
+#&gt; Pr(|Z| &gt; |z|)      0.726 
+#&gt; Pr(Z &lt; z)          0.637 
+#&gt; Pr(Z &gt; z)          0.363 
 #&gt; </div><div class='input'>
 <span class='co'># using sample size and proportions</span>
-<span class='fu'>ts_prop_calc</span>(<span class='kw'>n1</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>n2</span> <span class='kw'>=</span> <span class='fl'>25</span>, <span class='kw'>p1</span> <span class='kw'>=</span> <span class='fl'>0.3</span>, <span class='kw'>p2</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;            Test Statistics            
-#&gt; -------------------------------------
-#&gt; Sample Size                        30 
-#&gt; z                           -1.513562 
-#&gt; Pr(Z &lt; z)                  0.06506843 
-#&gt; </div><div class='input'><span class='fu'>ts_prop_calc</span>(<span class='kw'>n1</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>n2</span> <span class='kw'>=</span> <span class='fl'>25</span>, <span class='kw'>p1</span> <span class='kw'>=</span> <span class='fl'>0.3</span>, <span class='kw'>p2</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'greater'</span>)</div><div class='output co'>#&gt;           Test Statistics            
-#&gt; ------------------------------------
-#&gt; Sample Size                       30 
-#&gt; z                          -1.513562 
-#&gt; Pr(Z &gt; z)                  0.9349316 
-#&gt; </div><div class='input'><span class='fu'>ts_prop_calc</span>(<span class='kw'>n1</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>n2</span> <span class='kw'>=</span> <span class='fl'>25</span>, <span class='kw'>p1</span> <span class='kw'>=</span> <span class='fl'>0.3</span>, <span class='kw'>p2</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'both'</span>)</div><div class='output co'>#&gt;           Test Statistics            
-#&gt; ------------------------------------
-#&gt; Sample Size                       30 
-#&gt; z                          -1.513562 
-#&gt; Pr(|Z| &gt; |z|)              0.1301369 
-#&gt; </div><div class='input'><span class='fu'>ts_prop_calc</span>(<span class='kw'>n1</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>n2</span> <span class='kw'>=</span> <span class='fl'>25</span>, <span class='kw'>p1</span> <span class='kw'>=</span> <span class='fl'>0.3</span>, <span class='kw'>p2</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'all'</span>)</div><div class='output co'>#&gt;           Test Statistics            
-#&gt; ------------------------------------
-#&gt; Sample Size                       30 
-#&gt; z                          -1.513562 
-#&gt; Pr(|Z| &gt; |z|)              0.1301369 
-#&gt; Pr(Z &lt; z)                 0.06506843 
-#&gt; Pr(Z &gt; z)                  0.9349316 
+<span class='co'># lower tail</span>
+<span class='fu'>ts_prop_calc</span>(<span class='kw'>n1</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>n2</span> <span class='kw'>=</span> <span class='fl'>25</span>, <span class='kw'>p1</span> <span class='kw'>=</span> <span class='fl'>0.3</span>, <span class='kw'>p2</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;      Test Statistics      
+#&gt; -------------------------
+#&gt; Sample Size            30 
+#&gt; z                  -1.514 
+#&gt; Pr(Z &lt; z)           0.065 
+#&gt; </div><div class='input'>
+<span class='co'># upper tail</span>
+<span class='fu'>ts_prop_calc</span>(<span class='kw'>n1</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>n2</span> <span class='kw'>=</span> <span class='fl'>25</span>, <span class='kw'>p1</span> <span class='kw'>=</span> <span class='fl'>0.3</span>, <span class='kw'>p2</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'greater'</span>)</div><div class='output co'>#&gt;      Test Statistics      
+#&gt; -------------------------
+#&gt; Sample Size            30 
+#&gt; z                  -1.514 
+#&gt; Pr(Z &gt; z)           0.935 
+#&gt; </div><div class='input'>
+<span class='co'># both tails</span>
+<span class='fu'>ts_prop_calc</span>(<span class='kw'>n1</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>n2</span> <span class='kw'>=</span> <span class='fl'>25</span>, <span class='kw'>p1</span> <span class='kw'>=</span> <span class='fl'>0.3</span>, <span class='kw'>p2</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'both'</span>)</div><div class='output co'>#&gt;      Test Statistics      
+#&gt; -------------------------
+#&gt; Sample Size            30 
+#&gt; z                  -1.514 
+#&gt; Pr(|Z| &gt; |z|)        0.13 
+#&gt; </div><div class='input'>
+<span class='co'># all tails</span>
+<span class='fu'>ts_prop_calc</span>(<span class='kw'>n1</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>n2</span> <span class='kw'>=</span> <span class='fl'>25</span>, <span class='kw'>p1</span> <span class='kw'>=</span> <span class='fl'>0.3</span>, <span class='kw'>p2</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'all'</span>)</div><div class='output co'>#&gt;      Test Statistics      
+#&gt; -------------------------
+#&gt; Sample Size            30 
+#&gt; z                  -1.514 
+#&gt; Pr(|Z| &gt; |z|)        0.13 
+#&gt; Pr(Z &lt; z)           0.065 
+#&gt; Pr(Z &gt; z)           0.935 
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

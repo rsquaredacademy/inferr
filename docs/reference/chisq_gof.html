@@ -103,20 +103,25 @@ differ from hypothesized proportions</p>
 An object of class <code>&quot;chisq_gof&quot;</code> is a list containing the
 following components:</p>
     
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
+Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <p><code><a href='http://www.rdocumentation.org/packages/stats/topics/chisq.test'>chisq.test</a></code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>chisq_gof</span>(<span class='no'>hsb</span>$<span class='no'>race</span>, <span class='fu'>c</span>(<span class='fl'>20</span>, <span class='fl'>20</span>, <span class='fl'>20</span> , <span class='fl'>140</span>))</div><div class='output co'>#&gt;     Test Statistics     
+    <pre class="examples"><div class='input'><span class='fu'>chisq_gof</span>(<span class='fu'>as.factor</span>(<span class='no'>hsb</span>$<span class='no'>race</span>), <span class='fu'>c</span>(<span class='fl'>20</span>, <span class='fl'>20</span>, <span class='fl'>20</span>, <span class='fl'>140</span>))</div><div class='output co'>#&gt;     Test Statistics     
 #&gt; -----------------------
 #&gt; Chi-Square       5.0286 
 #&gt; DF                    3 
 #&gt; Pr &gt; Chi Sq      0.1697 
 #&gt; Sample Size         200 
 #&gt; 
-#&gt;                          Variable: race                           
+#&gt;                          Variable: race)                          
 #&gt; -----------------------------------------------------------------
 #&gt; Category    Observed    Expected    % Deviation    Std. Residuals 
 #&gt; -----------------------------------------------------------------
@@ -126,14 +131,14 @@ following components:</p>
 #&gt;    4          145         140           3.57            0.42      
 #&gt; -----------------------------------------------------------------</div><div class='input'>
 <span class='co'># apply continuity correction</span>
-<span class='fu'>chisq_gof</span>(<span class='no'>hsb</span>$<span class='no'>race</span>, <span class='fu'>c</span>(<span class='fl'>20</span>, <span class='fl'>20</span>, <span class='fl'>20</span> , <span class='fl'>140</span>), <span class='kw'>correct</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;     Test Statistics     
+<span class='fu'>chisq_gof</span>(<span class='fu'>as.factor</span>(<span class='no'>hsb</span>$<span class='no'>race</span>), <span class='fu'>c</span>(<span class='fl'>20</span>, <span class='fl'>20</span>, <span class='fl'>20</span>, <span class='fl'>140</span>), <span class='kw'>correct</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;     Test Statistics     
 #&gt; -----------------------
 #&gt; Chi-Square       4.3821 
 #&gt; DF                    3 
 #&gt; Pr &gt; Chi Sq      0.2231 
 #&gt; Sample Size         200 
 #&gt; 
-#&gt;                          Variable: race                           
+#&gt;                          Variable: race)                          
 #&gt; -----------------------------------------------------------------
 #&gt; Category    Observed    Expected    % Deviation    Std. Residuals 
 #&gt; -----------------------------------------------------------------
@@ -149,6 +154,8 @@ following components:</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#references">References</a></li>
 
       <li><a href="#see-also">See also</a></li>
       

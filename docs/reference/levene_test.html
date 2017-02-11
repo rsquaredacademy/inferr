@@ -81,12 +81,12 @@
     </div>
 
     
-    <p><code>levene_test</code> reports Levene&#39;s robust test statistic (W_0)
-for the equality of variances between the groups defined by groupvar and the
+    <p><code>levene_test</code> reports Levene&#39;s robust test statistic
+for the equality of variances between the groups defined by <code>group_var</code> and the
 two statistics proposed by Brown and Forsythe that replace the mean in
 Levene&#39;s formula with alternative location estimators. The first alternative
-(W_50) replaces the mean with the median.  The second alternative replaces
-the mean with the 10<!-- % trimmed mean (W_10). --></p>
+replaces the mean with the median.  The second alternative replaces
+the mean with the 10<!-- % trimmed mean. --></p>
     
 
     <pre><span class='fu'>levene_test</span>(<span class='no'>variable</span>, <span class='no'>...</span>)
@@ -154,9 +154,9 @@ Letters 3: 191–194.</p>
 <span class='fu'>levene_test</span>(<span class='no'>hsb</span>$<span class='no'>read</span>, <span class='no'>hsb</span>$<span class='no'>write</span>, <span class='no'>hsb</span>$<span class='no'>socst</span>)</div><div class='output co'>#&gt;            Summary Statistics             
 #&gt; Levels    Frequency    Mean     Std. Dev  
 #&gt; -----------------------------------------
-#&gt;   1          200       52.23      10.25   
-#&gt;   2          200       52.77      9.48    
-#&gt;   3          200       52.41      10.74   
+#&gt;   0          200       52.23      10.25   
+#&gt;   1          200       52.77      9.48    
+#&gt;   2          200       52.41      10.74   
 #&gt; -----------------------------------------
 #&gt; Total        600       52.47      10.15   
 #&gt; -----------------------------------------

@@ -115,12 +115,22 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
     <pre class="examples"><div class='input'><span class='co'># test if the proportion of students in himath and hiread group is same</span>
 <span class='no'>himath</span> <span class='kw'>&lt;-</span> <span class='fu'>ifelse</span>(<span class='no'>hsb</span>$<span class='no'>math</span> <span class='kw'>&gt;</span> <span class='fl'>60</span>, <span class='fl'>1</span>, <span class='fl'>0</span>)
 <span class='no'>hiread</span> <span class='kw'>&lt;-</span> <span class='fu'>ifelse</span>(<span class='no'>hsb</span>$<span class='no'>read</span> <span class='kw'>&gt;</span> <span class='fl'>60</span>, <span class='fl'>1</span>, <span class='fl'>0</span>)
-<span class='fu'>mcnemar_test</span>(<span class='fu'>table</span>(<span class='no'>himath</span>, <span class='no'>hiread</span>))</div><div class='output co'>#&gt;        McNemar&#39;s Test        
+<span class='fu'>mcnemar_test</span>(<span class='fu'>table</span>(<span class='no'>himath</span>, <span class='no'>hiread</span>))</div><div class='output co'>#&gt;            Controls 
+#&gt; ---------------------------------
+#&gt; Cases       0       1       Total 
+#&gt; ---------------------------------
+#&gt;   0        135      21        156 
+#&gt;   1         18      26         44 
+#&gt; ---------------------------------
+#&gt; Total      153      47        200 
+#&gt; ---------------------------------
+#&gt; 
+#&gt;        McNemar&#39;s Test        
 #&gt; ----------------------------
 #&gt; McNemar&#39;s chi2        0.2308 
 #&gt; DF                         1 
 #&gt; Pr &gt; chi2              0.631 
-#&gt; Exact Pr &gt;= chi2      1.4776 
+#&gt; Exact Pr &gt;= chi2      0.7493 
 #&gt; ----------------------------
 #&gt; 
 #&gt;        Kappa Coefficient         
@@ -139,12 +149,22 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
 #&gt; odds ratio      1.1667 
 #&gt; ----------------------</div><div class='input'>
 <span class='co'># using matrix</span>
-<span class='fu'>mcnemar_test</span>(<span class='fu'>matrix</span>(<span class='fu'>c</span>(<span class='fl'>135</span>, <span class='fl'>18</span>, <span class='fl'>21</span>, <span class='fl'>26</span>), <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>2</span>))</div><div class='output co'>#&gt;        McNemar&#39;s Test        
+<span class='fu'>mcnemar_test</span>(<span class='fu'>matrix</span>(<span class='fu'>c</span>(<span class='fl'>135</span>, <span class='fl'>18</span>, <span class='fl'>21</span>, <span class='fl'>26</span>), <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>2</span>))</div><div class='output co'>#&gt;            Controls 
+#&gt; ---------------------------------
+#&gt; Cases       0       1       Total 
+#&gt; ---------------------------------
+#&gt;   0        135      21        156 
+#&gt;   1         18      26         44 
+#&gt; ---------------------------------
+#&gt; Total      153      47        200 
+#&gt; ---------------------------------
+#&gt; 
+#&gt;        McNemar&#39;s Test        
 #&gt; ----------------------------
 #&gt; McNemar&#39;s chi2        0.2308 
 #&gt; DF                         1 
 #&gt; Pr &gt; chi2              0.631 
-#&gt; Exact Pr &gt;= chi2      1.4776 
+#&gt; Exact Pr &gt;= chi2      0.7493 
 #&gt; ----------------------------
 #&gt; 
 #&gt;        Kappa Coefficient         

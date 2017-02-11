@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Two sample variance comparison test — var_test â€¢ inferr</title>
+<title>Two Sample Variance Comparison Test — var_test â€¢ inferr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -77,7 +77,7 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Two sample variance comparison test</h1>
+    <h1>Two Sample Variance Comparison Test</h1>
     </div>
 
     
@@ -120,6 +120,7 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># using grouping variable</span>
+<span class='co'># lower tail</span>
 <span class='fu'>var_test</span>(<span class='no'>mtcars</span>$<span class='no'>mpg</span>, <span class='kw'>group_var</span> <span class='kw'>=</span> <span class='no'>mtcars</span>$<span class='no'>vs</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;                Variance Ratio Test                 
 #&gt; --------------------------------------------------
 #&gt;   Group      Obs    Mean     Std. Err.    Std. Dev. 
@@ -141,7 +142,9 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
 #&gt;    F       Num DF    Den DF      p    
 #&gt; ------------------------------------
 #&gt;  0.5151      17        13      0.0999 
-#&gt; ------------------------------------</div><div class='input'><span class='fu'>var_test</span>(<span class='no'>mtcars</span>$<span class='no'>mpg</span>, <span class='kw'>group_var</span> <span class='kw'>=</span> <span class='no'>mtcars</span>$<span class='no'>vs</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'greater'</span>)</div><div class='output co'>#&gt;                Variance Ratio Test                 
+#&gt; ------------------------------------</div><div class='input'>
+<span class='co'># upper tail</span>
+<span class='fu'>var_test</span>(<span class='no'>mtcars</span>$<span class='no'>mpg</span>, <span class='kw'>group_var</span> <span class='kw'>=</span> <span class='no'>mtcars</span>$<span class='no'>vs</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'greater'</span>)</div><div class='output co'>#&gt;                Variance Ratio Test                 
 #&gt; --------------------------------------------------
 #&gt;   Group      Obs    Mean     Std. Err.    Std. Dev. 
 #&gt; --------------------------------------------------
@@ -161,7 +164,9 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
 #&gt;    F       Num DF    Den DF      p    
 #&gt; ------------------------------------
 #&gt;  0.5151      17        13      0.9001 
-#&gt; ------------------------------------</div><div class='input'><span class='fu'>var_test</span>(<span class='no'>mtcars</span>$<span class='no'>mpg</span>, <span class='kw'>group_var</span> <span class='kw'>=</span> <span class='no'>mtcars</span>$<span class='no'>vs</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'all'</span>)</div><div class='output co'>#&gt;                Variance Ratio Test                 
+#&gt; ------------------------------------</div><div class='input'>
+<span class='co'># all tails</span>
+<span class='fu'>var_test</span>(<span class='no'>mtcars</span>$<span class='no'>mpg</span>, <span class='kw'>group_var</span> <span class='kw'>=</span> <span class='no'>mtcars</span>$<span class='no'>vs</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'all'</span>)</div><div class='output co'>#&gt;                Variance Ratio Test                 
 #&gt; --------------------------------------------------
 #&gt;   Group      Obs    Mean     Std. Err.    Std. Dev. 
 #&gt; --------------------------------------------------
@@ -187,6 +192,7 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
 #&gt;   Pr(F &lt; f) = 0.0999   Pr(F &gt; f) = 0.9001 
 #&gt; ----------------------------------------</div><div class='input'>
 <span class='co'># using two variables</span>
+<span class='co'># lower tail</span>
 <span class='fu'>var_test</span>(<span class='no'>hsb</span>$<span class='no'>read</span>, <span class='no'>hsb</span>$<span class='no'>write</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;                Variance Ratio Test                 
 #&gt; --------------------------------------------------
 #&gt;   Group      Obs    Mean     Std. Err.    Std. Dev. 
@@ -208,7 +214,9 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
 #&gt;    F       Num DF    Den DF      p    
 #&gt; ------------------------------------
 #&gt;  1.1701     199       199      0.8656 
-#&gt; ------------------------------------</div><div class='input'><span class='fu'>var_test</span>(<span class='no'>hsb</span>$<span class='no'>read</span>, <span class='no'>hsb</span>$<span class='no'>write</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'greater'</span>)</div><div class='output co'>#&gt;                Variance Ratio Test                 
+#&gt; ------------------------------------</div><div class='input'>
+<span class='co'># upper tail</span>
+<span class='fu'>var_test</span>(<span class='no'>hsb</span>$<span class='no'>read</span>, <span class='no'>hsb</span>$<span class='no'>write</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'greater'</span>)</div><div class='output co'>#&gt;                Variance Ratio Test                 
 #&gt; --------------------------------------------------
 #&gt;   Group      Obs    Mean     Std. Err.    Std. Dev. 
 #&gt; --------------------------------------------------
@@ -228,7 +236,9 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
 #&gt;    F       Num DF    Den DF      p    
 #&gt; ------------------------------------
 #&gt;  1.1701     199       199      0.1344 
-#&gt; ------------------------------------</div><div class='input'><span class='fu'>var_test</span>(<span class='no'>hsb</span>$<span class='no'>read</span>, <span class='no'>hsb</span>$<span class='no'>write</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'all'</span>)</div><div class='output co'>#&gt;                Variance Ratio Test                 
+#&gt; ------------------------------------</div><div class='input'>
+<span class='co'># all tails</span>
+<span class='fu'>var_test</span>(<span class='no'>hsb</span>$<span class='no'>read</span>, <span class='no'>hsb</span>$<span class='no'>write</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'all'</span>)</div><div class='output co'>#&gt;                Variance Ratio Test                 
 #&gt; --------------------------------------------------
 #&gt;   Group      Obs    Mean     Std. Err.    Std. Dev. 
 #&gt; --------------------------------------------------

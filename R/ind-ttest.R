@@ -83,17 +83,18 @@ ind_ttest.default <- function(data, x, y, confint = 0.95,
       stop('y must be a column in data')
     }
 
-  method <- match.arg(alternative)
-  var_y <- y
-  alpha <- 1 - confint
-  a <- alpha / 2
-  h <- indth(data, x, y, a)
+    method <- match.arg(alternative)
+     var_y <- y
+     alpha <- 1 - confint
+         a <- alpha / 2
+  
+         h <- indth(data, x, y, a)
   grp_stat <- h   
-  g_stat <- as.matrix(h)
-  comb <- indcomb(data, y, a)
-  k <- indcomp(grp_stat, alpha)
-  j <- indsig(k$n1, k$n2, k$s1, k$s2, k$mean_diff)
-  m <- indpool(k$n1, k$n2, k$mean_diff, k$se_dif)
+    g_stat <- as.matrix(h)
+      comb <- indcomb(data, y, a)
+         k <- indcomp(grp_stat, alpha)
+         j <- indsig(k$n1, k$n2, k$s1, k$s2, k$mean_diff)
+         m <- indpool(k$n1, k$n2, k$mean_diff, k$se_dif)
          
   result <- list(levels = g_stat[, 1], obs = g_stat[, 2], n = k$n,
             mean = g_stat[, 3], sd = g_stat[, 4], se = g_stat[, 5], 

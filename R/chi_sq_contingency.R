@@ -1,6 +1,6 @@
 #' @importFrom stats pchisq
-#' @title Chi Square Test
-#' @description Chi Square contingency table test to examine if there is a
+#' @title Chi Square Test of Association
+#' @description Chi Square test of association to examine if there is a
 #' relationship between two categorical variables.
 #' @param x a categorical variable
 #' @param y a categorical variable
@@ -23,6 +23,8 @@
 #' \item{df}{degrees of freedom}
 #'
 #' @seealso \code{\link[stats]{chisq.test}}
+#' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
+#' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #' @examples
 #' chisq_test(as.factor(hsb$female), as.factor(hsb$schtyp))
 #' chisq_test(as.factor(hsb$female), as.factor(hsb$ses))

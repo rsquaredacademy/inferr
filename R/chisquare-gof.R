@@ -21,6 +21,8 @@
 #' \item{varname}{name of categorical variable}
 #'
 #' @seealso \code{\link[stats]{chisq.test}}
+#' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
+#' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #' @examples
 #' chisq_gof(as.factor(hsb$race), c(20, 20, 20, 140))
 #'
