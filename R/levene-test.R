@@ -5,7 +5,7 @@
 #' for the equality of variances between the groups defined by \code{group_var} and the
 #' two statistics proposed by Brown and Forsythe that replace the mean in
 #' Levene's formula with alternative location estimators. The first alternative
-#' replaces the mean with the median.  The second alternative replaces
+#' replaces the mean with the median. The second alternative replaces
 #' the mean with the 10% trimmed mean.
 #' @param variable a numeric vector or formula or object of class \code{lm}
 #' @param group_var a grouping variable

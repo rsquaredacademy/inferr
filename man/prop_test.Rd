@@ -2,11 +2,15 @@
 % Please edit documentation in R/one-samp-prop-test.R
 \name{prop_test}
 \alias{prop_test}
+\alias{prop_test.default}
 \alias{prop_test.factor}
 \title{One Sample Test of Proportion}
 \usage{
 prop_test(n, prob = 0.5, alternative = c("both", "less", "greater", "all"),
   ...)
+
+\method{prop_test}{default}(n, prob = 0.5, alternative = c("both", "less",
+  "greater", "all"), phat, ...)
 
 \method{prop_test}{factor}(n, prob = 0.5, alternative = c("both", "less",
   "greater", "all"), ...)
