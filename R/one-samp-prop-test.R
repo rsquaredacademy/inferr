@@ -39,7 +39,7 @@ prop_test <- function(n, prob = 0.5, alternative = c('both', 'less',
   'greater', 'all'),...) UseMethod('prop_test')
 
 #' @export
-#' @rdname prop_test
+#'
 prop_test.default <- function(n, prob = 0.5,
                       alternative = c('both', 'less', 'greater', 'all'), phat, ...) {
 

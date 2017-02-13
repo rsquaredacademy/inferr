@@ -24,7 +24,7 @@ knitr::opts_chunk$set(
 Inferential statistics allows us to make generalizations about populations using data drawn from the population.
 We use them when it is impractical or impossible to collect data about the whole population under study and instead,
 we have a sample that represents the population under study and using inferential statistics technique, we make
-generalizations about the population from the sample. **inferr** builds upon the solid set of statistical tests provided in **stats** package by including additional data types as inputs, expanding and restructuring the test results.
+generalizations about the population from the sample.
 
 The **inferr** package:
 

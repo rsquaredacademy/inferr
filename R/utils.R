@@ -44,7 +44,7 @@ anova_calc <- function(data, sample_stats, x, y) {
 }
 
 binom_comp <- function(n, success, prob) {
-      n <- n
+        n <- n
         k <- success
     obs_p <- k / n
     exp_k <- round(n * prob)
@@ -59,6 +59,9 @@ binom_comp <- function(n, success, prob) {
           while (i_p > p_opp) {
               i_k <- i_k + 1
               i_p <- round(dbinom(i_k, n, prob), 9)
+              if (round(i_p) == p_opp) {
+                break
+              }
           }
 
           ttf <- pbinom(k, n, prob, lower.tail = T) +
@@ -69,6 +72,9 @@ binom_comp <- function(n, success, prob) {
           while (p_opp <= i_p) {
               i_k <- i_k - 1
               i_p <- dbinom(i_k, n, prob)
+              if (round(i_p) == p_opp) {
+                break
+              }
           }
 
           i_k <- i_k
