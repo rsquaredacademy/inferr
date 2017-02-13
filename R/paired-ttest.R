@@ -1,6 +1,6 @@
 #' @importFrom stats cor
 #' @title Paired t test
-#' @description \code{paired_ttest} tests that \code{x} and \code{y} have the
+#' @description \code{paired_ttest} tests that two samples have the
 #' same mean, assuming paired data.
 #' @param x a numeric vector
 #' @param y a numeric vector

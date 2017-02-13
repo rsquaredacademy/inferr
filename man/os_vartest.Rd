@@ -43,8 +43,8 @@ following components:
 }
 \description{
 \code{os_vartest} performs tests on the equality of standard
-deviations (variances).It tests that the standard deviation of \code{x} is
-\code{sd}.
+deviations (variances).It tests that the standard deviation of a sample is
+equal to a hypothesized value.
 }
 \examples{
 # lower tail

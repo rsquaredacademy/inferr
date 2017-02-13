@@ -45,7 +45,7 @@ following components:
 }
 \description{
 \code{ttest} performs t tests on the equality of means. It tests the
-hypothesis that \code{x} has a mean of \code{mu}.
+hypothesis that a sample has a mean equal to a hypothesized value.
 }
 \examples{
 # lower tail

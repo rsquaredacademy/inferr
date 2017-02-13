@@ -36,7 +36,7 @@ following components:
 }
 \description{
 runtest tests whether the observations of \code{x} are serially
-independent -- that is, whether they occur in a random order -- by counting
+independent i.e. whether they occur in a random order, by counting
 how many runs there are above and below a threshold.  By default, the median
 is used as the threshold.  A small number of runs indicates positive serial
 correlation; a large number indicates negative serial correlation.
@@ -44,9 +44,13 @@ correlation; a large number indicates negative serial correlation.
 \examples{
 reg <- lm(mpg ~ disp, data = mtcars)
 runs_test(residuals(reg))
+
 runs_test(residuals(reg), drop = TRUE)
+
 runs_test(residuals(reg), split = TRUE)
+
 runs_test(residuals(reg), mean = TRUE)
+
 runs_test(residuals(reg), threshold = 0)
 }
 \references{

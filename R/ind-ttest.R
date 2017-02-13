@@ -1,7 +1,7 @@
 #' @importFrom stats qt pt pf
 #' @title Two Independent Sample t Test
-#' @description \code{ind_ttest} tests that \code{y} has the same mean
-#' within the two groups defined by \code{x}
+#' @description \code{ind_ttest} compares the means of two independent groups in order to determine whether 
+#' there is statistical evidence that the associated population means are significantly different.
 #' @param data a data frame
 #' @param x grouping variable; object of type \code{factor}
 #' @param y a \code{numeric} vector

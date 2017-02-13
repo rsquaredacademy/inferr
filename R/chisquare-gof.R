@@ -3,7 +3,7 @@
 #' differ from hypothesized proportions
 #' @param x categorical variable
 #' @param y expected proportions
-#' @param correct logical; if TRUE continuiuty correction is applied
+#' @param correct logical; if TRUE continuity correction is applied
 #' @return \code{chisq_gof} returns an object of class \code{"chisq_gof"}.
 #' An object of class \code{"chisq_gof"} is a list containing the
 #' following components:

@@ -43,7 +43,7 @@ and \code{y}}
 \item{xy}{string used in printing results of the test}
 }
 \description{
-\code{paired_ttest} tests that \code{x} and \code{y} have the
+\code{paired_ttest} tests that two samples have the
 same mean, assuming paired data.
 }
 \examples{

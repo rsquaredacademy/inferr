@@ -2,7 +2,7 @@
 #' @importFrom purrr map_int
 #' @title Levene's test for equality of variances
 #' @description  \code{levene_test} reports Levene's robust test statistic
-#' for the equality of variances between the groups defined by \code{group_var} and the
+#' for the equality of variances and the
 #' two statistics proposed by Brown and Forsythe that replace the mean in
 #' Levene's formula with alternative location estimators. The first alternative
 #' replaces the mean with the median. The second alternative replaces

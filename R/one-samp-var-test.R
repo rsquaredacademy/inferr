@@ -1,8 +1,8 @@
 #' @importFrom stats qchisq
 #' @title One Sample Variance Comparison Test
 #' @description  \code{os_vartest} performs tests on the equality of standard
-#' deviations (variances).It tests that the standard deviation of \code{x} is
-#' \code{sd}.
+#' deviations (variances).It tests that the standard deviation of a sample is
+#' equal to a hypothesized value.
 #' @param x a numeric vector
 #' @param sd hypothesised standard deviation
 #' @param confint confidence level

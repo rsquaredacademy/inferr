@@ -11,7 +11,7 @@ chisq_gof(x, y, correct = FALSE)
 
 \item{y}{expected proportions}
 
-\item{correct}{logical; if TRUE continuiuty correction is applied}
+\item{correct}{logical; if TRUE continuity correction is applied}
 }
 \value{
 \code{chisq_gof} returns an object of class \code{"chisq_gof"}.

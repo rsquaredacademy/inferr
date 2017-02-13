@@ -1,6 +1,6 @@
 #' @title One Sample t Test
 #' @description \code{ttest} performs t tests on the equality of means. It tests the
-#' hypothesis that \code{x} has a mean of \code{mu}.
+#' hypothesis that a sample has a mean equal to a hypothesized value.
 #' @param x a numeric vector
 #' @param mu a number indicating the true value of the mean
 #' @param alpha acceptable tolerance for type I error

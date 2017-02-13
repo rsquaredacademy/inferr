@@ -60,8 +60,8 @@ confidence limit of mean of \code{y}}
 \item{alternative}{alternative hypothesis}
 }
 \description{
-\code{ind_ttest} tests that \code{y} has the same mean
-within the two groups defined by \code{x}
+\code{ind_ttest} compares the means of two independent groups in order to determine whether 
+there is statistical evidence that the associated population means are significantly different.
 }
 \examples{
 # lower tail

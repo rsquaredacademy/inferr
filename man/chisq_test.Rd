@@ -36,6 +36,7 @@ relationship between two categorical variables.
 }
 \examples{
 chisq_test(as.factor(hsb$female), as.factor(hsb$schtyp))
+
 chisq_test(as.factor(hsb$female), as.factor(hsb$ses))
 }
 \references{

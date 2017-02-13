@@ -1,8 +1,7 @@
 #' @title Two Sample Test of Proportion
 #' @description Tests on the equality of proportions using
-#' large-sample statistics. It tests that \code{var} has the same proportion
-#' within two groups defined by \code{group} or that two variables \code{var1} and
-#' \code{var2} have the same proportion.
+#' large-sample statistics. It tests that a sample has the same proportion
+#' within two independent groups or two samples have the same proportion.
 #' @param var1 a categorical variable
 #' @param var2 a categorical variable
 #' @param var a categorical variable
