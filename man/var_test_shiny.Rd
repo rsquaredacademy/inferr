@@ -48,13 +48,13 @@ deviations (variances).
 \examples{
 # using two variables
 # lower tail
-var_test_shiny(hsb$read, hsb$write, alternative = 'less')
+var_test_shiny(hsb, 'read', 'write', alternative = 'less')
 
 # upper tail
-var_test_shiny(hsb$read, hsb$write, alternative = 'greater')
+var_test_shiny(hsb, 'read', 'write', alternative = 'greater')
 
 # all tails
-var_test_shiny(hsb$read, hsb$write, alternative = 'all')
+var_test_shiny(hsb, 'read', 'write', alternative = 'all')
 
 }
 \references{
