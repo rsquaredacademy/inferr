@@ -64,17 +64,21 @@ confidence limit of mean of \code{y}}
 there is statistical evidence that the associated population means are significantly different.
 }
 \examples{
+# data
+hsb2 <- inferr::hsb
+hsb2$female <- as.factor(hsb2$female)
+
 # lower tail
-ind_ttest(hsb, 'female', 'write', alternative = 'less')
+ind_ttest(hsb2, 'female', 'write', alternative = 'less')
 
 # upper tail
-ind_ttest(hsb, 'female', 'write', alternative = 'greater')
+ind_ttest(hsb2, 'female', 'write', alternative = 'greater')
 
 # both tails
-ind_ttest(hsb, 'female', 'write', alternative = 'both')
+ind_ttest(hsb2, 'female', 'write', alternative = 'both')
 
 # all tails
-ind_ttest(hsb, 'female', 'write', alternative = 'all')
+ind_ttest(hsb2, 'female', 'write', alternative = 'all')
 }
 \references{
 Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
