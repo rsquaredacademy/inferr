@@ -103,6 +103,10 @@ ts_prop_grp <- function(var, group,
   alternative = c('both', 'less', 'greater', 'all')) {
 
 
+    if (nlevels(group) > 2) {
+      stop('Grouping variable must be a binary factor variables.', call. = FALSE)
+    }
+
 	    n <- tapply(var, group, length)
 	   n1 <- n[[1]]
 	   n2 <- n[[2]]
