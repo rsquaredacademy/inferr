@@ -93,7 +93,7 @@ var_test.default <- function(variable, ..., group_var = NA,
 
 			z   <- list(variable, ...)
 			ln <- z %>% map_int(length)
-			if (ln > 2) {
+			if (length(ln) > 2) {
 				stop('Only 2 variables can be specified.', call. = FALSE)
 			}
 			ly <- seq_len(length(z))
