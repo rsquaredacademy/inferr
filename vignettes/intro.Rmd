@@ -84,7 +84,9 @@ different i.e. a subject in one group cannot also be a subject of the other grou
 Using the hsb data, test whether the mean for write is the same for males and females.
 
 ```{r ind}
-ind_ttest(hsb, 'female', 'write', alternative = 'all')
+hsb2 <- inferr::hsb
+hsb2$female <- as.factor(hsb2$female)
+ind_ttest(hsb2, 'female', 'write', alternative = 'all')
 ```
 
 ## One Sample Test of Proportion
