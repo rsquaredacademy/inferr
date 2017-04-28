@@ -955,3 +955,10 @@ sdruns <- function(n0, n1) {
     n <- 2 * n0 * n1
     return(((n * (n - N)) / ((N ^ 2) *(N - 1))))
 }
+
+check_level <- function(data, x) {
+    data %>%
+        select_(x) %>%
+        unlist() %>%
+        nlevels()
+}

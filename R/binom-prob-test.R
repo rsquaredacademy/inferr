@@ -73,19 +73,19 @@ print.binom_calc <- function(x, ...) {
 binom_test <- function(data, prob = 0.5) {
 
     if (!is.factor(data)) {
-      stop('data must be of type factor')
+      stop('data must be of type factor', call. = FALSE)
     }
 
     if (nlevels(data) > 2) {
-      stop('Binomial test is applicable only to binary data i.e. categorical data with 2 levels.')
+      stop('Binomial test is applicable only to binary data i.e. categorical data with 2 levels.', call. = FALSE)
     }
 
     if(!is.numeric(prob)) {
-      stop('prob must be numeric')
+      stop('prob must be numeric', call. = FALSE)
     }
 
     if((prob < 0) | (prob > 1)) {
-      stop('prob must be between 0 and 1')
+      stop('prob must be between 0 and 1', call. = FALSE)
     }
 
     n <- length(data)

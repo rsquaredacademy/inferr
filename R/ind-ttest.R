@@ -72,15 +72,19 @@ ind_ttest.default <- function(data, x, y, confint = 0.95,
   alternative = c('both', 'less', 'greater', 'all'), ...) {
 
     if (!is.data.frame(data)) {
-      stop('data must be a data frame')
+      stop('data must be a data frame', call. = FALSE)
     }
 
     if (!x %in% colnames(data)) {
-      stop('x must be a column in data')
+      stop('x must be a column in data', call. = FALSE)
     }
 
     if (!y %in% colnames(data)) {
-      stop('y must be a column in data')
+      stop('y must be a column in data', call. = FALSE)
+    }
+
+    if (check_level(data, x) > 2) {
+      stop('x must be a binary factor variable', call. = FALSE)
     }
 
     method <- match.arg(alternative)
