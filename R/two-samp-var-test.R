@@ -65,6 +65,12 @@ var_test <- function(variable, ..., group_var = NA,
 var_test.default <- function(variable, ..., group_var = NA,
 	alternative = c("less", "greater", "all")) {
 
+	if (!is.na(group_var)) {
+		if (nlevels(as.factor(group_var)) !== 2) {
+			stop('group_var must be a binary factor variable.', call. = FALSE)
+		}
+	}
+
 	suppressWarnings(
 		if (is.na(group_var)) {
 			name1 <- l(unlist(strsplit(deparse(substitute(c(variable, ...))), ','))[1])
@@ -73,6 +79,9 @@ var_test.default <- function(variable, ..., group_var = NA,
 		} else {
 			if (!is.factor(group_var)) {
 				group_var <- as.factor(group_var)
+			}
+			if (nlevels(group_var) > 2) {
+				stop('Specify a binary factor variable as input for group_var.', call. = FALSE)
 			}
 			lev  <- levels(group_var)
 		}
@@ -84,6 +93,9 @@ var_test.default <- function(variable, ..., group_var = NA,
 
 			z   <- list(variable, ...)
 			ln <- z %>% map_int(length)
+			if (ln > 2) {
+				stop('Only 2 variables can be specified.', call. = FALSE)
+			}
 			ly <- seq_len(length(z))
 
 		  if (length(z) < 2) {
