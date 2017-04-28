@@ -66,7 +66,7 @@ var_test.default <- function(variable, ..., group_var = NA,
 	alternative = c("less", "greater", "all")) {
 
 	if (!is.na(group_var)) {
-		if (nlevels(as.factor(group_var)) !== 2) {
+		if (nlevels(as.factor(group_var)) != 2) {
 			stop('group_var must be a binary factor variable.', call. = FALSE)
 		}
 	}

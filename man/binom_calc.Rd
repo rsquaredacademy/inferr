@@ -18,7 +18,7 @@ binom_test(data, prob = 0.5)
 
 \item{...}{additional arguments passed to or from other methods}
 
-\item{data}{a numeric vector}
+\item{data}{binary/dichotomous factor}
 }
 \value{
 \code{binom_test} returns an object of class \code{"binom_test"}.
