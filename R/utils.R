@@ -962,3 +962,11 @@ check_level <- function(data, x) {
         unlist() %>%
         nlevels()
 }
+
+check_x <- function(data, x) {
+    data %>%
+        select_(x) %>%
+        unlist() %>%
+        (is.factor) %>%
+        `!`
+}

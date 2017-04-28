@@ -52,7 +52,7 @@ test_that('output from binom_test matches the expected output', {
 
 test_that('binom_test throws the appropriate error', {
     expect_error(binom_test(mtcars$cyl), 'data must be of type factor')
-    expect_error(binom_test(as.factor(mtcars$cyl), '0.5'), 'prob must be numeric')
-    expect_error(binom_test(as.factor(mtcars$cyl), 1.5), 'prob must be between 0 and 1')
-    expect_error(binom_test(as.factor(mtcars$cyl), -1.5), 'prob must be between 0 and 1')
+    expect_error(binom_test(as.factor(mtcars$am), '0.5'), 'prob must be numeric')
+    expect_error(binom_test(as.factor(mtcars$am), 1.5), 'prob must be between 0 and 1')
+    expect_error(binom_test(as.factor(mtcars$am), -1.5), 'prob must be between 0 and 1')
 })

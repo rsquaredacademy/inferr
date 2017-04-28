@@ -83,6 +83,10 @@ ind_ttest.default <- function(data, x, y, confint = 0.95,
       stop('y must be a column in data', call. = FALSE)
     }
 
+    if (check_x(data, x)) {
+      stop('x must be a binary factor variable', call. = FALSE)
+    }
+
     if (check_level(data, x) > 2) {
       stop('x must be a binary factor variable', call. = FALSE)
     }

@@ -2,8 +2,10 @@ context('ind_ttest')
 
 test_that('output from ind_ttest matches expected result', {
 
-    k <- ind_ttest(hsb, 'female', 'write')
-    expect_equivalent(k$levels, c(0, 1))
+    hsb2 <- inferr::hsb
+    hsb2$female <- as.factor(hsb2$female)
+    k <- ind_ttest(hsb2, 'female', 'write')
+    expect_equivalent(k$levels, c("0", "1"))
     expect_equivalent(as.numeric(k$obs), c(91, 109))
     expect_equal(k$n, 200)
     expect_equivalent(as.numeric(k$mean), c(50.121, 54.991))
