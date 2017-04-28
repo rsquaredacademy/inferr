@@ -10,3 +10,4 @@
 ^docs$
 ^NEWS$
 ^CONDUCT\.md$
+^.*\.jpg$

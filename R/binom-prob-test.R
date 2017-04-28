@@ -5,7 +5,7 @@
 #' @param n number of observations
 #' @param success number of successes
 #' @param prob assumed probability of success on a trial
-#' @param data a numeric vector
+#' @param data binary/dichotomous factor 
 #' @param ... additional arguments passed to or from other methods
 #' @return \code{binom_test} returns an object of class \code{"binom_test"}.
 #' An object of class \code{"binom_test"} is a list containing the
@@ -74,6 +74,10 @@ binom_test <- function(data, prob = 0.5) {
 
     if (!is.factor(data)) {
       stop('data must be of type factor')
+    }
+
+    if (nlevels(data) > 2) {
+      stop('Binomial test is applicable only to binary data i.e. categorical data with 2 levels.')
     }
 
     if(!is.numeric(prob)) {
