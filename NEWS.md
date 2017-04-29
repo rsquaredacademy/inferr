@@ -1,4 +1,4 @@
-# inferr 0.1.0.9000
+# inferr 0.1.1
 
 * additional input options for paired sample t test
 * return error if dichotomous variable not used for grouping in two sample tests
@@ -6,4 +6,4 @@
 
 # inferr 0.1.0
 
-* First release.
+* First release

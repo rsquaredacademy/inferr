@@ -1082,6 +1082,7 @@ print_levene_test <- function(data) {
 	cat(format('Statistic', width = cwidth, justify = 'left'), fs(),
 		format('Num DF', width = nwidth, justify = 'right'), fs(), format('Den DF', width = dwidth, justify = 'right'),
 		fs(), format('F', width = ewidth, justify = 'right'), fs(), format('Pr > F', width = fwidth, justify = 'right'), '\n')
+  cat(rep("-", w1), sep = "", '\n')
 	cat(format('Brown and Forsythe', width = cwidth, justify = 'left'), fs(),
 		format(data$n_df, width = nwidth, justify = 'right'),  fs(), format(data$d_df, width = dwidth, justify = 'right'),
 		fs(), format(data$bf, width = ewidth, justify = 'right'),  fs(), format(data$p_bf, width = fwidth, justify = 'right'), '\n')
