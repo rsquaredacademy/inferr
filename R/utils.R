@@ -1,4 +1,4 @@
-#' @importFrom dplyr group_by_ select_ summarise_each funs mutate
+#' @importFrom dplyr group_by_ select_ summarise_all funs mutate
 #' @importFrom magrittr %>%
 #' @importFrom stats var sd
 #' @importFrom tibble tibble as_data_frame
@@ -6,7 +6,7 @@ anova_split <- function(data, x, y, sample_mean) {
     by_factor <- data %>%
         group_by_(y) %>%
         select_(y, x) %>%
-        summarise_each(funs(length, mean, var, sd)) %>%
+        summarise_all(funs(length, mean, var, sd)) %>%
         as_data_frame() %>%
     		mutate(
     			sst = length * ((mean - sample_mean) ^ 2),
@@ -18,7 +18,7 @@ anova_split <- function(data, x, y, sample_mean) {
 anova_avg <- function(data, y) {
     avg <- data %>%
         select_(y) %>%
-        summarise_each(funs(mean))
+        summarise_all(funs(mean))
     return(unlist(avg, use.names = FALSE))
 }
 
@@ -691,7 +691,7 @@ tibble_stats <- function(data, x, y) {
     by_factor <- data %>%
         group_by_(y) %>%
         select_(y, x) %>%
-        summarise_each(funs(length, mean, var, sd)) %>%
+        summarise_all(funs(length, mean, var, sd)) %>%
         as_data_frame() %>%
         mutate(
           ses = sd / sqrt(length)
@@ -702,7 +702,7 @@ tibble_stats <- function(data, x, y) {
 tbl_stats <- function(data, y) {
     avg <- data %>%
         select_(y) %>%
-        summarise_each(funs(length, mean, sd)) %>%
+        summarise_all(funs(length, mean, sd)) %>%
         as_data_frame() %>%
         mutate(
           se = sd / sqrt(length)
@@ -785,7 +785,7 @@ paired_stats <- function(data, key, value) {
   d <- data %>%
     group_by_(key) %>%
     select_(value, key) %>%
-    summarise_each(funs(length, mean, sd)) %>%
+    summarise_all(funs(length, mean, sd)) %>%
     as_data_frame() %>%
     mutate(
         se = sd / sqrt(length)
@@ -842,7 +842,7 @@ data_split <- function(data, x, y) {
   by_gender <- data %>%
     group_by_(x) %>%
     select_(x, y) %>%
-    summarise_each(funs(length, mean_t, sd_t, std_err)) %>%
+    summarise_all(funs(length, mean_t, sd_t, std_err)) %>%
     as.data.frame()
   return(by_gender)
 }
@@ -850,7 +850,7 @@ data_split <- function(data, x, y) {
 da <- function(data, y) {
   dat <- data %>%
     select_(y) %>%
-    summarise_each(funs(length, mean_t, sd_t, std_err)) %>%
+    summarise_all(funs(length, mean_t, sd_t, std_err)) %>%
     as.data.frame()
   return(dat)
 }
