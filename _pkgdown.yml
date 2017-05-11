@@ -4,8 +4,6 @@ templates:
 
 home:
   links:
-  - text: Download from CRAN at
-    href: https://cran.r-project.org/package=inferr
   - text: Learn more
     href: http://www.rsquaredacademy.com
 
