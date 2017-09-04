@@ -63,13 +63,12 @@
 <div class="contents">
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <div id="inferr" class="section level1">
-<h1 class="hasAnchor">
-<html><body><a href="#inferr" class="anchor"> </a></body></html>inferr <img src="inferr.jpg" align="right">
-</h1>
-<p><a href="https://cran.r-project.org/package=inferr"><img src="http://www.r-pkg.org/badges/version/inferr" alt="CRAN_Status_Badge"></a> <a href="https://travis-ci.org/rsquaredacademy/inferr"><img src="https://travis-ci.org/rsquaredacademy/inferr.svg?branch=master" alt="Travis-CI Build Status"></a> <a href="https://ci.appveyor.com/project/rsquaredacademy/inferr"><img src="https://ci.appveyor.com/api/projects/status/github/rsquaredacademy/inferr?branch=master&amp;svg=true" alt="AppVeyor Build Status"></a> <a href="https://codecov.io/github/rsquaredacademy/inferr?branch=master"><img src="https://img.shields.io/codecov/c/github/rsquaredacademy/inferr/master.svg" alt="Coverage Status"></a> <a href="https://cran.r-project.org/package=inferr"><img src="https://cranlogs.r-pkg.org/badges/grand-total/inferr"></a></p>
+<div class="page-header"><h1 class="hasAnchor">
+<a href="#inferr" class="anchor"> </a>inferr <img src="inferr.jpg" align="right"></h1></div>
+
 <div id="overview" class="section level2">
 <h2 class="hasAnchor">
-<html><body><a href="#overview" class="anchor"> </a></body></html>Overview</h2>
+<a href="#overview" class="anchor"> </a>Overview</h2>
 <p>Inferential statistics allows us to make generalizations about populations using data drawn from the population. We use them when it is impractical or impossible to collect data about the whole population under study and instead, we have a sample that represents the population under study and using inferential statistics technique, we make generalizations about the population from the sample.</p>
 <p>The <strong>inferr</strong> package:</p>
 <ul>
@@ -99,14 +98,167 @@
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
-<html><body><a href="#installation" class="anchor"> </a></body></html>Installation</h2>
+<a href="#installation" class="anchor"> </a>Installation</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install inferr from CRAN</span>
 <span class="kw">install.packages</span>(<span class="st">"inferr"</span>)
 
 <span class="co"># the development version from github</span>
 <span class="co"># install.packages("devtools")</span>
 devtools::<span class="kw">install_github</span>(<span class="st">"rsquaredacademy/inferr"</span>)</code></pre></div>
+</div>
+<div id="shiny-app" class="section level2">
+<h2 class="hasAnchor">
+<a href="#shiny-app" class="anchor"> </a>Shiny App</h2>
+<p>If you want to explore the package using a shiny app, please click <a href="http://rsquaredlabs.com:3838/explorer/">here</a>.</p>
+<iframe width="860" height="515" src="https://www.youtube.com/embed/videoseries?list=PLDfCKV3ey8-fr_qFzKRep6IicVCe2MrKt" frameborder="0" allowfullscreen></iframe>
+</div>
+<div id="vignettes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#vignettes" class="anchor"> </a>Vignettes</h2>
+<ul>
+<li><a href="http://www.rsquaredacademy.com/inferr/articles/index.html">Introduction to inferr</a></li>
+</ul>
+</div>
+<div id="usage" class="section level2">
+<h2 class="hasAnchor">
+<a href="#usage" class="anchor"> </a>Usage</h2>
+<div id="one-sample-t-test" class="section level5">
+<h5 class="hasAnchor">
+<a href="#one-sample-t-test" class="anchor"> </a>One Sample t Test</h5>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/ttest.html">ttest</a></span>(hsb$write, <span class="dt">mu =</span> <span class="dv">50</span>, <span class="dt">type =</span> <span class="st">'all'</span>)
+<span class="co">#&gt;                               One-Sample Statistics                               </span>
+<span class="co">#&gt; ---------------------------------------------------------------------------------</span>
+<span class="co">#&gt;  Variable    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] </span>
+<span class="co">#&gt; ---------------------------------------------------------------------------------</span>
+<span class="co">#&gt;   write      200    52.775     0.6702       9.4786       51.4537    54.0969   </span>
+<span class="co">#&gt; ---------------------------------------------------------------------------------</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;                                Ho: mean(write) ~=50                              </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;         Ha: mean &lt; 50              Ha: mean ~= 50               Ha: mean &gt; 50        </span>
+<span class="co">#&gt;          t = 4.141                   t = 4.141                   t = 4.141         </span>
+<span class="co">#&gt;        P &lt; t = 1.0000             P &gt; |t| = 0.0001             P &gt; t = 0.0000</span></code></pre></div>
+</div>
+<div id="anova" class="section level5">
+<h5 class="hasAnchor">
+<a href="#anova" class="anchor"> </a>ANOVA</h5>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/owanova.html">owanova</a></span>(hsb, <span class="st">'write'</span>, <span class="st">'prog'</span>)
+<span class="co">#&gt;                                 ANOVA                                  </span>
+<span class="co">#&gt; ----------------------------------------------------------------------</span>
+<span class="co">#&gt;                    Sum of                                             </span>
+<span class="co">#&gt;                    Squares     DF     Mean Square      F        Sig.  </span>
+<span class="co">#&gt; ----------------------------------------------------------------------</span>
+<span class="co">#&gt; Between Groups    3175.698      2      1587.849      21.275    0.0000 </span>
+<span class="co">#&gt; Within Groups     14703.177    197      74.635                        </span>
+<span class="co">#&gt; Total             17878.875    199                                    </span>
+<span class="co">#&gt; ----------------------------------------------------------------------</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;                  Report                   </span>
+<span class="co">#&gt; -----------------------------------------</span>
+<span class="co">#&gt;  Category      N      Mean     Std. Dev. </span>
+<span class="co">#&gt; -----------------------------------------</span>
+<span class="co">#&gt;     1         45     51.333        9.398 </span>
+<span class="co">#&gt;     2         105    56.257        7.943 </span>
+<span class="co">#&gt;     3         50     46.760        9.319 </span>
+<span class="co">#&gt; -----------------------------------------</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Number of obs = 200       R-squared     = 0.1776 </span>
+<span class="co">#&gt; Root MSE      = 8.6392    Adj R-squared = 0.1693</span></code></pre></div>
+</div>
+<div id="chi-square-test-of-independence" class="section level5">
+<h5 class="hasAnchor">
+<a href="#chi-square-test-of-independence" class="anchor"> </a>Chi Square Test of Independence</h5>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/chisq_test.html">chisq_test</a></span>(<span class="kw">as.factor</span>(hsb$female), <span class="kw">as.factor</span>(hsb$schtyp))
+<span class="co">#&gt;                Chi Square Statistics                 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Statistics                     DF    Value      Prob </span>
+<span class="co">#&gt; ----------------------------------------------------</span>
+<span class="co">#&gt; Chi-Square                     1    0.0470    0.8284</span>
+<span class="co">#&gt; Likelihood Ratio Chi-Square    1    0.0471    0.8282</span>
+<span class="co">#&gt; Continuity Adj. Chi-Square     1    0.0005    0.9822</span>
+<span class="co">#&gt; Mantel-Haenszel Chi-Square     1    0.0468    0.8287</span>
+<span class="co">#&gt; Phi Coefficient                     0.0153          </span>
+<span class="co">#&gt; Contingency Coefficient             0.0153          </span>
+<span class="co">#&gt; Cramer's V                          0.0153          </span>
+<span class="co">#&gt; ----------------------------------------------------</span></code></pre></div>
+</div>
+<div id="levenes-test" class="section level5">
+<h5 class="hasAnchor">
+<a href="#levenes-test" class="anchor"> </a>Levene’s Test</h5>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/levene_test.html">levene_test</a></span>(hsb$read, <span class="dt">group_var =</span> hsb$race)
+<span class="co">#&gt;            Summary Statistics             </span>
+<span class="co">#&gt; Levels    Frequency    Mean     Std. Dev  </span>
+<span class="co">#&gt; -----------------------------------------</span>
+<span class="co">#&gt;   1          24        46.67      10.24   </span>
+<span class="co">#&gt;   2          11        51.91      7.66    </span>
+<span class="co">#&gt;   3          20        46.8       7.12    </span>
+<span class="co">#&gt;   4          145       53.92      10.28   </span>
+<span class="co">#&gt; -----------------------------------------</span>
+<span class="co">#&gt; Total        200       52.23      10.25   </span>
+<span class="co">#&gt; -----------------------------------------</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;                              Test Statistics                              </span>
+<span class="co">#&gt; -------------------------------------------------------------------------</span>
+<span class="co">#&gt; Statistic                            Num DF    Den DF         F    Pr &gt; F </span>
+<span class="co">#&gt; -------------------------------------------------------------------------</span>
+<span class="co">#&gt; Brown and Forsythe                        3       196      3.44    0.0179 </span>
+<span class="co">#&gt; Levene                                    3       196    3.4792     0.017 </span>
+<span class="co">#&gt; Brown and Forsythe (Trimmed Mean)         3       196    3.3936     0.019 </span>
+<span class="co">#&gt; -------------------------------------------------------------------------</span></code></pre></div>
+</div>
+<div id="cochrans-q-test" class="section level5">
+<h5 class="hasAnchor">
+<a href="#cochrans-q-test" class="anchor"> </a>Cochran’s Q Test</h5>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/cochran_test.html">cochran_test</a></span>(exam)
+<span class="co">#&gt;    Test Statistics     </span>
+<span class="co">#&gt; ----------------------</span>
+<span class="co">#&gt; N                   15 </span>
+<span class="co">#&gt; Cochran's Q       4.75 </span>
+<span class="co">#&gt; df                   2 </span>
+<span class="co">#&gt; p value          0.093 </span>
+<span class="co">#&gt; ----------------------</span></code></pre></div>
+</div>
+<div id="mcnemar-test" class="section level5">
+<h5 class="hasAnchor">
+<a href="#mcnemar-test" class="anchor"> </a>McNemar Test</h5>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">himath &lt;-<span class="st"> </span><span class="kw">ifelse</span>(hsb$math &gt;<span class="st"> </span><span class="dv">60</span>, <span class="dv">1</span>, <span class="dv">0</span>)
+hiread &lt;-<span class="st"> </span><span class="kw">ifelse</span>(hsb$read &gt;<span class="st"> </span><span class="dv">60</span>, <span class="dv">1</span>, <span class="dv">0</span>)
+<span class="kw"><a href="reference/mcnemar_test.html">mcnemar_test</a></span>(<span class="kw">table</span>(himath, hiread))
+<span class="co">#&gt;            Controls </span>
+<span class="co">#&gt; ---------------------------------</span>
+<span class="co">#&gt; Cases       0       1       Total </span>
+<span class="co">#&gt; ---------------------------------</span>
+<span class="co">#&gt;   0        135      21        156 </span>
+<span class="co">#&gt;   1         18      26         44 </span>
+<span class="co">#&gt; ---------------------------------</span>
+<span class="co">#&gt; Total      153      47        200 </span>
+<span class="co">#&gt; ---------------------------------</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;        McNemar's Test        </span>
+<span class="co">#&gt; ----------------------------</span>
+<span class="co">#&gt; McNemar's chi2        0.2308 </span>
+<span class="co">#&gt; DF                         1 </span>
+<span class="co">#&gt; Pr &gt; chi2              0.631 </span>
+<span class="co">#&gt; Exact Pr &gt;= chi2      0.7493 </span>
+<span class="co">#&gt; ----------------------------</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;        Kappa Coefficient         </span>
+<span class="co">#&gt; --------------------------------</span>
+<span class="co">#&gt; Kappa                     0.4454 </span>
+<span class="co">#&gt; ASE                        0.075 </span>
+<span class="co">#&gt; 95% Lower Conf Limit      0.2984 </span>
+<span class="co">#&gt; 95% Upper Conf Limit      0.5923 </span>
+<span class="co">#&gt; --------------------------------</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Proportion With Factor </span>
+<span class="co">#&gt; ----------------------</span>
+<span class="co">#&gt; cases             0.78 </span>
+<span class="co">#&gt; controls         0.765 </span>
+<span class="co">#&gt; ratio           1.0196 </span>
+<span class="co">#&gt; odds ratio      1.1667 </span>
+<span class="co">#&gt; ----------------------</span></code></pre></div>
 <p>Please note that this project is released with a <a href="CONDUCT.md">Contributor Code of Conduct</a>. By participating in this project you agree to abide by its terms.</p>
+</div>
 </div>
 </div>
 </div>
@@ -123,6 +275,8 @@ devtools::<span class="kw">install_github</span>(<span class="st">"rsquaredacade
 </li>
 <li>Learn more at <br><a href="http://www.rsquaredacademy.com">http://​www.rsquaredacademy.com</a>
 </li>
+<li>Shiny App at <br><a href="http://rsquaredlabs.com:3838/explorer/">http://​rsquaredlabs.com:3838/​explorer/​</a>
+</li>
 </ul>
 <h2>License</h2>
 <p><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE">LICENSE</a></p>
@@ -130,6 +284,16 @@ devtools::<span class="kw">install_github</span>(<span class="st">"rsquaredacade
 <ul class="list-unstyled">
 <li>Aravind Hebbali <br><small class="roles"> Author, maintainer </small> </li>
 </ul>
+<html><body>
+<h2>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://cran.r-project.org/package=inferr"><img src="http://www.r-pkg.org/badges/version/inferr" alt="CRAN_Status_Badge"></a></li>
+<li><a href="https://travis-ci.org/rsquaredacademy/inferr"><img src="https://travis-ci.org/rsquaredacademy/inferr.svg?branch=master" alt="Travis-CI Build Status"></a></li>
+<li><a href="https://ci.appveyor.com/project/rsquaredacademy/inferr"><img src="https://ci.appveyor.com/api/projects/status/github/rsquaredacademy/inferr?branch=master&amp;svg=true" alt="AppVeyor Build Status"></a></li>
+<li><a href="https://codecov.io/github/rsquaredacademy/inferr?branch=master"><img src="https://img.shields.io/codecov/c/github/rsquaredacademy/inferr/master.svg" alt="Coverage Status"></a></li>
+<li><a href="https://cran.r-project.org/package=inferr"><img src="https://cranlogs.r-pkg.org/badges/grand-total/inferr"></a></li>
+</ul>
+</body></html>
 </div>
 
 </div>
