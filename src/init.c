@@ -8,12 +8,12 @@
 */
 
 /* .Call calls */
-extern SEXP inferr_gvar(SEXP, SEXP);
-extern SEXP inferr_nsignC(SEXP);
+extern SEXP _inferr_gvar(SEXP, SEXP);
+extern SEXP _inferr_nsignC(SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
-    {"inferr_gvar",   (DL_FUNC) &inferr_gvar,   2},
-    {"inferr_nsignC", (DL_FUNC) &inferr_nsignC, 1},
+    {"_inferr_gvar",   (DL_FUNC) &_inferr_gvar,   2},
+    {"_inferr_nsignC", (DL_FUNC) &_inferr_nsignC, 1},
     {NULL, NULL, 0}
 };
 

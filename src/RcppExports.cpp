@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // nsignC
 double nsignC(NumericVector x);
-RcppExport SEXP inferr_nsignC(SEXP xSEXP) {
+RcppExport SEXP _inferr_nsignC(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -18,7 +18,7 @@ END_RCPP
 }
 // gvar
 List gvar(NumericVector ln, NumericVector ly);
-RcppExport SEXP inferr_gvar(SEXP lnSEXP, SEXP lySEXP) {
+RcppExport SEXP _inferr_gvar(SEXP lnSEXP, SEXP lySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
