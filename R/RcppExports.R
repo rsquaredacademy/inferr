@@ -2,10 +2,10 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 nsignC <- function(x) {
-    .Call(`_inferr_nsignC`, x)
+    .Call('_inferr_nsignC', PACKAGE = 'inferr', x)
 }
 
 gvar <- function(ln, ly) {
-    .Call(`_inferr_gvar`, ln, ly)
+    .Call('_inferr_gvar', PACKAGE = 'inferr', ln, ly)
 }
 
