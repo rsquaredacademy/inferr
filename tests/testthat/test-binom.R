@@ -56,3 +56,52 @@ test_that('binom_test throws the appropriate error', {
     expect_error(binom_test(as.factor(mtcars$am), 1.5), 'prob must be between 0 and 1')
     expect_error(binom_test(as.factor(mtcars$am), -1.5), 'prob must be between 0 and 1')
 })
+
+
+test_that('output from binom_calc is as expected when k < exp_k', {
+
+  x <- cat("            Binomial Test              
+ --------------------------------------
+  Group    N     Obs. Prop    Exp. Prop 
+ --------------------------------------
+    0      24         0.75        0.500 
+    1       8         0.25        0.500 
+ --------------------------------------
+
+
+                Test Summary                 
+ -------------------------------------------
+  Tail             Prob             p-value  
+ -------------------------------------------
+  Lower    Pr(k <= 8)                 0.0035 
+  Upper    Pr(k >= 8)               0.998949 
+  Two      Pr(k <= 8 or k >= 24)       0.007 
+ -------------------------------------------")
+
+  expect_equivalent(print(binom_calc(32, 8)), x)
+
+})
+
+test_that('output from binom_calc is as expected when k > exp_k', {
+
+  x <- cat("            Binomial Test              
+ --------------------------------------
+  Group    N     Obs. Prop    Exp. Prop 
+ --------------------------------------
+    0      12        0.375        0.500 
+    1      20        0.625        0.500 
+ --------------------------------------
+
+
+                 Test Summary                 
+ --------------------------------------------
+  Tail              Prob             p-value  
+ --------------------------------------------
+  Lower    Pr(k <= 20)               0.944908 
+  Upper    Pr(k >= 20)               0.107664 
+  Two      Pr(k <= 11 or k >= 20)    0.162756 
+ --------------------------------------------")
+  
+  expect_equivalent(print(binom_calc(32, 20)), x)
+
+})

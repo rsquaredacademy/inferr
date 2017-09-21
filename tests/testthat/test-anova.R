@@ -23,3 +23,32 @@ test_that('owanova throws the appropriate error', {
     expect_error(owanova(mtcars, 'mpgs', 'cyl'), 'x must be a column in data')
     expect_error(owanova(mtcars, 'mpg', 'cyls'), 'y must be a column in data')
 })
+
+
+test_that('output from one way anova is as expected', {
+
+  x <- cat("                               ANOVA                                 
+--------------------------------------------------------------------
+                   Sum of                                           
+                  Squares     DF    Mean Square      F        Sig.  
+--------------------------------------------------------------------
+Between Groups    824.785     2       412.392      39.699    0.0000 
+Within Groups     301.263     29      10.388                        
+Total             1126.048    31                                    
+--------------------------------------------------------------------
+
+                 Report                  
+----------------------------------------
+ Category     N      Mean     Std. Dev. 
+----------------------------------------
+    4         11    26.664        4.510 
+    6         7     19.743        1.454 
+    8         14    15.100        2.560 
+----------------------------------------
+
+Number of obs = 32        R-squared     = 0.7325 
+Root MSE      = 3.2231    Adj R-squared = 0.714")
+
+  expect_equivalent(print(owanova(mtcars, 'mpg', 'cyl')), x)
+
+})

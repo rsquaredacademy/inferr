@@ -34,3 +34,94 @@ test_that('ttest throws the appropriate error', {
     expect_error(ttest(mtcars$mpg, mu = '50'), 'mu must be numeric')
     expect_error(ttest(mtcars$mpg, mu = 50, alpha = '0.05'), 'alpha must be numeric')
 })
+
+test_that('output from one sample t test is as expected when alternative is less', {
+
+  x <- cat("                              One-Sample Statistics                               
+---------------------------------------------------------------------------------
+ Variable    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
+---------------------------------------------------------------------------------
+  write      200    52.775     0.6702       9.4786         -Inf     53.8828   
+---------------------------------------------------------------------------------
+
+                                 Lower Tail Test                                 
+                                 ---------------                                  
+
+                               Ho: mean(write) >=50                              
+                                Ha: mean(write) <50                               
+--------------------------------------------------------------------------------
+ Variable      t      DF       Sig       Mean Diff.    [95% Conf. Interval] 
+--------------------------------------------------------------------------------
+  write      4.141    199    0.99997       2.775          -Inf      3.8828   
+--------------------------------------------------------------------------------")
+
+  expect_equivalent(print(ttest(hsb$write, mu = 50, type = 'less')), x)
+
+})
+
+test_that('output from one sample t test is as expected when alternative is greater', {
+
+  x <- cat("                              One-Sample Statistics                               
+---------------------------------------------------------------------------------
+ Variable    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
+---------------------------------------------------------------------------------
+  write      200    52.775     0.6702       9.4786       51.6678      Inf     
+---------------------------------------------------------------------------------
+
+                                 Upper Tail Test                                 
+                                 ---------------                                  
+
+                               Ho: mean(write) <=50                              
+                               Ha: mean(write) >50                                
+--------------------------------------------------------------------------------
+ Variable      t      DF       Sig       Mean Diff.    [95% Conf. Interval] 
+--------------------------------------------------------------------------------
+  write      4.141    199    0.99997       2.775         1.6678      Inf     
+--------------------------------------------------------------------------------")
+
+  expect_equivalent(print(ttest(hsb$write, mu = 50, type = 'greater')), x)
+
+})
+
+test_that('output from one sample t test is as expected when alternative is both', {
+
+  x <- cat("                              One-Sample Statistics                               
+---------------------------------------------------------------------------------
+ Variable    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
+---------------------------------------------------------------------------------
+  write      200    52.775     0.6702       9.4786       51.4537    54.0969   
+---------------------------------------------------------------------------------
+
+                                  Two Tail Test                                  
+                                 ---------------                                  
+
+                               Ho: mean(write) ~=50                              
+                               Ha: mean(write) !=50                               
+--------------------------------------------------------------------------------
+ Variable      t      DF       Sig       Mean Diff.    [95% Conf. Interval] 
+--------------------------------------------------------------------------------
+  write      4.141    199    0.99997       2.775         1.4537     4.0969   
+--------------------------------------------------------------------------------")
+
+  expect_equivalent(print(ttest(hsb$write, mu = 50, type = 'both')), x)
+
+})
+
+test_that('output from one sample t test is as expected when alternative is all', {
+
+  x <- cat("                              One-Sample Statistics                               
+---------------------------------------------------------------------------------
+ Variable    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
+---------------------------------------------------------------------------------
+  write      200    52.775     0.6702       9.4786       51.4537    54.0969   
+---------------------------------------------------------------------------------
+
+                               Ho: mean(write) ~=50                              
+
+        Ha: mean < 50              Ha: mean ~= 50               Ha: mean > 50        
+         t = 4.141                   t = 4.141                   t = 4.141         
+       P < t = 1.0000             P > |t| = 0.0001             P > t = 0.0000")
+
+  expect_equivalent(print(ttest(hsb$write, mu = 50, type = 'all')), x)
+
+})

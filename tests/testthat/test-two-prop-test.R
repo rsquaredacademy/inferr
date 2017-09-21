@@ -112,3 +112,53 @@ test_that('output from ts_prop_test matches the expected result', {
     expect_equal(unname(round(k$sig, 3)), c(0.13, 0.065, 0.935))
     expect_equivalent(k$alt, 'all')
 })
+
+test_that('output from 2 sample proportion test is as expected when alternative is less', {
+
+  x <- cat("    Test Statistics      
+------------------------
+Sample Size           91 
+z                  0.351 
+Pr(Z < z)          0.637")
+
+  expect_equivalent(print(ts_prop_grp(var = treatment2$outcome, group = treatment2$female, alternative = 'less')), x)
+
+})
+
+test_that('output from 2 sample proportion test is as expected when alternative is greater', {
+
+  x <- cat("    Test Statistics      
+------------------------
+Sample Size           91 
+z                  0.351 
+Pr(Z > z)          0.363")
+
+  expect_equivalent(print(ts_prop_grp(var = treatment2$outcome, group = treatment2$female, alternative = 'greater')), x)
+
+})
+
+test_that('output from 2 sample proportion test is as expected when alternative is both', {
+
+  x <- cat("    Test Statistics      
+------------------------
+Sample Size           91 
+z                  0.351 
+Pr(|Z| > |z|)      0.726")
+
+  expect_equivalent(print(ts_prop_grp(var = treatment2$outcome, group = treatment2$female, alternative = 'both')), x)
+
+})
+
+test_that('output from 2 sample proportion test is as expected when alternative is all', {
+
+  x <- cat("    Test Statistics      
+------------------------
+Sample Size           91 
+z                  0.351 
+Pr(|Z| > |z|)      0.726 
+Pr(Z < z)          0.637 
+Pr(Z > z)          0.363")
+
+  expect_equivalent(print(ts_prop_grp(var = treatment2$outcome, group = treatment2$female, alternative = 'all')), x)
+
+})

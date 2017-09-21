@@ -30,3 +30,16 @@ test_that('cochran_test throws appropriate errors', {
                  'Please specify dichotomous/binary variables only.')
 })
 
+test_that('output from cochran test is as expected', {
+
+  x <- cat("   Test Statistics     
+----------------------
+N                   15 
+Cochran's Q       4.75 
+df                   2 
+p value          0.093 
+----------------------")
+
+  expect_equivalent(print(cochran_test(exam)), x)
+
+})

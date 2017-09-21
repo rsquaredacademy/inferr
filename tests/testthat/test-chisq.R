@@ -34,3 +34,39 @@ test_that('chisq_test throws the appropriate error', {
     expect_error(chisq_test(as.factor(hsb$female), hsb$ses), 'y must be a categorical variable')
     expect_error(chisq_test(hsb$female, as.factor(hsb$ses)), 'x must be a categorical variable')
 })
+
+test_that('ouput from chisq_test is as expected', {
+
+    x <- cat("               Chi Square Statistics                 
+
+Statistics                     DF    Value      Prob 
+----------------------------------------------------
+Chi-Square                     1    0.0470    0.8284
+Likelihood Ratio Chi-Square    1    0.0471    0.8282
+Continuity Adj. Chi-Square     1    0.0005    0.9822
+Mantel-Haenszel Chi-Square     1    0.0468    0.8287
+Phi Coefficient                     0.0153          
+Contingency Coefficient             0.0153          
+Cramer's V                          0.0153          
+----------------------------------------------------")
+
+    expect_equivalent(print(chisq_test(as.factor(hsb$female), as.factor(hsb$schtyp))), x)    
+
+})
+
+test_that('ouput from chisq_test 2 is as expected', {
+
+    x <- cat("               Chi Square Statistics                 
+
+Statistics                     DF    Value      Prob 
+----------------------------------------------------
+Chi-Square                     2    4.5765    0.1014
+Likelihood Ratio Chi-Square    2    4.6789    0.0964
+Phi Coefficient                     0.1513          
+Contingency Coefficient             0.1496          
+Cramer's V                          0.1513          
+----------------------------------------------------")
+
+    expect_equivalent(print(chisq_test(as.factor(hsb$female), as.factor(hsb$ses))), x)    
+
+})

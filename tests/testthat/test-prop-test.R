@@ -16,6 +16,22 @@ test_that('output from prop_test matches expected result', {
 
 })
 
+test_that('output from prop_test matches expected result when using factor variables', {
+
+  k <- prop_test(as.factor(hsb$female), prob = 0.5)
+  expect_equal(k$n, 200)
+  expect_equal(k$phat, 0.545)
+  expect_equal(k$p, 0.5)
+  expect_equal(k$z, 1.2728)
+  expect_equal(k$sig, 0.2031)
+  expect_equivalent(k$alt, 'both')
+  expect_equivalent(k$obs, c(91, 109))
+  expect_equivalent(k$exp, c(100, 100))
+  expect_equivalent(k$deviation, c('-9.00', ' 9.00'))
+  expect_equivalent(k$std, c('-0.90', ' 0.90'))
+
+})
+
 test_that('output from prop_test matches expected result', {
 
     k <- prop_test(200, phat = 0.3, prob = 0.5, alternative = 'less')
@@ -75,3 +91,112 @@ test_that('prop_test throws appropriate errors', {
                  'prob must be between 0 and 1')
 
 })
+
+
+test_that('output from one sample proportion test is as expected when alternative is less', {
+
+  x <- cat("     Test Statistics
+-------------------------
+Sample Size           200
+Exp Prop              0.5
+Obs Prop            0.545
+z                  1.2728
+Pr(Z < z)          0.8985
+
+-----------------------------------------------------------------
+Category    Observed    Expected    % Deviation    Std. Residuals
+-----------------------------------------------------------------
+   0           91         100          -9.00           -0.90
+   1          109         100           9.00            0.90
+-----------------------------------------------------------------")
+
+  expect_equivalent(print(prop_test(as.factor(hsb$female), prob = 0.5), alternative = 'less'), x)
+
+})
+
+test_that('output from one sample proportion test is as expected when alternative is greater', {
+
+  x <- cat("     Test Statistics
+-------------------------
+Sample Size           200
+Exp Prop              0.5
+Obs Prop            0.545
+z                  1.2728
+Pr(Z > z)          0.1015
+
+-----------------------------------------------------------------
+Category    Observed    Expected    % Deviation    Std. Residuals
+-----------------------------------------------------------------
+   0           91         100          -9.00           -0.90
+   1          109         100           9.00            0.90
+-----------------------------------------------------------------")
+
+  expect_equivalent(print(prop_test(as.factor(hsb$female), prob = 0.5), alternative = 'greater'), x)
+
+})
+
+test_that('output from one sample proportion test is as expected when alternative is both', {
+
+  x <- cat("     Test Statistics
+-------------------------
+Sample Size           200
+Exp Prop              0.5
+Obs Prop            0.545
+z                  1.2728
+Pr(|Z| > |z|)      0.2031
+
+-----------------------------------------------------------------
+Category    Observed    Expected    % Deviation    Std. Residuals
+-----------------------------------------------------------------
+   0           91         100          -9.00           -0.90
+   1          109         100           9.00            0.90
+-----------------------------------------------------------------")
+
+  expect_equivalent(print(prop_test(as.factor(hsb$female), prob = 0.5), alternative = 'both'), x)
+
+})
+
+test_that('output from one sample proportion test is as expected when alternative is all', {
+
+  x <- cat("     Test Statistics
+-------------------------
+Sample Size           200
+Exp Prop              0.5
+Obs Prop            0.545
+z                  1.2728
+Pr(|Z| > |z|)      0.2031
+Pr(Z < z)          0.8985
+Pr(Z > z)          0.1015
+
+-----------------------------------------------------------------
+Category    Observed    Expected    % Deviation    Std. Residuals
+-----------------------------------------------------------------
+   0           91         100          -9.00           -0.90
+   1          109         100           9.00            0.90
+-----------------------------------------------------------------")
+
+  expect_equivalent(print(prop_test(as.factor(hsb$female), prob = 0.5), alternative = 'all'), x)
+
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

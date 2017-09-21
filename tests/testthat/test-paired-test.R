@@ -33,3 +33,131 @@ test_that('paired_ttest throws appropriate error', {
     expect_error(paired_ttest(mtcars$mpg, mtcars$qsec, '0.95'),
                  'confint must be numeric')
 })
+
+
+test_that('output from paired sample t test is as expected when alternative is less', {
+
+  x <- cat("                         Paired Samples Statistics                          
+---------------------------------------------------------------------------
+Variables    Obs    Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
+---------------------------------------------------------------------------
+   read       200    52.23      0.72         10.25         50.8      53.66   
+   write      200    52.77      0.67         9.48         51.45      54.09    
+---------------------------------------------------------------------------
+   diff       200    -0.55      0.63         8.89         -1.79       0.69    
+---------------------------------------------------------------------------
+
+         Paired Samples Correlations         
+-------------------------------------------
+  Variables      Obs    Correlation    Sig.
+ read & write    200       0.60        0 
+-------------------------------------------
+
+          Paired Samples Test           
+          -------------------           
+      Ho: mean(read - write) = 0        
+      Ha: mean(read - write) < 0        
+
+---------------------------------------
+  Variables        t       df     Sig.  
+---------------------------------------
+ read - write    -0.873    199    0.192 
+---------------------------------------")
+
+  expect_equivalent(print(paired_ttest(hsb$read, hsb$write, alternative = 'less')), x)
+
+})
+
+test_that('output from paired sample t test is as expected when alternative is greater', {
+
+  x <- cat("                         Paired Samples Statistics                          
+---------------------------------------------------------------------------
+Variables    Obs    Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
+---------------------------------------------------------------------------
+   read       200    52.23      0.72         10.25         50.8      53.66   
+   write      200    52.77      0.67         9.48         51.45      54.09    
+---------------------------------------------------------------------------
+   diff       200    -0.55      0.63         8.89         -1.79       0.69    
+---------------------------------------------------------------------------
+
+         Paired Samples Correlations         
+-------------------------------------------
+  Variables      Obs    Correlation    Sig.
+ read & write    200       0.60        0 
+-------------------------------------------
+
+          Paired Samples Test           
+          -------------------           
+      Ho: mean(read - write) = 0        
+      Ha: mean(read - write) > 0        
+
+---------------------------------------
+  Variables        t       df     Sig.  
+---------------------------------------
+ read - write    -0.873    199    0.808 
+---------------------------------------")
+
+  expect_equivalent(print(paired_ttest(hsb$read, hsb$write, alternative = 'greater')), x)
+
+})
+
+test_that('output from paired sample t test is as expected when alternative is both', {
+
+  x <- cat("                         Paired Samples Statistics                          
+---------------------------------------------------------------------------
+Variables    Obs    Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
+---------------------------------------------------------------------------
+   read       200    52.23      0.72         10.25         50.8      53.66   
+   write      200    52.77      0.67         9.48         51.45      54.09    
+---------------------------------------------------------------------------
+   diff       200    -0.55      0.63         8.89         -1.79       0.69    
+---------------------------------------------------------------------------
+
+         Paired Samples Correlations         
+-------------------------------------------
+  Variables      Obs    Correlation    Sig.
+ read & write    200       0.60        0 
+-------------------------------------------
+
+          Paired Samples Test           
+          -------------------           
+      Ho: mean(read - write) = 0        
+      Ha: mean(read - write) ~= 0       
+
+---------------------------------------
+  Variables        t       df     Sig.  
+---------------------------------------
+ read - write    -0.873    199    0.384 
+---------------------------------------")
+
+  expect_equivalent(print(paired_ttest(hsb$read, hsb$write, alternative = 'both')), x)
+
+})
+
+test_that('output from paired sample t test is as expected when alternative is all', {
+
+  x <- cat("                         Paired Samples Statistics                          
+---------------------------------------------------------------------------
+Variables    Obs    Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
+---------------------------------------------------------------------------
+   read       200    52.23      0.72         10.25         50.8      53.66   
+   write      200    52.77      0.67         9.48         51.45      54.09    
+---------------------------------------------------------------------------
+   diff       200    -0.55      0.63         8.89         -1.79       0.69    
+---------------------------------------------------------------------------
+
+         Paired Samples Correlations         
+-------------------------------------------
+  Variables      Obs    Correlation    Sig.
+ read & write    200       0.60        0 
+-------------------------------------------
+
+                Ho: mean(read - write) = mean(diff) = 0                  
+
+   Ha: mean(diff) < 0      Ha: mean(diff) ~= 0       Ha: mean(diff) > 0    
+       t = -0.873               t = -0.873               t = -0.873        
+     P < t = 0.192           P > |t| = 0.384           P > t = 0.808")
+
+  expect_equivalent(print(paired_ttest(hsb$read, hsb$write, alternative = 'all')), x)
+
+})

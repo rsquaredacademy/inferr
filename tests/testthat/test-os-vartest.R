@@ -30,3 +30,98 @@ test_that('os_vartest returns appropriate errors', {
     expect_error(os_vartest(mtcars$mpg, 0.3, '0.95'),
                  'confint must be numeric')
 })
+
+
+test_that('output from one sample variance test is as expected when alternative is less', {
+
+  x <- cat("                            One-Sample Statistics                             
+-----------------------------------------------------------------------------
+ Variable    Obs     Mean      Std. Err.    Std. Dev.    [95% Conf. Interval] 
+-----------------------------------------------------------------------------
+   mpg       32     20.0906     1.0654       6.0269        3.8737    10.6526   
+-----------------------------------------------------------------------------
+
+            Lower Tail Test           
+            ---------------           
+           Ho: sd(mpg) >= 5           
+            Ha: sd(mpg) < 5            
+
+    Chi-Square Test for Variance      
+-------------------------------------
+ Variable       c       DF      Sig       
+-------------------------------------
+   mpg       45.041     31     0.9506  
+-------------------------------------")
+
+  expect_equivalent(print(os_vartest(mtcars$mpg, 5, alternative = 'less')), x)
+
+})
+
+test_that('output from one sample variance test is as expected when alternative is greater', {
+
+  x <- cat("                            One-Sample Statistics                             
+-----------------------------------------------------------------------------
+ Variable    Obs     Mean      Std. Err.    Std. Dev.    [95% Conf. Interval] 
+-----------------------------------------------------------------------------
+   mpg       32     20.0906     1.0654       6.0269        3.8737    10.6526   
+-----------------------------------------------------------------------------
+
+            Upper Tail Test           
+            ---------------           
+           Ho: sd(mpg) <= 5           
+            Ha: sd(mpg) > 5            
+
+    Chi-Square Test for Variance      
+-------------------------------------
+ Variable       c       DF      Sig    
+-------------------------------------
+   mpg       45.041     31     0.0494  
+-------------------------------------")
+
+  expect_equivalent(print(os_vartest(mtcars$mpg, 5, alternative = 'greater')), x)
+
+})
+
+test_that('output from one sample variance test is as expected when alternative is both', {
+
+  x <- cat("                            One-Sample Statistics                             
+-----------------------------------------------------------------------------
+ Variable    Obs     Mean      Std. Err.    Std. Dev.    [95% Conf. Interval] 
+-----------------------------------------------------------------------------
+   mpg       32     20.0906     1.0654       6.0269        3.8737    10.6526   
+-----------------------------------------------------------------------------
+
+             Two Tail Test            
+            ---------------           
+            Ho: sd(mpg) = 5           
+           Ha: sd(mpg) != 5            
+
+    Chi-Square Test for Variance      
+-------------------------------------
+ Variable       c       DF      Sig    
+-------------------------------------
+   mpg       45.041     31     0.0989  
+-------------------------------------")
+
+  expect_equivalent(print(os_vartest(mtcars$mpg, 5, alternative = 'both')), x)
+
+})
+
+test_that('output from one sample variance test is as expected when alternative is all', {
+
+  x <- cat("                            One-Sample Statistics                             
+-----------------------------------------------------------------------------
+ Variable    Obs     Mean      Std. Err.    Std. Dev.    [95% Conf. Interval] 
+-----------------------------------------------------------------------------
+   mpg       32     20.0906     1.0654       6.0269        3.8737    10.6526   
+-----------------------------------------------------------------------------
+
+                                Ho: sd(mpg) = 5                                
+
+         Ha: sd < 5                Ha: sd != 5                 Ha: sd > 5         
+        c = 45.0412                c = 45.0412                c = 45.0412       
+     Pr(C < c) = 0.9506       2 * Pr(C > c) = 0.0989       Pr(C > c) = 0.0494")
+
+  expect_equivalent(print(os_vartest(mtcars$mpg, 5, alternative = 'all')), x)
+
+})
