@@ -20,4 +20,3 @@ exam
 A dataset containing information about results of three exams.
 }
 \keyword{datasets}
-

@@ -50,4 +50,3 @@ Applied linear statistical models. Boston: McGraw-Hill Irwin.
 \seealso{
 \code{\link[stats]{anova}}
 }
-

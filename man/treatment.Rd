@@ -16,4 +16,3 @@ treatment
 A dataset containing information about two treatments
 }
 \keyword{datasets}
-

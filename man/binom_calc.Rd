@@ -53,4 +53,3 @@ Hoel, P. G. 1984. Introduction to Mathematical Statistics.
 \seealso{
 \code{\link[stats]{binom.test}}
 }
-

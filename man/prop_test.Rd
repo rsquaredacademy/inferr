@@ -62,4 +62,3 @@ Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 \seealso{
 \code{\link[stats]{prop.test}} \code{\link[stats]{binom.test}}
 }
-

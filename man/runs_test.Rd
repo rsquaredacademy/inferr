@@ -65,4 +65,3 @@ Madansky, A. 1988. Prescriptions for Working Statisticians. New York: Springer.
 Swed, F. S., and C. Eisenhart. 1943. Tables for testing randomness of grouping in a sequence of alternatives. Annals
 of Mathematical Statistics 14: 66–87.
 }
-

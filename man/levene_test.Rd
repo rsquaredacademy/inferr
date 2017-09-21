@@ -3,8 +3,8 @@
 \name{levene_test}
 \alias{levene_test}
 \alias{levene_test.default}
-\alias{levene_test.formula}
 \alias{levene_test.lm}
+\alias{levene_test.formula}
 \title{Levene's test for equality of variances}
 \usage{
 levene_test(variable, ...)
@@ -81,4 +81,3 @@ Association 69: 364–367.}
 {Carroll, R. J., and H. Schneider. 1985. A note on Levene’s tests for equality of variances. Statistics and Probability
 Letters 3: 191–194.}
 }
-

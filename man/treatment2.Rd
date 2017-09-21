@@ -16,4 +16,3 @@ treatment2
 A dataset containing information about treatment outcomes
 }
 \keyword{datasets}
-

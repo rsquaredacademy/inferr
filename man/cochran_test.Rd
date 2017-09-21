@@ -32,4 +32,3 @@ cochran_test(exam)
 Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 }
-

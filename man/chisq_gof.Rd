@@ -47,4 +47,3 @@ Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 \seealso{
 \code{\link[stats]{chisq.test}}
 }
-

@@ -64,4 +64,3 @@ Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 \seealso{
 \code{\link[stats]{var.test}}
 }
-
