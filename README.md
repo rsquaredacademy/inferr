@@ -1,10 +1,8 @@
-
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-inferr
+inferr  <img src="inferr.jpg" align="right" />
 ======
 
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/inferr)](https://cran.r-project.org/package=inferr) [![Travis-CI Build Status](https://travis-ci.org/rsquaredacademy/inferr.svg?branch=master)](https://travis-ci.org/rsquaredacademy/inferr) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/rsquaredacademy/inferr?branch=master&svg=true)](https://ci.appveyor.com/project/rsquaredacademy/inferr) [![](https://cranlogs.r-pkg.org/badges/grand-total/inferr)](https://cran.r-project.org/package=inferr) [![Coverage Status](https://img.shields.io/codecov/c/github/rsquaredacademy/inferr/master.svg)](https://codecov.io/github/rsquaredacademy/inferr?branch=master) 
-
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/inferr)](https://cran.r-project.org/package=inferr) [![Travis-CI Build Status](https://travis-ci.org/rsquaredacademy/inferr.svg?branch=master)](https://travis-ci.org/rsquaredacademy/inferr) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/rsquaredacademy/inferr?branch=master&svg=true)](https://ci.appveyor.com/project/rsquaredacademy/inferr) [![stability-stable](https://img.shields.io/badge/stability-stable-green.svg)](https://github.com/joethorley/stability-badges#stable) [![Coverage Status](https://img.shields.io/codecov/c/github/rsquaredacademy/inferr/master.svg)](https://codecov.io/github/rsquaredacademy/inferr?branch=master) [![](https://cranlogs.r-pkg.org/badges/grand-total/inferr)](https://cran.r-project.org/package=inferr)  
 Overview
 --------
 
@@ -200,5 +198,9 @@ mcnemar_test(table(himath, hiread))
 #> odds ratio      1.1667 
 #> ----------------------
 ```
+
+## License
+
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg)]()
 
 Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
