@@ -14,16 +14,25 @@ BugReports: https://github.com/rsquaredacademy/inferr/issues
 Imports:
     dplyr,
     magrittr,
-    Rcpp,
-    tibble,
     purrr,
-    tidyr,
-    shiny
+    Rcpp,
+    shiny,
+    tibble,
+    tidyr
 Suggests:
-    testthat,
     covr,
+    jsonlite,
     knitr,
-    rmarkdown
+    lubridate,
+    readr,
+    readxl,
+    rmarkdown,
+    scales,
+    shinyBS,
+    shinythemes,
+    stringr,
+    testthat,
+    tools
 Encoding: UTF-8
 LazyData: true
 VignetteBuilder: knitr
