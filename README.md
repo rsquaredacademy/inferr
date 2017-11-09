@@ -1,7 +1,9 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-inferr
-======
+inferr: Inferential statistics with R
+-------------------------------------
+
+**Author:** [Aravind Hebbali]()<br/> **License:** [MIT](https://opensource.org/licenses/MIT)
 
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/inferr)](https://cran.r-project.org/package=inferr) [![Travis-CI Build Status](https://travis-ci.org/rsquaredacademy/inferr.svg?branch=master)](https://travis-ci.org/rsquaredacademy/inferr) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/rsquaredacademy/inferr?branch=master&svg=true)](https://ci.appveyor.com/project/rsquaredacademy/inferr) [![](https://cranlogs.r-pkg.org/badges/grand-total/inferr)](https://cran.r-project.org/package=inferr)
 
@@ -49,7 +51,7 @@ devtools::install_github("rsquaredacademy/inferr")
 Shiny App
 ---------
 
-If you want to explore the package using a shiny app, please click [here](http://rsquaredlabs.com:3838/explorer/).
+Use `launch_inferr()` to explore the package using a shiny app.
 
 Vignettes
 ---------
