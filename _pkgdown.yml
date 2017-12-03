@@ -42,7 +42,7 @@ reference:
 - title: Parametric Tests
 
   contents:
-  - ttest
+  - infer_os_t_test
   - paired_ttest
   - ind_ttest
   - infer_binom_test

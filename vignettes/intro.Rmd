@@ -53,7 +53,7 @@ A one sample t-test is used to determine whether a sample of observations comes 
 Using the hsb data, test whether the average of write differs significantly from 50.
 
 ```{r ttest}
-ttest(hsb$write, mu = 50, type = 'all')
+infer_os_t_test(hsb$write, mu = 50, type = 'all')
 ```
 
 ## Paired t test
