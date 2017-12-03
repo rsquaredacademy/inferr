@@ -1,6 +1,6 @@
 #' @importFrom stats qchisq
 #' @title One Sample Variance Comparison Test
-#' @description  \code{os_vartest} performs tests on the equality of standard
+#' @description  \code{infer_os_var_test} performs tests on the equality of standard
 #' deviations (variances).It tests that the standard deviation of a sample is
 #' equal to a hypothesized value.
 #' @param x a numeric vector
@@ -10,8 +10,8 @@
 #' must be one of "both" (default), "greater", "less" or "all". You can specify
 #' just the initial letter
 #' @param ... additional arguments passed to or from other methods
-#' @return \code{os_vartest} returns an object of class \code{"os_vartest"}.
-#' An object of class \code{"os_vartest"} is a list containing the
+#' @return \code{infer_os_var_test} returns an object of class \code{"infer_os_var_test"}.
+#' An object of class \code{"infer_os_var_test"} is a list containing the
 #' following components:
 #'
 #' \item{n}{number of observations}
@@ -29,30 +29,31 @@
 #' \item{var_name}{name of \code{x}}
 #' \item{conf}{confidence level}
 #' \item{type}{alternative hypothesis}
-#'
+#' @section Deprecated Function:
+#' \code{os_vartest()} has been deprecated. Instead use \code{infer_os_var_test()}.
 #' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #' @seealso \code{\link[stats]{var.test}}
 #' @examples
 #' # lower tail
-#' os_vartest(mtcars$mpg, 5, alternative = 'less')
+#' infer_os_var_test(mtcars$mpg, 5, alternative = 'less')
 #'
 #' # upper tail
-#' os_vartest(mtcars$mpg, 5, alternative = 'greater')
+#' infer_os_var_test(mtcars$mpg, 5, alternative = 'greater')
 #'
 #' # both tails
-#' os_vartest(mtcars$mpg, 5, alternative = 'both')
+#' infer_os_var_test(mtcars$mpg, 5, alternative = 'both')
 #'
 #' # all tails
-#' os_vartest(mtcars$mpg, 5, alternative = 'all')
+#' infer_os_var_test(mtcars$mpg, 5, alternative = 'all')
 #' @export
 #'
-os_vartest <- function(x, sd, confint = 0.95,
-	alternative = c('both', 'less', 'greater', 'all'), ...) UseMethod('os_vartest')
+infer_os_var_test <- function(x, sd, confint = 0.95,
+	alternative = c('both', 'less', 'greater', 'all'), ...) UseMethod('infer_os_var_test')
 
 #' @export
 #'
-os_vartest.default <- function(x, sd, confint = 0.95,
+infer_os_var_test.default <- function(x, sd, confint = 0.95,
 	alternative = c('both', 'less', 'greater', 'all'), ...) {
 
 	if (!is.numeric(x)) {
@@ -71,18 +72,30 @@ os_vartest.default <- function(x, sd, confint = 0.95,
 	varname <- l(deparse(substitute(x)))
 	      k <- osvar_comp(x, sd, confint)
 
-	result <- list(n = k$n, sd = k$sd, sigma = k$sigma, se = k$se, chi = k$chi, 
-		df = k$df, p_lower = k$p_lower, p_upper = k$p_upper, p_two = k$p_two, 
-		xbar = k$xbar, c_lwr = k$c_lwr, c_upr = k$c_upr, var_name = varname, 
+	result <- list(n = k$n, sd = k$sd, sigma = k$sigma, se = k$se, chi = k$chi,
+		df = k$df, p_lower = k$p_lower, p_upper = k$p_upper, p_two = k$p_two,
+		xbar = k$xbar, c_lwr = k$c_lwr, c_upr = k$c_upr, var_name = varname,
 		conf = k$conf, type = type)
 
-	class(result) <- 'os_vartest'
+	class(result) <- 'infer_os_var_test'
 	return(result)
 
 }
 
 #' @export
+#' @rdname infer_os_var_test
+#' @usage NULL
 #'
-print.os_vartest <- function(x, ...) {
+os_vartest <- function(x, sd, confint = 0.95,
+                       alternative = c('both', 'less', 'greater', 'all'), ...) {
+
+    .Deprecated("infer_os_var_test()")
+    infer_os_var_test(x, sd, confint, alternative, ...)
+
+}
+
+#' @export
+#'
+print.infer_os_var_test <- function(x, ...) {
   print_os_vartest(x)
 }

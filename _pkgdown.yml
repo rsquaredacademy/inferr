@@ -49,7 +49,7 @@ reference:
   - infer_binom_calc
   - infer_os_prop_test
   - ts_prop_test
-  - os_vartest
+  - infer_os_var_test
   - var_test
   - infer_levene_test
 
