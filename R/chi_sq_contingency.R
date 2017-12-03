@@ -4,8 +4,9 @@
 #' relationship between two categorical variables.
 #' @param x a categorical variable
 #' @param y a categorical variable
-#' @return \code{chisq_test} returns an object of class \code{"chisq_test"}.
-#' An object of class \code{"chisq_test"} is a list containing the
+#' @return \code{infer_chisq_assoc_test} returns an object of class
+#' \code{"infer_chisq_assoc_test"}. An object of class
+#' \code{"infer_chisq_assoc_test"} is a list containing the
 #' following components:
 #'
 #' \item{chi}{chi square}
@@ -21,20 +22,23 @@
 #' \item{cv}{cramer's v}
 #' \item{ds}{product of dimensions of the table of \code{x} and \code{y}}
 #' \item{df}{degrees of freedom}
+#' @section Deprecated Function:
+#' \code{chisq_test()} has been deprecated. Instead use
+#' \code{infer_chisq_assoc_test()}.
 #'
 #' @seealso \code{\link[stats]{chisq.test}}
 #' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #' @examples
-#' chisq_test(as.factor(hsb$female), as.factor(hsb$schtyp))
+#' infer_chisq_assoc_test(as.factor(hsb$female), as.factor(hsb$schtyp))
 #'
-#' chisq_test(as.factor(hsb$female), as.factor(hsb$ses))
+#' infer_chisq_assoc_test(as.factor(hsb$female), as.factor(hsb$ses))
 #' @export
 #'
-chisq_test <- function(x, y) UseMethod('chisq_test')
+infer_chisq_assoc_test <- function(x, y) UseMethod('infer_chisq_assoc_test')
 
 #' @export
-chisq_test.default <- function(x, y) {
+infer_chisq_assoc_test.default <- function(x, y) {
 
     if (!is.factor(x)) {
       stop('x must be a categorical variable')
@@ -61,7 +65,7 @@ chisq_test.default <- function(x, y) {
              m <- lr_chsq(twoway, df, ef)
              n <- yates_chsq(twoway)
              p <- mh_chsq(twoway, n$total, n$prod_totals)
-        
+
     } else {
 
         twoway <- matrix(table(x, y), nrow = dk[1])
@@ -83,12 +87,23 @@ chisq_test.default <- function(x, y) {
            phi = j$phi, cc = j$cc, cv = j$cv, ds = ds)
     }
 
-    class(result) <- 'chisq_test'
+    class(result) <- 'infer_chisq_assoc_test'
     return(result)
 
 }
 
 #' @export
-print.chisq_test <- function(x, ...) {
+#' @rdname infer_chisq_assoc_test
+#' @usage NULL
+#'
+chisq_test <- function(x, y) {
+
+    .Deprecated("infer_chisq_assoc_test()")
+    infer_chisq_assoc_test(x, y)
+
+}
+
+#' @export
+print.infer_chisq_assoc_test <- function(x, ...) {
   print_chisq_test(x)
 }

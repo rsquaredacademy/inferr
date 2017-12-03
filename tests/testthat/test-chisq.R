@@ -1,7 +1,7 @@
 context('chi2-contingency')
 
-test_that('ouput from chisq_test matches the expected result', {
-    k <- chisq_test(as.factor(hsb$female), as.factor(hsb$schtyp))
+test_that('ouput from infer_chisq_assoc_test matches the expected result', {
+    k <- infer_chisq_assoc_test(as.factor(hsb$female), as.factor(hsb$schtyp))
     expect_equal(k$df, 1)
     expect_equal(k$chi, 0.047)
     expect_equal(k$chilr, 0.0471)
@@ -17,8 +17,8 @@ test_that('ouput from chisq_test matches the expected result', {
     expect_equal(k$ds, 4)
 })
 
-test_that('ouput from chisq_test matches the expected result', {
-    k <- chisq_test(as.factor(hsb$female), as.factor(hsb$ses))
+test_that('ouput from infer_chisq_assoc_test matches the expected result', {
+    k <- infer_chisq_assoc_test(as.factor(hsb$female), as.factor(hsb$ses))
     expect_equal(k$df, 2)
     expect_equal(k$chi, 4.5765)
     expect_equal(k$chilr, 4.6789)
@@ -30,43 +30,43 @@ test_that('ouput from chisq_test matches the expected result', {
     expect_equal(k$ds, 6)
 })
 
-test_that('chisq_test throws the appropriate error', {
-    expect_error(chisq_test(as.factor(hsb$female), hsb$ses), 'y must be a categorical variable')
-    expect_error(chisq_test(hsb$female, as.factor(hsb$ses)), 'x must be a categorical variable')
+test_that('infer_chisq_assoc_test throws the appropriate error', {
+    expect_error(infer_chisq_assoc_test(as.factor(hsb$female), hsb$ses), 'y must be a categorical variable')
+    expect_error(infer_chisq_assoc_test(hsb$female, as.factor(hsb$ses)), 'x must be a categorical variable')
 })
 
-test_that('ouput from chisq_test is as expected', {
+test_that('ouput from infer_chisq_assoc_test is as expected', {
 
-    x <- cat("               Chi Square Statistics                 
+    x <- cat("               Chi Square Statistics
 
-Statistics                     DF    Value      Prob 
+Statistics                     DF    Value      Prob
 ----------------------------------------------------
 Chi-Square                     1    0.0470    0.8284
 Likelihood Ratio Chi-Square    1    0.0471    0.8282
 Continuity Adj. Chi-Square     1    0.0005    0.9822
 Mantel-Haenszel Chi-Square     1    0.0468    0.8287
-Phi Coefficient                     0.0153          
-Contingency Coefficient             0.0153          
-Cramer's V                          0.0153          
+Phi Coefficient                     0.0153
+Contingency Coefficient             0.0153
+Cramer's V                          0.0153
 ----------------------------------------------------")
 
-    expect_equivalent(print(chisq_test(as.factor(hsb$female), as.factor(hsb$schtyp))), x)    
+    expect_equivalent(print(infer_chisq_assoc_test(as.factor(hsb$female), as.factor(hsb$schtyp))), x)
 
 })
 
-test_that('ouput from chisq_test 2 is as expected', {
+test_that('ouput from infer_chisq_assoc_test 2 is as expected', {
 
-    x <- cat("               Chi Square Statistics                 
+    x <- cat("               Chi Square Statistics
 
-Statistics                     DF    Value      Prob 
+Statistics                     DF    Value      Prob
 ----------------------------------------------------
 Chi-Square                     2    4.5765    0.1014
 Likelihood Ratio Chi-Square    2    4.6789    0.0964
-Phi Coefficient                     0.1513          
-Contingency Coefficient             0.1496          
-Cramer's V                          0.1513          
+Phi Coefficient                     0.1513
+Contingency Coefficient             0.1496
+Cramer's V                          0.1513
 ----------------------------------------------------")
 
-    expect_equivalent(print(chisq_test(as.factor(hsb$female), as.factor(hsb$ses))), x)    
+    expect_equivalent(print(infer_chisq_assoc_test(as.factor(hsb$female), as.factor(hsb$ses))), x)
 
 })

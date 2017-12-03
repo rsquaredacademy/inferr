@@ -56,7 +56,7 @@ reference:
 - title: Non-parametric Tests
 
   contents:
-  - chisq_test
+  - infer_chisq_assoc_test
   - chisq_gof
   - cochran_test
   - mcnemar_test
