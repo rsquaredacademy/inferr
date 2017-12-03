@@ -3,9 +3,9 @@
 inferr: Inferential statistics with R <img src="inferr.jpg" align="right" />
 ----------------------------------------------------------------------------
 
-**Author:** [Aravind Hebbali]()<br/> **License:** [MIT](https://opensource.org/licenses/MIT)
+**Author:** [Aravind Hebbali](http://www.aravindhebbali.com)<br/> **License:** [MIT](https://opensource.org/licenses/MIT)
 
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/inferr)](https://cran.r-project.org/package=inferr) [![Travis-CI Build Status](https://travis-ci.org/rsquaredacademy/inferr.svg?branch=master)](https://travis-ci.org/rsquaredacademy/inferr) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/rsquaredacademy/inferr?branch=master&svg=true)](https://ci.appveyor.com/project/rsquaredacademy/inferr) [![Coverage Status](https://img.shields.io/codecov/c/github/rsquaredacademy/inferr/master.svg)](https://codecov.io/github/rsquaredacademy/inferr?branch=master) [![](https://cranlogs.r-pkg.org/badges/grand-total/inferr)](https://cran.r-project.org/package=inferr) ![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/inferr)](https://cran.r-project.org/package=inferr) [![Travis-CI Build Status](https://travis-ci.org/rsquaredacademy/inferr.svg?branch=master)](https://travis-ci.org/rsquaredacademy/inferr) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/rsquaredacademy/inferr?branch=master&svg=true)](https://ci.appveyor.com/project/rsquaredacademy/inferr) [![](https://cranlogs.r-pkg.org/badges/grand-total/inferr)](https://cran.r-project.org/package=inferr)
 
 Overview
 --------
@@ -51,7 +51,7 @@ devtools::install_github("rsquaredacademy/inferr")
 Shiny App
 ---------
 
-Use `launch_inferr()` to explore the package using a shiny app.
+Use `infer_launch_shiny_app()` to explore the package using a shiny app.
 
 Vignettes
 ---------
@@ -64,7 +64,7 @@ Usage
 ##### One Sample t Test
 
 ``` r
-ttest(hsb$write, mu = 50, type = 'all')
+infer_os_t_test(hsb$write, mu = 50, type = 'all')
 #>                               One-Sample Statistics                               
 #> ---------------------------------------------------------------------------------
 #>  Variable    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
@@ -82,7 +82,7 @@ ttest(hsb$write, mu = 50, type = 'all')
 ##### ANOVA
 
 ``` r
-owanova(hsb, 'write', 'prog')
+infer_oneway_anova(hsb, 'write', 'prog')
 #>                                 ANOVA                                  
 #> ----------------------------------------------------------------------
 #>                    Sum of                                             
@@ -109,7 +109,7 @@ owanova(hsb, 'write', 'prog')
 ##### Chi Square Test of Independence
 
 ``` r
-chisq_test(as.factor(hsb$female), as.factor(hsb$schtyp))
+infer_chisq_assoc_test(as.factor(hsb$female), as.factor(hsb$schtyp))
 #>                Chi Square Statistics                 
 #> 
 #> Statistics                     DF    Value      Prob 
@@ -127,7 +127,7 @@ chisq_test(as.factor(hsb$female), as.factor(hsb$schtyp))
 ##### Levene's Test
 
 ``` r
-levene_test(hsb$read, group_var = hsb$race)
+infer_levene_test(hsb$read, group_var = hsb$race)
 #>            Summary Statistics             
 #> Levels    Frequency    Mean     Std. Dev  
 #> -----------------------------------------
@@ -152,7 +152,7 @@ levene_test(hsb$read, group_var = hsb$race)
 ##### Cochran's Q Test
 
 ``` r
-cochran_test(exam)
+infer_cochran_qtest(exam)
 #>    Test Statistics     
 #> ----------------------
 #> N                   15 
@@ -167,7 +167,7 @@ cochran_test(exam)
 ``` r
 himath <- ifelse(hsb$math > 60, 1, 0)
 hiread <- ifelse(hsb$read > 60, 1, 0)
-mcnemar_test(table(himath, hiread))
+infer_mcnemar_test(table(himath, hiread))
 #>            Controls 
 #> ---------------------------------
 #> Cases       0       1       Total 
