@@ -5,7 +5,7 @@
 #' @param n number of observations
 #' @param success number of successes
 #' @param prob assumed probability of success on a trial
-#' @param data binary/dichotomous factor 
+#' @param data binary/dichotomous factor
 #' @param ... additional arguments passed to or from other methods
 #' @return \code{binom_test} returns an object of class \code{"binom_test"}.
 #' An object of class \code{"binom_test"} is a list containing the
@@ -20,22 +20,25 @@
 #' \item{lower}{lower one sided p value}
 #' \item{upper}{upper one sided p value}
 #' \item{two_tail}{two sided p value}
+#' @section Deprecated Functions:
+#' \code{binom_calc()} and \code{binom_test()} have been deprecated. Instead use
+#' \code{infer_binom_cal()} and \code{infer_binom_test()}.
 #' @references Hoel, P. G. 1984. Introduction to Mathematical Statistics.
 #' 5th ed. New York: Wiley.
 #'
 #' @seealso \code{\link[stats]{binom.test}}
 #' @examples
 #' # using calculator
-#' binom_calc(32, 13, prob = 0.5)
+#' infer_binom_calc(32, 13, prob = 0.5)
 #'
 #' # using data set
-#' binom_test(as.factor(hsb$female), prob = 0.5)
+#' infer_binom_test(as.factor(hsb$female), prob = 0.5)
 #' @export
 #'
-binom_calc <- function(n, success, prob = 0.5, ...) UseMethod('binom_calc')
+infer_binom_calc <- function(n, success, prob = 0.5, ...) UseMethod('infer_binom_calc')
 
 #' @export
-binom_calc.default <- function(n, success, prob = 0.5, ...) {
+infer_binom_calc.default <- function(n, success, prob = 0.5, ...) {
 
     if (!is.numeric(n)) {
       stop('n must be an integer')
@@ -55,22 +58,33 @@ binom_calc.default <- function(n, success, prob = 0.5, ...) {
 
     k <- binom_comp(n, success, prob)
 
-    out <- list(n = n, k = k$k, exp_k = k$exp_k, obs_p = k$obs_p, 
-           exp_p = k$exp_p, ik = k$ik, lower = k$lower, upper = k$upper, 
+    out <- list(n = n, k = k$k, exp_k = k$exp_k, obs_p = k$obs_p,
+           exp_p = k$exp_p, ik = k$ik, lower = k$lower, upper = k$upper,
            two_tail = k$two_tail)
 
-    class(out) <- 'binom_calc'
+    class(out) <- 'infer_binom_calc'
     return(out)
 }
 
 #' @export
-print.binom_calc <- function(x, ...) {
+#' @rdname infer_binom_calc
+#' @usage NULL
+#'
+binom_calc <- function(n, success, prob = 0.5, ...) {
+
+    .Deprecated("infer_binom_calc()")
+    infer_binom_calc(n, success, prob = 0.5, ...)
+
+}
+
+#' @export
+print.infer_binom_calc <- function(x, ...) {
   print_binom(x)
 }
 
 #' @export
-#' @rdname binom_calc
-binom_test <- function(data, prob = 0.5) {
+#' @rdname infer_binom_calc
+infer_binom_test <- function(data, prob = 0.5) {
 
     if (!is.factor(data)) {
       stop('data must be of type factor', call. = FALSE)
@@ -90,5 +104,16 @@ binom_test <- function(data, prob = 0.5) {
 
     n <- length(data)
     k <- table(data)[[2]]
-    binom_calc.default(n, k, prob)
+    infer_binom_calc.default(n, k, prob)
+}
+
+#' @export
+#' @rdname infer_binom_calc
+#' @usage NULL
+#'
+binom_test <- function(data, prob = 0.5) {
+
+    .Deprecated("infer_binom_test()")
+    infer_binom_test(data, prob = 0.5)
+
 }

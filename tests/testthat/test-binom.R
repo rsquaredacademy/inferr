@@ -1,8 +1,8 @@
 context('binomtest')
 
-test_that('output from binom_calc matches the expected output', {
+test_that('output from infer_binom_calc matches the expected output', {
 
-    k <- binom_calc(32, 8)
+    k <- infer_binom_calc(32, 8)
     expect_equal(k$n, 32)
     expect_equal(k$k, 8)
     expect_equal(k$exp_k, 16)
@@ -13,7 +13,7 @@ test_that('output from binom_calc matches the expected output', {
     expect_equal(k$upper, 0.998949)
     expect_equal(k$two_tail, 0.007)
 
-    k <- binom_calc(32, 20)
+    k <- infer_binom_calc(32, 20)
     expect_equal(k$n, 32)
     expect_equal(k$k, 20)
     expect_equal(k$exp_k, 16)
@@ -26,18 +26,18 @@ test_that('output from binom_calc matches the expected output', {
 
 })
 
-test_that('binom_calc throws the appropriate error', {
-    expect_error(binom_calc('32', 20), 'n must be an integer')
-    expect_error(binom_calc(32, '20'), 'success must be an integer')
-    expect_error(binom_calc(32, 20, '0.5'), 'prob must be numeric')
-    expect_error(binom_calc(32, 20, 1.5), 'prob must be between 0 and 1')
-    expect_error(binom_calc(32, 20, -1.5), 'prob must be between 0 and 1')
+test_that('infer_binom_calc throws the appropriate error', {
+    expect_error(infer_binom_calc('32', 20), 'n must be an integer')
+    expect_error(infer_binom_calc(32, '20'), 'success must be an integer')
+    expect_error(infer_binom_calc(32, 20, '0.5'), 'prob must be numeric')
+    expect_error(infer_binom_calc(32, 20, 1.5), 'prob must be between 0 and 1')
+    expect_error(infer_binom_calc(32, 20, -1.5), 'prob must be between 0 and 1')
 })
 
 
-test_that('output from binom_test matches the expected output', {
+test_that('output from infer_binom_test matches the expected output', {
 
-    k <- binom_test(as.factor(mtcars$vs))
+    k <- infer_binom_test(as.factor(mtcars$vs))
     expect_equal(k$n, 32)
     expect_equal(k$k, 14)
     expect_equal(k$exp_k, 16)
@@ -50,58 +50,58 @@ test_that('output from binom_test matches the expected output', {
 
 })
 
-test_that('binom_test throws the appropriate error', {
-    expect_error(binom_test(mtcars$cyl), 'data must be of type factor')
-    expect_error(binom_test(as.factor(mtcars$am), '0.5'), 'prob must be numeric')
-    expect_error(binom_test(as.factor(mtcars$am), 1.5), 'prob must be between 0 and 1')
-    expect_error(binom_test(as.factor(mtcars$am), -1.5), 'prob must be between 0 and 1')
+test_that('infer_binom_test throws the appropriate error', {
+    expect_error(infer_binom_test(mtcars$cyl), 'data must be of type factor')
+    expect_error(infer_binom_test(as.factor(mtcars$am), '0.5'), 'prob must be numeric')
+    expect_error(infer_binom_test(as.factor(mtcars$am), 1.5), 'prob must be between 0 and 1')
+    expect_error(infer_binom_test(as.factor(mtcars$am), -1.5), 'prob must be between 0 and 1')
 })
 
 
-test_that('output from binom_calc is as expected when k < exp_k', {
+test_that('output from infer_binom_calc is as expected when k < exp_k', {
 
-  x <- cat("            Binomial Test              
+  x <- cat("            Binomial Test
  --------------------------------------
-  Group    N     Obs. Prop    Exp. Prop 
+  Group    N     Obs. Prop    Exp. Prop
  --------------------------------------
-    0      24         0.75        0.500 
-    1       8         0.25        0.500 
+    0      24         0.75        0.500
+    1       8         0.25        0.500
  --------------------------------------
 
 
-                Test Summary                 
+                Test Summary
  -------------------------------------------
-  Tail             Prob             p-value  
+  Tail             Prob             p-value
  -------------------------------------------
-  Lower    Pr(k <= 8)                 0.0035 
-  Upper    Pr(k >= 8)               0.998949 
-  Two      Pr(k <= 8 or k >= 24)       0.007 
+  Lower    Pr(k <= 8)                 0.0035
+  Upper    Pr(k >= 8)               0.998949
+  Two      Pr(k <= 8 or k >= 24)       0.007
  -------------------------------------------")
 
-  expect_equivalent(print(binom_calc(32, 8)), x)
+  expect_equivalent(print(infer_binom_calc(32, 8)), x)
 
 })
 
-test_that('output from binom_calc is as expected when k > exp_k', {
+test_that('output from infer_binom_calc is as expected when k > exp_k', {
 
-  x <- cat("            Binomial Test              
+  x <- cat("            Binomial Test
  --------------------------------------
-  Group    N     Obs. Prop    Exp. Prop 
+  Group    N     Obs. Prop    Exp. Prop
  --------------------------------------
-    0      12        0.375        0.500 
-    1      20        0.625        0.500 
+    0      12        0.375        0.500
+    1      20        0.625        0.500
  --------------------------------------
 
 
-                 Test Summary                 
+                 Test Summary
  --------------------------------------------
-  Tail              Prob             p-value  
+  Tail              Prob             p-value
  --------------------------------------------
-  Lower    Pr(k <= 20)               0.944908 
-  Upper    Pr(k >= 20)               0.107664 
-  Two      Pr(k <= 11 or k >= 20)    0.162756 
+  Lower    Pr(k <= 20)               0.944908
+  Upper    Pr(k >= 20)               0.107664
+  Two      Pr(k <= 11 or k >= 20)    0.162756
  --------------------------------------------")
-  
-  expect_equivalent(print(binom_calc(32, 20)), x)
+
+  expect_equivalent(print(infer_binom_calc(32, 20)), x)
 
 })

@@ -45,8 +45,8 @@ reference:
   - ttest
   - paired_ttest
   - ind_ttest
-  - binom_test
-  - binom_calc
+  - infer_binom_test
+  - infer_binom_calc
   - prop_test
   - ts_prop_test
   - os_vartest

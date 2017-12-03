@@ -198,14 +198,14 @@ Using the hsb data, test whether the proportion of females and males are equal.
 
 ```{r binom_calc}
 # Using variables
-binom_test(as.factor(hsb$female), prob = 0.5)
+infer_binom_test(as.factor(hsb$female), prob = 0.5)
 ```
 
 #### Using Calculator
 
 ```{r binom_calc2}
 # calculator
-binom_calc(32, 16, prob = 0.5)
+infer_binom_calc(32, 16, prob = 0.5)
 ```
 
 ## ANOVA
