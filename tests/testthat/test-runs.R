@@ -3,7 +3,7 @@ context('runs test')
 test_that('output from runs test matches the expected result', {
 
     reg <- lm(mpg ~ disp, data = mtcars)
-    k <- runs_test(residuals(reg))
+    k <- infer_runs_test(residuals(reg))
     expect_equal(k$n, 32)
     expect_equal(round(k$threshold, 3), -0.963)
     expect_equal(k$n_above, 16)
@@ -19,7 +19,7 @@ test_that('output from runs test matches the expected result', {
 test_that('output from runs test matches the expected result', {
 
     reg <- lm(mpg ~ disp, data = mtcars)
-    k <- runs_test(residuals(reg), drop = TRUE)
+    k <- infer_runs_test(residuals(reg), drop = TRUE)
     expect_equal(k$n, 32)
     expect_equal(round(k$threshold, 3), -0.963)
     expect_equal(k$n_above, 16)
@@ -35,7 +35,7 @@ test_that('output from runs test matches the expected result', {
 test_that('output from runs test matches the expected result', {
 
     reg <- lm(mpg ~ disp, data = mtcars)
-    k <- runs_test(residuals(reg), split = TRUE)
+    k <- infer_runs_test(residuals(reg), split = TRUE)
     expect_equal(k$n, 32)
     expect_equal(round(k$threshold, 3), -0.963)
     expect_equal(k$n_above, 16)
@@ -51,7 +51,7 @@ test_that('output from runs test matches the expected result', {
 test_that('output from runs test matches the expected result', {
 
     reg <- lm(mpg ~ disp, data = mtcars)
-    k <- runs_test(residuals(reg), mean = TRUE)
+    k <- infer_runs_test(residuals(reg), mean = TRUE)
     expect_equal(k$n, 32)
     expect_equal(k$threshold, -1.127570e-16)
     expect_equal(k$n_above, 13)
@@ -67,7 +67,7 @@ test_that('output from runs test matches the expected result', {
 test_that('output from runs test matches the expected result', {
 
     reg <- lm(mpg ~ disp, data = mtcars)
-    k <- runs_test(residuals(reg), threshold = 0)
+    k <- infer_runs_test(residuals(reg), threshold = 0)
     expect_equal(k$n, 32)
     expect_equal(round(k$threshold, 3), 0)
     expect_equal(k$n_above, 13)
@@ -81,12 +81,12 @@ test_that('output from runs test matches the expected result', {
 })
 
 
-test_that('runs_test throws appropriate errors', {
+test_that('infer_runs_test throws appropriate errors', {
 
     reg <- lm(mpg ~ disp, data = mtcars)
-    expect_error(runs_test(as.factor(residuals(reg))),
+    expect_error(infer_runs_test(as.factor(residuals(reg))),
                  'x must be numeric or integer')
-    expect_error(runs_test(hsb$female),
+    expect_error(infer_runs_test(hsb$female),
                  'Use 0 as threshold if the data is coded as a binary.')
 
 })
@@ -106,6 +106,6 @@ test_that('output from runs test is as expected', {
  p-value:  0.03105355")
 
   reg <- lm(mpg ~ disp, data = mtcars)
-  expect_equivalent(print(runs_test(residuals(reg))), x)
+  expect_equivalent(print(infer_runs_test(residuals(reg))), x)
 
 })

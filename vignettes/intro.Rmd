@@ -359,19 +359,19 @@ We will use runs test to check regression residuals for serial correlation.
 reg <- lm(mpg ~ disp, data = mtcars)
 
 # basic example
-runs_test(residuals(reg))
+infer_runs_test(residuals(reg))
 
 # drop values equal to threshold
-runs_test(residuals(reg), drop = TRUE)
+infer_runs_test(residuals(reg), drop = TRUE)
 
 # recode data in binary format
-runs_test(residuals(reg), split = TRUE)
+infer_runs_test(residuals(reg), split = TRUE)
 
 # use mean as threshold
-runs_test(residuals(reg), mean = TRUE)
+infer_runs_test(residuals(reg), mean = TRUE)
 
 # threshold to be used for counting runs
-runs_test(residuals(reg), threshold = 0)
+infer_runs_test(residuals(reg), threshold = 0)
 ```
 
 ## Credits

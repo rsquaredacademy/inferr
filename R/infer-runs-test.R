@@ -15,8 +15,8 @@
 #' @param mean logical; if TRUE, mean will be used as threshold
 #' @param threshold threshold to be used for counting runs, specify 0 if data
 #' is coded as a binary.
-#' @return \code{runs_test} returns an object of class \code{"runs_test"}.
-#' An object of class \code{"runs_test"} is a list containing the
+#' @return \code{infer_runs_test} returns an object of class \code{"infer_runs_test"}.
+#' An object of class \code{"infer_runs_test"} is a list containing the
 #' following components:
 #'
 #' \item{n}{number of observations}
@@ -28,7 +28,8 @@
 #' \item{n_runs}{number of runs}
 #' \item{z}{z statistic}
 #' \item{p}{p-value of \code{z}}
-#'
+#' @section Deprecated Function:
+#' \code{runs_test()} has been deprecated. Instead use \code{infer_runs_test()}.
 #' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #'
@@ -41,23 +42,23 @@
 #' of Mathematical Statistics 14: 66–87.
 #' @examples
 #' reg <- lm(mpg ~ disp, data = mtcars)
-#' runs_test(residuals(reg))
+#' infer_runs_test(residuals(reg))
 #'
-#' runs_test(residuals(reg), drop = TRUE)
+#' infer_runs_test(residuals(reg), drop = TRUE)
 #'
-#' runs_test(residuals(reg), split = TRUE)
+#' infer_runs_test(residuals(reg), split = TRUE)
 #'
-#' runs_test(residuals(reg), mean = TRUE)
+#' infer_runs_test(residuals(reg), mean = TRUE)
 #'
-#' runs_test(residuals(reg), threshold = 0)
+#' infer_runs_test(residuals(reg), threshold = 0)
 #' @export
 #'
-runs_test <- function(x, drop = FALSE, split = FALSE, mean = FALSE,
-    threshold = NA) UseMethod("runs_test")
+infer_runs_test <- function(x, drop = FALSE, split = FALSE, mean = FALSE,
+    threshold = NA) UseMethod("infer_runs_test")
 
 #' @export
 #'
-runs_test.default <- function(x, drop = FALSE,
+infer_runs_test.default <- function(x, drop = FALSE,
                               split = FALSE, mean = FALSE,
                               threshold = NA) {
     n <- length(x)
@@ -110,14 +111,25 @@ runs_test.default <- function(x, drop = FALSE,
               mean = exp_runs, var = sd_runs, n_runs = n_runs, z = test_stat,
               p = sig)
 
-    class(result) <- "runs_test"
+    class(result) <- "infer_runs_test"
     return(result)
 
 }
 
+#' @export
+#' @rdname infer_runs_test
+#' @usage NULL
+#'
+runs_test <- function(x, drop = FALSE, split = FALSE, mean = FALSE,
+                      threshold = NA) {
+
+    .Deprecated("infer_runs_test()")
+    infer_runs_test(x, drop, split, mean, threshold)
+
+}
 
 #' @export
 #'
-print.runs_test <- function(x, ...) {
+print.infer_runs_test <- function(x, ...) {
   print_runs_test(x)
 }

@@ -60,7 +60,7 @@ reference:
   - infer_chisq_gof_test
   - infer_cochran_qtest
   - infer_mcnemar_test
-  - runs_test
+  - infer_runs_test
 
 - title: ANOVA
 
