@@ -1,6 +1,6 @@
 #' @importFrom stats pnorm
 #' @title One Sample Test of Proportion
-#' @description  \code{prop_test} compares proportion in one group to a
+#' @description  \code{infer_os_prop_test} compares proportion in one group to a
 #' specified population proportion.
 #' @param n number of observations
 #' @param prob hypothesised proportion
@@ -9,8 +9,8 @@
 #' must be one of "both" (default), "greater", "less" or "all". You can specify
 #' just the initial letter.
 #' @param ... other arguments
-#' @return \code{prop_test} returns an object of class \code{"prop_test"}.
-#' An object of class \code{"prop_test"} is a list containing the
+#' @return \code{infer_os_prop_test} returns an object of class \code{"infer_os_prop_test"}.
+#' An object of class \code{"infer_os_prop_test"} is a list containing the
 #' following components:
 #'
 #' \item{n}{number of observations}
@@ -23,25 +23,26 @@
 #' \item{exp}{expected number of 0's and 1's}
 #' \item{deviation}{deviation of observed from expected}
 #' \item{std}{standardized resiudals}
-#'
+#' @section Deprecated Function:
+#' \code{prop_test()} has been deprecated. Instead use \code{infer_os_prop_test()}.
 #' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #' @seealso \code{\link[stats]{prop.test}} \code{\link[stats]{binom.test}}
 #' @examples
 #' # use as a calculator
-#' prop_test(200, prob = 0.5, phat = 0.3)
+#' infer_os_prop_test(200, prob = 0.5, phat = 0.3)
 #'
 #' # using data set
-#' prop_test(as.factor(hsb$female), prob = 0.5)
+#' infer_os_prop_test(as.factor(hsb$female), prob = 0.5)
 #' @export
 #'
-prop_test <- function(n, prob = 0.5, alternative = c('both', 'less',
-  'greater', 'all'),...) UseMethod('prop_test')
+infer_os_prop_test <- function(n, prob = 0.5, alternative = c('both', 'less',
+  'greater', 'all'),...) UseMethod('infer_os_prop_test')
 
 #' @export
-#' @rdname prop_test
+#' @rdname infer_os_prop_test
 #'
-prop_test.default <- function(n, prob = 0.5,
+infer_os_prop_test.default <- function(n, prob = 0.5,
                       alternative = c('both', 'less', 'greater', 'all'), phat, ...) {
 
 
@@ -67,27 +68,39 @@ prop_test.default <- function(n, prob = 0.5,
 
   method <- match.arg(alternative)
   k <- prop_comp(n, prob, method, phat)
-	
-  result <- list(n = k$n, phat = k$phat, p = k$p, z = k$z, sig = k$sig, 
-      alt = k$alt, obs = k$obs, exp = k$exp, deviation = k$deviation, 
+
+  result <- list(n = k$n, phat = k$phat, p = k$p, z = k$z, sig = k$sig,
+      alt = k$alt, obs = k$obs, exp = k$exp, deviation = k$deviation,
             std = k$std)
 
-    class(result) <- 'prop_test'
+    class(result) <- 'infer_os_prop_test'
     return(result)
 
 }
 
 #' @export
+#' @rdname infer_os_prop_test
+#' @usage NULL
 #'
-print.prop_test <- function(x, ...) {
+prop_test <- function(n, prob = 0.5,
+                      alternative = c('both', 'less', 'greater', 'all'), phat, ...) {
+
+    .Deprecated("infer_os_prop_test()")
+    infer_os_prop_test(n, prob, alternative, phat, ...)
+
+}
+
+#' @export
+#'
+print.infer_os_prop_test <- function(x, ...) {
   print_prop_test(x)
 }
 
 
 #' @export
-#' @rdname prop_test
+#' @rdname infer_os_prop_test
 #'
-prop_test.factor <- function(n, prob = 0.5,
+infer_os_prop_test.factor <- function(n, prob = 0.5,
   alternative = c('both', 'less', 'greater', 'all'), ...) {
 
   if (!is.numeric(prob)) {
@@ -109,6 +122,6 @@ prop_test.factor <- function(n, prob = 0.5,
   prob <- prob
   alternative <- alternative
 
-  prop_test.default(n1, prob, alternative, phat)
+  infer_os_prop_test.default(n1, prob, alternative, phat)
 
 }

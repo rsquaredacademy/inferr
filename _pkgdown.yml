@@ -47,7 +47,7 @@ reference:
   - ind_ttest
   - infer_binom_test
   - infer_binom_calc
-  - prop_test
+  - infer_os_prop_test
   - ts_prop_test
   - os_vartest
   - var_test
