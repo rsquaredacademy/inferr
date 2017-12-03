@@ -109,7 +109,7 @@ levene_test(hsb$read, group_var = hsb$race)
 ##### Cochran's Q Test
 
 ```{r cochran}
-cochran_test(exam)
+infer_cochran_qtest(exam)
 ```
 
 ##### McNemar Test

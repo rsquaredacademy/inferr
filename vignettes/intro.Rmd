@@ -316,7 +316,7 @@ Cochran's Q test is an extension to the McNemar test for related samples that pr
 The exam data set contains scores of 15 students for three exams (exam1, exam2, exam3). Test if three exams are equally difficult.
 
 ```{r cochran}
-cochran_test(exam)
+infer_cochran_qtest(exam)
 ```
 
 ## McNemar Test

@@ -58,7 +58,7 @@ reference:
   contents:
   - infer_chisq_assoc_test
   - infer_chisq_gof_test
-  - cochran_test
+  - infer_cochran_qtest
   - mcnemar_test
   - runs_test
 
