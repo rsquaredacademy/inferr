@@ -1,8 +1,8 @@
 context('paired t test')
 
-test_that('output from paired_ttest matches expected output', {
+test_that('output from infer_ts_paired_ttest matches expected output', {
 
-    k <- paired_ttest(mtcars$mpg, mtcars$qsec)
+    k <- infer_ts_paired_ttest(mtcars$mpg, mtcars$qsec)
     expect_equal(k$Obs, 32)
     expect_equal(unname(k$b[[1]]), c(20.09, 17.85, 2.24))
     expect_equal(unname(k$b[[2]]), c(6.03, 1.79, 5.52))
@@ -25,139 +25,139 @@ test_that('output from paired_ttest matches expected output', {
 })
 
 
-test_that('paired_ttest throws appropriate error', {
-    expect_error(paired_ttest(as.factor(mtcars$mpg), mtcars$qsec),
+test_that('infer_ts_paired_ttest throws appropriate error', {
+    expect_error(infer_ts_paired_ttest(as.factor(mtcars$mpg), mtcars$qsec),
                  'x must be numeric')
-    expect_error(paired_ttest(mtcars$mpg, as.factor(mtcars$qsec)),
+    expect_error(infer_ts_paired_ttest(mtcars$mpg, as.factor(mtcars$qsec)),
                  'y must be numeric')
-    expect_error(paired_ttest(mtcars$mpg, mtcars$qsec, '0.95'),
+    expect_error(infer_ts_paired_ttest(mtcars$mpg, mtcars$qsec, '0.95'),
                  'confint must be numeric')
 })
 
 
 test_that('output from paired sample t test is as expected when alternative is less', {
 
-  x <- cat("                         Paired Samples Statistics                          
+  x <- cat("                         Paired Samples Statistics
 ---------------------------------------------------------------------------
-Variables    Obs    Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
+Variables    Obs    Mean     Std. Err.    Std. Dev.    [95% Conf. Interval]
 ---------------------------------------------------------------------------
-   read       200    52.23      0.72         10.25         50.8      53.66   
-   write      200    52.77      0.67         9.48         51.45      54.09    
+   read       200    52.23      0.72         10.25         50.8      53.66
+   write      200    52.77      0.67         9.48         51.45      54.09
 ---------------------------------------------------------------------------
-   diff       200    -0.55      0.63         8.89         -1.79       0.69    
+   diff       200    -0.55      0.63         8.89         -1.79       0.69
 ---------------------------------------------------------------------------
 
-         Paired Samples Correlations         
+         Paired Samples Correlations
 -------------------------------------------
   Variables      Obs    Correlation    Sig.
- read & write    200       0.60        0 
+ read & write    200       0.60        0
 -------------------------------------------
 
-          Paired Samples Test           
-          -------------------           
-      Ho: mean(read - write) = 0        
-      Ha: mean(read - write) < 0        
+          Paired Samples Test
+          -------------------
+      Ho: mean(read - write) = 0
+      Ha: mean(read - write) < 0
 
 ---------------------------------------
-  Variables        t       df     Sig.  
+  Variables        t       df     Sig.
 ---------------------------------------
- read - write    -0.873    199    0.192 
+ read - write    -0.873    199    0.192
 ---------------------------------------")
 
-  expect_equivalent(print(paired_ttest(hsb$read, hsb$write, alternative = 'less')), x)
+  expect_equivalent(print(infer_ts_paired_ttest(hsb$read, hsb$write, alternative = 'less')), x)
 
 })
 
 test_that('output from paired sample t test is as expected when alternative is greater', {
 
-  x <- cat("                         Paired Samples Statistics                          
+  x <- cat("                         Paired Samples Statistics
 ---------------------------------------------------------------------------
-Variables    Obs    Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
+Variables    Obs    Mean     Std. Err.    Std. Dev.    [95% Conf. Interval]
 ---------------------------------------------------------------------------
-   read       200    52.23      0.72         10.25         50.8      53.66   
-   write      200    52.77      0.67         9.48         51.45      54.09    
+   read       200    52.23      0.72         10.25         50.8      53.66
+   write      200    52.77      0.67         9.48         51.45      54.09
 ---------------------------------------------------------------------------
-   diff       200    -0.55      0.63         8.89         -1.79       0.69    
+   diff       200    -0.55      0.63         8.89         -1.79       0.69
 ---------------------------------------------------------------------------
 
-         Paired Samples Correlations         
+         Paired Samples Correlations
 -------------------------------------------
   Variables      Obs    Correlation    Sig.
- read & write    200       0.60        0 
+ read & write    200       0.60        0
 -------------------------------------------
 
-          Paired Samples Test           
-          -------------------           
-      Ho: mean(read - write) = 0        
-      Ha: mean(read - write) > 0        
+          Paired Samples Test
+          -------------------
+      Ho: mean(read - write) = 0
+      Ha: mean(read - write) > 0
 
 ---------------------------------------
-  Variables        t       df     Sig.  
+  Variables        t       df     Sig.
 ---------------------------------------
- read - write    -0.873    199    0.808 
+ read - write    -0.873    199    0.808
 ---------------------------------------")
 
-  expect_equivalent(print(paired_ttest(hsb$read, hsb$write, alternative = 'greater')), x)
+  expect_equivalent(print(infer_ts_paired_ttest(hsb$read, hsb$write, alternative = 'greater')), x)
 
 })
 
 test_that('output from paired sample t test is as expected when alternative is both', {
 
-  x <- cat("                         Paired Samples Statistics                          
+  x <- cat("                         Paired Samples Statistics
 ---------------------------------------------------------------------------
-Variables    Obs    Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
+Variables    Obs    Mean     Std. Err.    Std. Dev.    [95% Conf. Interval]
 ---------------------------------------------------------------------------
-   read       200    52.23      0.72         10.25         50.8      53.66   
-   write      200    52.77      0.67         9.48         51.45      54.09    
+   read       200    52.23      0.72         10.25         50.8      53.66
+   write      200    52.77      0.67         9.48         51.45      54.09
 ---------------------------------------------------------------------------
-   diff       200    -0.55      0.63         8.89         -1.79       0.69    
+   diff       200    -0.55      0.63         8.89         -1.79       0.69
 ---------------------------------------------------------------------------
 
-         Paired Samples Correlations         
+         Paired Samples Correlations
 -------------------------------------------
   Variables      Obs    Correlation    Sig.
- read & write    200       0.60        0 
+ read & write    200       0.60        0
 -------------------------------------------
 
-          Paired Samples Test           
-          -------------------           
-      Ho: mean(read - write) = 0        
-      Ha: mean(read - write) ~= 0       
+          Paired Samples Test
+          -------------------
+      Ho: mean(read - write) = 0
+      Ha: mean(read - write) ~= 0
 
 ---------------------------------------
-  Variables        t       df     Sig.  
+  Variables        t       df     Sig.
 ---------------------------------------
- read - write    -0.873    199    0.384 
+ read - write    -0.873    199    0.384
 ---------------------------------------")
 
-  expect_equivalent(print(paired_ttest(hsb$read, hsb$write, alternative = 'both')), x)
+  expect_equivalent(print(infer_ts_paired_ttest(hsb$read, hsb$write, alternative = 'both')), x)
 
 })
 
 test_that('output from paired sample t test is as expected when alternative is all', {
 
-  x <- cat("                         Paired Samples Statistics                          
+  x <- cat("                         Paired Samples Statistics
 ---------------------------------------------------------------------------
-Variables    Obs    Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
+Variables    Obs    Mean     Std. Err.    Std. Dev.    [95% Conf. Interval]
 ---------------------------------------------------------------------------
-   read       200    52.23      0.72         10.25         50.8      53.66   
-   write      200    52.77      0.67         9.48         51.45      54.09    
+   read       200    52.23      0.72         10.25         50.8      53.66
+   write      200    52.77      0.67         9.48         51.45      54.09
 ---------------------------------------------------------------------------
-   diff       200    -0.55      0.63         8.89         -1.79       0.69    
+   diff       200    -0.55      0.63         8.89         -1.79       0.69
 ---------------------------------------------------------------------------
 
-         Paired Samples Correlations         
+         Paired Samples Correlations
 -------------------------------------------
   Variables      Obs    Correlation    Sig.
- read & write    200       0.60        0 
+ read & write    200       0.60        0
 -------------------------------------------
 
-                Ho: mean(read - write) = mean(diff) = 0                  
+                Ho: mean(read - write) = mean(diff) = 0
 
-   Ha: mean(diff) < 0      Ha: mean(diff) ~= 0       Ha: mean(diff) > 0    
-       t = -0.873               t = -0.873               t = -0.873        
+   Ha: mean(diff) < 0      Ha: mean(diff) ~= 0       Ha: mean(diff) > 0
+       t = -0.873               t = -0.873               t = -0.873
      P < t = 0.192           P > |t| = 0.384           P > t = 0.808")
 
-  expect_equivalent(print(paired_ttest(hsb$read, hsb$write, alternative = 'all')), x)
+  expect_equivalent(print(infer_ts_paired_ttest(hsb$read, hsb$write, alternative = 'all')), x)
 
 })

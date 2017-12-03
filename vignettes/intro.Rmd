@@ -66,10 +66,10 @@ Using the hsb data, test whether the mean of read is equal to the mean of write.
 
 ```{r pair1}
 # Lower Tail Test
-paired_ttest(hsb$read, hsb$write, alternative = 'less')
+infer_ts_paired_ttest(hsb$read, hsb$write, alternative = 'less')
 
 # Test all alternatives
-paired_ttest(hsb$read, hsb$write, alternative = 'all')
+infer_ts_paired_ttest(hsb$read, hsb$write, alternative = 'all')
 ```
 
 ## Two Independent Sample t Test
