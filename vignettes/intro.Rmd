@@ -120,7 +120,7 @@ Two sample test of proportion performs tests on the equality of proportions usin
 Using the treatment data, test equality of proportion of two treatments
 ```{r ts_prop1}
 # Using Variables
-ts_prop_test(var1 = treatment$treatment1, var2 = treatment$treatment2, alternative = 'all')
+infer_ts_prop_test(var1 = treatment$treatment1, var2 = treatment$treatment2, alternative = 'all')
 ```
 
 #### Use Grouping Variable
@@ -129,7 +129,7 @@ Using the treatment2 data, test whether outcome has same proportion for male and
 
 ```{r ts_prop2}
 # Using Grouping Variable
-ts_prop_grp(var = treatment2$outcome, group = treatment2$female, alternative = 'all')
+infer_ts_prop_grp(var = treatment2$outcome, group = treatment2$female, alternative = 'all')
 ```
 
 #### Using Calculator
@@ -141,7 +141,7 @@ review.
 
 ```{r ts_prop3}
 # Calculator
-ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'all')
+infer_ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'all')
 ```
 
 ## One Sample Variance Test
