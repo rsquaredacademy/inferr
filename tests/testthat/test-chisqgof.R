@@ -1,8 +1,8 @@
 context('chi2-gof')
 
-test_that('output from chisq_gof matches the expected output', {
+test_that('output from infer_chisq_gof_test matches the expected output', {
 
-  k <- chisq_gof(as.factor(hsb$race), c(20, 20, 20 , 140))
+  k <- infer_chisq_gof_test(as.factor(hsb$race), c(20, 20, 20 , 140))
   expect_equal(k$chisquare, 5.0286)
   expect_equal(k$pvalue, 0.1697)
   expect_equal(k$df, 3)
@@ -18,9 +18,9 @@ test_that('output from chisq_gof matches the expected output', {
 })
 
 
-test_that('output from chisq_gof matches the expected output', {
+test_that('output from infer_chisq_gof_test matches the expected output', {
 
-  k <- chisq_gof(as.factor(hsb$race), c(0.1, 0.1, 0.1 , 0.7))
+  k <- infer_chisq_gof_test(as.factor(hsb$race), c(0.1, 0.1, 0.1 , 0.7))
   expect_equal(k$chisquare, 5.0286)
   expect_equal(k$pvalue, 0.1697)
   expect_equal(k$df, 3)
@@ -35,9 +35,9 @@ test_that('output from chisq_gof matches the expected output', {
 
 })
 
-test_that('output from chisq_gof matches the expected output', {
+test_that('output from infer_chisq_gof_test matches the expected output', {
 
-  k <- chisq_gof(as.factor(hsb$race), c(20, 20, 20 , 140), correct = TRUE)
+  k <- infer_chisq_gof_test(as.factor(hsb$race), c(20, 20, 20 , 140), correct = TRUE)
   expect_equal(k$chisquare, 4.3821)
   expect_equal(k$pvalue, 0.2231)
   expect_equal(k$df, 3)
@@ -53,37 +53,37 @@ test_that('output from chisq_gof matches the expected output', {
 })
 
 
-test_that('chisq_gof throws appropriate errors', {
+test_that('infer_chisq_gof_test throws appropriate errors', {
 
-  expect_error(chisq_gof(as.factor(hsb$race), c(20, 20, 20 , 140), correct = 'FALSE'),
+  expect_error(infer_chisq_gof_test(as.factor(hsb$race), c(20, 20, 20 , 140), correct = 'FALSE'),
     'correct must be either TRUE or FALSE')
-  expect_error(chisq_gof(as.factor(hsb$race), c('20', '20', '20' , '140')),
+  expect_error(infer_chisq_gof_test(as.factor(hsb$race), c('20', '20', '20' , '140')),
     'y must be numeric')
-  expect_error(chisq_gof(as.factor(hsb$race), c(20, 20, 20)),
+  expect_error(infer_chisq_gof_test(as.factor(hsb$race), c(20, 20, 20)),
     'Length of y must be equal to the number of categories in x')
 
 })
 
 
-test_that('output from chisq_gof is as expected', {
+test_that('output from infer_chisq_gof_test is as expected', {
 
-  x <- cat("    Test Statistics     
+  x <- cat("    Test Statistics
 -----------------------
-Chi-Square       5.0286 
-DF                    3 
-Pr > Chi Sq      0.1697 
-Sample Size         200 
+Chi-Square       5.0286
+DF                    3
+Pr > Chi Sq      0.1697
+Sample Size         200
 
-                         Variable: race)                          
+                         Variable: race)
 -----------------------------------------------------------------
-Category    Observed    Expected    % Deviation    Std. Residuals 
+Category    Observed    Expected    % Deviation    Std. Residuals
 -----------------------------------------------------------------
-   1           24          20          20.00            0.89      
-   2           11          20         -45.00           -2.01      
-   3           20          20           0.00            0.00      
-   4          145         140           3.57            0.42      
+   1           24          20          20.00            0.89
+   2           11          20         -45.00           -2.01
+   3           20          20           0.00            0.00
+   4          145         140           3.57            0.42
 -----------------------------------------------------------------")
 
-  expect_equivalent(print(chisq_gof(as.factor(hsb$race), c(20, 20, 20, 140))), x)
+  expect_equivalent(print(infer_chisq_gof_test(as.factor(hsb$race), c(20, 20, 20, 140))), x)
 
 })

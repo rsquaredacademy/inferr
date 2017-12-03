@@ -4,9 +4,9 @@
 #' @param x categorical variable
 #' @param y expected proportions
 #' @param correct logical; if TRUE continuity correction is applied
-#' @return \code{chisq_gof} returns an object of class \code{"chisq_gof"}.
-#' An object of class \code{"chisq_gof"} is a list containing the
-#' following components:
+#' @return \code{infer_chisq_gof_test} returns an object of class
+#' \code{"infer_chisq_gof_test"}. An object of class \code{"infer_chisq_gof_test"}
+#' is a list containing the following components:
 #'
 #' \item{chisquare}{chi square statistic}
 #' \item{pvalue}{p-value}
@@ -19,21 +19,24 @@
 #' \item{deviation}{deviation of observed from frequency}
 #' \item{std}{standardized residuals}
 #' \item{varname}{name of categorical variable}
+#' @section Deprecated Function:
+#' \code{chisq_gof()} has been deprecated. Instead use
+#' \code{infer_chisq_gof_test()}
 #'
 #' @seealso \code{\link[stats]{chisq.test}}
 #' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #' @examples
-#' chisq_gof(as.factor(hsb$race), c(20, 20, 20, 140))
+#' infer_chisq_gof_test(as.factor(hsb$race), c(20, 20, 20, 140))
 #'
 #' # apply continuity correction
-#' chisq_gof(as.factor(hsb$race), c(20, 20, 20, 140), correct = TRUE)
+#' infer_chisq_gof_test(as.factor(hsb$race), c(20, 20, 20, 140), correct = TRUE)
 #' @export
 #'
-chisq_gof <- function(x, y, correct = FALSE) UseMethod('chisq_gof')
+infer_chisq_gof_test <- function(x, y, correct = FALSE) UseMethod('infer_chisq_gof_test')
 
 #' @export
-chisq_gof.default <- function(x, y, correct = FALSE) {
+infer_chisq_gof_test.default <- function(x, y, correct = FALSE) {
 
 	if (!is.factor(x)) {
 		stop('x must be an object of class factor')
@@ -61,7 +64,7 @@ chisq_gof.default <- function(x, y, correct = FALSE) {
     if (sum(y) == 1) {
         y <- length(x1) * y
     }
-    
+
     if ((df == 1) || (correct == TRUE)) {
         k <- chi_cort(x, y)
     } else {
@@ -75,11 +78,22 @@ chisq_gof.default <- function(x, y, correct = FALSE) {
     	deviation = format(k$dev, nsmall = 2), std = format(k$std, nsmall = 2),
     	  varname = varname)
 
-    class(result) <- 'chisq_gof'
+    class(result) <- 'infer_chisq_gof_test'
     return(result)
 }
 
 #' @export
-print.chisq_gof <- function(x, ...) {
+#' @rdname infer_chisq_gof_test
+#' @usage NULL
+#'
+chisq_gof <- function(x, y, correct = FALSE) {
+
+    .Deprecated("infer_chisq_gof_test()")
+    infer_chisq_gof_test(x, y, correct = FALSE)
+
+}
+
+#' @export
+print.infer_chisq_gof_test <- function(x, ...) {
 	print_chisq_gof(x)
 }
