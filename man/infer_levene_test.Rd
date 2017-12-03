@@ -47,7 +47,7 @@ following components:
 \item{type}{alternative hypothesis}
 }
 \description{
-\code{levene_test} reports Levene's robust test statistic
+\code{infer_levene_test} reports Levene's robust test statistic
 for the equality of variances and the
 two statistics proposed by Brown and Forsythe that replace the mean in
 Levene's formula with alternative location estimators. The first alternative

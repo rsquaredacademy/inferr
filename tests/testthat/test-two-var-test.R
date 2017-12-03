@@ -1,8 +1,8 @@
 context('two sample variance test')
 
-test_that('output from var_test matches expected result', {
+test_that('output from infer_ts_var_test matches expected result', {
 
-    k <- var_test(mtcars$mpg, group_var = mtcars$vs)
+    k <- infer_ts_var_test(mtcars$mpg, group_var = mtcars$vs)
     expect_equal(k$f, 0.5151)
     expect_equal(k$lower, 0.0999)
     expect_equal(k$upper, 0.9001)
@@ -22,9 +22,9 @@ test_that('output from var_test matches expected result', {
 
 })
 
-test_that('output from var_test matches expected result', {
+test_that('output from infer_ts_var_test matches expected result', {
 
-    k <- var_test(mtcars$mpg, mtcars$qsec)
+    k <- infer_ts_var_test(mtcars$mpg, mtcars$qsec)
     expect_equal(k$f, 11.3756)
     expect_equal(k$lower, 1)
     expect_equal(k$upper, 0)
@@ -47,89 +47,89 @@ test_that('output from var_test matches expected result', {
 
 test_that('output from 2 sample variance test is as expected when alternative is less', {
 
-  x <- cat("               Variance Ratio Test                 
+  x <- cat("               Variance Ratio Test
 --------------------------------------------------
-  Group      Obs    Mean     Std. Err.    Std. Dev. 
+  Group      Obs    Mean     Std. Err.    Std. Dev.
 --------------------------------------------------
-  read      200    52.23      0.72         10.25   
- write      200    52.77      0.67         9.48    
+  read      200    52.23      0.72         10.25
+ write      200    52.77      0.67         9.48
 --------------------------------------------------
- combined    400    52.5       0.49         9.86    
+ combined    400    52.5       0.49         9.86
 --------------------------------------------------
 
-           Lower Tail Test           
-           ---------------           
-      ratio = sd(read) / (write)     
-            Ho: ratio = 1            
-            Ha: ratio < 1             
+           Lower Tail Test
+           ---------------
+      ratio = sd(read) / (write)
+            Ho: ratio = 1
+            Ha: ratio < 1
 
-        Variance Ratio Test          
+        Variance Ratio Test
 ------------------------------------
-   F       Num DF    Den DF      p    
+   F       Num DF    Den DF      p
 ------------------------------------
- 1.1701     199       199      0.8656 
+ 1.1701     199       199      0.8656
 ------------------------------------")
 
-  expect_equivalent(print(var_test(hsb$read, hsb$write, alternative = 'less')), x)
+  expect_equivalent(print(infer_ts_var_test(hsb$read, hsb$write, alternative = 'less')), x)
 
 })
 
 test_that('output from 2 sample variance test is as expected when alternative is greater', {
 
-  x <- cat("               Variance Ratio Test                 
+  x <- cat("               Variance Ratio Test
 --------------------------------------------------
-  Group      Obs    Mean     Std. Err.    Std. Dev. 
+  Group      Obs    Mean     Std. Err.    Std. Dev.
 --------------------------------------------------
-  read      200    52.23      0.72         10.25   
- write      200    52.77      0.67         9.48    
+  read      200    52.23      0.72         10.25
+ write      200    52.77      0.67         9.48
 --------------------------------------------------
- combined    400    52.5       0.49         9.86    
+ combined    400    52.5       0.49         9.86
 --------------------------------------------------
 
-           Upper Tail Test           
-           ---------------           
-            Ho: ratio = 1            
-            Ha: ratio > 1             
+           Upper Tail Test
+           ---------------
+            Ho: ratio = 1
+            Ha: ratio > 1
 
-        Variance Ratio Test          
+        Variance Ratio Test
 ------------------------------------
-   F       Num DF    Den DF      p    
+   F       Num DF    Den DF      p
 ------------------------------------
- 1.1701     199       199      0.1344 
+ 1.1701     199       199      0.1344
 ------------------------------------")
 
-  expect_equivalent(print(var_test(hsb$read, hsb$write, alternative = 'greater')), x)
+  expect_equivalent(print(infer_ts_var_test(hsb$read, hsb$write, alternative = 'greater')), x)
 
 })
 
 test_that('output from 2 sample variance test is as expected when alternative is all', {
 
-  x <- cat("               Variance Ratio Test                 
+  x <- cat("               Variance Ratio Test
 --------------------------------------------------
-  Group      Obs    Mean     Std. Err.    Std. Dev. 
+  Group      Obs    Mean     Std. Err.    Std. Dev.
 --------------------------------------------------
-  read      200    52.23      0.72         10.25   
- write      200    52.77      0.67         9.48    
+  read      200    52.23      0.72         10.25
+ write      200    52.77      0.67         9.48
 --------------------------------------------------
- combined    400    52.5       0.49         9.86    
---------------------------------------------------
-
-                Variance Ratio Test                 
---------------------------------------------------
-        F              Num DF           Den DF      
---------------------------------------------------
-      1.1701            199              199        
+ combined    400    52.5       0.49         9.86
 --------------------------------------------------
 
-       Null & Alternate Hypothesis        
+                Variance Ratio Test
+--------------------------------------------------
+        F              Num DF           Den DF
+--------------------------------------------------
+      1.1701            199              199
+--------------------------------------------------
+
+       Null & Alternate Hypothesis
 ----------------------------------------
-       ratio = sd(read) / (write)       
-              Ho: ratio = 1              
+       ratio = sd(read) / (write)
+              Ho: ratio = 1
 
-    Ha: ratio < 1        Ha: ratio > 1    
-  Pr(F < f) = 0.8656   Pr(F > f) = 0.1344 
+    Ha: ratio < 1        Ha: ratio > 1
+  Pr(F < f) = 0.8656   Pr(F > f) = 0.1344
 ----------------------------------------")
 
-  expect_equivalent(print(var_test(hsb$read, hsb$write, alternative = 'all')), x)
+  expect_equivalent(print(infer_ts_var_test(hsb$read, hsb$write, alternative = 'all')), x)
 
 })

@@ -1,7 +1,7 @@
 #' @importFrom stats complete.cases
 #' @importFrom purrr map_dbl
 #' @title Two Sample Variance Comparison Test
-#' @description  \code{var_test} performs tests on the equality of standard
+#' @description  \code{infer_ts_var_test} performs tests on the equality of standard
 #' deviations (variances).
 #' @param variable a numeric vector
 #' @param group_var a grouping variable
@@ -9,8 +9,8 @@
 #' @param alternative a character string specifying the alternative hypothesis,
 #' must be one of "both" (default), "greater", "less" or "all". You can specify
 #' just the initial letter.
-#' @return \code{var_test} returns an object of class \code{"var_test"}.
-#' An object of class \code{"var_test"} is a list containing the
+#' @return \code{infer_ts_var_test} returns an object of class \code{"infer_ts_var_test"}.
+#' An object of class \code{"infer_ts_var_test"} is a list containing the
 #' following components:
 #'
 #' \item{f}{f statistic}
@@ -30,39 +30,40 @@
 #' \item{len}{number of observations}
 #' \item{lev}{levels of the grouping variable}
 #' \item{type}{alternative hypothesis}
-#'
+#' @section Deprecated Function:
+#' \code{var_test()} has been deprecated. Instead use \code{infer_ts_var_test()}.
 #' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #' @seealso \code{\link[stats]{var.test}}
 #' @examples
 #' # using grouping variable
 #' # lower tail
-#' var_test(mtcars$mpg, group_var = mtcars$vs, alternative = 'less')
+#' infer_ts_var_test(mtcars$mpg, group_var = mtcars$vs, alternative = 'less')
 #'
 #' # upper tail
-#' var_test(mtcars$mpg, group_var = mtcars$vs, alternative = 'greater')
+#' infer_ts_var_test(mtcars$mpg, group_var = mtcars$vs, alternative = 'greater')
 #'
 #' # all tails
-#' var_test(mtcars$mpg, group_var = mtcars$vs, alternative = 'all')
+#' infer_ts_var_test(mtcars$mpg, group_var = mtcars$vs, alternative = 'all')
 #'
 #' # using two variables
 #' # lower tail
-#' var_test(hsb$read, hsb$write, alternative = 'less')
+#' infer_ts_var_test(hsb$read, hsb$write, alternative = 'less')
 #'
 #' # upper tail
-#' var_test(hsb$read, hsb$write, alternative = 'greater')
+#' infer_ts_var_test(hsb$read, hsb$write, alternative = 'greater')
 #'
 #' # all tails
-#' var_test(hsb$read, hsb$write, alternative = 'all')
+#' infer_ts_var_test(hsb$read, hsb$write, alternative = 'all')
 #'
 #' @export
 #'
-var_test <- function(variable, ..., group_var = NA,
-	alternative = c("less", "greater", "all")) UseMethod('var_test')
+infer_ts_var_test <- function(variable, ..., group_var = NA,
+	alternative = c("less", "greater", "all")) UseMethod('infer_ts_var_test')
 
 #' @export
 #'
-var_test.default <- function(variable, ..., group_var = NA,
+infer_ts_var_test.default <- function(variable, ..., group_var = NA,
 	alternative = c("less", "greater", "all")) {
 
 	if (length(group_var) != 1) {
@@ -118,19 +119,31 @@ var_test.default <- function(variable, ..., group_var = NA,
 
 	type <- match.arg(alternative)
 	   k <- var_comp(variable, group_var)
-	   
+
 	out <- list(f = k$f, lower = k$lower, upper = k$upper, vars = k$vars,
          avgs = k$avgs, sds = k$sds, ses = k$ses, avg = k$avg, sd = k$sd,
          se = k$se, n1 = k$n1, n2 = k$n2, lens = k$lens, len = k$len,
          lev = lev, type = type)
 
-	class(out) <- 'var_test'
+	class(out) <- 'infer_ts_var_test'
   return(out)
 
 }
 
 #' @export
+#' @rdname infer_ts_var_test
+#' @usage NULL
 #'
-print.var_test <- function(x, ...) {
+var_test <- function(variable, ..., group_var = NA,
+                     alternative = c("less", "greater", "all")) {
+
+    .Deprecated("infer_ts_var_test()")
+    infer_ts_var_test(variable, ..., group_var, alternative)
+
+}
+
+#' @export
+#'
+print.infer_ts_var_test <- function(x, ...) {
   print_var_test(x)
 }
