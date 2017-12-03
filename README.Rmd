@@ -91,7 +91,7 @@ ttest(hsb$write, mu = 50, type = 'all')
 ##### ANOVA
 
 ```{r anova}
-owanova(hsb, 'write', 'prog')
+infer_oneway_anova(hsb, 'write', 'prog')
 ```
 
 ##### Chi Square Test of Independence
