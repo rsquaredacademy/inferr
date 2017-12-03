@@ -83,7 +83,7 @@
     <div class="page-header toc-ignore">
       <h1>Introduction to inferr</h1>
             
-            <h4 class="date">2017-10-27</h4>
+            <h4 class="date">2017-12-04</h4>
           </div>
 
     
@@ -124,7 +124,7 @@
 <h3 class="hasAnchor">
 <html><body><a href="#example" class="anchor"> </a></body></html>Example</h3>
 <p>Using the hsb data, test whether the average of write differs significantly from 50.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/ttest.html">ttest</a></span>(hsb<span class="op">$</span>write, <span class="dt">mu =</span> <span class="dv">50</span>, <span class="dt">type =</span> <span class="st">'all'</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/infer_os_t_test.html">infer_os_t_test</a></span>(hsb<span class="op">$</span>write, <span class="dt">mu =</span> <span class="dv">50</span>, <span class="dt">type =</span> <span class="st">'all'</span>)</code></pre></div>
 <pre><code>##                               One-Sample Statistics                               
 ## ---------------------------------------------------------------------------------
 ##  Variable    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
@@ -148,7 +148,7 @@
 <html><body><a href="#examples" class="anchor"> </a></body></html>Examples</h3>
 <p>Using the hsb data, test whether the mean of read is equal to the mean of write.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Lower Tail Test</span>
-<span class="kw"><a href="../reference/paired_ttest.html">paired_ttest</a></span>(hsb<span class="op">$</span>read, hsb<span class="op">$</span>write, <span class="dt">alternative =</span> <span class="st">'less'</span>)</code></pre></div>
+<span class="kw"><a href="../reference/infer_ts_paired_ttest.html">infer_ts_paired_ttest</a></span>(hsb<span class="op">$</span>read, hsb<span class="op">$</span>write, <span class="dt">alternative =</span> <span class="st">'less'</span>)</code></pre></div>
 <pre><code>##                          Paired Samples Statistics                          
 ## ---------------------------------------------------------------------------
 ## Variables    Obs    Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
@@ -176,7 +176,7 @@
 ##  read - write    -0.873    199    0.192 
 ## ---------------------------------------</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Test all alternatives</span>
-<span class="kw"><a href="../reference/paired_ttest.html">paired_ttest</a></span>(hsb<span class="op">$</span>read, hsb<span class="op">$</span>write, <span class="dt">alternative =</span> <span class="st">'all'</span>)</code></pre></div>
+<span class="kw"><a href="../reference/infer_ts_paired_ttest.html">infer_ts_paired_ttest</a></span>(hsb<span class="op">$</span>read, hsb<span class="op">$</span>write, <span class="dt">alternative =</span> <span class="st">'all'</span>)</code></pre></div>
 <pre><code>##                          Paired Samples Statistics                          
 ## ---------------------------------------------------------------------------
 ## Variables    Obs    Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
@@ -214,7 +214,7 @@
 <p>Using the hsb data, test whether the mean for write is the same for males and females.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">hsb2 &lt;-<span class="st"> </span>inferr<span class="op">::</span>hsb
 hsb2<span class="op">$</span>female &lt;-<span class="st"> </span><span class="kw">as.factor</span>(hsb2<span class="op">$</span>female)
-<span class="kw"><a href="../reference/ind_ttest.html">ind_ttest</a></span>(hsb2, <span class="st">'female'</span>, <span class="st">'write'</span>, <span class="dt">alternative =</span> <span class="st">'all'</span>)</code></pre></div>
+<span class="kw"><a href="../reference/infer_ts_ind_ttest.html">infer_ts_ind_ttest</a></span>(hsb2, <span class="st">'female'</span>, <span class="st">'write'</span>, <span class="dt">alternative =</span> <span class="st">'all'</span>)</code></pre></div>
 <pre><code>##                               Group Statistics                                
 ## -----------------------------------------------------------------------------
 ##   Group       Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
@@ -262,7 +262,7 @@ hsb2<span class="op">$</span>female &lt;-<span class="st"> </span><span class="k
 <html><body><a href="#examples-1" class="anchor"> </a></body></html>Examples</h3>
 <p>Using hsb data, test whether the proportion of females is 50%.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Using Variables</span>
-<span class="kw"><a href="../reference/prop_test.html">prop_test</a></span>(<span class="kw">as.factor</span>(hsb<span class="op">$</span>female), <span class="dt">prob =</span> <span class="fl">0.5</span>)</code></pre></div>
+<span class="kw"><a href="../reference/infer_os_prop_test.html">infer_os_prop_test</a></span>(<span class="kw">as.factor</span>(hsb<span class="op">$</span>female), <span class="dt">prob =</span> <span class="fl">0.5</span>)</code></pre></div>
 <pre><code>##      Test Statistics      
 ## -------------------------
 ## Sample Size           200 
@@ -279,7 +279,7 @@ hsb2<span class="op">$</span>female &lt;-<span class="st"> </span><span class="k
 ## -----------------------------------------------------------------</code></pre>
 <p>Using Calculator</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Calculator</span>
-<span class="kw"><a href="../reference/prop_test.html">prop_test</a></span>(<span class="dv">200</span>, <span class="dt">prob =</span> <span class="fl">0.5</span>, <span class="dt">phat =</span> <span class="fl">0.3</span>)</code></pre></div>
+<span class="kw"><a href="../reference/infer_os_prop_test.html">infer_os_prop_test</a></span>(<span class="dv">200</span>, <span class="dt">prob =</span> <span class="fl">0.5</span>, <span class="dt">phat =</span> <span class="fl">0.3</span>)</code></pre></div>
 <pre><code>##      Test Statistics       
 ## --------------------------
 ## Sample Size            200 
@@ -308,7 +308,7 @@ hsb2<span class="op">$</span>female &lt;-<span class="st"> </span><span class="k
 <html><body><a href="#using-variables" class="anchor"> </a></body></html>Using Variables</h4>
 <p>Using the treatment data, test equality of proportion of two treatments</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Using Variables</span>
-<span class="kw"><a href="../reference/ts_prop_test.html">ts_prop_test</a></span>(<span class="dt">var1 =</span> treatment<span class="op">$</span>treatment1, <span class="dt">var2 =</span> treatment<span class="op">$</span>treatment2, <span class="dt">alternative =</span> <span class="st">'all'</span>)</code></pre></div>
+<span class="kw"><a href="../reference/infer_ts_prop_test.html">infer_ts_prop_test</a></span>(<span class="dt">var1 =</span> treatment<span class="op">$</span>treatment1, <span class="dt">var2 =</span> treatment<span class="op">$</span>treatment2, <span class="dt">alternative =</span> <span class="st">'all'</span>)</code></pre></div>
 <pre><code>##     Test Statistics      
 ## ------------------------
 ## Sample Size           50 
@@ -322,7 +322,7 @@ hsb2<span class="op">$</span>female &lt;-<span class="st"> </span><span class="k
 <html><body><a href="#use-grouping-variable" class="anchor"> </a></body></html>Use Grouping Variable</h4>
 <p>Using the treatment2 data, test whether outcome has same proportion for male and female</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Using Grouping Variable</span>
-<span class="kw"><a href="../reference/ts_prop_test.html">ts_prop_grp</a></span>(<span class="dt">var =</span> treatment2<span class="op">$</span>outcome, <span class="dt">group =</span> treatment2<span class="op">$</span>female, <span class="dt">alternative =</span> <span class="st">'all'</span>)</code></pre></div>
+<span class="kw"><a href="../reference/infer_ts_prop_test.html">infer_ts_prop_grp</a></span>(<span class="dt">var =</span> treatment2<span class="op">$</span>outcome, <span class="dt">group =</span> treatment2<span class="op">$</span>female, <span class="dt">alternative =</span> <span class="st">'all'</span>)</code></pre></div>
 <pre><code>##     Test Statistics      
 ## ------------------------
 ## Sample Size           91 
@@ -336,7 +336,7 @@ hsb2<span class="op">$</span>female &lt;-<span class="st"> </span><span class="k
 <html><body><a href="#using-calculator" class="anchor"> </a></body></html>Using Calculator</h4>
 <p>Test whether the same proportion of people from two batches will pass a review exam for a training program. In the first batch of 30 participants, 30% passed the review, whereas in the second batch of 25 participants, 50% passed the review.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Calculator</span>
-<span class="kw"><a href="../reference/ts_prop_test.html">ts_prop_calc</a></span>(<span class="dt">n1 =</span> <span class="dv">30</span>, <span class="dt">n2 =</span> <span class="dv">25</span>, <span class="dt">p1 =</span> <span class="fl">0.3</span>, <span class="dt">p2 =</span> <span class="fl">0.5</span>, <span class="dt">alternative =</span> <span class="st">'all'</span>)</code></pre></div>
+<span class="kw"><a href="../reference/infer_ts_prop_test.html">infer_ts_prop_calc</a></span>(<span class="dt">n1 =</span> <span class="dv">30</span>, <span class="dt">n2 =</span> <span class="dv">25</span>, <span class="dt">p1 =</span> <span class="fl">0.3</span>, <span class="dt">p2 =</span> <span class="fl">0.5</span>, <span class="dt">alternative =</span> <span class="st">'all'</span>)</code></pre></div>
 <pre><code>##      Test Statistics      
 ## -------------------------
 ## Sample Size            30 
@@ -361,7 +361,7 @@ hsb2<span class="op">$</span>female &lt;-<span class="st"> </span><span class="k
 <html><body><a href="#examples-3" class="anchor"> </a></body></html>Examples</h3>
 <p>Using the mtcars data, compare the standard deviation of mpg to a hypothesized value.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Lower Tail Test</span>
-<span class="kw"><a href="../reference/os_vartest.html">os_vartest</a></span>(mtcars<span class="op">$</span>mpg, <span class="fl">0.3</span>, <span class="dt">alternative =</span> <span class="st">'less'</span>)</code></pre></div>
+<span class="kw"><a href="../reference/infer_os_var_test.html">infer_os_var_test</a></span>(mtcars<span class="op">$</span>mpg, <span class="fl">0.3</span>, <span class="dt">alternative =</span> <span class="st">'less'</span>)</code></pre></div>
 <pre><code>##                             One-Sample Statistics                             
 ## -----------------------------------------------------------------------------
 ##  Variable    Obs     Mean      Std. Err.    Std. Dev.    [95% Conf. Interval] 
@@ -381,7 +381,7 @@ hsb2<span class="op">$</span>female &lt;-<span class="st"> </span><span class="k
 ##    mpg       12511.436     31     1.0000  
 ## ----------------------------------------</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Test all alternatives</span>
-<span class="kw"><a href="../reference/os_vartest.html">os_vartest</a></span>(mtcars<span class="op">$</span>mpg, <span class="fl">0.3</span>, <span class="dt">alternative =</span> <span class="st">'all'</span>)</code></pre></div>
+<span class="kw"><a href="../reference/infer_os_var_test.html">infer_os_var_test</a></span>(mtcars<span class="op">$</span>mpg, <span class="fl">0.3</span>, <span class="dt">alternative =</span> <span class="st">'all'</span>)</code></pre></div>
 <pre><code>##                             One-Sample Statistics                             
 ## -----------------------------------------------------------------------------
 ##  Variable    Obs     Mean      Std. Err.    Std. Dev.    [95% Conf. Interval] 
@@ -408,7 +408,7 @@ hsb2<span class="op">$</span>female &lt;-<span class="st"> </span><span class="k
 <html><body><a href="#use-grouping-variable-1" class="anchor"> </a></body></html>Use Grouping Variable</h4>
 <p>Using the mtcars data, compare the standard deviation in miles per gallon for automatic and manual vehicles.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Using Grouping Variable</span>
-<span class="kw"><a href="../reference/var_test.html">var_test</a></span>(mtcars<span class="op">$</span>mpg, <span class="dt">group_var =</span> mtcars<span class="op">$</span>am, <span class="dt">alternative =</span> <span class="st">'all'</span>)</code></pre></div>
+<span class="kw"><a href="../reference/infer_ts_var_test.html">infer_ts_var_test</a></span>(mtcars<span class="op">$</span>mpg, <span class="dt">group_var =</span> mtcars<span class="op">$</span>am, <span class="dt">alternative =</span> <span class="st">'all'</span>)</code></pre></div>
 <pre><code>##                Variance Ratio Test                 
 ## --------------------------------------------------
 ##   Group      Obs    Mean     Std. Err.    Std. Dev. 
@@ -440,7 +440,7 @@ hsb2<span class="op">$</span>female &lt;-<span class="st"> </span><span class="k
 <html><body><a href="#using-variables-1" class="anchor"> </a></body></html>Using Variables</h4>
 <p>Using the hsb data, compare the standard deviation of reading and writing scores.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Using Variables</span>
-<span class="kw"><a href="../reference/var_test.html">var_test</a></span>(hsb<span class="op">$</span>read, hsb<span class="op">$</span>write, <span class="dt">alternative =</span> <span class="st">'all'</span>)</code></pre></div>
+<span class="kw"><a href="../reference/infer_ts_var_test.html">infer_ts_var_test</a></span>(hsb<span class="op">$</span>read, hsb<span class="op">$</span>write, <span class="dt">alternative =</span> <span class="st">'all'</span>)</code></pre></div>
 <pre><code>##                Variance Ratio Test                 
 ## --------------------------------------------------
 ##   Group      Obs    Mean     Std. Err.    Std. Dev. 
@@ -478,7 +478,7 @@ hsb2<span class="op">$</span>female &lt;-<span class="st"> </span><span class="k
 <html><body><a href="#examples-4" class="anchor"> </a></body></html>Examples</h3>
 <p>Using the hsb data, test whether the proportion of females and males are equal.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Using variables</span>
-<span class="kw"><a href="../reference/binom_calc.html">binom_test</a></span>(<span class="kw">as.factor</span>(hsb<span class="op">$</span>female), <span class="dt">prob =</span> <span class="fl">0.5</span>)</code></pre></div>
+<span class="kw"><a href="../reference/infer_binom_calc.html">infer_binom_test</a></span>(<span class="kw">as.factor</span>(hsb<span class="op">$</span>female), <span class="dt">prob =</span> <span class="fl">0.5</span>)</code></pre></div>
 <pre><code>##              Binomial Test              
 ##  ---------------------------------------
 ##   Group     N     Obs. Prop    Exp. Prop 
@@ -500,7 +500,7 @@ hsb2<span class="op">$</span>female &lt;-<span class="st"> </span><span class="k
 <h4 class="hasAnchor">
 <html><body><a href="#using-calculator-1" class="anchor"> </a></body></html>Using Calculator</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># calculator</span>
-<span class="kw"><a href="../reference/binom_calc.html">binom_calc</a></span>(<span class="dv">32</span>, <span class="dv">16</span>, <span class="dt">prob =</span> <span class="fl">0.5</span>)</code></pre></div>
+<span class="kw"><a href="../reference/infer_binom_calc.html">infer_binom_calc</a></span>(<span class="dv">32</span>, <span class="dv">16</span>, <span class="dt">prob =</span> <span class="fl">0.5</span>)</code></pre></div>
 <pre><code>##             Binomial Test              
 ##  --------------------------------------
 ##   Group    N     Obs. Prop    Exp. Prop 
@@ -529,7 +529,7 @@ hsb2<span class="op">$</span>female &lt;-<span class="st"> </span><span class="k
 <h3 class="hasAnchor">
 <html><body><a href="#examples-5" class="anchor"> </a></body></html>Examples</h3>
 <p>Using the hsb data, test whether the mean of write differs between the three program types.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/owanova.html">owanova</a></span>(hsb, <span class="st">'write'</span>, <span class="st">'prog'</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/infer_oneway_anova.html">infer_oneway_anova</a></span>(hsb, <span class="st">'write'</span>, <span class="st">'prog'</span>)</code></pre></div>
 <pre><code>##                                 ANOVA                                  
 ## ----------------------------------------------------------------------
 ##                    Sum of                                             
@@ -563,7 +563,7 @@ hsb2<span class="op">$</span>female &lt;-<span class="st"> </span><span class="k
 <p>Using the hsb data, test whether the observed proportions for race differs significantly from the hypothesized proportions.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># basic example</span>
 race &lt;-<span class="st"> </span><span class="kw">as.factor</span>(hsb<span class="op">$</span>race)
-<span class="kw"><a href="../reference/chisq_gof.html">chisq_gof</a></span>(race, <span class="kw">c</span>(<span class="dv">20</span>, <span class="dv">20</span>, <span class="dv">20</span> , <span class="dv">140</span>))</code></pre></div>
+<span class="kw"><a href="../reference/infer_chisq_gof_test.html">infer_chisq_gof_test</a></span>(race, <span class="kw">c</span>(<span class="dv">20</span>, <span class="dv">20</span>, <span class="dv">20</span> , <span class="dv">140</span>))</code></pre></div>
 <pre><code>##     Test Statistics     
 ## -----------------------
 ## Chi-Square       5.0286 
@@ -585,7 +585,7 @@ race &lt;-<span class="st"> </span><span class="kw">as.factor</span>(hsb<span cl
 <html><body><a href="#continuity-correction" class="anchor"> </a></body></html>Continuity Correction</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># using continuity correction</span>
 race &lt;-<span class="st"> </span><span class="kw">as.factor</span>(hsb<span class="op">$</span>race)
-<span class="kw"><a href="../reference/chisq_gof.html">chisq_gof</a></span>(race, <span class="kw">c</span>(<span class="dv">20</span>, <span class="dv">20</span>, <span class="dv">20</span> , <span class="dv">140</span>), <span class="dt">correct =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<span class="kw"><a href="../reference/infer_chisq_gof_test.html">infer_chisq_gof_test</a></span>(race, <span class="kw">c</span>(<span class="dv">20</span>, <span class="dv">20</span>, <span class="dv">20</span> , <span class="dv">140</span>), <span class="dt">correct =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <pre><code>##     Test Statistics     
 ## -----------------------
 ## Chi-Square       4.3821 
@@ -613,7 +613,7 @@ race &lt;-<span class="st"> </span><span class="kw">as.factor</span>(hsb<span cl
 <h3 class="hasAnchor">
 <html><body><a href="#examples-6" class="anchor"> </a></body></html>Examples</h3>
 <p>Using the hsb data, test if there is a relationship between the type of school attended (schtyp) and students’ gender (female).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/chisq_test.html">chisq_test</a></span>(<span class="kw">as.factor</span>(hsb<span class="op">$</span>female), <span class="kw">as.factor</span>(hsb<span class="op">$</span>schtyp))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/infer_chisq_assoc_test.html">infer_chisq_assoc_test</a></span>(<span class="kw">as.factor</span>(hsb<span class="op">$</span>female), <span class="kw">as.factor</span>(hsb<span class="op">$</span>schtyp))</code></pre></div>
 <pre><code>##                Chi Square Statistics                 
 ## 
 ## Statistics                     DF    Value      Prob 
@@ -627,7 +627,7 @@ race &lt;-<span class="st"> </span><span class="kw">as.factor</span>(hsb<span cl
 ## Cramer's V                          0.0153          
 ## ----------------------------------------------------</code></pre>
 <p>Using the hsb data, test if there is a relationship between the type of school attended (schtyp) and students’ socio economic status (ses).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/chisq_test.html">chisq_test</a></span>(<span class="kw">as.factor</span>(hsb<span class="op">$</span>schtyp), <span class="kw">as.factor</span>(hsb<span class="op">$</span>ses))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/infer_chisq_assoc_test.html">infer_chisq_assoc_test</a></span>(<span class="kw">as.factor</span>(hsb<span class="op">$</span>schtyp), <span class="kw">as.factor</span>(hsb<span class="op">$</span>ses))</code></pre></div>
 <pre><code>##                Chi Square Statistics                 
 ## 
 ## Statistics                     DF    Value      Prob 
@@ -652,7 +652,7 @@ race &lt;-<span class="st"> </span><span class="kw">as.factor</span>(hsb<span cl
 <html><body><a href="#use-grouping-variable-2" class="anchor"> </a></body></html>Use Grouping Variable</h4>
 <p>Using the hsb data, test whether variance in reading score is same across race.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Using Grouping Variable</span>
-<span class="kw"><a href="../reference/levene_test.html">levene_test</a></span>(hsb<span class="op">$</span>read, <span class="dt">group_var =</span> hsb<span class="op">$</span>race)</code></pre></div>
+<span class="kw"><a href="../reference/infer_levene_test.html">infer_levene_test</a></span>(hsb<span class="op">$</span>read, <span class="dt">group_var =</span> hsb<span class="op">$</span>race)</code></pre></div>
 <pre><code>##            Summary Statistics             
 ## Levels    Frequency    Mean     Std. Dev  
 ## -----------------------------------------
@@ -678,7 +678,7 @@ race &lt;-<span class="st"> </span><span class="kw">as.factor</span>(hsb<span cl
 <html><body><a href="#using-variables-2" class="anchor"> </a></body></html>Using Variables</h4>
 <p>Using the hsb data, test whether variance is equal for reading, writing and social studies scores.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Using Variables</span>
-<span class="kw"><a href="../reference/levene_test.html">levene_test</a></span>(hsb<span class="op">$</span>read, hsb<span class="op">$</span>write, hsb<span class="op">$</span>socst)</code></pre></div>
+<span class="kw"><a href="../reference/infer_levene_test.html">infer_levene_test</a></span>(hsb<span class="op">$</span>read, hsb<span class="op">$</span>write, hsb<span class="op">$</span>socst)</code></pre></div>
 <pre><code>##            Summary Statistics             
 ## Levels    Frequency    Mean     Std. Dev  
 ## -----------------------------------------
@@ -704,7 +704,7 @@ race &lt;-<span class="st"> </span><span class="kw">as.factor</span>(hsb<span cl
 <p>Using the hsb data, test whether variance in reading score is same for male and female students.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Using Linear Regression Model</span>
 m &lt;-<span class="st"> </span><span class="kw">lm</span>(read <span class="op">~</span><span class="st"> </span>female, <span class="dt">data =</span> hsb)
-<span class="kw"><a href="../reference/levene_test.html">levene_test</a></span>(m)</code></pre></div>
+<span class="kw"><a href="../reference/infer_levene_test.html">infer_levene_test</a></span>(m)</code></pre></div>
 <pre><code>##            Summary Statistics             
 ## Levels    Frequency    Mean     Std. Dev  
 ## -----------------------------------------
@@ -728,7 +728,7 @@ m &lt;-<span class="st"> </span><span class="kw">lm</span>(read <span class="op"
 <html><body><a href="#using-formula" class="anchor"> </a></body></html>Using Formula</h4>
 <p>Using the hsb data, test whether variance in reading score is same across school types.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Using Formula</span>
-<span class="kw"><a href="../reference/levene_test.html">levene_test</a></span>(<span class="kw">as.formula</span>(<span class="kw">paste0</span>(<span class="st">'read ~ schtyp'</span>)), hsb)</code></pre></div>
+<span class="kw"><a href="../reference/infer_levene_test.html">infer_levene_test</a></span>(<span class="kw">as.formula</span>(<span class="kw">paste0</span>(<span class="st">'read ~ schtyp'</span>)), hsb)</code></pre></div>
 <pre><code>##            Summary Statistics             
 ## Levels    Frequency    Mean     Std. Dev  
 ## -----------------------------------------
@@ -757,7 +757,7 @@ m &lt;-<span class="st"> </span><span class="kw">lm</span>(read <span class="op"
 <h3 class="hasAnchor">
 <html><body><a href="#example-4" class="anchor"> </a></body></html>Example</h3>
 <p>The exam data set contains scores of 15 students for three exams (exam1, exam2, exam3). Test if three exams are equally difficult.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/cochran_test.html">cochran_test</a></span>(exam)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/infer_cochran_qtest.html">infer_cochran_qtest</a></span>(exam)</code></pre></div>
 <pre><code>##    Test Statistics     
 ## ----------------------
 ## N                   15 
@@ -782,7 +782,7 @@ m &lt;-<span class="st"> </span><span class="kw">lm</span>(read <span class="op"
 <p>Using the hsb data, test if the proportion of students in himath and hiread group is equal.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">himath &lt;-<span class="st"> </span><span class="kw">ifelse</span>(hsb<span class="op">$</span>math <span class="op">&gt;</span><span class="st"> </span><span class="dv">60</span>, <span class="dv">1</span>, <span class="dv">0</span>)
 hiread &lt;-<span class="st"> </span><span class="kw">ifelse</span>(hsb<span class="op">$</span>read <span class="op">&gt;</span><span class="st"> </span><span class="dv">60</span>, <span class="dv">1</span>, <span class="dv">0</span>)
-<span class="kw"><a href="../reference/mcnemar_test.html">mcnemar_test</a></span>(<span class="kw">table</span>(himath, hiread))</code></pre></div>
+<span class="kw"><a href="../reference/infer_mcnemar_test.html">infer_mcnemar_test</a></span>(<span class="kw">table</span>(himath, hiread))</code></pre></div>
 <pre><code>##            Controls 
 ## ---------------------------------
 ## Cases       0       1       Total 
@@ -817,7 +817,7 @@ hiread &lt;-<span class="st"> </span><span class="kw">ifelse</span>(hsb<span cla
 ## odds ratio      1.1667 
 ## ----------------------</code></pre>
 <p>Perform the above test using matrix as input.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/mcnemar_test.html">mcnemar_test</a></span>(<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">135</span>, <span class="dv">18</span>, <span class="dv">21</span>, <span class="dv">26</span>), <span class="dt">nrow =</span> <span class="dv">2</span>))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/infer_mcnemar_test.html">infer_mcnemar_test</a></span>(<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">135</span>, <span class="dv">18</span>, <span class="dv">21</span>, <span class="dv">26</span>), <span class="dt">nrow =</span> <span class="dv">2</span>))</code></pre></div>
 <pre><code>##            Controls 
 ## ---------------------------------
 ## Cases       0       1       Total 
@@ -865,7 +865,7 @@ hiread &lt;-<span class="st"> </span><span class="kw">ifelse</span>(hsb<span cla
 reg &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp, <span class="dt">data =</span> mtcars)
 
 <span class="co"># basic example</span>
-<span class="kw"><a href="../reference/runs_test.html">runs_test</a></span>(<span class="kw">residuals</span>(reg))</code></pre></div>
+<span class="kw"><a href="../reference/infer_runs_test.html">infer_runs_test</a></span>(<span class="kw">residuals</span>(reg))</code></pre></div>
 <pre><code>## Runs Test
 ##  Total Cases:  32 
 ##  Test Value :  -0.9630856 
@@ -877,7 +877,7 @@ reg &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op
 ##  z Statistic:  -2.156386 
 ##  p-value:  0.03105355</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># drop values equal to threshold</span>
-<span class="kw"><a href="../reference/runs_test.html">runs_test</a></span>(<span class="kw">residuals</span>(reg), <span class="dt">drop =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<span class="kw"><a href="../reference/infer_runs_test.html">infer_runs_test</a></span>(<span class="kw">residuals</span>(reg), <span class="dt">drop =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <pre><code>## Runs Test
 ##  Total Cases:  32 
 ##  Test Value :  -0.9630856 
@@ -889,7 +889,7 @@ reg &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op
 ##  z Statistic:  -2.156386 
 ##  p-value:  0.03105355</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># recode data in binary format</span>
-<span class="kw"><a href="../reference/runs_test.html">runs_test</a></span>(<span class="kw">residuals</span>(reg), <span class="dt">split =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<span class="kw"><a href="../reference/infer_runs_test.html">infer_runs_test</a></span>(<span class="kw">residuals</span>(reg), <span class="dt">split =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <pre><code>## Runs Test
 ##  Total Cases:  32 
 ##  Test Value :  -0.9630856 
@@ -901,7 +901,7 @@ reg &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op
 ##  z Statistic:  -2.156386 
 ##  p-value:  0.03105355</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># use mean as threshold</span>
-<span class="kw"><a href="../reference/runs_test.html">runs_test</a></span>(<span class="kw">residuals</span>(reg), <span class="dt">mean =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<span class="kw"><a href="../reference/infer_runs_test.html">infer_runs_test</a></span>(<span class="kw">residuals</span>(reg), <span class="dt">mean =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <pre><code>## Runs Test
 ##  Total Cases:  32 
 ##  Test Value :  -1.12757e-16 
@@ -913,7 +913,7 @@ reg &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op
 ##  z Statistic:  -2.027896 
 ##  p-value:  0.04257089</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># threshold to be used for counting runs</span>
-<span class="kw"><a href="../reference/runs_test.html">runs_test</a></span>(<span class="kw">residuals</span>(reg), <span class="dt">threshold =</span> <span class="dv">0</span>)</code></pre></div>
+<span class="kw"><a href="../reference/infer_runs_test.html">infer_runs_test</a></span>(<span class="kw">residuals</span>(reg), <span class="dt">threshold =</span> <span class="dv">0</span>)</code></pre></div>
 <pre><code>## Runs Test
 ##  Total Cases:  32 
 ##  Test Value :  0 

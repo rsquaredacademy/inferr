@@ -93,8 +93,8 @@ infer_ts_paired_ttest.default <- function(x, y, confint = 0.95,
 paired_ttest <- function(x, y, confint = 0.95,
                          alternative = c('both', 'less', 'greater', 'all')) {
 
-    .Deprecated("ds_summary_stats()")
-    ds_summary_stats(x, y, confint, alternative)
+    .Deprecated("infer_ts_paired_ttest()")
+    infer_ts_paired_ttest(x, y, confint, alternative)
 
 }
 

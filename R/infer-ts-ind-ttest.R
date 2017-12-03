@@ -127,7 +127,7 @@ infer_ts_ind_ttest.default <- function(data, x, y, confint = 0.95,
 }
 
 #' @export
-#' @rdname infer_
+#' @rdname infer_ts_ind_ttest
 #' @usage NULL
 #'
 ind_ttest <- function(data, x, y, confint = 0.95,

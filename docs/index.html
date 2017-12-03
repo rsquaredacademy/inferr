@@ -90,8 +90,8 @@
 <h2 class="hasAnchor">
 <a href="#inferr-inferential-statistics-with-r" class="anchor"> </a>inferr: Inferential statistics with R <img src="inferr.jpg" align="right">
 </h2>
-<p><strong>Author:</strong> <a href="https://aravindhebbali.github.io/">Aravind Hebbali</a><br><strong>License:</strong> <a href="https://opensource.org/licenses/MIT">MIT</a></p>
-<p><a href="https://cran.r-project.org/package=inferr"><img src="http://www.r-pkg.org/badges/version/inferr" alt="CRAN_Status_Badge"></a> <a href="https://travis-ci.org/rsquaredacademy/inferr"><img src="https://travis-ci.org/rsquaredacademy/inferr.svg?branch=master" alt="Travis-CI Build Status"></a> <a href="https://ci.appveyor.com/project/rsquaredacademy/inferr"><img src="https://ci.appveyor.com/api/projects/status/github/rsquaredacademy/inferr?branch=master&amp;svg=true" alt="AppVeyor Build Status"></a> <a href="https://codecov.io/github/rsquaredacademy/inferr?branch=master"><img src="https://img.shields.io/codecov/c/github/rsquaredacademy/inferr/master.svg"></a> <a href="https://cran.r-project.org/package=inferr"><img src="https://cranlogs.r-pkg.org/badges/grand-total/inferr"></a> <a href=""><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg"></a></p>
+<p><strong>Author:</strong> <a href="http://www.aravindhebbali.com">Aravind Hebbali</a><br><strong>License:</strong> <a href="https://opensource.org/licenses/MIT">MIT</a></p>
+<p><a href="https://cran.r-project.org/package=inferr"><img src="http://www.r-pkg.org/badges/version/inferr" alt="CRAN_Status_Badge"></a> <a href="https://travis-ci.org/rsquaredacademy/inferr"><img src="https://travis-ci.org/rsquaredacademy/inferr.svg?branch=master" alt="Travis-CI Build Status"></a> <a href="https://ci.appveyor.com/project/rsquaredacademy/inferr"><img src="https://ci.appveyor.com/api/projects/status/github/rsquaredacademy/inferr?branch=master&amp;svg=true" alt="AppVeyor Build Status"></a> <a href="https://cran.r-project.org/package=inferr"><img src="https://cranlogs.r-pkg.org/badges/grand-total/inferr"></a></p>
 </div>
 <div id="overview" class="section level2">
 <h2 class="hasAnchor">
@@ -136,7 +136,7 @@ devtools<span class="op">::</span><span class="kw">install_github</span>(<span c
 <div id="shiny-app" class="section level2">
 <h2 class="hasAnchor">
 <a href="#shiny-app" class="anchor"> </a>Shiny App</h2>
-<p>Use <code><a href="reference/launch_inferr.html">launch_inferr()</a></code> to explore the package using a shiny app.</p>
+<p>Use <code><a href="reference/infer_launch_shiny_app.html">infer_launch_shiny_app()</a></code> to explore the package using a shiny app.</p>
 </div>
 <div id="vignettes" class="section level2">
 <h2 class="hasAnchor">
@@ -151,7 +151,7 @@ devtools<span class="op">::</span><span class="kw">install_github</span>(<span c
 <div id="one-sample-t-test" class="section level5">
 <h5 class="hasAnchor">
 <a href="#one-sample-t-test" class="anchor"> </a>One Sample t Test</h5>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/ttest.html">ttest</a></span>(hsb<span class="op">$</span>write, <span class="dt">mu =</span> <span class="dv">50</span>, <span class="dt">type =</span> <span class="st">'all'</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/infer_os_t_test.html">infer_os_t_test</a></span>(hsb<span class="op">$</span>write, <span class="dt">mu =</span> <span class="dv">50</span>, <span class="dt">type =</span> <span class="st">'all'</span>)
 <span class="co">#&gt;                               One-Sample Statistics                               </span>
 <span class="co">#&gt; ---------------------------------------------------------------------------------</span>
 <span class="co">#&gt;  Variable    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] </span>
@@ -168,7 +168,7 @@ devtools<span class="op">::</span><span class="kw">install_github</span>(<span c
 <div id="anova" class="section level5">
 <h5 class="hasAnchor">
 <a href="#anova" class="anchor"> </a>ANOVA</h5>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/owanova.html">owanova</a></span>(hsb, <span class="st">'write'</span>, <span class="st">'prog'</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/infer_oneway_anova.html">infer_oneway_anova</a></span>(hsb, <span class="st">'write'</span>, <span class="st">'prog'</span>)
 <span class="co">#&gt;                                 ANOVA                                  </span>
 <span class="co">#&gt; ----------------------------------------------------------------------</span>
 <span class="co">#&gt;                    Sum of                                             </span>
@@ -194,7 +194,7 @@ devtools<span class="op">::</span><span class="kw">install_github</span>(<span c
 <div id="chi-square-test-of-independence" class="section level5">
 <h5 class="hasAnchor">
 <a href="#chi-square-test-of-independence" class="anchor"> </a>Chi Square Test of Independence</h5>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/chisq_test.html">chisq_test</a></span>(<span class="kw">as.factor</span>(hsb<span class="op">$</span>female), <span class="kw">as.factor</span>(hsb<span class="op">$</span>schtyp))
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/infer_chisq_assoc_test.html">infer_chisq_assoc_test</a></span>(<span class="kw">as.factor</span>(hsb<span class="op">$</span>female), <span class="kw">as.factor</span>(hsb<span class="op">$</span>schtyp))
 <span class="co">#&gt;                Chi Square Statistics                 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Statistics                     DF    Value      Prob </span>
@@ -211,7 +211,7 @@ devtools<span class="op">::</span><span class="kw">install_github</span>(<span c
 <div id="levenes-test" class="section level5">
 <h5 class="hasAnchor">
 <a href="#levenes-test" class="anchor"> </a>Levene’s Test</h5>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/levene_test.html">levene_test</a></span>(hsb<span class="op">$</span>read, <span class="dt">group_var =</span> hsb<span class="op">$</span>race)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/infer_levene_test.html">infer_levene_test</a></span>(hsb<span class="op">$</span>read, <span class="dt">group_var =</span> hsb<span class="op">$</span>race)
 <span class="co">#&gt;            Summary Statistics             </span>
 <span class="co">#&gt; Levels    Frequency    Mean     Std. Dev  </span>
 <span class="co">#&gt; -----------------------------------------</span>
@@ -235,7 +235,7 @@ devtools<span class="op">::</span><span class="kw">install_github</span>(<span c
 <div id="cochrans-q-test" class="section level5">
 <h5 class="hasAnchor">
 <a href="#cochrans-q-test" class="anchor"> </a>Cochran’s Q Test</h5>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/cochran_test.html">cochran_test</a></span>(exam)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/infer_cochran_qtest.html">infer_cochran_qtest</a></span>(exam)
 <span class="co">#&gt;    Test Statistics     </span>
 <span class="co">#&gt; ----------------------</span>
 <span class="co">#&gt; N                   15 </span>
@@ -249,7 +249,7 @@ devtools<span class="op">::</span><span class="kw">install_github</span>(<span c
 <a href="#mcnemar-test" class="anchor"> </a>McNemar Test</h5>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">himath &lt;-<span class="st"> </span><span class="kw">ifelse</span>(hsb<span class="op">$</span>math <span class="op">&gt;</span><span class="st"> </span><span class="dv">60</span>, <span class="dv">1</span>, <span class="dv">0</span>)
 hiread &lt;-<span class="st"> </span><span class="kw">ifelse</span>(hsb<span class="op">$</span>read <span class="op">&gt;</span><span class="st"> </span><span class="dv">60</span>, <span class="dv">1</span>, <span class="dv">0</span>)
-<span class="kw"><a href="reference/mcnemar_test.html">mcnemar_test</a></span>(<span class="kw">table</span>(himath, hiread))
+<span class="kw"><a href="reference/infer_mcnemar_test.html">infer_mcnemar_test</a></span>(<span class="kw">table</span>(himath, hiread))
 <span class="co">#&gt;            Controls </span>
 <span class="co">#&gt; ---------------------------------</span>
 <span class="co">#&gt; Cases       0       1       Total </span>
@@ -309,8 +309,8 @@ hiread &lt;-<span class="st"> </span><span class="kw">ifelse</span>(hsb<span cla
 <p><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE">LICENSE</a></p>
 <h2>Developers</h2>
 <ul class="list-unstyled">
-<li> <a href="https://aravindhebbali.github.io/" target="_blank">Aravind Hebbali</a> <br><small class="roles"> Author, maintainer </small> </li>
-<li> <a href="http://​www.rsquaredacademy.com" target="_blank">Rsquared Academy</a> <br><small class="roles"> Copyright holder, funder </small> </li>
+<li>Aravind Hebbali <br><small class="roles"> Author, maintainer </small> </li>
+<li>Rsquared Academy <br><small class="roles"> Copyright holder, funder </small> </li>
 </ul>
 </div>
 
@@ -318,7 +318,7 @@ hiread &lt;-<span class="st"> </span><span class="kw">ifelse</span>(hsb<span cla
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://aravindhebbali.github.io/" target="_blank">Aravind Hebbali</a>, <a href="http://​www.rsquaredacademy.com" target="_blank">Rsquared Academy</a>.</p>
+  <p>Developed by Aravind Hebbali, Rsquared Academy.</p>
 </div>
 
 <div class="pkgdown">
