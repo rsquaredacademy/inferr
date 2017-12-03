@@ -51,7 +51,7 @@ reference:
   - ts_prop_test
   - os_vartest
   - var_test
-  - levene_test
+  - infer_levene_test
 
 - title: Non-parametric Tests
 

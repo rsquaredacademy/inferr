@@ -12,8 +12,8 @@
 #' @param trim.mean trimmed mean
 #' @param data a data frame
 #' @param ... numeric vectors
-#' @return \code{levene_test} returns an object of class \code{"levene_test"}.
-#' An object of class \code{"levene_test"} is a list containing the
+#' @return \code{infer_levene_test} returns an object of class \code{"infer_levene_test"}.
+#' An object of class \code{"infer_levene_test"} is a list containing the
 #' following components:
 #'
 #' \item{bf}{Brown and Forsythe f statistic}
@@ -32,7 +32,8 @@
 #' \item{levs}{levels of the grouping variable}
 #' \item{lens}{number of observations for each level of the grouping variable}
 #' \item{type}{alternative hypothesis}
-#'
+#' @section Deprecated Function:
+#' \code{levene_test()} has been deprecated. Instead use \code{infer_levene_test()}.
 #' @references
 #' {Bland, M. 2000. An Introduction to Medical Statistics. 3rd ed. Oxford: Oxford University Press.}
 #'
@@ -43,25 +44,25 @@
 #' Letters 3: 191–194.}
 #' @examples
 #' # using grouping variable
-#' levene_test(hsb$read, group_var = hsb$race)
+#' infer_levene_test(hsb$read, group_var = hsb$race)
 #'
 #' # using two variables
-#' levene_test(hsb$read, hsb$write, hsb$socst)
+#' infer_levene_test(hsb$read, hsb$write, hsb$socst)
 #'
 #' # using model
 #' m <- lm(read ~ female, data = hsb)
-#' levene_test(m)
+#' infer_levene_test(m)
 #'
 #' # using formula
-#' levene_test(as.formula(paste0('read ~ schtyp')), hsb)
+#' infer_levene_test(as.formula(paste0('read ~ schtyp')), hsb)
 #'
 #' @export
 #'
-levene_test <- function(variable, ...) UseMethod('levene_test')
+infer_levene_test <- function(variable, ...) UseMethod('infer_levene_test')
 
 #' @export
 #' @rdname levene_test
-levene_test.default <- function(variable, ..., group_var = NA,
+infer_levene_test.default <- function(variable, ..., group_var = NA,
 	trim.mean = 0.1) {
 
 	varname <- deparse(substitute(variable))
@@ -119,30 +120,43 @@ levene_test.default <- function(variable, ..., group_var = NA,
               avg   = k$avg, sd = k$sd, n = k$n, levs  = k$levs, n_df  = k$n_df,
               d_df  = k$d_df, lens  = k$lens)
 
-	class(out) <- 'levene_test'
+	class(out) <- 'infer_levene_test'
   return(out)
 
 }
 
 #' @export
-#' @rdname levene_test
+#' @rdname infer_levene_test
+#' @usage NULL
 #'
-levene_test.lm <- function(variable, ...) {
-	levene_test.formula(variable = formula(variable), data = model.frame(variable))
+levene_test <- function(variable, ..., group_var = NA,
+                        trim.mean = 0.1) {
+
+    .Deprecated("infer_levene_test()")
+    infer_levene_test(variable, ..., group_var,
+                      trim.mean)
+
 }
 
 #' @export
-#' @rdname levene_test
+#' @rdname infer_levene_test
 #'
-levene_test.formula <- function(variable, data, ...) {
+infer_levene_test.lm <- function(variable, ...) {
+    infer_levene_test.formula(variable = formula(variable), data = model.frame(variable))
+}
+
+#' @export
+#' @rdname infer_levene_test
+#'
+infer_levene_test.formula <- function(variable, data, ...) {
 	dat       <- model.frame(variable, data)
 	variable  <- dat[, 1]
 	group_var <- dat[, 2]
-	levene_test.default(variable = variable, group_var = group_var)
+	infer_levene_test.default(variable = variable, group_var = group_var)
 }
 
 #' @export
 #'
-print.levene_test <- function(x, ...) {
+print.infer_levene_test <- function(x, ...) {
   print_levene_test(x)
 }
