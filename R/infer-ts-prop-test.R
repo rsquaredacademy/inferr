@@ -96,7 +96,8 @@ infer_ts_prop_test.default <- function(var1, var2,
 #' @rdname infer_ts_prop_test
 #' @usage NULL
 #'
-ts_prop_test <- function(var1, var2, alternative, ...) {
+ts_prop_test <- function(var1, var2,
+                         alternative = c('both', 'less', 'greater', 'all'), ...) {
 
     .Deprecated("infer_ts_prop_test()")
     infer_ts_prop_test(var1, var2, alternative, ...)
@@ -171,7 +172,8 @@ infer_ts_prop_grp <- function(var, group,
 #' @rdname infer_ts_prop_grp
 #' @usage NULL
 #'
-ts_prop_grp <- function(var, group, alternative) {
+ts_prop_grp <- function(var, group,
+                        alternative = c('both', 'less', 'greater', 'all')) {
 
     .Deprecated("infer_ts_prop_grp()")
     infer_ts_prop_grp(var, group, alternative)
@@ -230,7 +232,8 @@ infer_ts_prop_calc <- function(n1, n2, p1, p2,
 #' @rdname infer_ts_prop_calc
 #' @usage NULL
 #'
-ts_prop_calc <- function(n1, n2, p1, p2, alternative, ...) {
+ts_prop_calc <- function(n1, n2, p1, p2,
+                         alternative = c('both', 'less', 'greater', 'all'), ...) {
 
     .Deprecated("infer_ts_prop_calc()")
     infer_ts_prop_calc(n1, n2, p1, p2, alternative, ...)

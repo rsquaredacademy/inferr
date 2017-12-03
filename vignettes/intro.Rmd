@@ -86,7 +86,7 @@ Using the hsb data, test whether the mean for write is the same for males and fe
 ```{r ind}
 hsb2 <- inferr::hsb
 hsb2$female <- as.factor(hsb2$female)
-ind_ttest(hsb2, 'female', 'write', alternative = 'all')
+infer_ts_ind_ttest(hsb2, 'female', 'write', alternative = 'all')
 ```
 
 ## One Sample Test of Proportion

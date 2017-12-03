@@ -1,13 +1,13 @@
-context('ind_ttest')
+context('infer_ts_ind_ttest')
 
 hsb2 <- inferr::hsb
 hsb2$female <- as.factor(hsb2$female)
 
-test_that('output from ind_ttest matches expected result', {
+test_that('output from infer_ts_ind_ttest matches expected result', {
 
     hsb2 <- inferr::hsb
     hsb2$female <- as.factor(hsb2$female)
-    k <- ind_ttest(hsb2, 'female', 'write')
+    k <- infer_ts_ind_ttest(hsb2, 'female', 'write')
     expect_equivalent(k$levels, c("0", "1"))
     expect_equivalent(as.numeric(k$obs), c(91, 109))
     expect_equal(k$n, 200)
@@ -42,162 +42,162 @@ test_that('output from ind_ttest matches expected result', {
 })
 
 
-test_that('ind_ttest throws the appropriate error', {
-    expect_error(ind_ttest('mtcars', 'mpg', 'cyl'), 'data must be a data frame')
-    expect_error(ind_ttest(mtcars, 'mpgs', 'cyl'), 'x must be a column in data')
-    expect_error(ind_ttest(mtcars, 'mpg', 'cyls'), 'y must be a column in data')
+test_that('infer_ts_ind_ttest throws the appropriate error', {
+    expect_error(infer_ts_ind_ttest('mtcars', 'mpg', 'cyl'), 'data must be a data frame')
+    expect_error(infer_ts_ind_ttest(mtcars, 'mpgs', 'cyl'), 'x must be a column in data')
+    expect_error(infer_ts_ind_ttest(mtcars, 'mpg', 'cyls'), 'y must be a column in data')
 })
 
 
 test_that('output from independent sample t test is as expected when alternative is less', {
 
-  x <- cat("                              Group Statistics                                
+  x <- cat("                              Group Statistics
 -----------------------------------------------------------------------------
-  Group       Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
+  Group       Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval]
 -----------------------------------------------------------------------------
-    0          91    50.121      1.080       10.305        47.975     52.267   
-    1         109    54.991      0.779        8.134        53.447     56.535   
+    0          91    50.121      1.080       10.305        47.975     52.267
+    1         109    54.991      0.779        8.134        53.447     56.535
 -----------------------------------------------------------------------------
- combined     200    52.775      0.67         9.479        51.454     54.096   
+ combined     200    52.775      0.67         9.479        51.454     54.096
 -----------------------------------------------------------------------------
-   diff       200    -4.87       1.304        9.231        -7.426     -2.314   
+   diff       200    -4.87       1.304        9.231        -7.426     -2.314
 -----------------------------------------------------------------------------
 
-                      Independent Samples Test                        
-                      ------------------------                        
+                      Independent Samples Test
+                      ------------------------
 
-                  Ho: mean(0) - mean(1) = diff = 0                    
-                            Ha: diff < 0                              
+                  Ho: mean(0) - mean(1) = diff = 0
+                            Ha: diff < 0
 
 ---------------------------------------------------------------------
- Variable        Method        Variances    DF     t Value     P < t  
+ Variable        Method        Variances    DF     t Value     P < t
 ---------------------------------------------------------------------
-  write          Pooled          Equal      198    -3.7347    0.0001  
-  write       Satterthwaite     Unequal     170    -3.6564    0.0002  
+  write          Pooled          Equal      198    -3.7347    0.0001
+  write       Satterthwaite     Unequal     170    -3.6564    0.0002
 ---------------------------------------------------------------------
 
-                Test for Equality of Variances                  
+                Test for Equality of Variances
 ---------------------------------------------------------------
- Variable      Method     Num DF    Den DF    F Value    P > F  
+ Variable      Method     Num DF    Den DF    F Value    P > F
 ---------------------------------------------------------------
-  write       Folded F      90       108       1.605     0.0188 
+  write       Folded F      90       108       1.605     0.0188
 ---------------------------------------------------------------")
 
-  expect_equivalent(print(ind_ttest(hsb2, 'female', 'write', alternative = 'less')), x)
+  expect_equivalent(print(infer_ts_ind_ttest(hsb2, 'female', 'write', alternative = 'less')), x)
 })
 
 test_that('output from independent sample t test is as expected when alternative is greater', {
 
-  x <- cat("                              Group Statistics                                
+  x <- cat("                              Group Statistics
 -----------------------------------------------------------------------------
-  Group       Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
+  Group       Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval]
 -----------------------------------------------------------------------------
-    0          91    50.121      1.080       10.305        47.975     52.267   
-    1         109    54.991      0.779        8.134        53.447     56.535   
+    0          91    50.121      1.080       10.305        47.975     52.267
+    1         109    54.991      0.779        8.134        53.447     56.535
 -----------------------------------------------------------------------------
- combined     200    52.775      0.67         9.479        51.454     54.096   
+ combined     200    52.775      0.67         9.479        51.454     54.096
 -----------------------------------------------------------------------------
-   diff       200    -4.87       1.304        9.231        -7.426     -2.314   
+   diff       200    -4.87       1.304        9.231        -7.426     -2.314
 -----------------------------------------------------------------------------
 
-                      Independent Samples Test                        
-                      ------------------------                        
+                      Independent Samples Test
+                      ------------------------
 
-                  Ho: mean(0) - mean(1) = diff = 0                    
-                            Ha: diff > 0                              
+                  Ho: mean(0) - mean(1) = diff = 0
+                            Ha: diff > 0
 
 ---------------------------------------------------------------------
- Variable        Method        Variances    DF     t Value     P > t  
+ Variable        Method        Variances    DF     t Value     P > t
 ---------------------------------------------------------------------
-  write          Pooled          Equal      198    -3.7347    0.9999  
-  write       Satterthwaite     Unequal     170    -3.6564    0.9998  
+  write          Pooled          Equal      198    -3.7347    0.9999
+  write       Satterthwaite     Unequal     170    -3.6564    0.9998
 ---------------------------------------------------------------------
 
-                Test for Equality of Variances                  
+                Test for Equality of Variances
 ---------------------------------------------------------------
- Variable      Method     Num DF    Den DF    F Value    P > F  
+ Variable      Method     Num DF    Den DF    F Value    P > F
 ---------------------------------------------------------------
-  write       Folded F      90       108       1.605     0.0188 
+  write       Folded F      90       108       1.605     0.0188
 ---------------------------------------------------------------")
 
-  expect_equivalent(print(ind_ttest(hsb2, 'female', 'write', alternative = 'greater')), x)
+  expect_equivalent(print(infer_ts_ind_ttest(hsb2, 'female', 'write', alternative = 'greater')), x)
 })
 
 test_that('output from independent sample t test is as expected when alternative is both', {
 
-  x <- cat("                              Group Statistics                                
+  x <- cat("                              Group Statistics
 -----------------------------------------------------------------------------
-  Group       Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
+  Group       Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval]
 -----------------------------------------------------------------------------
-    0          91    50.121      1.080       10.305        47.975     52.267   
-    1         109    54.991      0.779        8.134        53.447     56.535   
+    0          91    50.121      1.080       10.305        47.975     52.267
+    1         109    54.991      0.779        8.134        53.447     56.535
 -----------------------------------------------------------------------------
- combined     200    52.775      0.67         9.479        51.454     54.096   
+ combined     200    52.775      0.67         9.479        51.454     54.096
 -----------------------------------------------------------------------------
-   diff       200    -4.87       1.304        9.231        -7.426     -2.314   
+   diff       200    -4.87       1.304        9.231        -7.426     -2.314
 -----------------------------------------------------------------------------
 
-                      Independent Samples Test                        
-                      ------------------------                        
+                      Independent Samples Test
+                      ------------------------
 
-                  Ho: mean(0) - mean(1) = diff = 0                    
-                            Ha: diff ~= 0                             
+                  Ho: mean(0) - mean(1) = diff = 0
+                            Ha: diff ~= 0
 
 ---------------------------------------------------------------------
- Variable        Method        Variances    DF     t Value    P > |t| 
+ Variable        Method        Variances    DF     t Value    P > |t|
 ---------------------------------------------------------------------
-  write          Pooled          Equal      198    -3.7347    0.0002  
-  write       Satterthwaite     Unequal     170    -3.6564    0.0003  
+  write          Pooled          Equal      198    -3.7347    0.0002
+  write       Satterthwaite     Unequal     170    -3.6564    0.0003
 ---------------------------------------------------------------------
 
-                Test for Equality of Variances                  
+                Test for Equality of Variances
 ---------------------------------------------------------------
- Variable      Method     Num DF    Den DF    F Value    P > F  
+ Variable      Method     Num DF    Den DF    F Value    P > F
 ---------------------------------------------------------------
-  write       Folded F      90       108       1.605     0.0188 
+  write       Folded F      90       108       1.605     0.0188
 ---------------------------------------------------------------")
 
-  expect_equivalent(print(ind_ttest(hsb2, 'female', 'write', alternative = 'both')), x)
+  expect_equivalent(print(infer_ts_ind_ttest(hsb2, 'female', 'write', alternative = 'both')), x)
 })
 
 test_that('output from independent sample t test is as expected when alternative is all', {
 
-  x <- cat("                              Group Statistics                                
+  x <- cat("                              Group Statistics
 -----------------------------------------------------------------------------
-  Group       Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
+  Group       Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval]
 -----------------------------------------------------------------------------
-    0          91    50.121      1.080       10.305        47.975     52.267   
-    1         109    54.991      0.779        8.134        53.447     56.535   
+    0          91    50.121      1.080       10.305        47.975     52.267
+    1         109    54.991      0.779        8.134        53.447     56.535
 -----------------------------------------------------------------------------
- combined     200    52.775      0.67         9.479        51.454     54.096   
+ combined     200    52.775      0.67         9.479        51.454     54.096
 -----------------------------------------------------------------------------
-   diff       200    -4.87       1.304        9.231        -7.426     -2.314   
+   diff       200    -4.87       1.304        9.231        -7.426     -2.314
 -----------------------------------------------------------------------------
 
-                        Independent Samples Test                         
-                      ------------------------                        
+                        Independent Samples Test
+                      ------------------------
 
-                    Ho: mean(0) - mean(1) = diff = 0                     
+                    Ho: mean(0) - mean(1) = diff = 0
 
-      Ha: diff < 0            Ha: diff ~= 0             Ha: diff > 0       
+      Ha: diff < 0            Ha: diff ~= 0             Ha: diff > 0
 
-                                  Pooled                                   
+                                  Pooled
 ------------------------------------------------------------------------
-       t = -3.7347              t = -3.7347              t = -3.7347       
-     P < t = 0.0001          P > |t| = 0.0002          P > t = 0.9999      
+       t = -3.7347              t = -3.7347              t = -3.7347
+     P < t = 0.0001          P > |t| = 0.0002          P > t = 0.9999
 
-                              Satterthwaite                                
+                              Satterthwaite
 ------------------------------------------------------------------------
-       t = -3.6564              t = -3.6564              t = -3.6564       
-     P < t = 0.0002          P > |t| = 0.0003          P > t = 0.9998      
+       t = -3.6564              t = -3.6564              t = -3.6564
+     P < t = 0.0002          P > |t| = 0.0003          P > t = 0.9998
 
 
-                Test for Equality of Variances                  
+                Test for Equality of Variances
 ---------------------------------------------------------------
- Variable      Method     Num DF    Den DF    F Value    P > F  
+ Variable      Method     Num DF    Den DF    F Value    P > F
 ---------------------------------------------------------------
-  write       Folded F      90       108       1.605     0.0188 
+  write       Folded F      90       108       1.605     0.0188
 ---------------------------------------------------------------")
 
-  expect_equivalent(print(ind_ttest(hsb2, 'female', 'write', alternative = 'all')), x)
+  expect_equivalent(print(infer_ts_ind_ttest(hsb2, 'female', 'write', alternative = 'all')), x)
 })
