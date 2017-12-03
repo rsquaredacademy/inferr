@@ -37,7 +37,7 @@ reference:
 - title: Shiny App
 
   contents:
-  - launch_inferr
+  - infer_launch_shiny_app
 
 - title: Parametric Tests
 
