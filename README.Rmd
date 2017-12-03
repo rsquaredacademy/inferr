@@ -117,7 +117,7 @@ infer_cochran_qtest(exam)
 ```{r mc1}
 himath <- ifelse(hsb$math > 60, 1, 0)
 hiread <- ifelse(hsb$read > 60, 1, 0)
-mcnemar_test(table(himath, hiread))
+infer_mcnemar_test(table(himath, hiread))
 ```
 
 Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md).

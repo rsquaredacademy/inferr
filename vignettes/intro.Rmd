@@ -337,13 +337,13 @@ Using the hsb data, test if the proportion of students in himath and hiread grou
 ```{r mc1}
 himath <- ifelse(hsb$math > 60, 1, 0)
 hiread <- ifelse(hsb$read > 60, 1, 0)
-mcnemar_test(table(himath, hiread))
+infer_mcnemar_test(table(himath, hiread))
 ```
 
 Perform the above test using matrix as input.
 
 ```{r mc2}
-mcnemar_test(matrix(c(135, 18, 21, 26), nrow = 2))
+infer_mcnemar_test(matrix(c(135, 18, 21, 26), nrow = 2))
 ```
 
 ## Runs Test for Randomness
