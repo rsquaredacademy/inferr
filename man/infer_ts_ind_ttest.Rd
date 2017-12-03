@@ -2,6 +2,7 @@
 % Please edit documentation in R/infer-ts-ind-ttest.R
 \name{infer_ts_ind_ttest}
 \alias{infer_ts_ind_ttest}
+\alias{ind_ttest}
 \title{Two Independent Sample t Test}
 \usage{
 infer_ts_ind_ttest(data, x, y, confint = 0.95, alternative = c("both",

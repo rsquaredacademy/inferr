@@ -18,6 +18,6 @@ infer_launch_shiny_app <- function() {
 launch_inferr <- function() {
 
     .Deprecated("infer_launch_shiny_app()")
-    infer_launch_shiny_app(data)
+    infer_launch_shiny_app()
 
 }

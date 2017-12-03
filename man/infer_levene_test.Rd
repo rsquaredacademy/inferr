@@ -2,12 +2,16 @@
 % Please edit documentation in R/infer-levene-test.R
 \name{infer_levene_test}
 \alias{infer_levene_test}
+\alias{infer_levene_test.default}
 \alias{levene_test}
 \alias{infer_levene_test.lm}
 \alias{infer_levene_test.formula}
 \title{Levene's test for equality of variances}
 \usage{
 infer_levene_test(variable, ...)
+
+\method{infer_levene_test}{default}(variable, ..., group_var = NA,
+  trim.mean = 0.1)
 
 \method{infer_levene_test}{lm}(variable, ...)
 

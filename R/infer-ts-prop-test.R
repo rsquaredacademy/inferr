@@ -35,29 +35,37 @@
 #' @examples
 #' # using variables
 #' # lower tail
-#' infer_ts_prop_test(var1 = treatment$treatment1, var2 = treatment$treatment2, alternative = 'less')
+#' infer_ts_prop_test(var1 = treatment$treatment1, var2 = treatment$treatment2,
+#' alternative = 'less')
 #'
 #' # upper tail
-#' infer_ts_prop_test(var1 = treatment$treatment1, var2 = treatment$treatment2, alternative = 'greater')
+#' infer_ts_prop_test(var1 = treatment$treatment1, var2 = treatment$treatment2,
+#' alternative = 'greater')
 #'
 #' # both tails
-#' infer_ts_prop_test(var1 = treatment$treatment1, var2 = treatment$treatment2, alternative = 'both')
+#' infer_ts_prop_test(var1 = treatment$treatment1, var2 = treatment$treatment2,
+#' alternative = 'both')
 #'
 #' # all tails
-#' infer_ts_prop_test(var1 = treatment$treatment1, var2 = treatment$treatment2, alternative = 'all')
+#' infer_ts_prop_test(var1 = treatment$treatment1, var2 = treatment$treatment2,
+#' alternative = 'all')
 #'
 #' # using groups
 #' # lower tail
-#' infer_ts_prop_grp(var = treatment2$outcome, group = treatment2$female, alternative = 'less')
+#' infer_ts_prop_grp(var = treatment2$outcome, group = treatment2$female,
+#' alternative = 'less')
 #'
 #' # upper tail
-#' infer_ts_prop_grp(var = treatment2$outcome, group = treatment2$female, alternative = 'greater')
+#' infer_ts_prop_grp(var = treatment2$outcome, group = treatment2$female,
+#' alternative = 'greater')
 #'
 #' # both tails
-#' infer_ts_prop_grp(var = treatment2$outcome, group = treatment2$female, alternative = 'both')
+#' infer_ts_prop_grp(var = treatment2$outcome, group = treatment2$female,
+#' alternative = 'both')
 #'
 #' # # all tails
-#' infer_ts_prop_grp(var = treatment2$outcome, group = treatment2$female, alternative = 'all')
+#' infer_ts_prop_grp(var = treatment2$outcome, group = treatment2$female,
+#' alternative = 'all')
 #'
 #' # using sample size and proportions
 #' # lower tail
@@ -169,7 +177,7 @@ infer_ts_prop_grp <- function(var, group,
 }
 
 #' @export
-#' @rdname infer_ts_prop_grp
+#' @rdname infer_ts_prop_test
 #' @usage NULL
 #'
 ts_prop_grp <- function(var, group,
@@ -229,7 +237,7 @@ infer_ts_prop_calc <- function(n1, n2, p1, p2,
 }
 
 #' @export
-#' @rdname infer_ts_prop_calc
+#' @rdname infer_ts_prop_test
 #' @usage NULL
 #'
 ts_prop_calc <- function(n1, n2, p1, p2,

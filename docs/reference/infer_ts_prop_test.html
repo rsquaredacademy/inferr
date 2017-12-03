@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Two Sample Test of Proportion <U+2014> infer_ts_prop_test binferr</title>
+<title>Two Sample Test of Proportion — infer_ts_prop_test â€¢ inferr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -171,28 +171,32 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># using variables</span>
 <span class='co'># lower tail</span>
-<span class='fu'>infer_ts_prop_test</span>(<span class='kw'>var1</span> <span class='kw'>=</span> <span class='no'>treatment</span>$<span class='no'>treatment1</span>, <span class='kw'>var2</span> <span class='kw'>=</span> <span class='no'>treatment</span>$<span class='no'>treatment2</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;     Test Statistics      
+<span class='fu'>infer_ts_prop_test</span>(<span class='kw'>var1</span> <span class='kw'>=</span> <span class='no'>treatment</span>$<span class='no'>treatment1</span>, <span class='kw'>var2</span> <span class='kw'>=</span> <span class='no'>treatment</span>$<span class='no'>treatment2</span>,
+<span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;     Test Statistics      
 #&gt; ------------------------
 #&gt; Sample Size           50 
 #&gt; z                  0.403 
 #&gt; Pr(Z &lt; z)          0.656 
 #&gt; </div><div class='input'>
 <span class='co'># upper tail</span>
-<span class='fu'>infer_ts_prop_test</span>(<span class='kw'>var1</span> <span class='kw'>=</span> <span class='no'>treatment</span>$<span class='no'>treatment1</span>, <span class='kw'>var2</span> <span class='kw'>=</span> <span class='no'>treatment</span>$<span class='no'>treatment2</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'greater'</span>)</div><div class='output co'>#&gt;     Test Statistics      
+<span class='fu'>infer_ts_prop_test</span>(<span class='kw'>var1</span> <span class='kw'>=</span> <span class='no'>treatment</span>$<span class='no'>treatment1</span>, <span class='kw'>var2</span> <span class='kw'>=</span> <span class='no'>treatment</span>$<span class='no'>treatment2</span>,
+<span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'greater'</span>)</div><div class='output co'>#&gt;     Test Statistics      
 #&gt; ------------------------
 #&gt; Sample Size           50 
 #&gt; z                  0.403 
 #&gt; Pr(Z &gt; z)          0.344 
 #&gt; </div><div class='input'>
 <span class='co'># both tails</span>
-<span class='fu'>infer_ts_prop_test</span>(<span class='kw'>var1</span> <span class='kw'>=</span> <span class='no'>treatment</span>$<span class='no'>treatment1</span>, <span class='kw'>var2</span> <span class='kw'>=</span> <span class='no'>treatment</span>$<span class='no'>treatment2</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'both'</span>)</div><div class='output co'>#&gt;     Test Statistics      
+<span class='fu'>infer_ts_prop_test</span>(<span class='kw'>var1</span> <span class='kw'>=</span> <span class='no'>treatment</span>$<span class='no'>treatment1</span>, <span class='kw'>var2</span> <span class='kw'>=</span> <span class='no'>treatment</span>$<span class='no'>treatment2</span>,
+<span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'both'</span>)</div><div class='output co'>#&gt;     Test Statistics      
 #&gt; ------------------------
 #&gt; Sample Size           50 
 #&gt; z                  0.403 
 #&gt; Pr(|Z| &gt; |z|)      0.687 
 #&gt; </div><div class='input'>
 <span class='co'># all tails</span>
-<span class='fu'>infer_ts_prop_test</span>(<span class='kw'>var1</span> <span class='kw'>=</span> <span class='no'>treatment</span>$<span class='no'>treatment1</span>, <span class='kw'>var2</span> <span class='kw'>=</span> <span class='no'>treatment</span>$<span class='no'>treatment2</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'all'</span>)</div><div class='output co'>#&gt;     Test Statistics      
+<span class='fu'>infer_ts_prop_test</span>(<span class='kw'>var1</span> <span class='kw'>=</span> <span class='no'>treatment</span>$<span class='no'>treatment1</span>, <span class='kw'>var2</span> <span class='kw'>=</span> <span class='no'>treatment</span>$<span class='no'>treatment2</span>,
+<span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'all'</span>)</div><div class='output co'>#&gt;     Test Statistics      
 #&gt; ------------------------
 #&gt; Sample Size           50 
 #&gt; z                  0.403 
@@ -202,28 +206,32 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
 #&gt; </div><div class='input'>
 <span class='co'># using groups</span>
 <span class='co'># lower tail</span>
-<span class='fu'>infer_ts_prop_grp</span>(<span class='kw'>var</span> <span class='kw'>=</span> <span class='no'>treatment2</span>$<span class='no'>outcome</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>treatment2</span>$<span class='no'>female</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;     Test Statistics      
+<span class='fu'>infer_ts_prop_grp</span>(<span class='kw'>var</span> <span class='kw'>=</span> <span class='no'>treatment2</span>$<span class='no'>outcome</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>treatment2</span>$<span class='no'>female</span>,
+<span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;     Test Statistics      
 #&gt; ------------------------
 #&gt; Sample Size           91 
 #&gt; z                  0.351 
 #&gt; Pr(Z &lt; z)          0.637 
 #&gt; </div><div class='input'>
 <span class='co'># upper tail</span>
-<span class='fu'>infer_ts_prop_grp</span>(<span class='kw'>var</span> <span class='kw'>=</span> <span class='no'>treatment2</span>$<span class='no'>outcome</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>treatment2</span>$<span class='no'>female</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'greater'</span>)</div><div class='output co'>#&gt;     Test Statistics      
+<span class='fu'>infer_ts_prop_grp</span>(<span class='kw'>var</span> <span class='kw'>=</span> <span class='no'>treatment2</span>$<span class='no'>outcome</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>treatment2</span>$<span class='no'>female</span>,
+<span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'greater'</span>)</div><div class='output co'>#&gt;     Test Statistics      
 #&gt; ------------------------
 #&gt; Sample Size           91 
 #&gt; z                  0.351 
 #&gt; Pr(Z &gt; z)          0.363 
 #&gt; </div><div class='input'>
 <span class='co'># both tails</span>
-<span class='fu'>infer_ts_prop_grp</span>(<span class='kw'>var</span> <span class='kw'>=</span> <span class='no'>treatment2</span>$<span class='no'>outcome</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>treatment2</span>$<span class='no'>female</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'both'</span>)</div><div class='output co'>#&gt;     Test Statistics      
+<span class='fu'>infer_ts_prop_grp</span>(<span class='kw'>var</span> <span class='kw'>=</span> <span class='no'>treatment2</span>$<span class='no'>outcome</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>treatment2</span>$<span class='no'>female</span>,
+<span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'both'</span>)</div><div class='output co'>#&gt;     Test Statistics      
 #&gt; ------------------------
 #&gt; Sample Size           91 
 #&gt; z                  0.351 
 #&gt; Pr(|Z| &gt; |z|)      0.726 
 #&gt; </div><div class='input'>
 <span class='co'># # all tails</span>
-<span class='fu'>infer_ts_prop_grp</span>(<span class='kw'>var</span> <span class='kw'>=</span> <span class='no'>treatment2</span>$<span class='no'>outcome</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>treatment2</span>$<span class='no'>female</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'all'</span>)</div><div class='output co'>#&gt;     Test Statistics      
+<span class='fu'>infer_ts_prop_grp</span>(<span class='kw'>var</span> <span class='kw'>=</span> <span class='no'>treatment2</span>$<span class='no'>outcome</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>treatment2</span>$<span class='no'>female</span>,
+<span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'all'</span>)</div><div class='output co'>#&gt;     Test Statistics      
 #&gt; ------------------------
 #&gt; Sample Size           91 
 #&gt; z                  0.351 

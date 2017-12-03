@@ -61,7 +61,7 @@
 infer_levene_test <- function(variable, ...) UseMethod('infer_levene_test')
 
 #' @export
-#' @rdname levene_test
+#' @rdname infer_levene_test
 infer_levene_test.default <- function(variable, ..., group_var = NA,
 	trim.mean = 0.1) {
 
