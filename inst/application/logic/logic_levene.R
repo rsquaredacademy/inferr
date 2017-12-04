@@ -79,7 +79,7 @@ d_levtest <- eventReactive(input$submit_levtest, {
   req(input$var_levtest)
 	# validate(need((input$var_levtest != ''), 'Please select variables'))
   data <- final_split$train[, c(input$var_levtest)]
-  out <- levene_test(data)
+  out <- infer_levene_test(data)
   out
 })
 
@@ -88,7 +88,7 @@ d_levtestg <- eventReactive(input$submit_levtestg, {
   req(input$var_levtestg2)
 	# validate(need((input$var_levtestg1 != '' & input$var_levtestg2 != ''), 'Please select variables'))
   data <- final_split$train[, c(input$var_levtestg1, input$var_levtestg2)]
-  out <- levene_test(data[, 1], group_var = data[, 2])
+  out <- infer_levene_test(data[, 1], group_var = data[, 2])
   out
 })
 
@@ -97,7 +97,7 @@ d_levmod <- eventReactive(input$submit_levtestf, {
   # validate(need((input$levtest_fmla != ''), 'Please specify a model'))
   data <- final_split$train
   k <- lm(input$levtest_fmla, data = data)
-  out <- levene_test(k)
+  out <- infer_levene_test(k)
   out
 })
 

@@ -38,7 +38,7 @@ d_osproptest <- eventReactive(input$submit_osproptest, {
   req(input$var_osproptest)
   data <- final_split$train[, c(input$var_osproptest)]
   # validate(need(nlevels(data) == 2, 'Please select a binary variable.'))
-  out <- prop_test(data, input$osproptest_prob, input$osproptest_type)
+  out <- infer_os_prop_test(data, input$osproptest_prob, input$osproptest_type)
   out 
 })
 
@@ -47,7 +47,7 @@ output$osproptest_out <- renderPrint({
 })
 
 ospropcalc <- eventReactive(input$submit_ospropcalc, {
-  prop_test(n = input$n_ospropcalc, phat = as.numeric(input$p_ospropcalc), prob = input$prob_ospropcalc,
+  infer_os_prop_test(n = input$n_ospropcalc, phat = as.numeric(input$p_ospropcalc), prob = input$prob_ospropcalc,
       alternative = input$ospropcalc_type)
 })
 

@@ -75,7 +75,7 @@ d_itest <- eventReactive(input$submit_itest, {
   req(input$var_itest2)
   data <- final_split$train[, c(input$var_itest1, input$var_itest2)]
   # validate(need(nlevels(data[, 1]) == 2, 'Please select a binary variable.'))
-  k <- ind_ttest(data, as.character(input$var_itest1),
+  k <- infer_ts_ind_ttest(data, as.character(input$var_itest1),
       as.character(input$var_itest2), input$itest_conf, input$itest_type)
   k
 })

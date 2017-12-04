@@ -42,9 +42,9 @@ d_binomtest <- eventReactive(input$submit_binomtest, {
 
 output$binomtest_out <- renderPrint({
   # validate(need(nlevels(d_binomtest()) == 2, 'Please select a binary variable.'))
-  binom_test(d_binomtest(), input$binomtest_prob)
+  infer_binom_test(d_binomtest(), input$binomtest_prob)
 })
 
 output$binomcalc_out <- renderPrint({
-    binom_calc(input$n_binomcalc, input$s_binomcalc, input$p_binomcalc)
+  infer_binom_calc(input$n_binomcalc, input$s_binomcalc, input$p_binomcalc)
 })

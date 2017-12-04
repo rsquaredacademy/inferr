@@ -110,7 +110,7 @@ d_tsvartestg <- eventReactive(input$submit_tsvartestg, {
   req(input$var_tsvartestg2)
   data <- final_split$train[, c(input$var_tsvartestg1, input$var_tsvartestg2)]
   # validate(need(nlevels(data[, 2]) == 2, 'Please select a binary variable.'))
-  k <- var_test(data[, 1], group_var = data[, 2], alternative = input$tsvartestg_type)
+  k <- infer_var_test(data[, 1], group_var = data[, 2], alternative = input$tsvartestg_type)
   k
 })
 
