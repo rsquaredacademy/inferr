@@ -7,9 +7,9 @@ tabPanel('Chi Square Association', value = 'tab_chict',
       ),
       column(6, align = 'right',
         actionButton(inputId='chiasso1', label="Help", icon = icon("question-circle"),
-          onclick ="window.open('https://rsquaredacademy.github.io/inferr/reference/chisq_test.html', '_blank')"),
+          onclick ="window.open('https://rsquaredacademy.github.io/inferr/reference/infer_chisq_assoc_test.html', '_blank')"),
         actionButton(inputId='chiasso3', label="Demo", icon = icon("video-camera"),
-          onclick ="window.open('http://google.com', '_blank')")
+          onclick ="window.open('https://www.youtube.com/watch?v=p7-KcyeVl8s', '_blank')")
       )
     ),
     hr(),

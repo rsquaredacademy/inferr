@@ -7,9 +7,9 @@ tabPanel('McNemar Test', value = 'tab_mcnemar',
       ),
       column(4, align = 'right',
         actionButton(inputId='mclink1', label="Help", icon = icon("question-circle"),
-          onclick ="window.open('https://rsquaredacademy.github.io/inferr/reference/mcnemar_test.html', '_blank')"),
+          onclick ="window.open('https://rsquaredacademy.github.io/inferr/reference/infer_mcnemar_test.html', '_blank')"),
         actionButton(inputId='mclink3', label="Demo", icon = icon("video-camera"),
-          onclick ="window.open('http://google.com', '_blank')")
+          onclick ="window.open('https://www.youtube.com/watch?v=MrbnGGcF6ek', '_blank')")
       )
     ),
     hr(),

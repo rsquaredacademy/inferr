@@ -7,9 +7,9 @@ tabPanel('One Sample Proportion', value = 'tab_osproptest',
       ),
       column(6, align = 'right',
         actionButton(inputId='osproplink1', label="Help", icon = icon("question-circle"),
-          onclick ="window.open('https://rsquaredacademy.github.io/inferr/reference/prop_test.html', '_blank')"),
+          onclick ="window.open('https://rsquaredacademy.github.io/inferr/reference/infer_os_prop_test.html', '_blank')"),
         actionButton(inputId='osproplink3', label="Demo", icon = icon("video-camera"),
-          onclick ="window.open('http://google.com', '_blank')")
+          onclick ="window.open('https://www.youtube.com/watch?v=K8BNGJYmvlI', '_blank')")
       )
     ),
     hr(),
