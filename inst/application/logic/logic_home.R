@@ -299,7 +299,7 @@ observeEvent(input$inf_menu_2_it, {
 
 observeEvent(input$inf_menu_2_pt, {
 	updateNavbarPage(session, 'mainpage', selected = 'tab_infer')
-	updateNavlistPanel(session, 'navlist_infer', 'tab_indttest')
+	updateNavlistPanel(session, 'navlist_infer', 'tab_ptest')
 })
 
 observeEvent(input$inf_menu_2_binom, {
