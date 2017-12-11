@@ -3,7 +3,7 @@ tabPanel('Independent Sample t', value = 'tab_indttest',
     fluidRow(
       column(6, align = 'left',
         h4('Independent Sample t Test'),
-        p('Compares the means of two independent groups in order to determine 
+        p('Compare the means of two independent groups in order to determine 
           whether there is statistical evidence that the associated population 
           means are significantly different.')
       ),
