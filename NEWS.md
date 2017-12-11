@@ -1,3 +1,9 @@
+# inferr 0.2.0
+
+### New Features
+
+- shiny app for interactive analysis
+
 # inferr 0.1.1
 
 ### Bug Fixes
