@@ -9,7 +9,7 @@ tabPanel('Paired Sample t', value = 'tab_ptest',
         actionButton(inputId='ab1', label="Help", icon = icon("question-circle"),
           onclick ="window.open('https://rsquaredacademy.github.io/inferr/reference/infer_ts_paired_ttest.html', '_blank')"),
         actionButton(inputId='ab3', label="Demo", icon = icon("video-camera"),
-          onclick ="window.open('https://www.youtube.com/watch?v=iKFFzv9WiUo', '_blank')")
+          onclick ="window.open('https://www.youtube.com/watch?v=dgMJcgeXLL0', '_blank')")
       )
     ),
     hr(),
