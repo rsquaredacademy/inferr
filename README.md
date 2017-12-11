@@ -1,7 +1,6 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-inferr: Inferential statistics with R <img src="inferr.jpg" align="right" />
-----------------------------------------------------------------------------
+inferr: Inferential statistics with R
 
 **Author:** [Aravind Hebbali](http://www.aravindhebbali.com)<br/> **License:** [MIT](https://opensource.org/licenses/MIT)
 
