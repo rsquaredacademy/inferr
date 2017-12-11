@@ -9,7 +9,7 @@ tabPanel("Select Data", value = "tab_seldata",
       ),
       column(6, align = 'right',
         actionButton(inputId='seldatalink', label="Demo", icon = icon("video-camera"),
-          onclick ="window.open('http://google.com', '_blank')")
+          onclick ="window.open('https://www.youtube.com/watch?v=lheslEn5icc#t=01m10s', '_blank')")
       )
     ),
     hr(),
