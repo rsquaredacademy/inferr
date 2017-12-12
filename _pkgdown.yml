@@ -16,13 +16,11 @@ navbar:
       menu:
         - text: "Functions"
           href: reference/index.html
-        - text: "Media"
-          href: articles/reference-media.html
         - text: "News"
           href: news/index.html
   right:
-   - icon: fa-github
-     href: https://github.com/rsquaredacademy/inferr
+    - icon: fa-github
+      href: https://github.com/rsquaredacademy/inferr
 
 home:
   links:
