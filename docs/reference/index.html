@@ -11,8 +11,8 @@
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -23,14 +23,17 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
+  
+  
 <!-- mathjax -->
-<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
   </head>
 
   <body>
@@ -98,122 +101,176 @@
       <div class="row">
   <div class="col-md-9">
     <div class="page-header">
-      <h1>Function reference</h1>
-      <h4>version&nbsp;0.2.0</h4>
+      <h1>
+        Reference
+        <small>version&nbsp;0.2.0.9000</small>
+      </h1>
     </div>
 
     <div class="contents">
-      <h2 id="section-shiny-app" class="hasAnchor"><a href="#section-shiny-app" class="anchor"></a>Shiny App</h2>
-      <p class="section-desc"></p>
+      <table class="ref-index">
 
-      
-      <p><a href="infer_launch_shiny_app.html">Launch Shiny App</a></p>
-      <ul>
-        <li><code><a href="infer_launch_shiny_app.html">infer_launch_shiny_app</a></code></li><li><code><a href="infer_launch_shiny_app.html">launch_inferr</a></code></li>
-      </ul>
-          <h2 id="section-parametric-tests" class="hasAnchor"><a href="#section-parametric-tests" class="anchor"></a>Parametric Tests</h2>
-      <p class="section-desc"></p>
+      <colgroup>
+        <col class="alias" />
+        <col class="title" />
+      </colgroup>
 
-      
-      <p><a href="infer_binom_calc.html">Binomial Test</a></p>
-      <ul>
-        <li><code><a href="infer_binom_calc.html">infer_binom_calc</a></code></li><li><code><a href="infer_binom_calc.html">binom_calc</a></code></li><li><code><a href="infer_binom_calc.html">infer_binom_test</a></code></li><li><code><a href="infer_binom_calc.html">binom_test</a></code></li>
-      </ul>
-      
-      <p><a href="infer_levene_test.html">Levene's test for equality of variances</a></p>
-      <ul>
-        <li><code><a href="infer_levene_test.html">infer_levene_test</a></code></li><li><code><a href="infer_levene_test.html">infer_levene_test.default</a></code></li><li><code><a href="infer_levene_test.html">levene_test</a></code></li><li><code><a href="infer_levene_test.html">infer_levene_test.lm</a></code></li><li><code><a href="infer_levene_test.html">infer_levene_test.formula</a></code></li>
-      </ul>
-      
-      <p><a href="infer_os_prop_test.html">One Sample Test of Proportion</a></p>
-      <ul>
-        <li><code><a href="infer_os_prop_test.html">infer_os_prop_test</a></code></li><li><code><a href="infer_os_prop_test.html">infer_os_prop_test.default</a></code></li><li><code><a href="infer_os_prop_test.html">prop_test</a></code></li><li><code><a href="infer_os_prop_test.html">infer_os_prop_test.factor</a></code></li>
-      </ul>
-      
-      <p><a href="infer_os_t_test.html">One Sample t Test</a></p>
-      <ul>
-        <li><code><a href="infer_os_t_test.html">infer_os_t_test</a></code></li><li><code><a href="infer_os_t_test.html">ttest</a></code></li>
-      </ul>
-      
-      <p><a href="infer_os_var_test.html">One Sample Variance Comparison Test</a></p>
-      <ul>
-        <li><code><a href="infer_os_var_test.html">infer_os_var_test</a></code></li><li><code><a href="infer_os_var_test.html">os_vartest</a></code></li>
-      </ul>
-      
-      <p><a href="infer_ts_ind_ttest.html">Two Independent Sample t Test</a></p>
-      <ul>
-        <li><code><a href="infer_ts_ind_ttest.html">infer_ts_ind_ttest</a></code></li><li><code><a href="infer_ts_ind_ttest.html">ind_ttest</a></code></li>
-      </ul>
-      
-      <p><a href="infer_ts_paired_ttest.html">Paired t test</a></p>
-      <ul>
-        <li><code><a href="infer_ts_paired_ttest.html">infer_ts_paired_ttest</a></code></li><li><code><a href="infer_ts_paired_ttest.html">paired_ttest</a></code></li>
-      </ul>
-      
-      <p><a href="infer_ts_prop_test.html">Two Sample Test of Proportion</a></p>
-      <ul>
-        <li><code><a href="infer_ts_prop_test.html">infer_ts_prop_test</a></code></li><li><code><a href="infer_ts_prop_test.html">ts_prop_test</a></code></li><li><code><a href="infer_ts_prop_test.html">infer_ts_prop_grp</a></code></li><li><code><a href="infer_ts_prop_test.html">ts_prop_grp</a></code></li><li><code><a href="infer_ts_prop_test.html">infer_ts_prop_calc</a></code></li><li><code><a href="infer_ts_prop_test.html">ts_prop_calc</a></code></li>
-      </ul>
-      
-      <p><a href="infer_ts_var_test.html">Two Sample Variance Comparison Test</a></p>
-      <ul>
-        <li><code><a href="infer_ts_var_test.html">infer_ts_var_test</a></code></li><li><code><a href="infer_ts_var_test.html">var_test</a></code></li>
-      </ul>
-          <h2 id="section-non-parametric-tests" class="hasAnchor"><a href="#section-non-parametric-tests" class="anchor"></a>Non-parametric Tests</h2>
-      <p class="section-desc"></p>
-
-      
-      <p><a href="infer_chisq_assoc_test.html">Chi Square Test of Association</a></p>
-      <ul>
-        <li><code><a href="infer_chisq_assoc_test.html">infer_chisq_assoc_test</a></code></li><li><code><a href="infer_chisq_assoc_test.html">chisq_test</a></code></li>
-      </ul>
-      
-      <p><a href="infer_chisq_gof_test.html">Chi Square Goodness of Fit Test</a></p>
-      <ul>
-        <li><code><a href="infer_chisq_gof_test.html">infer_chisq_gof_test</a></code></li><li><code><a href="infer_chisq_gof_test.html">chisq_gof</a></code></li>
-      </ul>
-      
-      <p><a href="infer_cochran_qtest.html">Cochran Q Test</a></p>
-      <ul>
-        <li><code><a href="infer_cochran_qtest.html">infer_cochran_qtest</a></code></li><li><code><a href="infer_cochran_qtest.html">cochran_test</a></code></li>
-      </ul>
-      
-      <p><a href="infer_mcnemar_test.html">McNemar Test</a></p>
-      <ul>
-        <li><code><a href="infer_mcnemar_test.html">infer_mcnemar_test</a></code></li><li><code><a href="infer_mcnemar_test.html">mcnemar_test</a></code></li>
-      </ul>
-      
-      <p><a href="infer_runs_test.html">Test for Random Order</a></p>
-      <ul>
-        <li><code><a href="infer_runs_test.html">infer_runs_test</a></code></li><li><code><a href="infer_runs_test.html">runs_test</a></code></li>
-      </ul>
-          <h2 id="section-anova" class="hasAnchor"><a href="#section-anova" class="anchor"></a>ANOVA</h2>
-      <p class="section-desc"></p>
-
-      
-      <p><a href="infer_oneway_anova.html">One Way ANOVA</a></p>
-      <ul>
-        <li><code><a href="infer_oneway_anova.html">infer_oneway_anova</a></code></li><li><code><a href="infer_oneway_anova.html">owanova</a></code></li>
-      </ul>
-          <h2 id="section-data" class="hasAnchor"><a href="#section-data" class="anchor"></a>Data</h2>
-      <p class="section-desc"><p>inferr comes with a built-in datasets which are used to illustrate the functions as well as for running tests.</p></p>
-
-      
-      <p><a href="exam.html">Dummy data set for Cochran's Q test</a></p>
-      <ul>
-        <li><code><a href="exam.html">exam</a></code></li>
-      </ul>
-      
-      <p><a href="hsb.html">High School and Beyond Data Set</a></p>
-      <ul>
-        <li><code><a href="hsb.html">hsb</a></code></li>
-      </ul>
-      
-      <p><a href="treatment.html">Dummy data set for 2 Sample Proportion test</a></p>
-      <ul>
-        <li><code><a href="treatment.html">treatment</a></code></li>
-      </ul>
-    
+      <tbody>
+        <tr>
+          <th colspan="2">
+            <h2 id="section-shiny-app" class="hasAnchor"><a href="#section-shiny-app" class="anchor"></a>Shiny App</h2>
+            <p class="section-desc"></p>
+          </th>
+        </tr>
+        <tr>
+          <!--  -->
+          <td>
+            <p><code><a href="infer_launch_shiny_app.html">infer_launch_shiny_app</a></code> </p>
+          </td>
+          <td><p>Launch Shiny App</p></td>
+        </tr>
+      </tbody><tbody>
+        <tr>
+          <th colspan="2">
+            <h2 id="section-parametric-tests" class="hasAnchor"><a href="#section-parametric-tests" class="anchor"></a>Parametric Tests</h2>
+            <p class="section-desc"></p>
+          </th>
+        </tr>
+        <tr>
+          <!--  -->
+          <td>
+            <p><code><a href="infer_binom_calc.html">infer_binom_calc</a></code> <code><a href="infer_binom_calc.html">infer_binom_test</a></code> </p>
+          </td>
+          <td><p>Binomial Test</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="infer_levene_test.html">infer_levene_test</a></code> </p>
+          </td>
+          <td><p>Levene's test for equality of variances</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="infer_os_prop_test.html">infer_os_prop_test</a></code> </p>
+          </td>
+          <td><p>One Sample Test of Proportion</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="infer_os_t_test.html">infer_os_t_test</a></code> </p>
+          </td>
+          <td><p>One Sample t Test</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="infer_os_var_test.html">infer_os_var_test</a></code> </p>
+          </td>
+          <td><p>One Sample Variance Comparison Test</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="infer_ts_ind_ttest.html">infer_ts_ind_ttest</a></code> </p>
+          </td>
+          <td><p>Two Independent Sample t Test</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="infer_ts_paired_ttest.html">infer_ts_paired_ttest</a></code> </p>
+          </td>
+          <td><p>Paired t test</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="infer_ts_prop_test.html">infer_ts_prop_test</a></code> <code><a href="infer_ts_prop_test.html">infer_ts_prop_grp</a></code> <code><a href="infer_ts_prop_test.html">infer_ts_prop_calc</a></code> </p>
+          </td>
+          <td><p>Two Sample Test of Proportion</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="infer_ts_var_test.html">infer_ts_var_test</a></code> </p>
+          </td>
+          <td><p>Two Sample Variance Comparison Test</p></td>
+        </tr>
+      </tbody><tbody>
+        <tr>
+          <th colspan="2">
+            <h2 id="section-non-parametric-tests" class="hasAnchor"><a href="#section-non-parametric-tests" class="anchor"></a>Non-parametric Tests</h2>
+            <p class="section-desc"></p>
+          </th>
+        </tr>
+        <tr>
+          <!--  -->
+          <td>
+            <p><code><a href="infer_chisq_assoc_test.html">infer_chisq_assoc_test</a></code> </p>
+          </td>
+          <td><p>Chi Square Test of Association</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="infer_chisq_gof_test.html">infer_chisq_gof_test</a></code> </p>
+          </td>
+          <td><p>Chi Square Goodness of Fit Test</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="infer_cochran_qtest.html">infer_cochran_qtest</a></code> </p>
+          </td>
+          <td><p>Cochran Q Test</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="infer_mcnemar_test.html">infer_mcnemar_test</a></code> </p>
+          </td>
+          <td><p>McNemar Test</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="infer_runs_test.html">infer_runs_test</a></code> </p>
+          </td>
+          <td><p>Test for Random Order</p></td>
+        </tr>
+      </tbody><tbody>
+        <tr>
+          <th colspan="2">
+            <h2 id="section-anova" class="hasAnchor"><a href="#section-anova" class="anchor"></a>ANOVA</h2>
+            <p class="section-desc"></p>
+          </th>
+        </tr>
+        <tr>
+          <!--  -->
+          <td>
+            <p><code><a href="infer_oneway_anova.html">infer_oneway_anova</a></code> </p>
+          </td>
+          <td><p>One Way ANOVA</p></td>
+        </tr>
+      </tbody><tbody>
+        <tr>
+          <th colspan="2">
+            <h2 id="section-data" class="hasAnchor"><a href="#section-data" class="anchor"></a>Data</h2>
+            <p class="section-desc"><p>inferr comes with a built-in datasets which are used to illustrate the functions as well as for running tests.</p></p>
+          </th>
+        </tr>
+        <tr>
+          <!--  -->
+          <td>
+            <p><code><a href="hsb.html">hsb</a></code> </p>
+          </td>
+          <td><p>High School and Beyond Data Set</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="exam.html">exam</a></code> </p>
+          </td>
+          <td><p>Dummy data set for Cochran's Q test</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="treatment.html">treatment</a></code> </p>
+          </td>
+          <td><p>Dummy data set for 2 Sample Proportion test</p></td>
+        </tr>
+      </tbody>
+      </table>
     </div>
   </div>
 
