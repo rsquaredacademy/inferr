@@ -10,7 +10,7 @@
 \usage{
 infer_levene_test(variable, ...)
 
-\method{infer_levene_test}{default}(variable, ..., group_var = NA,
+\method{infer_levene_test}{default}(variable, ..., group_var = NULL,
   trim.mean = 0.1)
 
 \method{infer_levene_test}{lm}(variable, ...)
