@@ -129,7 +129,7 @@ infer_levene_test.default <- function(variable, ..., group_var = NULL,
 #' @rdname infer_levene_test
 #' @usage NULL
 #'
-levene_test <- function(variable, ..., group_var = NA,
+levene_test <- function(variable, ..., group_var = NULL,
                         trim.mean = 0.1) {
 
     .Deprecated("infer_levene_test()")
