@@ -62,14 +62,14 @@ infer_levene_test <- function(variable, ...) UseMethod('infer_levene_test')
 
 #' @export
 #' @rdname infer_levene_test
-infer_levene_test.default <- function(variable, ..., group_var = NA,
+infer_levene_test.default <- function(variable, ..., group_var = NULL,
 	trim.mean = 0.1) {
 
 	varname <- deparse(substitute(variable))
 
-	suppressWarnings(
 
-		if (is.na(group_var)) {
+
+		if (is.null(group_var)) {
 
 			if (is.data.frame(variable)) {
 				z <- as.list(variable)
@@ -96,7 +96,7 @@ infer_levene_test.default <- function(variable, ..., group_var = NA,
 
     }
 
-	)
+
 
 	if (!is.factor(group_var)) {
 		group_var <- as.factor(group_var)
