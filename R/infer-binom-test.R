@@ -16,10 +16,8 @@
 #' \item{exp_k}{expected number of successes}
 #' \item{obs_p}{assumed probability of success}
 #' \item{exp_p}{expected probability of success}
-#' \item{ik}{the largest number <= \code{exp_k} such that Pr(k = ik) <= Pr(k = kobs)}
 #' \item{lower}{lower one sided p value}
 #' \item{upper}{upper one sided p value}
-#' \item{two_tail}{two sided p value}
 #' @section Deprecated Functions:
 #' \code{binom_calc()} and \code{binom_test()} have been deprecated. Instead use
 #' \code{infer_binom_cal()} and \code{infer_binom_test()}.
@@ -59,8 +57,7 @@ infer_binom_calc.default <- function(n, success, prob = 0.5, ...) {
     k <- binom_comp(n, success, prob)
 
     out <- list(n = n, k = k$k, exp_k = k$exp_k, obs_p = k$obs_p,
-           exp_p = k$exp_p, ik = k$ik, lower = k$lower, upper = k$upper,
-           two_tail = k$two_tail)
+           exp_p = k$exp_p, lower = k$lower, upper = k$upper)
 
     class(out) <- 'infer_binom_calc'
     return(out)

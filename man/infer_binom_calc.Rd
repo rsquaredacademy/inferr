@@ -32,10 +32,8 @@ following components:
 \item{exp_k}{expected number of successes}
 \item{obs_p}{assumed probability of success}
 \item{exp_p}{expected probability of success}
-\item{ik}{the largest number <= \code{exp_k} such that Pr(k = ik) <= Pr(k = kobs)}
 \item{lower}{lower one sided p value}
 \item{upper}{upper one sided p value}
-\item{two_tail}{two sided p value}
 }
 \description{
 Test whether the proportion of successes on a two-level
