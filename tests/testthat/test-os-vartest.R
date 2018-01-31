@@ -2,7 +2,7 @@ context('os-vartest')
 
 test_that('output from infer_os_var_test matches the expected result', {
 
-    k <- infer_os_var_test(mtcars$mpg, 0.3)
+    k <- infer_os_var_test(mtcars, mpg, 0.3)
     expect_equal(k$n, 32)
     expect_equal(k$sd, 0.3)
     expect_equal(k$sigma, 6.0269)
@@ -23,11 +23,11 @@ test_that('output from infer_os_var_test matches the expected result', {
 
 
 test_that('infer_os_var_test returns appropriate errors', {
-    expect_error(infer_os_var_test('mtcars$mpg', 0.3),
+    expect_error(infer_os_var_test(hsb, race, 0.3),
                  'x must be numeric')
-    expect_error(infer_os_var_test(mtcars$mpg, '0.3'),
+    expect_error(infer_os_var_test(mtcars, mpg, '0.3'),
                  'sd must be numeric')
-    expect_error(infer_os_var_test(mtcars$mpg, 0.3, '0.95'),
+    expect_error(infer_os_var_test(mtcars, mpg, 0.3, '0.95'),
                  'confint must be numeric')
 })
 
@@ -53,7 +53,7 @@ test_that('output from one sample variance test is as expected when alternative 
    mpg       45.041     31     0.9506
 -------------------------------------")
 
-  expect_equivalent(print(infer_os_var_test(mtcars$mpg, 5, alternative = 'less')), x)
+  expect_equivalent(print(infer_os_var_test(mtcars, mpg, 5, alternative = 'less')), x)
 
 })
 
@@ -78,7 +78,7 @@ test_that('output from one sample variance test is as expected when alternative 
    mpg       45.041     31     0.0494
 -------------------------------------")
 
-  expect_equivalent(print(infer_os_var_test(mtcars$mpg, 5, alternative = 'greater')), x)
+  expect_equivalent(print(infer_os_var_test(mtcars, mpg, 5, alternative = 'greater')), x)
 
 })
 
@@ -103,7 +103,7 @@ test_that('output from one sample variance test is as expected when alternative 
    mpg       45.041     31     0.0989
 -------------------------------------")
 
-  expect_equivalent(print(infer_os_var_test(mtcars$mpg, 5, alternative = 'both')), x)
+  expect_equivalent(print(infer_os_var_test(mtcars, mpg, 5, alternative = 'both')), x)
 
 })
 
@@ -122,6 +122,6 @@ test_that('output from one sample variance test is as expected when alternative 
         c = 45.0412                c = 45.0412                c = 45.0412
      Pr(C < c) = 0.9506       2 * Pr(C > c) = 0.0989       Pr(C > c) = 0.0494")
 
-  expect_equivalent(print(infer_os_var_test(mtcars$mpg, 5, alternative = 'all')), x)
+  expect_equivalent(print(infer_os_var_test(mtcars, mpg, 5, alternative = 'all')), x)
 
 })

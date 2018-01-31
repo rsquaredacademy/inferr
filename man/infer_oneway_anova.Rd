@@ -8,11 +8,11 @@
 infer_oneway_anova(data, x, y, ...)
 }
 \arguments{
-\item{data}{a data frame}
+\item{data}{a \code{data.frame} or a \code{tibble}}
 
-\item{x}{character vector; name of a continuous variable from \code{data}}
+\item{x}{numeric; column in \code{data}}
 
-\item{y}{character vector; name of a categorical variable from \code{data}}
+\item{y}{factor; column in \code{data}}
 
 \item{...}{additional arguments passed to or from other methods}
 }
@@ -46,8 +46,8 @@ One way analysis of variance
 }
 
 \examples{
-infer_oneway_anova(mtcars, 'mpg', 'cyl')
-infer_oneway_anova(hsb, 'write', 'prog')
+infer_oneway_anova(mtcars, mpg, cyl)
+infer_oneway_anova(hsb, write, prog)
 }
 \references{
 Kutner, M. H., Nachtsheim, C., Neter, J., & Li, W. (2005).

@@ -1,30 +1,62 @@
-#' @importFrom dplyr group_by_ select_ summarise_all funs mutate
-#' @importFrom magrittr %>%
+#' @importFrom dplyr group_by group_by_ select_ summarise_all funs mutate
+#' @importFrom magrittr %>% use_series
 #' @importFrom stats var sd
 #' @importFrom tibble tibble as_data_frame
 anova_split <- function(data, x, y, sample_mean) {
-    by_factor <- data %>%
-        group_by_(y) %>%
-        select_(y, x) %>%
-        summarise_all(funs(length, mean, var, sd)) %>%
-        as_data_frame() %>%
-    		mutate(
-    			sst = length * ((mean - sample_mean) ^ 2),
-    		  sse = (length - 1) * var
-    		)
-    return(by_factor)
+
+  x1 <- enquo(x)
+  y1 <- enquo(y)
+
+  by_factor <-
+    data %>%
+    group_by(!! y1) %>%
+    select(!! y1, !! x1) %>%
+    summarise_all(funs(length, mean, var, sd)) %>%
+    as_data_frame() %>%
+    mutate(
+      sst = length * ((mean - sample_mean) ^ 2),
+      sse = (length - 1) * var
+    )
+
+  return(by_factor)
+
 }
 
 anova_avg <- function(data, y) {
-    avg <- data %>%
-        select_(y) %>%
+
+    y1 <- enquo(y)
+
+    avg <-
+        data %>%
+        select(!! y1) %>%
         summarise_all(funs(mean))
+
     return(unlist(avg, use.names = FALSE))
+
 }
 
 anova_calc <- function(data, sample_stats, x, y) {
-  sstr <- round(sum(sample_stats$sst), 3)
-     ssee <- round(sum(sample_stats$sse), 3)
+
+  x1 <- enquo(x)
+  y1 <- enquo(y)
+
+  var_names <-
+      data %>%
+      select(!! x1, !! y1) %>%
+      names
+
+  sstr <-
+      sample_stats %>%
+      use_series(sst) %>%
+      sum %>%
+      round(3)
+
+  ssee <-
+      sample_stats %>%
+      use_series(sse) %>%
+      sum %>%
+      round(3)
+
     total <- round(sstr + ssee, 3)
   df_sstr <- nrow(sample_stats) - 1
    df_sse <- nrow(data) - nrow(sample_stats)
@@ -34,7 +66,7 @@ anova_calc <- function(data, sample_stats, x, y) {
         f <- round(mstr / mse, 3)
       sig <- round(1- pf(f, df_sstr, df_sse), 3)
       obs <- nrow(data)
-     regs <- paste(x, '~ as.factor(', y, ')')
+     regs <- paste(var_names[1], '~ as.factor(', var_names[2], ')')
     model <- lm(as.formula(regs), data = data)
       reg <- summary(model)
       out <- list(sstr = sstr, ssee = ssee, total = total, df_sstr = df_sstr,
@@ -209,17 +241,32 @@ coch_data <- function(x, ...) {
   return(data)
 }
 
-
+#' @importFrom purrr map_df
+#' @importFrom magrittr subtract
 cochran_comp <- function(data) {
+
   n <- nrow(data)
   k <- ncol(data)
   df <- k - 1
-  cs <- sums(data)
+
+  cs <-
+      data %>%
+      map_df(.f = as.numeric) %>%
+      subtract(1) %>%
+      sums
+
   q <- coch(k, cs$cls_sum, cs$cl, cs$g, cs$gs_sum)
+
   pvalue <- 1 - pchisq(q, df)
-  out <- list(n = n, df = df, q = q, pvalue = round(pvalue, 4))
+
+  out <- list(n = n,
+              df = df,
+              q = q,
+              pvalue = round(pvalue, 4))
+
   return(out)
-}
+
+  }
 
 
 # levene test
@@ -343,7 +390,7 @@ prop_fact <- function(dat, p) {
       cases <- 1 - row_sum[2]
       ratio <- cases / controls
  odds_ratio <- p[1] / p[2]
- out <- list(cases = cases, controls = controls, ratio = ratio, 
+ out <- list(cases = cases, controls = controls, ratio = ratio,
   odds_ratio = odds_ratio)
  return(out)
 }
@@ -374,14 +421,14 @@ dat_per[d1[1], d1[2]] <- 1.0
 
 mccomp <- function(dat) {
   p <- mctestp(dat)
-  test_stat <- tetat(p)        
+  test_stat <- tetat(p)
   df <- nrow(dat) - 1
-  pvalue <- mcpval(test_stat, df)         
+  pvalue <- mcpval(test_stat, df)
   exactp <- mcpex(dat)
   cstat <- mcstat(p)
   cpvalue <- mccpval(cstat, df)
   kappa <- mckappa(dat)
-  std_err <- mcserr(dat, kappa) 
+  std_err <- mcserr(dat, kappa)
   clu <- mcconf(std_err, kappa)
   k <- prop_fact(dat, p)
 
@@ -425,7 +472,7 @@ prop_comp <- function(n, prob, alternative, phat) {
     }
 
     out <- list(n = n, phat = phat, p = prob, z = z, sig = sig, alt = alt,
-            obs = obs, exp = exp, deviation = format(dev, nsmall = 2), 
+            obs = obs, exp = exp, deviation = format(dev, nsmall = 2),
             std = format(std, nsmall = 2))
 
   return(out)
@@ -457,7 +504,7 @@ osvar_comp <- function(x, sd, confint) {
   c_upr <- round(tv / qchisq(a, df), 4)
 
   out <- list(n = n, sd = sd, sigma = sigma, se = se, chi = chi, df = df,
-     p_lower = p_lower, p_upper = p_upper, p_two = p_two, xbar = xbar, 
+     p_lower = p_lower, p_upper = p_upper, p_two = p_two, xbar = xbar,
      c_lwr = c_lwr, c_upr = c_upr, conf = conf)
 
   return(out)
@@ -520,7 +567,7 @@ prop_comp2 <- function(var1, var2, alt) {
     ut <- round(pnorm(z, lower.tail = FALSE), 4)
     tt <- round(pnorm(abs(z), lower.tail = FALSE) * 2, 4)
 
-   
+
 
     if (alt == "all") {
         sig = c('two-tail' = tt, 'lower-tail' = lt, 'upper-tail' = ut)
@@ -665,7 +712,7 @@ indsig <- function(n1, n2, s1, s2, mean_diff) {
 
 fsig <- function(s1, s2, n1, n2) {
   out <- round(min(pf(round(s1 / s2, 4), (n1 - 1), (n2 -1)),
-    pf(round(s1 / s2, 4), (n1 - 1), (n2 -1), 
+    pf(round(s1 / s2, 4), (n1 - 1), (n2 -1),
       lower.tail = FALSE)) * 2, 4)
   return(out)
 }
@@ -681,8 +728,8 @@ indpool <- function(n1, n2, mean_diff, se_dif) {
   } else {
     sig_pooled <- round(pt(t_pooled, df_pooled, lower.tail = FALSE) * 2, 4)
   }
-  out <- list(df_pooled = df_pooled, t_pooled = t_pooled, 
-    sig_pooled_l = sig_pooled_l, sig_pooled_u = sig_pooled_u, 
+  out <- list(df_pooled = df_pooled, t_pooled = t_pooled,
+    sig_pooled_l = sig_pooled_l, sig_pooled_u = sig_pooled_u,
     sig_pooled = sig_pooled)
   return(out)
 }

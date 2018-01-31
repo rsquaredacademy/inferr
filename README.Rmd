@@ -82,19 +82,19 @@ library(inferr)
 ```
 
 ```{r infer1}
-infer_os_t_test(hsb$write, mu = 50, type = 'all')
+infer_os_t_test(hsb, write, mu = 50, type = 'all')
 ```
 
 ##### ANOVA
 
 ```{r anova}
-infer_oneway_anova(hsb, 'write', 'prog')
+infer_oneway_anova(hsb, write, prog)
 ```
 
 ##### Chi Square Test of Independence
 
 ```{r chi1}
-infer_chisq_assoc_test(as.factor(hsb$female), as.factor(hsb$schtyp))
+infer_chisq_assoc_test(hsb, female, schtyp)
 ```
 
 ##### Levene's Test
@@ -106,7 +106,7 @@ infer_levene_test(hsb$read, group_var = hsb$race)
 ##### Cochran's Q Test
 
 ```{r cochran}
-infer_cochran_qtest(exam)
+infer_cochran_qtest(exam, exam1, exam2, exam3)
 ```
 
 ##### McNemar Test

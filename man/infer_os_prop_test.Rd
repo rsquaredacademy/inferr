@@ -59,7 +59,7 @@ specified population proportion.
 infer_os_prop_test(200, prob = 0.5, phat = 0.3)
 
 # using data set
-infer_os_prop_test(as.factor(hsb$female), prob = 0.5)
+infer_os_prop_test(hsb$female, prob = 0.5)
 }
 \references{
 Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric

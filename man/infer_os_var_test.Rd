@@ -5,11 +5,13 @@
 \alias{os_vartest}
 \title{One Sample Variance Comparison Test}
 \usage{
-infer_os_var_test(x, sd, confint = 0.95, alternative = c("both", "less",
-  "greater", "all"), ...)
+infer_os_var_test(data, x, sd, confint = 0.95, alternative = c("both",
+  "less", "greater", "all"), ...)
 }
 \arguments{
-\item{x}{a numeric vector}
+\item{data}{a \code{data.frame} or \code{tibble}}
+
+\item{x}{numeric; column in \code{data}}
 
 \item{sd}{hypothesised standard deviation}
 
@@ -54,16 +56,16 @@ equal to a hypothesized value.
 
 \examples{
 # lower tail
-infer_os_var_test(mtcars$mpg, 5, alternative = 'less')
+infer_os_var_test(mtcars, mpg, 5, alternative = 'less')
 
 # upper tail
-infer_os_var_test(mtcars$mpg, 5, alternative = 'greater')
+infer_os_var_test(mtcars, mpg, 5, alternative = 'greater')
 
 # both tails
-infer_os_var_test(mtcars$mpg, 5, alternative = 'both')
+infer_os_var_test(mtcars, mpg, 5, alternative = 'both')
 
 # all tails
-infer_os_var_test(mtcars$mpg, 5, alternative = 'all')
+infer_os_var_test(mtcars, mpg, 5, alternative = 'all')
 }
 \references{
 Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
