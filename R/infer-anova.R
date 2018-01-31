@@ -59,7 +59,7 @@ infer_oneway_anova.default <- function(data, x, y, ...) {
 	             f = k$f, p = k$sig, r2 = round(k$reg$r.squared, 4),
 	             ar2 = round(k$reg$adj.r.squared, 4),
 	             sigma = round(k$reg$sigma, 4), obs = k$obs,
-	             tab = round(sample_stats[, c(1, 2, 3, 5)], 3))
+	             tab = sample_stats[, c(1, 2, 3, 5)])
 
 	class(result) <- 'infer_oneway_anova'
 	return(result)
