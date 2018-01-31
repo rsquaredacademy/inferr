@@ -608,7 +608,7 @@
 <h3 class="hasAnchor">
 <a href="#examples-6" class="anchor"></a>Examples</h3>
 <p>Using the hsb data, test if there is a relationship between the type of school attended (schtyp) and students’ gender (female).</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw"><a href="../reference/infer_chisq_assoc_test.html">infer_chisq_assoc_test</a></span>(<span class="kw">as.factor</span>(hsb<span class="op">$</span>female), <span class="kw">as.factor</span>(hsb<span class="op">$</span>schtyp))</a></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw"><a href="../reference/infer_chisq_assoc_test.html">infer_chisq_assoc_test</a></span>(hsb, female, schtyp)</a></code></pre></div>
 <pre><code>##                Chi Square Statistics                 
 ## 
 ## Statistics                     DF    Value      Prob 
@@ -622,7 +622,7 @@
 ## Cramer's V                          0.0153          
 ## ----------------------------------------------------</code></pre>
 <p>Using the hsb data, test if there is a relationship between the type of school attended (schtyp) and students’ socio economic status (ses).</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="kw"><a href="../reference/infer_chisq_assoc_test.html">infer_chisq_assoc_test</a></span>(<span class="kw">as.factor</span>(hsb<span class="op">$</span>schtyp), <span class="kw">as.factor</span>(hsb<span class="op">$</span>ses))</a></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="kw"><a href="../reference/infer_chisq_assoc_test.html">infer_chisq_assoc_test</a></span>(hsb, schtyp, ses)</a></code></pre></div>
 <pre><code>##                Chi Square Statistics                 
 ## 
 ## Statistics                     DF    Value      Prob 

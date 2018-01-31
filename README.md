@@ -104,11 +104,11 @@ infer_oneway_anova(hsb, write, prog)
 #> 
 #>                  Report                   
 #> -----------------------------------------
-#>  Category      N      Mean     Std. Dev. 
+#> Category     N       Mean      Std. Dev. 
 #> -----------------------------------------
-#>     1         45     51.333        9.398 
-#>     2         105    56.257        7.943 
-#>     3         50     46.760        9.319 
+#>    1        45      51.333       9.398   
+#>    2        105     56.257       7.943   
+#>    3        50      46.760       9.319   
 #> -----------------------------------------
 #> 
 #> Number of obs = 200       R-squared     = 0.1776 
@@ -118,7 +118,7 @@ infer_oneway_anova(hsb, write, prog)
 ##### Chi Square Test of Independence
 
 ``` r
-infer_chisq_assoc_test(as.factor(hsb$female), as.factor(hsb$schtyp))
+infer_chisq_assoc_test(hsb, female, schtyp)
 #>                Chi Square Statistics                 
 #> 
 #> Statistics                     DF    Value      Prob 

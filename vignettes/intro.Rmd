@@ -252,7 +252,7 @@ A chi-square test is used when you want to test if there is a significant relati
 
 Using the hsb data, test if there is a relationship between the type of school attended (schtyp) and students' gender (female).
 ```{r chi1}
-infer_chisq_assoc_test(as.factor(hsb$female), as.factor(hsb$schtyp))
+infer_chisq_assoc_test(hsb, female, schtyp)
 ```
 
 Using the hsb data, test if there is a relationship between the type of school attended (schtyp) and students'
@@ -260,7 +260,7 @@ socio economic status (ses).
 
 
 ```{r chi2}
-infer_chisq_assoc_test(as.factor(hsb$schtyp), as.factor(hsb$ses))
+infer_chisq_assoc_test(hsb, schtyp, ses)
 ```
 
 ## Levene's Test
