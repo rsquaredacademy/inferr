@@ -158,10 +158,10 @@ Using the mtcars data, compare the standard deviation of mpg to a hypothesized v
 
 ```{r os_var}
 # Lower Tail Test
-infer_os_var_test(mtcars$mpg, 0.3, alternative = 'less')
+infer_os_var_test(mtcars, mpg, 0.3, alternative = 'less')
 
 # Test all alternatives
-infer_os_var_test(mtcars$mpg, 0.3, alternative = 'all')
+infer_os_var_test(mtcars, mpg, 0.3, alternative = 'all')
 ```
 
 ## Two Sample Variance Test
