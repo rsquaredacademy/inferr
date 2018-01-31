@@ -1,11 +1,9 @@
 #' @importFrom stats pchisq
-#' @importFrom dplyr pull
 #' @title Chi Square Test of Association
 #' @description Chi Square test of association to examine if there is a
 #' relationship between two categorical variables.
-#' @param data a \code{data.frame} or \code{tibble}
-#' @param x factor; column in \code{data}
-#' @param y factor; column in \code{data}
+#' @param x a categorical variable
+#' @param y a categorical variable
 #' @return \code{infer_chisq_assoc_test} returns an object of class
 #' \code{"infer_chisq_assoc_test"}. An object of class
 #' \code{"infer_chisq_assoc_test"} is a list containing the
@@ -32,37 +30,26 @@
 #' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #' @examples
-#' infer_chisq_assoc_test(hsb, female, schtyp)
+#' infer_chisq_assoc_test(as.factor(hsb$female), as.factor(hsb$schtyp))
 #'
-#' infer_chisq_assoc_test(hsb, female, ses)
+#' infer_chisq_assoc_test(as.factor(hsb$female), as.factor(hsb$ses))
 #' @export
 #'
-infer_chisq_assoc_test <- function(data, x, y) UseMethod('infer_chisq_assoc_test')
+infer_chisq_assoc_test <- function(x, y) UseMethod('infer_chisq_assoc_test')
 
 #' @export
-infer_chisq_assoc_test.default <- function(data, x, y) {
+infer_chisq_assoc_test.default <- function(x, y) {
 
-    x1 <- enquo(x)
-    y1 <- enquo(y)
-
-    xone <-
-        data %>%
-        pull(!! x1)
-
-    yone <-
-        data %>%
-        pull(!! y1)
-
-    if (!is.factor(xone)) {
+    if (!is.factor(x)) {
       stop('x must be a categorical variable')
     }
 
-    if (!is.factor(yone)) {
+    if (!is.factor(y)) {
       stop('y must be a categorical variable')
     }
 
     # dimensions
-    k <- table(xone, yone)
+    k <- table(x, y)
     dk <- dim(k)
     ds <- prod(dk)
     nr <- dk[1]
@@ -71,7 +58,7 @@ infer_chisq_assoc_test.default <- function(data, x, y) {
 
     if (ds == 4) {
 
-        twoway <- matrix(table(xone, yone), nrow = 2)
+        twoway <- matrix(table(x, y), nrow = 2)
             df <- df_chi(twoway)
             ef <- efmat(twoway)
              k <- pear_chsq(twoway, df, ef)
@@ -81,7 +68,7 @@ infer_chisq_assoc_test.default <- function(data, x, y) {
 
     } else {
 
-        twoway <- matrix(table(xone, yone), nrow = dk[1])
+        twoway <- matrix(table(x, y), nrow = dk[1])
             ef <- efm(twoway, dk)
             df <- df_chi(twoway)
              k <- pear_chi(twoway, df, ef)
@@ -89,7 +76,7 @@ infer_chisq_assoc_test.default <- function(data, x, y) {
 
     }
 
-    j <- chigf(xone, yone, k$chi)
+    j <- chigf(x, y, k$chi)
 
     result <- if (ds == 4) {
       list(chi = k$chi, chilr = m$chilr, chimh = p$chimh, chiy = n$chi_y,
@@ -112,7 +99,7 @@ infer_chisq_assoc_test.default <- function(data, x, y) {
 chisq_test <- function(x, y) {
 
     .Deprecated("infer_chisq_assoc_test()")
-
+    infer_chisq_assoc_test(x, y)
 
 }
 

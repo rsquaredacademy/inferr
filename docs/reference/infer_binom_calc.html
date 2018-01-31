@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Binomial Test — infer_binom_calc â€¢ inferr</title>
+<title>Binomial Test � infer_binom_calc • inferr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -111,7 +111,7 @@ categorical dependent variable significantly differs from a hypothesized value.<
 
     <pre class="usage"><span class='fu'>infer_binom_calc</span>(<span class='no'>n</span>, <span class='no'>success</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='no'>...</span>)
 
-<span class='fu'>infer_binom_test</span>(<span class='no'>data</span>, <span class='no'>variable</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</pre>
+<span class='fu'>infer_binom_test</span>(<span class='no'>data</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -134,13 +134,7 @@ categorical dependent variable significantly differs from a hypothesized value.<
     </tr>
     <tr>
       <th>data</th>
-
-      <td><p>a <code>data.frame</code> or a <code>tibble</code></p></td>
-    </tr>
-    <tr>
-      <th>variable</th>
-      <td><p>factor; column in <code>data</code></p></td>
-
+      <td><p>binary/dichotomous factor</p></td>
     </tr>
     </table>
     
@@ -192,7 +186,7 @@ following components:</p>
 #&gt;   Upper         Pr(k &gt;= 13)          0.892336 
 #&gt;  --------------------------------------------</div><div class='input'>
 <span class='co'># using data set</span>
-<span class='fu'>infer_binom_test</span>(<span class='no'>hsb</span>, <span class='no'>female</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt;              Binomial Test              
+<span class='fu'>infer_binom_test</span>(<span class='fu'>as.factor</span>(<span class='no'>hsb</span>$<span class='no'>female</span>), <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt;              Binomial Test              
 #&gt;  ---------------------------------------
 #&gt;   Group     N     Obs. Prop    Exp. Prop 
 #&gt;  ---------------------------------------

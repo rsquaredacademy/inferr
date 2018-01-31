@@ -80,7 +80,7 @@
     <div class="page-header toc-ignore">
       <h1>Introduction to inferr</h1>
             
-            <h4 class="date">2018-01-31</h4>
+            <h4 class="date">2018-01-27</h4>
           </div>
 
     
@@ -121,7 +121,7 @@
 <h3 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h3>
 <p>Using the hsb data, test whether the average of write differs significantly from 50.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="../reference/infer_os_t_test.html">infer_os_t_test</a></span>(hsb, write, <span class="dt">mu =</span> <span class="dv">50</span>, <span class="dt">type =</span> <span class="st">'all'</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="../reference/infer_os_t_test.html">infer_os_t_test</a></span>(hsb<span class="op">$</span>write, <span class="dt">mu =</span> <span class="dv">50</span>, <span class="dt">type =</span> <span class="st">'all'</span>)</a></code></pre></div>
 <pre><code>##                               One-Sample Statistics                               
 ## ---------------------------------------------------------------------------------
 ##  Variable    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
@@ -358,7 +358,7 @@
 <a href="#examples-3" class="anchor"></a>Examples</h3>
 <p>Using the mtcars data, compare the standard deviation of mpg to a hypothesized value.</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="co"># Lower Tail Test</span></a>
-<a class="sourceLine" id="cb19-2" data-line-number="2"><span class="kw"><a href="../reference/infer_os_var_test.html">infer_os_var_test</a></span>(mtcars, mpg, <span class="fl">0.3</span>, <span class="dt">alternative =</span> <span class="st">'less'</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb19-2" data-line-number="2"><span class="kw"><a href="../reference/infer_os_var_test.html">infer_os_var_test</a></span>(mtcars<span class="op">$</span>mpg, <span class="fl">0.3</span>, <span class="dt">alternative =</span> <span class="st">'less'</span>)</a></code></pre></div>
 <pre><code>##                             One-Sample Statistics                             
 ## -----------------------------------------------------------------------------
 ##  Variable    Obs     Mean      Std. Err.    Std. Dev.    [95% Conf. Interval] 
@@ -378,8 +378,7 @@
 ##    mpg       12511.436     31     1.0000  
 ## ----------------------------------------</code></pre>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="co"># Test all alternatives</span></a>
-
-<a class="sourceLine" id="cb21-2" data-line-number="2"><span class="kw"><a href="../reference/infer_os_var_test.html">infer_os_var_test</a></span>(mtcars, mpg, <span class="fl">0.3</span>, <span class="dt">alternative =</span> <span class="st">'all'</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb21-2" data-line-number="2"><span class="kw"><a href="../reference/infer_os_var_test.html">infer_os_var_test</a></span>(mtcars<span class="op">$</span>mpg, <span class="fl">0.3</span>, <span class="dt">alternative =</span> <span class="st">'all'</span>)</a></code></pre></div>
 <pre><code>##                             One-Sample Statistics                             
 ## -----------------------------------------------------------------------------
 ##  Variable    Obs     Mean      Std. Err.    Std. Dev.    [95% Conf. Interval] 
@@ -476,8 +475,7 @@
 <a href="#examples-4" class="anchor"></a>Examples</h3>
 <p>Using the hsb data, test whether the proportion of females and males are equal.</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="co"># Using variables</span></a>
-
-<a class="sourceLine" id="cb27-2" data-line-number="2"><span class="kw"><a href="../reference/infer_binom_calc.html">infer_binom_test</a></span>(hsb, female, <span class="dt">prob =</span> <span class="fl">0.5</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb27-2" data-line-number="2"><span class="kw"><a href="../reference/infer_binom_calc.html">infer_binom_test</a></span>(<span class="kw">as.factor</span>(hsb<span class="op">$</span>female), <span class="dt">prob =</span> <span class="fl">0.5</span>)</a></code></pre></div>
 <pre><code>##              Binomial Test              
 ##  ---------------------------------------
 ##   Group     N     Obs. Prop    Exp. Prop 
@@ -526,8 +524,7 @@
 <h3 class="hasAnchor">
 <a href="#examples-5" class="anchor"></a>Examples</h3>
 <p>Using the hsb data, test whether the mean of write differs between the three program types.</p>
-
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw"><a href="../reference/infer_oneway_anova.html">infer_oneway_anova</a></span>(hsb, write, prog)</a></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw"><a href="../reference/infer_oneway_anova.html">infer_oneway_anova</a></span>(hsb, <span class="st">'write'</span>, <span class="st">'prog'</span>)</a></code></pre></div>
 <pre><code>##                                 ANOVA                                  
 ## ----------------------------------------------------------------------
 ##                    Sum of                                             
@@ -540,11 +537,11 @@
 ## 
 ##                  Report                   
 ## -----------------------------------------
-## Category     N       Mean      Std. Dev. 
+##  Category      N      Mean     Std. Dev. 
 ## -----------------------------------------
-##    1        45      51.333       9.398   
-##    2        105     56.257       7.943   
-##    3        50      46.760       9.319   
+##     1         45     51.333        9.398 
+##     2         105    56.257        7.943 
+##     3         50     46.760        9.319 
 ## -----------------------------------------
 ## 
 ## Number of obs = 200       R-squared     = 0.1776 
@@ -560,8 +557,8 @@
 <a href="#example-3" class="anchor"></a>Example</h3>
 <p>Using the hsb data, test whether the observed proportions for race differs significantly from the hypothesized proportions.</p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="co"># basic example</span></a>
-
-<a class="sourceLine" id="cb33-2" data-line-number="2"><span class="kw"><a href="../reference/infer_chisq_gof_test.html">infer_chisq_gof_test</a></span>(hsb, race, <span class="kw">c</span>(<span class="dv">20</span>, <span class="dv">20</span>, <span class="dv">20</span> , <span class="dv">140</span>))</a></code></pre></div>
+<a class="sourceLine" id="cb33-2" data-line-number="2">race &lt;-<span class="st"> </span><span class="kw">as.factor</span>(hsb<span class="op">$</span>race)</a>
+<a class="sourceLine" id="cb33-3" data-line-number="3"><span class="kw"><a href="../reference/infer_chisq_gof_test.html">infer_chisq_gof_test</a></span>(race, <span class="kw">c</span>(<span class="dv">20</span>, <span class="dv">20</span>, <span class="dv">20</span> , <span class="dv">140</span>))</a></code></pre></div>
 <pre><code>##     Test Statistics     
 ## -----------------------
 ## Chi-Square       5.0286 
@@ -582,8 +579,8 @@
 <h4 class="hasAnchor">
 <a href="#continuity-correction" class="anchor"></a>Continuity Correction</h4>
 <div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="co"># using continuity correction</span></a>
-
-<a class="sourceLine" id="cb35-2" data-line-number="2"><span class="kw"><a href="../reference/infer_chisq_gof_test.html">infer_chisq_gof_test</a></span>(hsb, race, <span class="kw">c</span>(<span class="dv">20</span>, <span class="dv">20</span>, <span class="dv">20</span> , <span class="dv">140</span>), <span class="dt">correct =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb35-2" data-line-number="2">race &lt;-<span class="st"> </span><span class="kw">as.factor</span>(hsb<span class="op">$</span>race)</a>
+<a class="sourceLine" id="cb35-3" data-line-number="3"><span class="kw"><a href="../reference/infer_chisq_gof_test.html">infer_chisq_gof_test</a></span>(race, <span class="kw">c</span>(<span class="dv">20</span>, <span class="dv">20</span>, <span class="dv">20</span> , <span class="dv">140</span>), <span class="dt">correct =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>##     Test Statistics     
 ## -----------------------
 ## Chi-Square       4.3821 
@@ -611,8 +608,7 @@
 <h3 class="hasAnchor">
 <a href="#examples-6" class="anchor"></a>Examples</h3>
 <p>Using the hsb data, test if there is a relationship between the type of school attended (schtyp) and students’ gender (female).</p>
-
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw"><a href="../reference/infer_chisq_assoc_test.html">infer_chisq_assoc_test</a></span>(hsb, female, schtyp)</a></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw"><a href="../reference/infer_chisq_assoc_test.html">infer_chisq_assoc_test</a></span>(<span class="kw">as.factor</span>(hsb<span class="op">$</span>female), <span class="kw">as.factor</span>(hsb<span class="op">$</span>schtyp))</a></code></pre></div>
 <pre><code>##                Chi Square Statistics                 
 ## 
 ## Statistics                     DF    Value      Prob 
@@ -626,8 +622,7 @@
 ## Cramer's V                          0.0153          
 ## ----------------------------------------------------</code></pre>
 <p>Using the hsb data, test if there is a relationship between the type of school attended (schtyp) and students’ socio economic status (ses).</p>
-
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="kw"><a href="../reference/infer_chisq_assoc_test.html">infer_chisq_assoc_test</a></span>(hsb, schtyp, ses)</a></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="kw"><a href="../reference/infer_chisq_assoc_test.html">infer_chisq_assoc_test</a></span>(<span class="kw">as.factor</span>(hsb<span class="op">$</span>schtyp), <span class="kw">as.factor</span>(hsb<span class="op">$</span>ses))</a></code></pre></div>
 <pre><code>##                Chi Square Statistics                 
 ## 
 ## Statistics                     DF    Value      Prob 
@@ -757,8 +752,7 @@
 <h3 class="hasAnchor">
 <a href="#example-4" class="anchor"></a>Example</h3>
 <p>The exam data set contains scores of 15 students for three exams (exam1, exam2, exam3). Test if three exams are equally difficult.</p>
-
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1"><span class="kw"><a href="../reference/infer_cochran_qtest.html">infer_cochran_qtest</a></span>(exam, exam1, exam2, exam3)</a></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1"><span class="kw"><a href="../reference/infer_cochran_qtest.html">infer_cochran_qtest</a></span>(exam)</a></code></pre></div>
 <pre><code>##    Test Statistics     
 ## ----------------------
 ## N                   15 

@@ -3,8 +3,7 @@
 #' @description  \code{infer_os_var_test} performs tests on the equality of standard
 #' deviations (variances).It tests that the standard deviation of a sample is
 #' equal to a hypothesized value.
-#' @param data a \code{data.frame} or \code{tibble}
-#' @param x numeric; column in \code{data}
+#' @param x a numeric vector
 #' @param sd hypothesised standard deviation
 #' @param confint confidence level
 #' @param alternative a character string specifying the alternative hypothesis,
@@ -37,33 +36,27 @@
 #' @seealso \code{\link[stats]{var.test}}
 #' @examples
 #' # lower tail
-#' infer_os_var_test(mtcars, mpg, 5, alternative = 'less')
+#' infer_os_var_test(mtcars$mpg, 5, alternative = 'less')
 #'
 #' # upper tail
-#' infer_os_var_test(mtcars, mpg, 5, alternative = 'greater')
+#' infer_os_var_test(mtcars$mpg, 5, alternative = 'greater')
 #'
 #' # both tails
-#' infer_os_var_test(mtcars, mpg, 5, alternative = 'both')
+#' infer_os_var_test(mtcars$mpg, 5, alternative = 'both')
 #'
 #' # all tails
-#' infer_os_var_test(mtcars, mpg, 5, alternative = 'all')
+#' infer_os_var_test(mtcars$mpg, 5, alternative = 'all')
 #' @export
 #'
-infer_os_var_test <- function(data, x, sd, confint = 0.95,
+infer_os_var_test <- function(x, sd, confint = 0.95,
 	alternative = c('both', 'less', 'greater', 'all'), ...) UseMethod('infer_os_var_test')
 
 #' @export
 #'
-infer_os_var_test.default <- function(data, x, sd, confint = 0.95,
+infer_os_var_test.default <- function(x, sd, confint = 0.95,
 	alternative = c('both', 'less', 'greater', 'all'), ...) {
 
-    x1 <- enquo(x)
-
-    xone <-
-        data %>%
-        pull(!! x1)
-
-	if (!is.numeric(xone)) {
+	if (!is.numeric(x)) {
 		stop('x must be numeric')
 	}
 
@@ -75,14 +68,9 @@ infer_os_var_test.default <- function(data, x, sd, confint = 0.95,
 		stop('confint must be numeric')
 	}
 
-	type <- match.arg(alternative)
-
-	varname <-
-	    data %>%
-	    select(!! x1) %>%
-	    names
-
-	k <- osvar_comp(xone, sd, confint)
+	   type <- match.arg(alternative)
+	varname <- l(deparse(substitute(x)))
+	      k <- osvar_comp(x, sd, confint)
 
 	result <- list(n = k$n, sd = k$sd, sigma = k$sigma, se = k$se, chi = k$chi,
 		df = k$df, p_lower = k$p_lower, p_upper = k$p_upper, p_two = k$p_two,
@@ -102,7 +90,7 @@ os_vartest <- function(x, sd, confint = 0.95,
                        alternative = c('both', 'less', 'greater', 'all'), ...) {
 
     .Deprecated("infer_os_var_test()")
-
+    infer_os_var_test(x, sd, confint, alternative, ...)
 
 }
 

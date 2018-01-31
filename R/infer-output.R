@@ -39,8 +39,8 @@ print_owanova <- function(data) {
 	cat(fg('Category', w8), fs(), fg('N', w9), fs(), fg('Mean', w10), fs(), fg('Std. Dev.', w11), '\n')
 	cat(rep("-", wr), sep = "", '\n')
 	for (i in seq_len(q)) {
-		cat(fc(data$tab[[i, 1]], w8), fs(), fg(data$tab[[i, 2]], w9), fs(), fk(format(round(data$tab[[i, 3]], 3), nsmall = 3), w10),
-		fs(), fk(format(round(data$tab[[i, 4]], 3), nsmall = 3), w11), '\n')
+		cat(fc(data$tab[[i, 1]], w8), fs(), fg(data$tab[[i, 2]], w9), fs(), fk(data$tab[[i, 3]], w10),
+		fs(), fk(data$tab[[i, 4]], w11), '\n')
 	}
 	cat(rep("-", wr), sep = "", '\n\n')
 

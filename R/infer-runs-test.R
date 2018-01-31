@@ -63,8 +63,8 @@ infer_runs_test.default <- function(x, drop = FALSE,
                               threshold = NA) {
     n <- length(x)
 
-    # if (!(is.numeric(x) || is.integer(x)))
-    #     stop("x must be numeric or integer")
+    if (!(is.numeric(x) || is.integer(x)))
+        stop("x must be numeric or integer")
 
     if (is.na(threshold)) {
         y <- unique(x)

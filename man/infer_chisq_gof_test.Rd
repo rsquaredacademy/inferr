@@ -5,12 +5,10 @@
 \alias{chisq_gof}
 \title{Chi Square Goodness of Fit Test}
 \usage{
-infer_chisq_gof_test(data, x, y, correct = FALSE)
+infer_chisq_gof_test(x, y, correct = FALSE)
 }
 \arguments{
-\item{data}{a \code{data.frame} or \code{tibble}}
-
-\item{x}{factor; column in \code{data}}
+\item{x}{categorical variable}
 
 \item{y}{expected proportions}
 
@@ -44,10 +42,10 @@ differ from hypothesized proportions
 }
 
 \examples{
-infer_chisq_gof_test(hsb, race, c(20, 20, 20, 140))
+infer_chisq_gof_test(as.factor(hsb$race), c(20, 20, 20, 140))
 
 # apply continuity correction
-infer_chisq_gof_test(hsb, race, c(20, 20, 20, 140), correct = TRUE)
+infer_chisq_gof_test(as.factor(hsb$race), c(20, 20, 20, 140), correct = TRUE)
 }
 \references{
 Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
