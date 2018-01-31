@@ -378,6 +378,7 @@
 ##    mpg       12511.436     31     1.0000  
 ## ----------------------------------------</code></pre>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="co"># Test all alternatives</span></a>
+
 <a class="sourceLine" id="cb21-2" data-line-number="2"><span class="kw"><a href="../reference/infer_os_var_test.html">infer_os_var_test</a></span>(mtcars, mpg, <span class="fl">0.3</span>, <span class="dt">alternative =</span> <span class="st">'all'</span>)</a></code></pre></div>
 <pre><code>##                             One-Sample Statistics                             
 ## -----------------------------------------------------------------------------
@@ -475,6 +476,7 @@
 <a href="#examples-4" class="anchor"></a>Examples</h3>
 <p>Using the hsb data, test whether the proportion of females and males are equal.</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="co"># Using variables</span></a>
+
 <a class="sourceLine" id="cb27-2" data-line-number="2"><span class="kw"><a href="../reference/infer_binom_calc.html">infer_binom_test</a></span>(hsb, female, <span class="dt">prob =</span> <span class="fl">0.5</span>)</a></code></pre></div>
 <pre><code>##              Binomial Test              
 ##  ---------------------------------------
@@ -524,6 +526,7 @@
 <h3 class="hasAnchor">
 <a href="#examples-5" class="anchor"></a>Examples</h3>
 <p>Using the hsb data, test whether the mean of write differs between the three program types.</p>
+
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw"><a href="../reference/infer_oneway_anova.html">infer_oneway_anova</a></span>(hsb, write, prog)</a></code></pre></div>
 <pre><code>##                                 ANOVA                                  
 ## ----------------------------------------------------------------------
@@ -557,6 +560,7 @@
 <a href="#example-3" class="anchor"></a>Example</h3>
 <p>Using the hsb data, test whether the observed proportions for race differs significantly from the hypothesized proportions.</p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="co"># basic example</span></a>
+
 <a class="sourceLine" id="cb33-2" data-line-number="2"><span class="kw"><a href="../reference/infer_chisq_gof_test.html">infer_chisq_gof_test</a></span>(hsb, race, <span class="kw">c</span>(<span class="dv">20</span>, <span class="dv">20</span>, <span class="dv">20</span> , <span class="dv">140</span>))</a></code></pre></div>
 <pre><code>##     Test Statistics     
 ## -----------------------
@@ -578,6 +582,7 @@
 <h4 class="hasAnchor">
 <a href="#continuity-correction" class="anchor"></a>Continuity Correction</h4>
 <div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="co"># using continuity correction</span></a>
+
 <a class="sourceLine" id="cb35-2" data-line-number="2"><span class="kw"><a href="../reference/infer_chisq_gof_test.html">infer_chisq_gof_test</a></span>(hsb, race, <span class="kw">c</span>(<span class="dv">20</span>, <span class="dv">20</span>, <span class="dv">20</span> , <span class="dv">140</span>), <span class="dt">correct =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>##     Test Statistics     
 ## -----------------------
@@ -606,6 +611,7 @@
 <h3 class="hasAnchor">
 <a href="#examples-6" class="anchor"></a>Examples</h3>
 <p>Using the hsb data, test if there is a relationship between the type of school attended (schtyp) and students’ gender (female).</p>
+
 <div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw"><a href="../reference/infer_chisq_assoc_test.html">infer_chisq_assoc_test</a></span>(hsb, female, schtyp)</a></code></pre></div>
 <pre><code>##                Chi Square Statistics                 
 ## 
@@ -620,6 +626,7 @@
 ## Cramer's V                          0.0153          
 ## ----------------------------------------------------</code></pre>
 <p>Using the hsb data, test if there is a relationship between the type of school attended (schtyp) and students’ socio economic status (ses).</p>
+
 <div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="kw"><a href="../reference/infer_chisq_assoc_test.html">infer_chisq_assoc_test</a></span>(hsb, schtyp, ses)</a></code></pre></div>
 <pre><code>##                Chi Square Statistics                 
 ## 
@@ -750,6 +757,7 @@
 <h3 class="hasAnchor">
 <a href="#example-4" class="anchor"></a>Example</h3>
 <p>The exam data set contains scores of 15 students for three exams (exam1, exam2, exam3). Test if three exams are equally difficult.</p>
+
 <div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1"><span class="kw"><a href="../reference/infer_cochran_qtest.html">infer_cochran_qtest</a></span>(exam, exam1, exam2, exam3)</a></code></pre></div>
 <pre><code>##    Test Statistics     
 ## ----------------------
