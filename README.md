@@ -73,7 +73,7 @@ Use `infer_launch_shiny_app()` to explore the package using a shiny app.
 ##### One Sample t Test
 
 ``` r
-infer_os_t_test(hsb$write, mu = 50, type = 'all')
+infer_os_t_test(hsb, write, mu = 50, type = 'all')
 #>                               One-Sample Statistics                               
 #> ---------------------------------------------------------------------------------
 #>  Variable    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 

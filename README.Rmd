@@ -82,7 +82,7 @@ library(inferr)
 ```
 
 ```{r infer1}
-infer_os_t_test(hsb$write, mu = 50, type = 'all')
+infer_os_t_test(hsb, write, mu = 50, type = 'all')
 ```
 
 ##### ANOVA
