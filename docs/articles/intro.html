@@ -475,7 +475,7 @@
 <a href="#examples-4" class="anchor"></a>Examples</h3>
 <p>Using the hsb data, test whether the proportion of females and males are equal.</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="co"># Using variables</span></a>
-<a class="sourceLine" id="cb27-2" data-line-number="2"><span class="kw"><a href="../reference/infer_binom_calc.html">infer_binom_test</a></span>(<span class="kw">as.factor</span>(hsb<span class="op">$</span>female), <span class="dt">prob =</span> <span class="fl">0.5</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb27-2" data-line-number="2"><span class="kw"><a href="../reference/infer_binom_calc.html">infer_binom_test</a></span>(hsb, female, <span class="dt">prob =</span> <span class="fl">0.5</span>)</a></code></pre></div>
 <pre><code>##              Binomial Test              
 ##  ---------------------------------------
 ##   Group     N     Obs. Prop    Exp. Prop 
@@ -537,11 +537,11 @@
 ## 
 ##                  Report                   
 ## -----------------------------------------
-##  Category      N      Mean     Std. Dev. 
+## Category     N       Mean      Std. Dev. 
 ## -----------------------------------------
-##     1         45     51.333        9.398 
-##     2         105    56.257        7.943 
-##     3         50     46.760        9.319 
+##    1        45      51.333       9.398   
+##    2        105     56.257       7.943   
+##    3        50      46.760       9.319   
 ## -----------------------------------------
 ## 
 ## Number of obs = 200       R-squared     = 0.1776 

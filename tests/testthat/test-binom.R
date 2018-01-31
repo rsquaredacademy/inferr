@@ -32,9 +32,14 @@ test_that('infer_binom_calc throws the appropriate error', {
 })
 
 
+mt <- mtcars
+mt$vs <- as.factor(mt$vs)
+mt$am <- as.factor(mt$am)
+
 test_that('output from infer_binom_test matches the expected output', {
 
-    k <- infer_binom_test(as.factor(mtcars$vs))
+
+    k <- infer_binom_test(mt, vs)
     expect_equal(k$n, 32)
     expect_equal(k$k, 14)
     expect_equal(k$exp_k, 16)
@@ -46,10 +51,10 @@ test_that('output from infer_binom_test matches the expected output', {
 })
 
 test_that('infer_binom_test throws the appropriate error', {
-    expect_error(infer_binom_test(mtcars$cyl), 'data must be of type factor')
-    expect_error(infer_binom_test(as.factor(mtcars$am), '0.5'), 'prob must be numeric')
-    expect_error(infer_binom_test(as.factor(mtcars$am), 1.5), 'prob must be between 0 and 1')
-    expect_error(infer_binom_test(as.factor(mtcars$am), -1.5), 'prob must be between 0 and 1')
+    expect_error(infer_binom_test(mtcars, mpg), 'variable must be of type factor')
+    expect_error(infer_binom_test(mt, am, '0.5'), 'prob must be numeric')
+    expect_error(infer_binom_test(mt, am, 1.5), 'prob must be between 0 and 1')
+    expect_error(infer_binom_test(mt, am, -1.5), 'prob must be between 0 and 1')
 })
 
 
