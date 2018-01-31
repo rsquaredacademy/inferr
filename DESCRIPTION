@@ -11,11 +11,12 @@ Depends:
 License: MIT + file LICENSE
 URL: https://rsquaredacademy.github.io/inferr/, https://github.com/rsquaredacademy/inferr
 BugReports: https://github.com/rsquaredacademy/inferr/issues
-Imports:
+Imports: 
     dplyr,
     magrittr,
     purrr,
     Rcpp,
+    rlang,
     shiny,
     tibble,
     tidyr

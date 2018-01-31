@@ -81,15 +81,7 @@ test_that('output from runs test matches the expected result', {
 })
 
 
-test_that('infer_runs_test throws appropriate errors', {
 
-    reg <- lm(mpg ~ disp, data = mtcars)
-    expect_error(infer_runs_test(as.factor(residuals(reg))),
-                 'x must be numeric or integer')
-    expect_error(infer_runs_test(hsb$female),
-                 'Use 0 as threshold if the data is coded as a binary.')
-
-})
 
 
 test_that('output from runs test is as expected', {

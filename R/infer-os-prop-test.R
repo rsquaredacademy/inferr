@@ -33,7 +33,7 @@
 #' infer_os_prop_test(200, prob = 0.5, phat = 0.3)
 #'
 #' # using data set
-#' infer_os_prop_test(as.factor(hsb$female), prob = 0.5)
+#' infer_os_prop_test(hsb$female, prob = 0.5)
 #' @export
 #'
 infer_os_prop_test <- function(n, prob = 0.5, alternative = c('both', 'less',
@@ -117,8 +117,8 @@ infer_os_prop_test.factor <- function(n, prob = 0.5,
 	}
 
   n1 <- length(n)
-	n2 <- table(n)[[2]]
-	phat <- round(n2 / n1, 4)
+  n2 <- table(n)[[2]]
+  phat <- round(n2 / n1, 4)
   prob <- prob
   alternative <- alternative
 

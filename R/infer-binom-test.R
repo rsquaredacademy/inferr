@@ -5,7 +5,8 @@
 #' @param n number of observations
 #' @param success number of successes
 #' @param prob assumed probability of success on a trial
-#' @param data binary/dichotomous factor
+#' @param data a \code{data.frame} or a \code{tibble}
+#' @param variable factor; column in \code{data}
 #' @param ... additional arguments passed to or from other methods
 #' @return \code{binom_test} returns an object of class \code{"binom_test"}.
 #' An object of class \code{"binom_test"} is a list containing the
@@ -30,7 +31,7 @@
 #' infer_binom_calc(32, 13, prob = 0.5)
 #'
 #' # using data set
-#' infer_binom_test(as.factor(hsb$female), prob = 0.5)
+#' infer_binom_test(hsb, female, prob = 0.5)
 #' @export
 #'
 infer_binom_calc <- function(n, success, prob = 0.5, ...) UseMethod('infer_binom_calc')
@@ -81,13 +82,19 @@ print.infer_binom_calc <- function(x, ...) {
 
 #' @export
 #' @rdname infer_binom_calc
-infer_binom_test <- function(data, prob = 0.5) {
+infer_binom_test <- function(data, variable, prob = 0.5) {
 
-    if (!is.factor(data)) {
-      stop('data must be of type factor', call. = FALSE)
+    varyable <- enquo(variable)
+
+    fdata <-
+        data %>%
+        pull(!! varyable)
+
+    if (!is.factor(fdata)) {
+      stop('variable must be of type factor', call. = FALSE)
     }
 
-    if (nlevels(data) > 2) {
+    if (nlevels(fdata) > 2) {
       stop('Binomial test is applicable only to binary data i.e. categorical data with 2 levels.', call. = FALSE)
     }
 
@@ -99,8 +106,8 @@ infer_binom_test <- function(data, prob = 0.5) {
       stop('prob must be between 0 and 1', call. = FALSE)
     }
 
-    n <- length(data)
-    k <- table(data)[[2]]
+    n <- length(fdata)
+    k <- table(fdata)[[2]]
     infer_binom_calc.default(n, k, prob)
 }
 
@@ -111,6 +118,6 @@ infer_binom_test <- function(data, prob = 0.5) {
 binom_test <- function(data, prob = 0.5) {
 
     .Deprecated("infer_binom_test()")
-    infer_binom_test(data, prob = 0.5)
+
 
 }
