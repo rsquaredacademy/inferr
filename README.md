@@ -1,44 +1,54 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-inferr: Inferential statistics with R <img src="hex_inferr.png" align="right" />
---------------------------------------------------------------------------------
 
-**Author:** [Aravind Hebbali](http://www.aravindhebbali.com)<br/> **License:** [MIT](https://opensource.org/licenses/MIT)
+## inferr: Inferential statistics with R <img src="hex_inferr.png" align="right" />
 
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/inferr)](https://cran.r-project.org/package=inferr) [![Travis-CI Build Status](https://travis-ci.org/rsquaredacademy/inferr.svg?branch=master)](https://travis-ci.org/rsquaredacademy/inferr) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/rsquaredacademy/inferr?branch=master&svg=true)](https://ci.appveyor.com/project/rsquaredacademy/inferr) [![Coverage Status](https://img.shields.io/codecov/c/github/rsquaredacademy/inferr/master.svg)](https://codecov.io/github/rsquaredacademy/inferr?branch=master) [![](https://cranlogs.r-pkg.org/badges/grand-total/inferr)](https://cran.r-project.org/package=inferr) ![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
+**Author:** [Aravind Hebbali](http://www.aravindhebbali.com)<br/>
+**License:**
+[MIT](https://opensource.org/licenses/MIT)
 
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/inferr)](https://cran.r-project.org/package=inferr)
+[![Travis-CI Build
+Status](https://travis-ci.org/rsquaredacademy/inferr.svg?branch=master)](https://travis-ci.org/rsquaredacademy/inferr)
+[![AppVeyor Build
+Status](https://ci.appveyor.com/api/projects/status/github/rsquaredacademy/inferr?branch=master&svg=true)](https://ci.appveyor.com/project/rsquaredacademy/inferr)
+[![](https://cranlogs.r-pkg.org/badges/grand-total/inferr)](https://cran.r-project.org/package=inferr)
 
-Overview
---------
+## Overview
 
-Inferential statistics allows us to make generalizations about populations using data drawn from the population. We use them when it is impractical or impossible to collect data about the whole population under study and instead, we have a sample that represents the population under study and using inferential statistics technique, we make generalizations about the population from the sample.
+Inferential statistics allows us to make generalizations about
+populations using data drawn from the population. We use them when it is
+impractical or impossible to collect data about the whole population
+under study and instead, we have a sample that represents the population
+under study and using inferential statistics technique, we make
+generalizations about the population from the sample.
 
 The **inferr** package:
 
--   builds upon the statistical tests provided in **stats**
--   provides additional and flexible input options
--   more detailed and structured test results
+  - builds upon the statistical tests provided in **stats**  
+  - provides additional and flexible input options
+  - more detailed and structured test results
 
-As of version 0.1, **inferr** includes a select set of parametric and non-parametric statistical tests which are listed below:
+As of version 0.1, **inferr** includes a select set of parametric and
+non-parametric statistical tests which are listed below:
 
--   One Sample t Test
--   Paired Sample t Test
--   Independent Sample t Test
--   One Sample Proportion Test
--   Two Sample Proportion Test
--   One Sample Variance Test
--   Two Sample Variance Test
--   Binomial Test
--   ANOVA
--   Chi Square Goodness of Fit Test
--   Chi Square Independence Test
--   Levene's Test
--   Cochran's Q Test
--   McNemar Test
--   Runs Test for Randomness
+  - One Sample t Test
+  - Paired Sample t Test
+  - Independent Sample t Test
+  - One Sample Proportion Test
+  - Two Sample Proportion Test
+  - One Sample Variance Test
+  - Two Sample Variance Test
+  - Binomial Test
+  - ANOVA
+  - Chi Square Goodness of Fit Test
+  - Chi Square Independence Test
+  - Levene’s Test
+  - Cochran’s Q Test
+  - McNemar Test
+  - Runs Test for Randomness
 
-Installation
-------------
+## Installation
 
 ``` r
 # install inferr from CRAN
@@ -49,18 +59,16 @@ install.packages("inferr")
 devtools::install_github("rsquaredacademy/inferr")
 ```
 
-Shiny App
----------
+## Shiny App
 
 Use `infer_launch_shiny_app()` to explore the package using a shiny app.
 
-Vignettes
----------
+## Vignettes
 
--   [Introduction to inferr](http://www.rsquaredacademy.com/inferr/articles/index.html)
+  - [Introduction to
+    inferr](http://www.rsquaredacademy.com/inferr/articles/index.html)
 
-Usage
------
+## Usage
 
 ##### One Sample t Test
 
@@ -83,7 +91,7 @@ infer_os_t_test(hsb$write, mu = 50, type = 'all')
 ##### ANOVA
 
 ``` r
-infer_oneway_anova(hsb, 'write', 'prog')
+infer_oneway_anova(hsb, write, prog)
 #>                                 ANOVA                                  
 #> ----------------------------------------------------------------------
 #>                    Sum of                                             
@@ -125,7 +133,7 @@ infer_chisq_assoc_test(as.factor(hsb$female), as.factor(hsb$schtyp))
 #> ----------------------------------------------------
 ```
 
-##### Levene's Test
+##### Levene’s Test
 
 ``` r
 infer_levene_test(hsb$read, group_var = hsb$race)
@@ -150,7 +158,7 @@ infer_levene_test(hsb$read, group_var = hsb$race)
 #> -------------------------------------------------------------------------
 ```
 
-##### Cochran's Q Test
+##### Cochran’s Q Test
 
 ``` r
 infer_cochran_qtest(exam)
@@ -204,4 +212,6 @@ infer_mcnemar_test(table(himath, hiread))
 #> ----------------------
 ```
 
-Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
+Please note that this project is released with a [Contributor Code of
+Conduct](CONDUCT.md). By participating in this project you agree to
+abide by its terms.

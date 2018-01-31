@@ -217,7 +217,7 @@ The one-way analysis of variance (ANOVA) is used to determine whether there are 
 Using the hsb data, test whether the mean of write differs between the three program types.
 
 ```{r anova}
-infer_oneway_anova(hsb, 'write', 'prog')
+infer_oneway_anova(hsb, write, prog)
 ```
 
 ## Chi Square Goodness of Fit Test

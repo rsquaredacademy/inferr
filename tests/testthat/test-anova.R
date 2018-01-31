@@ -1,7 +1,7 @@
 context('anova')
 
 test_that('output from infer_oneway_anova matches the expected output', {
-    k <- infer_oneway_anova(mtcars, 'mpg', 'cyl')
+    k <- infer_oneway_anova(mtcars, mpg, cyl)
     expect_equal(k$between, 824.785)
     expect_equal(k$within, 301.263)
     expect_equal(k$total, 1126.048)
@@ -17,13 +17,6 @@ test_that('output from infer_oneway_anova matches the expected output', {
     expect_equal(k$sigma, 3.2231)
     expect_equal(k$obs, 32)
 })
-
-test_that('infer_oneway_anova throws the appropriate error', {
-    expect_error(infer_oneway_anova('mtcars', 'mpg', 'cyl'), 'data must be a data frame')
-    expect_error(infer_oneway_anova(mtcars, 'mpgs', 'cyl'), 'x must be a column in data')
-    expect_error(infer_oneway_anova(mtcars, 'mpg', 'cyls'), 'y must be a column in data')
-})
-
 
 test_that('output from one way anova is as expected', {
 
@@ -49,6 +42,6 @@ Total             1126.048    31
 Number of obs = 32        R-squared     = 0.7325
 Root MSE      = 3.2231    Adj R-squared = 0.714")
 
-  expect_equivalent(print(infer_oneway_anova(mtcars, 'mpg', 'cyl')), x)
+  expect_equivalent(print(infer_oneway_anova(mtcars, mpg, cyl)), x)
 
 })
