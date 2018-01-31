@@ -161,7 +161,7 @@ infer_levene_test(hsb$read, group_var = hsb$race)
 ##### Cochran’s Q Test
 
 ``` r
-infer_cochran_qtest(exam)
+infer_cochran_qtest(exam, exam1, exam2, exam3)
 #>    Test Statistics     
 #> ----------------------
 #> N                   15 

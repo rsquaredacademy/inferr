@@ -241,17 +241,32 @@ coch_data <- function(x, ...) {
   return(data)
 }
 
-
+#' @importFrom purrr map_df
+#' @importFrom magrittr subtract
 cochran_comp <- function(data) {
+
   n <- nrow(data)
   k <- ncol(data)
   df <- k - 1
-  cs <- sums(data)
+
+  cs <-
+      data %>%
+      map_df(.f = as.numeric) %>%
+      subtract(1) %>%
+      sums
+
   q <- coch(k, cs$cls_sum, cs$cl, cs$g, cs$gs_sum)
+
   pvalue <- 1 - pchisq(q, df)
-  out <- list(n = n, df = df, q = q, pvalue = round(pvalue, 4))
+
+  out <- list(n = n,
+              df = df,
+              q = q,
+              pvalue = round(pvalue, 4))
+
   return(out)
-}
+
+  }
 
 
 # levene test
