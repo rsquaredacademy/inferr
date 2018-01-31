@@ -5,12 +5,12 @@
 \alias{cochran_test}
 \title{Cochran Q Test}
 \usage{
-infer_cochran_qtest(data, ...)
+infer_cochran_qtest(x, ...)
 }
 \arguments{
-\item{data}{a \code{data.frame} or \code{tibble}}
+\item{x}{a data frame/vector}
 
-\item{...}{columns in \code{data}}
+\item{...}{numeric vectors}
 }
 \value{
 \code{infer_cochran_qtest} returns an object of class
@@ -33,7 +33,7 @@ equal in the same population.
 }
 
 \examples{
-infer_cochran_qtest(exam, exam1, exam2, exam3)
+infer_cochran_qtest(exam)
 }
 \references{
 Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric

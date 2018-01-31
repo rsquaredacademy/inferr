@@ -1,9 +1,8 @@
-#' @importFrom rlang quos !!!
 #' @title Cochran Q Test
 #' @description Test if the proportions of 3 or more dichotomous variables are
 #' equal in the same population.
-#' @param data a \code{data.frame} or \code{tibble}
-#' @param ... columns in \code{data}
+#' @param x a data frame/vector
+#' @param ... numeric vectors
 #' @return \code{infer_cochran_qtest} returns an object of class
 #' \code{"infer_cochran_qtest"}. An object of class \code{"infer_cochran_qtest"}
 #' is a list containing the following components:
@@ -19,28 +18,25 @@
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #'
 #' @examples
-#' infer_cochran_qtest(exam, exam1, exam2, exam3)
+#' infer_cochran_qtest(exam)
 #' @export
 #'
-infer_cochran_qtest <- function(data, ...) UseMethod('infer_cochran_qtest')
+infer_cochran_qtest <- function(x, ...) UseMethod('infer_cochran_qtest')
 
 #' @export
-infer_cochran_qtest.default <- function(data, ...) {
+infer_cochran_qtest.default <- function(x, ...) {
 
-    vars <- quos(...)
+	data <- coch_data(x, ...)
 
-	fdata <- data %>%
-	  select(!!! vars)
-
-	if (ncol(fdata) < 3) {
+	if (ncol(data) < 3) {
 		stop('Please specify at least 3 variables.')
 	}
 
-	if (any(sapply(lapply(fdata, as.factor), nlevels) > 2)) {
+	if (any(sapply(lapply(data, as.factor), nlevels) > 2)) {
 		stop('Please specify dichotomous/binary variables only.')
 	}
 
-	k <- cochran_comp(fdata)
+	k <- cochran_comp(data)
 	result <- list(n = k$n, df = k$df, q = k$q, pvalue = k$pvalue)
 	class(result) <- 'infer_cochran_qtest'
 	return(result)
@@ -54,6 +50,7 @@ infer_cochran_qtest.default <- function(data, ...) {
 cochran_test <- function(x, ...) {
 
     .Deprecated("infer_cochran_qtest()")
+    infer_cochran_qtest(x, ...)
 
 }
 

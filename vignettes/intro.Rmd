@@ -53,7 +53,7 @@ A one sample t-test is used to determine whether a sample of observations comes 
 Using the hsb data, test whether the average of write differs significantly from 50.
 
 ```{r ttest}
-infer_os_t_test(hsb, write, mu = 50, type = 'all')
+infer_os_t_test(hsb$write, mu = 50, type = 'all')
 ```
 
 ## Paired t test
@@ -158,10 +158,10 @@ Using the mtcars data, compare the standard deviation of mpg to a hypothesized v
 
 ```{r os_var}
 # Lower Tail Test
-infer_os_var_test(mtcars, mpg, 0.3, alternative = 'less')
+infer_os_var_test(mtcars$mpg, 0.3, alternative = 'less')
 
 # Test all alternatives
-infer_os_var_test(mtcars, mpg, 0.3, alternative = 'all')
+infer_os_var_test(mtcars$mpg, 0.3, alternative = 'all')
 ```
 
 ## Two Sample Variance Test
@@ -198,7 +198,7 @@ Using the hsb data, test whether the proportion of females and males are equal.
 
 ```{r binom_calc}
 # Using variables
-infer_binom_test(hsb, female, prob = 0.5)
+infer_binom_test(as.factor(hsb$female), prob = 0.5)
 ```
 
 #### Using Calculator
@@ -217,7 +217,7 @@ The one-way analysis of variance (ANOVA) is used to determine whether there are 
 Using the hsb data, test whether the mean of write differs between the three program types.
 
 ```{r anova}
-infer_oneway_anova(hsb, write, prog)
+infer_oneway_anova(hsb, 'write', 'prog')
 ```
 
 ## Chi Square Goodness of Fit Test
@@ -231,14 +231,16 @@ hypothesized proportions.
 
 ```{r gof1}
 # basic example
-infer_chisq_gof_test(hsb, race, c(20, 20, 20 , 140))
+race <- as.factor(hsb$race)
+infer_chisq_gof_test(race, c(20, 20, 20 , 140))
 ```
 
 #### Continuity Correction
 
 ```{r gof2}
 # using continuity correction
-infer_chisq_gof_test(hsb, race, c(20, 20, 20 , 140), correct = TRUE)
+race <- as.factor(hsb$race)
+infer_chisq_gof_test(race, c(20, 20, 20 , 140), correct = TRUE)
 ```
 
 ## Chi Square Test of Independence
@@ -250,7 +252,7 @@ A chi-square test is used when you want to test if there is a significant relati
 
 Using the hsb data, test if there is a relationship between the type of school attended (schtyp) and students' gender (female).
 ```{r chi1}
-infer_chisq_assoc_test(hsb, female, schtyp)
+infer_chisq_assoc_test(as.factor(hsb$female), as.factor(hsb$schtyp))
 ```
 
 Using the hsb data, test if there is a relationship between the type of school attended (schtyp) and students'
@@ -258,7 +260,7 @@ socio economic status (ses).
 
 
 ```{r chi2}
-infer_chisq_assoc_test(hsb, schtyp, ses)
+infer_chisq_assoc_test(as.factor(hsb$schtyp), as.factor(hsb$ses))
 ```
 
 ## Levene's Test
@@ -314,7 +316,7 @@ Cochran's Q test is an extension to the McNemar test for related samples that pr
 The exam data set contains scores of 15 students for three exams (exam1, exam2, exam3). Test if three exams are equally difficult.
 
 ```{r cochran}
-infer_cochran_qtest(exam, exam1, exam2, exam3)
+infer_cochran_qtest(exam)
 ```
 
 ## McNemar Test

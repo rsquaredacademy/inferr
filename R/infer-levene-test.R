@@ -67,6 +67,8 @@ infer_levene_test.default <- function(variable, ..., group_var = NULL,
 
 	varname <- deparse(substitute(variable))
 
+
+
 		if (is.null(group_var)) {
 
 			if (is.data.frame(variable)) {
@@ -95,11 +97,23 @@ infer_levene_test.default <- function(variable, ..., group_var = NULL,
     }
 
 
+
 	if (!is.factor(group_var)) {
 		group_var <- as.factor(group_var)
 	}
+		 k <- lev_comp(variable, group_var, trim.mean)
+	# comp <- complete.cases(variable, group_var)
+	#    n <- length(comp)
+ #     k <- nlevels(group_var)
+	# cvar <- variable[comp]
+	# gvar <- group_var[comp]
+ #  lens <- tapply(cvar, gvar, length)
+ #  avgs <- tapply(cvar, gvar, mean)
+	#  sds <- tapply(cvar, gvar, sd)
 
-	k <- lev_comp(variable, group_var, trim.mean)
+	#  bf <- lev_metric(cvar, gvar, mean)
+	# lev <- lev_metric(cvar, gvar, median)
+	# bft <- lev_metric(cvar, gvar, mean, trim = trim.mean)
 
 	out <- list(bf    = k$bf, p_bf  = k$p_bf, lev = k$lev, p_lev = k$p_lev,
               bft   = k$bft, p_bft = k$p_bft, avgs  = k$avgs, sds   = k$sds,

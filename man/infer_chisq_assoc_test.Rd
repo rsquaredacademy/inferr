@@ -5,14 +5,12 @@
 \alias{chisq_test}
 \title{Chi Square Test of Association}
 \usage{
-infer_chisq_assoc_test(data, x, y)
+infer_chisq_assoc_test(x, y)
 }
 \arguments{
-\item{data}{a \code{data.frame} or \code{tibble}}
+\item{x}{a categorical variable}
 
-\item{x}{factor; column in \code{data}}
-
-\item{y}{factor; column in \code{data}}
+\item{y}{a categorical variable}
 }
 \value{
 \code{infer_chisq_assoc_test} returns an object of class
@@ -45,9 +43,9 @@ relationship between two categorical variables.
 }
 
 \examples{
-infer_chisq_assoc_test(hsb, female, schtyp)
+infer_chisq_assoc_test(as.factor(hsb$female), as.factor(hsb$schtyp))
 
-infer_chisq_assoc_test(hsb, female, ses)
+infer_chisq_assoc_test(as.factor(hsb$female), as.factor(hsb$ses))
 }
 \references{
 Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric

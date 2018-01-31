@@ -5,13 +5,11 @@
 \alias{ttest}
 \title{One Sample t Test}
 \usage{
-infer_os_t_test(data, x, mu = 0, alpha = 0.05, type = c("both", "less",
+infer_os_t_test(x, mu = 0, alpha = 0.05, type = c("both", "less",
   "greater", "all"), ...)
 }
 \arguments{
-\item{data}{a \code{data.frame} or \code{tibble}}
-
-\item{x}{numeric; column in \code{data}}
+\item{x}{a numeric vector}
 
 \item{mu}{a number indicating the true value of the mean}
 
@@ -57,16 +55,16 @@ hypothesis that a sample has a mean equal to a hypothesized value.
 
 \examples{
 # lower tail
-infer_os_t_test(hsb, write, mu = 50, type = 'less')
+infer_os_t_test(hsb$write, mu = 50, type = 'less')
 
 # upper tail
-infer_os_t_test(hsb, write, mu = 50, type = 'greater')
+infer_os_t_test(hsb$write, mu = 50, type = 'greater')
 
 # both tails
-infer_os_t_test(hsb, write, mu = 50, type = 'both')
+infer_os_t_test(hsb$write, mu = 50, type = 'both')
 
 # all tails
-infer_os_t_test(hsb, write, mu = 50, type = 'all')
+infer_os_t_test(hsb$write, mu = 50, type = 'all')
 }
 \references{
 Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric

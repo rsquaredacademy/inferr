@@ -1,7 +1,7 @@
 context('chi2-contingency')
 
 test_that('ouput from infer_chisq_assoc_test matches the expected result', {
-    k <- infer_chisq_assoc_test(hsb, female, schtyp)
+    k <- infer_chisq_assoc_test(as.factor(hsb$female), as.factor(hsb$schtyp))
     expect_equal(k$df, 1)
     expect_equal(k$chi, 0.047)
     expect_equal(k$chilr, 0.0471)
@@ -18,7 +18,7 @@ test_that('ouput from infer_chisq_assoc_test matches the expected result', {
 })
 
 test_that('ouput from infer_chisq_assoc_test matches the expected result', {
-    k <- infer_chisq_assoc_test(hsb, female, ses)
+    k <- infer_chisq_assoc_test(as.factor(hsb$female), as.factor(hsb$ses))
     expect_equal(k$df, 2)
     expect_equal(k$chi, 4.5765)
     expect_equal(k$chilr, 4.6789)
@@ -31,8 +31,8 @@ test_that('ouput from infer_chisq_assoc_test matches the expected result', {
 })
 
 test_that('infer_chisq_assoc_test throws the appropriate error', {
-    expect_error(infer_chisq_assoc_test(hsb, female, read), 'y must be a categorical variable')
-    expect_error(infer_chisq_assoc_test(hsb, read, ses), 'x must be a categorical variable')
+    expect_error(infer_chisq_assoc_test(as.factor(hsb$female), hsb$ses), 'y must be a categorical variable')
+    expect_error(infer_chisq_assoc_test(hsb$female, as.factor(hsb$ses)), 'x must be a categorical variable')
 })
 
 test_that('ouput from infer_chisq_assoc_test is as expected', {
@@ -50,7 +50,7 @@ Contingency Coefficient             0.0153
 Cramer's V                          0.0153
 ----------------------------------------------------")
 
-    expect_equivalent(print(infer_chisq_assoc_test(hsb, female, schtyp)), x)
+    expect_equivalent(print(infer_chisq_assoc_test(as.factor(hsb$female), as.factor(hsb$schtyp))), x)
 
 })
 
@@ -67,6 +67,6 @@ Contingency Coefficient             0.1496
 Cramer's V                          0.1513
 ----------------------------------------------------")
 
-    expect_equivalent(print(infer_chisq_assoc_test(hsb, female, ses)), x)
+    expect_equivalent(print(infer_chisq_assoc_test(as.factor(hsb$female), as.factor(hsb$ses))), x)
 
 })

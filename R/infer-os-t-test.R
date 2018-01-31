@@ -1,8 +1,7 @@
 #' @title One Sample t Test
 #' @description \code{infer_os_t_test} performs t tests on the equality of means. It tests the
 #' hypothesis that a sample has a mean equal to a hypothesized value.
-#' @param data a \code{data.frame} or \code{tibble}
-#' @param x numeric; column in \code{data}
+#' @param x a numeric vector
 #' @param mu a number indicating the true value of the mean
 #' @param alpha acceptable tolerance for type I error
 #' @param type a character string specifying the alternative hypothesis, must be
@@ -38,33 +37,27 @@
 #'
 #' @examples
 #' # lower tail
-#' infer_os_t_test(hsb, write, mu = 50, type = 'less')
+#' infer_os_t_test(hsb$write, mu = 50, type = 'less')
 #'
 #' # upper tail
-#' infer_os_t_test(hsb, write, mu = 50, type = 'greater')
+#' infer_os_t_test(hsb$write, mu = 50, type = 'greater')
 #'
 #' # both tails
-#' infer_os_t_test(hsb, write, mu = 50, type = 'both')
+#' infer_os_t_test(hsb$write, mu = 50, type = 'both')
 #'
 #' # all tails
-#' infer_os_t_test(hsb, write, mu = 50, type = 'all')
+#' infer_os_t_test(hsb$write, mu = 50, type = 'all')
 #' @export
 #'
-infer_os_t_test <- function(data, x, mu = 0, alpha = 0.05,
+infer_os_t_test <- function(x, mu = 0, alpha = 0.05,
                   type = c("both", "less", "greater", "all"), ...) UseMethod('infer_os_t_test')
 
 #' @export
 #'
-infer_os_t_test.default <- function(data, x, mu = 0, alpha = 0.05,
+infer_os_t_test.default <- function(x, mu = 0, alpha = 0.05,
                   type = c("both", "less", "greater", "all"), ...) {
 
-    x1 <- enquo(x)
-
-    xone <-
-        data %>%
-        pull(!! x1)
-
-	if (!is.numeric(xone)) {
+	if (!is.numeric(x)) {
 		stop('x must be numeric')
 	}
 	if (!is.numeric(mu)) {
@@ -74,21 +67,46 @@ infer_os_t_test.default <- function(data, x, mu = 0, alpha = 0.05,
 		stop('alpha must be numeric')
 	}
 
-  type <- match.arg(type)
+       type <- match.arg(type)
+   var_name <- l(deparse(substitute(x)))
+          k <- ttest_comp(x, mu, alpha, type)
+  #         n <- length(x)
+  #         a <- (alpha / 2)
+  #        df <- n - 1
+  #      conf <- 1 - alpha
+  #      Mean <- round(mean(x), 4)
+  #    stddev <- round(sd(x), 4)
+  #   std_err <- round(stddev / sqrt(n), 4)
+  # test_stat <- round((Mean - mu) / std_err, 3)
 
-  var_name <-
-      data %>%
-      select(!! x1) %>%
-      names
+  # if (type == 'less') {
+  #   cint <- c(-Inf, test_stat + qt(1 - alpha, df) )
+  # } else if (type == 'greater') {
+  #   cint <- c(test_stat - qt(1 - alpha, df), Inf)
+  # } else {
+  #   cint <- qt(1 - a, df)
+  #   cint <- test_stat + c(-cint, cint)
+  # }
 
-  k <- ttest_comp(xone, mu, alpha, type)
+  #     confint <- round(mu + cint * std_err, 4)
+  #   mean_diff <- round((Mean - mu), 4)
+  # mean_diff_l <- confint[1] - mu
+  # mean_diff_u <- confint[2] - mu
+  #         p_l <- pt(test_stat, df)
+  #         p_u <- pt(test_stat, df, lower.tail = FALSE)
 
-  result <- list(mu = k$mu, n = k$n, df = k$df, Mean = k$Mean,
-                 stddev = k$stddev, std_err = k$std_err,
-                 test_stat = k$test_stat, confint = k$confint,
-                 mean_diff = k$mean_diff, mean_diff_l = k$mean_diff_l,
-                 mean_diff_u = k$mean_diff_u, p_l = k$p_l, p_u = k$p_u,
-                 p = k$p, conf = k$conf, type = type, var_name = var_name)
+  # if (p_l < 0.5) {
+  #   p <- p_l * 2
+  # } else {
+  #   p <- p_u * 2
+  # }
+
+
+  result <- list(mu = k$mu, n = k$n, df = k$df, Mean = k$Mean, stddev = k$stddev,
+    std_err = k$std_err, test_stat = k$test_stat, confint = k$confint,
+    mean_diff = k$mean_diff, mean_diff_l = k$mean_diff_l,
+    mean_diff_u = k$mean_diff_u, p_l = k$p_l, p_u = k$p_u, p = k$p, conf = k$conf,
+    type = type, var_name = var_name)
 
   class(result) <- 'infer_os_t_test'
   return(result)
@@ -103,7 +121,7 @@ ttest <- function(x, mu = 0, alpha = 0.05,
                   type = c("both", "less", "greater", "all"), ...) {
 
     .Deprecated("infer_os_t_test()")
-
+    infer_os_t_test(x, mu, alpha, type, ...)
 
 }
 
