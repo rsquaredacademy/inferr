@@ -5,12 +5,14 @@
 \alias{mcnemar_test}
 \title{McNemar Test}
 \usage{
-infer_mcnemar_test(x, y = NULL)
+infer_mcnemar_test(data, x = NULL, y = NULL)
 }
 \arguments{
-\item{x}{2 x 2 matrix or 2 x 2 table or numeric variable or factor variable}
+\item{data}{a \code{data.frame} or \code{tibble}}
 
-\item{y}{numeric or factor variable}
+\item{x}{factor; column in \code{data}}
+
+\item{y}{factor; column in \code{data}}
 }
 \value{
 \code{infer_mcnemar_test} returns an object of class \code{"infer_mcnemar_test"}.
@@ -44,6 +46,15 @@ equal in the same population.
 }
 
 \examples{
+# using variables from data
+hb <-
+  hsb \%>\%
+    mutate(
+      himath = if_else(math > 60, 1, 0),
+      hiread = if_else(read > 60, 1, 0)
+    )
+infer_mcnemar_test(hb, himath, hiread)
+
 # test if the proportion of students in himath and hiread group is same
 himath <- ifelse(hsb$math > 60, 1, 0)
 hiread <- ifelse(hsb$read > 60, 1, 0)
