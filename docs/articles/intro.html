@@ -145,7 +145,7 @@
 <a href="#examples" class="anchor"></a>Examples</h3>
 <p>Using the hsb data, test whether the mean of read is equal to the mean of write.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># Lower Tail Test</span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="../reference/infer_ts_paired_ttest.html">infer_ts_paired_ttest</a></span>(hsb<span class="op">$</span>read, hsb<span class="op">$</span>write, <span class="dt">alternative =</span> <span class="st">'less'</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="../reference/infer_ts_paired_ttest.html">infer_ts_paired_ttest</a></span>(hsb, read, write, <span class="dt">alternative =</span> <span class="st">'less'</span>)</a></code></pre></div>
 <pre><code>##                          Paired Samples Statistics                          
 ## ---------------------------------------------------------------------------
 ## Variables    Obs    Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
@@ -173,7 +173,7 @@
 ##  read - write    -0.873    199    0.192 
 ## ---------------------------------------</code></pre>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># Test all alternatives</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="../reference/infer_ts_paired_ttest.html">infer_ts_paired_ttest</a></span>(hsb<span class="op">$</span>read, hsb<span class="op">$</span>write, <span class="dt">alternative =</span> <span class="st">'all'</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="../reference/infer_ts_paired_ttest.html">infer_ts_paired_ttest</a></span>(hsb, read, write, <span class="dt">alternative =</span> <span class="st">'all'</span>)</a></code></pre></div>
 <pre><code>##                          Paired Samples Statistics                          
 ## ---------------------------------------------------------------------------
 ## Variables    Obs    Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 

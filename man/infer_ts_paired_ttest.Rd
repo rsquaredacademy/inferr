@@ -5,13 +5,15 @@
 \alias{paired_ttest}
 \title{Paired t test}
 \usage{
-infer_ts_paired_ttest(x, y, confint = 0.95, alternative = c("both", "less",
-  "greater", "all"))
+infer_ts_paired_ttest(data, x, y, confint = 0.95, alternative = c("both",
+  "less", "greater", "all"))
 }
 \arguments{
-\item{x}{a numeric vector}
+\item{data}{a \code{data.frame} or \code{tibble}}
 
-\item{y}{a numeric vector}
+\item{x}{numeric; column in \code{data}}
+
+\item{y}{numeric; column in \code{data}}
 
 \item{confint}{confidence level}
 
@@ -55,16 +57,16 @@ same mean, assuming paired data.
 
 \examples{
 # lower tail
-infer_ts_paired_ttest(hsb$read, hsb$write, alternative = 'less')
+infer_ts_paired_ttest(hsb, read, write, alternative = 'less')
 
 # upper tail
-infer_ts_paired_ttest(hsb$read, hsb$write, alternative = 'greater')
+infer_ts_paired_ttest(hsb, read, write, alternative = 'greater')
 
 # both tails
-infer_ts_paired_ttest(hsb$read, hsb$write, alternative = 'both')
+infer_ts_paired_ttest(hsb, read, write, alternative = 'both')
 
 # all tails
-infer_ts_paired_ttest(hsb$read, hsb$write, alternative = 'all')
+infer_ts_paired_ttest(hsb, read, write, alternative = 'all')
 }
 \references{
 Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
