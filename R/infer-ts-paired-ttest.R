@@ -2,8 +2,9 @@
 #' @title Paired t test
 #' @description \code{infer_ts_paired_ttest} tests that two samples have the
 #' same mean, assuming paired data.
-#' @param x a numeric vector
-#' @param y a numeric vector
+#' @param data a \code{data.frame} or \code{tibble}
+#' @param x numeric; column in \code{data}
+#' @param y numeric; column in \code{data}
 #' @param confint confidence level
 #' @param alternative a character string specifying the alternative hypothesis, must be
 #' one of "both" (default), "greater", "less" or "all". You can specify just the
@@ -38,43 +39,45 @@
 #' @seealso \code{\link[stats]{t.test}}
 #' @examples
 #' # lower tail
-#' infer_ts_paired_ttest(hsb$read, hsb$write, alternative = 'less')
+#' infer_ts_paired_ttest(hsb, read, write, alternative = 'less')
 #'
 #' # upper tail
-#' infer_ts_paired_ttest(hsb$read, hsb$write, alternative = 'greater')
+#' infer_ts_paired_ttest(hsb, read, write, alternative = 'greater')
 #'
 #' # both tails
-#' infer_ts_paired_ttest(hsb$read, hsb$write, alternative = 'both')
+#' infer_ts_paired_ttest(hsb, read, write, alternative = 'both')
 #'
 #' # all tails
-#' infer_ts_paired_ttest(hsb$read, hsb$write, alternative = 'all')
+#' infer_ts_paired_ttest(hsb, read, write, alternative = 'all')
 #' @export
 #'
-infer_ts_paired_ttest <- function(x, y, confint = 0.95,
+infer_ts_paired_ttest <- function(data, x, y, confint = 0.95,
   alternative = c('both', 'less', 'greater', 'all')) UseMethod('infer_ts_paired_ttest')
 
 #' @export
 #'
-infer_ts_paired_ttest.default <- function(x, y, confint = 0.95,
+infer_ts_paired_ttest.default <- function(data, x, y, confint = 0.95,
   alternative = c('both', 'less', 'greater', 'all')) {
 
-  if (!is.numeric(x)) {
-    stop('x must be numeric')
-  }
+    x1 <- enquo(x)
+    y1 <- enquo(y)
 
-  if (!is.numeric(y)) {
-    stop('y must be numeric')
-  }
+    method <- match.arg(alternative)
 
-  if (!is.numeric(confint)) {
-    stop('confint must be numeric')
-  }
+    var_names <-
+      data %>%
+      select(!! x1, !! y1) %>%
+      names
 
-     method <- match.arg(alternative)
-      var_x <- l(deparse(substitute(x)))
-      var_y <- l(deparse(substitute(y)))
-  var_names <- c(var_x, var_y)
-          k <- paired_comp(x, y, confint, var_names)
+    xone <-
+        data %>%
+        pull(!! x1)
+
+    yone <-
+        data %>%
+        pull(!! y1)
+
+    k <- paired_comp(xone, yone, confint, var_names)
 
   result <- list(Obs = k$Obs, b = k$b, conf_int1 = k$conf_int1,
     conf_int2 = k$conf_int2, conf_int_diff = k$conf_int_diff, corr = k$corr,

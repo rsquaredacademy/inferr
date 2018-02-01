@@ -2,7 +2,7 @@ context('paired t test')
 
 test_that('output from infer_ts_paired_ttest matches expected output', {
 
-    k <- infer_ts_paired_ttest(mtcars$mpg, mtcars$qsec)
+    k <- infer_ts_paired_ttest(mtcars, mpg, qsec)
     expect_equal(k$Obs, 32)
     expect_equal(unname(k$b[[1]]), c(20.09, 17.85, 2.24))
     expect_equal(unname(k$b[[2]]), c(6.03, 1.79, 5.52))
@@ -22,16 +22,6 @@ test_that('output from infer_ts_paired_ttest matches expected output', {
     expect_equal(k$df, 31)
     expect_equal(k$confint, 0.95)
 
-})
-
-
-test_that('infer_ts_paired_ttest throws appropriate error', {
-    expect_error(infer_ts_paired_ttest(as.factor(mtcars$mpg), mtcars$qsec),
-                 'x must be numeric')
-    expect_error(infer_ts_paired_ttest(mtcars$mpg, as.factor(mtcars$qsec)),
-                 'y must be numeric')
-    expect_error(infer_ts_paired_ttest(mtcars$mpg, mtcars$qsec, '0.95'),
-                 'confint must be numeric')
 })
 
 
@@ -64,7 +54,8 @@ Variables    Obs    Mean     Std. Err.    Std. Dev.    [95% Conf. Interval]
  read - write    -0.873    199    0.192
 ---------------------------------------")
 
-  expect_equivalent(print(infer_ts_paired_ttest(hsb$read, hsb$write, alternative = 'less')), x)
+  expect_equivalent(print(infer_ts_paired_ttest(hsb, read, write,
+                                                alternative = 'less')), x)
 
 })
 
@@ -97,7 +88,8 @@ Variables    Obs    Mean     Std. Err.    Std. Dev.    [95% Conf. Interval]
  read - write    -0.873    199    0.808
 ---------------------------------------")
 
-  expect_equivalent(print(infer_ts_paired_ttest(hsb$read, hsb$write, alternative = 'greater')), x)
+  expect_equivalent(print(infer_ts_paired_ttest(hsb, read, write,
+                                                alternative = 'greater')), x)
 
 })
 
@@ -130,7 +122,8 @@ Variables    Obs    Mean     Std. Err.    Std. Dev.    [95% Conf. Interval]
  read - write    -0.873    199    0.384
 ---------------------------------------")
 
-  expect_equivalent(print(infer_ts_paired_ttest(hsb$read, hsb$write, alternative = 'both')), x)
+  expect_equivalent(print(infer_ts_paired_ttest(hsb, read, write,
+                                                alternative = 'both')), x)
 
 })
 
@@ -158,6 +151,7 @@ Variables    Obs    Mean     Std. Err.    Std. Dev.    [95% Conf. Interval]
        t = -0.873               t = -0.873               t = -0.873
      P < t = 0.192           P > |t| = 0.384           P > t = 0.808")
 
-  expect_equivalent(print(infer_ts_paired_ttest(hsb$read, hsb$write, alternative = 'all')), x)
+  expect_equivalent(print(infer_ts_paired_ttest(hsb, read, write,
+                                                alternative = 'all')), x)
 
 })
