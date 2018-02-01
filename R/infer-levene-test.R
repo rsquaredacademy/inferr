@@ -77,7 +77,7 @@ infer_levene_test.default <- function(data, ..., group_var = NULL,
             stop('Please specify at least two variables.', call. = FALSE)
         }
 
-        out <- inferr:::gvar(ln, ly)
+        out <- gvar(ln, ly)
         fdata  <- unlist(z)
         groupvars <-
             out %>%
@@ -99,7 +99,7 @@ infer_levene_test.default <- function(data, ..., group_var = NULL,
         }
     }
 
-    k <- inferr:::lev_comp(fdata, groupvars, trim_mean)
+    k <- lev_comp(fdata, groupvars, trim_mean)
 
     out <- list(bf    = k$bf, p_bf  = k$p_bf, lev = k$lev, p_lev = k$p_lev,
                 bft   = k$bft, p_bft = k$p_bft, avgs  = k$avgs, sds   = k$sds,

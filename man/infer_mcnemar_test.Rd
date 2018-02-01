@@ -47,11 +47,9 @@ equal in the same population.
 
 \examples{
 # using variables from data
-hb <-
-  hsb \%>\%
-    mutate(
-      himath = if_else(math > 60, 1, 0),
-      hiread = if_else(read > 60, 1, 0)
+hb <- mutate(hsb,
+        himath = if_else(math > 60, 1, 0),
+        hiread = if_else(read > 60, 1, 0)
     )
 infer_mcnemar_test(hb, himath, hiread)
 
