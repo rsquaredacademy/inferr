@@ -136,7 +136,7 @@ infer_chisq_assoc_test(hsb, female, schtyp)
 ##### Levene’s Test
 
 ``` r
-infer_levene_test(hsb$read, group_var = hsb$race)
+infer_levene_test(hsb, read, group_var = race)
 #>            Summary Statistics             
 #> Levels    Frequency    Mean     Std. Dev  
 #> -----------------------------------------

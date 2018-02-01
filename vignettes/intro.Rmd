@@ -273,7 +273,7 @@ Using the hsb data, test whether variance in reading score is same across race.
 
 ```{r lev1}
 # Using Grouping Variable
-infer_levene_test(hsb$read, group_var = hsb$race)
+infer_levene_test(hsb, read, group_var = race)
 ```
 
 #### Using Variables
@@ -283,27 +283,7 @@ social studies scores.
 
 ```{r lev2}
 # Using Variables
-infer_levene_test(hsb$read, hsb$write, hsb$socst)
-```
-
-#### Use Simple Linear Model
-
-Using the hsb data, test whether variance in reading score is same for male and female
-students.
-
-```{r lev3}
-# Using Linear Regression Model
-m <- lm(read ~ female, data = hsb)
-infer_levene_test(m)
-```
-
-#### Using Formula
-
-Using the hsb data, test whether variance in reading score is same across school types.
-
-```{r lev4}
-# Using Formula
-infer_levene_test(as.formula(paste0('read ~ schtyp')), hsb)
+infer_levene_test(hsb, read, write, socst)
 ```
 
 ## Cochran's Q Test
