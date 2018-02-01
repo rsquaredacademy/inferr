@@ -724,9 +724,49 @@
 <h3 class="hasAnchor">
 <a href="#examples-8" class="anchor"></a>Examples</h3>
 <p>Using the hsb data, test if the proportion of students in himath and hiread group is equal.</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1">himath &lt;-<span class="st"> </span><span class="kw">ifelse</span>(hsb<span class="op">$</span>math <span class="op">&gt;</span><span class="st"> </span><span class="dv">60</span>, <span class="dv">1</span>, <span class="dv">0</span>)</a>
-<a class="sourceLine" id="cb47-2" data-line-number="2">hiread &lt;-<span class="st"> </span><span class="kw">ifelse</span>(hsb<span class="op">$</span>read <span class="op">&gt;</span><span class="st"> </span><span class="dv">60</span>, <span class="dv">1</span>, <span class="dv">0</span>)</a>
-<a class="sourceLine" id="cb47-3" data-line-number="3"><span class="kw"><a href="../reference/infer_mcnemar_test.html">infer_mcnemar_test</a></span>(<span class="kw">table</span>(himath, hiread))</a></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1">hb &lt;-</a>
+<a class="sourceLine" id="cb47-2" data-line-number="2"><span class="st">   </span>hsb <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb47-3" data-line-number="3"><span class="st">     </span><span class="kw">mutate</span>(</a>
+<a class="sourceLine" id="cb47-4" data-line-number="4">       <span class="dt">himath =</span> <span class="kw">if_else</span>(math <span class="op">&gt;</span><span class="st"> </span><span class="dv">60</span>, <span class="dv">1</span>, <span class="dv">0</span>),</a>
+<a class="sourceLine" id="cb47-5" data-line-number="5">       <span class="dt">hiread =</span> <span class="kw">if_else</span>(read <span class="op">&gt;</span><span class="st"> </span><span class="dv">60</span>, <span class="dv">1</span>, <span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb47-6" data-line-number="6">     )</a>
+<a class="sourceLine" id="cb47-7" data-line-number="7"><span class="kw"><a href="../reference/infer_mcnemar_test.html">infer_mcnemar_test</a></span>(hb, himath, hiread)</a></code></pre></div>
+<pre><code>##            Controls 
+## ---------------------------------
+## Cases       0       1       Total 
+## ---------------------------------
+##   0        135      21        156 
+##   1         18      26         44 
+## ---------------------------------
+## Total      153      47        200 
+## ---------------------------------
+## 
+##        McNemar's Test        
+## ----------------------------
+## McNemar's chi2        0.2308 
+## DF                         1 
+## Pr &gt; chi2              0.631 
+## Exact Pr &gt;= chi2      0.7493 
+## ----------------------------
+## 
+##        Kappa Coefficient         
+## --------------------------------
+## Kappa                     0.4454 
+## ASE                        0.075 
+## 95% Lower Conf Limit      0.2984 
+## 95% Upper Conf Limit      0.5923 
+## --------------------------------
+## 
+## Proportion With Factor 
+## ----------------------
+## cases             0.78 
+## controls         0.765 
+## ratio           1.0196 
+## odds ratio      1.1667 
+## ----------------------</code></pre>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1">himath &lt;-<span class="st"> </span><span class="kw">ifelse</span>(hsb<span class="op">$</span>math <span class="op">&gt;</span><span class="st"> </span><span class="dv">60</span>, <span class="dv">1</span>, <span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb49-2" data-line-number="2">hiread &lt;-<span class="st"> </span><span class="kw">ifelse</span>(hsb<span class="op">$</span>read <span class="op">&gt;</span><span class="st"> </span><span class="dv">60</span>, <span class="dv">1</span>, <span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb49-3" data-line-number="3"><span class="kw"><a href="../reference/infer_mcnemar_test.html">infer_mcnemar_test</a></span>(<span class="kw">table</span>(himath, hiread))</a></code></pre></div>
 <pre><code>##            Controls 
 ## ---------------------------------
 ## Cases       0       1       Total 
@@ -761,7 +801,7 @@
 ## odds ratio      1.1667 
 ## ----------------------</code></pre>
 <p>Perform the above test using matrix as input.</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1"><span class="kw"><a href="../reference/infer_mcnemar_test.html">infer_mcnemar_test</a></span>(<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">135</span>, <span class="dv">18</span>, <span class="dv">21</span>, <span class="dv">26</span>), <span class="dt">nrow =</span> <span class="dv">2</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1"><span class="kw"><a href="../reference/infer_mcnemar_test.html">infer_mcnemar_test</a></span>(<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">135</span>, <span class="dv">18</span>, <span class="dv">21</span>, <span class="dv">26</span>), <span class="dt">nrow =</span> <span class="dv">2</span>))</a></code></pre></div>
 <pre><code>##            Controls 
 ## ---------------------------------
 ## Cases       0       1       Total 
@@ -805,11 +845,11 @@
 <h3 class="hasAnchor">
 <a href="#examples-9" class="anchor"></a>Examples</h3>
 <p>We will use runs test to check regression residuals for serial correlation.</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1"><span class="co"># linear regression</span></a>
-<a class="sourceLine" id="cb51-2" data-line-number="2">reg &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp, <span class="dt">data =</span> mtcars)</a>
-<a class="sourceLine" id="cb51-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb51-4" data-line-number="4"><span class="co"># basic example</span></a>
-<a class="sourceLine" id="cb51-5" data-line-number="5"><span class="kw"><a href="../reference/infer_runs_test.html">infer_runs_test</a></span>(<span class="kw">residuals</span>(reg))</a></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1"><span class="co"># linear regression</span></a>
+<a class="sourceLine" id="cb53-2" data-line-number="2">reg &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp, <span class="dt">data =</span> mtcars)</a>
+<a class="sourceLine" id="cb53-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb53-4" data-line-number="4"><span class="co"># basic example</span></a>
+<a class="sourceLine" id="cb53-5" data-line-number="5"><span class="kw"><a href="../reference/infer_runs_test.html">infer_runs_test</a></span>(<span class="kw">residuals</span>(reg))</a></code></pre></div>
 <pre><code>## Runs Test
 ##  Total Cases:  32 
 ##  Test Value :  -0.9630856 
@@ -820,8 +860,8 @@
 ##  Variance (Runs):  7.741935 
 ##  z Statistic:  -2.156386 
 ##  p-value:  0.03105355</code></pre>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1"><span class="co"># drop values equal to threshold</span></a>
-<a class="sourceLine" id="cb53-2" data-line-number="2"><span class="kw"><a href="../reference/infer_runs_test.html">infer_runs_test</a></span>(<span class="kw">residuals</span>(reg), <span class="dt">drop =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1"><span class="co"># drop values equal to threshold</span></a>
+<a class="sourceLine" id="cb55-2" data-line-number="2"><span class="kw"><a href="../reference/infer_runs_test.html">infer_runs_test</a></span>(<span class="kw">residuals</span>(reg), <span class="dt">drop =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## Runs Test
 ##  Total Cases:  32 
 ##  Test Value :  -0.9630856 
@@ -832,8 +872,8 @@
 ##  Variance (Runs):  7.741935 
 ##  z Statistic:  -2.156386 
 ##  p-value:  0.03105355</code></pre>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1"><span class="co"># recode data in binary format</span></a>
-<a class="sourceLine" id="cb55-2" data-line-number="2"><span class="kw"><a href="../reference/infer_runs_test.html">infer_runs_test</a></span>(<span class="kw">residuals</span>(reg), <span class="dt">split =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1"><span class="co"># recode data in binary format</span></a>
+<a class="sourceLine" id="cb57-2" data-line-number="2"><span class="kw"><a href="../reference/infer_runs_test.html">infer_runs_test</a></span>(<span class="kw">residuals</span>(reg), <span class="dt">split =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## Runs Test
 ##  Total Cases:  32 
 ##  Test Value :  -0.9630856 
@@ -844,8 +884,8 @@
 ##  Variance (Runs):  7.741935 
 ##  z Statistic:  -2.156386 
 ##  p-value:  0.03105355</code></pre>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1"><span class="co"># use mean as threshold</span></a>
-<a class="sourceLine" id="cb57-2" data-line-number="2"><span class="kw"><a href="../reference/infer_runs_test.html">infer_runs_test</a></span>(<span class="kw">residuals</span>(reg), <span class="dt">mean =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1"><span class="co"># use mean as threshold</span></a>
+<a class="sourceLine" id="cb59-2" data-line-number="2"><span class="kw"><a href="../reference/infer_runs_test.html">infer_runs_test</a></span>(<span class="kw">residuals</span>(reg), <span class="dt">mean =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## Runs Test
 ##  Total Cases:  32 
 ##  Test Value :  -1.12757e-16 
@@ -856,8 +896,8 @@
 ##  Variance (Runs):  7.189642 
 ##  z Statistic:  -2.027896 
 ##  p-value:  0.04257089</code></pre>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1"><span class="co"># threshold to be used for counting runs</span></a>
-<a class="sourceLine" id="cb59-2" data-line-number="2"><span class="kw"><a href="../reference/infer_runs_test.html">infer_runs_test</a></span>(<span class="kw">residuals</span>(reg), <span class="dt">threshold =</span> <span class="dv">0</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1"><span class="co"># threshold to be used for counting runs</span></a>
+<a class="sourceLine" id="cb61-2" data-line-number="2"><span class="kw"><a href="../reference/infer_runs_test.html">infer_runs_test</a></span>(<span class="kw">residuals</span>(reg), <span class="dt">threshold =</span> <span class="dv">0</span>)</a></code></pre></div>
 <pre><code>## Runs Test
 ##  Total Cases:  32 
 ##  Test Value :  0 

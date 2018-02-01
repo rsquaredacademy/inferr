@@ -312,6 +312,17 @@ be used to answer whether:
 
 Using the hsb data, test if the proportion of students in himath and hiread group is equal.
 
+```{r mc3}
+hb <-
+   hsb %>%
+     mutate(
+       himath = if_else(math > 60, 1, 0),
+       hiread = if_else(read > 60, 1, 0)
+     )
+infer_mcnemar_test(hb, himath, hiread)
+```
+
+
 ```{r mc1}
 himath <- ifelse(hsb$math > 60, 1, 0)
 hiread <- ifelse(hsb$read > 60, 1, 0)

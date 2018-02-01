@@ -38,15 +38,6 @@ test_that('output from infer_mcnemar_test matches the expected result', {
 })
 
 
-test_that('infer_mcnemar_test throws appropriate errors', {
-    expect_error(infer_mcnemar_test(c(172, 7, 6, 15)),
-                 'x must be either a table or a matrix')
-    expect_error(infer_mcnemar_test(matrix(c(172, 7, 6, 15, 20, 25), nrow = 3)),
-                 'x must be a 2 x 2 matrix')
-    expect_error(infer_mcnemar_test(hsb$female, hsb$schtyp[-1]),
-                 'x and y should be of the same length')
-
-})
 
 
 test_that('output from mcnemar test is as expected', {

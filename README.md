@@ -174,9 +174,13 @@ infer_cochran_qtest(exam, exam1, exam2, exam3)
 ##### McNemar Test
 
 ``` r
-himath <- ifelse(hsb$math > 60, 1, 0)
-hiread <- ifelse(hsb$read > 60, 1, 0)
-infer_mcnemar_test(table(himath, hiread))
+hb <-
+   hsb %>%
+     mutate(
+       himath = if_else(math > 60, 1, 0),
+       hiread = if_else(read > 60, 1, 0)
+     )
+infer_mcnemar_test(hb, himath, hiread)
 #>            Controls 
 #> ---------------------------------
 #> Cases       0       1       Total 
