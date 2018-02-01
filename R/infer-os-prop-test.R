@@ -2,13 +2,13 @@
 #' @title One Sample Test of Proportion
 #' @description  \code{infer_os_prop_test} compares proportion in one group to a
 #' specified population proportion.
-#' @param n number of observations
+#' @param data numeric vector of length 1 or a \code{data.frame} or \code{tibble}
+#' @param variable factor; column in \code{data}
 #' @param prob hypothesised proportion
 #' @param phat observed proportion
 #' @param alternative a character string specifying the alternative hypothesis,
 #' must be one of "both" (default), "greater", "less" or "all". You can specify
 #' just the initial letter.
-#' @param ... other arguments
 #' @return \code{infer_os_prop_test} returns an object of class \code{"infer_os_prop_test"}.
 #' An object of class \code{"infer_os_prop_test"} is a list containing the
 #' following components:
@@ -33,50 +33,61 @@
 #' infer_os_prop_test(200, prob = 0.5, phat = 0.3)
 #'
 #' # using data set
-#' infer_os_prop_test(hsb$female, prob = 0.5)
+#' infer_os_prop_test(hsb, female, prob = 0.5)
 #' @export
 #'
-infer_os_prop_test <- function(n, prob = 0.5, alternative = c('both', 'less',
-  'greater', 'all'),...) UseMethod('infer_os_prop_test')
+infer_os_prop_test <- function(data, variable = NULL, prob = 0.5, phat = 0.5,
+                               alternative = c('both', 'less', 'greater', 'all'))
+    UseMethod('infer_os_prop_test')
 
 #' @export
 #' @rdname infer_os_prop_test
 #'
-infer_os_prop_test.default <- function(n, prob = 0.5,
-                      alternative = c('both', 'less', 'greater', 'all'), phat, ...) {
+infer_os_prop_test.default <- function(data, variable = NULL, prob = 0.5, phat = 0.5,
+                                       alternative = c('both', 'less', 'greater', 'all')) {
 
+    if (is.numeric(data)) {
 
-  if (!is.numeric(n)) {
-    stop('n must be numeric')
-  }
+        method <- match.arg(alternative)
+        k <- prop_comp(data, prob = prob, phat = phat,
+                               alternative = method)
 
-  if (!is.numeric(phat)) {
-    stop('phat must be numeric')
-  }
+    } else {
 
-  if (phat < 0 | phat > 1) {
-    stop('phat must be between 0 and 1')
-  }
+        varyables <- enquo(variable)
 
-  if (!is.numeric(prob)) {
-    stop('prob must be numeric')
-  }
+        fdata <-
+            data %>%
+            pull(!! varyables)
 
-  if (prob < 0 | prob > 1) {
-    stop('prob must be between 0 and 1')
-  }
+        n1 <- length(fdata)
 
-  method <- match.arg(alternative)
-  k <- prop_comp(n, prob, method, phat)
+        n2 <-
+            fdata %>%
+            table %>%
+            `[[`(2)
 
-  result <- list(n = k$n, phat = k$phat, p = k$p, z = k$z, sig = k$sig,
-      alt = k$alt, obs = k$obs, exp = k$exp, deviation = k$deviation,
-            std = k$std)
+        phat <- round(n2 / n1, 4)
+
+        prob <- prob
+
+        method <- match.arg(alternative)
+
+        k <- prop_comp(n1, prob = prob, phat = phat,
+                               alternative = method)
+
+    }
+
+    result <- list(n = k$n, phat = k$phat, p = k$p, z = k$z, sig = k$sig,
+                   alt = k$alt, obs = k$obs, exp = k$exp,
+                   deviation = k$deviation,
+                   std = k$std)
 
     class(result) <- 'infer_os_prop_test'
     return(result)
 
 }
+
 
 #' @export
 #' @rdname infer_os_prop_test
@@ -86,7 +97,6 @@ prop_test <- function(n, prob = 0.5,
                       alternative = c('both', 'less', 'greater', 'all'), phat, ...) {
 
     .Deprecated("infer_os_prop_test()")
-    infer_os_prop_test(n, prob, alternative, phat, ...)
 
 }
 
@@ -97,31 +107,3 @@ print.infer_os_prop_test <- function(x, ...) {
 }
 
 
-#' @export
-#' @rdname infer_os_prop_test
-#'
-infer_os_prop_test.factor <- function(n, prob = 0.5,
-  alternative = c('both', 'less', 'greater', 'all'), ...) {
-
-  if (!is.numeric(prob)) {
-    stop('prob must be numeric')
-  }
-
-  if((prob < 0) | (prob > 1)) {
-    stop('prob must be between 0 and 1')
-  }
-
-
-	if (nlevels(n) > 2) {
-		stop('Please specify a categorical variable with only 2 levels.')
-	}
-
-  n1 <- length(n)
-  n2 <- table(n)[[2]]
-  phat <- round(n2 / n1, 4)
-  prob <- prob
-  alternative <- alternative
-
-  infer_os_prop_test.default(n1, prob, alternative, phat)
-
-}

@@ -4,30 +4,26 @@
 \alias{infer_os_prop_test}
 \alias{infer_os_prop_test.default}
 \alias{prop_test}
-\alias{infer_os_prop_test.factor}
 \title{One Sample Test of Proportion}
 \usage{
-infer_os_prop_test(n, prob = 0.5, alternative = c("both", "less", "greater",
-  "all"), ...)
+infer_os_prop_test(data, variable = NULL, prob = 0.5, phat = 0.5,
+  alternative = c("both", "less", "greater", "all"))
 
-\method{infer_os_prop_test}{default}(n, prob = 0.5, alternative = c("both",
-  "less", "greater", "all"), phat, ...)
-
-\method{infer_os_prop_test}{factor}(n, prob = 0.5, alternative = c("both",
-  "less", "greater", "all"), ...)
+\method{infer_os_prop_test}{default}(data, variable = NULL, prob = 0.5,
+  phat = 0.5, alternative = c("both", "less", "greater", "all"))
 }
 \arguments{
-\item{n}{number of observations}
+\item{data}{numeric vector of length 1 or a \code{data.frame} or \code{tibble}}
+
+\item{variable}{factor; column in \code{data}}
 
 \item{prob}{hypothesised proportion}
+
+\item{phat}{observed proportion}
 
 \item{alternative}{a character string specifying the alternative hypothesis,
 must be one of "both" (default), "greater", "less" or "all". You can specify
 just the initial letter.}
-
-\item{...}{other arguments}
-
-\item{phat}{observed proportion}
 }
 \value{
 \code{infer_os_prop_test} returns an object of class \code{"infer_os_prop_test"}.
@@ -59,7 +55,7 @@ specified population proportion.
 infer_os_prop_test(200, prob = 0.5, phat = 0.3)
 
 # using data set
-infer_os_prop_test(hsb$female, prob = 0.5)
+infer_os_prop_test(hsb, female, prob = 0.5)
 }
 \references{
 Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric

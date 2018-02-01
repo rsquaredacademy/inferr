@@ -109,41 +109,37 @@
 specified population proportion.</p>
     
 
-    <pre class="usage"><span class='fu'>infer_os_prop_test</span>(<span class='no'>n</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"both"</span>, <span class='st'>"less"</span>, <span class='st'>"greater"</span>,
-  <span class='st'>"all"</span>), <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>infer_os_prop_test</span>(<span class='no'>data</span>, <span class='kw'>variable</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>phat</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
+  <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"both"</span>, <span class='st'>"less"</span>, <span class='st'>"greater"</span>, <span class='st'>"all"</span>))
 
 <span class='co'># S3 method for default</span>
-<span class='fu'>infer_os_prop_test</span>(<span class='no'>n</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"both"</span>,
-  <span class='st'>"less"</span>, <span class='st'>"greater"</span>, <span class='st'>"all"</span>), <span class='no'>phat</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for factor</span>
-<span class='fu'>infer_os_prop_test</span>(<span class='no'>n</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"both"</span>,
-  <span class='st'>"less"</span>, <span class='st'>"greater"</span>, <span class='st'>"all"</span>), <span class='no'>...</span>)</pre>
+<span class='fu'>infer_os_prop_test</span>(<span class='no'>data</span>, <span class='kw'>variable</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
+  <span class='kw'>phat</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"both"</span>, <span class='st'>"less"</span>, <span class='st'>"greater"</span>, <span class='st'>"all"</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>n</th>
-      <td><p>number of observations</p></td>
+      <th>data</th>
+      <td><p>numeric vector of length 1 or a <code>data.frame</code> or <code>tibble</code></p></td>
+    </tr>
+    <tr>
+      <th>variable</th>
+      <td><p>factor; column in <code>data</code></p></td>
     </tr>
     <tr>
       <th>prob</th>
       <td><p>hypothesised proportion</p></td>
     </tr>
     <tr>
+      <th>phat</th>
+      <td><p>observed proportion</p></td>
+    </tr>
+    <tr>
       <th>alternative</th>
       <td><p>a character string specifying the alternative hypothesis,
 must be one of "both" (default), "greater", "less" or "all". You can specify
 just the initial letter.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>other arguments</p></td>
-    </tr>
-    <tr>
-      <th>phat</th>
-      <td><p>observed proportion</p></td>
     </tr>
     </table>
     
@@ -195,7 +191,20 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
 #&gt;    1           60         100         -40.00           -4.00      
 #&gt; -----------------------------------------------------------------</div><div class='input'>
 <span class='co'># using data set</span>
-<span class='fu'>infer_os_prop_test</span>(<span class='no'>hsb</span>$<span class='no'>female</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt; <span class='error'>Error in infer_os_prop_test.default(n1, prob, alternative, phat): object 'phat' not found</span></div></pre>
+<span class='fu'>infer_os_prop_test</span>(<span class='no'>hsb</span>, <span class='no'>female</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt;      Test Statistics      
+#&gt; -------------------------
+#&gt; Sample Size           200 
+#&gt; Exp Prop              0.5 
+#&gt; Obs Prop            0.545 
+#&gt; z                  1.2728 
+#&gt; Pr(|Z| &gt; |z|)      0.2031 
+#&gt; 
+#&gt; -----------------------------------------------------------------
+#&gt; Category    Observed    Expected    % Deviation    Std. Residuals 
+#&gt; -----------------------------------------------------------------
+#&gt;    0           91         100          -9.00           -0.90      
+#&gt;    1          109         100           9.00            0.90      
+#&gt; -----------------------------------------------------------------</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
