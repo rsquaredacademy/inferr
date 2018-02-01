@@ -1,4 +1,5 @@
 #' @importFrom stats qnorm
+#' @importFrom magrittr %>%
 #' @title McNemar Test
 #' @description Test if the proportions of two dichotomous variables are
 #' equal in the same population.
@@ -72,7 +73,7 @@ infer_mcnemar_test.default <- function(data, x = NULL, y = NULL) {
 
     }
 
-    k <- inferr:::mccomp(dat)
+    k <- mccomp(dat)
 
     result <- list(statistic = k$statistic, df = k$df, pvalue = k$pvalue,
                    exactp = k$exactp, cstat = k$cstat, cpvalue = k$cpvalue, kappa = k$kappa,
