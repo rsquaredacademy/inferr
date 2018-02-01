@@ -4,29 +4,21 @@
 \alias{infer_levene_test}
 \alias{infer_levene_test.default}
 \alias{levene_test}
-\alias{infer_levene_test.lm}
-\alias{infer_levene_test.formula}
 \title{Levene's test for equality of variances}
 \usage{
-infer_levene_test(variable, ...)
+infer_levene_test(data, ...)
 
-\method{infer_levene_test}{default}(variable, ..., group_var = NULL,
-  trim.mean = 0.1)
-
-\method{infer_levene_test}{lm}(variable, ...)
-
-\method{infer_levene_test}{formula}(variable, data, ...)
+\method{infer_levene_test}{default}(data, ..., group_var = NULL,
+  trim_mean = 0.1)
 }
 \arguments{
-\item{variable}{a numeric vector or formula or object of class \code{lm}}
+\item{data}{a \code{data.frame} or \code{tibble}}
 
-\item{...}{numeric vectors}
+\item{...}{numeric; columns in \code{data}}
 
-\item{group_var}{a grouping variable}
+\item{group_var}{factor; column in \code{data}}
 
-\item{trim.mean}{trimmed mean}
-
-\item{data}{a data frame}
+\item{trim_mean}{trimmed mean}
 }
 \value{
 \code{infer_levene_test} returns an object of class \code{"infer_levene_test"}.
@@ -65,17 +57,10 @@ the mean with the 10% trimmed mean.
 
 \examples{
 # using grouping variable
-infer_levene_test(hsb$read, group_var = hsb$race)
+infer_levene_test(hsb, read, group_var = race)
 
-# using two variables
-infer_levene_test(hsb$read, hsb$write, hsb$socst)
-
-# using model
-m <- lm(read ~ female, data = hsb)
-infer_levene_test(m)
-
-# using formula
-infer_levene_test(as.formula(paste0('read ~ schtyp')), hsb)
+# using  variables
+infer_levene_test(hsb, read, write, socst)
 
 }
 \references{

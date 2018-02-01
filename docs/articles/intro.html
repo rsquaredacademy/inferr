@@ -80,7 +80,7 @@
     <div class="page-header toc-ignore">
       <h1>Introduction to inferr</h1>
             
-            <h4 class="date">2018-01-31</h4>
+            <h4 class="date">2018-02-01</h4>
           </div>
 
     
@@ -378,7 +378,6 @@
 ##    mpg       12511.436     31     1.0000  
 ## ----------------------------------------</code></pre>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="co"># Test all alternatives</span></a>
-
 <a class="sourceLine" id="cb21-2" data-line-number="2"><span class="kw"><a href="../reference/infer_os_var_test.html">infer_os_var_test</a></span>(mtcars, mpg, <span class="fl">0.3</span>, <span class="dt">alternative =</span> <span class="st">'all'</span>)</a></code></pre></div>
 <pre><code>##                             One-Sample Statistics                             
 ## -----------------------------------------------------------------------------
@@ -476,7 +475,6 @@
 <a href="#examples-4" class="anchor"></a>Examples</h3>
 <p>Using the hsb data, test whether the proportion of females and males are equal.</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="co"># Using variables</span></a>
-
 <a class="sourceLine" id="cb27-2" data-line-number="2"><span class="kw"><a href="../reference/infer_binom_calc.html">infer_binom_test</a></span>(hsb, female, <span class="dt">prob =</span> <span class="fl">0.5</span>)</a></code></pre></div>
 <pre><code>##              Binomial Test              
 ##  ---------------------------------------
@@ -526,7 +524,6 @@
 <h3 class="hasAnchor">
 <a href="#examples-5" class="anchor"></a>Examples</h3>
 <p>Using the hsb data, test whether the mean of write differs between the three program types.</p>
-
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw"><a href="../reference/infer_oneway_anova.html">infer_oneway_anova</a></span>(hsb, write, prog)</a></code></pre></div>
 <pre><code>##                                 ANOVA                                  
 ## ----------------------------------------------------------------------
@@ -560,7 +557,6 @@
 <a href="#example-3" class="anchor"></a>Example</h3>
 <p>Using the hsb data, test whether the observed proportions for race differs significantly from the hypothesized proportions.</p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="co"># basic example</span></a>
-
 <a class="sourceLine" id="cb33-2" data-line-number="2"><span class="kw"><a href="../reference/infer_chisq_gof_test.html">infer_chisq_gof_test</a></span>(hsb, race, <span class="kw">c</span>(<span class="dv">20</span>, <span class="dv">20</span>, <span class="dv">20</span> , <span class="dv">140</span>))</a></code></pre></div>
 <pre><code>##     Test Statistics     
 ## -----------------------
@@ -582,7 +578,6 @@
 <h4 class="hasAnchor">
 <a href="#continuity-correction" class="anchor"></a>Continuity Correction</h4>
 <div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="co"># using continuity correction</span></a>
-
 <a class="sourceLine" id="cb35-2" data-line-number="2"><span class="kw"><a href="../reference/infer_chisq_gof_test.html">infer_chisq_gof_test</a></span>(hsb, race, <span class="kw">c</span>(<span class="dv">20</span>, <span class="dv">20</span>, <span class="dv">20</span> , <span class="dv">140</span>), <span class="dt">correct =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>##     Test Statistics     
 ## -----------------------
@@ -611,7 +606,6 @@
 <h3 class="hasAnchor">
 <a href="#examples-6" class="anchor"></a>Examples</h3>
 <p>Using the hsb data, test if there is a relationship between the type of school attended (schtyp) and students’ gender (female).</p>
-
 <div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw"><a href="../reference/infer_chisq_assoc_test.html">infer_chisq_assoc_test</a></span>(hsb, female, schtyp)</a></code></pre></div>
 <pre><code>##                Chi Square Statistics                 
 ## 
@@ -626,7 +620,6 @@
 ## Cramer's V                          0.0153          
 ## ----------------------------------------------------</code></pre>
 <p>Using the hsb data, test if there is a relationship between the type of school attended (schtyp) and students’ socio economic status (ses).</p>
-
 <div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="kw"><a href="../reference/infer_chisq_assoc_test.html">infer_chisq_assoc_test</a></span>(hsb, schtyp, ses)</a></code></pre></div>
 <pre><code>##                Chi Square Statistics                 
 ## 
@@ -652,7 +645,7 @@
 <a href="#use-grouping-variable-2" class="anchor"></a>Use Grouping Variable</h4>
 <p>Using the hsb data, test whether variance in reading score is same across race.</p>
 <div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1"><span class="co"># Using Grouping Variable</span></a>
-<a class="sourceLine" id="cb41-2" data-line-number="2"><span class="kw"><a href="../reference/infer_levene_test.html">infer_levene_test</a></span>(hsb<span class="op">$</span>read, <span class="dt">group_var =</span> hsb<span class="op">$</span>race)</a></code></pre></div>
+<a class="sourceLine" id="cb41-2" data-line-number="2"><span class="kw"><a href="../reference/infer_levene_test.html">infer_levene_test</a></span>(hsb, read, <span class="dt">group_var =</span> race)</a></code></pre></div>
 <pre><code>##            Summary Statistics             
 ## Levels    Frequency    Mean     Std. Dev  
 ## -----------------------------------------
@@ -678,7 +671,7 @@
 <a href="#using-variables-2" class="anchor"></a>Using Variables</h4>
 <p>Using the hsb data, test whether variance is equal for reading, writing and social studies scores.</p>
 <div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1"><span class="co"># Using Variables</span></a>
-<a class="sourceLine" id="cb43-2" data-line-number="2"><span class="kw"><a href="../reference/infer_levene_test.html">infer_levene_test</a></span>(hsb<span class="op">$</span>read, hsb<span class="op">$</span>write, hsb<span class="op">$</span>socst)</a></code></pre></div>
+<a class="sourceLine" id="cb43-2" data-line-number="2"><span class="kw"><a href="../reference/infer_levene_test.html">infer_levene_test</a></span>(hsb, read, write, socst)</a></code></pre></div>
 <pre><code>##            Summary Statistics             
 ## Levels    Frequency    Mean     Std. Dev  
 ## -----------------------------------------
@@ -698,55 +691,6 @@
 ## Brown and Forsythe (Trimmed Mean)         2       597    1.3258    0.2664 
 ## -------------------------------------------------------------------------</code></pre>
 </div>
-<div id="use-simple-linear-model" class="section level4">
-<h4 class="hasAnchor">
-<a href="#use-simple-linear-model" class="anchor"></a>Use Simple Linear Model</h4>
-<p>Using the hsb data, test whether variance in reading score is same for male and female students.</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1"><span class="co"># Using Linear Regression Model</span></a>
-<a class="sourceLine" id="cb45-2" data-line-number="2">m &lt;-<span class="st"> </span><span class="kw">lm</span>(read <span class="op">~</span><span class="st"> </span>female, <span class="dt">data =</span> hsb)</a>
-<a class="sourceLine" id="cb45-3" data-line-number="3"><span class="kw"><a href="../reference/infer_levene_test.html">infer_levene_test</a></span>(m)</a></code></pre></div>
-<pre><code>##            Summary Statistics             
-## Levels    Frequency    Mean     Std. Dev  
-## -----------------------------------------
-##   0          91        52.82      10.51   
-##   1          109       51.73      10.06   
-## -----------------------------------------
-## Total        200       52.23      10.25   
-## -----------------------------------------
-## 
-##                              Test Statistics                              
-## -------------------------------------------------------------------------
-## Statistic                            Num DF    Den DF         F    Pr &gt; F 
-## -------------------------------------------------------------------------
-## Brown and Forsythe                        1       198    0.4542    0.5011 
-## Levene                                    1       198    0.6024    0.4386 
-## Brown and Forsythe (Trimmed Mean)         1       198     0.494     0.483 
-## -------------------------------------------------------------------------</code></pre>
-</div>
-<div id="using-formula" class="section level4">
-<h4 class="hasAnchor">
-<a href="#using-formula" class="anchor"></a>Using Formula</h4>
-<p>Using the hsb data, test whether variance in reading score is same across school types.</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="co"># Using Formula</span></a>
-<a class="sourceLine" id="cb47-2" data-line-number="2"><span class="kw"><a href="../reference/infer_levene_test.html">infer_levene_test</a></span>(<span class="kw">as.formula</span>(<span class="kw">paste0</span>(<span class="st">'read ~ schtyp'</span>)), hsb)</a></code></pre></div>
-<pre><code>##            Summary Statistics             
-## Levels    Frequency    Mean     Std. Dev  
-## -----------------------------------------
-##   1          168       51.85      10.42   
-##   2          32        54.25       9.2    
-## -----------------------------------------
-## Total        200       52.23      10.25   
-## -----------------------------------------
-## 
-##                              Test Statistics                              
-## -------------------------------------------------------------------------
-## Statistic                            Num DF    Den DF         F    Pr &gt; F 
-## -------------------------------------------------------------------------
-## Brown and Forsythe                        1       198    0.5643    0.4534 
-## Levene                                    1       198    0.6153    0.4337 
-## Brown and Forsythe (Trimmed Mean)         1       198    0.5886    0.4439 
-## -------------------------------------------------------------------------</code></pre>
-</div>
 </div>
 </div>
 <div id="cochrans-q-test" class="section level2">
@@ -757,8 +701,7 @@
 <h3 class="hasAnchor">
 <a href="#example-4" class="anchor"></a>Example</h3>
 <p>The exam data set contains scores of 15 students for three exams (exam1, exam2, exam3). Test if three exams are equally difficult.</p>
-
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1"><span class="kw"><a href="../reference/infer_cochran_qtest.html">infer_cochran_qtest</a></span>(exam, exam1, exam2, exam3)</a></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1"><span class="kw"><a href="../reference/infer_cochran_qtest.html">infer_cochran_qtest</a></span>(exam, exam1, exam2, exam3)</a></code></pre></div>
 <pre><code>##    Test Statistics     
 ## ----------------------
 ## N                   15 
@@ -781,9 +724,9 @@
 <h3 class="hasAnchor">
 <a href="#examples-8" class="anchor"></a>Examples</h3>
 <p>Using the hsb data, test if the proportion of students in himath and hiread group is equal.</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1">himath &lt;-<span class="st"> </span><span class="kw">ifelse</span>(hsb<span class="op">$</span>math <span class="op">&gt;</span><span class="st"> </span><span class="dv">60</span>, <span class="dv">1</span>, <span class="dv">0</span>)</a>
-<a class="sourceLine" id="cb51-2" data-line-number="2">hiread &lt;-<span class="st"> </span><span class="kw">ifelse</span>(hsb<span class="op">$</span>read <span class="op">&gt;</span><span class="st"> </span><span class="dv">60</span>, <span class="dv">1</span>, <span class="dv">0</span>)</a>
-<a class="sourceLine" id="cb51-3" data-line-number="3"><span class="kw"><a href="../reference/infer_mcnemar_test.html">infer_mcnemar_test</a></span>(<span class="kw">table</span>(himath, hiread))</a></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1">himath &lt;-<span class="st"> </span><span class="kw">ifelse</span>(hsb<span class="op">$</span>math <span class="op">&gt;</span><span class="st"> </span><span class="dv">60</span>, <span class="dv">1</span>, <span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb47-2" data-line-number="2">hiread &lt;-<span class="st"> </span><span class="kw">ifelse</span>(hsb<span class="op">$</span>read <span class="op">&gt;</span><span class="st"> </span><span class="dv">60</span>, <span class="dv">1</span>, <span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb47-3" data-line-number="3"><span class="kw"><a href="../reference/infer_mcnemar_test.html">infer_mcnemar_test</a></span>(<span class="kw">table</span>(himath, hiread))</a></code></pre></div>
 <pre><code>##            Controls 
 ## ---------------------------------
 ## Cases       0       1       Total 
@@ -818,7 +761,7 @@
 ## odds ratio      1.1667 
 ## ----------------------</code></pre>
 <p>Perform the above test using matrix as input.</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1"><span class="kw"><a href="../reference/infer_mcnemar_test.html">infer_mcnemar_test</a></span>(<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">135</span>, <span class="dv">18</span>, <span class="dv">21</span>, <span class="dv">26</span>), <span class="dt">nrow =</span> <span class="dv">2</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1"><span class="kw"><a href="../reference/infer_mcnemar_test.html">infer_mcnemar_test</a></span>(<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">135</span>, <span class="dv">18</span>, <span class="dv">21</span>, <span class="dv">26</span>), <span class="dt">nrow =</span> <span class="dv">2</span>))</a></code></pre></div>
 <pre><code>##            Controls 
 ## ---------------------------------
 ## Cases       0       1       Total 
@@ -862,11 +805,11 @@
 <h3 class="hasAnchor">
 <a href="#examples-9" class="anchor"></a>Examples</h3>
 <p>We will use runs test to check regression residuals for serial correlation.</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1"><span class="co"># linear regression</span></a>
-<a class="sourceLine" id="cb55-2" data-line-number="2">reg &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp, <span class="dt">data =</span> mtcars)</a>
-<a class="sourceLine" id="cb55-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb55-4" data-line-number="4"><span class="co"># basic example</span></a>
-<a class="sourceLine" id="cb55-5" data-line-number="5"><span class="kw"><a href="../reference/infer_runs_test.html">infer_runs_test</a></span>(<span class="kw">residuals</span>(reg))</a></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1"><span class="co"># linear regression</span></a>
+<a class="sourceLine" id="cb51-2" data-line-number="2">reg &lt;-<span class="st"> </span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>disp, <span class="dt">data =</span> mtcars)</a>
+<a class="sourceLine" id="cb51-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb51-4" data-line-number="4"><span class="co"># basic example</span></a>
+<a class="sourceLine" id="cb51-5" data-line-number="5"><span class="kw"><a href="../reference/infer_runs_test.html">infer_runs_test</a></span>(<span class="kw">residuals</span>(reg))</a></code></pre></div>
 <pre><code>## Runs Test
 ##  Total Cases:  32 
 ##  Test Value :  -0.9630856 
@@ -877,8 +820,8 @@
 ##  Variance (Runs):  7.741935 
 ##  z Statistic:  -2.156386 
 ##  p-value:  0.03105355</code></pre>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1"><span class="co"># drop values equal to threshold</span></a>
-<a class="sourceLine" id="cb57-2" data-line-number="2"><span class="kw"><a href="../reference/infer_runs_test.html">infer_runs_test</a></span>(<span class="kw">residuals</span>(reg), <span class="dt">drop =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1"><span class="co"># drop values equal to threshold</span></a>
+<a class="sourceLine" id="cb53-2" data-line-number="2"><span class="kw"><a href="../reference/infer_runs_test.html">infer_runs_test</a></span>(<span class="kw">residuals</span>(reg), <span class="dt">drop =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## Runs Test
 ##  Total Cases:  32 
 ##  Test Value :  -0.9630856 
@@ -889,8 +832,8 @@
 ##  Variance (Runs):  7.741935 
 ##  z Statistic:  -2.156386 
 ##  p-value:  0.03105355</code></pre>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1"><span class="co"># recode data in binary format</span></a>
-<a class="sourceLine" id="cb59-2" data-line-number="2"><span class="kw"><a href="../reference/infer_runs_test.html">infer_runs_test</a></span>(<span class="kw">residuals</span>(reg), <span class="dt">split =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1"><span class="co"># recode data in binary format</span></a>
+<a class="sourceLine" id="cb55-2" data-line-number="2"><span class="kw"><a href="../reference/infer_runs_test.html">infer_runs_test</a></span>(<span class="kw">residuals</span>(reg), <span class="dt">split =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## Runs Test
 ##  Total Cases:  32 
 ##  Test Value :  -0.9630856 
@@ -901,8 +844,8 @@
 ##  Variance (Runs):  7.741935 
 ##  z Statistic:  -2.156386 
 ##  p-value:  0.03105355</code></pre>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1"><span class="co"># use mean as threshold</span></a>
-<a class="sourceLine" id="cb61-2" data-line-number="2"><span class="kw"><a href="../reference/infer_runs_test.html">infer_runs_test</a></span>(<span class="kw">residuals</span>(reg), <span class="dt">mean =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1"><span class="co"># use mean as threshold</span></a>
+<a class="sourceLine" id="cb57-2" data-line-number="2"><span class="kw"><a href="../reference/infer_runs_test.html">infer_runs_test</a></span>(<span class="kw">residuals</span>(reg), <span class="dt">mean =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## Runs Test
 ##  Total Cases:  32 
 ##  Test Value :  -1.12757e-16 
@@ -913,8 +856,8 @@
 ##  Variance (Runs):  7.189642 
 ##  z Statistic:  -2.027896 
 ##  p-value:  0.04257089</code></pre>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" data-line-number="1"><span class="co"># threshold to be used for counting runs</span></a>
-<a class="sourceLine" id="cb63-2" data-line-number="2"><span class="kw"><a href="../reference/infer_runs_test.html">infer_runs_test</a></span>(<span class="kw">residuals</span>(reg), <span class="dt">threshold =</span> <span class="dv">0</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1"><span class="co"># threshold to be used for counting runs</span></a>
+<a class="sourceLine" id="cb59-2" data-line-number="2"><span class="kw"><a href="../reference/infer_runs_test.html">infer_runs_test</a></span>(<span class="kw">residuals</span>(reg), <span class="dt">threshold =</span> <span class="dv">0</span>)</a></code></pre></div>
 <pre><code>## Runs Test
 ##  Total Cases:  32 
 ##  Test Value :  0 
