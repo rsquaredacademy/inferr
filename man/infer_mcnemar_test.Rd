@@ -47,6 +47,7 @@ equal in the same population.
 
 \examples{
 # using variables from data
+library(dplyr)
 hb <- mutate(hsb,
         himath = if_else(math > 60, 1, 0),
         hiread = if_else(read > 60, 1, 0)
