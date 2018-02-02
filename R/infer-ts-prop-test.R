@@ -2,10 +2,11 @@
 #' @description Tests on the equality of proportions using
 #' large-sample statistics. It tests that a sample has the same proportion
 #' within two independent groups or two samples have the same proportion.
-#' @param var1 a categorical variable
-#' @param var2 a categorical variable
-#' @param var a categorical variable
-#' @param group a categorical variable
+#' @param data a \code{data.frame} or \code{tibble}
+#' @param var1 factor; column in \code{data}
+#' @param var2 factor; column in \code{data}
+#' @param var factor; column in \code{data}
+#' @param group factor; column in \code{data}
 #' @param n1 sample 1 size
 #' @param n2 sample 2 size
 #' @param p1 sample 1 proportion
@@ -35,62 +36,42 @@
 #' @examples
 #' # using variables
 #' # lower tail
-#' infer_ts_prop_test(var1 = treatment$treatment1, var2 = treatment$treatment2,
+#' infer_ts_prop_test(treatment, treatment1, treatment2,
 #' alternative = 'less')
-#'
-#' # upper tail
-#' infer_ts_prop_test(var1 = treatment$treatment1, var2 = treatment$treatment2,
-#' alternative = 'greater')
-#'
-#' # both tails
-#' infer_ts_prop_test(var1 = treatment$treatment1, var2 = treatment$treatment2,
-#' alternative = 'both')
-#'
-#' # all tails
-#' infer_ts_prop_test(var1 = treatment$treatment1, var2 = treatment$treatment2,
-#' alternative = 'all')
 #'
 #' # using groups
 #' # lower tail
-#' infer_ts_prop_grp(var = treatment2$outcome, group = treatment2$female,
+#' infer_ts_prop_grp(treatment2, outcome, $female,
 #' alternative = 'less')
-#'
-#' # upper tail
-#' infer_ts_prop_grp(var = treatment2$outcome, group = treatment2$female,
-#' alternative = 'greater')
-#'
-#' # both tails
-#' infer_ts_prop_grp(var = treatment2$outcome, group = treatment2$female,
-#' alternative = 'both')
-#'
-#' # # all tails
-#' infer_ts_prop_grp(var = treatment2$outcome, group = treatment2$female,
-#' alternative = 'all')
 #'
 #' # using sample size and proportions
 #' # lower tail
 #' infer_ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'less')
 #'
-#' # upper tail
-#' infer_ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'greater')
-#'
-#' # both tails
-#' infer_ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'both')
-#'
-#' # all tails
-#' infer_ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'all')
 #' @export
 #'
-infer_ts_prop_test <- function(var1, var2,
-  alternative = c('both', 'less', 'greater', 'all'), ...) UseMethod('infer_ts_prop_test')
+infer_ts_prop_test <- function(dta, var1, var2,
+  alternative = c('both', 'less', 'greater', 'all'), ...)
+  UseMethod('infer_ts_prop_test')
 
 #' @export
 #'
-infer_ts_prop_test.default <- function(var1, var2,
+infer_ts_prop_test.default <- function(data, var1, var2,
   alternative = c('both', 'less', 'greater', 'all'), ...) {
 
+  var_1 <- enquo(var1)
+  var_2 <- enquo(var2)
+
+  varone <-
+    data %>%
+    pull(!! var_1)
+
+  vartwo <-
+    data %>%
+    pull(!! var_2)
+
   alt <- match.arg(alternative)
-    k <- prop_comp2(var1, var2, alt)
+    k <- prop_comp2(varone, vartwo, alt)
 
   result <- list(n1 = k$n1, n2 = k$n2, phat1 = k$phat1, phat2 = k$phat2,
     z = k$z, sig = k$sig, alt = alt)
@@ -108,7 +89,6 @@ ts_prop_test <- function(var1, var2,
                          alternative = c('both', 'less', 'greater', 'all'), ...) {
 
     .Deprecated("infer_ts_prop_test()")
-    infer_ts_prop_test(var1, var2, alternative, ...)
 
 }
 
@@ -122,18 +102,28 @@ print.infer_ts_prop_test <- function(x, ...) {
 #' @export
 #' @rdname infer_ts_prop_test
 #'
-infer_ts_prop_grp <- function(var, group,
+infer_ts_prop_grp <- function(data, var, group,
   alternative = c('both', 'less', 'greater', 'all')) {
 
+  var1 <- enquo(var)
+  group1 <- enquo(group)
 
-    if (nlevels(group) > 2) {
+  varone <-
+    data %>%
+    pull(!! var1)
+
+  groupone <-
+    data %>%
+    pull(!! group1)
+
+    if (nlevels(groupone) > 2) {
       stop('Grouping variable must be a binary factor variables.', call. = FALSE)
     }
 
-	    n <- tapply(var, group, length)
+	    n <- tapply(varone, groupone, length)
 	   n1 <- n[[1]]
 	   n2 <- n[[2]]
-	    y <- tapply(var, group, table)
+	    y <- tapply(varone, groupone, table)
 	   y1 <- y[[1]][[2]]
 	   y2 <- y[[2]][[2]]
 	phat1 <- y1 / n1
@@ -184,7 +174,6 @@ ts_prop_grp <- function(var, group,
                         alternative = c('both', 'less', 'greater', 'all')) {
 
     .Deprecated("infer_ts_prop_grp()")
-    infer_ts_prop_grp(var, group, alternative)
 
 }
 

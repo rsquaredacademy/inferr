@@ -303,7 +303,7 @@
 <a href="#using-variables" class="anchor"></a>Using Variables</h4>
 <p>Using the treatment data, test equality of proportion of two treatments</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="co"># Using Variables</span></a>
-<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="kw"><a href="../reference/infer_ts_prop_test.html">infer_ts_prop_test</a></span>(<span class="dt">var1 =</span> treatment<span class="op">$</span>treatment1, <span class="dt">var2 =</span> treatment<span class="op">$</span>treatment2, <span class="dt">alternative =</span> <span class="st">'all'</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="kw"><a href="../reference/infer_ts_prop_test.html">infer_ts_prop_test</a></span>(treatment, treatment1, treatment2, <span class="dt">alternative =</span> <span class="st">'all'</span>)</a></code></pre></div>
 <pre><code>##     Test Statistics      
 ## ------------------------
 ## Sample Size           50 
@@ -317,7 +317,7 @@
 <a href="#use-grouping-variable" class="anchor"></a>Use Grouping Variable</h4>
 <p>Using the treatment2 data, test whether outcome has same proportion for male and female</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="co"># Using Grouping Variable</span></a>
-<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="kw"><a href="../reference/infer_ts_prop_test.html">infer_ts_prop_grp</a></span>(<span class="dt">var =</span> treatment2<span class="op">$</span>outcome, <span class="dt">group =</span> treatment2<span class="op">$</span>female, <span class="dt">alternative =</span> <span class="st">'all'</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="kw"><a href="../reference/infer_ts_prop_test.html">infer_ts_prop_grp</a></span>(treatment2, outcome, female, <span class="dt">alternative =</span> <span class="st">'all'</span>)</a></code></pre></div>
 <pre><code>##     Test Statistics      
 ## ------------------------
 ## Sample Size           91 
