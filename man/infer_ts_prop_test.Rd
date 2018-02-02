@@ -76,7 +76,7 @@ alternative = 'less')
 
 # using groups
 # lower tail
-infer_ts_prop_grp(treatment2, outcome, $female,
+infer_ts_prop_grp(treatment2, outcome, female,
 alternative = 'less')
 
 # using sample size and proportions
