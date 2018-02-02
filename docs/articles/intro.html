@@ -80,7 +80,6 @@
     <div class="page-header toc-ignore">
       <h1>Introduction to inferr</h1>
             
-
             <h4 class="date">2018-02-02</h4>
           </div>
 
@@ -404,40 +403,13 @@
 <a href="#use-grouping-variable-1" class="anchor"></a>Use Grouping Variable</h4>
 <p>Using the mtcars data, compare the standard deviation in miles per gallon for automatic and manual vehicles.</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="co"># Using Grouping Variable</span></a>
-<a class="sourceLine" id="cb23-2" data-line-number="2"><span class="kw"><a href="../reference/infer_ts_var_test.html">infer_ts_var_test</a></span>(hsb, read, <span class="dt">group_var =</span> write, <span class="dt">alternative =</span> <span class="st">'all'</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb23-2" data-line-number="2"><span class="kw"><a href="../reference/infer_ts_var_test.html">infer_ts_var_test</a></span>(hsb, read, <span class="dt">group_var =</span> female, <span class="dt">alternative =</span> <span class="st">'all'</span>)</a></code></pre></div>
 <pre><code>##                Variance Ratio Test                 
 ## --------------------------------------------------
 ##   Group      Obs    Mean     Std. Err.    Std. Dev. 
 ## --------------------------------------------------
-##      4     44.5       2.47         4.93    
-##      4     41.75      3.42         6.85    
-##      2     34.5        0.5         0.71    
-##      2     36.5        5.5         7.78    
-##      3     39.33      3.93         6.81    
-##      1      44         NaN          NaN    
-##      5      45        2.81         6.28    
-##      3      49          1          1.73    
-##     10     47.5       1.88         5.95    
-##      2     48.5        1.5         2.12    
-##      1      63         NaN          NaN    
-##     12      44        2.26         7.82    
-##      1      55         NaN          NaN    
-##      9      45        3.13         9.39    
-##      2      44          3          4.24    
-##     11     48.27       2.9         9.62    
-##      2     50.5        6.5         9.19    
-##     15     52.53      2.25         8.71    
-##      1      39         NaN          NaN    
-##     17     51.18      2.28         9.38    
-##      3     51.33      3.48         6.03    
-##     12     49.33       2.5         8.67    
-##     25     57.16      1.63         8.15    
-##      4     65.25      3.42         6.85    
-##      4      57         5.6         11.2    
-##     18     57.28      1.85         7.84    
-##      4      64        4.53         9.06    
-##     16     61.88       1.7         6.79    
-##      7     63.43      3.47         9.18    
+##    0        91     52.82       1.1         10.51   
+##    1        109    51.73      0.96         10.06   
 ## --------------------------------------------------
 ##  combined    200    52.23      0.72         10.25   
 ## --------------------------------------------------
@@ -446,16 +418,16 @@
 ## --------------------------------------------------
 ##         F              Num DF           Den DF      
 ## --------------------------------------------------
-##       0.5187             3                3         
+##       1.0913             90              108        
 ## --------------------------------------------------
 ## 
 ##        Null &amp; Alternate Hypothesis        
 ## ----------------------------------------
-##            ratio = sd() / ()            
+##           ratio = sd(0) / (1)           
 ##               Ho: ratio = 1              
 ## 
 ##     Ha: ratio &lt; 1        Ha: ratio &gt; 1    
-##   Pr(F &lt; f) = 0.3016   Pr(F &gt; f) = 0.6984 
+##   Pr(F &lt; f) = 0.6694   Pr(F &gt; f) = 0.3306 
 ## ----------------------------------------</code></pre>
 </div>
 <div id="using-variables-1" class="section level4">
