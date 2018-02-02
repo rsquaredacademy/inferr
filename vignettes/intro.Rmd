@@ -174,7 +174,7 @@ Using the mtcars data, compare the standard deviation in miles per gallon for au
 
 ```{r ts_var1}
 # Using Grouping Variable
-infer_ts_var_test(mtcars$mpg, group_var = mtcars$am, alternative = 'all')
+infer_ts_var_test(hsb, read, group_var = write, alternative = 'all')
 ```
 
 #### Using Variables
@@ -183,7 +183,7 @@ Using the hsb data, compare the standard deviation of reading and writing scores
 
 ```{r ts_var2}
 # Using Variables
-infer_ts_var_test(hsb$read, hsb$write, alternative = 'all')
+infer_ts_var_test(hsb, read, write, alternative = 'all')
 ```
 
 ## Binomial Probability Test

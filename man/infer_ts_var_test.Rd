@@ -5,15 +5,15 @@
 \alias{var_test}
 \title{Two Sample Variance Comparison Test}
 \usage{
-infer_ts_var_test(variable, ..., group_var = NA, alternative = c("less",
+infer_ts_var_test(data, ..., group_var = NULL, alternative = c("less",
   "greater", "all"))
 }
 \arguments{
-\item{variable}{a numeric vector}
+\item{data}{a \code{data.frame} or \code{tibble}}
 
-\item{...}{numeric vectors}
+\item{...}{numeric; column(s) in \code{data}}
 
-\item{group_var}{a grouping variable}
+\item{group_var}{factor; column in \code{data}}
 
 \item{alternative}{a character string specifying the alternative hypothesis,
 must be one of "both" (default), "greater", "less" or "all". You can specify
@@ -53,24 +53,10 @@ deviations (variances).
 
 \examples{
 # using grouping variable
-# lower tail
-infer_ts_var_test(mtcars$mpg, group_var = mtcars$vs, alternative = 'less')
-
-# upper tail
-infer_ts_var_test(mtcars$mpg, group_var = mtcars$vs, alternative = 'greater')
-
-# all tails
-infer_ts_var_test(mtcars$mpg, group_var = mtcars$vs, alternative = 'all')
+infer_ts_var_test(hsb, read, group_var = female, alternative = 'less')
 
 # using two variables
-# lower tail
-infer_ts_var_test(hsb$read, hsb$write, alternative = 'less')
-
-# upper tail
-infer_ts_var_test(hsb$read, hsb$write, alternative = 'greater')
-
-# all tails
-infer_ts_var_test(hsb$read, hsb$write, alternative = 'all')
+infer_ts_var_test(hsb, read, write, alternative = 'less')
 
 }
 \references{
