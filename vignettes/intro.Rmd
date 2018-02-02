@@ -342,23 +342,20 @@ Runs Test can be used to decide if a data set is from a random process. It tests
 We will use runs test to check regression residuals for serial correlation.
 
 ```{r runs1}
-# linear regression
-reg <- lm(mpg ~ disp, data = mtcars)
-
 # basic example
-infer_runs_test(residuals(reg))
+infer_runs_test(hsb, read)
 
 # drop values equal to threshold
-infer_runs_test(residuals(reg), drop = TRUE)
+infer_runs_test(hsb, read, drop = TRUE)
 
 # recode data in binary format
-infer_runs_test(residuals(reg), split = TRUE)
+infer_runs_test(hsb, read, split = TRUE)
 
 # use mean as threshold
-infer_runs_test(residuals(reg), mean = TRUE)
+infer_runs_test(hsb, read, mean = TRUE)
 
 # threshold to be used for counting runs
-infer_runs_test(residuals(reg), threshold = 0)
+infer_runs_test(hsb, read, threshold = 0)
 ```
 
 ## Credits
