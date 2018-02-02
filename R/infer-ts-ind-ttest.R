@@ -3,8 +3,8 @@
 #' @description \code{infer_ts_ind_ttest} compares the means of two independent groups in order to determine whether
 #' there is statistical evidence that the associated population means are significantly different.
 #' @param data a data frame
-#' @param x grouping variable; object of type \code{factor}
-#' @param y a \code{numeric} vector
+#' @param x factor; a column in \code{data}
+#' @param y numeric; a column in \code{data}
 #' @param confint confidence level
 #' @param alternative a character string specifying the alternative hypothesis,
 #' must be one of "both" (default), "greater", "less" or "all". You can specify
@@ -127,7 +127,6 @@ ind_ttest <- function(data, x, y, confint = 0.95,
                       alternative = c('both', 'less', 'greater', 'all'), ...) {
 
     .Deprecated("infer_ts_ind_ttest()")
-    infer_ts_ind_ttest(data, x, y, confint, alternative, ...)
 
 }
 

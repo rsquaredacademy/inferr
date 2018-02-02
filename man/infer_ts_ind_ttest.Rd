@@ -11,9 +11,9 @@ infer_ts_ind_ttest(data, x, y, confint = 0.95, alternative = c("both",
 \arguments{
 \item{data}{a data frame}
 
-\item{x}{grouping variable; object of type \code{factor}}
+\item{x}{factor; a column in \code{data}}
 
-\item{y}{a \code{numeric} vector}
+\item{y}{numeric; a column in \code{data}}
 
 \item{confint}{confidence level}
 
