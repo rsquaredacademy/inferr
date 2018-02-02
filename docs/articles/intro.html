@@ -80,7 +80,7 @@
     <div class="page-header toc-ignore">
       <h1>Introduction to inferr</h1>
             
-            <h4 class="date">2018-02-01</h4>
+            <h4 class="date">2018-02-02</h4>
           </div>
 
     
@@ -209,9 +209,7 @@
 <h3 class="hasAnchor">
 <a href="#example-1" class="anchor"></a>Example</h3>
 <p>Using the hsb data, test whether the mean for write is the same for males and females.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">hsb2 &lt;-<span class="st"> </span>inferr<span class="op">::</span>hsb</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2">hsb2<span class="op">$</span>female &lt;-<span class="st"> </span><span class="kw">as.factor</span>(hsb2<span class="op">$</span>female)</a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="kw"><a href="../reference/infer_ts_ind_ttest.html">infer_ts_ind_ttest</a></span>(hsb2, <span class="st">'female'</span>, <span class="st">'write'</span>, <span class="dt">alternative =</span> <span class="st">'all'</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="../reference/infer_ts_ind_ttest.html">infer_ts_ind_ttest</a></span>(hsb, female, write, <span class="dt">alternative =</span> <span class="st">'all'</span>)</a></code></pre></div>
 <pre><code>##                               Group Statistics                                
 ## -----------------------------------------------------------------------------
 ##   Group       Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 

@@ -658,7 +658,11 @@ paired_comp <- function(x, y, confint, var_names) {
 
 # independent sample t test
 indth <- function(data, x, y, a) {
-        h <- data_split(data, x, y)
+
+  x1 <- enquo(x)
+  y1 <- enquo(y)
+
+        h <- data_split(data, !! x1, !! y1)
      h$df <- h$length - 1
   h$error <- round(qt(a, h$df), 3) * -1
   h$lower <- round(h$mean_t - (h$error * h$std_err), 3)
@@ -667,7 +671,10 @@ indth <- function(data, x, y, a) {
 }
 
 indcomb <- function(data, y, a) {
-        comb <- da(data, y)
+
+  y1 <- enquo(y)
+
+        comb <- da(data, !! y1)
      comb$df <- comb$length - 1
   comb$error <- round(qt(a, comb$df), 3) * -1
   comb$lower <- round(comb$mean_t - (comb$error * comb$std_err), 3)
@@ -886,20 +893,33 @@ std_err <- function(x) {
 }
 
 data_split <- function(data, x, y) {
-  by_gender <- data %>%
-    group_by_(x) %>%
-    select_(x, y) %>%
+
+  x1 <- enquo(x)
+  y1 <- enquo(y)
+
+  by_gender <-
+    data %>%
+    group_by(!! x1) %>%
+    select(!! x1, !! y1) %>%
     summarise_all(funs(length, mean_t, sd_t, std_err)) %>%
-    as.data.frame()
+    as.data.frame
+
   return(by_gender)
+
 }
 
 da <- function(data, y) {
-  dat <- data %>%
-    select_(y) %>%
+
+  y1 <- enquo(y)
+
+  dat <-
+    data %>%
+    select(!! y1) %>%
     summarise_all(funs(length, mean_t, sd_t, std_err)) %>%
-    as.data.frame()
+    as.data.frame
+
   return(dat)
+
 }
 
 sd_diff <- function(n1, n2, s1, s2) {
@@ -1004,16 +1024,20 @@ sdruns <- function(n0, n1) {
 }
 
 check_level <- function(data, x) {
+
+  x1 <- enquo(x)
+
     data %>%
-        select_(x) %>%
-        unlist() %>%
-        nlevels()
+        pull(!! x1) %>%
+        nlevels
 }
 
 check_x <- function(data, x) {
+
+  x1 <- enquo(x)
+
     data %>%
-        select_(x) %>%
-        unlist() %>%
+        pull(!! x1) %>%
         (is.factor) %>%
         `!`
 }

@@ -70,21 +70,17 @@ there is statistical evidence that the associated population means are significa
 }
 
 \examples{
-# data
-hsb2 <- inferr::hsb
-hsb2$female <- as.factor(hsb2$female)
-
 # lower tail
-infer_ts_ind_ttest(hsb2, 'female', 'write', alternative = 'less')
+infer_ts_ind_ttest(hsb, female, write, alternative = 'less')
 
 # upper tail
-infer_ts_ind_ttest(hsb2, 'female', 'write', alternative = 'greater')
+infer_ts_ind_ttest(hsb, female, write, alternative = 'greater')
 
 # both tails
-infer_ts_ind_ttest(hsb2, 'female', 'write', alternative = 'both')
+infer_ts_ind_ttest(hsb, female, write, alternative = 'both')
 
 # all tails
-infer_ts_ind_ttest(hsb2, 'female', 'write', alternative = 'all')
+infer_ts_ind_ttest(hsb, female, write, alternative = 'all')
 }
 \references{
 Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
