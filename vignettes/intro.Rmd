@@ -174,7 +174,7 @@ Using the mtcars data, compare the standard deviation in miles per gallon for au
 
 ```{r ts_var1}
 # Using Grouping Variable
-infer_ts_var_test(hsb, read, group_var = write, alternative = 'all')
+infer_ts_var_test(hsb, read, group_var = female, alternative = 'all')
 ```
 
 #### Using Variables
