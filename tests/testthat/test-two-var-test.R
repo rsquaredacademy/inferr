@@ -1,8 +1,11 @@
 context('two sample variance test')
 
+mtcarz <- mtcars
+mtcarz$vs <- as.factor(mtcarz$vs)
+
 test_that('output from infer_ts_var_test matches expected result', {
 
-    k <- infer_ts_var_test(mtcars$mpg, group_var = mtcars$vs)
+    k <- infer_ts_var_test(mtcarz, mpg, group_var = vs)
     expect_equal(k$f, 0.5151)
     expect_equal(k$lower, 0.0999)
     expect_equal(k$upper, 0.9001)
@@ -24,7 +27,7 @@ test_that('output from infer_ts_var_test matches expected result', {
 
 test_that('output from infer_ts_var_test matches expected result', {
 
-    k <- infer_ts_var_test(mtcars$mpg, mtcars$qsec)
+    k <- infer_ts_var_test(mtcarz, mpg, qsec)
     expect_equal(k$f, 11.3756)
     expect_equal(k$lower, 1)
     expect_equal(k$upper, 0)
@@ -70,7 +73,7 @@ test_that('output from 2 sample variance test is as expected when alternative is
  1.1701     199       199      0.8656
 ------------------------------------")
 
-  expect_equivalent(print(infer_ts_var_test(hsb$read, hsb$write, alternative = 'less')), x)
+  expect_equivalent(print(infer_ts_var_test(hsb, read, write, alternative = 'less')), x)
 
 })
 
@@ -98,7 +101,7 @@ test_that('output from 2 sample variance test is as expected when alternative is
  1.1701     199       199      0.1344
 ------------------------------------")
 
-  expect_equivalent(print(infer_ts_var_test(hsb$read, hsb$write, alternative = 'greater')), x)
+  expect_equivalent(print(infer_ts_var_test(hsb, read, write, alternative = 'greater')), x)
 
 })
 
@@ -130,6 +133,6 @@ test_that('output from 2 sample variance test is as expected when alternative is
   Pr(F < f) = 0.8656   Pr(F > f) = 0.1344
 ----------------------------------------")
 
-  expect_equivalent(print(infer_ts_var_test(hsb$read, hsb$write, alternative = 'all')), x)
+  expect_equivalent(print(infer_ts_var_test(hsb, read, write, alternative = 'all')), x)
 
 })

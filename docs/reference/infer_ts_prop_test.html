@@ -11,8 +11,8 @@
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -23,14 +23,17 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
+  
+  
 <!-- mathjax -->
-<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
   </head>
 
   <body>
@@ -107,50 +110,82 @@ large-sample statistics. It tests that a sample has the same proportion
 within two independent groups or two samples have the same proportion.</p>
     
 
-    <pre><span class='fu'>infer_ts_prop_test</span>(<span class='no'>var1</span>, <span class='no'>var2</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"both"</span>, <span class='st'>"less"</span>, <span class='st'>"greater"</span>,
+    <pre class="usage"><span class='fu'>infer_ts_prop_test</span>(<span class='no'>dta</span>, <span class='no'>var1</span>, <span class='no'>var2</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"both"</span>, <span class='st'>"less"</span>, <span class='st'>"greater"</span>,
   <span class='st'>"all"</span>), <span class='no'>...</span>)
 
-<span class='fu'>infer_ts_prop_grp</span>(<span class='no'>var</span>, <span class='no'>group</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"both"</span>, <span class='st'>"less"</span>, <span class='st'>"greater"</span>,
+<span class='fu'>infer_ts_prop_grp</span>(<span class='no'>data</span>, <span class='no'>var</span>, <span class='no'>group</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"both"</span>, <span class='st'>"less"</span>, <span class='st'>"greater"</span>,
   <span class='st'>"all"</span>))
 
 <span class='fu'>infer_ts_prop_calc</span>(<span class='no'>n1</span>, <span class='no'>n2</span>, <span class='no'>p1</span>, <span class='no'>p2</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"both"</span>, <span class='st'>"less"</span>, <span class='st'>"greater"</span>,
   <span class='st'>"all"</span>), <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <dl class="dl-horizontal">
-      <dt>var1</dt>
-      <dd>a categorical variable</dd>
-      <dt>var2</dt>
-      <dd>a categorical variable</dd>
-      <dt>alternative</dt>
-      <dd>a character string specifying the alternative hypothesis,
-must be one of &quot;both&quot; (default), &quot;greater&quot;, &quot;less&quot; or &quot;all&quot;. You can specify
-just the initial letter</dd>
-      <dt>...</dt>
-      <dd>additional arguments passed to or from other methods</dd>
-      <dt>var</dt>
-      <dd>a categorical variable</dd>
-      <dt>group</dt>
-      <dd>a categorical variable</dd>
-      <dt>n1</dt>
-      <dd>sample 1 size</dd>
-      <dt>n2</dt>
-      <dd>sample 2 size</dd>
-      <dt>p1</dt>
-      <dd>sample 1 proportion</dd>
-      <dt>p2</dt>
-      <dd>sample 2 proportion</dd>
-    </dl>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>var1</th>
+      <td><p>factor; column in <code>data</code></p></td>
+    </tr>
+    <tr>
+      <th>var2</th>
+      <td><p>factor; column in <code>data</code></p></td>
+    </tr>
+    <tr>
+      <th>alternative</th>
+      <td><p>a character string specifying the alternative hypothesis,
+must be one of "both" (default), "greater", "less" or "all". You can specify
+just the initial letter</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>additional arguments passed to or from other methods</p></td>
+    </tr>
+    <tr>
+      <th>data</th>
+      <td><p>a <code>data.frame</code> or <code>tibble</code></p></td>
+    </tr>
+    <tr>
+      <th>var</th>
+      <td><p>factor; column in <code>data</code></p></td>
+    </tr>
+    <tr>
+      <th>group</th>
+      <td><p>factor; column in <code>data</code></p></td>
+    </tr>
+    <tr>
+      <th>n1</th>
+      <td><p>sample 1 size</p></td>
+    </tr>
+    <tr>
+      <th>n2</th>
+      <td><p>sample 2 size</p></td>
+    </tr>
+    <tr>
+      <th>p1</th>
+      <td><p>sample 1 proportion</p></td>
+    </tr>
+    <tr>
+      <th>p2</th>
+      <td><p>sample 2 proportion</p></td>
+    </tr>
+    </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>an object of class <code>&quot;infer_ts_prop_test&quot;</code>.
-An object of class <code>&quot;infer_ts_prop_test&quot;</code> is a list containing the
+    <p>an object of class <code>"infer_ts_prop_test"</code>.
+An object of class <code>"infer_ts_prop_test"</code> is a list containing the
 following components:</p>
+<dt>n1</dt><dd><p>sample 1 size</p></dd>
+<dt>n2</dt><dd><p>sample 2 size</p></dd>
+<dt>phat1</dt><dd><p>sample 1 proportion</p></dd>
+<dt>phat2</dt><dd><p>sample 2 proportion</p></dd>
+<dt>z</dt><dd><p>z statistic</p></dd>
+<dt>sig</dt><dd><p>p-value for z statistic</p></dd>
+<dt>alt</dt><dd><p>alternative hypothesis</p></dd>
+
     
     <h2 class="hasAnchor" id="deprecated-functions"><a class="anchor" href="#deprecated-functions"></a>Deprecated Functions</h2>
 
-    <p></p>
     <p><code>ts_prop_test()</code>, <code>ts_prop_grp()</code> and <code>ts_prop_calc()</code> have
 been deprecated. Instead use <code>infer_ts_prop_test()</code>,
 <code>infer_ts_prop_grp()</code> and <code>infer_ts_prop_calc()</code>.</p>
@@ -166,107 +201,24 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># using variables</span>
-<span class='co'># lower tail</span>
-<span class='fu'>infer_ts_prop_test</span>(<span class='kw'>var1</span> <span class='kw'>=</span> <span class='no'>treatment</span>$<span class='no'>treatment1</span>, <span class='kw'>var2</span> <span class='kw'>=</span> <span class='no'>treatment</span>$<span class='no'>treatment2</span>,
-<span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;     Test Statistics      
-#&gt; ------------------------
-#&gt; Sample Size           50 
-#&gt; z                  0.403 
-#&gt; Pr(Z &lt; z)          0.656 
-#&gt; </div><div class='input'>
-<span class='co'># upper tail</span>
-<span class='fu'>infer_ts_prop_test</span>(<span class='kw'>var1</span> <span class='kw'>=</span> <span class='no'>treatment</span>$<span class='no'>treatment1</span>, <span class='kw'>var2</span> <span class='kw'>=</span> <span class='no'>treatment</span>$<span class='no'>treatment2</span>,
-<span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'greater'</span>)</div><div class='output co'>#&gt;     Test Statistics      
-#&gt; ------------------------
-#&gt; Sample Size           50 
-#&gt; z                  0.403 
-#&gt; Pr(Z &gt; z)          0.344 
-#&gt; </div><div class='input'>
-<span class='co'># both tails</span>
-<span class='fu'>infer_ts_prop_test</span>(<span class='kw'>var1</span> <span class='kw'>=</span> <span class='no'>treatment</span>$<span class='no'>treatment1</span>, <span class='kw'>var2</span> <span class='kw'>=</span> <span class='no'>treatment</span>$<span class='no'>treatment2</span>,
-<span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'both'</span>)</div><div class='output co'>#&gt;     Test Statistics      
-#&gt; ------------------------
-#&gt; Sample Size           50 
-#&gt; z                  0.403 
-#&gt; Pr(|Z| &gt; |z|)      0.687 
-#&gt; </div><div class='input'>
-<span class='co'># all tails</span>
-<span class='fu'>infer_ts_prop_test</span>(<span class='kw'>var1</span> <span class='kw'>=</span> <span class='no'>treatment</span>$<span class='no'>treatment1</span>, <span class='kw'>var2</span> <span class='kw'>=</span> <span class='no'>treatment</span>$<span class='no'>treatment2</span>,
-<span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'all'</span>)</div><div class='output co'>#&gt;     Test Statistics      
-#&gt; ------------------------
-#&gt; Sample Size           50 
-#&gt; z                  0.403 
-#&gt; Pr(|Z| &gt; |z|)      0.687 
-#&gt; Pr(Z &lt; z)          0.656 
-#&gt; Pr(Z &gt; z)          0.344 
-#&gt; </div><div class='input'>
-<span class='co'># using groups</span>
-<span class='co'># lower tail</span>
-<span class='fu'>infer_ts_prop_grp</span>(<span class='kw'>var</span> <span class='kw'>=</span> <span class='no'>treatment2</span>$<span class='no'>outcome</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>treatment2</span>$<span class='no'>female</span>,
-<span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;     Test Statistics      
-#&gt; ------------------------
-#&gt; Sample Size           91 
-#&gt; z                  0.351 
-#&gt; Pr(Z &lt; z)          0.637 
-#&gt; </div><div class='input'>
-<span class='co'># upper tail</span>
-<span class='fu'>infer_ts_prop_grp</span>(<span class='kw'>var</span> <span class='kw'>=</span> <span class='no'>treatment2</span>$<span class='no'>outcome</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>treatment2</span>$<span class='no'>female</span>,
-<span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'greater'</span>)</div><div class='output co'>#&gt;     Test Statistics      
-#&gt; ------------------------
-#&gt; Sample Size           91 
-#&gt; z                  0.351 
-#&gt; Pr(Z &gt; z)          0.363 
-#&gt; </div><div class='input'>
-<span class='co'># both tails</span>
-<span class='fu'>infer_ts_prop_grp</span>(<span class='kw'>var</span> <span class='kw'>=</span> <span class='no'>treatment2</span>$<span class='no'>outcome</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>treatment2</span>$<span class='no'>female</span>,
-<span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'both'</span>)</div><div class='output co'>#&gt;     Test Statistics      
-#&gt; ------------------------
-#&gt; Sample Size           91 
-#&gt; z                  0.351 
-#&gt; Pr(|Z| &gt; |z|)      0.726 
-#&gt; </div><div class='input'>
-<span class='co'># # all tails</span>
-<span class='fu'>infer_ts_prop_grp</span>(<span class='kw'>var</span> <span class='kw'>=</span> <span class='no'>treatment2</span>$<span class='no'>outcome</span>, <span class='kw'>group</span> <span class='kw'>=</span> <span class='no'>treatment2</span>$<span class='no'>female</span>,
-<span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'all'</span>)</div><div class='output co'>#&gt;     Test Statistics      
-#&gt; ------------------------
-#&gt; Sample Size           91 
-#&gt; z                  0.351 
-#&gt; Pr(|Z| &gt; |z|)      0.726 
-#&gt; Pr(Z &lt; z)          0.637 
-#&gt; Pr(Z &gt; z)          0.363 
-#&gt; </div><div class='input'>
-<span class='co'># using sample size and proportions</span>
-<span class='co'># lower tail</span>
-<span class='fu'>infer_ts_prop_calc</span>(<span class='kw'>n1</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>n2</span> <span class='kw'>=</span> <span class='fl'>25</span>, <span class='kw'>p1</span> <span class='kw'>=</span> <span class='fl'>0.3</span>, <span class='kw'>p2</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;      Test Statistics      
-#&gt; -------------------------
-#&gt; Sample Size            30 
-#&gt; z                  -1.514 
-#&gt; Pr(Z &lt; z)           0.065 
-#&gt; </div><div class='input'>
-<span class='co'># upper tail</span>
-<span class='fu'>infer_ts_prop_calc</span>(<span class='kw'>n1</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>n2</span> <span class='kw'>=</span> <span class='fl'>25</span>, <span class='kw'>p1</span> <span class='kw'>=</span> <span class='fl'>0.3</span>, <span class='kw'>p2</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'greater'</span>)</div><div class='output co'>#&gt;      Test Statistics      
-#&gt; -------------------------
-#&gt; Sample Size            30 
-#&gt; z                  -1.514 
-#&gt; Pr(Z &gt; z)           0.935 
-#&gt; </div><div class='input'>
-<span class='co'># both tails</span>
-<span class='fu'>infer_ts_prop_calc</span>(<span class='kw'>n1</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>n2</span> <span class='kw'>=</span> <span class='fl'>25</span>, <span class='kw'>p1</span> <span class='kw'>=</span> <span class='fl'>0.3</span>, <span class='kw'>p2</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'both'</span>)</div><div class='output co'>#&gt;      Test Statistics      
-#&gt; -------------------------
-#&gt; Sample Size            30 
-#&gt; z                  -1.514 
-#&gt; Pr(|Z| &gt; |z|)        0.13 
-#&gt; </div><div class='input'>
-<span class='co'># all tails</span>
-<span class='fu'>infer_ts_prop_calc</span>(<span class='kw'>n1</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>n2</span> <span class='kw'>=</span> <span class='fl'>25</span>, <span class='kw'>p1</span> <span class='kw'>=</span> <span class='fl'>0.3</span>, <span class='kw'>p2</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'all'</span>)</div><div class='output co'>#&gt;      Test Statistics      
-#&gt; -------------------------
-#&gt; Sample Size            30 
-#&gt; z                  -1.514 
-#&gt; Pr(|Z| &gt; |z|)        0.13 
-#&gt; Pr(Z &lt; z)           0.065 
-#&gt; Pr(Z &gt; z)           0.935 
-#&gt; </div></pre>
+    <pre class="examples"><div class='input'># using variables
+# lower tail
+infer_ts_prop_test(treatment, treatment1, treatment2,
+alternative = 'less')
+
+# using groups
+# lower tail
+infer_ts_prop_grp(treatment2, outcome, $female,
+alternative = 'less')
+
+# using sample size and proportions
+# lower tail
+infer_ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'less')
+
+</div><div class='output co'>#&gt; <span class='error'>Error: &lt;text&gt;:8:40: unexpected '$'</span>
+#&gt; <span class='error'>7: # lower tail</span>
+#&gt; <span class='error'>8: infer_ts_prop_grp(treatment2, outcome, $</span>
+#&gt; <span class='error'>                                          ^</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -11,9 +11,9 @@ infer_ts_ind_ttest(data, x, y, confint = 0.95, alternative = c("both",
 \arguments{
 \item{data}{a data frame}
 
-\item{x}{grouping variable; object of type \code{factor}}
+\item{x}{factor; a column in \code{data}}
 
-\item{y}{a \code{numeric} vector}
+\item{y}{numeric; a column in \code{data}}
 
 \item{confint}{confidence level}
 
@@ -70,21 +70,17 @@ there is statistical evidence that the associated population means are significa
 }
 
 \examples{
-# data
-hsb2 <- inferr::hsb
-hsb2$female <- as.factor(hsb2$female)
-
 # lower tail
-infer_ts_ind_ttest(hsb2, 'female', 'write', alternative = 'less')
+infer_ts_ind_ttest(hsb, female, write, alternative = 'less')
 
 # upper tail
-infer_ts_ind_ttest(hsb2, 'female', 'write', alternative = 'greater')
+infer_ts_ind_ttest(hsb, female, write, alternative = 'greater')
 
 # both tails
-infer_ts_ind_ttest(hsb2, 'female', 'write', alternative = 'both')
+infer_ts_ind_ttest(hsb, female, write, alternative = 'both')
 
 # all tails
-infer_ts_ind_ttest(hsb2, 'female', 'write', alternative = 'all')
+infer_ts_ind_ttest(hsb, female, write, alternative = 'all')
 }
 \references{
 Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric

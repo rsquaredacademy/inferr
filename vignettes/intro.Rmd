@@ -84,9 +84,7 @@ different i.e. a subject in one group cannot also be a subject of the other grou
 Using the hsb data, test whether the mean for write is the same for males and females.
 
 ```{r ind}
-hsb2 <- inferr::hsb
-hsb2$female <- as.factor(hsb2$female)
-infer_ts_ind_ttest(hsb2, 'female', 'write', alternative = 'all')
+infer_ts_ind_ttest(hsb, female, write, alternative = 'all')
 ```
 
 ## One Sample Test of Proportion
@@ -120,7 +118,7 @@ Two sample test of proportion performs tests on the equality of proportions usin
 Using the treatment data, test equality of proportion of two treatments
 ```{r ts_prop1}
 # Using Variables
-infer_ts_prop_test(var1 = treatment$treatment1, var2 = treatment$treatment2, alternative = 'all')
+infer_ts_prop_test(treatment, treatment1, treatment2, alternative = 'all')
 ```
 
 #### Use Grouping Variable
@@ -129,7 +127,7 @@ Using the treatment2 data, test whether outcome has same proportion for male and
 
 ```{r ts_prop2}
 # Using Grouping Variable
-infer_ts_prop_grp(var = treatment2$outcome, group = treatment2$female, alternative = 'all')
+infer_ts_prop_grp(treatment2, outcome, female, alternative = 'all')
 ```
 
 #### Using Calculator
@@ -176,7 +174,7 @@ Using the mtcars data, compare the standard deviation in miles per gallon for au
 
 ```{r ts_var1}
 # Using Grouping Variable
-infer_ts_var_test(mtcars$mpg, group_var = mtcars$am, alternative = 'all')
+infer_ts_var_test(hsb, read, group_var = female, alternative = 'all')
 ```
 
 #### Using Variables
@@ -185,7 +183,7 @@ Using the hsb data, compare the standard deviation of reading and writing scores
 
 ```{r ts_var2}
 # Using Variables
-infer_ts_var_test(hsb$read, hsb$write, alternative = 'all')
+infer_ts_var_test(hsb, read, write, alternative = 'all')
 ```
 
 ## Binomial Probability Test
@@ -344,23 +342,20 @@ Runs Test can be used to decide if a data set is from a random process. It tests
 We will use runs test to check regression residuals for serial correlation.
 
 ```{r runs1}
-# linear regression
-reg <- lm(mpg ~ disp, data = mtcars)
-
 # basic example
-infer_runs_test(residuals(reg))
+infer_runs_test(hsb, read)
 
 # drop values equal to threshold
-infer_runs_test(residuals(reg), drop = TRUE)
+infer_runs_test(hsb, read, drop = TRUE)
 
 # recode data in binary format
-infer_runs_test(residuals(reg), split = TRUE)
+infer_runs_test(hsb, read, split = TRUE)
 
 # use mean as threshold
-infer_runs_test(residuals(reg), mean = TRUE)
+infer_runs_test(hsb, read, mean = TRUE)
 
 # threshold to be used for counting runs
-infer_runs_test(residuals(reg), threshold = 0)
+infer_runs_test(hsb, read, threshold = 0)
 ```
 
 ## Credits

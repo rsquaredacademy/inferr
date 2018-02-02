@@ -9,19 +9,21 @@
 \alias{ts_prop_calc}
 \title{Two Sample Test of Proportion}
 \usage{
-infer_ts_prop_test(var1, var2, alternative = c("both", "less", "greater",
-  "all"), ...)
+infer_ts_prop_test(data, var1, var2, alternative = c("both", "less",
+  "greater", "all"), ...)
 
-infer_ts_prop_grp(var, group, alternative = c("both", "less", "greater",
+infer_ts_prop_grp(data, var, group, alternative = c("both", "less", "greater",
   "all"))
 
 infer_ts_prop_calc(n1, n2, p1, p2, alternative = c("both", "less", "greater",
   "all"), ...)
 }
 \arguments{
-\item{var1}{a categorical variable}
+\item{data}{a \code{data.frame} or \code{tibble}}
 
-\item{var2}{a categorical variable}
+\item{var1}{factor; column in \code{data}}
+
+\item{var2}{factor; column in \code{data}}
 
 \item{alternative}{a character string specifying the alternative hypothesis,
 must be one of "both" (default), "greater", "less" or "all". You can specify
@@ -29,9 +31,9 @@ just the initial letter}
 
 \item{...}{additional arguments passed to or from other methods}
 
-\item{var}{a categorical variable}
+\item{var}{factor; column in \code{data}}
 
-\item{group}{a categorical variable}
+\item{group}{factor; column in \code{data}}
 
 \item{n1}{sample 1 size}
 
@@ -69,50 +71,18 @@ been deprecated. Instead use \code{infer_ts_prop_test()},
 \examples{
 # using variables
 # lower tail
-infer_ts_prop_test(var1 = treatment$treatment1, var2 = treatment$treatment2,
+infer_ts_prop_test(treatment, treatment1, treatment2,
 alternative = 'less')
-
-# upper tail
-infer_ts_prop_test(var1 = treatment$treatment1, var2 = treatment$treatment2,
-alternative = 'greater')
-
-# both tails
-infer_ts_prop_test(var1 = treatment$treatment1, var2 = treatment$treatment2,
-alternative = 'both')
-
-# all tails
-infer_ts_prop_test(var1 = treatment$treatment1, var2 = treatment$treatment2,
-alternative = 'all')
 
 # using groups
 # lower tail
-infer_ts_prop_grp(var = treatment2$outcome, group = treatment2$female,
+infer_ts_prop_grp(treatment2, outcome, female,
 alternative = 'less')
-
-# upper tail
-infer_ts_prop_grp(var = treatment2$outcome, group = treatment2$female,
-alternative = 'greater')
-
-# both tails
-infer_ts_prop_grp(var = treatment2$outcome, group = treatment2$female,
-alternative = 'both')
-
-# # all tails
-infer_ts_prop_grp(var = treatment2$outcome, group = treatment2$female,
-alternative = 'all')
 
 # using sample size and proportions
 # lower tail
 infer_ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'less')
 
-# upper tail
-infer_ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'greater')
-
-# both tails
-infer_ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'both')
-
-# all tails
-infer_ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'all')
 }
 \references{
 Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric

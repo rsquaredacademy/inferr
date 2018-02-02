@@ -11,8 +11,8 @@
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -23,14 +23,17 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
+  
+  
 <!-- mathjax -->
-<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
   </head>
 
   <body>
@@ -106,32 +109,58 @@
 deviations (variances).</p>
     
 
-    <pre><span class='fu'>infer_ts_var_test</span>(<span class='no'>variable</span>, <span class='no'>...</span>, <span class='kw'>group_var</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"less"</span>,
+    <pre class="usage"><span class='fu'>infer_ts_var_test</span>(<span class='no'>data</span>, <span class='no'>...</span>, <span class='kw'>group_var</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"less"</span>,
   <span class='st'>"greater"</span>, <span class='st'>"all"</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <dl class="dl-horizontal">
-      <dt>variable</dt>
-      <dd>a numeric vector</dd>
-      <dt>...</dt>
-      <dd>numeric vectors</dd>
-      <dt>group_var</dt>
-      <dd>a grouping variable</dd>
-      <dt>alternative</dt>
-      <dd>a character string specifying the alternative hypothesis,
-must be one of &quot;both&quot; (default), &quot;greater&quot;, &quot;less&quot; or &quot;all&quot;. You can specify
-just the initial letter.</dd>
-    </dl>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>data</th>
+      <td><p>a <code>data.frame</code> or <code>tibble</code></p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>numeric; column(s) in <code>data</code></p></td>
+    </tr>
+    <tr>
+      <th>group_var</th>
+      <td><p>factor; column in <code>data</code></p></td>
+    </tr>
+    <tr>
+      <th>alternative</th>
+      <td><p>a character string specifying the alternative hypothesis,
+must be one of "both" (default), "greater", "less" or "all". You can specify
+just the initial letter.</p></td>
+    </tr>
+    </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>infer_ts_var_test</code> returns an object of class <code>&quot;infer_ts_var_test&quot;</code>.
-An object of class <code>&quot;infer_ts_var_test&quot;</code> is a list containing the
+    <p><code>infer_ts_var_test</code> returns an object of class <code>"infer_ts_var_test"</code>.
+An object of class <code>"infer_ts_var_test"</code> is a list containing the
 following components:</p>
+<dt>f</dt><dd><p>f statistic</p></dd>
+<dt>lower</dt><dd><p>lower one-sided p-value</p></dd>
+<dt>upper</dt><dd><p>upper one-sided p-value</p></dd>
+<dt>two_tail</dt><dd><p>two-sided p-value</p></dd>
+<dt>vars</dt><dd><p>variances for each level of the grouping variable</p></dd>
+<dt>avgs</dt><dd><p>means for each level of the grouping variable</p></dd>
+<dt>sds</dt><dd><p>standard deviations for each level of the grouping variable</p></dd>
+<dt>ses</dt><dd><p>standard errors for each level of the grouping variable</p></dd>
+<dt>avg</dt><dd><p>combined mean</p></dd>
+<dt>sd</dt><dd><p>combined standard deviation</p></dd>
+<dt>se</dt><dd><p>estimated combined standard error</p></dd>
+<dt>n1</dt><dd><p>numerator degrees of freedom</p></dd>
+<dt>n2</dt><dd><p>denominator degrees of freedom</p></dd>
+<dt>lens</dt><dd><p>number of observations for each level of grouping variable</p></dd>
+<dt>len</dt><dd><p>number of observations</p></dd>
+<dt>lev</dt><dd><p>levels of the grouping variable</p></dd>
+<dt>type</dt><dd><p>alternative hypothesis</p></dd>
+
     
     <h2 class="hasAnchor" id="deprecated-function"><a class="anchor" href="#deprecated-function"></a>Deprecated Function</h2>
 
-    <p></p>
     <p><code>var_test()</code> has been deprecated. Instead use <code>infer_ts_var_test()</code>.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
@@ -146,15 +175,14 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># using grouping variable</span>
-<span class='co'># lower tail</span>
-<span class='fu'>infer_ts_var_test</span>(<span class='no'>mtcars</span>$<span class='no'>mpg</span>, <span class='kw'>group_var</span> <span class='kw'>=</span> <span class='no'>mtcars</span>$<span class='no'>vs</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;                Variance Ratio Test                 
+<span class='fu'>infer_ts_var_test</span>(<span class='no'>hsb</span>, <span class='no'>read</span>, <span class='kw'>group_var</span> <span class='kw'>=</span> <span class='no'>female</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;                Variance Ratio Test                 
 #&gt; --------------------------------------------------
 #&gt;   Group      Obs    Mean     Std. Err.    Std. Dev. 
 #&gt; --------------------------------------------------
-#&gt;    0        18     16.62      0.91         3.86    
-#&gt;    1        14     24.56      1.44         5.38    
+#&gt;    0        91     52.82       1.1         10.51   
+#&gt;    1        109    51.73      0.96         10.06   
 #&gt; --------------------------------------------------
-#&gt;  combined    32     20.09      1.07         6.03    
+#&gt;  combined    200    52.23      0.72         10.25   
 #&gt; --------------------------------------------------
 #&gt; 
 #&gt;            Lower Tail Test           
@@ -167,59 +195,10 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
 #&gt; ------------------------------------
 #&gt;    F       Num DF    Den DF      p    
 #&gt; ------------------------------------
-#&gt;  0.5151      17        13      0.0999 
+#&gt;  1.0913      90       108      0.6694 
 #&gt; ------------------------------------</div><div class='input'>
-<span class='co'># upper tail</span>
-<span class='fu'>infer_ts_var_test</span>(<span class='no'>mtcars</span>$<span class='no'>mpg</span>, <span class='kw'>group_var</span> <span class='kw'>=</span> <span class='no'>mtcars</span>$<span class='no'>vs</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'greater'</span>)</div><div class='output co'>#&gt;                Variance Ratio Test                 
-#&gt; --------------------------------------------------
-#&gt;   Group      Obs    Mean     Std. Err.    Std. Dev. 
-#&gt; --------------------------------------------------
-#&gt;    0        18     16.62      0.91         3.86    
-#&gt;    1        14     24.56      1.44         5.38    
-#&gt; --------------------------------------------------
-#&gt;  combined    32     20.09      1.07         6.03    
-#&gt; --------------------------------------------------
-#&gt; 
-#&gt;            Upper Tail Test           
-#&gt;            ---------------           
-#&gt;             Ho: ratio = 1            
-#&gt;             Ha: ratio &gt; 1             
-#&gt; 
-#&gt;         Variance Ratio Test          
-#&gt; ------------------------------------
-#&gt;    F       Num DF    Den DF      p    
-#&gt; ------------------------------------
-#&gt;  0.5151      17        13      0.9001 
-#&gt; ------------------------------------</div><div class='input'>
-<span class='co'># all tails</span>
-<span class='fu'>infer_ts_var_test</span>(<span class='no'>mtcars</span>$<span class='no'>mpg</span>, <span class='kw'>group_var</span> <span class='kw'>=</span> <span class='no'>mtcars</span>$<span class='no'>vs</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'all'</span>)</div><div class='output co'>#&gt;                Variance Ratio Test                 
-#&gt; --------------------------------------------------
-#&gt;   Group      Obs    Mean     Std. Err.    Std. Dev. 
-#&gt; --------------------------------------------------
-#&gt;    0        18     16.62      0.91         3.86    
-#&gt;    1        14     24.56      1.44         5.38    
-#&gt; --------------------------------------------------
-#&gt;  combined    32     20.09      1.07         6.03    
-#&gt; --------------------------------------------------
-#&gt; 
-#&gt;                 Variance Ratio Test                 
-#&gt; --------------------------------------------------
-#&gt;         F              Num DF           Den DF      
-#&gt; --------------------------------------------------
-#&gt;       0.5151             17               13        
-#&gt; --------------------------------------------------
-#&gt; 
-#&gt;        Null &amp; Alternate Hypothesis        
-#&gt; ----------------------------------------
-#&gt;           ratio = sd(0) / (1)           
-#&gt;               Ho: ratio = 1              
-#&gt; 
-#&gt;     Ha: ratio &lt; 1        Ha: ratio &gt; 1    
-#&gt;   Pr(F &lt; f) = 0.0999   Pr(F &gt; f) = 0.9001 
-#&gt; ----------------------------------------</div><div class='input'>
 <span class='co'># using two variables</span>
-<span class='co'># lower tail</span>
-<span class='fu'>infer_ts_var_test</span>(<span class='no'>hsb</span>$<span class='no'>read</span>, <span class='no'>hsb</span>$<span class='no'>write</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;                Variance Ratio Test                 
+<span class='fu'>infer_ts_var_test</span>(<span class='no'>hsb</span>, <span class='no'>read</span>, <span class='no'>write</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;                Variance Ratio Test                 
 #&gt; --------------------------------------------------
 #&gt;   Group      Obs    Mean     Std. Err.    Std. Dev. 
 #&gt; --------------------------------------------------
@@ -241,54 +220,6 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
 #&gt; ------------------------------------
 #&gt;  1.1701     199       199      0.8656 
 #&gt; ------------------------------------</div><div class='input'>
-<span class='co'># upper tail</span>
-<span class='fu'>infer_ts_var_test</span>(<span class='no'>hsb</span>$<span class='no'>read</span>, <span class='no'>hsb</span>$<span class='no'>write</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'greater'</span>)</div><div class='output co'>#&gt;                Variance Ratio Test                 
-#&gt; --------------------------------------------------
-#&gt;   Group      Obs    Mean     Std. Err.    Std. Dev. 
-#&gt; --------------------------------------------------
-#&gt;   read      200    52.23      0.72         10.25   
-#&gt;  write      200    52.77      0.67         9.48    
-#&gt; --------------------------------------------------
-#&gt;  combined    400    52.5       0.49         9.86    
-#&gt; --------------------------------------------------
-#&gt; 
-#&gt;            Upper Tail Test           
-#&gt;            ---------------           
-#&gt;             Ho: ratio = 1            
-#&gt;             Ha: ratio &gt; 1             
-#&gt; 
-#&gt;         Variance Ratio Test          
-#&gt; ------------------------------------
-#&gt;    F       Num DF    Den DF      p    
-#&gt; ------------------------------------
-#&gt;  1.1701     199       199      0.1344 
-#&gt; ------------------------------------</div><div class='input'>
-<span class='co'># all tails</span>
-<span class='fu'>infer_ts_var_test</span>(<span class='no'>hsb</span>$<span class='no'>read</span>, <span class='no'>hsb</span>$<span class='no'>write</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'all'</span>)</div><div class='output co'>#&gt;                Variance Ratio Test                 
-#&gt; --------------------------------------------------
-#&gt;   Group      Obs    Mean     Std. Err.    Std. Dev. 
-#&gt; --------------------------------------------------
-#&gt;   read      200    52.23      0.72         10.25   
-#&gt;  write      200    52.77      0.67         9.48    
-#&gt; --------------------------------------------------
-#&gt;  combined    400    52.5       0.49         9.86    
-#&gt; --------------------------------------------------
-#&gt; 
-#&gt;                 Variance Ratio Test                 
-#&gt; --------------------------------------------------
-#&gt;         F              Num DF           Den DF      
-#&gt; --------------------------------------------------
-#&gt;       1.1701            199              199        
-#&gt; --------------------------------------------------
-#&gt; 
-#&gt;        Null &amp; Alternate Hypothesis        
-#&gt; ----------------------------------------
-#&gt;        ratio = sd(read) / (write)       
-#&gt;               Ho: ratio = 1              
-#&gt; 
-#&gt;     Ha: ratio &lt; 1        Ha: ratio &gt; 1    
-#&gt;   Pr(F &lt; f) = 0.8656   Pr(F &gt; f) = 0.1344 
-#&gt; ----------------------------------------</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

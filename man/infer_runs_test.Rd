@@ -5,11 +5,13 @@
 \alias{runs_test}
 \title{Test for Random Order}
 \usage{
-infer_runs_test(x, drop = FALSE, split = FALSE, mean = FALSE,
+infer_runs_test(data, x, drop = FALSE, split = FALSE, mean = FALSE,
   threshold = NA)
 }
 \arguments{
-\item{x}{numeric vector}
+\item{data}{a \code{data.frame} or \code{tibble}}
+
+\item{x}{numeric; column in \code{data}}
 
 \item{drop}{logical; if TRUE, values equal to the threshold will be dropped
 from \code{x}}
@@ -49,16 +51,15 @@ correlation; a large number indicates negative serial correlation.
 }
 
 \examples{
-reg <- lm(mpg ~ disp, data = mtcars)
-infer_runs_test(residuals(reg))
+infer_runs_test(hsb, read)
 
-infer_runs_test(residuals(reg), drop = TRUE)
+infer_runs_test(hsb, read, drop = TRUE)
 
-infer_runs_test(residuals(reg), split = TRUE)
+infer_runs_test(hsb, read, split = TRUE)
 
-infer_runs_test(residuals(reg), mean = TRUE)
+infer_runs_test(hsb, read, mean = TRUE)
 
-infer_runs_test(residuals(reg), threshold = 0)
+infer_runs_test(hsb, read, threshold = 0)
 }
 \references{
 Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric

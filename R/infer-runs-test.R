@@ -8,7 +8,8 @@
 #' how many runs there are above and below a threshold.  By default, the median
 #' is used as the threshold.  A small number of runs indicates positive serial
 #' correlation; a large number indicates negative serial correlation.
-#' @param x numeric vector
+#' @param data a \code{data.frame} or \code{tibble}
+#' @param x numeric; column in \code{data}
 #' @param drop logical; if TRUE, values equal to the threshold will be dropped
 #' from \code{x}
 #' @param split logical; if TRUE, data will be recoded in binary format
@@ -41,33 +42,39 @@
 #' Swed, F. S., and C. Eisenhart. 1943. Tables for testing randomness of grouping in a sequence of alternatives. Annals
 #' of Mathematical Statistics 14: 66–87.
 #' @examples
-#' reg <- lm(mpg ~ disp, data = mtcars)
-#' infer_runs_test(residuals(reg))
+#' infer_runs_test(hsb, read)
 #'
-#' infer_runs_test(residuals(reg), drop = TRUE)
+#' infer_runs_test(hsb, read, drop = TRUE)
 #'
-#' infer_runs_test(residuals(reg), split = TRUE)
+#' infer_runs_test(hsb, read, split = TRUE)
 #'
-#' infer_runs_test(residuals(reg), mean = TRUE)
+#' infer_runs_test(hsb, read, mean = TRUE)
 #'
-#' infer_runs_test(residuals(reg), threshold = 0)
+#' infer_runs_test(hsb, read, threshold = 0)
 #' @export
 #'
-infer_runs_test <- function(x, drop = FALSE, split = FALSE, mean = FALSE,
+infer_runs_test <- function(data, x, drop = FALSE, split = FALSE, mean = FALSE,
     threshold = NA) UseMethod("infer_runs_test")
 
 #' @export
 #'
-infer_runs_test.default <- function(x, drop = FALSE,
+infer_runs_test.default <- function(data, x, drop = FALSE,
                               split = FALSE, mean = FALSE,
                               threshold = NA) {
-    n <- length(x)
+
+    x1 <- enquo(x)
+
+    xone <-
+      data %>%
+      pull(!! x1)
+
+    n <- length(xone)
 
     # if (!(is.numeric(x) || is.integer(x)))
     #     stop("x must be numeric or integer")
 
     if (is.na(threshold)) {
-        y <- unique(x)
+        y <- unique(xone)
         if (sum(y) == 1)
             stop("Use 0 as threshold if the data is coded as a binary.")
     }
@@ -76,21 +83,24 @@ infer_runs_test.default <- function(x, drop = FALSE,
     if (!(is.na(threshold))) {
         thresh <- threshold
     } else if (mean == TRUE) {
-        thresh <- mean(x)
+        thresh <- mean(xone)
     } else {
-        thresh <- median(x, na.rm = TRUE)
+        thresh <- median(xone, na.rm = TRUE)
     }
 
     # drop values equal to threshold if drop == TRUE
     if (drop == TRUE) {
-        x <- x[x != thresh]
+        xone <- xone[xone != thresh]
     }
 
     # binary coding the data based on the threshold
     if (split == TRUE) {
-        x_binary <- ifelse(x > thresh, 1, 0)
+        x_binary <- ifelse(xone > thresh, 1, 0)
     } else {
-        x_binary <- x %>% map(nruns2, thresh) %>% unlist(use.names = FALSE)
+        x_binary <-
+          xone %>%
+          map(nruns2, thresh) %>%
+          unlist(use.names = FALSE)
     }
 
     # compute the number of runs
@@ -124,7 +134,6 @@ runs_test <- function(x, drop = FALSE, split = FALSE, mean = FALSE,
                       threshold = NA) {
 
     .Deprecated("infer_runs_test()")
-    infer_runs_test(x, drop, split, mean, threshold)
 
 }
 

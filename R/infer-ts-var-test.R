@@ -3,9 +3,9 @@
 #' @title Two Sample Variance Comparison Test
 #' @description  \code{infer_ts_var_test} performs tests on the equality of standard
 #' deviations (variances).
-#' @param variable a numeric vector
-#' @param group_var a grouping variable
-#' @param ... numeric vectors
+#' @param data a \code{data.frame} or \code{tibble}
+#' @param ... numeric; column(s) in \code{data}
+#' @param group_var factor; column in \code{data}
 #' @param alternative a character string specifying the alternative hypothesis,
 #' must be one of "both" (default), "greater", "less" or "all". You can specify
 #' just the initial letter.
@@ -37,88 +37,73 @@
 #' @seealso \code{\link[stats]{var.test}}
 #' @examples
 #' # using grouping variable
-#' # lower tail
-#' infer_ts_var_test(mtcars$mpg, group_var = mtcars$vs, alternative = 'less')
-#'
-#' # upper tail
-#' infer_ts_var_test(mtcars$mpg, group_var = mtcars$vs, alternative = 'greater')
-#'
-#' # all tails
-#' infer_ts_var_test(mtcars$mpg, group_var = mtcars$vs, alternative = 'all')
+#' infer_ts_var_test(hsb, read, group_var = female, alternative = 'less')
 #'
 #' # using two variables
-#' # lower tail
-#' infer_ts_var_test(hsb$read, hsb$write, alternative = 'less')
-#'
-#' # upper tail
-#' infer_ts_var_test(hsb$read, hsb$write, alternative = 'greater')
-#'
-#' # all tails
-#' infer_ts_var_test(hsb$read, hsb$write, alternative = 'all')
+#' infer_ts_var_test(hsb, read, write, alternative = 'less')
 #'
 #' @export
 #'
-infer_ts_var_test <- function(variable, ..., group_var = NA,
+infer_ts_var_test <- function(data, ..., group_var = NULL,
 	alternative = c("less", "greater", "all")) UseMethod('infer_ts_var_test')
 
 #' @export
 #'
-infer_ts_var_test.default <- function(variable, ..., group_var = NA,
+infer_ts_var_test.default <- function(data, ..., group_var = NULL,
 	alternative = c("less", "greater", "all")) {
 
-	if (length(group_var) != 1) {
-		if (nlevels(as.factor(group_var)) != 2) {
-			stop('group_var must be a binary factor variable.', call. = FALSE)
-		}
-	}
+  groupvar <- enquo(group_var)
 
-	suppressWarnings(
-		if (is.na(group_var)) {
-			name1 <- l(unlist(strsplit(deparse(substitute(c(variable, ...))), ','))[1])
-			name2 <- unlist(strsplit(l(unlist(strsplit(deparse(substitute(c(variable, ...))), ','))[2]), ')'))[1]
-			lev <- c(name1, name2)
-		} else {
-			if (!is.factor(group_var)) {
-				group_var <- as.factor(group_var)
-			}
-			if (nlevels(group_var) > 2) {
-				stop('Specify a binary factor variable as input for group_var.', call. = FALSE)
-			}
-			lev  <- levels(group_var)
-		}
-	)
+  varyables <- quos(...)
 
-	suppressWarnings(
+  fdata <-
+    data %>%
+    select(!!! varyables)
 
-		if (is.na(group_var)) {
+  if (quo_is_null(groupvar)) {
 
-			z   <- list(variable, ...)
-			ln <- z %>% map_int(length)
-			if (length(ln) > 2) {
-				stop('Only 2 variables can be specified.', call. = FALSE)
-			}
-			ly <- seq_len(length(z))
+    z <- as.list(fdata)
+    ln <- z %>% map_int(length)
+    ly <- seq_len(length(z))
 
-		  if (length(z) < 2) {
-    		stop('Please specify at least two variables.', call. = FALSE)
-    	}
-
-		        out <- gvar(ln, ly)
-		  variable  <- unlist(z)
-		  group_var <- unlist(out)
-
-		} else {
-
-    	if (length(variable) != length(group_var)) {
-    		stop('Length of variable and group_var do not match.', call. = FALSE)
-    	}
-
+    if (length(z) < 2) {
+      stop('Please specify at least two variables.', call. = FALSE)
     }
 
-	)
+    out <- gvar(ln, ly)
+
+    fdata  <- unlist(z)
+
+    groupvars <-
+      out %>%
+      unlist %>%
+      as.factor
+
+    lev <-
+      data %>%
+      select(!!! varyables) %>%
+      names
+
+  } else {
+
+    fdata <-
+      fdata %>%
+      pull(1)
+
+    groupvars <-
+      data %>%
+      pull(!! groupvar)
+
+    lev  <- levels(groupvars)
+
+    if (length(fdata) != length(groupvars)) {
+      stop('Length of variable and group_var do not match.', call. = FALSE)
+    }
+  }
+
 
 	type <- match.arg(alternative)
-	   k <- var_comp(variable, group_var)
+	   k <- var_comp(fdata, groupvars)
 
 	out <- list(f = k$f, lower = k$lower, upper = k$upper, vars = k$vars,
          avgs = k$avgs, sds = k$sds, ses = k$ses, avg = k$avg, sd = k$sd,
@@ -138,7 +123,6 @@ var_test <- function(variable, ..., group_var = NA,
                      alternative = c("less", "greater", "all")) {
 
     .Deprecated("infer_ts_var_test()")
-    infer_ts_var_test(variable, ..., group_var, alternative)
 
 }
 

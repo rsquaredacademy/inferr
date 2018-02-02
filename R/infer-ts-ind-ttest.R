@@ -3,8 +3,8 @@
 #' @description \code{infer_ts_ind_ttest} compares the means of two independent groups in order to determine whether
 #' there is statistical evidence that the associated population means are significantly different.
 #' @param data a data frame
-#' @param x grouping variable; object of type \code{factor}
-#' @param y a \code{numeric} vector
+#' @param x factor; a column in \code{data}
+#' @param y numeric; a column in \code{data}
 #' @param confint confidence level
 #' @param alternative a character string specifying the alternative hypothesis,
 #' must be one of "both" (default), "greater", "less" or "all". You can specify
@@ -51,21 +51,17 @@
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #' @seealso \code{\link[stats]{t.test}}
 #' @examples
-#' # data
-#' hsb2 <- inferr::hsb
-#' hsb2$female <- as.factor(hsb2$female)
-#'
 #' # lower tail
-#' infer_ts_ind_ttest(hsb2, 'female', 'write', alternative = 'less')
+#' infer_ts_ind_ttest(hsb, female, write, alternative = 'less')
 #'
 #' # upper tail
-#' infer_ts_ind_ttest(hsb2, 'female', 'write', alternative = 'greater')
+#' infer_ts_ind_ttest(hsb, female, write, alternative = 'greater')
 #'
 #' # both tails
-#' infer_ts_ind_ttest(hsb2, 'female', 'write', alternative = 'both')
+#' infer_ts_ind_ttest(hsb, female, write, alternative = 'both')
 #'
 #' # all tails
-#' infer_ts_ind_ttest(hsb2, 'female', 'write', alternative = 'all')
+#' infer_ts_ind_ttest(hsb, female, write, alternative = 'all')
 #' @export
 #'
 infer_ts_ind_ttest <- function(data, x, y, confint = 0.95,
@@ -76,35 +72,32 @@ infer_ts_ind_ttest <- function(data, x, y, confint = 0.95,
 infer_ts_ind_ttest.default <- function(data, x, y, confint = 0.95,
   alternative = c('both', 'less', 'greater', 'all'), ...) {
 
-    if (!is.data.frame(data)) {
-      stop('data must be a data frame', call. = FALSE)
-    }
 
-    if (!x %in% colnames(data)) {
-      stop('x must be a column in data', call. = FALSE)
-    }
+    x1 <- enquo(x)
+    y1 <- enquo(y)
 
-    if (!y %in% colnames(data)) {
-      stop('y must be a column in data', call. = FALSE)
-    }
+    yone <-
+        data %>%
+        select(!! y1) %>%
+      names
 
-    if (check_x(data, x)) {
+    if (check_x(data, !! x1)) {
       stop('x must be a binary factor variable', call. = FALSE)
     }
 
-    if (check_level(data, x) > 2) {
+    if (check_level(data, !! x1) > 2) {
       stop('x must be a binary factor variable', call. = FALSE)
     }
 
     method <- match.arg(alternative)
-     var_y <- y
+     var_y <- yone
      alpha <- 1 - confint
          a <- alpha / 2
 
-         h <- indth(data, x, y, a)
+         h <- indth(data, !! x1, !! y1, a)
   grp_stat <- h
     g_stat <- as.matrix(h)
-      comb <- indcomb(data, y, a)
+      comb <- indcomb(data, !! y1, a)
          k <- indcomp(grp_stat, alpha)
          j <- indsig(k$n1, k$n2, k$s1, k$s2, k$mean_diff)
          m <- indpool(k$n1, k$n2, k$mean_diff, k$se_dif)
@@ -134,7 +127,6 @@ ind_ttest <- function(data, x, y, confint = 0.95,
                       alternative = c('both', 'less', 'greater', 'all'), ...) {
 
     .Deprecated("infer_ts_ind_ttest()")
-    infer_ts_ind_ttest(data, x, y, confint, alternative, ...)
 
 }
 
