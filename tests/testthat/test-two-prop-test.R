@@ -1,6 +1,8 @@
 context('two sample proportion test')
 
-mtcarz <- descriptr::mtcarz
+mtcarz <- mtcars
+mtcarz$vs <- as.factor(mtcarz$vs)
+mtcarz$am <- as.factor(mtcarz$am)
 
 test_that('output from infer_ts_prop_test matches the expected result', {
 

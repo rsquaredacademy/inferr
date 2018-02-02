@@ -1,6 +1,7 @@
 context('two sample variance test')
 
-mtcarz <- descriptr::mtcarz
+mtcarz <- mtcars
+mtcarz$vs <- as.factor(mtcarz$vs)
 
 test_that('output from infer_ts_var_test matches expected result', {
 
