@@ -50,7 +50,7 @@
 #'
 #' @export
 #'
-infer_ts_prop_test <- function(dta, var1, var2,
+infer_ts_prop_test <- function(data, var1, var2,
   alternative = c('both', 'less', 'greater', 'all'), ...)
   UseMethod('infer_ts_prop_test')
 
