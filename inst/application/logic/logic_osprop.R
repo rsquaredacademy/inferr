@@ -36,10 +36,12 @@ observeEvent(input$submit_part_train_per, {
 
 d_osproptest <- eventReactive(input$submit_osproptest, {
   req(input$var_osproptest)
-  data <- final_split$train[, c(input$var_osproptest)]
+  data <- final_split$train
   # validate(need(nlevels(data) == 2, 'Please select a binary variable.'))
-  out <- infer_os_prop_test(data, input$osproptest_prob, input$osproptest_type)
-  out 
+  out <- infer_os_prop_test(data, !! sym(as.character(input$var_osproptest)),
+                            input$osproptest_prob,
+                            input$osproptest_type)
+  out
 })
 
 output$osproptest_out <- renderPrint({

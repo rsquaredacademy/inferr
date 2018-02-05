@@ -73,11 +73,12 @@ d_anova <- eventReactive(input$submit_anova, {
     data <- final_split$train[, c(input$var_anova1, input$var_anova2)]
     eval(parse(text = paste0("data$", names(data)[2], " <- as.numeric(as.character(data$", names(data)[2], "))")))
     # data
-    k <- inferr::infer_oneway_anova(data, as.character(input$var_anova1), as.character(input$var_anova2))  
+    k <- inferr::infer_oneway_anova(data, !! sym(as.character(input$var_anova1)),
+                                    !! sym(as.character(input$var_anova2)))
     k
 })
 
 output$anova_out <- renderPrint({
-    # inferr::owanova(d_anova(), as.character(input$var_anova1), as.character(input$var_anova2))  
+    # inferr::owanova(d_anova(), as.character(input$var_anova1), as.character(input$var_anova2))
     d_anova()
 })

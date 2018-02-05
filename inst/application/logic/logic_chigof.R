@@ -1,5 +1,3 @@
-source('helper/chisq-gof-shiny.R')
-
 observe({
     updateSelectInput(session, 'var_chigof', choices = names(data()))
 })
@@ -70,7 +68,7 @@ props <- reactive({
 df_chigof <- eventReactive(input$submit_chigof, {
   data <- final_split$train
   # validate(need(sum(props()) == 1, 'Expected proportion must add up to 1.'))
-  k <- chisq_gof_shiny(data, as.character(input$var_chigof), props(),
+  k <- infer_chisq_gof_test(data, !! sym(as.character(input$var_chigof)), props(),
   as.logical(input$chigof_cc))
   k
 })

@@ -52,7 +52,9 @@ d_tsproptest <- eventReactive(input$submit_tsproptest, {
   req(input$var_tsproptest2)
 	# validate(need((input$var_tsproptest1 != '' & input$var_tsproptest2 != ''), 'Please select variable.'))
   data <- final_split$train[, c(input$var_tsproptest1, input$var_tsproptest2)]
-  out <- infer_ts_prop_test(data[, 1], data[, 2], input$tsproptest_type)
+  out <- infer_ts_prop_test(data, !! sym(as.character(input$var_tsproptest1)),
+                            !! sym(as.character(input$var_tsproptest2)),
+                            input$tsproptest_type)
   out
 })
 
@@ -61,7 +63,9 @@ d_tsproptestg <- eventReactive(input$submit_tsproptestg, {
   req(input$var_tsproptestg2)
 	# validate(need((input$var_tsproptestg1 != '' & input$var_tsproptestg2 != ''), 'Please select variable.'))
   data <- final_split$train[, c(input$var_tsproptestg1, input$var_tsproptestg2)]
-  out <- infer_ts_prop_grp(data[, 1], data[, 2], input$tsproptestg_type)
+  out <- infer_ts_prop_grp(data, !! sym(as.character(input$var_tsproptestg1)),
+                           !! sym(as.character(input$var_tsproptestg2)),
+                           input$tsproptestg_type)
   out
 })
 

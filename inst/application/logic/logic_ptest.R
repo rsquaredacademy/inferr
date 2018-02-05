@@ -1,6 +1,3 @@
-source('helper/paired-ttest-shiny.R')
-source('helper/utils.R')
-
 observe({
     updateSelectInput(session,
                       inputId = "var_ptest1",
@@ -74,8 +71,9 @@ observeEvent(input$submit_part_train_per, {
 d_ptest <- eventReactive(input$submit_ptest, {
 	# validate(need((input$var_ptest1 != '' & input$var_ptest2 != ''), 'Please select two variables.'))
   data <- final_split$train
-  k <- paired_ttest_shiny(data, as.character(input$var_ptest1),
-    as.character(input$var_ptest2), input$ptest_conf, input$ptest_type)
+  k <- infer_ts_paired_ttest(data, !! sym(as.character(input$var_ptest1)),
+    !! sym(as.character(input$var_ptest2)), input$ptest_conf,
+    input$ptest_type)
   k
 })
 

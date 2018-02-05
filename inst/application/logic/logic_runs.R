@@ -43,9 +43,12 @@ observeEvent(input$submit_part_train_per, {
 d_runs <- eventReactive(input$submit_runs, {
   req(input$var_runs)
 	# validate(need((input$var_runs != ''), 'Please select variables.'))
-  data <- final_split$train[, c(input$var_runs)]
-  out <- infer_runs_test(data, as.logical(input$runs_drop), as.logical(input$runs_split),
-    as.logical(input$runs_mean), input$runs_thold)
+  data <- final_split$train
+  out <- infer_runs_test(data, !! sym(input$var_runs),
+                         as.logical(input$runs_drop),
+                         as.logical(input$runs_split),
+                         as.logical(input$runs_mean),
+                         input$runs_thold)
   out
 })
 

@@ -17,7 +17,7 @@ observeEvent(input$finalok, {
         } else {
              updateSelectInput(session, 'var_cochran', choices = names(f_data))
         }
- 
+
 })
 
 observeEvent(input$submit_part_train_per, {
@@ -35,7 +35,7 @@ observeEvent(input$submit_part_train_per, {
         } else {
              updateSelectInput(session, 'var_cochran', choices = names(f_data))
         }
- 
+
 })
 
 d_cochran <- eventReactive(input$submit_cochran, {
@@ -43,7 +43,7 @@ d_cochran <- eventReactive(input$submit_cochran, {
   req(input$var_cochran)
   data <- final_split$train[, c(input$var_cochran)]
   # validate(need(data %>% map(nlevels) %>% `<`(3) %>% all(), 'Only binary variables must be selected.'))
-  k <- infer_cochran_qtest(data)
+  k <- infer_cochran_qtest(data, !!! syms(input$var_cochran))
   k
 })
 

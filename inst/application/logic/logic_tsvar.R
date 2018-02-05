@@ -99,8 +99,9 @@ d_tsvartest <- eventReactive(input$submit_tsvartest, {
   req(input$var_tsvartest1)
   req(input$var_tsvartest2)
   data <- final_split$train[, c(input$var_tsvartest1, input$var_tsvartest2)]
-  k <- var_test_shiny(data, as.character(input$var_tsvartest1), as.character(input$var_tsvartest2), 
-      alternative = input$tsvartest_type)
+  k <- infer_ts_var_test(data, !! sym(as.character(input$var_tsvartest1)),
+                      !! sym(as.character(input$var_tsvartest2)),
+                      alternative = input$tsvartest_type)
   k
 })
 
@@ -110,7 +111,9 @@ d_tsvartestg <- eventReactive(input$submit_tsvartestg, {
   req(input$var_tsvartestg2)
   data <- final_split$train[, c(input$var_tsvartestg1, input$var_tsvartestg2)]
   # validate(need(nlevels(data[, 2]) == 2, 'Please select a binary variable.'))
-  k <- infer_ts_var_test(data[, 1], group_var = data[, 2], alternative = input$tsvartestg_type)
+  k <- infer_ts_var_test(data, !! sym(as.character(input$var_tsvartestg1)),
+                         group_var = !! sym(as.character(input$var_tsvartestg2)),
+                         alternative = input$tsvartestg_type)
   k
 })
 
