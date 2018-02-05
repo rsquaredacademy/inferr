@@ -1,5 +1,3 @@
-source('helper/one-samp-var-shiny.R')
-
 observe({
     updateSelectInput(session,
                       inputId = "var_osvartest",
@@ -21,7 +19,7 @@ observeEvent(input$finalok, {
               choices = '', selected = '')
         } else {
              updateSelectInput(session, 'var_osvartest', choices = names(num_data))
-        }    
+        }
 })
 
 observeEvent(input$submit_part_train_per, {
@@ -38,18 +36,18 @@ observeEvent(input$submit_part_train_per, {
               choices = '', selected = '')
         } else {
              updateSelectInput(session, 'var_osvartest', choices = names(num_data))
-        }    
+        }
 })
 
 
 d_osvartest <- eventReactive(input$submit_osvartest, {
 	# validate(need((input$var_osvartest != ''), 'Please select a variable.'))
   data <- final_split$train
-  k <- os_vartest_shiny(data, as.character(input$var_osvartest),
+  k <- infer_os_var_test(data, !! sym(as.character(input$var_osvartest)),
     input$sd_osvartest, input$osvartest_conf, input$osvartest_type)
   k
 })
 
 output$osvartest_out <- renderPrint({
-  d_osvartest()  
+  d_osvartest()
 })

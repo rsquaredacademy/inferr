@@ -1,5 +1,3 @@
-source('helper/t-test-shiny.R')
-
 observe({
     updateSelectInput(session,
                       inputId = "var_ttest",
@@ -27,7 +25,7 @@ observeEvent(input$finalok, {
                       inputId = 'ttest_mu',
                       value = '')
     } else {
-             updateSelectInput(session, inputId = "var_ttest", 
+             updateSelectInput(session, inputId = "var_ttest",
               choices = names(num_data))
              updateNumericInput(session = session,
                       inputId = 'ttest_mu',
@@ -55,7 +53,7 @@ observeEvent(input$submit_part_train_per, {
                       inputId = 'ttest_mu',
                       value = '')
     } else {
-             updateSelectInput(session, inputId = "var_ttest", 
+             updateSelectInput(session, inputId = "var_ttest",
               choices = names(num_data))
              updateNumericInput(session = session,
                       inputId = 'ttest_mu',
@@ -68,7 +66,9 @@ d_ttest <- eventReactive(input$submit_ttest, {
 	# validate(need(input$var_ttest != '', 'Please select a variable.'))
   req(input$ttest_mu)
   data <- final_split$train
-  k <- ttest_shiny(data, as.character(input$var_ttest), as.numeric(input$ttest_mu), input$ttest_alpha, input$ttest_type)
+  k <- infer_os_t_test(data, !! sym(as.character(input$var_ttest)),
+                   as.numeric(input$ttest_mu), input$ttest_alpha,
+                   input$ttest_type)
   k
 })
 

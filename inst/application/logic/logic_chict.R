@@ -41,5 +41,6 @@ d_chict <- eventReactive(input$submit_chict, {
 })
 
 output$chict_out <- renderPrint({
-  infer_chisq_assoc_test(d_chict()[, 1], d_chict()[, 2])
+  infer_chisq_assoc_test(d_chict(), !! sym(input$var_chict1),
+                         !! sym(input$var_chict2))
 })

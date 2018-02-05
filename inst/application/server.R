@@ -12,9 +12,10 @@ library(tools)
 library(lubridate)
 library(scales)
 library(stringr)
+library(rlang)
 
 shinyServer(function(input, output, session) {
-    
+
     source("logic/logic_dataoptions.R", local = T)
     source("logic/logic_upload.R", local = T)
     source("logic/logic_transform2.R", local = T)
@@ -37,8 +38,8 @@ shinyServer(function(input, output, session) {
     source("logic/logic_cochran.R", local = T)
     source("logic/logic_runs.R", local = T)
     source("logic/logic_mcnemar.R", local = T)
-    source("logic/logic_home.R", local = T)    
-    
+    source("logic/logic_home.R", local = T)
+
 })
 
 
