@@ -1,4 +1,4 @@
-#' @importFrom dplyr group_by group_by_ select_ summarise_all funs mutate
+#' @importFrom dplyr group_by summarise_all funs mutate
 #' @importFrom magrittr %>% use_series
 #' @importFrom stats var sd
 #' @importFrom tibble tibble as_data_frame
@@ -741,10 +741,12 @@ indpool <- function(n1, n2, mean_diff, se_dif) {
   return(out)
 }
 
+#' @importFrom rlang sym
 tibble_stats <- function(data, x, y) {
+
     by_factor <- data %>%
-        group_by_(y) %>%
-        select_(y, x) %>%
+        group_by(!! sym(y)) %>%
+        select(!! sym(y), !! sym(x)) %>%
         summarise_all(funs(length, mean, var, sd)) %>%
         as_data_frame() %>%
         mutate(
@@ -755,7 +757,7 @@ tibble_stats <- function(data, x, y) {
 
 tbl_stats <- function(data, y) {
     avg <- data %>%
-        select_(y) %>%
+        select(y) %>%
         summarise_all(funs(length, mean, sd)) %>%
         as_data_frame() %>%
         mutate(
@@ -837,8 +839,8 @@ paired_data <- function(x, y) {
 #' @importFrom dplyr select
 paired_stats <- function(data, key, value) {
   d <- data %>%
-    group_by_(key) %>%
-    select_(value, key) %>%
+    group_by(key) %>%
+    select(value, key) %>%
     summarise_all(funs(length, mean, sd)) %>%
     as_data_frame() %>%
     mutate(
