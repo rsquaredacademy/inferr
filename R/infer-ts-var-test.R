@@ -45,13 +45,12 @@
 #' @export
 #'
 infer_ts_var_test <- function(data, ..., group_var = NULL,
-	alternative = c("less", "greater", "all")) UseMethod('infer_ts_var_test')
+                              alternative = c("less", "greater", "all")) UseMethod("infer_ts_var_test")
 
 #' @export
 #'
 infer_ts_var_test.default <- function(data, ..., group_var = NULL,
-	alternative = c("less", "greater", "all")) {
-
+                                      alternative = c("less", "greater", "all")) {
   groupvar <- enquo(group_var)
 
   varyables <- quos(...)
@@ -61,31 +60,28 @@ infer_ts_var_test.default <- function(data, ..., group_var = NULL,
     select(!!! varyables)
 
   if (quo_is_null(groupvar)) {
-
     z <- as.list(fdata)
     ln <- z %>% map_int(length)
     ly <- seq_len(length(z))
 
     if (length(z) < 2) {
-      stop('Please specify at least two variables.', call. = FALSE)
+      stop("Please specify at least two variables.", call. = FALSE)
     }
 
     out <- gvar(ln, ly)
 
-    fdata  <- unlist(z)
+    fdata <- unlist(z)
 
     groupvars <-
       out %>%
-      unlist %>%
-      as.factor
+      unlist() %>%
+      as.factor()
 
     lev <-
       data %>%
       select(!!! varyables) %>%
-      names
-
+      names()
   } else {
-
     fdata <-
       fdata %>%
       pull(1)
@@ -94,25 +90,26 @@ infer_ts_var_test.default <- function(data, ..., group_var = NULL,
       data %>%
       pull(!! groupvar)
 
-    lev  <- levels(groupvars)
+    lev <- levels(groupvars)
 
     if (length(fdata) != length(groupvars)) {
-      stop('Length of variable and group_var do not match.', call. = FALSE)
+      stop("Length of variable and group_var do not match.", call. = FALSE)
     }
   }
 
 
-	type <- match.arg(alternative)
-	   k <- var_comp(fdata, groupvars)
+  type <- match.arg(alternative)
+  k <- var_comp(fdata, groupvars)
 
-	out <- list(f = k$f, lower = k$lower, upper = k$upper, vars = k$vars,
-         avgs = k$avgs, sds = k$sds, ses = k$ses, avg = k$avg, sd = k$sd,
-         se = k$se, n1 = k$n1, n2 = k$n2, lens = k$lens, len = k$len,
-         lev = lev, type = type)
+  out <- list(
+    f = k$f, lower = k$lower, upper = k$upper, vars = k$vars,
+    avgs = k$avgs, sds = k$sds, ses = k$ses, avg = k$avg, sd = k$sd,
+    se = k$se, n1 = k$n1, n2 = k$n2, lens = k$lens, len = k$len,
+    lev = lev, type = type
+  )
 
-	class(out) <- 'infer_ts_var_test'
+  class(out) <- "infer_ts_var_test"
   return(out)
-
 }
 
 #' @export
@@ -121,9 +118,7 @@ infer_ts_var_test.default <- function(data, ..., group_var = NULL,
 #'
 var_test <- function(variable, ..., group_var = NA,
                      alternative = c("less", "greater", "all")) {
-
-    .Deprecated("infer_ts_var_test()")
-
+  .Deprecated("infer_ts_var_test()")
 }
 
 #' @export

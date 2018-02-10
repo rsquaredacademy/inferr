@@ -35,12 +35,12 @@
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #'
 #' Edgington, E. S. 1961. Probability table for number of runs of signs of first differences in ordered series. Journal of
-#' the American Statistical Association 56: 156–159.
+
 #'
 #' Madansky, A. 1988. Prescriptions for Working Statisticians. New York: Springer.
 #'
 #' Swed, F. S., and C. Eisenhart. 1943. Tables for testing randomness of grouping in a sequence of alternatives. Annals
-#' of Mathematical Statistics 14: 66–87.
+
 #' @examples
 #' infer_runs_test(hsb, read)
 #'
@@ -54,76 +54,77 @@
 #' @export
 #'
 infer_runs_test <- function(data, x, drop = FALSE, split = FALSE, mean = FALSE,
-    threshold = NA) UseMethod("infer_runs_test")
+                            threshold = NA) UseMethod("infer_runs_test")
 
 #' @export
 #'
 infer_runs_test.default <- function(data, x, drop = FALSE,
-                              split = FALSE, mean = FALSE,
-                              threshold = NA) {
+                                    split = FALSE, mean = FALSE,
+                                    threshold = NA) {
+  x1 <- enquo(x)
 
-    x1 <- enquo(x)
+  xone <-
+    data %>%
+    pull(!! x1)
 
-    xone <-
-      data %>%
-      pull(!! x1)
+  n <- length(xone)
 
-    n <- length(xone)
+  # if (!(is.numeric(x) || is.integer(x)))
+  #     stop("x must be numeric or integer")
 
-    # if (!(is.numeric(x) || is.integer(x)))
-    #     stop("x must be numeric or integer")
-
-    if (is.na(threshold)) {
-        y <- unique(xone)
-        if (sum(y) == 1)
-            stop("Use 0 as threshold if the data is coded as a binary.")
+  if (is.na(threshold)) {
+    y <- unique(xone)
+    if (sum(y) == 1) {
+      stop("Use 0 as threshold if the data is coded as a binary.")
     }
+  }
 
-    # compute threshold
-    if (!(is.na(threshold))) {
-        thresh <- threshold
-    } else if (mean == TRUE) {
-        thresh <- mean(xone)
-    } else {
-        thresh <- median(xone, na.rm = TRUE)
-    }
+  # compute threshold
+  if (!(is.na(threshold))) {
+    thresh <- threshold
+  } else if (mean == TRUE) {
+    thresh <- mean(xone)
+  } else {
+    thresh <- median(xone, na.rm = TRUE)
+  }
 
-    # drop values equal to threshold if drop == TRUE
-    if (drop == TRUE) {
-        xone <- xone[xone != thresh]
-    }
+  # drop values equal to threshold if drop == TRUE
+  if (drop == TRUE) {
+    xone <- xone[xone != thresh]
+  }
 
-    # binary coding the data based on the threshold
-    if (split == TRUE) {
-        x_binary <- ifelse(xone > thresh, 1, 0)
-    } else {
-        x_binary <-
-          xone %>%
-          map(nruns2, thresh) %>%
-          unlist(use.names = FALSE)
-    }
+  # binary coding the data based on the threshold
+  if (split == TRUE) {
+    x_binary <- ifelse(xone > thresh, 1, 0)
+  } else {
+    x_binary <-
+      xone %>%
+      map(nruns2, thresh) %>%
+      unlist(use.names = FALSE)
+  }
 
-    # compute the number of runs
-    n_runs <- nsignC(x_binary)
-        n1 <- sum(x_binary)
-        n0 <- length(x_binary) - n1
+  # compute the number of runs
+  n_runs <- nsignC(x_binary)
+  n1 <- sum(x_binary)
+  n0 <- length(x_binary) - n1
 
-    # compute expected runs and sd of runs
-    exp_runs <- expruns(n0, n1)
-     sd_runs <- sdruns(n0, n1)
+  # compute expected runs and sd of runs
+  exp_runs <- expruns(n0, n1)
+  sd_runs <- sdruns(n0, n1)
 
-    # compute the test statistic
-    test_stat <- (n_runs - exp_runs) / (sd_runs ^ 0.5)
-          sig <- 2 * (1 - pnorm(abs(test_stat), lower.tail = TRUE))
+  # compute the test statistic
+  test_stat <- (n_runs - exp_runs) / (sd_runs ^ 0.5)
+  sig <- 2 * (1 - pnorm(abs(test_stat), lower.tail = TRUE))
 
-    # result
-    result <- list(n = n, threshold = thresh, n_below = n0, n_above = n1,
-              mean = exp_runs, var = sd_runs, n_runs = n_runs, z = test_stat,
-              p = sig)
+  # result
+  result <- list(
+    n = n, threshold = thresh, n_below = n0, n_above = n1,
+    mean = exp_runs, var = sd_runs, n_runs = n_runs, z = test_stat,
+    p = sig
+  )
 
-    class(result) <- "infer_runs_test"
-    return(result)
-
+  class(result) <- "infer_runs_test"
+  return(result)
 }
 
 #' @export
@@ -132,9 +133,7 @@ infer_runs_test.default <- function(data, x, drop = FALSE,
 #'
 runs_test <- function(x, drop = FALSE, split = FALSE, mean = FALSE,
                       threshold = NA) {
-
-    .Deprecated("infer_runs_test()")
-
+  .Deprecated("infer_runs_test()")
 }
 
 #' @export

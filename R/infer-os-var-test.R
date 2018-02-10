@@ -50,48 +50,48 @@
 #' @export
 #'
 infer_os_var_test <- function(data, x, sd, confint = 0.95,
-	alternative = c('both', 'less', 'greater', 'all'), ...) UseMethod('infer_os_var_test')
+                              alternative = c("both", "less", "greater", "all"), ...) UseMethod("infer_os_var_test")
 
 #' @export
 #'
 infer_os_var_test.default <- function(data, x, sd, confint = 0.95,
-	alternative = c('both', 'less', 'greater', 'all'), ...) {
+                                      alternative = c("both", "less", "greater", "all"), ...) {
+  x1 <- enquo(x)
 
-    x1 <- enquo(x)
+  xone <-
+    data %>%
+    pull(!! x1)
 
-    xone <-
-        data %>%
-        pull(!! x1)
+  if (!is.numeric(xone)) {
+    stop("x must be numeric")
+  }
 
-	if (!is.numeric(xone)) {
-		stop('x must be numeric')
-	}
+  if (!is.numeric(sd)) {
+    stop("sd must be numeric")
+  }
 
-	if (!is.numeric(sd)) {
-		stop('sd must be numeric')
-	}
+  if (!is.numeric(confint)) {
+    stop("confint must be numeric")
+  }
 
-	if (!is.numeric(confint)) {
-		stop('confint must be numeric')
-	}
+  type <- match.arg(alternative)
 
-	type <- match.arg(alternative)
+  varname <-
+    data %>%
+    select(!! x1) %>%
+    names()
 
-	varname <-
-	    data %>%
-	    select(!! x1) %>%
-	    names
+  k <- osvar_comp(xone, sd, confint)
 
-	k <- osvar_comp(xone, sd, confint)
+  result <- list(
+    n = k$n, sd = k$sd, sigma = k$sigma, se = k$se, chi = k$chi,
+    df = k$df, p_lower = k$p_lower, p_upper = k$p_upper, p_two = k$p_two,
+    xbar = k$xbar, c_lwr = k$c_lwr, c_upr = k$c_upr, var_name = varname,
+    conf = k$conf, type = type
+  )
 
-	result <- list(n = k$n, sd = k$sd, sigma = k$sigma, se = k$se, chi = k$chi,
-		df = k$df, p_lower = k$p_lower, p_upper = k$p_upper, p_two = k$p_two,
-		xbar = k$xbar, c_lwr = k$c_lwr, c_upr = k$c_upr, var_name = varname,
-		conf = k$conf, type = type)
-
-	class(result) <- 'infer_os_var_test'
-	return(result)
-
+  class(result) <- "infer_os_var_test"
+  return(result)
 }
 
 #' @export
@@ -99,11 +99,8 @@ infer_os_var_test.default <- function(data, x, sd, confint = 0.95,
 #' @usage NULL
 #'
 os_vartest <- function(x, sd, confint = 0.95,
-                       alternative = c('both', 'less', 'greater', 'all'), ...) {
-
-    .Deprecated("infer_os_var_test()")
-
-
+                       alternative = c("both", "less", "greater", "all"), ...) {
+  .Deprecated("infer_os_var_test()")
 }
 
 #' @export

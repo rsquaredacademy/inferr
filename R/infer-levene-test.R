@@ -38,10 +38,10 @@
 #' {Bland, M. 2000. An Introduction to Medical Statistics. 3rd ed. Oxford: Oxford University Press.}
 #'
 #' {Brown, M. B., and A. B. Forsythe. 1974. Robust tests for the equality of variances. Journal of the American Statistical
-#' Association 69: 364–367.}
+
 #'
-#' {Carroll, R. J., and H. Schneider. 1985. A note on Levene’s tests for equality of variances. Statistics and Probability
-#' Letters 3: 191–194.}
+
+
 #' @examples
 #' # using grouping variable
 #' infer_levene_test(hsb, read, group_var = race)
@@ -51,64 +51,60 @@
 #'
 #' @export
 #'
-infer_levene_test <- function(data, ...) UseMethod('infer_levene_test')
+infer_levene_test <- function(data, ...) UseMethod("infer_levene_test")
 
 #' @export
 #' @rdname infer_levene_test
 infer_levene_test.default <- function(data, ..., group_var = NULL,
-	trim_mean = 0.1) {
+                                      trim_mean = 0.1) {
+  groupvar <- enquo(group_var)
 
+  varyables <- quos(...)
 
-    groupvar <- enquo(group_var)
+  fdata <-
+    data %>%
+    select(!!! varyables)
 
-    varyables <- quos(...)
+  if (quo_is_null(groupvar)) {
+    z <- as.list(fdata)
+    ln <- z %>% map_int(length)
+    ly <- seq_len(length(z))
 
-    fdata <-
-        data %>%
-        select(!!! varyables)
-
-    if (quo_is_null(groupvar)) {
-
-        z <- as.list(fdata)
-        ln <- z %>% map_int(length)
-        ly <- seq_len(length(z))
-
-        if (length(z) < 2) {
-            stop('Please specify at least two variables.', call. = FALSE)
-        }
-
-        out <- gvar(ln, ly)
-        fdata  <- unlist(z)
-        groupvars <-
-            out %>%
-            unlist %>%
-            as.factor
-
-    } else {
-
-        fdata <-
-            fdata %>%
-            pull(1)
-
-        groupvars <-
-            data %>%
-            pull(!! groupvar)
-
-        if (length(fdata) != length(groupvars)) {
-            stop('Length of variable and group_var do not match.', call. = FALSE)
-        }
+    if (length(z) < 2) {
+      stop("Please specify at least two variables.", call. = FALSE)
     }
 
-    k <- lev_comp(fdata, groupvars, trim_mean)
+    out <- gvar(ln, ly)
+    fdata <- unlist(z)
+    groupvars <-
+      out %>%
+      unlist() %>%
+      as.factor()
+  } else {
+    fdata <-
+      fdata %>%
+      pull(1)
 
-    out <- list(bf    = k$bf, p_bf  = k$p_bf, lev = k$lev, p_lev = k$p_lev,
-                bft   = k$bft, p_bft = k$p_bft, avgs  = k$avgs, sds   = k$sds,
-                avg   = k$avg, sd = k$sd, n = k$n, levs  = k$levs, n_df  = k$n_df,
-                d_df  = k$d_df, lens  = k$lens)
+    groupvars <-
+      data %>%
+      pull(!! groupvar)
 
-    class(out) <- 'infer_levene_test'
-    return(out)
+    if (length(fdata) != length(groupvars)) {
+      stop("Length of variable and group_var do not match.", call. = FALSE)
+    }
+  }
 
+  k <- lev_comp(fdata, groupvars, trim_mean)
+
+  out <- list(
+    bf = k$bf, p_bf = k$p_bf, lev = k$lev, p_lev = k$p_lev,
+    bft = k$bft, p_bft = k$p_bft, avgs = k$avgs, sds = k$sds,
+    avg = k$avg, sd = k$sd, n = k$n, levs = k$levs, n_df = k$n_df,
+    d_df = k$d_df, lens = k$lens
+  )
+
+  class(out) <- "infer_levene_test"
+  return(out)
 }
 
 #' @export
@@ -117,9 +113,7 @@ infer_levene_test.default <- function(data, ..., group_var = NULL,
 #'
 levene_test <- function(variable, ..., group_var = NULL,
                         trim.mean = 0.1) {
-
-    .Deprecated("infer_levene_test()")
-
+  .Deprecated("infer_levene_test()")
 }
 
 #' @export

@@ -51,14 +51,13 @@
 #' @export
 #'
 infer_ts_prop_test <- function(data, var1, var2,
-  alternative = c('both', 'less', 'greater', 'all'), ...)
-  UseMethod('infer_ts_prop_test')
+                               alternative = c("both", "less", "greater", "all"), ...)
+  UseMethod("infer_ts_prop_test")
 
 #' @export
 #'
 infer_ts_prop_test.default <- function(data, var1, var2,
-  alternative = c('both', 'less', 'greater', 'all'), ...) {
-
+                                       alternative = c("both", "less", "greater", "all"), ...) {
   var_1 <- enquo(var1)
   var_2 <- enquo(var2)
 
@@ -71,14 +70,15 @@ infer_ts_prop_test.default <- function(data, var1, var2,
     pull(!! var_2)
 
   alt <- match.arg(alternative)
-    k <- prop_comp2(varone, vartwo, alt)
+  k <- prop_comp2(varone, vartwo, alt)
 
-  result <- list(n1 = k$n1, n2 = k$n2, phat1 = k$phat1, phat2 = k$phat2,
-    z = k$z, sig = k$sig, alt = alt)
+  result <- list(
+    n1 = k$n1, n2 = k$n2, phat1 = k$phat1, phat2 = k$phat2,
+    z = k$z, sig = k$sig, alt = alt
+  )
 
-  class(result) <- 'infer_ts_prop_test'
+  class(result) <- "infer_ts_prop_test"
   return(result)
-
 }
 
 #' @export
@@ -86,10 +86,8 @@ infer_ts_prop_test.default <- function(data, var1, var2,
 #' @usage NULL
 #'
 ts_prop_test <- function(var1, var2,
-                         alternative = c('both', 'less', 'greater', 'all'), ...) {
-
-    .Deprecated("infer_ts_prop_test()")
-
+                         alternative = c("both", "less", "greater", "all"), ...) {
+  .Deprecated("infer_ts_prop_test()")
 }
 
 #' @export
@@ -103,8 +101,7 @@ print.infer_ts_prop_test <- function(x, ...) {
 #' @rdname infer_ts_prop_test
 #'
 infer_ts_prop_grp <- function(data, var, group,
-  alternative = c('both', 'less', 'greater', 'all')) {
-
+                              alternative = c("both", "less", "greater", "all")) {
   var1 <- enquo(var)
   group1 <- enquo(group)
 
@@ -116,54 +113,54 @@ infer_ts_prop_grp <- function(data, var, group,
     data %>%
     pull(!! group1)
 
-    if (nlevels(groupone) > 2) {
-      stop('Grouping variable must be a binary factor variables.', call. = FALSE)
-    }
+  if (nlevels(groupone) > 2) {
+    stop("Grouping variable must be a binary factor variables.", call. = FALSE)
+  }
 
-	    n <- tapply(varone, groupone, length)
-	   n1 <- n[[1]]
-	   n2 <- n[[2]]
-	    y <- tapply(varone, groupone, table)
-	   y1 <- y[[1]][[2]]
-	   y2 <- y[[2]][[2]]
-	phat1 <- y1 / n1
-	phat2 <- y2 / n2
-	 phat <- sum(y1, y2) / sum(n1, n2)
-	  num <- (phat1 - phat2)
-	 den1 <- phat * (1 - phat)
-	 den2 <- (1 / n1) + (1 / n2)
-	  den <- sqrt(den1 * den2)
-	    z <- num / den
+  n <- tapply(varone, groupone, length)
+  n1 <- n[[1]]
+  n2 <- n[[2]]
+  y <- tapply(varone, groupone, table)
+  y1 <- y[[1]][[2]]
+  y2 <- y[[2]][[2]]
+  phat1 <- y1 / n1
+  phat2 <- y2 / n2
+  phat <- sum(y1, y2) / sum(n1, n2)
+  num <- (phat1 - phat2)
+  den1 <- phat * (1 - phat)
+  den2 <- (1 / n1) + (1 / n2)
+  den <- sqrt(den1 * den2)
+  z <- num / den
 
 
-	lt <- pnorm(z)
-	ut <- round(pnorm(z, lower.tail = FALSE), 4)
-	tt <- round(pnorm(abs(z), lower.tail = FALSE) * 2, 4)
+  lt <- pnorm(z)
+  ut <- round(pnorm(z, lower.tail = FALSE), 4)
+  tt <- round(pnorm(abs(z), lower.tail = FALSE) * 2, 4)
 
-	alt <- match.arg(alternative)
+  alt <- match.arg(alternative)
 
-    if (alt == "all") {
-        sig = c('both' = tt, 'less' = lt, 'greater' = ut)
-    } else if (alt == "greater") {
-        sig = ut
-    } else if (alt == "less"){
-        sig = lt
-    } else {
-        sig = tt
-    }
+  if (alt == "all") {
+    sig <- c("both" = tt, "less" = lt, "greater" = ut)
+  } else if (alt == "greater") {
+    sig <- ut
+  } else if (alt == "less") {
+    sig <- lt
+  } else {
+    sig <- tt
+  }
 
-    out <- list(
-         n1 = n1,
-         n2 = n2,
-      phat1 = phat1,
-      phat2 = phat2,
-          z = round(z, 3),
-        sig = round(sig, 3),
-        alt = alt)
+  out <- list(
+    n1 = n1,
+    n2 = n2,
+    phat1 = phat1,
+    phat2 = phat2,
+    z = round(z, 3),
+    sig = round(sig, 3),
+    alt = alt
+  )
 
-    class(out) <- 'infer_ts_prop_test'
-    return(out)
-
+  class(out) <- "infer_ts_prop_test"
+  return(out)
 }
 
 #' @export
@@ -171,10 +168,8 @@ infer_ts_prop_grp <- function(data, var, group,
 #' @usage NULL
 #'
 ts_prop_grp <- function(var, group,
-                        alternative = c('both', 'less', 'greater', 'all')) {
-
-    .Deprecated("infer_ts_prop_grp()")
-
+                        alternative = c("both", "less", "greater", "all")) {
+  .Deprecated("infer_ts_prop_grp()")
 }
 
 
@@ -182,47 +177,46 @@ ts_prop_grp <- function(var, group,
 #' @rdname infer_ts_prop_test
 #'
 infer_ts_prop_calc <- function(n1, n2, p1, p2,
-  alternative = c('both', 'less', 'greater', 'all'), ...) {
+                               alternative = c("both", "less", "greater", "all"), ...) {
+  n1 <- n1
+  n2 <- n2
+  phat1 <- p1
+  phat2 <- p2
+  phat <- sum(n1 * p1, n2 * p2) / sum(n1, n2)
+  num <- (phat1 - phat2)
+  den1 <- phat * (1 - phat)
+  den2 <- (1 / n1) + (1 / n2)
+  den <- sqrt(den1 * den2)
+  z <- num / den
 
-	   n1 <- n1
-	   n2 <- n2
-	phat1 <- p1
-	phat2 <- p2
-	 phat <- sum(n1 * p1, n2 * p2) / sum(n1, n2)
-	  num <- (phat1 - phat2)
-	 den1 <- phat * (1 - phat)
-	 den2 <- (1 / n1) + (1 / n2)
-	  den <- sqrt(den1 * den2)
-	    z <- num / den
+  lt <- pnorm(z)
+  ut <- round(pnorm(z, lower.tail = FALSE), 4)
+  tt <- round(pnorm(abs(z), lower.tail = FALSE) * 2, 4)
 
-	lt <- pnorm(z)
-	ut <- round(pnorm(z, lower.tail = FALSE), 4)
-	tt <- round(pnorm(abs(z), lower.tail = FALSE) * 2, 4)
+  alt <- match.arg(alternative)
 
-	alt <- match.arg(alternative)
+  if (alt == "all") {
+    sig <- c("both" = tt, "less" = lt, "greater" = ut)
+  } else if (alt == "greater") {
+    sig <- ut
+  } else if (alt == "less") {
+    sig <- lt
+  } else {
+    sig <- tt
+  }
 
-    if (alt == "all") {
-        sig = c('both' = tt, 'less' = lt, 'greater' = ut)
-    } else if (alt == "greater") {
-        sig = ut
-    } else if (alt == "less"){
-        sig = lt
-    } else {
-        sig = tt
-    }
+  out <- list(
+    n1 = n1,
+    n2 = n2,
+    phat1 = round(phat1, 3),
+    phat2 = round(phat2, 3),
+    z = round(z, 3),
+    sig = round(sig, 3),
+    alt = alt
+  )
 
-    out <- list(
-         n1 = n1,
-         n2 = n2,
-      phat1 = round(phat1, 3),
-      phat2 = round(phat2, 3),
-          z = round(z, 3),
-        sig = round(sig, 3),
-        alt = alt)
-
-    class(out) <- 'infer_ts_prop_test'
-    return(out)
-
+  class(out) <- "infer_ts_prop_test"
+  return(out)
 }
 
 #' @export
@@ -230,9 +224,7 @@ infer_ts_prop_calc <- function(n1, n2, p1, p2,
 #' @usage NULL
 #'
 ts_prop_calc <- function(n1, n2, p1, p2,
-                         alternative = c('both', 'less', 'greater', 'all'), ...) {
-
-    .Deprecated("infer_ts_prop_calc()")
-    infer_ts_prop_calc(n1, n2, p1, p2, alternative, ...)
-
+                         alternative = c("both", "less", "greater", "all"), ...) {
+  .Deprecated("infer_ts_prop_calc()")
+  infer_ts_prop_calc(n1, n2, p1, p2, alternative, ...)
 }

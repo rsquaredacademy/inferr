@@ -52,40 +52,41 @@
 #' @export
 #'
 infer_ts_paired_ttest <- function(data, x, y, confint = 0.95,
-  alternative = c('both', 'less', 'greater', 'all')) UseMethod('infer_ts_paired_ttest')
+                                  alternative = c("both", "less", "greater", "all")) UseMethod("infer_ts_paired_ttest")
 
 #' @export
 #'
 infer_ts_paired_ttest.default <- function(data, x, y, confint = 0.95,
-  alternative = c('both', 'less', 'greater', 'all')) {
+                                          alternative = c("both", "less", "greater", "all")) {
+  x1 <- enquo(x)
+  y1 <- enquo(y)
 
-    x1 <- enquo(x)
-    y1 <- enquo(y)
+  method <- match.arg(alternative)
 
-    method <- match.arg(alternative)
+  var_names <-
+    data %>%
+    select(!! x1, !! y1) %>%
+    names()
 
-    var_names <-
-      data %>%
-      select(!! x1, !! y1) %>%
-      names
+  xone <-
+    data %>%
+    pull(!! x1)
 
-    xone <-
-        data %>%
-        pull(!! x1)
+  yone <-
+    data %>%
+    pull(!! y1)
 
-    yone <-
-        data %>%
-        pull(!! y1)
+  k <- paired_comp(xone, yone, confint, var_names)
 
-    k <- paired_comp(xone, yone, confint, var_names)
-
-  result <- list(Obs = k$Obs, b = k$b, conf_int1 = k$conf_int1,
+  result <- list(
+    Obs = k$Obs, b = k$b, conf_int1 = k$conf_int1,
     conf_int2 = k$conf_int2, conf_int_diff = k$conf_int_diff, corr = k$corr,
     corsig = k$corsig, tstat = k$tstat, p_lower = k$p_lower,
     p_upper = k$p_upper, p_two_tail = k$p_two_tail, var_names = var_names,
-    xy = k$xy, df = k$df, alternative = method, confint = confint)
+    xy = k$xy, df = k$df, alternative = method, confint = confint
+  )
 
-  class(result) <- 'infer_ts_paired_ttest'
+  class(result) <- "infer_ts_paired_ttest"
   return(result)
 }
 
@@ -94,11 +95,9 @@ infer_ts_paired_ttest.default <- function(data, x, y, confint = 0.95,
 #' @usage NULL
 #'
 paired_ttest <- function(x, y, confint = 0.95,
-                         alternative = c('both', 'less', 'greater', 'all')) {
-
-    .Deprecated("infer_ts_paired_ttest()")
-    infer_ts_paired_ttest(x, y, confint, alternative)
-
+                         alternative = c("both", "less", "greater", "all")) {
+  .Deprecated("infer_ts_paired_ttest()")
+  infer_ts_paired_ttest(x, y, confint, alternative)
 }
 
 #' @export

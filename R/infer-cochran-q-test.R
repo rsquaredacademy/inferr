@@ -22,29 +22,27 @@
 #' infer_cochran_qtest(exam, exam1, exam2, exam3)
 #' @export
 #'
-infer_cochran_qtest <- function(data, ...) UseMethod('infer_cochran_qtest')
+infer_cochran_qtest <- function(data, ...) UseMethod("infer_cochran_qtest")
 
 #' @export
 infer_cochran_qtest.default <- function(data, ...) {
+  vars <- quos(...)
 
-    vars <- quos(...)
+  fdata <- data %>%
+    select(!!! vars)
 
-	fdata <- data %>%
-	  select(!!! vars)
+  if (ncol(fdata) < 3) {
+    stop("Please specify at least 3 variables.")
+  }
 
-	if (ncol(fdata) < 3) {
-		stop('Please specify at least 3 variables.')
-	}
+  if (any(sapply(lapply(fdata, as.factor), nlevels) > 2)) {
+    stop("Please specify dichotomous/binary variables only.")
+  }
 
-	if (any(sapply(lapply(fdata, as.factor), nlevels) > 2)) {
-		stop('Please specify dichotomous/binary variables only.')
-	}
-
-	k <- cochran_comp(fdata)
-	result <- list(n = k$n, df = k$df, q = k$q, pvalue = k$pvalue)
-	class(result) <- 'infer_cochran_qtest'
-	return(result)
-
+  k <- cochran_comp(fdata)
+  result <- list(n = k$n, df = k$df, q = k$q, pvalue = k$pvalue)
+  class(result) <- "infer_cochran_qtest"
+  return(result)
 }
 
 #' @export
@@ -52,13 +50,11 @@ infer_cochran_qtest.default <- function(data, ...) {
 #' @usage NULL
 #'
 cochran_test <- function(x, ...) {
-
-    .Deprecated("infer_cochran_qtest()")
-
+  .Deprecated("infer_cochran_qtest()")
 }
 
 #' @export
 #'
 print.infer_cochran_qtest <- function(x, ...) {
-	print_cochran_test(x)
+  print_cochran_test(x)
 }
