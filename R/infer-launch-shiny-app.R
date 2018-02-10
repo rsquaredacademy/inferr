@@ -8,7 +8,7 @@
 #' @export
 #'
 infer_launch_shiny_app <- function() {
-    shiny::runApp(appDir = system.file("application", package = "inferr"))
+  shiny::runApp(appDir = system.file("application", package = "inferr"))
 }
 
 #' @export
@@ -16,8 +16,6 @@ infer_launch_shiny_app <- function() {
 #' @usage NULL
 #'
 launch_inferr <- function() {
-
-    .Deprecated("infer_launch_shiny_app()")
-    infer_launch_shiny_app()
-
+  .Deprecated("infer_launch_shiny_app()")
+  infer_launch_shiny_app()
 }

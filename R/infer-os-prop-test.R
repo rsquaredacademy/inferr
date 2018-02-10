@@ -37,55 +37,55 @@
 #' @export
 #'
 infer_os_prop_test <- function(data, variable = NULL, prob = 0.5, phat = 0.5,
-                               alternative = c('both', 'less', 'greater', 'all'))
-    UseMethod('infer_os_prop_test')
+                               alternative = c("both", "less", "greater", "all"))
+  UseMethod("infer_os_prop_test")
 
 #' @export
 #' @rdname infer_os_prop_test
 #'
 infer_os_prop_test.default <- function(data, variable = NULL, prob = 0.5, phat = 0.5,
-                                       alternative = c('both', 'less', 'greater', 'all')) {
+                                       alternative = c("both", "less", "greater", "all")) {
+  if (is.numeric(data)) {
+    method <- match.arg(alternative)
+    k <- prop_comp(
+      data, prob = prob, phat = phat,
+      alternative = method
+    )
+  } else {
+    varyables <- enquo(variable)
 
-    if (is.numeric(data)) {
+    fdata <-
+      data %>%
+      pull(!! varyables)
 
-        method <- match.arg(alternative)
-        k <- prop_comp(data, prob = prob, phat = phat,
-                               alternative = method)
+    n1 <- length(fdata)
 
-    } else {
+    n2 <-
+      fdata %>%
+      table() %>%
+      `[[`(2)
 
-        varyables <- enquo(variable)
+    phat <- round(n2 / n1, 4)
 
-        fdata <-
-            data %>%
-            pull(!! varyables)
+    prob <- prob
 
-        n1 <- length(fdata)
+    method <- match.arg(alternative)
 
-        n2 <-
-            fdata %>%
-            table %>%
-            `[[`(2)
+    k <- prop_comp(
+      n1, prob = prob, phat = phat,
+      alternative = method
+    )
+  }
 
-        phat <- round(n2 / n1, 4)
+  result <- list(
+    n = k$n, phat = k$phat, p = k$p, z = k$z, sig = k$sig,
+    alt = k$alt, obs = k$obs, exp = k$exp,
+    deviation = k$deviation,
+    std = k$std
+  )
 
-        prob <- prob
-
-        method <- match.arg(alternative)
-
-        k <- prop_comp(n1, prob = prob, phat = phat,
-                               alternative = method)
-
-    }
-
-    result <- list(n = k$n, phat = k$phat, p = k$p, z = k$z, sig = k$sig,
-                   alt = k$alt, obs = k$obs, exp = k$exp,
-                   deviation = k$deviation,
-                   std = k$std)
-
-    class(result) <- 'infer_os_prop_test'
-    return(result)
-
+  class(result) <- "infer_os_prop_test"
+  return(result)
 }
 
 
@@ -94,10 +94,8 @@ infer_os_prop_test.default <- function(data, variable = NULL, prob = 0.5, phat =
 #' @usage NULL
 #'
 prop_test <- function(n, prob = 0.5,
-                      alternative = c('both', 'less', 'greater', 'all'), phat, ...) {
-
-    .Deprecated("infer_os_prop_test()")
-
+                      alternative = c("both", "less", "greater", "all"), phat, ...) {
+  .Deprecated("infer_os_prop_test()")
 }
 
 #' @export
@@ -105,5 +103,3 @@ prop_test <- function(n, prob = 0.5,
 print.infer_os_prop_test <- function(x, ...) {
   print_prop_test(x)
 }
-
-

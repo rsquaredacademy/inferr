@@ -50,38 +50,35 @@
 #' infer_mcnemar_test(matrix(c(135, 18, 21, 26), nrow = 2))
 #' @export
 #'
-infer_mcnemar_test <- function(data, x = NULL, y = NULL) UseMethod('infer_mcnemar_test')
+infer_mcnemar_test <- function(data, x = NULL, y = NULL) UseMethod("infer_mcnemar_test")
 
 #' @export
 #'
 infer_mcnemar_test.default <- function(data, x = NULL, y = NULL) {
+  if (is.matrix(data) | is.table(data)) {
+    dat <- mcdata(data)
+  } else {
+    x1 <- enquo(x)
+    y1 <- enquo(y)
 
-    if (is.matrix(data) | is.table(data)) {
+    dat <-
+      data %>%
+      select(!! x1, !! y1) %>%
+      table()
+  }
 
-        dat <- mcdata(data)
+  k <- mccomp(dat)
 
-    } else {
+  result <- list(
+    statistic = k$statistic, df = k$df, pvalue = k$pvalue,
+    exactp = k$exactp, cstat = k$cstat, cpvalue = k$cpvalue, kappa = k$kappa,
+    std_err = k$std_err, kappa_cil = k$kappa_cil, kappa_ciu = k$kappa_ciu,
+    cases = k$cases, controls = k$controls, ratio = k$ratio,
+    odratio = k$odratio, tbl = dat
+  )
 
-        x1 <- enquo(x)
-        y1 <- enquo(y)
-
-        dat <-
-            data %>%
-            select(!! x1, !!y1) %>%
-            table
-
-    }
-
-    k <- mccomp(dat)
-
-    result <- list(statistic = k$statistic, df = k$df, pvalue = k$pvalue,
-                   exactp = k$exactp, cstat = k$cstat, cpvalue = k$cpvalue, kappa = k$kappa,
-                   std_err = k$std_err, kappa_cil = k$kappa_cil, kappa_ciu = k$kappa_ciu,
-                   cases = k$cases, controls = k$controls, ratio = k$ratio,
-                   odratio = k$odratio, tbl = dat)
-
-    class(result) <- 'infer_mcnemar_test'
-    return(result)
+  class(result) <- "infer_mcnemar_test"
+  return(result)
 }
 
 #' @export
@@ -89,13 +86,11 @@ infer_mcnemar_test.default <- function(data, x = NULL, y = NULL) {
 #' @usage NULL
 #'
 mcnemar_test <- function(x, y = NULL) {
-
-    .Deprecated("infer_mcnemar_test()")
-
+  .Deprecated("infer_mcnemar_test()")
 }
 
 #' @export
 #'
 print.infer_mcnemar_test <- function(x, ...) {
-	print_mcnemar_test(x)
+  print_mcnemar_test(x)
 }

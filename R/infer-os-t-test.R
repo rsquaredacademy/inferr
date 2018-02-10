@@ -51,48 +51,48 @@
 #' @export
 #'
 infer_os_t_test <- function(data, x, mu = 0, alpha = 0.05,
-                  type = c("both", "less", "greater", "all"), ...) UseMethod('infer_os_t_test')
+                            type = c("both", "less", "greater", "all"), ...) UseMethod("infer_os_t_test")
 
 #' @export
 #'
 infer_os_t_test.default <- function(data, x, mu = 0, alpha = 0.05,
-                  type = c("both", "less", "greater", "all"), ...) {
+                                    type = c("both", "less", "greater", "all"), ...) {
+  x1 <- enquo(x)
 
-    x1 <- enquo(x)
+  xone <-
+    data %>%
+    pull(!! x1)
 
-    xone <-
-        data %>%
-        pull(!! x1)
-
-	if (!is.numeric(xone)) {
-		stop('x must be numeric')
-	}
-	if (!is.numeric(mu)) {
-		stop('mu must be numeric')
-	}
-	if (!is.numeric(alpha)) {
-		stop('alpha must be numeric')
-	}
+  if (!is.numeric(xone)) {
+    stop("x must be numeric")
+  }
+  if (!is.numeric(mu)) {
+    stop("mu must be numeric")
+  }
+  if (!is.numeric(alpha)) {
+    stop("alpha must be numeric")
+  }
 
   type <- match.arg(type)
 
   var_name <-
-      data %>%
-      select(!! x1) %>%
-      names
+    data %>%
+    select(!! x1) %>%
+    names()
 
   k <- ttest_comp(xone, mu, alpha, type)
 
-  result <- list(mu = k$mu, n = k$n, df = k$df, Mean = k$Mean,
-                 stddev = k$stddev, std_err = k$std_err,
-                 test_stat = k$test_stat, confint = k$confint,
-                 mean_diff = k$mean_diff, mean_diff_l = k$mean_diff_l,
-                 mean_diff_u = k$mean_diff_u, p_l = k$p_l, p_u = k$p_u,
-                 p = k$p, conf = k$conf, type = type, var_name = var_name)
+  result <- list(
+    mu = k$mu, n = k$n, df = k$df, Mean = k$Mean,
+    stddev = k$stddev, std_err = k$std_err,
+    test_stat = k$test_stat, confint = k$confint,
+    mean_diff = k$mean_diff, mean_diff_l = k$mean_diff_l,
+    mean_diff_u = k$mean_diff_u, p_l = k$p_l, p_u = k$p_u,
+    p = k$p, conf = k$conf, type = type, var_name = var_name
+  )
 
-  class(result) <- 'infer_os_t_test'
+  class(result) <- "infer_os_t_test"
   return(result)
-
 }
 
 #' @export
@@ -101,14 +101,11 @@ infer_os_t_test.default <- function(data, x, mu = 0, alpha = 0.05,
 #'
 ttest <- function(x, mu = 0, alpha = 0.05,
                   type = c("both", "less", "greater", "all"), ...) {
-
-    .Deprecated("infer_os_t_test()")
-
-
+  .Deprecated("infer_os_t_test()")
 }
 
 #' @export
 #'
 print.infer_os_t_test <- function(x, ...) {
-	print_ttest(x)
+  print_ttest(x)
 }

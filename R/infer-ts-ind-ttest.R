@@ -65,58 +65,57 @@
 #' @export
 #'
 infer_ts_ind_ttest <- function(data, x, y, confint = 0.95,
-  alternative = c('both', 'less', 'greater', 'all'), ...) UseMethod('infer_ts_ind_ttest')
+                               alternative = c("both", "less", "greater", "all"), ...) UseMethod("infer_ts_ind_ttest")
 
 #' @export
 #'
 infer_ts_ind_ttest.default <- function(data, x, y, confint = 0.95,
-  alternative = c('both', 'less', 'greater', 'all'), ...) {
+                                       alternative = c("both", "less", "greater", "all"), ...) {
+  x1 <- enquo(x)
+  y1 <- enquo(y)
 
+  yone <-
+    data %>%
+    select(!! y1) %>%
+    names()
 
-    x1 <- enquo(x)
-    y1 <- enquo(y)
+  if (check_x(data, !! x1)) {
+    stop("x must be a binary factor variable", call. = FALSE)
+  }
 
-    yone <-
-        data %>%
-        select(!! y1) %>%
-      names
+  if (check_level(data, !! x1) > 2) {
+    stop("x must be a binary factor variable", call. = FALSE)
+  }
 
-    if (check_x(data, !! x1)) {
-      stop('x must be a binary factor variable', call. = FALSE)
-    }
+  method <- match.arg(alternative)
+  var_y <- yone
+  alpha <- 1 - confint
+  a <- alpha / 2
 
-    if (check_level(data, !! x1) > 2) {
-      stop('x must be a binary factor variable', call. = FALSE)
-    }
-
-    method <- match.arg(alternative)
-     var_y <- yone
-     alpha <- 1 - confint
-         a <- alpha / 2
-
-         h <- indth(data, !! x1, !! y1, a)
+  h <- indth(data, !! x1, !! y1, a)
   grp_stat <- h
-    g_stat <- as.matrix(h)
-      comb <- indcomb(data, !! y1, a)
-         k <- indcomp(grp_stat, alpha)
-         j <- indsig(k$n1, k$n2, k$s1, k$s2, k$mean_diff)
-         m <- indpool(k$n1, k$n2, k$mean_diff, k$se_dif)
+  g_stat <- as.matrix(h)
+  comb <- indcomb(data, !! y1, a)
+  k <- indcomp(grp_stat, alpha)
+  j <- indsig(k$n1, k$n2, k$s1, k$s2, k$mean_diff)
+  m <- indpool(k$n1, k$n2, k$mean_diff, k$se_dif)
 
-  result <- list(levels = g_stat[, 1], obs = g_stat[, 2], n = k$n,
-            mean = g_stat[, 3], sd = g_stat[, 4], se = g_stat[, 5],
-            lower = g_stat[, 8], upper = g_stat[, 9], combined = comb,
-            mean_diff = k$mean_diff, sd_dif = k$sd_dif, se_dif = k$se_dif,
-            conf_diff = k$conf_diff, df_pooled = m$df_pooled,
-            df_satterthwaite = j$d_f, t_pooled = m$t_pooled, t_satterthwaite = j$t,
-            sig_pooled_l = m$sig_pooled_l, sig_pooled_u = m$sig_pooled_u,
-            sig_pooled = m$sig_pooled, sig = j$sig, sig_l = j$sig_l, sig_u = j$sig_u,
-            num_df = k$n1 - 1, den_df = k$n2 - 1, f = round(k$s1 / k$s2, 4),
-            f_sig = fsig(k$s1, k$s2, k$n1, k$n2), var_y = var_y, confint = confint,
-            alternative = method)
+  result <- list(
+    levels = g_stat[, 1], obs = g_stat[, 2], n = k$n,
+    mean = g_stat[, 3], sd = g_stat[, 4], se = g_stat[, 5],
+    lower = g_stat[, 8], upper = g_stat[, 9], combined = comb,
+    mean_diff = k$mean_diff, sd_dif = k$sd_dif, se_dif = k$se_dif,
+    conf_diff = k$conf_diff, df_pooled = m$df_pooled,
+    df_satterthwaite = j$d_f, t_pooled = m$t_pooled, t_satterthwaite = j$t,
+    sig_pooled_l = m$sig_pooled_l, sig_pooled_u = m$sig_pooled_u,
+    sig_pooled = m$sig_pooled, sig = j$sig, sig_l = j$sig_l, sig_u = j$sig_u,
+    num_df = k$n1 - 1, den_df = k$n2 - 1, f = round(k$s1 / k$s2, 4),
+    f_sig = fsig(k$s1, k$s2, k$n1, k$n2), var_y = var_y, confint = confint,
+    alternative = method
+  )
 
-  class(result) <- 'infer_ts_ind_ttest'
+  class(result) <- "infer_ts_ind_ttest"
   return(result)
-
 }
 
 #' @export
@@ -124,10 +123,8 @@ infer_ts_ind_ttest.default <- function(data, x, y, confint = 0.95,
 #' @usage NULL
 #'
 ind_ttest <- function(data, x, y, confint = 0.95,
-                      alternative = c('both', 'less', 'greater', 'all'), ...) {
-
-    .Deprecated("infer_ts_ind_ttest()")
-
+                      alternative = c("both", "less", "greater", "all"), ...) {
+  .Deprecated("infer_ts_ind_ttest()")
 }
 
 #' @export

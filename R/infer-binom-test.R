@@ -34,34 +34,35 @@
 #' infer_binom_test(hsb, female, prob = 0.5)
 #' @export
 #'
-infer_binom_calc <- function(n, success, prob = 0.5, ...) UseMethod('infer_binom_calc')
+infer_binom_calc <- function(n, success, prob = 0.5, ...) UseMethod("infer_binom_calc")
 
 #' @export
 infer_binom_calc.default <- function(n, success, prob = 0.5, ...) {
+  if (!is.numeric(n)) {
+    stop("n must be an integer")
+  }
 
-    if (!is.numeric(n)) {
-      stop('n must be an integer')
-    }
+  if (!is.numeric(success)) {
+    stop("success must be an integer")
+  }
 
-    if (!is.numeric(success)) {
-      stop('success must be an integer')
-    }
+  if (!is.numeric(prob)) {
+    stop("prob must be numeric")
+  }
 
-    if(!is.numeric(prob)) {
-      stop('prob must be numeric')
-    }
+  if ((prob < 0) | (prob > 1)) {
+    stop("prob must be between 0 and 1")
+  }
 
-    if((prob < 0) | (prob > 1)) {
-      stop('prob must be between 0 and 1')
-    }
+  k <- binom_comp(n, success, prob)
 
-    k <- binom_comp(n, success, prob)
+  out <- list(
+    n = n, k = k$k, exp_k = k$exp_k, obs_p = k$obs_p,
+    exp_p = k$exp_p, lower = k$lower, upper = k$upper
+  )
 
-    out <- list(n = n, k = k$k, exp_k = k$exp_k, obs_p = k$obs_p,
-           exp_p = k$exp_p, lower = k$lower, upper = k$upper)
-
-    class(out) <- 'infer_binom_calc'
-    return(out)
+  class(out) <- "infer_binom_calc"
+  return(out)
 }
 
 #' @export
@@ -69,10 +70,8 @@ infer_binom_calc.default <- function(n, success, prob = 0.5, ...) {
 #' @usage NULL
 #'
 binom_calc <- function(n, success, prob = 0.5, ...) {
-
-    .Deprecated("infer_binom_calc()")
-    infer_binom_calc(n, success, prob = 0.5, ...)
-
+  .Deprecated("infer_binom_calc()")
+  infer_binom_calc(n, success, prob = 0.5, ...)
 }
 
 #' @export
@@ -83,32 +82,31 @@ print.infer_binom_calc <- function(x, ...) {
 #' @export
 #' @rdname infer_binom_calc
 infer_binom_test <- function(data, variable, prob = 0.5) {
+  varyable <- enquo(variable)
 
-    varyable <- enquo(variable)
+  fdata <-
+    data %>%
+    pull(!! varyable)
 
-    fdata <-
-        data %>%
-        pull(!! varyable)
+  if (!is.factor(fdata)) {
+    stop("variable must be of type factor", call. = FALSE)
+  }
 
-    if (!is.factor(fdata)) {
-      stop('variable must be of type factor', call. = FALSE)
-    }
+  if (nlevels(fdata) > 2) {
+    stop("Binomial test is applicable only to binary data i.e. categorical data with 2 levels.", call. = FALSE)
+  }
 
-    if (nlevels(fdata) > 2) {
-      stop('Binomial test is applicable only to binary data i.e. categorical data with 2 levels.', call. = FALSE)
-    }
+  if (!is.numeric(prob)) {
+    stop("prob must be numeric", call. = FALSE)
+  }
 
-    if(!is.numeric(prob)) {
-      stop('prob must be numeric', call. = FALSE)
-    }
+  if ((prob < 0) | (prob > 1)) {
+    stop("prob must be between 0 and 1", call. = FALSE)
+  }
 
-    if((prob < 0) | (prob > 1)) {
-      stop('prob must be between 0 and 1', call. = FALSE)
-    }
-
-    n <- length(fdata)
-    k <- table(fdata)[[2]]
-    infer_binom_calc.default(n, k, prob)
+  n <- length(fdata)
+  k <- table(fdata)[[2]]
+  infer_binom_calc.default(n, k, prob)
 }
 
 #' @export
@@ -116,8 +114,5 @@ infer_binom_test <- function(data, variable, prob = 0.5) {
 #' @usage NULL
 #'
 binom_test <- function(data, prob = 0.5) {
-
-    .Deprecated("infer_binom_test()")
-
-
+  .Deprecated("infer_binom_test()")
 }

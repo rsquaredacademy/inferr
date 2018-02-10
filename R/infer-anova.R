@@ -36,34 +36,34 @@
 #' infer_oneway_anova(hsb, write, prog)
 #' @export
 #'
-infer_oneway_anova <- function(data, x, y, ...) UseMethod('infer_oneway_anova')
+infer_oneway_anova <- function(data, x, y, ...) UseMethod("infer_oneway_anova")
 
 #' @export
 infer_oneway_anova.default <- function(data, x, y, ...) {
-
   x1 <- enquo(x)
   y1 <- enquo(y)
 
   fdata <-
-      data %>%
-      select(!! x1, !! y1)
+    data %>%
+    select(!! x1, !! y1)
 
   sample_mean <- anova_avg(fdata, !! x1)
   sample_stats <- anova_split(fdata, !! x1, !! y1, sample_mean)
   k <- anova_calc(fdata, sample_stats, !! x1, !! y1)
 
 
-  result <- list(between = k$sstr, within = k$ssee, total = k$total,
-                 df_btw = k$df_sstr, df_within = k$df_sse,
-	             df_total = k$df_sst, ms_btw = k$mstr, ms_within = k$mse,
-	             f = k$f, p = k$sig, r2 = round(k$reg$r.squared, 4),
-	             ar2 = round(k$reg$adj.r.squared, 4),
-	             sigma = round(k$reg$sigma, 4), obs = k$obs,
-	             tab = sample_stats[, c(1, 2, 3, 5)])
+  result <- list(
+    between = k$sstr, within = k$ssee, total = k$total,
+    df_btw = k$df_sstr, df_within = k$df_sse,
+    df_total = k$df_sst, ms_btw = k$mstr, ms_within = k$mse,
+    f = k$f, p = k$sig, r2 = round(k$reg$r.squared, 4),
+    ar2 = round(k$reg$adj.r.squared, 4),
+    sigma = round(k$reg$sigma, 4), obs = k$obs,
+    tab = sample_stats[, c(1, 2, 3, 5)]
+  )
 
-	class(result) <- 'infer_oneway_anova'
-	return(result)
-
+  class(result) <- "infer_oneway_anova"
+  return(result)
 }
 
 #' @export
@@ -71,10 +71,8 @@ infer_oneway_anova.default <- function(data, x, y, ...) {
 #' @usage NULL
 #'
 owanova <- function(data, x, y, ...) {
-
-    .Deprecated("infer_oneway_anova()")
-    infer_oneway_anova(data, x, y, ...)
-
+  .Deprecated("infer_oneway_anova()")
+  infer_oneway_anova(data, x, y, ...)
 }
 
 #' @export
