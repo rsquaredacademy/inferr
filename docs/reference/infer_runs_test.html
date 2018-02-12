@@ -168,66 +168,18 @@ following components:</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
-Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
-<p>Edgington, E. S. 1961. Probability table for number of runs of signs of first differences in ordered series. Journal of
-the American Statistical Association 56: 156–159.</p>
-<p>Madansky, A. 1988. Prescriptions for Working Statisticians. New York: Springer.</p>
-<p>Swed, F. S., and C. Eisenhart. 1943. Tables for testing randomness of grouping in a sequence of alternatives. Annals
-of Mathematical Statistics 14: 66–87.</p>
+    <p>Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.
+    Edgington, E. S. 1961. Probability table for number of runs of signs of first differences in ordered series. Journal of the American Statistical Association 56: 156–159.
+    Madansky, A. 1988. Prescriptions for Working Statisticians. New York: Springer.
+    Swed, F. S., and C. Eisenhart. 1943. Tables for testing randomness of grouping in a sequence of alternatives. Annals of Mathematical Statistics 14: 66–87.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>infer_runs_test</span>(<span class='no'>hsb</span>, <span class='no'>read</span>)</div><div class='output co'>#&gt; Runs Test
-#&gt;  Total Cases:  200 
-#&gt;  Test Value :  50 
-#&gt;  Cases &lt; Test Value:  101 
-#&gt;  Cases &gt; Test Value:  99 
-#&gt;  Number of Runs:  95 
-#&gt;  Expected Runs:  100.99 
-#&gt;  Variance (Runs):  49.73874 
-#&gt;  z Statistic:  -0.8493358 
-#&gt;  p-value:  0.3956945 </div><div class='input'>
-<span class='fu'>infer_runs_test</span>(<span class='no'>hsb</span>, <span class='no'>read</span>, <span class='kw'>drop</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Runs Test
-#&gt;  Total Cases:  200 
-#&gt;  Test Value :  50 
-#&gt;  Cases &lt; Test Value:  83 
-#&gt;  Cases &gt; Test Value:  99 
-#&gt;  Number of Runs:  89 
-#&gt;  Expected Runs:  91.2967 
-#&gt;  Variance (Runs):  44.54805 
-#&gt;  z Statistic:  -0.3441046 
-#&gt;  p-value:  0.7307676 </div><div class='input'>
-<span class='fu'>infer_runs_test</span>(<span class='no'>hsb</span>, <span class='no'>read</span>, <span class='kw'>split</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Runs Test
-#&gt;  Total Cases:  200 
-#&gt;  Test Value :  50 
-#&gt;  Cases &lt; Test Value:  101 
-#&gt;  Cases &gt; Test Value:  99 
-#&gt;  Number of Runs:  95 
-#&gt;  Expected Runs:  100.99 
-#&gt;  Variance (Runs):  49.73874 
-#&gt;  z Statistic:  -0.8493358 
-#&gt;  p-value:  0.3956945 </div><div class='input'>
-<span class='fu'>infer_runs_test</span>(<span class='no'>hsb</span>, <span class='no'>read</span>, <span class='kw'>mean</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Runs Test
-#&gt;  Total Cases:  200 
-#&gt;  Test Value :  52.23 
-#&gt;  Cases &lt; Test Value:  115 
-#&gt;  Cases &gt; Test Value:  85 
-#&gt;  Number of Runs:  93 
-#&gt;  Expected Runs:  98.75 
-#&gt;  Variance (Runs):  47.52418 
-#&gt;  z Statistic:  -0.8340854 
-#&gt;  p-value:  0.4042329 </div><div class='input'>
-<span class='fu'>infer_runs_test</span>(<span class='no'>hsb</span>, <span class='no'>read</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>0</span>)</div><div class='output co'>#&gt; Runs Test
-#&gt;  Total Cases:  200 
-#&gt;  Test Value :  0 
-#&gt;  Cases &lt; Test Value:  0 
-#&gt;  Cases &gt; Test Value:  200 
-#&gt;  Number of Runs:  1 
-#&gt;  Expected Runs:  1 
-#&gt;  Variance (Runs):  0 
-#&gt;  z Statistic:  NaN 
-#&gt;  p-value:  NaN </div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>infer_runs_test</span>(<span class='no'>hsb</span>, <span class='no'>read</span>)</div><div class='output co'>#&gt; <span class='error'>Error in nsignC(x_binary): object '_inferr_nsignC' not found</span></div><div class='input'>
+<span class='fu'>infer_runs_test</span>(<span class='no'>hsb</span>, <span class='no'>read</span>, <span class='kw'>drop</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in nsignC(x_binary): object '_inferr_nsignC' not found</span></div><div class='input'>
+<span class='fu'>infer_runs_test</span>(<span class='no'>hsb</span>, <span class='no'>read</span>, <span class='kw'>split</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in nsignC(x_binary): object '_inferr_nsignC' not found</span></div><div class='input'>
+<span class='fu'>infer_runs_test</span>(<span class='no'>hsb</span>, <span class='no'>read</span>, <span class='kw'>mean</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in nsignC(x_binary): object '_inferr_nsignC' not found</span></div><div class='input'>
+<span class='fu'>infer_runs_test</span>(<span class='no'>hsb</span>, <span class='no'>read</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>0</span>)</div><div class='output co'>#&gt; <span class='error'>Error in nsignC(x_binary): object '_inferr_nsignC' not found</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

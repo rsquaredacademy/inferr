@@ -62,14 +62,11 @@ infer_runs_test(hsb, read, mean = TRUE)
 infer_runs_test(hsb, read, threshold = 0)
 }
 \references{
-Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
-Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
+{Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric Statistical Procedures, 4th edition. : Chapman & Hall/CRC.}
 
-Edgington, E. S. 1961. Probability table for number of runs of signs of first differences in ordered series. Journal of
-the American Statistical Association 56: 156–159.
+{Edgington, E. S. 1961. Probability table for number of runs of signs of first differences in ordered series. Journal of the American Statistical Association 56: 156–159.}
 
-Madansky, A. 1988. Prescriptions for Working Statisticians. New York: Springer.
+{Madansky, A. 1988. Prescriptions for Working Statisticians. New York: Springer.}
 
-Swed, F. S., and C. Eisenhart. 1943. Tables for testing randomness of grouping in a sequence of alternatives. Annals
-of Mathematical Statistics 14: 66–87.
+{Swed, F. S., and C. Eisenhart. 1943. Tables for testing randomness of grouping in a sequence of alternatives. Annals of Mathematical Statistics 14: 66–87.}
 }
