@@ -84,9 +84,10 @@ infer_os_var_test.default <- function(data, x, sd, confint = 0.95,
   k <- osvar_comp(xone, sd, confint)
 
   result <- list(
-    n = k$n, sd = k$sd, sigma = k$sigma, se = k$se, chi = k$chi,
+    n = k$n, sd = k$sd, sigma = round(k$sigma, 4), se = round(k$se, 4),
+    chi = round(k$chi, 4),
     df = k$df, p_lower = k$p_lower, p_upper = k$p_upper, p_two = k$p_two,
-    xbar = k$xbar, c_lwr = k$c_lwr, c_upr = k$c_upr, var_name = varname,
+    xbar = round(k$xbar, 4), c_lwr = k$c_lwr, c_upr = k$c_upr, var_name = varname,
     conf = k$conf, type = type
   )
 

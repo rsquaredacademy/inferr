@@ -485,10 +485,10 @@ prop_comp <- function(n, prob, alternative, phat) {
 osvar_comp <- function(x, sd, confint) {
   n <- length(x)
   df <- n - 1
-  xbar <- round(mean(x), 4)
-  sigma <- round(sd(x), 4)
-  se <- round(sigma / sqrt(n), 4)
-  chi <- round((df * (sigma / sd) ^ 2), 4)
+  xbar <- mean(x)
+  sigma <- sd(x)
+  se <- sigma / sqrt(n)
+  chi <- df * ((sigma / sd) ^ 2)
 
   p_lower <- pchisq(chi, df)
   p_upper <- pchisq(chi, df, lower.tail = F)
