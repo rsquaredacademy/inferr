@@ -8,20 +8,20 @@ test_that("output from infer_ts_ind_ttest matches expected result", {
   expect_equivalent(as.numeric(k$mean), c(50.121, 54.991))
   expect_equivalent(as.numeric(k$sd), c(10.305, 8.134))
   expect_equivalent(as.numeric(k$se), c(1.080, 0.779))
-  expect_equivalent(as.numeric(k$lower), c(47.975, 53.447))
-  expect_equivalent(as.numeric(k$upper), c(52.267, 56.535))
-  expect_equivalent(unlist(k$combined), c(
+  expect_equivalent(round(as.numeric(k$lower), 3), c(47.975, 53.447))
+  expect_equivalent(round(as.numeric(k$upper), 3), c(52.267, 56.535))
+  expect_equivalent(round(unlist(k$combined), 3), c(
     200.000, 52.775, 9.479, 0.670,
     199.000, 1.972, 51.454, 54.096
   ))
   expect_equal(k$mean_diff, -4.87)
   expect_equal(k$sd_dif, 9.231)
   expect_equal(k$se_dif, 1.304)
-  expect_equivalent(k$conf_diff, c(-7.426, -2.314))
+  expect_equivalent(round(k$conf_diff, 3), c(-7.426, -2.314))
   expect_equal(k$df_pooled, 198)
   expect_equal(k$df_satterthwaite, 170)
-  expect_equal(k$t_pooled, -3.7347)
-  expect_equal(k$t_satterthwaite, -3.6564)
+  expect_equal(round(k$t_pooled, 2), -3.73)
+  expect_equal(round(k$t_satterthwaite, 2), -3.66)
   expect_equal(k$sig_pooled_l, 1e-04)
   expect_equal(k$sig_pooled_u, 0.9999)
   expect_equal(k$sig_pooled, 2e-04)
