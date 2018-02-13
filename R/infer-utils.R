@@ -485,10 +485,10 @@ prop_comp <- function(n, prob, alternative, phat) {
 osvar_comp <- function(x, sd, confint) {
   n <- length(x)
   df <- n - 1
-  xbar <- round(mean(x), 4)
-  sigma <- round(sd(x), 4)
-  se <- round(sigma / sqrt(n), 4)
-  chi <- round((df * (sigma / sd) ^ 2), 4)
+  xbar <- mean(x)
+  sigma <- sd(x)
+  se <- sigma / sqrt(n)
+  chi <- df * ((sigma / sd) ^ 2)
 
   p_lower <- pchisq(chi, df)
   p_upper <- pchisq(chi, df, lower.tail = F)
@@ -672,9 +672,9 @@ indth <- function(data, x, y, a) {
 
   h <- data_split(data, !! x1, !! y1)
   h$df <- h$length - 1
-  h$error <- round(qt(a, h$df), 3) * -1
-  h$lower <- round(h$mean_t - (h$error * h$std_err), 3)
-  h$upper <- round(h$mean_t + (h$error * h$std_err), 3)
+  h$error <- qt(a, h$df) * -1
+  h$lower <- h$mean_t - (h$error * h$std_err)
+  h$upper <- h$mean_t + (h$error * h$std_err)
   return(h)
 }
 
@@ -683,9 +683,9 @@ indcomb <- function(data, y, a) {
 
   comb <- da(data, !! y1)
   comb$df <- comb$length - 1
-  comb$error <- round(qt(a, comb$df), 3) * -1
-  comb$lower <- round(comb$mean_t - (comb$error * comb$std_err), 3)
-  comb$upper <- round(comb$mean_t + (comb$error * comb$std_err), 3)
+  comb$error <- qt(a, comb$df) * -1
+  comb$lower <- round(comb$mean_t - (comb$error * comb$std_err), 5)
+  comb$upper <- round(comb$mean_t + (comb$error * comb$std_err), 5)
   names(comb) <- NULL
   return(comb)
 }
@@ -696,13 +696,13 @@ indcomp <- function(grp_stat, alpha) {
   n <- n1 + n2
   means <- grp_stat[, 3]
   mean_diff <- means[1] - means[2]
-  sd1 <- round(grp_stat[1, 4], 3)
-  sd2 <- round(grp_stat[2, 4], 3)
-  s1 <- round(grp_stat[1, 4] ^ 2, 3)
-  s2 <- round(grp_stat[2, 4] ^ 2, 3)
-  sd_dif <- round(sd_diff(n1, n2, s1, s2), 3)
-  se_dif <- round(se_diff(n1, n2, s1, s2), 3)
-  conf_diff <- round(conf_int_p(mean_diff, se_dif, alpha = alpha), 3)
+  sd1 <- grp_stat[1, 4]
+  sd2 <- grp_stat[2, 4]
+  s1 <- grp_stat[1, 4] ^ 2
+  s2 <- grp_stat[2, 4] ^ 2
+  sd_dif <- sd_diff(n1, n2, s1, s2)
+  se_dif <- se_diff(n1, n2, s1, s2)
+  conf_diff <- conf_int_p(mean_diff, se_dif, alpha = alpha)
   out <- list(
     n1 = n1, n2 = n2, n = n, mean_diff = mean_diff, sd1 = sd1,
     sd2 = sd2, s1 = s1, s2 = s2, sd_dif = sd_dif, se_dif = se_dif,
@@ -713,7 +713,7 @@ indcomp <- function(grp_stat, alpha) {
 
 indsig <- function(n1, n2, s1, s2, mean_diff) {
   d_f <- as.vector(df(n1, n2, s1, s2))
-  t <- round(mean_diff / (((s1 / n1) + (s2 / n2)) ^ 0.5), 4)
+  t <- mean_diff / (((s1 / n1) + (s2 / n2)) ^ 0.5)
   sig_l <- round(pt(t, d_f), 4)
   sig_u <- round(pt(t, d_f, lower.tail = FALSE), 4)
   if (sig_l < 0.5) {
@@ -727,9 +727,8 @@ indsig <- function(n1, n2, s1, s2, mean_diff) {
 
 fsig <- function(s1, s2, n1, n2) {
   out <- round(min(
-    pf(round(s1 / s2, 4), (n1 - 1), (n2 - 1)),
-    pf(
-      round(s1 / s2, 4), (n1 - 1), (n2 - 1),
+    pf((s1 / s2), (n1 - 1), (n2 - 1)),
+    pf((s1 / s2), (n1 - 1), (n2 - 1),
       lower.tail = FALSE
     )
   ) * 2, 4)
@@ -739,7 +738,7 @@ fsig <- function(s1, s2, n1, n2) {
 
 indpool <- function(n1, n2, mean_diff, se_dif) {
   df_pooled <- (n1 + n2) - 2
-  t_pooled <- round(mean_diff / se_dif, 4)
+  t_pooled <- mean_diff / se_dif
   sig_pooled_l <- round(pt(t_pooled, df_pooled), 4)
   sig_pooled_u <- round(pt(t_pooled, df_pooled, lower.tail = FALSE), 4)
   if (sig_pooled_l < 0.5) {
@@ -757,6 +756,7 @@ indpool <- function(n1, n2, mean_diff, se_dif) {
 
 #' @importFrom rlang sym
 tibble_stats <- function(data, x, y) {
+
   by_factor <- data %>%
     group_by(!! sym(y)) %>%
     select(!! sym(y), !! sym(x)) %>%
@@ -765,10 +765,13 @@ tibble_stats <- function(data, x, y) {
     mutate(
       ses = sd / sqrt(length)
     )
+
   return(by_factor)
+
 }
 
 tbl_stats <- function(data, y) {
+
   avg <- data %>%
     select(y) %>%
     summarise_all(funs(length, mean, sd)) %>%
@@ -776,7 +779,9 @@ tbl_stats <- function(data, y) {
     mutate(
       se = sd / sqrt(length)
     )
+
   return(unlist(avg, use.names = FALSE))
+
 }
 
 
@@ -852,6 +857,7 @@ paired_data <- function(x, y) {
 
 #' @importFrom dplyr select
 paired_stats <- function(data, key, value) {
+
   d <- data %>%
     group_by(key) %>%
     select(value, key) %>%
@@ -860,8 +866,8 @@ paired_stats <- function(data, key, value) {
     mutate(
       se = sd / sqrt(length)
     ) %>%
-    select(-(key:length)) %>%
-    round(2)
+    select(-(key:length))
+
   return(d)
 }
 

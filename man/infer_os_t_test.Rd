@@ -5,8 +5,8 @@
 \alias{ttest}
 \title{One Sample t Test}
 \usage{
-infer_os_t_test(data, x, mu = 0, alpha = 0.05, type = c("both", "less",
-  "greater", "all"), ...)
+infer_os_t_test(data, x, mu = 0, alpha = 0.05, alternative = c("both",
+  "less", "greater", "all"), ...)
 }
 \arguments{
 \item{data}{a \code{data.frame} or \code{tibble}}
@@ -17,7 +17,7 @@ infer_os_t_test(data, x, mu = 0, alpha = 0.05, type = c("both", "less",
 
 \item{alpha}{acceptable tolerance for type I error}
 
-\item{type}{a character string specifying the alternative hypothesis, must be
+\item{alternative}{a character string specifying the alternative hypothesis, must be
 one of "both" (default), "greater", "less" or "all". You can specify just the
 initial letter}
 
@@ -57,16 +57,16 @@ hypothesis that a sample has a mean equal to a hypothesized value.
 
 \examples{
 # lower tail
-infer_os_t_test(hsb, write, mu = 50, type = 'less')
+infer_os_t_test(hsb, write, mu = 50, alternative = 'less')
 
 # upper tail
-infer_os_t_test(hsb, write, mu = 50, type = 'greater')
+infer_os_t_test(hsb, write, mu = 50, alternative = 'greater')
 
 # both tails
-infer_os_t_test(hsb, write, mu = 50, type = 'both')
+infer_os_t_test(hsb, write, mu = 50, alternative = 'both')
 
 # all tails
-infer_os_t_test(hsb, write, mu = 50, type = 'all')
+infer_os_t_test(hsb, write, mu = 50, alternative = 'all')
 }
 \references{
 Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric

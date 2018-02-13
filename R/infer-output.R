@@ -703,34 +703,36 @@ print_prop_test <- function(data) {
 }
 
 print_ts_prop_test <- function(data) {
-  cwidth <- max(nchar("z"), nchar("Pr(|Z| > |z|)"), nchar("Sample Size"))
-  nwidth <- max(nchar(data$z), nchar(data$sig[1]), nchar(data$n))
+  cwidth <- max(nchar("z"), nchar("Pr(|Z| > |z|)"), nchar("Total Observations"))
+  nwidth <- max(nchar(data$z), nchar(data$sig[1]), nchar(data$n1), nchar(data$n2))
   w1 <- sum(cwidth, nwidth, 6)
+
+  totobs <- sum(data$n1, data$n2)
 
   if (data$alt == "less") {
     cat(format("Test Statistics", width = w1, justify = "centre"), "\n")
     cat(rep("-", w1), sep = "", "\n")
-    cat(format("Sample Size", width = cwidth, justify = "left"), formats(), format(data$n1, width = nwidth, justify = "right"), "\n")
+    cat(format("Total Observations", width = cwidth, justify = "left"), formats(), format(totobs, width = nwidth, justify = "right"), "\n")
     cat(format("z", width = cwidth, justify = "left"), formats(), format(data$z, width = nwidth, justify = "right"), "\n")
     cat(format("Pr(Z < z)", width = cwidth, justify = "left"), formats(), format(data$sig, width = nwidth, justify = "right"), "\n\n")
   } else if (data$alt == "greater") {
     cat(format("Test Statistics", width = w1, justify = "centre"), "\n")
     cat(rep("-", w1), sep = "", "\n")
-    cat(format("Sample Size", width = cwidth, justify = "left"), formats(), format(data$n1, width = nwidth, justify = "right"), "\n")
+    cat(format("Total Observations", width = cwidth, justify = "left"), formats(), format(totobs, width = nwidth, justify = "right"), "\n")
     cat(format("z", width = cwidth, justify = "left"), formats(), format(data$z, width = nwidth, justify = "right"), "\n")
     cat(format("Pr(Z > z)", width = cwidth, justify = "left"), formats(), format(data$sig, width = nwidth, justify = "right"), "\n\n")
   } else if (data$alt == "both") {
     cat(format("Test Statistics", width = w1, justify = "centre"), "\n")
     cat(rep("-", w1), sep = "", "\n")
-    cat(format("Sample Size", width = cwidth, justify = "left"), formats(), format(data$n1, width = nwidth, justify = "right"), "\n")
+    cat(format("Total Observations", width = cwidth, justify = "left"), formats(), format(totobs, width = nwidth, justify = "right"), "\n")
     cat(format("z", width = cwidth, justify = "left"), formats(), format(data$z, width = nwidth, justify = "right"), "\n")
-    cat(format("Pr(|Z| > |z|)", width = cwidth, justify = "left"), formats(), format(data$sig, width = nwidth, justify = "right"), "\n\n")
+    cat(format("Pr(|Z| < |z|)", width = cwidth, justify = "left"), formats(), format(data$sig, width = nwidth, justify = "right"), "\n\n")
   } else {
     cat(format("Test Statistics", width = w1, justify = "centre"), "\n")
     cat(rep("-", w1), sep = "", "\n")
-    cat(format("Sample Size", width = cwidth, justify = "left"), formats(), format(data$n1, width = nwidth, justify = "right"), "\n")
+    cat(format("Total Observations", width = cwidth, justify = "left"), formats(), format(totobs, width = nwidth, justify = "right"), "\n")
     cat(format("z", width = cwidth, justify = "left"), formats(), format(data$z, width = nwidth, justify = "right"), "\n")
-    cat(format("Pr(|Z| > |z|)", width = cwidth, justify = "left"), formats(), format(unname(data$sig[1]), width = nwidth, justify = "right"), "\n")
+    cat(format("Pr(|Z| < |z|)", width = cwidth, justify = "left"), formats(), format(unname(data$sig[1]), width = nwidth, justify = "right"), "\n")
     cat(format("Pr(Z < z)", width = cwidth, justify = "left"), formats(), format(unname(data$sig[2]), width = nwidth, justify = "right"), "\n")
     cat(format("Pr(Z > z)", width = cwidth, justify = "left"), formats(), format(unname(data$sig[3]), width = nwidth, justify = "right"), "\n\n")
   }
