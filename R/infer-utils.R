@@ -852,6 +852,7 @@ paired_data <- function(x, y) {
 
 #' @importFrom dplyr select
 paired_stats <- function(data, key, value) {
+
   d <- data %>%
     group_by(key) %>%
     select(value, key) %>%
@@ -860,8 +861,8 @@ paired_stats <- function(data, key, value) {
     mutate(
       se = sd / sqrt(length)
     ) %>%
-    select(-(key:length)) %>%
-    round(2)
+    select(-(key:length))
+
   return(d)
 }
 

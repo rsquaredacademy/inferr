@@ -88,9 +88,9 @@ test_that("output from paired_data and paired_stats matches the expected result"
 
   j <- paired_data(hsb$read, hsb$write)
   k <- paired_stats(j, "key", "value")
-  expect_equivalent(k[[1]], c(52.23, 52.77, -0.55))
-  expect_equivalent(k[[2]], c(10.25, 9.48, 8.89))
-  expect_equivalent(k[[3]], c(0.72, 0.67, 0.63))
+  expect_equivalent(k[[1]], c(52.230, 52.775, -0.545))
+  expect_equivalent(round(k[[2]], 2), c(10.25, 9.48, 8.89))
+  expect_equivalent(round(k[[3]], 2), c(0.72, 0.67, 0.63))
 })
 
 test_that("output from cor_sig matches the expected output", {

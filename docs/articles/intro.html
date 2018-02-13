@@ -129,16 +129,11 @@
 ##   write      200    52.775     0.6702       9.4786       51.4537    54.0969   
 ## ---------------------------------------------------------------------------------
 ## 
-##                                   Two Tail Test                                  
-##                                  ---------------                                  
-## 
 ##                                Ho: mean(write) ~=50                              
-##                                Ha: mean(write) !=50                               
-## --------------------------------------------------------------------------------
-##  Variable      t      DF       Sig       Mean Diff.    [95% Conf. Interval] 
-## --------------------------------------------------------------------------------
-##   write      4.141    199    0.99997       2.775         1.4537     4.0969   
-## --------------------------------------------------------------------------------</code></pre>
+## 
+##         Ha: mean &lt; 50              Ha: mean ~= 50               Ha: mean &gt; 50        
+##          t = 4.141                   t = 4.141                   t = 4.141         
+##        P &lt; t = 1.0000             P &gt; |t| = 0.0001             P &gt; t = 0.0000</code></pre>
 </div>
 </div>
 <div id="paired-t-test" class="section level2">
@@ -151,15 +146,15 @@
 <p>Using the hsb data, test whether the mean of read is equal to the mean of write.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># Lower Tail Test</span></a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="../reference/infer_ts_paired_ttest.html">infer_ts_paired_ttest</a></span>(hsb, read, write, <span class="dt">alternative =</span> <span class="st">'less'</span>)</a></code></pre></div>
-<pre><code>##                          Paired Samples Statistics                          
-## ---------------------------------------------------------------------------
-## Variables    Obs    Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
-## ---------------------------------------------------------------------------
-##    read       200    52.23      0.72         10.25         50.8      53.66   
-##    write      200    52.77      0.67         9.48         51.45      54.09    
-## ---------------------------------------------------------------------------
-##    diff       200    -0.55      0.63         8.89         -1.79       0.69    
-## ---------------------------------------------------------------------------
+<pre><code>##                          Paired Samples Statistics                           
+## ----------------------------------------------------------------------------
+## Variables    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
+## ----------------------------------------------------------------------------
+##    read       200    52.23     0.7249921    10.25294        50.8      53.66   
+##    write      200    52.775    0.6702372    9.478586       51.45       54.1    
+## ----------------------------------------------------------------------------
+##    diff       200    -0.545    0.6283822    8.886666       -1.78       0.69    
+## ----------------------------------------------------------------------------
 ## 
 ##          Paired Samples Correlations         
 ## -------------------------------------------
@@ -167,27 +162,27 @@
 ##  read &amp; write    200       0.60        0 
 ## -------------------------------------------
 ## 
-##           Paired Samples Test           
-##           -------------------           
-##       Ho: mean(read - write) = 0        
-##       Ha: mean(read - write) &lt; 0        
+##           Paired Samples Test            
+##           -------------------            
+##        Ho: mean(read - write) = 0        
+##        Ha: mean(read - write) &lt; 0        
 ## 
-## ---------------------------------------
-##   Variables        t       df     Sig.  
-## ---------------------------------------
-##  read - write    -0.873    199    0.192 
-## ---------------------------------------</code></pre>
+## ----------------------------------------
+##   Variables         t       df     Sig.  
+## ----------------------------------------
+##  read - write    -0.8673    199    0.193 
+## ----------------------------------------</code></pre>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># Test all alternatives</span></a>
 <a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="../reference/infer_ts_paired_ttest.html">infer_ts_paired_ttest</a></span>(hsb, read, write, <span class="dt">alternative =</span> <span class="st">'all'</span>)</a></code></pre></div>
-<pre><code>##                          Paired Samples Statistics                          
-## ---------------------------------------------------------------------------
-## Variables    Obs    Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
-## ---------------------------------------------------------------------------
-##    read       200    52.23      0.72         10.25         50.8      53.66   
-##    write      200    52.77      0.67         9.48         51.45      54.09    
-## ---------------------------------------------------------------------------
-##    diff       200    -0.55      0.63         8.89         -1.79       0.69    
-## ---------------------------------------------------------------------------
+<pre><code>##                          Paired Samples Statistics                           
+## ----------------------------------------------------------------------------
+## Variables    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
+## ----------------------------------------------------------------------------
+##    read       200    52.23     0.7249921    10.25294        50.8      53.66   
+##    write      200    52.775    0.6702372    9.478586       51.45       54.1    
+## ----------------------------------------------------------------------------
+##    diff       200    -0.545    0.6283822    8.886666       -1.78       0.69    
+## ----------------------------------------------------------------------------
 ## 
 ##          Paired Samples Correlations         
 ## -------------------------------------------
@@ -198,8 +193,8 @@
 ##                 Ho: mean(read - write) = mean(diff) = 0                  
 ## 
 ##    Ha: mean(diff) &lt; 0      Ha: mean(diff) ~= 0       Ha: mean(diff) &gt; 0    
-##        t = -0.873               t = -0.873               t = -0.873        
-##      P &lt; t = 0.192           P &gt; |t| = 0.384           P &gt; t = 0.808</code></pre>
+##        t = -0.8673              t = -0.8673              t = -0.8673       
+##      P &lt; t = 0.193           P &gt; |t| = 0.387           P &gt; t = 0.807</code></pre>
 </div>
 </div>
 <div id="two-independent-sample-t-test" class="section level2">
