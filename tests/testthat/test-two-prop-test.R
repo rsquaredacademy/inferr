@@ -126,43 +126,42 @@ test_that("output from infer_ts_prop_test matches the expected result", {
 })
 
 test_that("output from 2 sample proportion test is as expected when alternative is less", {
-  x <- cat("    Test Statistics
-------------------------
-Sample Size           91
-z                  0.351
-Pr(Z < z)          0.637")
+  x <- cat("       Test Statistics
+-----------------------------
+           Total Observations        200
+           z                       0.351
+           Pr(Z < z)               0.637 ")
 
   expect_equivalent(print(infer_ts_prop_grp(treatment2, outcome, female, alternative = "less")), x)
 })
 
 test_that("output from 2 sample proportion test is as expected when alternative is greater", {
-  x <- cat("    Test Statistics
-------------------------
-Sample Size           91
-z                  0.351
-Pr(Z > z)          0.363")
+  x <- cat("       Test Statistics
+-----------------------------
+           Total Observations        200
+           z                       0.351
+           Pr(Z > z)               0.363")
 
   expect_equivalent(print(infer_ts_prop_grp(treatment2, outcome, female, alternative = "greater")), x)
 })
 
 test_that("output from 2 sample proportion test is as expected when alternative is both", {
-  x <- cat("    Test Statistics
-------------------------
-Sample Size           91
-z                  0.351
-Pr(|Z| > |z|)      0.726")
+  x <- cat("       Test Statistics
+-----------------------------
+           Total Observations        200
+           z                       0.351
+           Pr(|Z| < |z|)           0.726")
 
   expect_equivalent(print(infer_ts_prop_grp(treatment2, outcome, female, alternative = "both")), x)
 })
 
 test_that("output from 2 sample proportion test is as expected when alternative is all", {
-  x <- cat("    Test Statistics
-------------------------
-Sample Size           91
-z                  0.351
-Pr(|Z| > |z|)      0.726
-Pr(Z < z)          0.637
-Pr(Z > z)          0.363")
+  x <- cat("-----------------------------
+Total Observations        200
+z                       0.351
+Pr(|Z| < |z|)           0.726
+Pr(Z < z)               0.637
+Pr(Z > z)               0.363")
 
   expect_equivalent(print(infer_ts_prop_grp(treatment2, outcome, female, alternative = "all")), x)
 })

@@ -304,13 +304,13 @@
 <p>Using the treatment data, test equality of proportion of two treatments</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="co"># Using Variables</span></a>
 <a class="sourceLine" id="cb13-2" data-line-number="2"><span class="kw"><a href="../reference/infer_ts_prop_test.html">infer_ts_prop_test</a></span>(treatment, treatment1, treatment2, <span class="dt">alternative =</span> <span class="st">'all'</span>)</a></code></pre></div>
-<pre><code>##     Test Statistics      
-## ------------------------
-## Sample Size           50 
-## z                  0.403 
-## Pr(|Z| &gt; |z|)      0.687 
-## Pr(Z &lt; z)          0.656 
-## Pr(Z &gt; z)          0.344</code></pre>
+<pre><code>##        Test Statistics        
+## -----------------------------
+## Total Observations        100 
+## z                       0.403 
+## Pr(|Z| &lt; |z|)           0.687 
+## Pr(Z &lt; z)               0.656 
+## Pr(Z &gt; z)               0.344</code></pre>
 </div>
 <div id="use-grouping-variable" class="section level4">
 <h4 class="hasAnchor">
@@ -318,13 +318,13 @@
 <p>Using the treatment2 data, test whether outcome has same proportion for male and female</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="co"># Using Grouping Variable</span></a>
 <a class="sourceLine" id="cb15-2" data-line-number="2"><span class="kw"><a href="../reference/infer_ts_prop_test.html">infer_ts_prop_grp</a></span>(treatment2, outcome, female, <span class="dt">alternative =</span> <span class="st">'all'</span>)</a></code></pre></div>
-<pre><code>##     Test Statistics      
-## ------------------------
-## Sample Size           91 
-## z                  0.351 
-## Pr(|Z| &gt; |z|)      0.726 
-## Pr(Z &lt; z)          0.637 
-## Pr(Z &gt; z)          0.363</code></pre>
+<pre><code>##        Test Statistics        
+## -----------------------------
+## Total Observations        200 
+## z                       0.351 
+## Pr(|Z| &lt; |z|)           0.726 
+## Pr(Z &lt; z)               0.637 
+## Pr(Z &gt; z)               0.363</code></pre>
 </div>
 <div id="using-calculator" class="section level4">
 <h4 class="hasAnchor">
@@ -332,13 +332,13 @@
 <p>Test whether the same proportion of people from two batches will pass a review exam for a training program. In the first batch of 30 participants, 30% passed the review, whereas in the second batch of 25 participants, 50% passed the review.</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="co"># Calculator</span></a>
 <a class="sourceLine" id="cb17-2" data-line-number="2"><span class="kw"><a href="../reference/infer_ts_prop_test.html">infer_ts_prop_calc</a></span>(<span class="dt">n1 =</span> <span class="dv">30</span>, <span class="dt">n2 =</span> <span class="dv">25</span>, <span class="dt">p1 =</span> <span class="fl">0.3</span>, <span class="dt">p2 =</span> <span class="fl">0.5</span>, <span class="dt">alternative =</span> <span class="st">'all'</span>)</a></code></pre></div>
-<pre><code>##      Test Statistics      
-## -------------------------
-## Sample Size            30 
-## z                  -1.514 
-## Pr(|Z| &gt; |z|)        0.13 
-## Pr(Z &lt; z)           0.065 
-## Pr(Z &gt; z)           0.935</code></pre>
+<pre><code>##        Test Statistics         
+## ------------------------------
+## Total Observations          55 
+## z                       -1.514 
+## Pr(|Z| &lt; |z|)             0.13 
+## Pr(Z &lt; z)                0.065 
+## Pr(Z &gt; z)                0.935</code></pre>
 </div>
 </div>
 </div>
