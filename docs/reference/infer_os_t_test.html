@@ -109,8 +109,8 @@
 hypothesis that a sample has a mean equal to a hypothesized value.</p>
     
 
-    <pre class="usage"><span class='fu'>infer_os_t_test</span>(<span class='no'>data</span>, <span class='no'>x</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"both"</span>, <span class='st'>"less"</span>,
-  <span class='st'>"greater"</span>, <span class='st'>"all"</span>), <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>infer_os_t_test</span>(<span class='no'>data</span>, <span class='no'>x</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"both"</span>,
+  <span class='st'>"less"</span>, <span class='st'>"greater"</span>, <span class='st'>"all"</span>), <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -132,7 +132,7 @@ hypothesis that a sample has a mean equal to a hypothesized value.</p>
       <td><p>acceptable tolerance for type I error</p></td>
     </tr>
     <tr>
-      <th>type</th>
+      <th>alternative</th>
       <td><p>a character string specifying the alternative hypothesis, must be
 one of "both" (default), "greater", "less" or "all". You can specify just the
 initial letter</p></td>
@@ -183,7 +183,7 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># lower tail</span>
-<span class='fu'>infer_os_t_test</span>(<span class='no'>hsb</span>, <span class='no'>write</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;                               One-Sample Statistics                               
+<span class='fu'>infer_os_t_test</span>(<span class='no'>hsb</span>, <span class='no'>write</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;                               One-Sample Statistics                               
 #&gt; ---------------------------------------------------------------------------------
 #&gt;  Variable    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
 #&gt; ---------------------------------------------------------------------------------
@@ -201,7 +201,7 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
 #&gt;   write      4.141    199    0.99997       2.775          -Inf      3.8828   
 #&gt; --------------------------------------------------------------------------------</div><div class='input'>
 <span class='co'># upper tail</span>
-<span class='fu'>infer_os_t_test</span>(<span class='no'>hsb</span>, <span class='no'>write</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>'greater'</span>)</div><div class='output co'>#&gt;                               One-Sample Statistics                               
+<span class='fu'>infer_os_t_test</span>(<span class='no'>hsb</span>, <span class='no'>write</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'greater'</span>)</div><div class='output co'>#&gt;                               One-Sample Statistics                               
 #&gt; ---------------------------------------------------------------------------------
 #&gt;  Variable    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
 #&gt; ---------------------------------------------------------------------------------
@@ -219,7 +219,7 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
 #&gt;   write      4.141    199    0.99997       2.775         1.6678      Inf     
 #&gt; --------------------------------------------------------------------------------</div><div class='input'>
 <span class='co'># both tails</span>
-<span class='fu'>infer_os_t_test</span>(<span class='no'>hsb</span>, <span class='no'>write</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>'both'</span>)</div><div class='output co'>#&gt;                               One-Sample Statistics                               
+<span class='fu'>infer_os_t_test</span>(<span class='no'>hsb</span>, <span class='no'>write</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'both'</span>)</div><div class='output co'>#&gt;                               One-Sample Statistics                               
 #&gt; ---------------------------------------------------------------------------------
 #&gt;  Variable    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
 #&gt; ---------------------------------------------------------------------------------
@@ -237,7 +237,7 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
 #&gt;   write      4.141    199    0.99997       2.775         1.4537     4.0969   
 #&gt; --------------------------------------------------------------------------------</div><div class='input'>
 <span class='co'># all tails</span>
-<span class='fu'>infer_os_t_test</span>(<span class='no'>hsb</span>, <span class='no'>write</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>'all'</span>)</div><div class='output co'>#&gt;                               One-Sample Statistics                               
+<span class='fu'>infer_os_t_test</span>(<span class='no'>hsb</span>, <span class='no'>write</span>, <span class='kw'>mu</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'all'</span>)</div><div class='output co'>#&gt;                               One-Sample Statistics                               
 #&gt; ---------------------------------------------------------------------------------
 #&gt;  Variable    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
 #&gt; ---------------------------------------------------------------------------------

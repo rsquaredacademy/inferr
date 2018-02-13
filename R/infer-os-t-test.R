@@ -5,7 +5,7 @@
 #' @param x numeric; column in \code{data}
 #' @param mu a number indicating the true value of the mean
 #' @param alpha acceptable tolerance for type I error
-#' @param type a character string specifying the alternative hypothesis, must be
+#' @param alternative a character string specifying the alternative hypothesis, must be
 #' one of "both" (default), "greater", "less" or "all". You can specify just the
 #' initial letter
 #' @param ... additional arguments passed to or from other methods
@@ -38,25 +38,25 @@
 #'
 #' @examples
 #' # lower tail
-#' infer_os_t_test(hsb, write, mu = 50, type = 'less')
+#' infer_os_t_test(hsb, write, mu = 50, alternative = 'less')
 #'
 #' # upper tail
-#' infer_os_t_test(hsb, write, mu = 50, type = 'greater')
+#' infer_os_t_test(hsb, write, mu = 50, alternative = 'greater')
 #'
 #' # both tails
-#' infer_os_t_test(hsb, write, mu = 50, type = 'both')
+#' infer_os_t_test(hsb, write, mu = 50, alternative = 'both')
 #'
 #' # all tails
-#' infer_os_t_test(hsb, write, mu = 50, type = 'all')
+#' infer_os_t_test(hsb, write, mu = 50, alternative = 'all')
 #' @export
 #'
 infer_os_t_test <- function(data, x, mu = 0, alpha = 0.05,
-                            type = c("both", "less", "greater", "all"), ...) UseMethod("infer_os_t_test")
+                            alternative = c("both", "less", "greater", "all"), ...) UseMethod("infer_os_t_test")
 
 #' @export
 #'
 infer_os_t_test.default <- function(data, x, mu = 0, alpha = 0.05,
-                                    type = c("both", "less", "greater", "all"), ...) {
+                                    alternative = c("both", "less", "greater", "all"), ...) {
   x1 <- enquo(x)
 
   xone <-
@@ -73,7 +73,7 @@ infer_os_t_test.default <- function(data, x, mu = 0, alpha = 0.05,
     stop("alpha must be numeric")
   }
 
-  type <- match.arg(type)
+  type <- match.arg(alternative)
 
   var_name <-
     data %>%
