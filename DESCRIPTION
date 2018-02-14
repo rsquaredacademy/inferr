@@ -23,6 +23,7 @@ Imports:
 Suggests:
     covr,
     descriptr,
+    haven,
     jsonlite,
     knitr,
     lubridate,
