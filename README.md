@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-## inferr: Inferential statistics with R
+## inferr: Inferential statistics with R <img src="hex_inferr.png" align="right" />
 
 **Author:** [Aravind Hebbali](http://www.aravindhebbali.com)<br/>
 **License:**
@@ -12,7 +12,10 @@
 Status](https://travis-ci.org/rsquaredacademy/inferr.svg?branch=master)](https://travis-ci.org/rsquaredacademy/inferr)
 [![AppVeyor Build
 Status](https://ci.appveyor.com/api/projects/status/github/rsquaredacademy/inferr?branch=master&svg=true)](https://ci.appveyor.com/project/rsquaredacademy/inferr)
+[![Coverage
+status](https://codecov.io/gh/rsquaredacademy/inferr/branch/master/graph/badge.svg)](https://codecov.io/github/rsquaredacademy/inferr?branch=master)
 [![](https://cranlogs.r-pkg.org/badges/grand-total/inferr)](https://cran.r-project.org/package=inferr)
+![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
 
 ## Overview
 
@@ -81,11 +84,16 @@ infer_os_t_test(hsb, write, mu = 50, type = 'all')
 #>   write      200    52.775     0.6702       9.4786       51.4537    54.0969   
 #> ---------------------------------------------------------------------------------
 #> 
-#>                                Ho: mean(write) ~=50                              
+#>                                   Two Tail Test                                  
+#>                                  ---------------                                  
 #> 
-#>         Ha: mean < 50              Ha: mean ~= 50               Ha: mean > 50        
-#>          t = 4.141                   t = 4.141                   t = 4.141         
-#>        P < t = 1.0000             P > |t| = 0.0001             P > t = 0.0000
+#>                                Ho: mean(write) ~=50                              
+#>                                Ha: mean(write) !=50                               
+#> --------------------------------------------------------------------------------
+#>  Variable      t      DF       Sig       Mean Diff.    [95% Conf. Interval] 
+#> --------------------------------------------------------------------------------
+#>   write      4.141    199    0.99997       2.775         1.4537     4.0969   
+#> --------------------------------------------------------------------------------
 ```
 
 ##### ANOVA
