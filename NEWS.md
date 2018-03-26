@@ -1,3 +1,15 @@
+# inferr 0.3.0
+
+This is a minor release for bug fixes and API changes. We have completely revamped the API. All the functions now take a `data.frame` or `tibble` as the first argument followed by the variable names. The variable names need not be surrounded by single/double quotes anymore. Please view the guide for more details.
+
+### Bug Fixes
+
+- using if/while statement is used with a condition of lenght greater than 1 will result in a runtime error and not warning  ([#9](https://github.com/rsquaredacademy/inferr/issues/9))
+
+- error in binomial test ([#11](https://github.com/rsquaredacademy/inferr/issues/11))
+
+THe shiny app has been updated to reflect the changes in the API.
+
 # inferr 0.2.0
 
 ### New Features

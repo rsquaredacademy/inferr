@@ -1,7 +1,3 @@
-## Release Summary
-
-* added shiny app for interactive analysis
-
 ## Test environments
 * local Windows 10, R 3.4.3
 * ubuntu 12.04 (on travis-ci), R 3.3.3, R 3.4.3, R-devel

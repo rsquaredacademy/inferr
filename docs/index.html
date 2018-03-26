@@ -85,9 +85,10 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <div id="inferr-inferential-statistics-with-r" class="section level2">
 <h2 class="hasAnchor">
-<a href="#inferr-inferential-statistics-with-r" class="anchor"></a>inferr: Inferential statistics with R</h2>
+<a href="#inferr-inferential-statistics-with-r" class="anchor"></a>inferr: Inferential statistics with R <img src="hex_inferr.png" align="right">
+</h2>
 <p><strong>Author:</strong> <a href="http://www.aravindhebbali.com">Aravind Hebbali</a><br><strong>License:</strong> <a href="https://opensource.org/licenses/MIT">MIT</a></p>
-<p><a href="https://cran.r-project.org/package=inferr"><img src="http://www.r-pkg.org/badges/version/inferr" alt="CRAN_Status_Badge"></a> <a href="https://travis-ci.org/rsquaredacademy/inferr"><img src="https://travis-ci.org/rsquaredacademy/inferr.svg?branch=master" alt="Travis-CI Build Status"></a> <a href="https://ci.appveyor.com/project/rsquaredacademy/inferr"><img src="https://ci.appveyor.com/api/projects/status/github/rsquaredacademy/inferr?branch=master&amp;svg=true" alt="AppVeyor Build Status"></a> <a href="https://cran.r-project.org/package=inferr"><img src="https://cranlogs.r-pkg.org/badges/grand-total/inferr"></a> <a href="https://codecov.io/github/rsquaredacademy/inferr?branch=master"><img src="https://codecov.io/gh/rsquaredacademy/inferr/branch/master/graph/badge.svg" alt="Coverage status"></a> <img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg"></p>
+<p><a href="https://cran.r-project.org/package=inferr"><img src="http://www.r-pkg.org/badges/version/inferr" alt="CRAN_Status_Badge"></a> <a href="https://travis-ci.org/rsquaredacademy/inferr"><img src="https://travis-ci.org/rsquaredacademy/inferr.svg?branch=master" alt="Travis-CI Build Status"></a> <a href="https://ci.appveyor.com/project/rsquaredacademy/inferr"><img src="https://ci.appveyor.com/api/projects/status/github/rsquaredacademy/inferr?branch=master&amp;svg=true" alt="AppVeyor Build Status"></a> <a href="https://codecov.io/github/rsquaredacademy/inferr?branch=master"><img src="https://codecov.io/gh/rsquaredacademy/inferr/branch/master/graph/badge.svg" alt="Coverage status"></a> <a href="https://cran.r-project.org/package=inferr"><img src="https://cranlogs.r-pkg.org/badges/grand-total/inferr"></a> <img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg"></p>
 </div>
 <div id="overview" class="section level2">
 <h2 class="hasAnchor">
@@ -155,11 +156,16 @@
 <a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt;   write      200    52.775     0.6702       9.4786       51.4537    54.0969   </span></a>
 <a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; ---------------------------------------------------------------------------------</span></a>
 <a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt;                                Ho: mean(write) ~=50                              </span></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt;         Ha: mean &lt; 50              Ha: mean ~= 50               Ha: mean &gt; 50        </span></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt;          t = 4.141                   t = 4.141                   t = 4.141         </span></a>
-<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt;        P &lt; t = 1.0000             P &gt; |t| = 0.0001             P &gt; t = 0.0000</span></a></code></pre></div>
+<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt;                                   Two Tail Test                                  </span></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt;                                  ---------------                                  </span></a>
+<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt;                                Ho: mean(write) ~=50                              </span></a>
+<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt;                                Ha: mean(write) !=50                               </span></a>
+<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">#&gt; --------------------------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">#&gt;  Variable      t      DF       Sig       Mean Diff.    [95% Conf. Interval] </span></a>
+<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">#&gt; --------------------------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt;   write      4.141    199    0.99997       2.775         1.4537     4.0969   </span></a>
+<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="co">#&gt; --------------------------------------------------------------------------------</span></a></code></pre></div>
 </div>
 <div id="anova" class="section level5">
 <h5 class="hasAnchor">
