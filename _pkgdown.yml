@@ -25,9 +25,9 @@ navbar:
 home:
   links:
   - text: Learn more
-    href: http://www.rsquaredacademy.com
-  - text: Shiny App
-    href: http://rsquaredlabs.com:3838/explorer/
+    href: https://www.rsquaredacademy.com
+  - text: Try shiny app
+    href: https://apps.rsquaredacademy.com/
   - text: Docker Image
     href: https://hub.docker.com/r/rsquaredacademy/inferr/
 
