@@ -9,7 +9,7 @@ tabPanel('Two Sample Proportion', value = 'tab_tsproptest',
       ),
       column(6, align = 'right',
         actionButton(inputId='tsproplink1', label="Help", icon = icon("question-circle"),
-          onclick ="window.open('https://rsquaredacademy.github.io/inferr/reference/infer_ts_prop_test.html', '_blank')"),
+          onclick ="window.open('https://inferr.rsquaredacademy.com/reference/infer_ts_prop_test.html', '_blank')"),
         actionButton(inputId='tsproplink3', label="Demo", icon = icon("video-camera"),
           onclick ="window.open('https://www.youtube.com/watch?v=0HhnnSzj1JY', '_blank')")
       )

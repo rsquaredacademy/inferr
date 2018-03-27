@@ -7,7 +7,7 @@ tabPanel('Two Sample Variance', value = 'tab_tsvartest',
       ),
       column(6, align = 'right',
         actionButton(inputId='tsvarlink1', label="Help", icon = icon("question-circle"),
-          onclick ="window.open('https://rsquaredacademy.github.io/inferr/reference/infer_ts_var_test.html', '_blank')"),
+          onclick ="window.open('https://inferr.rsquaredacademy.com/reference/infer_ts_var_test.html', '_blank')"),
         actionButton(inputId='tsvarlink3', label="Demo", icon = icon("video-camera"),
           onclick ="window.open('https://www.youtube.com/watch?v=H5XX3wmF1Sc', '_blank')")
       )
