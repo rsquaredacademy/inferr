@@ -7,7 +7,7 @@ tabPanel('One Way ANOVA', value = 'tab_anova',
       ),
       column(6, align = 'right',
         actionButton(inputId='anovalink1', label="Help", icon = icon("question-circle"),
-          onclick ="window.open('https://rsquaredacademy.github.io/inferr/reference/infer_oneway_anova.html', '_blank')"),
+          onclick ="window.open('https://inferr.rsquaredacademy.com/reference/infer_oneway_anova.html', '_blank')"),
         actionButton(inputId='anovalink3', label="Demo", icon = icon("video-camera"),
           onclick ="window.open('https://www.youtube.com/watch?v=6ywh-fVTvFQ', '_blank')")
       )

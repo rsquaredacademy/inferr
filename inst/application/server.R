@@ -39,7 +39,7 @@ shinyServer(function(input, output, session) {
     source("logic/logic_runs.R", local = T)
     source("logic/logic_mcnemar.R", local = T)
     source("logic/logic_home.R", local = T)
-
+    source("logic/logic_exit_button.R", local = T)
 })
 
 

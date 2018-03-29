@@ -8,7 +8,7 @@ tabPanel('One Sample t', value = 'tab_ttest',
       ),
       column(4, align = 'right',
         actionButton(inputId='ostlink1', label="Help", icon = icon("question-circle"),
-          onclick ="window.open('https://rsquaredacademy.github.io/inferr/reference/infer_os_t_test.html', '_blank')"),
+          onclick ="window.open('https://inferr.rsquaredacademy.com/reference/infer_os_t_test.html', '_blank')"),
         actionButton(inputId='ostlink3', label="Demo", icon = icon("video-camera"),
           onclick ="window.open('https://www.youtube.com/watch?v=7eNfzplm86Y', '_blank')")
       )

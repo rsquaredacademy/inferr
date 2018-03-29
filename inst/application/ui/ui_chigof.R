@@ -7,7 +7,7 @@ tabPanel('Chi Square GoF', value = 'tab_chigof',
       ),
       column(6, align = 'right',
         actionButton(inputId='chigoflink1', label="Help", icon = icon("question-circle"),
-          onclick ="window.open('https://rsquaredacademy.github.io/inferr/reference/infer_chisq_gof_test.html', '_blank')"),
+          onclick ="window.open('https://inferr.rsquaredacademy.com/reference/infer_chisq_gof_test.html', '_blank')"),
         actionButton(inputId='chigoflink3', label="Demo", icon = icon("video-camera"),
           onclick ="window.open('https://www.youtube.com/watch?v=QJiKVByQTt8', '_blank')")
       )
