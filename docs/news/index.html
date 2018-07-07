@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>All news • inferr</title>
+<title>Changelog • inferr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -18,13 +18,19 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+
+
+
+<meta property="og:title" content="Changelog" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -47,8 +53,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">inferr</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">inferr</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.3.0.9000</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -91,6 +101,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -98,21 +109,77 @@
       
       </header>
 
-      <div class="row">
-
-  <div class="col-md-9">
+<div class="row">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Change log <small>All releases</small></h1>
+      <h1>Changelog <small></small></h1>
+      <small>Source: <a href='https://github.com/rsquaredacademy/inferr/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div class="contents">
-    </div>
+    <div id="inferr-0-3-0" class="section level1">
+<h1 class="page-header">
+<a href="#inferr-0-3-0" class="anchor"></a>inferr 0.3.0<small> 2018-02-13 </small>
+</h1>
+<p>This is a minor release for bug fixes and API changes. We have completely revamped the API. All the functions now take a <code>data.frame</code> or <code>tibble</code> as the first argument followed by the variable names. The variable names need not be surrounded by single/double quotes anymore. Please view the guide for more details.</p>
+<div id="bug-fixes" class="section level3">
+<h3 class="hasAnchor">
+<a href="#bug-fixes" class="anchor"></a>Bug Fixes</h3>
+<ul>
+<li><p>using if/while statement is used with a condition of lenght greater than 1 will result in a runtime error and not warning (<a href="https://github.com/rsquaredacademy/inferr/issues/9"><a href='https://github.com/rsquaredacademy/inferr/issues/9'>#9</a></a>)</p></li>
+<li><p>error in binomial test (<a href="https://github.com/rsquaredacademy/inferr/issues/11"><a href='https://github.com/rsquaredacademy/inferr/issues/11'>#11</a></a>)</p></li>
+</ul>
+<p>THe shiny app has been updated to reflect the changes in the API.</p>
+</div>
+</div>
+    <div id="inferr-0-2-0" class="section level1">
+<h1 class="page-header">
+<a href="#inferr-0-2-0" class="anchor"></a>inferr 0.2.0<small> 2017-12-11 </small>
+</h1>
+<div id="new-features" class="section level3">
+<h3 class="hasAnchor">
+<a href="#new-features" class="anchor"></a>New Features</h3>
+<ul>
+<li>shiny app for interactive analysis</li>
+</ul>
+</div>
+</div>
+    <div id="inferr-0-1-1" class="section level1">
+<h1 class="page-header">
+<a href="#inferr-0-1-1" class="anchor"></a>inferr 0.1.1<small> 2017-05-02 </small>
+</h1>
+<div id="bug-fixes-1" class="section level3">
+<h3 class="hasAnchor">
+<a href="#bug-fixes-1" class="anchor"></a>Bug Fixes</h3>
+<ul>
+<li>
+<code><a href="../reference/infer_binom_calc.html">binom_test()</a></code> accepts non-binary variables (<a href='https://github.com/rsquaredacademy/inferr/issues/1'>#1</a>).</li>
+<li>
+<code><a href="../reference/infer_ts_ind_ttest.html">ind_ttest()</a></code> should throw an error when the grouping variable has more than 2 levels (<a href='https://github.com/rsquaredacademy/inferr/issues/2'>#2</a>).</li>
+<li>
+<code><a href="../reference/infer_ts_prop_test.html">ts_prop_test()</a></code> should accept only binary variables (<a href='https://github.com/rsquaredacademy/inferr/issues/3'>#3</a>).</li>
+<li>
+<code><a href="../reference/infer_ts_var_test.html">var_test()</a></code> should accept only binary variables for the <code>group_var</code> input. The number of continuous variables must also not exceed two. (<a href='https://github.com/rsquaredacademy/inferr/issues/4'>#4</a>).</li>
+</ul>
+</div>
+</div>
+    <div id="inferr-0-1-0" class="section level1">
+<h1 class="page-header">
+<a href="#inferr-0-1-0" class="anchor"></a>inferr 0.1.0<small> 2017-02-14 </small>
+</h1>
+<ul>
+<li>First release</li>
+</ul>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#inferr-0-3-0">0.3.0</a></li>
+        <li><a href="#inferr-0-2-0">0.2.0</a></li>
+        <li><a href="#inferr-0-1-1">0.1.1</a></li>
+        <li><a href="#inferr-0-1-0">0.1.0</a></li>
       </ul>
     </div>
   </div>
@@ -121,15 +188,18 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Aravind Hebbali.</p>
+  <p>Developed by <a href="https://www.aravindhebbali.com/">Aravind Hebbali</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+
