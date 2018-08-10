@@ -6,7 +6,7 @@ library(dplyr)
 
 shinyUI(
 		
-    navbarPage(HTML("inferr"), id = 'mainpage',
+    navbarPage(HTML("inferr - Statistical Inference"), id = 'mainpage',
     	
     source('ui/ui_data.R', local = TRUE)[[1]],
     source('ui/ui_analyze.R', local = TRUE)[[1]],
