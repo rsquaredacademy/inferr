@@ -57,11 +57,9 @@ infer_os_t_test <- function(data, x, mu = 0, alpha = 0.05,
 #'
 infer_os_t_test.default <- function(data, x, mu = 0, alpha = 0.05,
                                     alternative = c("both", "less", "greater", "all"), ...) {
-  x1 <- enquo(x)
-
-  xone <-
-    data %>%
-    pull(!! x1)
+  
+  x1   <- enquo(x)
+  xone <- pull(data, !! x1)
 
   if (!is.numeric(xone)) {
     stop("x must be numeric")

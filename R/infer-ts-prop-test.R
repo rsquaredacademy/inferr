@@ -58,19 +58,13 @@ infer_ts_prop_test <- function(data, var1, var2,
 #'
 infer_ts_prop_test.default <- function(data, var1, var2,
                                        alternative = c("both", "less", "greater", "all"), ...) {
-  var_1 <- enquo(var1)
-  var_2 <- enquo(var2)
-
-  varone <-
-    data %>%
-    pull(!! var_1)
-
-  vartwo <-
-    data %>%
-    pull(!! var_2)
+  var_1  <- enquo(var1)
+  var_2  <- enquo(var2)
+  varone <- pull(data, !! var_1)
+  vartwo <- pull(data, !! var_2)
 
   alt <- match.arg(alternative)
-  k <- prop_comp2(varone, vartwo, alt)
+  k   <- prop_comp2(varone, vartwo, alt)
 
   result <- list(
     n1 = k$n1, n2 = k$n2, phat1 = k$phat1, phat2 = k$phat2,
@@ -102,35 +96,29 @@ print.infer_ts_prop_test <- function(x, ...) {
 #'
 infer_ts_prop_grp <- function(data, var, group,
                               alternative = c("both", "less", "greater", "all")) {
-  var1 <- enquo(var)
-  group1 <- enquo(group)
-
-  varone <-
-    data %>%
-    pull(!! var1)
-
-  groupone <-
-    data %>%
-    pull(!! group1)
+  var1     <- enquo(var)
+  group1   <- enquo(group)
+  varone   <- pull(data, !! var1)
+  groupone <- pull(data, !! group1)
 
   if (nlevels(groupone) > 2) {
     stop("Grouping variable must be a binary factor variables.", call. = FALSE)
   }
 
-  n <- tapply(varone, groupone, length)
-  n1 <- n[[1]]
-  n2 <- n[[2]]
-  y <- tapply(varone, groupone, table)
-  y1 <- y[[1]][[2]]
-  y2 <- y[[2]][[2]]
+  n     <- tapply(varone, groupone, length)
+  n1    <- n[[1]]
+  n2    <- n[[2]]
+  y     <- tapply(varone, groupone, table)
+  y1    <- y[[1]][[2]]
+  y2    <- y[[2]][[2]]
   phat1 <- y1 / n1
   phat2 <- y2 / n2
-  phat <- sum(y1, y2) / sum(n1, n2)
-  num <- (phat1 - phat2)
-  den1 <- phat * (1 - phat)
-  den2 <- (1 / n1) + (1 / n2)
-  den <- sqrt(den1 * den2)
-  z <- num / den
+  phat  <- sum(y1, y2) / sum(n1, n2)
+  num   <- (phat1 - phat2)
+  den1  <- phat * (1 - phat)
+  den2  <- (1 / n1) + (1 / n2)
+  den   <- sqrt(den1 * den2)
+  z     <- num / den
 
 
   lt <- pnorm(z)
@@ -178,16 +166,16 @@ ts_prop_grp <- function(var, group,
 #'
 infer_ts_prop_calc <- function(n1, n2, p1, p2,
                                alternative = c("both", "less", "greater", "all"), ...) {
-  n1 <- n1
-  n2 <- n2
+  n1    <- n1
+  n2    <- n2
   phat1 <- p1
   phat2 <- p2
-  phat <- sum(n1 * p1, n2 * p2) / sum(n1, n2)
-  num <- (phat1 - phat2)
-  den1 <- phat * (1 - phat)
-  den2 <- (1 / n1) + (1 / n2)
-  den <- sqrt(den1 * den2)
-  z <- num / den
+  phat  <- sum(n1 * p1, n2 * p2) / sum(n1, n2)
+  num   <- (phat1 - phat2)
+  den1  <- phat * (1 - phat)
+  den2  <- (1 / n1) + (1 / n2)
+  den   <- sqrt(den1 * den2)
+  z     <- num / den
 
   lt <- pnorm(z)
   ut <- round(pnorm(z, lower.tail = FALSE), 4)

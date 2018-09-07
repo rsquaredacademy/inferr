@@ -38,11 +38,9 @@ infer_chisq_gof_test <- function(data, x, y, correct = FALSE) UseMethod("infer_c
 
 #' @export
 infer_chisq_gof_test.default <- function(data, x, y, correct = FALSE) {
-  x1 <- enquo(x)
 
-  xcheck <-
-    data %>%
-    pull(!! x1)
+  x1 <- enquo(x)
+  xcheck <- pull(data, !! x1)
 
   xlen <-
     data %>%

@@ -59,16 +59,10 @@ infer_runs_test <- function(data, x, drop = FALSE, split = FALSE, mean = FALSE,
 infer_runs_test.default <- function(data, x, drop = FALSE,
                                     split = FALSE, mean = FALSE,
                                     threshold = NA) {
-  x1 <- enquo(x)
-
-  xone <-
-    data %>%
-    pull(!! x1)
-
-  n <- length(xone)
-
-  # if (!(is.numeric(x) || is.integer(x)))
-  #     stop("x must be numeric or integer")
+  
+  x1   <- enquo(x)
+  xone <- pull(data, !! x1)
+  n    <- length(xone)
 
   if (is.na(threshold)) {
     y <- unique(xone)
@@ -77,7 +71,6 @@ infer_runs_test.default <- function(data, x, drop = FALSE,
     }
   }
 
-  # compute threshold
   if (!(is.na(threshold))) {
     thresh <- threshold
   } else if (mean == TRUE) {
@@ -86,7 +79,6 @@ infer_runs_test.default <- function(data, x, drop = FALSE,
     thresh <- median(xone, na.rm = TRUE)
   }
 
-  # drop values equal to threshold if drop == TRUE
   if (drop == TRUE) {
     xone <- xone[xone != thresh]
   }
@@ -101,20 +93,15 @@ infer_runs_test.default <- function(data, x, drop = FALSE,
       unlist(use.names = FALSE)
   }
 
-  # compute the number of runs
-  n_runs <- nsignC(x_binary)
-  n1 <- sum(x_binary)
-  n0 <- length(x_binary) - n1
-
-  # compute expected runs and sd of runs
+  n_runs   <- nsignC(x_binary)
+  n1       <- sum(x_binary)
+  n0       <- length(x_binary) - n1
   exp_runs <- expruns(n0, n1)
-  sd_runs <- sdruns(n0, n1)
+  sd_runs  <- sdruns(n0, n1)
 
-  # compute the test statistic
   test_stat <- (n_runs - exp_runs) / (sd_runs ^ 0.5)
   sig <- 2 * (1 - pnorm(abs(test_stat), lower.tail = TRUE))
 
-  # result
   result <- list(
     n = n, threshold = thresh, n_below = n0, n_above = n1,
     mean = exp_runs, var = sd_runs, n_runs = n_runs, z = test_stat,
