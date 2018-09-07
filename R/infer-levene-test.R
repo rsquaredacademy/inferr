@@ -55,16 +55,13 @@ infer_levene_test <- function(data, ...) UseMethod("infer_levene_test")
 #' @rdname infer_levene_test
 infer_levene_test.default <- function(data, ..., group_var = NULL,
                                       trim_mean = 0.1) {
-  groupvar <- enquo(group_var)
-
+  
+  groupvar  <- enquo(group_var)
   varyables <- quos(...)
-
-  fdata <-
-    data %>%
-    select(!!! varyables)
+  fdata     <- select(data, !!! varyables)
 
   if (quo_is_null(groupvar)) {
-    z <- as.list(fdata)
+    z  <- as.list(fdata)
     ln <- z %>% map_int(length)
     ly <- seq_len(length(z))
 
@@ -72,20 +69,15 @@ infer_levene_test.default <- function(data, ..., group_var = NULL,
       stop("Please specify at least two variables.", call. = FALSE)
     }
 
-    out <- gvar(ln, ly)
+    out   <- gvar(ln, ly)
     fdata <- unlist(z)
     groupvars <-
       out %>%
       unlist() %>%
       as.factor()
   } else {
-    fdata <-
-      fdata %>%
-      pull(1)
-
-    groupvars <-
-      data %>%
-      pull(!! groupvar)
+    fdata     <- pull(fdata, 1)
+    groupvars <- pull(data, !! groupvar)
 
     if (length(fdata) != length(groupvars)) {
       stop("Length of variable and group_var do not match.", call. = FALSE)

@@ -51,16 +51,12 @@ infer_ts_var_test <- function(data, ..., group_var = NULL,
 #'
 infer_ts_var_test.default <- function(data, ..., group_var = NULL,
                                       alternative = c("less", "greater", "all")) {
-  groupvar <- enquo(group_var)
-
+  groupvar  <- enquo(group_var)
   varyables <- quos(...)
-
-  fdata <-
-    data %>%
-    select(!!! varyables)
+  fdata     <- select(data, !!! varyables)
 
   if (quo_is_null(groupvar)) {
-    z <- as.list(fdata)
+    z  <- as.list(fdata)
     ln <- z %>% map_int(length)
     ly <- seq_len(length(z))
 
@@ -68,8 +64,7 @@ infer_ts_var_test.default <- function(data, ..., group_var = NULL,
       stop("Please specify at least two variables.", call. = FALSE)
     }
 
-    out <- gvar(ln, ly)
-
+    out   <- gvar(ln, ly)
     fdata <- unlist(z)
 
     groupvars <-
@@ -81,16 +76,12 @@ infer_ts_var_test.default <- function(data, ..., group_var = NULL,
       data %>%
       select(!!! varyables) %>%
       names()
+
   } else {
-    fdata <-
-      fdata %>%
-      pull(1)
 
-    groupvars <-
-      data %>%
-      pull(!! groupvar)
-
-    lev <- levels(groupvars)
+    fdata     <- pull(fdata, 1)
+    groupvars <- pull(data, !! groupvar)
+    lev       <- levels(groupvars)
 
     if (length(fdata) != length(groupvars)) {
       stop("Length of variable and group_var do not match.", call. = FALSE)
@@ -99,7 +90,7 @@ infer_ts_var_test.default <- function(data, ..., group_var = NULL,
 
 
   type <- match.arg(alternative)
-  k <- var_comp(fdata, groupvars)
+  k    <- var_comp(fdata, groupvars)
 
   out <- list(
     f = k$f, lower = k$lower, upper = k$upper, vars = k$vars,

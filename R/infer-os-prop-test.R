@@ -46,29 +46,26 @@ infer_os_prop_test <- function(data, variable = NULL, prob = 0.5, phat = 0.5,
 infer_os_prop_test.default <- function(data, variable = NULL, prob = 0.5, phat = 0.5,
                                        alternative = c("both", "less", "greater", "all")) {
   if (is.numeric(data)) {
+
     method <- match.arg(alternative)
     k <- prop_comp(
       data, prob = prob, phat = phat,
       alternative = method
     )
+
   } else {
+
     varyables <- enquo(variable)
-
-    fdata <-
-      data %>%
-      pull(!! varyables)
-
-    n1 <- length(fdata)
+    fdata     <- pull(data, !! varyables)
+    n1        <- length(fdata)
 
     n2 <-
       fdata %>%
       table() %>%
       `[[`(2)
 
-    phat <- round(n2 / n1, 4)
-
-    prob <- prob
-
+    phat   <- round(n2 / n1, 4)
+    prob   <- prob
     method <- match.arg(alternative)
 
     k <- prop_comp(

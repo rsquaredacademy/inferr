@@ -41,16 +41,12 @@ infer_chisq_assoc_test <- function(data, x, y) UseMethod("infer_chisq_assoc_test
 
 #' @export
 infer_chisq_assoc_test.default <- function(data, x, y) {
+  
   x1 <- enquo(x)
   y1 <- enquo(y)
 
-  xone <-
-    data %>%
-    pull(!! x1)
-
-  yone <-
-    data %>%
-    pull(!! y1)
+  xone <- pull(data, !! x1)
+  yone <- pull(data, !! y1)
 
   if (!is.factor(xone)) {
     stop("x must be a categorical variable")
@@ -61,7 +57,7 @@ infer_chisq_assoc_test.default <- function(data, x, y) {
   }
 
   # dimensions
-  k <- table(xone, yone)
+  k  <- table(xone, yone)
   dk <- dim(k)
   ds <- prod(dk)
   nr <- dk[1]
@@ -72,16 +68,16 @@ infer_chisq_assoc_test.default <- function(data, x, y) {
     twoway <- matrix(table(xone, yone), nrow = 2)
     df <- df_chi(twoway)
     ef <- efmat(twoway)
-    k <- pear_chsq(twoway, df, ef)
-    m <- lr_chsq(twoway, df, ef)
-    n <- yates_chsq(twoway)
-    p <- mh_chsq(twoway, n$total, n$prod_totals)
+    k  <- pear_chsq(twoway, df, ef)
+    m  <- lr_chsq(twoway, df, ef)
+    n  <- yates_chsq(twoway)
+    p  <- mh_chsq(twoway, n$total, n$prod_totals)
   } else {
     twoway <- matrix(table(xone, yone), nrow = dk[1])
     ef <- efm(twoway, dk)
     df <- df_chi(twoway)
-    k <- pear_chi(twoway, df, ef)
-    m <- lr_chsq2(twoway, df, ef, ds)
+    k  <- pear_chi(twoway, df, ef)
+    m  <- lr_chsq2(twoway, df, ef, ds)
   }
 
   j <- chigf(xone, yone, k$chi)

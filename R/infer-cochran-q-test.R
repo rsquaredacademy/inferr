@@ -26,10 +26,10 @@ infer_cochran_qtest <- function(data, ...) UseMethod("infer_cochran_qtest")
 
 #' @export
 infer_cochran_qtest.default <- function(data, ...) {
+  
   vars <- quos(...)
 
-  fdata <- data %>%
-    select(!!! vars)
+  fdata <- select(data, !!! vars)
 
   if (ncol(fdata) < 3) {
     stop("Please specify at least 3 variables.")

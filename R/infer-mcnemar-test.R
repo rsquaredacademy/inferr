@@ -55,6 +55,7 @@ infer_mcnemar_test <- function(data, x = NULL, y = NULL) UseMethod("infer_mcnema
 #' @export
 #'
 infer_mcnemar_test.default <- function(data, x = NULL, y = NULL) {
+  
   if (is.matrix(data) | is.table(data)) {
     dat <- mcdata(data)
   } else {

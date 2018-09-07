@@ -68,13 +68,8 @@ infer_ts_paired_ttest.default <- function(data, x, y, confint = 0.95,
     select(!! x1, !! y1) %>%
     names()
 
-  xone <-
-    data %>%
-    pull(!! x1)
-
-  yone <-
-    data %>%
-    pull(!! y1)
+  xone <- pull(data, !! x1)
+  yone <- pull(data, !! y1)
 
   k <- paired_comp(xone, yone, confint, var_names)
 
