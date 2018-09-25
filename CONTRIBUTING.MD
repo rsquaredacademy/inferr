@@ -1,6 +1,6 @@
 # Contributing to inferr
 
-This outlines how to propose a change to descriptr. 
+This outlines how to propose a change to inferr. 
 
 ### Fixing typos
 
