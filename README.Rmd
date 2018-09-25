@@ -12,28 +12,13 @@ knitr::opts_chunk$set(
 )
 ```
 
-inferr: Inferential statistics with R <img src="hex_inferr.png" height="100px" align="right" />
--------------
-
-**Author:** [Aravind Hebbali](http://www.aravindhebbali.com)<br/>
-**License:** [MIT](https://opensource.org/licenses/MIT)
+# inferr <img src="hex_inferr.png" height="100px" align="right" />
 
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/inferr)](https://cran.r-project.org/package=inferr) [![cran checks](https://cranchecks.info/badges/summary/inferr)](https://cran.r-project.org/web/checks/check_results_inferr.html) [![Travis-CI Build Status](https://travis-ci.org/rsquaredacademy/inferr.svg?branch=master)](https://travis-ci.org/rsquaredacademy/inferr) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/rsquaredacademy/inferr?branch=master&svg=true)](https://ci.appveyor.com/project/rsquaredacademy/inferr) [![Coverage status](https://codecov.io/gh/rsquaredacademy/inferr/branch/master/graph/badge.svg)](https://codecov.io/github/rsquaredacademy/inferr?branch=master) [![](https://cranlogs.r-pkg.org/badges/grand-total/inferr)](https://cran.r-project.org/package=inferr) ![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
 
 ## Overview
 
-Inferential statistics allows us to make generalizations about populations using data drawn from the population.
-We use them when it is impractical or impossible to collect data about the whole population under study and instead,
-we have a sample that represents the population under study and using inferential statistics technique, we make
-generalizations about the population from the sample.
-
-The **inferr** package:
-
-- builds upon the statistical tests provided in **stats**  
-- provides additional and flexible input options
-- more detailed and structured test results
-
-As of version 0.1, **inferr** includes a select set of parametric and non-parametric statistical tests which are listed below:
+inferr builds upon the statistical tests provided in **stats**, provides additional and flexible input options and more detailed and structured test results. As of version 0.3, **inferr** includes a select set of parametric and non-parametric statistical tests which are listed below:
 
 - One Sample t Test
 - Paired Sample t Test
@@ -67,13 +52,13 @@ devtools::install_github("rsquaredacademy/inferr")
 
 Use `infer_launch_shiny_app()` to explore the package using a shiny app.
 
-## Vignettes
+## Articles
 
 - [Introduction to inferr](http://www.rsquaredacademy.com/inferr/articles/index.html)
 
 ## Usage
 
-##### One Sample t Test
+#### One Sample t Test
 
 ```{r load, echo=FALSE, message=FALSE}
 library(inferr)
@@ -84,31 +69,31 @@ library(dplyr)
 infer_os_t_test(hsb, write, mu = 50, type = 'all')
 ```
 
-##### ANOVA
+#### ANOVA
 
 ```{r anova}
 infer_oneway_anova(hsb, write, prog)
 ```
 
-##### Chi Square Test of Independence
+#### Chi Square Test of Independence
 
 ```{r chi1}
 infer_chisq_assoc_test(hsb, female, schtyp)
 ```
 
-##### Levene's Test
+#### Levene's Test
 
 ```{r lev1}
 infer_levene_test(hsb, read, group_var = race)
 ```
 
-##### Cochran's Q Test
+#### Cochran's Q Test
 
 ```{r cochran}
 infer_cochran_qtest(exam, exam1, exam2, exam3)
 ```
 
-##### McNemar Test
+#### McNemar Test
 
 ```{r mc1}
 hb <-
@@ -119,6 +104,14 @@ hb <-
      )
 infer_mcnemar_test(hb, himath, hiread)
 ```
+
+## Getting Help
+
+If you encounter a bug, please file a minimal reproducible example using 
+[reprex](https://reprex.tidyverse.org/index.html) on github. For questions and 
+clarifications, use [StackOverflow](https://stackoverflow.com/).
+
+## Code of Conduct
 
 Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md).
 By participating in this project you agree to abide by its terms.
