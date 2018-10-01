@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Paired t test � infer_ts_paired_ttest • inferr</title>
+<title>Paired t test — infer_ts_paired_ttest • inferr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -18,13 +18,23 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+
+
+
+<meta property="og:title" content="Paired t test — infer_ts_paired_ttest" />
+
+<meta property="og:description" content="infer_ts_paired_ttest tests that two samples have the
+same mean, assuming paired data." />
+<meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -47,8 +57,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">inferr</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">inferr</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.3.0.9000</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -91,6 +105,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -98,21 +113,25 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Paired t test</h1>
+    <small class="dont-index">Source: <a href='https://github.com/rsquaredacademy/inferr/blob/master/R/infer-ts-paired-ttest.R'><code>R/infer-ts-paired-ttest.R</code></a></small>
+    <div class="hidden name"><code>infer_ts_paired_ttest.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p><code>infer_ts_paired_ttest</code> tests that two samples have the
 same mean, assuming paired data.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>infer_ts_paired_ttest</span>(<span class='no'>data</span>, <span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>confint</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"both"</span>,
   <span class='st'>"less"</span>, <span class='st'>"greater"</span>, <span class='st'>"all"</span>))</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -166,6 +185,7 @@ and <code>y</code></p></dd>
     
     <h2 class="hasAnchor" id="deprecated-function"><a class="anchor" href="#deprecated-function"></a>Deprecated Function</h2>
 
+    
     <p><code>paired_ttest()</code> has been deprecated. Instead use
 <code>infer_ts_paired_ttest()</code>.</p>
     
@@ -176,20 +196,20 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p><code><a href='http://www.rdocumentation.org/packages/stats/topics/t.test'>t.test</a></code></p>
+    <div class='dont-index'><p><code><a href='http://www.rdocumentation.org/packages/stats/topics/t.test'>t.test</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># lower tail</span>
-<span class='fu'>infer_ts_paired_ttest</span>(<span class='no'>hsb</span>, <span class='no'>read</span>, <span class='no'>write</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;                          Paired Samples Statistics                          
-#&gt; ---------------------------------------------------------------------------
-#&gt; Variables    Obs    Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
-#&gt; ---------------------------------------------------------------------------
-#&gt;    read       200    52.23      0.72         10.25         50.8      53.66   
-#&gt;    write      200    52.77      0.67         9.48         51.45      54.09    
-#&gt; ---------------------------------------------------------------------------
-#&gt;    diff       200    -0.55      0.63         8.89         -1.79       0.69    
-#&gt; ---------------------------------------------------------------------------
+<span class='fu'>infer_ts_paired_ttest</span>(<span class='no'>hsb</span>, <span class='no'>read</span>, <span class='no'>write</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;                          Paired Samples Statistics                           
+#&gt; ----------------------------------------------------------------------------
+#&gt; Variables    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
+#&gt; ----------------------------------------------------------------------------
+#&gt;    read       200    52.23     0.7249921    10.25294        50.8      53.66   
+#&gt;    write      200    52.775    0.6702372    9.478586       51.45       54.1    
+#&gt; ----------------------------------------------------------------------------
+#&gt;    diff       200    -0.545    0.6283822    8.886666       -1.78       0.69    
+#&gt; ----------------------------------------------------------------------------
 #&gt; 
 #&gt;          Paired Samples Correlations         
 #&gt; -------------------------------------------
@@ -197,26 +217,26 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
 #&gt;  read &amp; write    200       0.60        0 
 #&gt; -------------------------------------------
 #&gt; 
-#&gt;           Paired Samples Test           
-#&gt;           -------------------           
-#&gt;       Ho: mean(read - write) = 0        
-#&gt;       Ha: mean(read - write) &lt; 0        
+#&gt;           Paired Samples Test            
+#&gt;           -------------------            
+#&gt;        Ho: mean(read - write) = 0        
+#&gt;        Ha: mean(read - write) &lt; 0        
 #&gt; 
-#&gt; ---------------------------------------
-#&gt;   Variables        t       df     Sig.  
-#&gt; ---------------------------------------
-#&gt;  read - write    -0.873    199    0.192 
-#&gt; ---------------------------------------</div><div class='input'>
+#&gt; ----------------------------------------
+#&gt;   Variables         t       df     Sig.  
+#&gt; ----------------------------------------
+#&gt;  read - write    -0.8673    199    0.193 
+#&gt; ----------------------------------------</div><div class='input'>
 <span class='co'># upper tail</span>
-<span class='fu'>infer_ts_paired_ttest</span>(<span class='no'>hsb</span>, <span class='no'>read</span>, <span class='no'>write</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'greater'</span>)</div><div class='output co'>#&gt;                          Paired Samples Statistics                          
-#&gt; ---------------------------------------------------------------------------
-#&gt; Variables    Obs    Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
-#&gt; ---------------------------------------------------------------------------
-#&gt;    read       200    52.23      0.72         10.25         50.8      53.66   
-#&gt;    write      200    52.77      0.67         9.48         51.45      54.09    
-#&gt; ---------------------------------------------------------------------------
-#&gt;    diff       200    -0.55      0.63         8.89         -1.79       0.69    
-#&gt; ---------------------------------------------------------------------------
+<span class='fu'>infer_ts_paired_ttest</span>(<span class='no'>hsb</span>, <span class='no'>read</span>, <span class='no'>write</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'greater'</span>)</div><div class='output co'>#&gt;                          Paired Samples Statistics                           
+#&gt; ----------------------------------------------------------------------------
+#&gt; Variables    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
+#&gt; ----------------------------------------------------------------------------
+#&gt;    read       200    52.23     0.7249921    10.25294        50.8      53.66   
+#&gt;    write      200    52.775    0.6702372    9.478586       51.45       54.1    
+#&gt; ----------------------------------------------------------------------------
+#&gt;    diff       200    -0.545    0.6283822    8.886666       -1.78       0.69    
+#&gt; ----------------------------------------------------------------------------
 #&gt; 
 #&gt;          Paired Samples Correlations         
 #&gt; -------------------------------------------
@@ -224,26 +244,26 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
 #&gt;  read &amp; write    200       0.60        0 
 #&gt; -------------------------------------------
 #&gt; 
-#&gt;           Paired Samples Test           
-#&gt;           -------------------           
-#&gt;       Ho: mean(read - write) = 0        
-#&gt;       Ha: mean(read - write) &gt; 0        
+#&gt;           Paired Samples Test            
+#&gt;           -------------------            
+#&gt;        Ho: mean(read - write) = 0        
+#&gt;        Ha: mean(read - write) &gt; 0        
 #&gt; 
-#&gt; ---------------------------------------
-#&gt;   Variables        t       df     Sig.  
-#&gt; ---------------------------------------
-#&gt;  read - write    -0.873    199    0.808 
-#&gt; ---------------------------------------</div><div class='input'>
+#&gt; ----------------------------------------
+#&gt;   Variables         t       df     Sig.  
+#&gt; ----------------------------------------
+#&gt;  read - write    -0.8673    199    0.807 
+#&gt; ----------------------------------------</div><div class='input'>
 <span class='co'># both tails</span>
-<span class='fu'>infer_ts_paired_ttest</span>(<span class='no'>hsb</span>, <span class='no'>read</span>, <span class='no'>write</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'both'</span>)</div><div class='output co'>#&gt;                          Paired Samples Statistics                          
-#&gt; ---------------------------------------------------------------------------
-#&gt; Variables    Obs    Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
-#&gt; ---------------------------------------------------------------------------
-#&gt;    read       200    52.23      0.72         10.25         50.8      53.66   
-#&gt;    write      200    52.77      0.67         9.48         51.45      54.09    
-#&gt; ---------------------------------------------------------------------------
-#&gt;    diff       200    -0.55      0.63         8.89         -1.79       0.69    
-#&gt; ---------------------------------------------------------------------------
+<span class='fu'>infer_ts_paired_ttest</span>(<span class='no'>hsb</span>, <span class='no'>read</span>, <span class='no'>write</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'both'</span>)</div><div class='output co'>#&gt;                          Paired Samples Statistics                           
+#&gt; ----------------------------------------------------------------------------
+#&gt; Variables    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
+#&gt; ----------------------------------------------------------------------------
+#&gt;    read       200    52.23     0.7249921    10.25294        50.8      53.66   
+#&gt;    write      200    52.775    0.6702372    9.478586       51.45       54.1    
+#&gt; ----------------------------------------------------------------------------
+#&gt;    diff       200    -0.545    0.6283822    8.886666       -1.78       0.69    
+#&gt; ----------------------------------------------------------------------------
 #&gt; 
 #&gt;          Paired Samples Correlations         
 #&gt; -------------------------------------------
@@ -251,26 +271,26 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
 #&gt;  read &amp; write    200       0.60        0 
 #&gt; -------------------------------------------
 #&gt; 
-#&gt;           Paired Samples Test           
-#&gt;           -------------------           
-#&gt;       Ho: mean(read - write) = 0        
-#&gt;       Ha: mean(read - write) ~= 0       
+#&gt;           Paired Samples Test            
+#&gt;           -------------------            
+#&gt;        Ho: mean(read - write) = 0        
+#&gt;       Ha: mean(read - write) ~= 0        
 #&gt; 
-#&gt; ---------------------------------------
-#&gt;   Variables        t       df     Sig.  
-#&gt; ---------------------------------------
-#&gt;  read - write    -0.873    199    0.384 
-#&gt; ---------------------------------------</div><div class='input'>
+#&gt; ----------------------------------------
+#&gt;   Variables         t       df     Sig.  
+#&gt; ----------------------------------------
+#&gt;  read - write    -0.8673    199    0.387 
+#&gt; ----------------------------------------</div><div class='input'>
 <span class='co'># all tails</span>
-<span class='fu'>infer_ts_paired_ttest</span>(<span class='no'>hsb</span>, <span class='no'>read</span>, <span class='no'>write</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'all'</span>)</div><div class='output co'>#&gt;                          Paired Samples Statistics                          
-#&gt; ---------------------------------------------------------------------------
-#&gt; Variables    Obs    Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
-#&gt; ---------------------------------------------------------------------------
-#&gt;    read       200    52.23      0.72         10.25         50.8      53.66   
-#&gt;    write      200    52.77      0.67         9.48         51.45      54.09    
-#&gt; ---------------------------------------------------------------------------
-#&gt;    diff       200    -0.55      0.63         8.89         -1.79       0.69    
-#&gt; ---------------------------------------------------------------------------
+<span class='fu'>infer_ts_paired_ttest</span>(<span class='no'>hsb</span>, <span class='no'>read</span>, <span class='no'>write</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'all'</span>)</div><div class='output co'>#&gt;                          Paired Samples Statistics                           
+#&gt; ----------------------------------------------------------------------------
+#&gt; Variables    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
+#&gt; ----------------------------------------------------------------------------
+#&gt;    read       200    52.23     0.7249921    10.25294        50.8      53.66   
+#&gt;    write      200    52.775    0.6702372    9.478586       51.45       54.1    
+#&gt; ----------------------------------------------------------------------------
+#&gt;    diff       200    -0.545    0.6283822    8.886666       -1.78       0.69    
+#&gt; ----------------------------------------------------------------------------
 #&gt; 
 #&gt;          Paired Samples Correlations         
 #&gt; -------------------------------------------
@@ -281,8 +301,8 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
 #&gt;                 Ho: mean(read - write) = mean(diff) = 0                  
 #&gt; 
 #&gt;    Ha: mean(diff) &lt; 0      Ha: mean(diff) ~= 0       Ha: mean(diff) &gt; 0    
-#&gt;        t = -0.873               t = -0.873               t = -0.873        
-#&gt;      P &lt; t = 0.192           P &gt; |t| = 0.384           P &gt; t = 0.808       </div></pre>
+#&gt;        t = -0.8673              t = -0.8673              t = -0.8673       
+#&gt;      P &lt; t = 0.193           P &gt; |t| = 0.387           P &gt; t = 0.807       </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -305,15 +325,18 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Aravind Hebbali.</p>
+  <p>Developed by <a href='https://www.aravindhebbali.com'>Aravind Hebbali</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

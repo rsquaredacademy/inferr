@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Two Sample Test of Proportion � infer_ts_prop_test • inferr</title>
+<title>Two Sample Test of Proportion — infer_ts_prop_test • inferr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -18,13 +18,24 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+
+
+
+<meta property="og:title" content="Two Sample Test of Proportion — infer_ts_prop_test" />
+
+<meta property="og:description" content="Tests on the equality of proportions using
+large-sample statistics. It tests that a sample has the same proportion
+within two independent groups or two samples have the same proportion." />
+<meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -47,8 +58,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">inferr</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">inferr</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.3.0.9000</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -91,6 +106,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -98,17 +114,21 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Two Sample Test of Proportion</h1>
+    <small class="dont-index">Source: <a href='https://github.com/rsquaredacademy/inferr/blob/master/R/infer-ts-prop-test.R'><code>R/infer-ts-prop-test.R</code></a></small>
+    <div class="hidden name"><code>infer_ts_prop_test.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Tests on the equality of proportions using
 large-sample statistics. It tests that a sample has the same proportion
 within two independent groups or two samples have the same proportion.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>infer_ts_prop_test</span>(<span class='no'>data</span>, <span class='no'>var1</span>, <span class='no'>var2</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"both"</span>, <span class='st'>"less"</span>,
   <span class='st'>"greater"</span>, <span class='st'>"all"</span>), <span class='no'>...</span>)
@@ -119,7 +139,7 @@ within two independent groups or two samples have the same proportion.</p>
 <span class='fu'>infer_ts_prop_calc</span>(<span class='no'>n1</span>, <span class='no'>n2</span>, <span class='no'>p1</span>, <span class='no'>p2</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"both"</span>, <span class='st'>"less"</span>, <span class='st'>"greater"</span>,
   <span class='st'>"all"</span>), <span class='no'>...</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -186,6 +206,7 @@ following components:</p>
     
     <h2 class="hasAnchor" id="deprecated-functions"><a class="anchor" href="#deprecated-functions"></a>Deprecated Functions</h2>
 
+    
     <p><code>ts_prop_test()</code>, <code>ts_prop_grp()</code> and <code>ts_prop_calc()</code> have
 been deprecated. Instead use <code>infer_ts_prop_test()</code>,
 <code>infer_ts_prop_grp()</code> and <code>infer_ts_prop_calc()</code>.</p>
@@ -197,35 +218,35 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p><code><a href='http://www.rdocumentation.org/packages/stats/topics/prop.test'>prop.test</a></code></p>
+    <div class='dont-index'><p><code><a href='http://www.rdocumentation.org/packages/stats/topics/prop.test'>prop.test</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># using variables</span>
 <span class='co'># lower tail</span>
 <span class='fu'>infer_ts_prop_test</span>(<span class='no'>treatment</span>, <span class='no'>treatment1</span>, <span class='no'>treatment2</span>,
-<span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;     Test Statistics      
-#&gt; ------------------------
-#&gt; Sample Size           50 
-#&gt; z                  0.403 
-#&gt; Pr(Z &lt; z)          0.656 
+<span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;        Test Statistics        
+#&gt; -----------------------------
+#&gt; Total Observations        100 
+#&gt; z                       0.403 
+#&gt; Pr(Z &lt; z)               0.656 
 #&gt; </div><div class='input'>
 <span class='co'># using groups</span>
 <span class='co'># lower tail</span>
 <span class='fu'>infer_ts_prop_grp</span>(<span class='no'>treatment2</span>, <span class='no'>outcome</span>, <span class='no'>female</span>,
-<span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;     Test Statistics      
-#&gt; ------------------------
-#&gt; Sample Size           91 
-#&gt; z                  0.351 
-#&gt; Pr(Z &lt; z)          0.637 
+<span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;        Test Statistics        
+#&gt; -----------------------------
+#&gt; Total Observations        200 
+#&gt; z                       0.351 
+#&gt; Pr(Z &lt; z)               0.637 
 #&gt; </div><div class='input'>
 <span class='co'># using sample size and proportions</span>
 <span class='co'># lower tail</span>
-<span class='fu'>infer_ts_prop_calc</span>(<span class='kw'>n1</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>n2</span> <span class='kw'>=</span> <span class='fl'>25</span>, <span class='kw'>p1</span> <span class='kw'>=</span> <span class='fl'>0.3</span>, <span class='kw'>p2</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;      Test Statistics      
-#&gt; -------------------------
-#&gt; Sample Size            30 
-#&gt; z                  -1.514 
-#&gt; Pr(Z &lt; z)           0.065 
+<span class='fu'>infer_ts_prop_calc</span>(<span class='kw'>n1</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>n2</span> <span class='kw'>=</span> <span class='fl'>25</span>, <span class='kw'>p1</span> <span class='kw'>=</span> <span class='fl'>0.3</span>, <span class='kw'>p2</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;        Test Statistics         
+#&gt; ------------------------------
+#&gt; Total Observations          55 
+#&gt; z                       -1.514 
+#&gt; Pr(Z &lt; z)                0.065 
 #&gt; </div><div class='input'>
 </div></pre>
   </div>
@@ -250,15 +271,18 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Aravind Hebbali.</p>
+  <p>Developed by <a href='https://www.aravindhebbali.com'>Aravind Hebbali</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+

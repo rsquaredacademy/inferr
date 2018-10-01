@@ -5,22 +5,26 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Inferential Statistics • inferr</title>
-<meta name="description" content="Rsquared Academy inferr Package">
+<title>inferr • Tools for Inferential Statistics</title>
+<meta name="description" content="Tools for statistical inference.">
     <meta name="author" content="Rsquared Academy">
     <link rel="canonical" href="https://inferr.rsquaredacademy.com/" />
     <meta property="og:url" content="https://inferr.rsquaredacademy.com/"/>
-    <meta property="og:title" content="Rsquared Academy"/>
+    <meta property="og:title" content="inferr | Rsquared Academy"/>
     <meta property="og:site_name" content="inferr.rsquaredacademy.com"/>
-    <meta property="og:description" content="Rsquared Academy inferr Package."/>
-    <meta name="keywords" content="aravind, hebbali, rsquared, academy, interactive, shiny, inferr, package, inferential, statistics, R" />
-    <meta name="description" content="Rsquared Academy inferr Package" />
+    <meta property="og:description" content="Tools for statistical inference."/>
+    <meta name="keywords" content="aravind hebbali, rsquared academy, interactive, shiny, inferr package, inferential statistics r, statistical inference r, inferr r package, binomial test r, levene test r, R,
+    one way anova r, runs test r, mcnemar test r, cochran q test r, chisquare goodness of fit test r,
+    chisquare test of association r, chisquare association test r, one sample t test r, two sample t test r,
+    one sample variance test r, two sample variance test r, two sample indpendent t test r, paired t test r,
+    indpendent sample t test r, statistical tests r" />
+    <meta name="description" content="Tools for statistical inference." />
+    <meta name="referrer" content="no-referrer">
     <meta property="og:image" content="https://inferr.rsquaredacademy.com/hex_inferr.png"/>
   <meta property="og:image:height" content="219"/>
   <meta property="og:image:width" content="220"/>
-  <meta name="twitter:title" content="inferr" />
-  <meta name="twitter:description" content="Select set of parametric and non-parametric statistical tests. 'inferr' builds upon the solid set of statistical tests provided in 'stats' package by including additional data types as inputs, expanding and
-  restructuring the test results. The tests included are t tests, variance tests, proportion tests, chi square tests, Levene's test, McNemar Test, Cochran's Q test and Runs test." />
+  <meta name="twitter:title" content="inferr | Rsquared Academy" />
+  <meta name="twitter:description" content="Tools for statistical inference." />
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:site" content="@rsquaredacademy" />
   <meta name="twitter:image" content="https://inferr.rsquaredacademy.com/hex_inferr.png" />
@@ -30,8 +34,9 @@
   <meta name="twitter:domain" content="inferr.rsquaredacademy.com" />
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-<!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="jquery.sticky-kit.min.js"></script><script src="pkgdown.js"></script><!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
+<script src="jquery.sticky-kit.min.js"></script><script src="pkgdown.js"></script>
+<!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
@@ -45,7 +50,7 @@
 </script>
 </head>
 <body>
-    <div class="container template-vignette">
+    <div class="container template-article">
       <header><div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -54,8 +59,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">inferr</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="index.html">inferr</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.3.0.9000</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
@@ -106,32 +115,21 @@
 
       
       </header><div class="row">
-  <div class="col-md-9">
+  <div class="col-md-9 contents">
     
 
     
     
-<div class="contents">
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-<div id="inferr-inferential-statistics-with-r" class="section level2">
-<h2 class="hasAnchor">
-<a href="#inferr-inferential-statistics-with-r" class="anchor"></a>inferr: Inferential statistics with R <img src="hex_inferr.png"  height="100px" align="right">
-</h2>
-<p><strong>Author:</strong> <a href="http://www.aravindhebbali.com">Aravind Hebbali</a><br><strong>License:</strong> <a href="https://opensource.org/licenses/MIT">MIT</a></p>
-<p><a href="https://cran.r-project.org/package=inferr"><img src="http://www.r-pkg.org/badges/version/inferr" alt="CRAN_Status_Badge"></a> <a href="https://travis-ci.org/rsquaredacademy/inferr"><img src="https://travis-ci.org/rsquaredacademy/inferr.svg?branch=master" alt="Travis-CI Build Status"></a> <a href="https://ci.appveyor.com/project/rsquaredacademy/inferr"><img src="https://ci.appveyor.com/api/projects/status/github/rsquaredacademy/inferr?branch=master&amp;svg=true" alt="AppVeyor Build Status"></a> <a href="https://codecov.io/github/rsquaredacademy/inferr?branch=master"><img src="https://codecov.io/gh/rsquaredacademy/inferr/branch/master/graph/badge.svg" alt="Coverage status"></a> <a href="https://cran.r-project.org/package=inferr"><img src="https://cranlogs.r-pkg.org/badges/grand-total/inferr"></a> <img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg"></p>
-</div>
+<div id="inferr" class="section level1">
+<div class="page-header"><h1 class="hasAnchor">
+<a href="#inferr" class="anchor"></a>inferr <img src="hex_inferr.png" height="100px" align="right">
+</h1></div>
+<p><a href="https://cran.r-project.org/package=inferr"><img src="http://www.r-pkg.org/badges/version/inferr" alt="CRAN_Status_Badge"></a> <a href="https://cran.r-project.org/web/checks/check_results_inferr.html"><img src="https://cranchecks.info/badges/summary/inferr" alt="cran checks"></a> <a href="https://travis-ci.org/rsquaredacademy/inferr"><img src="https://travis-ci.org/rsquaredacademy/inferr.svg?branch=master" alt="Travis-CI Build Status"></a> <a href="https://ci.appveyor.com/project/rsquaredacademy/inferr"><img src="https://ci.appveyor.com/api/projects/status/github/rsquaredacademy/inferr?branch=master&amp;svg=true" alt="AppVeyor Build Status"></a> <a href="https://codecov.io/github/rsquaredacademy/inferr?branch=master"><img src="https://codecov.io/gh/rsquaredacademy/inferr/branch/master/graph/badge.svg" alt="Coverage status"></a> <a href="https://cran.r-project.org/package=inferr"><img src="https://cranlogs.r-pkg.org/badges/grand-total/inferr"></a> <img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg"></p>
 <div id="overview" class="section level2">
 <h2 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h2>
-<p>Inferential statistics allows us to make generalizations about populations using data drawn from the population. We use them when it is impractical or impossible to collect data about the whole population under study and instead, we have a sample that represents the population under study and using inferential statistics technique, we make generalizations about the population from the sample.</p>
-<p>The <strong>inferr</strong> package:</p>
-<ul>
-<li>builds upon the statistical tests provided in <strong>stats</strong><br>
-</li>
-<li>provides additional and flexible input options</li>
-<li>more detailed and structured test results</li>
-</ul>
-<p>As of version 0.1, <strong>inferr</strong> includes a select set of parametric and non-parametric statistical tests which are listed below:</p>
+<p>inferr builds upon the statistical tests provided in <strong>stats</strong>, provides additional and flexible input options and more detailed and structured test results. As of version 0.3, <strong>inferr</strong> includes a select set of parametric and non-parametric statistical tests which are listed below:</p>
 <ul>
 <li>One Sample t Test</li>
 <li>Paired Sample t Test</li>
@@ -153,21 +151,21 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># install inferr from CRAN</span></a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">install.packages</span>(<span class="st">"inferr"</span>)</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co"># the development version from github</span></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co"># install.packages("devtools")</span></a>
-<a class="sourceLine" id="cb1-6" data-line-number="6">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"rsquaredacademy/inferr"</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install inferr from CRAN</span>
+<span class="kw">install.packages</span>(<span class="st">"inferr"</span>)
+
+<span class="co"># the development version from github</span>
+<span class="co"># install.packages("devtools")</span>
+devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"rsquaredacademy/inferr"</span>)</code></pre></div>
 </div>
 <div id="shiny-app" class="section level2">
 <h2 class="hasAnchor">
 <a href="#shiny-app" class="anchor"></a>Shiny App</h2>
 <p>Use <code><a href="reference/infer_launch_shiny_app.html">infer_launch_shiny_app()</a></code> to explore the package using a shiny app.</p>
 </div>
-<div id="vignettes" class="section level2">
+<div id="articles" class="section level2">
 <h2 class="hasAnchor">
-<a href="#vignettes" class="anchor"></a>Vignettes</h2>
+<a href="#articles" class="anchor"></a>Articles</h2>
 <ul>
 <li><a href="http://www.rsquaredacademy.com/inferr/articles/index.html">Introduction to inferr</a></li>
 </ul>
@@ -175,161 +173,170 @@
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
-<div id="one-sample-t-test" class="section level5">
-<h5 class="hasAnchor">
-<a href="#one-sample-t-test" class="anchor"></a>One Sample t Test</h5>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="reference/infer_os_t_test.html">infer_os_t_test</a></span>(hsb, write, <span class="dt">mu =</span> <span class="dv">50</span>, <span class="dt">type =</span> <span class="st">'all'</span>)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt;                               One-Sample Statistics                               </span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt; ---------------------------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt;  Variable    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] </span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; ---------------------------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt;   write      200    52.775     0.6702       9.4786       51.4537    54.0969   </span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; ---------------------------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt;                                   Two Tail Test                                  </span></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt;                                  ---------------                                  </span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt;                                Ho: mean(write) ~=50                              </span></a>
-<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt;                                Ha: mean(write) !=50                               </span></a>
-<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">#&gt; --------------------------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">#&gt;  Variable      t      DF       Sig       Mean Diff.    [95% Conf. Interval] </span></a>
-<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">#&gt; --------------------------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt;   write      4.141    199    0.99997       2.775         1.4537     4.0969   </span></a>
-<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="co">#&gt; --------------------------------------------------------------------------------</span></a></code></pre></div>
+<div id="one-sample-t-test" class="section level4">
+<h4 class="hasAnchor">
+<a href="#one-sample-t-test" class="anchor"></a>One Sample t Test</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/infer_os_t_test.html">infer_os_t_test</a></span>(hsb, write, <span class="dt">mu =</span> <span class="dv">50</span>, <span class="dt">type =</span> <span class="st">'all'</span>)
+<span class="co">#&gt;                               One-Sample Statistics                               </span>
+<span class="co">#&gt; ---------------------------------------------------------------------------------</span>
+<span class="co">#&gt;  Variable    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] </span>
+<span class="co">#&gt; ---------------------------------------------------------------------------------</span>
+<span class="co">#&gt;   write      200    52.775     0.6702       9.4786       51.4537    54.0969   </span>
+<span class="co">#&gt; ---------------------------------------------------------------------------------</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;                                   Two Tail Test                                  </span>
+<span class="co">#&gt;                                  ---------------                                  </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;                                Ho: mean(write) ~=50                              </span>
+<span class="co">#&gt;                                Ha: mean(write) !=50                               </span>
+<span class="co">#&gt; --------------------------------------------------------------------------------</span>
+<span class="co">#&gt;  Variable      t      DF       Sig       Mean Diff.    [95% Conf. Interval] </span>
+<span class="co">#&gt; --------------------------------------------------------------------------------</span>
+<span class="co">#&gt;   write      4.141    199    0.99997       2.775         1.4537     4.0969   </span>
+<span class="co">#&gt; --------------------------------------------------------------------------------</span></code></pre></div>
 </div>
-<div id="anova" class="section level5">
-<h5 class="hasAnchor">
-<a href="#anova" class="anchor"></a>ANOVA</h5>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="reference/infer_oneway_anova.html">infer_oneway_anova</a></span>(hsb, write, prog)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt;                                 ANOVA                                  </span></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; ----------------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt;                    Sum of                                             </span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt;                    Squares     DF     Mean Square      F        Sig.  </span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; ----------------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; Between Groups    3175.698      2      1587.849      21.275    0.0000 </span></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; Within Groups     14703.177    197      74.635                        </span></a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; Total             17878.875    199                                    </span></a>
-<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; ----------------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt;                  Report                   </span></a>
-<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt; -----------------------------------------</span></a>
-<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">#&gt; Category     N       Mean      Std. Dev. </span></a>
-<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co">#&gt; -----------------------------------------</span></a>
-<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="co">#&gt;    1        45      51.333       9.398   </span></a>
-<a class="sourceLine" id="cb3-17" data-line-number="17"><span class="co">#&gt;    2        105     56.257       7.943   </span></a>
-<a class="sourceLine" id="cb3-18" data-line-number="18"><span class="co">#&gt;    3        50      46.760       9.319   </span></a>
-<a class="sourceLine" id="cb3-19" data-line-number="19"><span class="co">#&gt; -----------------------------------------</span></a>
-<a class="sourceLine" id="cb3-20" data-line-number="20"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb3-21" data-line-number="21"><span class="co">#&gt; Number of obs = 200       R-squared     = 0.1776 </span></a>
-<a class="sourceLine" id="cb3-22" data-line-number="22"><span class="co">#&gt; Root MSE      = 8.6392    Adj R-squared = 0.1693</span></a></code></pre></div>
+<div id="anova" class="section level4">
+<h4 class="hasAnchor">
+<a href="#anova" class="anchor"></a>ANOVA</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/infer_oneway_anova.html">infer_oneway_anova</a></span>(hsb, write, prog)
+<span class="co">#&gt;                                 ANOVA                                  </span>
+<span class="co">#&gt; ----------------------------------------------------------------------</span>
+<span class="co">#&gt;                    Sum of                                             </span>
+<span class="co">#&gt;                    Squares     DF     Mean Square      F        Sig.  </span>
+<span class="co">#&gt; ----------------------------------------------------------------------</span>
+<span class="co">#&gt; Between Groups    3175.698      2      1587.849      21.275    0.0000 </span>
+<span class="co">#&gt; Within Groups     14703.177    197      74.635                        </span>
+<span class="co">#&gt; Total             17878.875    199                                    </span>
+<span class="co">#&gt; ----------------------------------------------------------------------</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;                  Report                   </span>
+<span class="co">#&gt; -----------------------------------------</span>
+<span class="co">#&gt; Category     N       Mean      Std. Dev. </span>
+<span class="co">#&gt; -----------------------------------------</span>
+<span class="co">#&gt;    1        45      51.333       9.398   </span>
+<span class="co">#&gt;    2        105     56.257       7.943   </span>
+<span class="co">#&gt;    3        50      46.760       9.319   </span>
+<span class="co">#&gt; -----------------------------------------</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Number of obs = 200       R-squared     = 0.1776 </span>
+<span class="co">#&gt; Root MSE      = 8.6392    Adj R-squared = 0.1693</span></code></pre></div>
 </div>
-<div id="chi-square-test-of-independence" class="section level5">
-<h5 class="hasAnchor">
-<a href="#chi-square-test-of-independence" class="anchor"></a>Chi Square Test of Independence</h5>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="reference/infer_chisq_assoc_test.html">infer_chisq_assoc_test</a></span>(hsb, female, schtyp)</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt;                Chi Square Statistics                 </span></a>
-<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt; Statistics                     DF    Value      Prob </span></a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt; ----------------------------------------------------</span></a>
-<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt; Chi-Square                     1    0.0470    0.8284</span></a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt; Likelihood Ratio Chi-Square    1    0.0471    0.8282</span></a>
-<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; Continuity Adj. Chi-Square     1    0.0005    0.9822</span></a>
-<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; Mantel-Haenszel Chi-Square     1    0.0468    0.8287</span></a>
-<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; Phi Coefficient                     0.0153          </span></a>
-<a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt; Contingency Coefficient             0.0153          </span></a>
-<a class="sourceLine" id="cb4-12" data-line-number="12"><span class="co">#&gt; Cramer's V                          0.0153          </span></a>
-<a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt; ----------------------------------------------------</span></a></code></pre></div>
+<div id="chi-square-test-of-independence" class="section level4">
+<h4 class="hasAnchor">
+<a href="#chi-square-test-of-independence" class="anchor"></a>Chi Square Test of Independence</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/infer_chisq_assoc_test.html">infer_chisq_assoc_test</a></span>(hsb, female, schtyp)
+<span class="co">#&gt;                Chi Square Statistics                 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Statistics                     DF    Value      Prob </span>
+<span class="co">#&gt; ----------------------------------------------------</span>
+<span class="co">#&gt; Chi-Square                     1    0.0470    0.8284</span>
+<span class="co">#&gt; Likelihood Ratio Chi-Square    1    0.0471    0.8282</span>
+<span class="co">#&gt; Continuity Adj. Chi-Square     1    0.0005    0.9822</span>
+<span class="co">#&gt; Mantel-Haenszel Chi-Square     1    0.0468    0.8287</span>
+<span class="co">#&gt; Phi Coefficient                     0.0153          </span>
+<span class="co">#&gt; Contingency Coefficient             0.0153          </span>
+<span class="co">#&gt; Cramer's V                          0.0153          </span>
+<span class="co">#&gt; ----------------------------------------------------</span></code></pre></div>
 </div>
-<div id="levenes-test" class="section level5">
-<h5 class="hasAnchor">
-<a href="#levenes-test" class="anchor"></a>Levene’s Test</h5>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="reference/infer_levene_test.html">infer_levene_test</a></span>(hsb, read, <span class="dt">group_var =</span> race)</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt;            Summary Statistics             </span></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt; Levels    Frequency    Mean     Std. Dev  </span></a>
-<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt; -----------------------------------------</span></a>
-<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt;   1          24        46.67      10.24   </span></a>
-<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt;   2          11        51.91      7.66    </span></a>
-<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt;   3          20        46.8       7.12    </span></a>
-<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt;   4          145       53.92      10.28   </span></a>
-<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; -----------------------------------------</span></a>
-<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; Total        200       52.23      10.25   </span></a>
-<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; -----------------------------------------</span></a>
-<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt;                              Test Statistics                              </span></a>
-<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="co">#&gt; -------------------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co">#&gt; Statistic                            Num DF    Den DF         F    Pr &gt; F </span></a>
-<a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co">#&gt; -------------------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb5-17" data-line-number="17"><span class="co">#&gt; Brown and Forsythe                        3       196      3.44    0.0179 </span></a>
-<a class="sourceLine" id="cb5-18" data-line-number="18"><span class="co">#&gt; Levene                                    3       196    3.4792     0.017 </span></a>
-<a class="sourceLine" id="cb5-19" data-line-number="19"><span class="co">#&gt; Brown and Forsythe (Trimmed Mean)         3       196    3.3936     0.019 </span></a>
-<a class="sourceLine" id="cb5-20" data-line-number="20"><span class="co">#&gt; -------------------------------------------------------------------------</span></a></code></pre></div>
+<div id="levenes-test" class="section level4">
+<h4 class="hasAnchor">
+<a href="#levenes-test" class="anchor"></a>Levene’s Test</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/infer_levene_test.html">infer_levene_test</a></span>(hsb, read, <span class="dt">group_var =</span> race)
+<span class="co">#&gt;            Summary Statistics             </span>
+<span class="co">#&gt; Levels    Frequency    Mean     Std. Dev  </span>
+<span class="co">#&gt; -----------------------------------------</span>
+<span class="co">#&gt;   1          24        46.67      10.24   </span>
+<span class="co">#&gt;   2          11        51.91      7.66    </span>
+<span class="co">#&gt;   3          20        46.8       7.12    </span>
+<span class="co">#&gt;   4          145       53.92      10.28   </span>
+<span class="co">#&gt; -----------------------------------------</span>
+<span class="co">#&gt; Total        200       52.23      10.25   </span>
+<span class="co">#&gt; -----------------------------------------</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;                              Test Statistics                              </span>
+<span class="co">#&gt; -------------------------------------------------------------------------</span>
+<span class="co">#&gt; Statistic                            Num DF    Den DF         F    Pr &gt; F </span>
+<span class="co">#&gt; -------------------------------------------------------------------------</span>
+<span class="co">#&gt; Brown and Forsythe                        3       196      3.44    0.0179 </span>
+<span class="co">#&gt; Levene                                    3       196    3.4792     0.017 </span>
+<span class="co">#&gt; Brown and Forsythe (Trimmed Mean)         3       196    3.3936     0.019 </span>
+<span class="co">#&gt; -------------------------------------------------------------------------</span></code></pre></div>
 </div>
-<div id="cochrans-q-test" class="section level5">
-<h5 class="hasAnchor">
-<a href="#cochrans-q-test" class="anchor"></a>Cochran’s Q Test</h5>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="reference/infer_cochran_qtest.html">infer_cochran_qtest</a></span>(exam, exam1, exam2, exam3)</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co">#&gt;    Test Statistics     </span></a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="co">#&gt; ----------------------</span></a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt; N                   15 </span></a>
-<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; Cochran's Q       4.75 </span></a>
-<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; df                   2 </span></a>
-<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt; p value          0.093 </span></a>
-<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; ----------------------</span></a></code></pre></div>
+<div id="cochrans-q-test" class="section level4">
+<h4 class="hasAnchor">
+<a href="#cochrans-q-test" class="anchor"></a>Cochran’s Q Test</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/infer_cochran_qtest.html">infer_cochran_qtest</a></span>(exam, exam1, exam2, exam3)
+<span class="co">#&gt;    Test Statistics     </span>
+<span class="co">#&gt; ----------------------</span>
+<span class="co">#&gt; N                   15 </span>
+<span class="co">#&gt; Cochran's Q       4.75 </span>
+<span class="co">#&gt; df                   2 </span>
+<span class="co">#&gt; p value          0.093 </span>
+<span class="co">#&gt; ----------------------</span></code></pre></div>
 </div>
-<div id="mcnemar-test" class="section level5">
-<h5 class="hasAnchor">
-<a href="#mcnemar-test" class="anchor"></a>McNemar Test</h5>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">hb &lt;-</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="st">   </span>hsb <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="st">     </span><span class="kw">mutate</span>(</a>
-<a class="sourceLine" id="cb7-4" data-line-number="4">       <span class="dt">himath =</span> <span class="kw">if_else</span>(math <span class="op">&gt;</span><span class="st"> </span><span class="dv">60</span>, <span class="dv">1</span>, <span class="dv">0</span>),</a>
-<a class="sourceLine" id="cb7-5" data-line-number="5">       <span class="dt">hiread =</span> <span class="kw">if_else</span>(read <span class="op">&gt;</span><span class="st"> </span><span class="dv">60</span>, <span class="dv">1</span>, <span class="dv">0</span>)</a>
-<a class="sourceLine" id="cb7-6" data-line-number="6">     )</a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="kw"><a href="reference/infer_mcnemar_test.html">infer_mcnemar_test</a></span>(hb, himath, hiread)</a>
-<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt;            Controls </span></a>
-<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">#&gt; ---------------------------------</span></a>
-<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">#&gt; Cases       0       1       Total </span></a>
-<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">#&gt; ---------------------------------</span></a>
-<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">#&gt;   0        135      21        156 </span></a>
-<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">#&gt;   1         18      26         44 </span></a>
-<a class="sourceLine" id="cb7-14" data-line-number="14"><span class="co">#&gt; ---------------------------------</span></a>
-<a class="sourceLine" id="cb7-15" data-line-number="15"><span class="co">#&gt; Total      153      47        200 </span></a>
-<a class="sourceLine" id="cb7-16" data-line-number="16"><span class="co">#&gt; ---------------------------------</span></a>
-<a class="sourceLine" id="cb7-17" data-line-number="17"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb7-18" data-line-number="18"><span class="co">#&gt;        McNemar's Test        </span></a>
-<a class="sourceLine" id="cb7-19" data-line-number="19"><span class="co">#&gt; ----------------------------</span></a>
-<a class="sourceLine" id="cb7-20" data-line-number="20"><span class="co">#&gt; McNemar's chi2        0.2308 </span></a>
-<a class="sourceLine" id="cb7-21" data-line-number="21"><span class="co">#&gt; DF                         1 </span></a>
-<a class="sourceLine" id="cb7-22" data-line-number="22"><span class="co">#&gt; Pr &gt; chi2              0.631 </span></a>
-<a class="sourceLine" id="cb7-23" data-line-number="23"><span class="co">#&gt; Exact Pr &gt;= chi2      0.7493 </span></a>
-<a class="sourceLine" id="cb7-24" data-line-number="24"><span class="co">#&gt; ----------------------------</span></a>
-<a class="sourceLine" id="cb7-25" data-line-number="25"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb7-26" data-line-number="26"><span class="co">#&gt;        Kappa Coefficient         </span></a>
-<a class="sourceLine" id="cb7-27" data-line-number="27"><span class="co">#&gt; --------------------------------</span></a>
-<a class="sourceLine" id="cb7-28" data-line-number="28"><span class="co">#&gt; Kappa                     0.4454 </span></a>
-<a class="sourceLine" id="cb7-29" data-line-number="29"><span class="co">#&gt; ASE                        0.075 </span></a>
-<a class="sourceLine" id="cb7-30" data-line-number="30"><span class="co">#&gt; 95% Lower Conf Limit      0.2984 </span></a>
-<a class="sourceLine" id="cb7-31" data-line-number="31"><span class="co">#&gt; 95% Upper Conf Limit      0.5923 </span></a>
-<a class="sourceLine" id="cb7-32" data-line-number="32"><span class="co">#&gt; --------------------------------</span></a>
-<a class="sourceLine" id="cb7-33" data-line-number="33"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb7-34" data-line-number="34"><span class="co">#&gt; Proportion With Factor </span></a>
-<a class="sourceLine" id="cb7-35" data-line-number="35"><span class="co">#&gt; ----------------------</span></a>
-<a class="sourceLine" id="cb7-36" data-line-number="36"><span class="co">#&gt; cases             0.78 </span></a>
-<a class="sourceLine" id="cb7-37" data-line-number="37"><span class="co">#&gt; controls         0.765 </span></a>
-<a class="sourceLine" id="cb7-38" data-line-number="38"><span class="co">#&gt; ratio           1.0196 </span></a>
-<a class="sourceLine" id="cb7-39" data-line-number="39"><span class="co">#&gt; odds ratio      1.1667 </span></a>
-<a class="sourceLine" id="cb7-40" data-line-number="40"><span class="co">#&gt; ----------------------</span></a></code></pre></div>
-<p>Please note that this project is released with a <a href="CONDUCT.md">Contributor Code of Conduct</a>. By participating in this project you agree to abide by its terms.</p>
+<div id="mcnemar-test" class="section level4">
+<h4 class="hasAnchor">
+<a href="#mcnemar-test" class="anchor"></a>McNemar Test</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">hb &lt;-
+<span class="st">   </span>hsb <span class="op">%&gt;%</span>
+<span class="st">     </span><span class="kw">mutate</span>(
+       <span class="dt">himath =</span> <span class="kw">if_else</span>(math <span class="op">&gt;</span><span class="st"> </span><span class="dv">60</span>, <span class="dv">1</span>, <span class="dv">0</span>),
+       <span class="dt">hiread =</span> <span class="kw">if_else</span>(read <span class="op">&gt;</span><span class="st"> </span><span class="dv">60</span>, <span class="dv">1</span>, <span class="dv">0</span>)
+     )
+<span class="kw"><a href="reference/infer_mcnemar_test.html">infer_mcnemar_test</a></span>(hb, himath, hiread)
+<span class="co">#&gt;            Controls </span>
+<span class="co">#&gt; ---------------------------------</span>
+<span class="co">#&gt; Cases       0       1       Total </span>
+<span class="co">#&gt; ---------------------------------</span>
+<span class="co">#&gt;   0        135      21        156 </span>
+<span class="co">#&gt;   1         18      26         44 </span>
+<span class="co">#&gt; ---------------------------------</span>
+<span class="co">#&gt; Total      153      47        200 </span>
+<span class="co">#&gt; ---------------------------------</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;        McNemar's Test        </span>
+<span class="co">#&gt; ----------------------------</span>
+<span class="co">#&gt; McNemar's chi2        0.2308 </span>
+<span class="co">#&gt; DF                         1 </span>
+<span class="co">#&gt; Pr &gt; chi2              0.631 </span>
+<span class="co">#&gt; Exact Pr &gt;= chi2      0.7493 </span>
+<span class="co">#&gt; ----------------------------</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;        Kappa Coefficient         </span>
+<span class="co">#&gt; --------------------------------</span>
+<span class="co">#&gt; Kappa                     0.4454 </span>
+<span class="co">#&gt; ASE                        0.075 </span>
+<span class="co">#&gt; 95% Lower Conf Limit      0.2984 </span>
+<span class="co">#&gt; 95% Upper Conf Limit      0.5923 </span>
+<span class="co">#&gt; --------------------------------</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Proportion With Factor </span>
+<span class="co">#&gt; ----------------------</span>
+<span class="co">#&gt; cases             0.78 </span>
+<span class="co">#&gt; controls         0.765 </span>
+<span class="co">#&gt; ratio           1.0196 </span>
+<span class="co">#&gt; odds ratio      1.1667 </span>
+<span class="co">#&gt; ----------------------</span></code></pre></div>
 </div>
+</div>
+<div id="getting-help" class="section level2">
+<h2 class="hasAnchor">
+<a href="#getting-help" class="anchor"></a>Getting Help</h2>
+<p>If you encounter a bug, please file a minimal reproducible example using <a href="https://reprex.tidyverse.org/index.html">reprex</a> on github. For questions and clarifications, use <a href="https://stackoverflow.com/">StackOverflow</a>.</p>
+</div>
+<div id="code-of-conduct" class="section level2">
+<h2 class="hasAnchor">
+<a href="#code-of-conduct" class="anchor"></a>Code of Conduct</h2>
+<p>Please note that this project is released with a <a href="CONDUCT.html">Contributor Code of Conduct</a>. By participating in this project you agree to abide by its terms.</p>
 </div>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2 class="hasAnchor">
-<a href="#sidebar" class="anchor"></a>Links</h2>
+    <div class="links">
+<h2>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cran.r-project.org/package=inferr">https://​cran.r-project.org/​package=inferr</a>
+<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=inferr">https://​cloud.r-project.org/​package=inferr</a>
 </li>
 <li>Browse source code at <br><a href="https://github.com/rsquaredacademy/inferr">https://​github.com/​rsquaredacademy/​inferr</a>
 </li>
@@ -337,32 +344,45 @@
 </li>
 <li>Learn more at <br><a href="https://www.rsquaredacademy.com">https://​www.rsquaredacademy.com</a>
 </li>
-<li>Try shiny app at <br><a href="https://www.rsquaredcomputing.com/shiny/inferr/">https://www.rsquaredcomputing.com/shiny/inferr/​</a>
+<li>Try shiny app at <br><a href="https://www.rsquaredcomputing.com/shiny/inferr/">https://​www.rsquaredcomputing.com/​shiny/​inferr/​</a>
 </li>
 <li>Docker Image at <br><a href="https://hub.docker.com/r/rsquaredacademy/inferr/">https://​hub.docker.com/​r/​rsquaredacademy/​inferr/​</a>
 </li>
 </ul>
+</div>
+<div class="license">
 <h2>License</h2>
-<p><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE.html">LICENSE</a></p>
-<h2>Developers</h2>
 <ul class="list-unstyled">
-<li><a href="https://www.aravindhebbali.com/">Aravind Hebbali</a> <br><small class="roles"> Author, maintainer </small> </li>
+<li>
+<a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a>
+</li>
 </ul>
 </div>
+<div class="developers">
+<h2>Developers</h2>
+<ul class="list-unstyled">
+<li>
+<a href="https://www.aravindhebbali.com">Aravind Hebbali</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0001-9220-9669" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" height="16"></a> </li>
+</ul>
+</div>
+
+      </div>
 
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://www.aravindhebbali.com/">Aravind Hebbali</a>.</p>
+  <p>Developed by <a href="https://www.aravindhebbali.com">Aravind Hebbali</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
 </div>
+
+  
 
   </body>
 </html>

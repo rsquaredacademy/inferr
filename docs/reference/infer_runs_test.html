@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Test for Random Order � infer_runs_test • inferr</title>
+<title>Test for Random Order — infer_runs_test • inferr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -18,13 +18,26 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
+
+
+
+<meta property="og:title" content="Test for Random Order — infer_runs_test" />
+
+<meta property="og:description" content="runtest tests whether the observations of x are serially
+independent i.e. whether they occur in a random order, by counting
+how many runs there are above and below a threshold.  By default, the median
+is used as the threshold.  A small number of runs indicates positive serial
+correlation; a large number indicates negative serial correlation." />
+<meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -47,8 +60,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">inferr</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">inferr</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.3.0.9000</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -91,6 +108,7 @@
   </a>
 </li>
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -98,12 +116,15 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Test for Random Order</h1>
+    <small class="dont-index">Source: <a href='https://github.com/rsquaredacademy/inferr/blob/master/R/infer-runs-test.R'><code>R/infer-runs-test.R</code></a></small>
+    <div class="hidden name"><code>infer_runs_test.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>runtest tests whether the observations of <code>x</code> are serially
 independent i.e. whether they occur in a random order, by counting
@@ -111,11 +132,12 @@ how many runs there are above and below a threshold.  By default, the median
 is used as the threshold.  A small number of runs indicates positive serial
 correlation; a large number indicates negative serial correlation.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>infer_runs_test</span>(<span class='no'>data</span>, <span class='no'>x</span>, <span class='kw'>drop</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>split</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>mean</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -164,22 +186,68 @@ following components:</p>
     
     <h2 class="hasAnchor" id="deprecated-function"><a class="anchor" href="#deprecated-function"></a>Deprecated Function</h2>
 
+    
     <p><code>runs_test()</code> has been deprecated. Instead use <code>infer_runs_test()</code>.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.
-    Edgington, E. S. 1961. Probability table for number of runs of signs of first differences in ordered series. Journal of the American Statistical Association 56: 156�159.
-    Madansky, A. 1988. Prescriptions for Working Statisticians. New York: Springer.
-    Swed, F. S., and C. Eisenhart. 1943. Tables for testing randomness of grouping in a sequence of alternatives. Annals of Mathematical Statistics 14: 66�87.</p>
+    <p>Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
+<p>Edgington, E. S. 1961. Probability table for number of runs of signs of first differences in ordered series. Journal of the American Statistical Association 56: 156–159.</p>
+<p>Madansky, A. 1988. Prescriptions for Working Statisticians. New York: Springer.</p>
+<p>Swed, F. S., and C. Eisenhart. 1943. Tables for testing randomness of grouping in a sequence of alternatives. Annals of Mathematical Statistics 14: 66–87.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>infer_runs_test</span>(<span class='no'>hsb</span>, <span class='no'>read</span>)</div><div class='output co'>#&gt; <span class='error'>Error in nsignC(x_binary): object '_inferr_nsignC' not found</span></div><div class='input'>
-<span class='fu'>infer_runs_test</span>(<span class='no'>hsb</span>, <span class='no'>read</span>, <span class='kw'>drop</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in nsignC(x_binary): object '_inferr_nsignC' not found</span></div><div class='input'>
-<span class='fu'>infer_runs_test</span>(<span class='no'>hsb</span>, <span class='no'>read</span>, <span class='kw'>split</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in nsignC(x_binary): object '_inferr_nsignC' not found</span></div><div class='input'>
-<span class='fu'>infer_runs_test</span>(<span class='no'>hsb</span>, <span class='no'>read</span>, <span class='kw'>mean</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in nsignC(x_binary): object '_inferr_nsignC' not found</span></div><div class='input'>
-<span class='fu'>infer_runs_test</span>(<span class='no'>hsb</span>, <span class='no'>read</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>0</span>)</div><div class='output co'>#&gt; <span class='error'>Error in nsignC(x_binary): object '_inferr_nsignC' not found</span></div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>infer_runs_test</span>(<span class='no'>hsb</span>, <span class='no'>read</span>)</div><div class='output co'>#&gt; Runs Test
+#&gt;  Total Cases:  200 
+#&gt;  Test Value :  50 
+#&gt;  Cases &lt; Test Value:  101 
+#&gt;  Cases &gt; Test Value:  99 
+#&gt;  Number of Runs:  95 
+#&gt;  Expected Runs:  100.99 
+#&gt;  Variance (Runs):  49.73874 
+#&gt;  z Statistic:  -0.8493358 
+#&gt;  p-value:  0.3956945 </div><div class='input'>
+<span class='fu'>infer_runs_test</span>(<span class='no'>hsb</span>, <span class='no'>read</span>, <span class='kw'>drop</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Runs Test
+#&gt;  Total Cases:  200 
+#&gt;  Test Value :  50 
+#&gt;  Cases &lt; Test Value:  83 
+#&gt;  Cases &gt; Test Value:  99 
+#&gt;  Number of Runs:  89 
+#&gt;  Expected Runs:  91.2967 
+#&gt;  Variance (Runs):  44.54805 
+#&gt;  z Statistic:  -0.3441046 
+#&gt;  p-value:  0.7307676 </div><div class='input'>
+<span class='fu'>infer_runs_test</span>(<span class='no'>hsb</span>, <span class='no'>read</span>, <span class='kw'>split</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Runs Test
+#&gt;  Total Cases:  200 
+#&gt;  Test Value :  50 
+#&gt;  Cases &lt; Test Value:  101 
+#&gt;  Cases &gt; Test Value:  99 
+#&gt;  Number of Runs:  95 
+#&gt;  Expected Runs:  100.99 
+#&gt;  Variance (Runs):  49.73874 
+#&gt;  z Statistic:  -0.8493358 
+#&gt;  p-value:  0.3956945 </div><div class='input'>
+<span class='fu'>infer_runs_test</span>(<span class='no'>hsb</span>, <span class='no'>read</span>, <span class='kw'>mean</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Runs Test
+#&gt;  Total Cases:  200 
+#&gt;  Test Value :  52.23 
+#&gt;  Cases &lt; Test Value:  115 
+#&gt;  Cases &gt; Test Value:  85 
+#&gt;  Number of Runs:  93 
+#&gt;  Expected Runs:  98.75 
+#&gt;  Variance (Runs):  47.52418 
+#&gt;  z Statistic:  -0.8340854 
+#&gt;  p-value:  0.4042329 </div><div class='input'>
+<span class='fu'>infer_runs_test</span>(<span class='no'>hsb</span>, <span class='no'>read</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>0</span>)</div><div class='output co'>#&gt; Runs Test
+#&gt;  Total Cases:  200 
+#&gt;  Test Value :  0 
+#&gt;  Cases &lt; Test Value:  0 
+#&gt;  Cases &gt; Test Value:  200 
+#&gt;  Number of Runs:  1 
+#&gt;  Expected Runs:  1 
+#&gt;  Variance (Runs):  0 
+#&gt;  z Statistic:  NaN 
+#&gt;  p-value:  NaN </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -200,15 +268,18 @@ following components:</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Aravind Hebbali.</p>
+  <p>Developed by <a href='https://www.aravindhebbali.com'>Aravind Hebbali</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
    </div>
 
+  
+
   </body>
 </html>
+
