@@ -1,4 +1,3 @@
-#' @importFrom stats cor
 #' @title Paired t test
 #' @description \code{infer_ts_paired_ttest} tests that two samples have the
 #' same mean, assuming paired data.
@@ -58,18 +57,18 @@ infer_ts_paired_ttest <- function(data, x, y, confint = 0.95,
 #'
 infer_ts_paired_ttest.default <- function(data, x, y, confint = 0.95,
                                           alternative = c("both", "less", "greater", "all")) {
-  x1 <- enquo(x)
-  y1 <- enquo(y)
+  x1 <- rlang::enquo(x)
+  y1 <- rlang::enquo(y)
 
   method <- match.arg(alternative)
 
   var_names <-
     data %>%
-    select(!! x1, !! y1) %>%
+    dplyr::select(!! x1, !! y1) %>%
     names()
 
-  xone <- pull(data, !! x1)
-  yone <- pull(data, !! y1)
+  xone <- dplyr::pull(data, !! x1)
+  yone <- dplyr::pull(data, !! y1)
 
   k <- paired_comp(xone, yone, confint, var_names)
 

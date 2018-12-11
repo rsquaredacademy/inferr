@@ -1,4 +1,3 @@
-#' @importFrom shiny runApp
 #' @title Launch Shiny App
 #' @description Launches shiny app
 #' @examples

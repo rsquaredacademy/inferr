@@ -1,4 +1,3 @@
-#' @importFrom stats qnorm
 #' @importFrom magrittr %>%
 #' @title McNemar Test
 #' @description Test if the proportions of two dichotomous variables are
@@ -59,12 +58,12 @@ infer_mcnemar_test.default <- function(data, x = NULL, y = NULL) {
   if (is.matrix(data) | is.table(data)) {
     dat <- mcdata(data)
   } else {
-    x1 <- enquo(x)
-    y1 <- enquo(y)
+    x1 <- rlang::enquo(x)
+    y1 <- rlang::enquo(y)
 
     dat <-
       data %>%
-      select(!! x1, !! y1) %>%
+      dplyr::select(!! x1, !! y1) %>%
       table()
   }
 

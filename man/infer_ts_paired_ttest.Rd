@@ -5,8 +5,8 @@
 \alias{paired_ttest}
 \title{Paired t test}
 \usage{
-infer_ts_paired_ttest(data, x, y, confint = 0.95, alternative = c("both",
-  "less", "greater", "all"))
+infer_ts_paired_ttest(data, x, y, confint = 0.95,
+  alternative = c("both", "less", "greater", "all"))
 }
 \arguments{
 \item{data}{a \code{data.frame} or \code{tibble}}

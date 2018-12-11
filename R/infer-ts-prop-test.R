@@ -58,10 +58,10 @@ infer_ts_prop_test <- function(data, var1, var2,
 #'
 infer_ts_prop_test.default <- function(data, var1, var2,
                                        alternative = c("both", "less", "greater", "all"), ...) {
-  var_1  <- enquo(var1)
-  var_2  <- enquo(var2)
-  varone <- pull(data, !! var_1)
-  vartwo <- pull(data, !! var_2)
+  var_1  <- rlang::enquo(var1)
+  var_2  <- rlang::enquo(var2)
+  varone <- dplyr::pull(data, !! var_1)
+  vartwo <- dplyr::pull(data, !! var_2)
 
   alt <- match.arg(alternative)
   k   <- prop_comp2(varone, vartwo, alt)
@@ -96,10 +96,10 @@ print.infer_ts_prop_test <- function(x, ...) {
 #'
 infer_ts_prop_grp <- function(data, var, group,
                               alternative = c("both", "less", "greater", "all")) {
-  var1     <- enquo(var)
-  group1   <- enquo(group)
-  varone   <- pull(data, !! var1)
-  groupone <- pull(data, !! group1)
+  var1     <- rlang::enquo(var)
+  group1   <- rlang::enquo(group)
+  varone   <- dplyr::pull(data, !! var1)
+  groupone <- dplyr::pull(data, !! group1)
 
   if (nlevels(groupone) > 2) {
     stop("Grouping variable must be a binary factor variables.", call. = FALSE)
@@ -121,9 +121,9 @@ infer_ts_prop_grp <- function(data, var, group,
   z     <- num / den
 
 
-  lt <- pnorm(z)
-  ut <- round(pnorm(z, lower.tail = FALSE), 4)
-  tt <- round(pnorm(abs(z), lower.tail = FALSE) * 2, 4)
+  lt <- stats::pnorm(z)
+  ut <- round(stats::pnorm(z, lower.tail = FALSE), 4)
+  tt <- round(stats::pnorm(abs(z), lower.tail = FALSE) * 2, 4)
 
   alt <- match.arg(alternative)
 
@@ -177,9 +177,9 @@ infer_ts_prop_calc <- function(n1, n2, p1, p2,
   den   <- sqrt(den1 * den2)
   z     <- num / den
 
-  lt <- pnorm(z)
-  ut <- round(pnorm(z, lower.tail = FALSE), 4)
-  tt <- round(pnorm(abs(z), lower.tail = FALSE) * 2, 4)
+  lt <- stats::pnorm(z)
+  ut <- round(stats::pnorm(z, lower.tail = FALSE), 4)
+  tt <- round(stats::pnorm(abs(z), lower.tail = FALSE) * 2, 4)
 
   alt <- match.arg(alternative)
 

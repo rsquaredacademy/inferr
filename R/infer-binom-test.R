@@ -1,4 +1,3 @@
-#' @importFrom stats pbinom dbinom
 #' @title Binomial Test
 #' @description Test whether the proportion of successes on a two-level
 #' categorical dependent variable significantly differs from a hypothesized value.
@@ -83,8 +82,8 @@ print.infer_binom_calc <- function(x, ...) {
 #' @rdname infer_binom_calc
 infer_binom_test <- function(data, variable, prob = 0.5) {
   
-  varyable <- enquo(variable)
-  fdata    <- pull(data, !! varyable)
+  varyable <- rlang::enquo(variable)
+  fdata    <- dplyr::pull(data, !! varyable)
 
   if (!is.factor(fdata)) {
     stop("variable must be of type factor", call. = FALSE)

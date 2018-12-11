@@ -39,17 +39,17 @@ infer_chisq_gof_test <- function(data, x, y, correct = FALSE) UseMethod("infer_c
 #' @export
 infer_chisq_gof_test.default <- function(data, x, y, correct = FALSE) {
 
-  x1 <- enquo(x)
-  xcheck <- pull(data, !! x1)
+  x1 <- rlang::enquo(x)
+  xcheck <- dplyr::pull(data, !! x1)
 
   xlen <-
     data %>%
-    pull(!! x1) %>%
+    dplyr::pull(!! x1) %>%
     length()
 
   xone <-
     data %>%
-    pull(!! x1) %>%
+    dplyr::pull(!! x1) %>%
     table() %>%
     as.vector()
 
@@ -68,7 +68,7 @@ infer_chisq_gof_test.default <- function(data, x, y, correct = FALSE) {
 
   varname <-
     data %>%
-    select(!! x1) %>%
+    dplyr::select(!! x1) %>%
     names()
 
   n <- length(xone)
@@ -89,7 +89,7 @@ infer_chisq_gof_test.default <- function(data, x, y, correct = FALSE) {
     k <- chigof(xone, y)
   }
 
-  sig <- round(pchisq(k$chi, df, lower.tail = FALSE), 4)
+  sig <- round(stats::pchisq(k$chi, df, lower.tail = FALSE), 4)
 
   result <- list(
     chisquare = k$chi, pvalue = sig, df = df, ssize = length(xcheck),

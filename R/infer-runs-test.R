@@ -1,7 +1,5 @@
 #' @useDynLib inferr
 #' @importFrom Rcpp sourceCpp
-#' @importFrom stats median
-#' @importFrom purrr map
 #' @title Test for Random Order
 #' @description runtest tests whether the observations of \code{x} are serially
 #' independent i.e. whether they occur in a random order, by counting
@@ -60,8 +58,8 @@ infer_runs_test.default <- function(data, x, drop = FALSE,
                                     split = FALSE, mean = FALSE,
                                     threshold = NA) {
   
-  x1   <- enquo(x)
-  xone <- pull(data, !! x1)
+  x1   <- rlang::enquo(x)
+  xone <- dplyr::pull(data, !! x1)
   n    <- length(xone)
 
   if (is.na(threshold)) {
@@ -76,7 +74,7 @@ infer_runs_test.default <- function(data, x, drop = FALSE,
   } else if (mean == TRUE) {
     thresh <- mean(xone)
   } else {
-    thresh <- median(xone, na.rm = TRUE)
+    thresh <- stats::median(xone, na.rm = TRUE)
   }
 
   if (drop == TRUE) {
@@ -89,7 +87,7 @@ infer_runs_test.default <- function(data, x, drop = FALSE,
   } else {
     x_binary <-
       xone %>%
-      map(nruns2, thresh) %>%
+      purrr::map(nruns2, thresh) %>%
       unlist(use.names = FALSE)
   }
 
@@ -100,7 +98,7 @@ infer_runs_test.default <- function(data, x, drop = FALSE,
   sd_runs  <- sdruns(n0, n1)
 
   test_stat <- (n_runs - exp_runs) / (sd_runs ^ 0.5)
-  sig <- 2 * (1 - pnorm(abs(test_stat), lower.tail = TRUE))
+  sig <- 2 * (1 - stats::pnorm(abs(test_stat), lower.tail = TRUE))
 
   result <- list(
     n = n, threshold = thresh, n_below = n0, n_above = n1,

@@ -58,8 +58,8 @@ infer_os_t_test <- function(data, x, mu = 0, alpha = 0.05,
 infer_os_t_test.default <- function(data, x, mu = 0, alpha = 0.05,
                                     alternative = c("both", "less", "greater", "all"), ...) {
   
-  x1   <- enquo(x)
-  xone <- pull(data, !! x1)
+  x1   <- rlang::enquo(x)
+  xone <- dplyr::pull(data, !! x1)
 
   if (!is.numeric(xone)) {
     stop("x must be numeric")
@@ -75,7 +75,7 @@ infer_os_t_test.default <- function(data, x, mu = 0, alpha = 0.05,
 
   var_name <-
     data %>%
-    select(!! x1) %>%
+    dplyr::select(!! x1) %>%
     names()
 
   k <- ttest_comp(xone, mu, alpha, type)

@@ -1,5 +1,3 @@
-#' @importFrom stats complete.cases
-#' @importFrom purrr map_dbl
 #' @title Two Sample Variance Comparison Test
 #' @description  \code{infer_ts_var_test} performs tests on the equality of standard
 #' deviations (variances).
@@ -51,13 +49,13 @@ infer_ts_var_test <- function(data, ..., group_var = NULL,
 #'
 infer_ts_var_test.default <- function(data, ..., group_var = NULL,
                                       alternative = c("less", "greater", "all")) {
-  groupvar  <- enquo(group_var)
-  varyables <- quos(...)
-  fdata     <- select(data, !!! varyables)
+  groupvar  <- rlang::enquo(group_var)
+  varyables <- rlang::quos(...)
+  fdata     <- dplyr::select(data, !!! varyables)
 
-  if (quo_is_null(groupvar)) {
+  if (rlang::quo_is_null(groupvar)) {
     z  <- as.list(fdata)
-    ln <- z %>% map_int(length)
+    ln <- z %>% purrr::map_int(length)
     ly <- seq_len(length(z))
 
     if (length(z) < 2) {
@@ -74,13 +72,13 @@ infer_ts_var_test.default <- function(data, ..., group_var = NULL,
 
     lev <-
       data %>%
-      select(!!! varyables) %>%
+      dplyr::select(!!! varyables) %>%
       names()
 
   } else {
 
-    fdata     <- pull(fdata, 1)
-    groupvars <- pull(data, !! groupvar)
+    fdata     <- dplyr::pull(fdata, 1)
+    groupvars <- dplyr::pull(data, !! groupvar)
     lev       <- levels(groupvars)
 
     if (length(fdata) != length(groupvars)) {
