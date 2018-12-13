@@ -1,4 +1,3 @@
-#' @importFrom stats pnorm
 #' @title One Sample Test of Proportion
 #' @description  \code{infer_os_prop_test} compares proportion in one group to a
 #' specified population proportion.
@@ -55,8 +54,8 @@ infer_os_prop_test.default <- function(data, variable = NULL, prob = 0.5, phat =
 
   } else {
 
-    varyables <- enquo(variable)
-    fdata     <- pull(data, !! varyables)
+    varyables <- rlang::enquo(variable)
+    fdata     <- dplyr::pull(data, !! varyables)
     n1        <- length(fdata)
 
     n2 <-

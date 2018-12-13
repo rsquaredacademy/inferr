@@ -1,5 +1,4 @@
-#' @importFrom stats as.formula lm pf
-#' @importFrom rlang enquo !!
+#' @importFrom rlang !!
 #' @title One Way ANOVA
 #' @description One way analysis of variance
 #' @param data a \code{data.frame} or a \code{tibble}
@@ -41,10 +40,10 @@ infer_oneway_anova <- function(data, x, y, ...) UseMethod("infer_oneway_anova")
 #' @export
 infer_oneway_anova.default <- function(data, x, y, ...) {
   
-  x1 <- enquo(x)
-  y1 <- enquo(y)
+  x1 <- rlang::enquo(x)
+  y1 <- rlang::enquo(y)
 
-  fdata        <- select(data, !! x1, !! y1)
+  fdata        <- dplyr::select(data, !! x1, !! y1)
   sample_mean  <- anova_avg(fdata, !! x1)
   sample_stats <- anova_split(fdata, !! x1, !! y1, sample_mean)
   k            <- anova_calc(fdata, sample_stats, !! x1, !! y1)

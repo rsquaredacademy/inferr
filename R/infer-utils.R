@@ -1,18 +1,15 @@
-#' @importFrom dplyr group_by summarise_all funs mutate
-#' @importFrom magrittr %>% use_series
-#' @importFrom stats var sd
-#' @importFrom tibble tibble as_data_frame
+#' @importFrom magrittr %>% 
 anova_split <- function(data, x, y, sample_mean) {
-  x1 <- enquo(x)
-  y1 <- enquo(y)
+  x1 <- rlang::enquo(x)
+  y1 <- rlang::enquo(y)
 
   by_factor <-
     data %>%
-    group_by(!! y1) %>%
-    select(!! y1, !! x1) %>%
-    summarise_all(funs(length, mean, var, sd)) %>%
-    as_data_frame() %>%
-    mutate(
+    dplyr::group_by(!! y1) %>%
+    dplyr::select(!! y1, !! x1) %>%
+    dplyr::summarise_all(dplyr::funs(length, mean, var = stats::var, sd = stats::sd)) %>%
+    tibble::as_data_frame() %>%
+    dplyr::mutate(
       sst = length * ((mean - sample_mean) ^ 2),
       sse = (length - 1) * var
     )
@@ -21,34 +18,34 @@ anova_split <- function(data, x, y, sample_mean) {
 }
 
 anova_avg <- function(data, y) {
-  y1 <- enquo(y)
+  y1 <- rlang::enquo(y)
 
   avg <-
     data %>%
-    select(!! y1) %>%
-    summarise_all(funs(mean))
+    dplyr::select(!! y1) %>%
+    dplyr::summarise_all(dplyr::funs(mean))
 
   return(unlist(avg, use.names = FALSE))
 }
 
 anova_calc <- function(data, sample_stats, x, y) {
-  x1 <- enquo(x)
-  y1 <- enquo(y)
+  x1 <- rlang::enquo(x)
+  y1 <- rlang::enquo(y)
 
   var_names <-
     data %>%
-    select(!! x1, !! y1) %>%
+    dplyr::select(!! x1, !! y1) %>%
     names()
 
   sstr <-
     sample_stats %>%
-    use_series(sst) %>%
+    magrittr::use_series(sst) %>%
     sum() %>%
     round(3)
 
   ssee <-
     sample_stats %>%
-    use_series(sse) %>%
+    magrittr::use_series(sse) %>%
     sum() %>%
     round(3)
 
@@ -59,10 +56,10 @@ anova_calc <- function(data, sample_stats, x, y) {
   mstr <- round(sstr / df_sstr, 3)
   mse <- round(ssee / df_sse, 3)
   f <- round(mstr / mse, 3)
-  sig <- round(1 - pf(f, df_sstr, df_sse), 3)
+  sig <- round(1 - stats::pf(f, df_sstr, df_sse), 3)
   obs <- nrow(data)
   regs <- paste(var_names[1], "~ as.factor(", var_names[2], ")")
-  model <- lm(as.formula(regs), data = data)
+  model <- stats::lm(stats::as.formula(regs), data = data)
   reg <- summary(model)
   out <- list(
     sstr = sstr, ssee = ssee, total = total, df_sstr = df_sstr,
@@ -77,27 +74,27 @@ binom_comp <- function(n, success, prob) {
   k <- success
   obs_p <- k / n
   exp_k <- round(n * prob)
-  lt <- pbinom(k, n, prob, lower.tail = T)
-  ut <- pbinom(k - 1, n, prob, lower.tail = F)
-  p_opp <- round(dbinom(k, n, prob), 9)
-  i_p <- dbinom(exp_k, n, prob)
+  lt <- stats::pbinom(k, n, prob, lower.tail = T)
+  ut <- stats::pbinom(k - 1, n, prob, lower.tail = F)
+  p_opp <- round(stats::dbinom(k, n, prob), 9)
+  i_p <- stats::dbinom(exp_k, n, prob)
   i_k <- exp_k
 
   if (k < exp_k) {
     while (i_p > p_opp) {
       i_k <- i_k + 1
-      i_p <- round(dbinom(i_k, n, prob), 9)
+      i_p <- round(stats::dbinom(i_k, n, prob), 9)
       if (round(i_p) == p_opp) {
         break
       }
     }
 
-    ttf <- pbinom(k, n, prob, lower.tail = T) +
-      pbinom(i_k - 1, n, prob, lower.tail = F)
+    ttf <- stats::pbinom(k, n, prob, lower.tail = T) +
+      stats::pbinom(i_k - 1, n, prob, lower.tail = F)
   } else {
     while (p_opp <= i_p) {
       i_k <- i_k - 1
-      i_p <- dbinom(i_k, n, prob)
+      i_p <- stats::dbinom(i_k, n, prob)
       if (round(i_p) == p_opp) {
         break
       }
@@ -105,8 +102,8 @@ binom_comp <- function(n, success, prob) {
 
     i_k <- i_k
 
-    tt <- pbinom(i_k, n, prob, lower.tail = T) +
-      pbinom(k - 1, n, prob, lower.tail = F)
+    tt <- stats::pbinom(i_k, n, prob, lower.tail = T) +
+      stats::pbinom(k - 1, n, prob, lower.tail = F)
 
     ttf <- ifelse(tt <= 1, tt, 1)
   }
@@ -131,21 +128,21 @@ efmat <- function(twoway) {
 
 pear_chsq <- function(twoway, df, ef) {
   chi <- round(sum(((twoway - ef) ^ 2) / ef), 4)
-  sig <- round(pchisq(chi, df, lower.tail = F), 4)
+  sig <- round(stats::pchisq(chi, df, lower.tail = F), 4)
   out <- list(chi = chi, sig = sig)
   return(out)
 }
 
 lr_chsq <- function(twoway, df, ef) {
   chilr <- round(2 * sum(matrix(log(twoway / ef), nrow = 1) %*% matrix(twoway, nrow = 4)), 4)
-  sig_lr <- round(pchisq(chilr, df, lower.tail = F), 4)
+  sig_lr <- round(stats::pchisq(chilr, df, lower.tail = F), 4)
   out <- list(chilr = chilr, sig_lr = sig_lr)
   return(out)
 }
 
 lr_chsq2 <- function(twoway, df, ef, ds) {
   chilr <- round(2 * sum(matrix(twoway, ncol = ds) %*% matrix(log(twoway / ef), nrow = ds)), 4)
-  sig_lr <- round(pchisq(chilr, df, lower.tail = F), 4)
+  sig_lr <- round(stats::pchisq(chilr, df, lower.tail = F), 4)
   out <- list(chilr = chilr, sig_lr = sig_lr)
   return(out)
 }
@@ -156,7 +153,7 @@ yates_chsq <- function(twoway) {
   prods <- prod(diag(twoway)) - prod(diag(way2))
   prod_totals <- prod(rowSums(twoway)) * prod(colSums(twoway))
   chi_y <- round((total * (abs(prods) - (total / 2)) ^ 2) / prod_totals, 4)
-  sig_y <- round(pchisq(chi_y, 1, lower.tail = F), 4)
+  sig_y <- round(stats::pchisq(chi_y, 1, lower.tail = F), 4)
   out <- list(chi_y = chi_y, sig_y = sig_y, total = total, prod_totals = prod_totals)
   return(out)
 }
@@ -165,7 +162,7 @@ mh_chsq <- function(twoway, total, prod_totals) {
   num <- twoway[1] - ((rowSums(twoway)[1] * colSums(twoway)[1]) / total)
   den <- prod_totals / ((total ^ 3) - (total ^ 2))
   chimh <- round((num ^ 2) / den, 4)
-  sig_mh <- round(pchisq(chimh, 1, lower.tail = F), 4)
+  sig_mh <- round(stats::pchisq(chimh, 1, lower.tail = F), 4)
   out <- list(chimh = chimh, sig_mh = sig_mh)
   return(out)
 }
@@ -179,7 +176,7 @@ efm <- function(twoway, dk) {
 
 pear_chi <- function(twoway, df, ef) {
   chi <- round(sum(((twoway - ef) ^ 2) / ef), 4)
-  sig <- round(pchisq(chi, df, lower.tail = F), 4)
+  sig <- round(stats::pchisq(chi, df, lower.tail = F), 4)
   out <- list(chi = chi, sig = sig)
   return(out)
 }
@@ -237,8 +234,6 @@ coch_data <- function(x, ...) {
   return(data)
 }
 
-#' @importFrom purrr map_df
-#' @importFrom magrittr subtract
 cochran_comp <- function(data) {
   n <- nrow(data)
   k <- ncol(data)
@@ -246,13 +241,13 @@ cochran_comp <- function(data) {
 
   cs <-
     data %>%
-    map_df(.f = as.numeric) %>%
-    subtract(1) %>%
+    purrr::map_df(.f = as.numeric) %>%
+    magrittr::subtract(1) %>%
     sums()
 
   q <- coch(k, cs$cls_sum, cs$cl, cs$g, cs$gs_sum)
 
-  pvalue <- 1 - pchisq(q, df)
+  pvalue <- 1 - stats::pchisq(q, df)
 
   out <- list(
     n = n,
@@ -269,7 +264,7 @@ cochran_comp <- function(data) {
 lev_metric <- function(cvar, gvar, loc, ...) {
   metric <- tapply(cvar, gvar, loc, ...)
   y <- abs(cvar - metric[gvar])
-  result <- anova(lm(y ~ gvar))
+  result <- stats::anova(stats::lm(y ~ gvar))
   out <- list(
     fstat = result$`F value`[1],
     p = result$`Pr(>F)`[1]
@@ -278,17 +273,17 @@ lev_metric <- function(cvar, gvar, loc, ...) {
 }
 
 lev_comp <- function(variable, group_var, trim.mean) {
-  comp <- complete.cases(variable, group_var)
+  comp <- stats::complete.cases(variable, group_var)
   n <- length(comp)
   k <- nlevels(group_var)
   cvar <- variable[comp]
   gvar <- group_var[comp]
   lens <- tapply(cvar, gvar, length)
   avgs <- tapply(cvar, gvar, mean)
-  sds <- tapply(cvar, gvar, sd)
+  sds <- tapply(cvar, gvar, stats::sd)
 
   bf <- lev_metric(cvar, gvar, mean)
-  lev <- lev_metric(cvar, gvar, median)
+  lev <- lev_metric(cvar, gvar, stats::median)
   bft <- lev_metric(cvar, gvar, mean, trim = trim.mean)
   out <- list(
     bf = round(bf$fstat, 4),
@@ -300,7 +295,7 @@ lev_comp <- function(variable, group_var, trim.mean) {
     avgs = round(avgs, 2),
     sds = round(sds, 2),
     avg = round(mean(cvar), 2),
-    sd = round(sd(cvar), 2),
+    sd = round(stats::sd(cvar), 2),
     n = n,
     levs = levels(gvar),
     n_df = (k - 1),
@@ -339,12 +334,12 @@ tetat <- function(p) {
 }
 
 mcpval <- function(test_stat, df) {
-  out <- 1 - pchisq(test_stat, df)
+  out <- 1 - stats::pchisq(test_stat, df)
   return(out)
 }
 
 mcpex <- function(dat) {
-  out <- 2 * min(pbinom(dat[2], sum(dat[2], dat[3]), 0.5), pbinom(dat[3], sum(dat[2], dat[3]), 0.5))
+  out <- 2 * min(stats::pbinom(dat[2], sum(dat[2], dat[3]), 0.5), stats::pbinom(dat[3], sum(dat[2], dat[3]), 0.5))
   return(out)
 }
 
@@ -354,7 +349,7 @@ mcstat <- function(p) {
 }
 
 mccpval <- function(cstat, df) {
-  out <- 1 - pchisq(cstat, df)
+  out <- 1 - stats::pchisq(cstat, df)
   return(out)
 }
 
@@ -372,7 +367,7 @@ mcserr <- function(dat, kappa) {
 
 mcconf <- function(std_err, kappa) {
   alpha <- 0.05
-  interval <- qnorm(1 - (alpha / 2)) * std_err
+  interval <- stats::qnorm(1 - (alpha / 2)) * std_err
   ci_lower <- kappa - interval
   ci_upper <- kappa + interval
   out <- list(ci_lower = ci_lower, ci_upper = ci_upper)
@@ -457,9 +452,9 @@ prop_comp <- function(n, prob, alternative, phat) {
   num <- phat - prob
   den <- sqrt((p * q) / n)
   z <- round(num / den, 4)
-  lt <- round(pnorm(z), 4)
-  ut <- round(1 - pnorm(z), 4)
-  tt <- round((1 - pnorm(abs(z))) * 2, 4)
+  lt <- round(stats::pnorm(z), 4)
+  ut <- round(1 - stats::pnorm(z), 4)
+  tt <- round((1 - stats::pnorm(abs(z))) * 2, 4)
   alt <- alternative
 
   if (alt == "all") {
@@ -486,16 +481,16 @@ osvar_comp <- function(x, sd, confint) {
   n <- length(x)
   df <- n - 1
   xbar <- mean(x)
-  sigma <- sd(x)
+  sigma <- stats::sd(x)
   se <- sigma / sqrt(n)
   chi <- df * ((sigma / sd) ^ 2)
 
-  p_lower <- pchisq(chi, df)
-  p_upper <- pchisq(chi, df, lower.tail = F)
+  p_lower <- stats::pchisq(chi, df)
+  p_upper <- stats::pchisq(chi, df, lower.tail = F)
   if (p_lower < 0.5) {
-    p_two <- pchisq(chi, df) * 2
+    p_two <- stats::pchisq(chi, df) * 2
   } else {
-    p_two <- pchisq(chi, df, lower.tail = F) * 2
+    p_two <- stats::pchisq(chi, df, lower.tail = F) * 2
   }
 
 
@@ -503,8 +498,8 @@ osvar_comp <- function(x, sd, confint) {
   a <- (1 - conf) / 2
   al <- 1 - a
   tv <- df * sigma
-  c_lwr <- round(tv / qchisq(al, df), 4)
-  c_upr <- round(tv / qchisq(a, df), 4)
+  c_lwr <- round(tv / stats::qchisq(al, df), 4)
+  c_upr <- round(tv / stats::qchisq(a, df), 4)
 
   out <- list(
     n = n, sd = sd, sigma = sigma, se = se, chi = chi, df = df,
@@ -517,30 +512,30 @@ osvar_comp <- function(x, sd, confint) {
 
 # two sample variance test
 var_comp <- function(variable, group_var) {
-  comp <- complete.cases(variable, group_var)
+  comp <- stats::complete.cases(variable, group_var)
   cvar <- variable[comp]
   gvar <- group_var[comp]
 
-  d <- tibble(cvar, gvar)
+  d <- tibble::tibble(cvar, gvar)
   vals <- tibble_stats(d, "cvar", "gvar")
   lass <- tbl_stats(d, "cvar")
 
-  lens <- vals[[2]] %>% map_int(1)
-  vars <- vals[[4]] %>% map_dbl(1)
+  lens <- vals[[2]] %>% purrr::map_int(1)
+  vars <- vals[[4]] %>% purrr::map_dbl(1)
 
   f <- vars[1] / vars[2]
   n1 <- lens[1] - 1
   n2 <- lens[2] - 1
-  lower <- pf(f, n1, n2)
-  upper <- pf(f, n1, n2, lower.tail = FALSE)
+  lower <- stats::pf(f, n1, n2)
+  upper <- stats::pf(f, n1, n2, lower.tail = FALSE)
 
   out <- list(
     f = round(f, 4), lower = round(lower, 4),
     upper = round(upper, 4),
     vars = round(vars, 2),
-    avgs = round((vals[[3]] %>% map_dbl(1)), 2),
-    sds = round((vals[[5]] %>% map_dbl(1)), 2),
-    ses = round((vals[[6]] %>% map_dbl(1)), 2),
+    avgs = round((vals[[3]] %>% purrr::map_dbl(1)), 2),
+    sds = round((vals[[5]] %>% purrr::map_dbl(1)), 2),
+    ses = round((vals[[6]] %>% purrr::map_dbl(1)), 2),
     avg = round(lass[2], 2),
     sd = round(lass[3], 2),
     se = round(lass[4], 2),
@@ -570,9 +565,9 @@ prop_comp2 <- function(var1, var2, alt) {
   den <- sqrt(den1 * den2)
   z <- round(num / den, 4)
 
-  lt <- round(pnorm(z), 4)
-  ut <- round(pnorm(z, lower.tail = FALSE), 4)
-  tt <- round(pnorm(abs(z), lower.tail = FALSE) * 2, 4)
+  lt <- round(stats::pnorm(z), 4)
+  ut <- round(stats::pnorm(z, lower.tail = FALSE), 4)
+  tt <- round(stats::pnorm(abs(z), lower.tail = FALSE) * 2, 4)
 
 
 
@@ -602,16 +597,16 @@ ttest_comp <- function(x, mu, alpha, type) {
   df <- n - 1
   conf <- 1 - alpha
   Mean <- round(mean(x), 4)
-  stddev <- round(sd(x), 4)
+  stddev <- round(stats::sd(x), 4)
   std_err <- round(stddev / sqrt(n), 4)
   test_stat <- round((Mean - mu) / std_err, 3)
 
   if (type == "less") {
-    cint <- c(-Inf, test_stat + qt(1 - alpha, df))
+    cint <- c(-Inf, test_stat + stats::qt(1 - alpha, df))
   } else if (type == "greater") {
-    cint <- c(test_stat - qt(1 - alpha, df), Inf)
+    cint <- c(test_stat - stats::qt(1 - alpha, df), Inf)
   } else {
-    cint <- qt(1 - a, df)
+    cint <- stats::qt(1 - a, df)
     cint <- test_stat + c(-cint, cint)
   }
 
@@ -619,8 +614,8 @@ ttest_comp <- function(x, mu, alpha, type) {
   mean_diff <- round((Mean - mu), 4)
   mean_diff_l <- confint[1] - mu
   mean_diff_u <- confint[2] - mu
-  p_l <- pt(test_stat, df)
-  p_u <- pt(test_stat, df, lower.tail = FALSE)
+  p_l <- stats::pt(test_stat, df)
+  p_u <- stats::pt(test_stat, df, lower.tail = FALSE)
 
   if (p_l < 0.5) {
     p <- p_l * 2
@@ -645,16 +640,16 @@ paired_comp <- function(x, y, confint, var_names) {
   xy <- paste(var_names[1], "-", var_names[2])
   data_prep <- paired_data(x, y)
   b <- paired_stats(data_prep, "key", "value")
-  corr <- round(cor(x, y), 4)
+  corr <- round(stats::cor(x, y), 4)
   corsig <- cor_sig(corr, n)
   alpha <- 1 - confint
   confint1 <- conf_int_t(b[[1, 1]], b[[1, 2]], n, alpha = alpha) %>% round(2)
   confint2 <- conf_int_t(b[[2, 1]], b[[2, 2]], n, alpha = alpha) %>% round(2)
   confint3 <- conf_int_t(b[[3, 1]], b[[3, 2]], n, alpha = alpha) %>% round(2)
   t <- round(b[[3, 1]] / b[[3, 3]], 4)
-  p_l <- pt(t, df)
-  p_u <- pt(t, df, lower.tail = FALSE)
-  p <- pt(abs(t), df, lower.tail = FALSE) * 2
+  p_l <- stats::pt(t, df)
+  p_u <- stats::pt(t, df, lower.tail = FALSE)
+  p <- stats::pt(abs(t), df, lower.tail = FALSE) * 2
 
   out <- list(
     Obs = n, b = b, conf_int1 = confint1, conf_int2 = confint2,
@@ -667,23 +662,23 @@ paired_comp <- function(x, y, confint, var_names) {
 
 # independent sample t test
 indth <- function(data, x, y, a) {
-  x1 <- enquo(x)
-  y1 <- enquo(y)
+  x1 <- rlang::enquo(x)
+  y1 <- rlang::enquo(y)
 
   h <- data_split(data, !! x1, !! y1)
   h$df <- h$length - 1
-  h$error <- qt(a, h$df) * -1
+  h$error <- stats::qt(a, h$df) * -1
   h$lower <- h$mean_t - (h$error * h$std_err)
   h$upper <- h$mean_t + (h$error * h$std_err)
   return(h)
 }
 
 indcomb <- function(data, y, a) {
-  y1 <- enquo(y)
+  y1 <- rlang::enquo(y)
 
   comb <- da(data, !! y1)
   comb$df <- comb$length - 1
-  comb$error <- qt(a, comb$df) * -1
+  comb$error <- stats::qt(a, comb$df) * -1
   comb$lower <- round(comb$mean_t - (comb$error * comb$std_err), 5)
   comb$upper <- round(comb$mean_t + (comb$error * comb$std_err), 5)
   names(comb) <- NULL
@@ -714,12 +709,12 @@ indcomp <- function(grp_stat, alpha) {
 indsig <- function(n1, n2, s1, s2, mean_diff) {
   d_f <- as.vector(df(n1, n2, s1, s2))
   t <- mean_diff / (((s1 / n1) + (s2 / n2)) ^ 0.5)
-  sig_l <- round(pt(t, d_f), 4)
-  sig_u <- round(pt(t, d_f, lower.tail = FALSE), 4)
+  sig_l <- round(stats::pt(t, d_f), 4)
+  sig_u <- round(stats::pt(t, d_f, lower.tail = FALSE), 4)
   if (sig_l < 0.5) {
-    sig <- round(pt(t, d_f) * 2, 4)
+    sig <- round(stats::pt(t, d_f) * 2, 4)
   } else {
-    sig <- round(pt(t, d_f, lower.tail = FALSE) * 2, 4)
+    sig <- round(stats::pt(t, d_f, lower.tail = FALSE) * 2, 4)
   }
   out <- list(d_f = d_f, t = t, sig_l = sig_l, sig_u = sig_u, sig = sig)
   return(out)
@@ -727,8 +722,8 @@ indsig <- function(n1, n2, s1, s2, mean_diff) {
 
 fsig <- function(s1, s2, n1, n2) {
   out <- round(min(
-    pf((s1 / s2), (n1 - 1), (n2 - 1)),
-    pf((s1 / s2), (n1 - 1), (n2 - 1),
+    stats::pf((s1 / s2), (n1 - 1), (n2 - 1)),
+    stats::pf((s1 / s2), (n1 - 1), (n2 - 1),
       lower.tail = FALSE
     )
   ) * 2, 4)
@@ -739,12 +734,12 @@ fsig <- function(s1, s2, n1, n2) {
 indpool <- function(n1, n2, mean_diff, se_dif) {
   df_pooled <- (n1 + n2) - 2
   t_pooled <- mean_diff / se_dif
-  sig_pooled_l <- round(pt(t_pooled, df_pooled), 4)
-  sig_pooled_u <- round(pt(t_pooled, df_pooled, lower.tail = FALSE), 4)
+  sig_pooled_l <- round(stats::pt(t_pooled, df_pooled), 4)
+  sig_pooled_u <- round(stats::pt(t_pooled, df_pooled, lower.tail = FALSE), 4)
   if (sig_pooled_l < 0.5) {
-    sig_pooled <- round(pt(t_pooled, df_pooled) * 2, 4)
+    sig_pooled <- round(stats::pt(t_pooled, df_pooled) * 2, 4)
   } else {
-    sig_pooled <- round(pt(t_pooled, df_pooled, lower.tail = FALSE) * 2, 4)
+    sig_pooled <- round(stats::pt(t_pooled, df_pooled, lower.tail = FALSE) * 2, 4)
   }
   out <- list(
     df_pooled = df_pooled, t_pooled = t_pooled,
@@ -754,15 +749,14 @@ indpool <- function(n1, n2, mean_diff, se_dif) {
   return(out)
 }
 
-#' @importFrom rlang sym
 tibble_stats <- function(data, x, y) {
 
   by_factor <- data %>%
-    group_by(!! sym(y)) %>%
-    select(!! sym(y), !! sym(x)) %>%
-    summarise_all(funs(length, mean, var, sd)) %>%
-    as_data_frame() %>%
-    mutate(
+    dplyr::group_by(!! rlang::sym(y)) %>%
+    dplyr::select(!! rlang::sym(y), !! rlang::sym(x)) %>%
+    dplyr::summarise_all(dplyr::funs(length, mean, var = stats::var, sd = stats::sd)) %>%
+    tibble::as_data_frame() %>%
+    dplyr::mutate(
       ses = sd / sqrt(length)
     )
 
@@ -772,11 +766,12 @@ tibble_stats <- function(data, x, y) {
 
 tbl_stats <- function(data, y) {
 
-  avg <- data %>%
-    select(y) %>%
-    summarise_all(funs(length, mean, sd)) %>%
-    as_data_frame() %>%
-    mutate(
+  avg <- 
+    data %>%
+    dplyr::select(y) %>%
+    dplyr::summarise_all(dplyr::funs(length, mean, sd = stats::sd)) %>%
+    tibble::as_data_frame() %>%
+    dplyr::mutate(
       se = sd / sqrt(length)
     )
 
@@ -847,26 +842,26 @@ l <- function(x) {
   return(out)
 }
 
-#' @importFrom tidyr gather
 paired_data <- function(x, y) {
-  d <- tibble(x = x, y = y) %>%
-    mutate(z = x - y) %>%
-    gather()
+  d <- 
+    tibble::tibble(x = x, y = y) %>%
+    dplyr::mutate(z = x - y) %>%
+    tidyr::gather()
   return(d)
 }
 
-#' @importFrom dplyr select
 paired_stats <- function(data, key, value) {
 
-  d <- data %>%
-    group_by(key) %>%
-    select(value, key) %>%
-    summarise_all(funs(length, mean, sd)) %>%
-    as_data_frame() %>%
-    mutate(
+  d <- 
+    data %>%
+    dplyr::group_by(key) %>%
+    dplyr::select(value, key) %>%
+    dplyr::summarise_all(dplyr::funs(length, mean, sd = stats::sd)) %>%
+    tibble::as_data_frame() %>%
+    dplyr::mutate(
       se = sd / sqrt(length)
     ) %>%
-    select(-(key:length))
+    dplyr::select(-(key:length))
 
   return(d)
 }
@@ -875,7 +870,7 @@ paired_stats <- function(data, key, value) {
 cor_sig <- function(corr, n) {
   t <- corr / ((1 - (corr ^ 2)) / (n - 2)) ^ 0.5
   df <- n - 2
-  sig <- (1 - pt(t, df)) * 2
+  sig <- (1 - stats::pt(t, df)) * 2
   return(round(sig, 4))
 }
 
@@ -886,7 +881,7 @@ samp_err <- function(sigma, n) {
 conf_int_t <- function(u, s, n, alpha = 0.05) {
   a <- alpha / 2
   df <- n - 1
-  error <- round(qt(a, df), 3) * -1
+  error <- round(stats::qt(a, df), 3) * -1
   lower <- u - (error * samp_err(s, n))
   upper <- u + (error * samp_err(s, n))
   result <- c(lower, upper)
@@ -905,36 +900,36 @@ mean_t <- function(x) {
 }
 
 sd_t <- function(x) {
-  s <- sd(x)
+  s <- stats::sd(x)
   return(round(s, 3))
 }
 
 std_err <- function(x) {
-  se <- sd(x) / sqrt(length(x))
+  se <- stats::sd(x) / sqrt(length(x))
   return(round(se, 3))
 }
 
 data_split <- function(data, x, y) {
-  x1 <- enquo(x)
-  y1 <- enquo(y)
+  x1 <- rlang::enquo(x)
+  y1 <- rlang::enquo(y)
 
   by_gender <-
     data %>%
-    group_by(!! x1) %>%
-    select(!! x1, !! y1) %>%
-    summarise_all(funs(length, mean_t, sd_t, std_err)) %>%
+    dplyr::group_by(!! x1) %>%
+    dplyr::select(!! x1, !! y1) %>%
+    dplyr::summarise_all(dplyr::funs(length, mean_t, sd_t, std_err)) %>%
     as.data.frame()
 
   return(by_gender)
 }
 
 da <- function(data, y) {
-  y1 <- enquo(y)
+  y1 <- rlang::enquo(y)
 
   dat <-
     data %>%
-    select(!! y1) %>%
-    summarise_all(funs(length, mean_t, sd_t, std_err)) %>%
+    dplyr::select(!! y1) %>%
+    dplyr::summarise_all(dplyr::funs(length, mean_t, sd_t, std_err)) %>%
     as.data.frame()
 
   return(dat)
@@ -971,7 +966,7 @@ df <- function(n1, n2, s1, s2) {
 
 conf_int_p <- function(u, se, alpha = 0.05) {
   a <- alpha / 2
-  error <- round(qnorm(a), 3) * -1
+  error <- round(stats::qnorm(a), 3) * -1
   lower <- u - (error * se)
   upper <- u + (error * se)
   result <- c(lower, upper)
@@ -1040,18 +1035,18 @@ sdruns <- function(n0, n1) {
 }
 
 check_level <- function(data, x) {
-  x1 <- enquo(x)
+  x1 <- rlang::enquo(x)
 
   data %>%
-    pull(!! x1) %>%
+    dplyr::pull(!! x1) %>%
     nlevels()
 }
 
 check_x <- function(data, x) {
-  x1 <- enquo(x)
+  x1 <- rlang::enquo(x)
 
   data %>%
-    pull(!! x1) %>%
+    dplyr::pull(!! x1) %>%
     (is.factor) %>%
     `!`()
 }

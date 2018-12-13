@@ -1,6 +1,3 @@
-#' @importFrom stats anova model.frame formula
-#' @importFrom purrr map_int
-#' @importFrom rlang quo_is_null
 #' @title Levene's test for equality of variances
 #' @description  \code{infer_levene_test} reports Levene's robust test statistic
 #' for the equality of variances and the
@@ -56,13 +53,13 @@ infer_levene_test <- function(data, ...) UseMethod("infer_levene_test")
 infer_levene_test.default <- function(data, ..., group_var = NULL,
                                       trim_mean = 0.1) {
   
-  groupvar  <- enquo(group_var)
-  varyables <- quos(...)
-  fdata     <- select(data, !!! varyables)
+  groupvar  <- rlang::enquo(group_var)
+  varyables <- rlang::quos(...)
+  fdata     <- dplyr::select(data, !!! varyables)
 
-  if (quo_is_null(groupvar)) {
+  if (rlang::quo_is_null(groupvar)) {
     z  <- as.list(fdata)
-    ln <- z %>% map_int(length)
+    ln <- z %>% purrr::map_int(length)
     ly <- seq_len(length(z))
 
     if (length(z) < 2) {
@@ -76,8 +73,8 @@ infer_levene_test.default <- function(data, ..., group_var = NULL,
       unlist() %>%
       as.factor()
   } else {
-    fdata     <- pull(fdata, 1)
-    groupvars <- pull(data, !! groupvar)
+    fdata     <- dplyr::pull(fdata, 1)
+    groupvars <- dplyr::pull(data, !! groupvar)
 
     if (length(fdata) != length(groupvars)) {
       stop("Length of variable and group_var do not match.", call. = FALSE)

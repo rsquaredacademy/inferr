@@ -1,4 +1,4 @@
-#' @importFrom rlang quos !!!
+#' @importFrom rlang !!!
 #' @title Cochran Q Test
 #' @description Test if the proportions of 3 or more dichotomous variables are
 #' equal in the same population.
@@ -27,9 +27,9 @@ infer_cochran_qtest <- function(data, ...) UseMethod("infer_cochran_qtest")
 #' @export
 infer_cochran_qtest.default <- function(data, ...) {
   
-  vars <- quos(...)
+  vars <- rlang::quos(...)
 
-  fdata <- select(data, !!! vars)
+  fdata <- dplyr::select(data, !!! vars)
 
   if (ncol(fdata) < 3) {
     stop("Please specify at least 3 variables.")

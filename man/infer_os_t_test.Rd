@@ -5,8 +5,8 @@
 \alias{ttest}
 \title{One Sample t Test}
 \usage{
-infer_os_t_test(data, x, mu = 0, alpha = 0.05, alternative = c("both",
-  "less", "greater", "all"), ...)
+infer_os_t_test(data, x, mu = 0, alpha = 0.05,
+  alternative = c("both", "less", "greater", "all"), ...)
 }
 \arguments{
 \item{data}{a \code{data.frame} or \code{tibble}}

@@ -1,4 +1,3 @@
-#' @importFrom stats qt pt pf
 #' @title Two Independent Sample t Test
 #' @description \code{infer_ts_ind_ttest} compares the means of two independent groups in order to determine whether
 #' there is statistical evidence that the associated population means are significantly different.
@@ -71,12 +70,12 @@ infer_ts_ind_ttest <- function(data, x, y, confint = 0.95,
 #'
 infer_ts_ind_ttest.default <- function(data, x, y, confint = 0.95,
                                        alternative = c("both", "less", "greater", "all"), ...) {
-  x1 <- enquo(x)
-  y1 <- enquo(y)
+  x1 <- rlang::enquo(x)
+  y1 <- rlang::enquo(y)
 
   yone <-
     data %>%
-    select(!! y1) %>%
+    dplyr::select(!! y1) %>%
     names()
 
   if (check_x(data, !! x1)) {
