@@ -41,11 +41,6 @@ home:
     href: https://hub.docker.com/r/rsquaredacademy/inferr/
 
 reference:
-- title: Shiny App
-
-  contents:
-  - infer_launch_shiny_app
-
 - title: Parametric Tests
 
   contents:

@@ -1,33 +1,44 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-inferr <img src="hex_inferr.png" height="100px" align="right" />
-================================================================
 
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/inferr)](https://cran.r-project.org/package=inferr) [![cran checks](https://cranchecks.info/badges/summary/inferr)](https://cran.r-project.org/web/checks/check_results_inferr.html) [![Travis-CI Build Status](https://travis-ci.org/rsquaredacademy/inferr.svg?branch=master)](https://travis-ci.org/rsquaredacademy/inferr) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/rsquaredacademy/inferr?branch=master&svg=true)](https://ci.appveyor.com/project/rsquaredacademy/inferr) [![Coverage status](https://codecov.io/gh/rsquaredacademy/inferr/branch/master/graph/badge.svg)](https://codecov.io/github/rsquaredacademy/inferr?branch=master) [![](https://cranlogs.r-pkg.org/badges/grand-total/inferr)](https://cran.r-project.org/package=inferr) ![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
+# inferr <img src="hex_inferr.png" height="100px" align="right" />
 
-Overview
---------
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/inferr)](https://cran.r-project.org/package=inferr)
+[![cran
+checks](https://cranchecks.info/badges/summary/inferr)](https://cran.r-project.org/web/checks/check_results_inferr.html)
+[![Travis-CI Build
+Status](https://travis-ci.org/rsquaredacademy/inferr.svg?branch=master)](https://travis-ci.org/rsquaredacademy/inferr)
+[![AppVeyor Build
+Status](https://ci.appveyor.com/api/projects/status/github/rsquaredacademy/inferr?branch=master&svg=true)](https://ci.appveyor.com/project/rsquaredacademy/inferr)
+[![Coverage
+status](https://codecov.io/gh/rsquaredacademy/inferr/branch/master/graph/badge.svg)](https://codecov.io/github/rsquaredacademy/inferr?branch=master)
+[![](https://cranlogs.r-pkg.org/badges/grand-total/inferr)](https://cran.r-project.org/package=inferr)
+![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
 
-inferr builds upon the statistical tests provided in **stats**, provides additional and flexible input options and more detailed and structured test results. As of version 0.3, **inferr** includes a select set of parametric and non-parametric statistical tests which are listed below:
+## Overview
 
--   One Sample t Test
--   Paired Sample t Test
--   Independent Sample t Test
--   One Sample Proportion Test
--   Two Sample Proportion Test
--   One Sample Variance Test
--   Two Sample Variance Test
--   Binomial Test
--   ANOVA
--   Chi Square Goodness of Fit Test
--   Chi Square Independence Test
--   Levene's Test
--   Cochran's Q Test
--   McNemar Test
--   Runs Test for Randomness
+inferr builds upon the statistical tests provided in **stats**, provides
+additional and flexible input options and more detailed and structured
+test results. As of version 0.3, **inferr** includes a select set of
+parametric and non-parametric statistical tests which are listed below:
 
-Installation
-------------
+  - One Sample t Test
+  - Paired Sample t Test
+  - Independent Sample t Test
+  - One Sample Proportion Test
+  - Two Sample Proportion Test
+  - One Sample Variance Test
+  - Two Sample Variance Test
+  - Binomial Test
+  - ANOVA
+  - Chi Square Goodness of Fit Test
+  - Chi Square Independence Test
+  - Levene’s Test
+  - Cochran’s Q Test
+  - McNemar Test
+  - Runs Test for Randomness
+
+## Installation
 
 ``` r
 # install inferr from CRAN
@@ -38,18 +49,12 @@ install.packages("inferr")
 devtools::install_github("rsquaredacademy/inferr")
 ```
 
-Shiny App
----------
+## Articles
 
-Use `infer_launch_shiny_app()` to explore the package using a shiny app.
+  - [Introduction to
+    inferr](http://www.rsquaredacademy.com/inferr/articles/index.html)
 
-Articles
---------
-
--   [Introduction to inferr](http://www.rsquaredacademy.com/inferr/articles/index.html)
-
-Usage
------
+## Usage
 
 #### One Sample t Test
 
@@ -119,7 +124,7 @@ infer_chisq_assoc_test(hsb, female, schtyp)
 #> ----------------------------------------------------
 ```
 
-#### Levene's Test
+#### Levene’s Test
 
 ``` r
 infer_levene_test(hsb, read, group_var = race)
@@ -144,7 +149,7 @@ infer_levene_test(hsb, read, group_var = race)
 #> -------------------------------------------------------------------------
 ```
 
-#### Cochran's Q Test
+#### Cochran’s Q Test
 
 ``` r
 infer_cochran_qtest(exam, exam1, exam2, exam3)
@@ -202,12 +207,15 @@ infer_mcnemar_test(hb, himath, hiread)
 #> ----------------------
 ```
 
-Getting Help
-------------
+## Getting Help
 
-If you encounter a bug, please file a minimal reproducible example using [reprex](https://reprex.tidyverse.org/index.html) on github. For questions and clarifications, use [StackOverflow](https://stackoverflow.com/).
+If you encounter a bug, please file a minimal reproducible example using
+[reprex](https://reprex.tidyverse.org/index.html) on github. For
+questions and clarifications, use
+[StackOverflow](https://stackoverflow.com/).
 
-Code of Conduct
----------------
+## Code of Conduct
 
-Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
+Please note that this project is released with a [Contributor Code of
+Conduct](CONDUCT.md). By participating in this project you agree to
+abide by its terms.

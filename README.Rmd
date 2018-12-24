@@ -48,10 +48,6 @@ install.packages("inferr")
 devtools::install_github("rsquaredacademy/inferr")
 ```
 
-## Shiny App
-
-Use `infer_launch_shiny_app()` to explore the package using a shiny app.
-
 ## Articles
 
 - [Introduction to inferr](http://www.rsquaredacademy.com/inferr/articles/index.html)
