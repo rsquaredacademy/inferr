@@ -21,7 +21,8 @@ Imports:
     stats,
     tibble,
     tidyr,
-    utils
+    utils,
+    xplorerr
 Suggests:
     covr,
     knitr,
