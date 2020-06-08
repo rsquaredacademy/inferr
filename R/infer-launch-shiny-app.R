@@ -21,6 +21,7 @@ infer_launch_shiny_app <- function() {
 	check_suggests('shinycssloaders')
 	check_suggests('shinythemes')
 	check_suggests('stringr')
+	check_suggests('xplorerr')
 	
 	xplorerr::app_inference()
 
