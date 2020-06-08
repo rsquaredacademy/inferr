@@ -2,7 +2,6 @@
 % Please edit documentation in R/infer-mcnemar-test.R
 \name{infer_mcnemar_test}
 \alias{infer_mcnemar_test}
-\alias{mcnemar_test}
 \title{McNemar Test}
 \usage{
 infer_mcnemar_test(data, x = NULL, y = NULL)

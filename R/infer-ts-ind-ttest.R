@@ -119,15 +119,6 @@ infer_ts_ind_ttest.default <- function(data, x, y, confint = 0.95,
 }
 
 #' @export
-#' @rdname infer_ts_ind_ttest
-#' @usage NULL
-#'
-ind_ttest <- function(data, x, y, confint = 0.95,
-                      alternative = c("both", "less", "greater", "all"), ...) {
-  .Deprecated("infer_ts_ind_ttest()")
-}
-
-#' @export
 #'
 print.infer_ts_ind_ttest <- function(x, ...) {
   print_two_ttest(x)

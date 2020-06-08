@@ -98,14 +98,6 @@ infer_chisq_assoc_test.default <- function(data, x, y) {
 }
 
 #' @export
-#' @rdname infer_chisq_assoc_test
-#' @usage NULL
-#'
-chisq_test <- function(x, y) {
-  .Deprecated("infer_chisq_assoc_test()")
-}
-
-#' @export
 print.infer_chisq_assoc_test <- function(x, ...) {
   print_chisq_test(x)
 }

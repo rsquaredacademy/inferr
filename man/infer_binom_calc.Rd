@@ -2,9 +2,7 @@
 % Please edit documentation in R/infer-binom-test.R
 \name{infer_binom_calc}
 \alias{infer_binom_calc}
-\alias{binom_calc}
 \alias{infer_binom_test}
-\alias{binom_test}
 \title{Binomial Test}
 \usage{
 infer_binom_calc(n, success, prob = 0.5, ...)

@@ -85,16 +85,6 @@ infer_ts_paired_ttest.default <- function(data, x, y, confint = 0.95,
 }
 
 #' @export
-#' @rdname infer_ts_paired_ttest
-#' @usage NULL
-#'
-paired_ttest <- function(x, y, confint = 0.95,
-                         alternative = c("both", "less", "greater", "all")) {
-  .Deprecated("infer_ts_paired_ttest()")
-  infer_ts_paired_ttest(x, y, confint, alternative)
-}
-
-#' @export
 #'
 print.infer_ts_paired_ttest <- function(x, ...) {
   print_paired_ttest(x)

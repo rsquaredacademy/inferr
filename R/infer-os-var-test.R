@@ -93,15 +93,6 @@ infer_os_var_test.default <- function(data, x, sd, confint = 0.95,
 }
 
 #' @export
-#' @rdname infer_os_var_test
-#' @usage NULL
-#'
-os_vartest <- function(x, sd, confint = 0.95,
-                       alternative = c("both", "less", "greater", "all"), ...) {
-  .Deprecated("infer_os_var_test()")
-}
-
-#' @export
 #'
 print.infer_os_var_test <- function(x, ...) {
   print_os_vartest(x)

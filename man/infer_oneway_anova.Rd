@@ -2,7 +2,6 @@
 % Please edit documentation in R/infer-anova.R
 \name{infer_oneway_anova}
 \alias{infer_oneway_anova}
-\alias{owanova}
 \title{One Way ANOVA}
 \usage{
 infer_oneway_anova(data, x, y, ...)

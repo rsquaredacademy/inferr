@@ -94,15 +94,6 @@ infer_os_t_test.default <- function(data, x, mu = 0, alpha = 0.05,
 }
 
 #' @export
-#' @rdname infer_os_t_test
-#' @usage NULL
-#'
-ttest <- function(x, mu = 0, alpha = 0.05,
-                  type = c("both", "less", "greater", "all"), ...) {
-  .Deprecated("infer_os_t_test()")
-}
-
-#' @export
 #'
 print.infer_os_t_test <- function(x, ...) {
   print_ttest(x)

@@ -82,14 +82,6 @@ infer_mcnemar_test.default <- function(data, x = NULL, y = NULL) {
 }
 
 #' @export
-#' @rdname infer_mcnemar_test
-#' @usage NULL
-#'
-mcnemar_test <- function(x, y = NULL) {
-  .Deprecated("infer_mcnemar_test()")
-}
-
-#' @export
 #'
 print.infer_mcnemar_test <- function(x, ...) {
   print_mcnemar_test(x)

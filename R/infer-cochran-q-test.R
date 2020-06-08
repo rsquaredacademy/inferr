@@ -46,14 +46,6 @@ infer_cochran_qtest.default <- function(data, ...) {
 }
 
 #' @export
-#' @rdname infer_cochran_qtest
-#' @usage NULL
-#'
-cochran_test <- function(x, ...) {
-  .Deprecated("infer_cochran_qtest()")
-}
-
-#' @export
 #'
 print.infer_cochran_qtest <- function(x, ...) {
   print_cochran_test(x)

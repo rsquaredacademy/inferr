@@ -2,7 +2,6 @@
 % Please edit documentation in R/infer-launch-shiny-app.R
 \name{infer_launch_shiny_app}
 \alias{infer_launch_shiny_app}
-\alias{launch_inferr}
 \title{Launch Shiny App}
 \usage{
 infer_launch_shiny_app()

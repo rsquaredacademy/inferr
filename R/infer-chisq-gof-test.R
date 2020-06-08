@@ -103,14 +103,6 @@ infer_chisq_gof_test.default <- function(data, x, y, correct = FALSE) {
 }
 
 #' @export
-#' @rdname infer_chisq_gof_test
-#' @usage NULL
-#'
-chisq_gof <- function(x, y, correct = FALSE) {
-  .Deprecated("infer_chisq_gof_test()")
-}
-
-#' @export
 print.infer_chisq_gof_test <- function(x, ...) {
   print_chisq_gof(x)
 }

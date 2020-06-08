@@ -64,15 +64,6 @@ infer_oneway_anova.default <- function(data, x, y, ...) {
 }
 
 #' @export
-#' @rdname infer_oneway_anova
-#' @usage NULL
-#'
-owanova <- function(data, x, y, ...) {
-  .Deprecated("infer_oneway_anova()")
-  infer_oneway_anova(data, x, y, ...)
-}
-
-#' @export
 print.infer_oneway_anova <- function(x, ...) {
   print_owanova(x)
 }

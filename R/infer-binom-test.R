@@ -65,15 +65,6 @@ infer_binom_calc.default <- function(n, success, prob = 0.5, ...) {
 }
 
 #' @export
-#' @rdname infer_binom_calc
-#' @usage NULL
-#'
-binom_calc <- function(n, success, prob = 0.5, ...) {
-  .Deprecated("infer_binom_calc()")
-  infer_binom_calc(n, success, prob = 0.5, ...)
-}
-
-#' @export
 print.infer_binom_calc <- function(x, ...) {
   print_binom(x)
 }
@@ -106,10 +97,3 @@ infer_binom_test <- function(data, variable, prob = 0.5) {
   infer_binom_calc.default(n, k, prob)
 }
 
-#' @export
-#' @rdname infer_binom_calc
-#' @usage NULL
-#'
-binom_test <- function(data, prob = 0.5) {
-  .Deprecated("infer_binom_test()")
-}

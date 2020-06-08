@@ -102,15 +102,6 @@ infer_ts_var_test.default <- function(data, ..., group_var = NULL,
 }
 
 #' @export
-#' @rdname infer_ts_var_test
-#' @usage NULL
-#'
-var_test <- function(variable, ..., group_var = NA,
-                     alternative = c("less", "greater", "all")) {
-  .Deprecated("infer_ts_var_test()")
-}
-
-#' @export
 #'
 print.infer_ts_var_test <- function(x, ...) {
   print_var_test(x)

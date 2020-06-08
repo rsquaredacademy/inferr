@@ -2,7 +2,6 @@
 % Please edit documentation in R/infer-chisq-assoc-test.R
 \name{infer_chisq_assoc_test}
 \alias{infer_chisq_assoc_test}
-\alias{chisq_test}
 \title{Chi Square Test of Association}
 \usage{
 infer_chisq_assoc_test(data, x, y)

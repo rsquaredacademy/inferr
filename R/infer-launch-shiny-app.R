@@ -26,11 +26,3 @@ infer_launch_shiny_app <- function() {
 
 }
  
-#' @export
-#' @rdname infer_launch_shiny_app
-#' @usage NULL
-#'
-launch_inferr <- function() {
-  .Deprecated("infer_launch_shiny_app()")
-  infer_launch_shiny_app()
-}

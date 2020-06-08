@@ -111,15 +111,6 @@ infer_runs_test.default <- function(data, x, drop = FALSE,
 }
 
 #' @export
-#' @rdname infer_runs_test
-#' @usage NULL
-#'
-runs_test <- function(x, drop = FALSE, split = FALSE, mean = FALSE,
-                      threshold = NA) {
-  .Deprecated("infer_runs_test()")
-}
-
-#' @export
 #'
 print.infer_runs_test <- function(x, ...) {
   print_runs_test(x)

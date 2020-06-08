@@ -3,7 +3,6 @@
 \docType{package}
 \name{inferr}
 \alias{inferr}
-\alias{inferr-package}
 \title{\code{inferr} package}
 \description{
 Parametric and non parametric statistical tests

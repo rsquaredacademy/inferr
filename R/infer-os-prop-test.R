@@ -84,16 +84,6 @@ infer_os_prop_test.default <- function(data, variable = NULL, prob = 0.5, phat =
   return(result)
 }
 
-
-#' @export
-#' @rdname infer_os_prop_test
-#' @usage NULL
-#'
-prop_test <- function(n, prob = 0.5,
-                      alternative = c("both", "less", "greater", "all"), phat, ...) {
-  .Deprecated("infer_os_prop_test()")
-}
-
 #' @export
 #'
 print.infer_os_prop_test <- function(x, ...) {

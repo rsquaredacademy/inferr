@@ -95,15 +95,6 @@ infer_levene_test.default <- function(data, ..., group_var = NULL,
 }
 
 #' @export
-#' @rdname infer_levene_test
-#' @usage NULL
-#'
-levene_test <- function(variable, ..., group_var = NULL,
-                        trim.mean = 0.1) {
-  .Deprecated("infer_levene_test()")
-}
-
-#' @export
 #'
 print.infer_levene_test <- function(x, ...) {
   print_levene_test(x)
