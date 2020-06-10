@@ -89,3 +89,40 @@ infer_os_prop_test.default <- function(data, variable = NULL, prob = 0.5, phat =
 print.infer_os_prop_test <- function(x, ...) {
   print_prop_test(x)
 }
+
+prop_comp <- function(n, prob, alternative, phat) {
+  n <- n
+  phat <- phat
+  p <- prob
+  q <- 1 - p
+  obs <- c(n * (1 - phat), n * phat)
+  exp <- n * c(q, p)
+  dif <- obs - exp
+  dev <- round((dif / exp) * 100, 2)
+  std <- round(dif / sqrt(exp), 2)
+  num <- phat - prob
+  den <- sqrt((p * q) / n)
+  z <- round(num / den, 4)
+  lt <- round(stats::pnorm(z), 4)
+  ut <- round(1 - stats::pnorm(z), 4)
+  tt <- round((1 - stats::pnorm(abs(z))) * 2, 4)
+  alt <- alternative
+
+  if (alt == "all") {
+    sig <- c("two-both" = tt, "less" = lt, "greater" = ut)
+  } else if (alt == "greater") {
+    sig <- ut
+  } else if (alt == "less") {
+    sig <- lt
+  } else {
+    sig <- tt
+  }
+
+  out <- list(
+    n = n, phat = phat, p = prob, z = z, sig = sig, alt = alt,
+    obs = obs, exp = exp, deviation = format(dev, nsmall = 2),
+    std = format(std, nsmall = 2)
+  )
+
+  return(out)
+}

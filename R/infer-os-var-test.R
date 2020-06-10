@@ -97,3 +97,36 @@ infer_os_var_test.default <- function(data, x, sd, confint = 0.95,
 print.infer_os_var_test <- function(x, ...) {
   print_os_vartest(x)
 }
+
+osvar_comp <- function(x, sd, confint) {
+
+  n <- length(x)
+  df <- n - 1
+  xbar <- mean(x)
+  sigma <- stats::sd(x)
+  se <- sigma / sqrt(n)
+  chi <- df * ((sigma / sd) ^ 2)
+
+  p_lower <- stats::pchisq(chi, df)
+  p_upper <- stats::pchisq(chi, df, lower.tail = F)
+  if (p_lower < 0.5) {
+    p_two <- stats::pchisq(chi, df) * 2
+  } else {
+    p_two <- stats::pchisq(chi, df, lower.tail = F) * 2
+  }
+
+
+  conf <- confint
+  a <- (1 - conf) / 2
+  al <- 1 - a
+  tv <- df * sigma
+  c_lwr <- round(tv / stats::qchisq(al, df), 4)
+  c_upr <- round(tv / stats::qchisq(a, df), 4)
+
+  list(
+    n = n, sd = sd, sigma = sigma, se = se, chi = chi, df = df,
+    p_lower = p_lower, p_upper = p_upper, p_two = p_two, xbar = xbar,
+    c_lwr = c_lwr, c_upr = c_upr, conf = conf
+  )
+
+}

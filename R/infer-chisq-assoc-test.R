@@ -101,3 +101,84 @@ infer_chisq_assoc_test.default <- function(data, x, y) {
 print.infer_chisq_assoc_test <- function(x, ...) {
   print_chisq_test(x)
 }
+
+# chi square association
+df_chi <- function(twoway) {
+  (nrow(twoway) - 1) * (ncol(twoway) - 1)
+}
+
+efmat <- function(twoway) {
+  mat1 <- matrix(rowSums(twoway) / sum(twoway), nrow = 2)
+  mat2 <- matrix(colSums(twoway), nrow = 1)
+  
+  mat1 %*% mat2
+}
+
+pear_chsq <- function(twoway, df, ef) {
+  chi <- round(sum(((twoway - ef) ^ 2) / ef), 4)
+  sig <- round(stats::pchisq(chi, df, lower.tail = F), 4)
+  
+  list(chi = chi, sig = sig)
+}
+
+lr_chsq <- function(twoway, df, ef) {
+  chilr  <- round(2 * sum(matrix(log(twoway / ef), nrow = 1) %*% matrix(twoway, nrow = 4)), 4)
+  sig_lr <- round(stats::pchisq(chilr, df, lower.tail = F), 4)
+  
+  list(chilr = chilr, sig_lr = sig_lr)
+}
+
+lr_chsq2 <- function(twoway, df, ef, ds) {
+  chilr  <- round(2 * sum(matrix(twoway, ncol = ds) %*% matrix(log(twoway / ef), nrow = ds)), 4)
+  sig_lr <- round(stats::pchisq(chilr, df, lower.tail = F), 4)
+  
+  list(chilr = chilr, sig_lr = sig_lr)
+}
+
+yates_chsq <- function(twoway) {
+  way2        <- twoway[, c(2, 1)]
+  total       <- sum(twoway)
+  prods       <- prod(diag(twoway)) - prod(diag(way2))
+  prod_totals <- prod(rowSums(twoway)) * prod(colSums(twoway))
+  chi_y       <- round((total * (abs(prods) - (total / 2)) ^ 2) / prod_totals, 4)
+  sig_y       <- round(stats::pchisq(chi_y, 1, lower.tail = F), 4)
+  
+  list(chi_y = chi_y, sig_y = sig_y, total = total, prod_totals = prod_totals)
+}
+
+mh_chsq <- function(twoway, total, prod_totals) {
+  num    <- twoway[1] - ((rowSums(twoway)[1] * colSums(twoway)[1]) / total)
+  den    <- prod_totals / ((total ^ 3) - (total ^ 2))
+  chimh  <- round((num ^ 2) / den, 4)
+  sig_mh <- round(stats::pchisq(chimh, 1, lower.tail = F), 4)
+  
+  list(chimh = chimh, sig_mh = sig_mh)
+}
+
+efm <- function(twoway, dk) {
+  mat1 <- matrix(rowSums(twoway) / sum(twoway), nrow = dk[1])
+  mat2 <- matrix(colSums(twoway), ncol = dk[2])
+  
+  mat1 %*% mat2
+}
+
+pear_chi <- function(twoway, df, ef) {
+  chi <- round(sum(((twoway - ef) ^ 2) / ef), 4)
+  sig <- round(stats::pchisq(chi, df, lower.tail = F), 4)
+  
+  list(chi = chi, sig = sig)
+}
+
+chigf <- function(x, y, chi) {
+  twoway <- matrix(table(x, y), 
+    nrow = nlevels(as.factor(x)),
+    ncol = nlevels(as.factor(y))
+  )
+  total <- sum(twoway)
+  phi   <- round(sqrt(chi / total), 4)
+  cc    <- round(sqrt(chi / (chi + total)), 4)
+  q     <- min(nrow(twoway), ncol(twoway))
+  cv    <- round(sqrt(chi / (total * (q - 1))), 4)
+  
+  list(phi = phi, cc = cc, cv = cv)
+}

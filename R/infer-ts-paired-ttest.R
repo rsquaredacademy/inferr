@@ -89,3 +89,79 @@ infer_ts_paired_ttest.default <- function(data, x, y, confint = 0.95,
 print.infer_ts_paired_ttest <- function(x, ...) {
   print_paired_ttest(x)
 }
+
+paired_comp <- function(x, y, confint, var_names) {
+
+  n         <- length(x)
+  df        <- (n - 1)
+  xy        <- paste(var_names[1], "-", var_names[2])
+
+  data_prep <- paired_data(x, y)
+  b         <- paired_stats(data_prep, "key", "value")
+  corr      <- round(stats::cor(x, y), 4)
+  corsig    <- cor_sig(corr, n)
+
+  alpha     <- 1 - confint
+  
+  confint1  <- conf_int_t(b[[1, 1]], b[[1, 2]], n, alpha = alpha) %>% round(2)
+  confint2  <- conf_int_t(b[[2, 1]], b[[2, 2]], n, alpha = alpha) %>% round(2)
+  confint3  <- conf_int_t(b[[3, 1]], b[[3, 2]], n, alpha = alpha) %>% round(2)
+
+  t         <- round(b[[3, 1]] / b[[3, 3]], 4)
+
+  p_l       <- stats::pt(t, df)
+  p_u       <- stats::pt(t, df, lower.tail = FALSE)
+  p         <- stats::pt(abs(t), df, lower.tail = FALSE) * 2
+
+  list(
+    Obs = n, b = b, conf_int1 = confint1, conf_int2 = confint2,
+    conf_int_diff = confint3, corr = round(corr, 2), corsig = round(corsig, 2),
+    tstat = t, p_lower = p_l, p_upper = p_u, p_two_tail = p, xy = xy, df = df
+  )
+
+}
+
+paired_data <- function(x, y) {
+  d <- 
+    tibble::tibble(x = x, y = y) %>%
+    dplyr::mutate(z = x - y) %>%
+    tidyr::gather()
+  return(d)
+}
+
+paired_stats <- function(data, key, value) {
+
+  d <- 
+    data %>%
+    dplyr::group_by(key) %>%
+    dplyr::select(value, key) %>%
+    dplyr::summarise_all(dplyr::funs(length, mean, sd = stats::sd)) %>%
+    tibble::as_data_frame() %>%
+    dplyr::mutate(
+      se = sd / sqrt(length)
+    ) %>%
+    dplyr::select(-(key:length))
+
+  return(d)
+}
+
+cor_sig <- function(corr, n) {
+  t <- corr / ((1 - (corr ^ 2)) / (n - 2)) ^ 0.5
+  df <- n - 2
+  sig <- (1 - stats::pt(t, df)) * 2
+  return(round(sig, 4))
+}
+
+conf_int_t <- function(u, s, n, alpha = 0.05) {
+  a <- alpha / 2
+  df <- n - 1
+  error <- round(stats::qt(a, df), 3) * -1
+  lower <- u - (error * samp_err(s, n))
+  upper <- u + (error * samp_err(s, n))
+  result <- c(lower, upper)
+  return(result)
+}
+
+samp_err <- function(sigma, n) {
+  sigma / (n ^ 0.5)
+}

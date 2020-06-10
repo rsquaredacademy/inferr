@@ -197,3 +197,42 @@ infer_ts_prop_calc <- function(n1, n2, p1, p2,
   return(out)
 }
 
+prop_comp2 <- function(var1, var2, alt) {
+
+  n1    <- length(var1)
+  n2    <- length(var2)
+
+  y1    <- table(var1)[[2]]
+  y2    <- table(var2)[[2]]
+
+  phat1 <- round(y1 / n1, 4)
+  phat2 <- round(y2 / n2, 4)
+  phat  <- sum(y1, y2) / sum(n1, n2)
+
+  # test statistic
+  num   <- (phat1 - phat2)
+  den1  <- phat * (1 - phat)
+  den2  <- (1 / n1) + (1 / n2)
+  den   <- sqrt(den1 * den2)
+  z     <- round(num / den, 4)
+
+  lt    <- round(stats::pnorm(z), 4)
+  ut    <- round(stats::pnorm(z, lower.tail = FALSE), 4)
+  tt    <- round(stats::pnorm(abs(z), lower.tail = FALSE) * 2, 4)
+
+  if (alt == "all") {
+    sig <- c("two-tail" = tt, "lower-tail" = lt, "upper-tail" = ut)
+  } else if (alt == "greater") {
+    sig <- ut
+  } else if (alt == "less") {
+    sig <- lt
+  } else {
+    sig <- tt
+  }
+
+  list(
+    n1 = n1, n2 = n2, phat1 = phat1, phat2 = phat2, z = round(z, 3),
+    sig = round(sig, 3)
+  )
+
+}

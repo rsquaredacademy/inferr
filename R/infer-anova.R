@@ -67,3 +67,74 @@ infer_oneway_anova.default <- function(data, x, y, ...) {
 print.infer_oneway_anova <- function(x, ...) {
   print_owanova(x)
 }
+
+#' @importFrom magrittr %>% 
+anova_split <- function(data, x, y, sample_mean) {
+  x1 <- rlang::enquo(x)
+  y1 <- rlang::enquo(y)
+
+  by_factor <-
+    data %>%
+    dplyr::group_by(!! y1) %>%
+    dplyr::select(!! y1, !! x1) %>%
+    dplyr::summarise_all(dplyr::funs(length, mean, var = stats::var, sd = stats::sd)) %>%
+    tibble::as_data_frame() %>%
+    dplyr::mutate(
+      sst = length * ((mean - sample_mean) ^ 2),
+      sse = (length - 1) * var
+    )
+
+  return(by_factor)
+}
+
+anova_avg <- function(data, y) {
+  y1 <- rlang::enquo(y)
+
+  avg <-
+    data %>%
+    dplyr::select(!! y1) %>%
+    dplyr::summarise_all(dplyr::funs(mean))
+
+  return(unlist(avg, use.names = FALSE))
+}
+
+anova_calc <- function(data, sample_stats, x, y) {
+  x1 <- rlang::enquo(x)
+  y1 <- rlang::enquo(y)
+
+  var_names <-
+    data %>%
+    dplyr::select(!! x1, !! y1) %>%
+    names()
+
+  sstr <-
+    sample_stats %>%
+    magrittr::use_series(sst) %>%
+    sum() %>%
+    round(3)
+
+  ssee <-
+    sample_stats %>%
+    magrittr::use_series(sse) %>%
+    sum() %>%
+    round(3)
+
+  total <- round(sstr + ssee, 3)
+  df_sstr <- nrow(sample_stats) - 1
+  df_sse <- nrow(data) - nrow(sample_stats)
+  df_sst <- nrow(data) - 1
+  mstr <- round(sstr / df_sstr, 3)
+  mse <- round(ssee / df_sse, 3)
+  f <- round(mstr / mse, 3)
+  sig <- round(1 - stats::pf(f, df_sstr, df_sse), 3)
+  obs <- nrow(data)
+  regs <- paste(var_names[1], "~ as.factor(", var_names[2], ")")
+  model <- stats::lm(stats::as.formula(regs), data = data)
+  reg <- summary(model)
+  out <- list(
+    sstr = sstr, ssee = ssee, total = total, df_sstr = df_sstr,
+    df_sse = df_sse, df_sst = df_sst, mstr = mstr, mse = mse, f = f,
+    sig = sig, obs = obs, model = model, reg = reg
+  )
+  return(out)
+}

@@ -106,3 +106,26 @@ infer_chisq_gof_test.default <- function(data, x, y, correct = FALSE) {
 print.infer_chisq_gof_test <- function(x, ...) {
   print_chisq_gof(x)
 }
+
+chi_cort <- function(x, y) {
+  
+  diff <- x - y - 0.5
+  dif  <- abs(x - y) - 0.5
+  dif2 <- dif ^ 2
+  dev  <- round((diff / y) * 100, 2)
+  std  <- round(diff / sqrt(y), 2)
+  chi  <- round(sum(dif2 / y), 4)
+  
+  list(dev = dev, std = std, chi = chi)
+}
+
+chigof <- function(x, y) {
+
+  dif  <- x - y
+  dif2 <- dif ^ 2
+  dev  <- round((dif / y) * 100, 2)
+  std  <- round(dif / sqrt(y), 2)
+  chi  <- round(sum(dif2 / y), 4)
+  
+  list(dev = dev, std = std, chi = chi)
+}
