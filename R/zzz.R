@@ -2,15 +2,10 @@
 
   if (!interactive() || stats::runif(1) > 0.1) return()
 
-  pkgs <- utils::available.packages()
-  
-  cran_version <- 
-    pkgs %>%
-    magrittr::extract("inferr", "Version") %>%
-    package_version()
-
+   pkgs          <- utils::available.packages()
+  cran_version  <- package_version(pkgs["inferr", "Version"])
   local_version <- utils::packageVersion("inferr")
-  behind_cran <- cran_version > local_version
+  behind_cran   <- cran_version > local_version
 
   tips <- c(
     "Learn more about inferr at https://github.com/rsquaredacademy/inferr/.",
@@ -24,7 +19,7 @@
   if (interactive()) {
     if (behind_cran) {
       msg <- message("A new version of inferr is available with bug fixes and new features.")
-      message(msg, "\nWould you like to install it?")
+      packageStartupMessage(msg, "\nWould you like to install it?")
       if (utils::menu(c("Yes", "No")) == 1) {
         utils::update.packages("inferr")
       } 
