@@ -9,19 +9,20 @@
 #' \code{"infer_chisq_assoc_test"} is a list containing the
 #' following components:
 #'
-#' \item{chi}{chi square}
-#' \item{chilr}{likelihood ratio chi square}
-#' \item{chimh}{mantel haenszel chi square}
-#' \item{chiy}{continuity adjusted chi square}
-#' \item{sig}{p-value of chi square}
-#' \item{siglr}{p-value of likelihood ratio chi square}
-#' \item{sigmh}{p-value of mantel haenszel chi square}
-#' \item{sigy}{p-value of continuity adjusted chi square}
-#' \item{phi}{phi coefficient}
-#' \item{cc}{contingency coefficient}
-#' \item{cv}{cramer's v}
-#' \item{ds}{product of dimensions of the table of \code{x} and \code{y}}
+#' \item{chisquare}{chi square}
+#' \item{chisquare_lr}{likelihood ratio chi square}
+#' \item{chisquare_mantel_haenszel}{mantel haenszel chi square}
+#' \item{chisquare_adjusted}{continuity adjusted chi square}
+#' \item{contingency_coefficient}{contingency coefficient}
+#' \item{cramers_v}{cramer's v}
 #' \item{df}{degrees of freedom}
+#' \item{ds}{product of dimensions of the table of \code{x} and \code{y}}
+#' \item{phi_coefficient}{phi coefficient}
+#' \item{pval_chisquare}{p-value of chi square}
+#' \item{pval_chisquare_adjusted}{p-value of continuity adjusted chi square}
+#' \item{pval_chisquare_lr}{p-value of likelihood ratio chi square}
+#' \item{pval_chisquare_mantel_haenszel}{p-value of mantel haenszel chi square}
+#'
 #' @section Deprecated Function:
 #' \code{chisq_test()} has been deprecated. Instead use
 #' \code{infer_chisq_assoc_test()}.
@@ -39,7 +40,7 @@ infer_chisq_assoc_test <- function(data, x, y) UseMethod("infer_chisq_assoc_test
 
 #' @export
 infer_chisq_assoc_test.default <- function(data, x, y) {
-  
+
   x1 <- rlang::enquo(x)
   y1 <- rlang::enquo(y)
 
@@ -82,14 +83,31 @@ infer_chisq_assoc_test.default <- function(data, x, y) {
 
   result <- if (ds == 4) {
     list(
-      chi = k$chi, chilr = m$chilr, chimh = p$chimh, chiy = n$chi_y,
-      sig = k$sig, siglr = m$sig_lr, sigy = n$sig_y, sigmh = p$sig_mh,
-      phi = j$phi, cc = j$cc, cv = j$cv, ds = ds, df = df
+      chisquare                      = k$chi,
+      chisquare_adjusted             = n$chi_y,
+      chisquare_lr                   = m$chilr,
+      chisquare_mantel_haenszel      = p$chimh,
+      contingency_coefficient        = j$cc,
+      cramers_v                      = j$cv,
+      df                             = df,
+      ds                             = ds,
+      phi_coefficient                = j$phi,
+      pval_chisquare                 = k$sig,
+      pval_chisquare_adjusted        = n$sig_y,
+      pval_chisquare_lr              = m$sig_lr,
+      pval_chisquare_mantel_haenszel = p$sig_mh
     )
   } else {
     list(
-      df = df, chi = k$chi, chilr = m$chilr, sig = k$sig, siglr = m$sig_lr,
-      phi = j$phi, cc = j$cc, cv = j$cv, ds = ds
+      chisquare               = k$chi,
+      chisquare_lr            = m$chilr,
+      contingency_coefficient = j$cc,
+      cramers_v               = j$cv,
+      df                      = df,
+      ds                      = ds,
+      phi_coefficient         = j$phi,
+      pval_chisquare          = k$sig,
+      pval_chisquare_lr       = m$sig_lr
     )
   }
 
@@ -110,28 +128,28 @@ df_chi <- function(twoway) {
 efmat <- function(twoway) {
   mat1 <- matrix(rowSums(twoway) / sum(twoway), nrow = 2)
   mat2 <- matrix(colSums(twoway), nrow = 1)
-  
+
   mat1 %*% mat2
 }
 
 pear_chsq <- function(twoway, df, ef) {
   chi <- round(sum(((twoway - ef) ^ 2) / ef), 4)
   sig <- round(stats::pchisq(chi, df, lower.tail = F), 4)
-  
+
   list(chi = chi, sig = sig)
 }
 
 lr_chsq <- function(twoway, df, ef) {
   chilr  <- round(2 * sum(matrix(log(twoway / ef), nrow = 1) %*% matrix(twoway, nrow = 4)), 4)
   sig_lr <- round(stats::pchisq(chilr, df, lower.tail = F), 4)
-  
+
   list(chilr = chilr, sig_lr = sig_lr)
 }
 
 lr_chsq2 <- function(twoway, df, ef, ds) {
   chilr  <- round(2 * sum(matrix(twoway, ncol = ds) %*% matrix(log(twoway / ef), nrow = ds)), 4)
   sig_lr <- round(stats::pchisq(chilr, df, lower.tail = F), 4)
-  
+
   list(chilr = chilr, sig_lr = sig_lr)
 }
 
@@ -142,7 +160,7 @@ yates_chsq <- function(twoway) {
   prod_totals <- prod(rowSums(twoway)) * prod(colSums(twoway))
   chi_y       <- round((total * (abs(prods) - (total / 2)) ^ 2) / prod_totals, 4)
   sig_y       <- round(stats::pchisq(chi_y, 1, lower.tail = F), 4)
-  
+
   list(chi_y = chi_y, sig_y = sig_y, total = total, prod_totals = prod_totals)
 }
 
@@ -151,26 +169,26 @@ mh_chsq <- function(twoway, total, prod_totals) {
   den    <- prod_totals / ((total ^ 3) - (total ^ 2))
   chimh  <- round((num ^ 2) / den, 4)
   sig_mh <- round(stats::pchisq(chimh, 1, lower.tail = F), 4)
-  
+
   list(chimh = chimh, sig_mh = sig_mh)
 }
 
 efm <- function(twoway, dk) {
   mat1 <- matrix(rowSums(twoway) / sum(twoway), nrow = dk[1])
   mat2 <- matrix(colSums(twoway), ncol = dk[2])
-  
+
   mat1 %*% mat2
 }
 
 pear_chi <- function(twoway, df, ef) {
   chi <- round(sum(((twoway - ef) ^ 2) / ef), 4)
   sig <- round(stats::pchisq(chi, df, lower.tail = F), 4)
-  
+
   list(chi = chi, sig = sig)
 }
 
 chigf <- function(x, y, chi) {
-  twoway <- matrix(table(x, y), 
+  twoway <- matrix(table(x, y),
     nrow = nlevels(as.factor(x)),
     ncol = nlevels(as.factor(y))
   )
@@ -179,6 +197,6 @@ chigf <- function(x, y, chi) {
   cc    <- round(sqrt(chi / (chi + total)), 4)
   q     <- min(nrow(twoway), ncol(twoway))
   cv    <- round(sqrt(chi / (total * (q - 1))), 4)
-  
+
   list(phi = phi, cc = cc, cv = cv)
 }
