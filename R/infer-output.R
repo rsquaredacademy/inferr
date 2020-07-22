@@ -108,19 +108,13 @@ print_binom <- function(data) {
     cat(" ", rep("-", w11), sep = "", "\n")
     cat(
       " ", format("Lower", width = w6, justify = "left"), fs(), format(paste0("Pr(k <= ", data$k, ")"), width = w8, justify = "centre"), fs(),
-      format(as.character(data$lower), width = w9, justify = "centre"), "\n"
+      format(as.character(data$pval_lower), width = w9, justify = "centre"), "\n"
     )
     cat(
       " ", format("Upper", width = w6, justify = "left"), fs(), format(paste0("Pr(k >= ", data$k, ")"), width = w8, justify = "centre"), fs(),
-      format(as.character(data$upper), width = w9, justify = "centre"), "\n"
+      format(as.character(data$pval_upper), width = w9, justify = "centre"), "\n"
     )
-    # 			if (data$ik < 0) {
-    # 				cat(" ", format('Two', width = w6, justify = 'left'), fs(), format(paste0('Pr(k >= ', data$ik, ')'), width = w8, justify = 'left'), fs(),
-    #         format(data$two_tail, width = w9, justify = 'centre'),'\n')
-    # 			} else {
-    #         cat(" ", format('Two', width = w6, justify = 'left'), fs(), format(paste0('Pr(k <= ', data$k, ' or k >= ', data$ik, ')'), width = w8, justify = 'left'), fs(),
-    #         format(data$two_tail, width = w9, justify = 'centre'),'\n')
-    # 			}
+    
     cat(" ", rep("-", w11), sep = "", "\n")
   } else {
     cat("\n\n", format("Test Summary", width = w10, justify = "centre"), "\n")
@@ -132,19 +126,13 @@ print_binom <- function(data) {
     cat(" ", rep("-", w10), sep = "", "\n")
     cat(
       " ", format("Lower", width = w6, justify = "left"), fs(), format(paste0("Pr(k <= ", data$k, ")"), width = w7, justify = "centre"), fs(),
-      format(as.character(data$lower), width = w9, justify = "centre"), "\n"
+      format(as.character(data$pval_lower), width = w9, justify = "centre"), "\n"
     )
     cat(
       " ", format("Upper", width = w6, justify = "left"), fs(), format(paste0("Pr(k >= ", data$k, ")"), width = w7, justify = "centre"), fs(),
-      format(as.character(data$upper), width = w9, justify = "centre"), "\n"
+      format(as.character(data$pval_upper), width = w9, justify = "centre"), "\n"
     )
-    # 				if (data$ik < 0) {
-    #         cat(" ", format('Two', width = w6, justify = 'left'), fs(), format(paste0('Pr(k >= ', data$k, ')'), width = w7, justify = 'left'), fs(),
-    #         format(data$two_tail, width = w9, justify = 'centre'),'\n')
-    # 				} else {
-    # 					cat(" ", format('Two', width = w6, justify = 'left'), fs(), format(paste0('Pr(k <= ', data$ik, ' or k >= ', data$k, ')'), width = w7, justify = 'left'), fs(),
-    # 	        format(data$two_tail, width = w9, justify = 'centre'),'\n')
-    # 				}
+   
     cat(" ", rep("-", w10), sep = "", "\n")
   }
 }

@@ -7,8 +7,8 @@ test_that("output from infer_binom_calc matches the expected output", {
   expect_equal(k$exp_k, 16)
   expect_equal(k$obs_p, 0.25)
   expect_equal(k$exp_p, 0.5)
-  expect_equal(k$lower, 0.0035)
-  expect_equal(k$upper, 0.998949)
+  expect_equal(k$pval_lower, 0.0035)
+  expect_equal(k$pval_upper, 0.998949)
 
 
   k <- infer_binom_calc(32, 20)
@@ -17,8 +17,8 @@ test_that("output from infer_binom_calc matches the expected output", {
   expect_equal(k$exp_k, 16)
   expect_equal(k$obs_p, 0.625)
   expect_equal(k$exp_p, 0.5)
-  expect_equal(k$lower, 0.944908)
-  expect_equal(k$upper, 0.107664)
+  expect_equal(k$pval_lower, 0.944908)
+  expect_equal(k$pval_upper, 0.107664)
 })
 
 test_that("infer_binom_calc throws the appropriate error", {
@@ -41,8 +41,8 @@ test_that("output from infer_binom_test matches the expected output", {
   expect_equal(k$exp_k, 16)
   expect_equal(k$obs_p, 0.4375)
   expect_equal(k$exp_p, 0.5)
-  expect_equal(k$lower, 0.298307)
-  expect_equal(k$upper, 0.811457)
+  expect_equal(k$pval_lower, 0.298307)
+  expect_equal(k$pval_upper, 0.811457)
 })
 
 test_that("infer_binom_test throws the appropriate error", {

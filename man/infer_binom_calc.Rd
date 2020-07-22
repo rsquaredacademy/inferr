@@ -27,13 +27,13 @@ infer_binom_test(data, variable, prob = 0.5)
 An object of class \code{"binom_test"} is a list containing the
 following components:
 
-\item{n}{number of observations}
-\item{k}{number of successes}
 \item{exp_k}{expected number of successes}
-\item{obs_p}{assumed probability of success}
 \item{exp_p}{expected probability of success}
-\item{lower}{lower one sided p value}
-\item{upper}{upper one sided p value}
+\item{k}{number of successes}
+\item{n}{number of observations}
+\item{obs_p}{assumed probability of success}
+\item{pval_lower}{lower one sided p value}
+\item{pval_upper}{upper one sided p value}
 }
 \description{
 Test whether the proportion of successes on a two-level
