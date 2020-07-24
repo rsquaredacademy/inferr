@@ -16,10 +16,10 @@ infer_cochran_qtest(data, ...)
 \code{"infer_cochran_qtest"}. An object of class \code{"infer_cochran_qtest"}
 is a list containing the following components:
 
-\item{n}{number of observations}
 \item{df}{degrees of freedom}
+\item{n}{number of observations}
+\item{pvalue}{p value}
 \item{q}{cochran's q statistic}
-\item{pvalue}{p-value}
 }
 \description{
 Test if the proportions of 3 or more dichotomous variables are

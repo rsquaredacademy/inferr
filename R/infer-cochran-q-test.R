@@ -8,10 +8,11 @@
 #' \code{"infer_cochran_qtest"}. An object of class \code{"infer_cochran_qtest"}
 #' is a list containing the following components:
 #'
-#' \item{n}{number of observations}
 #' \item{df}{degrees of freedom}
+#' \item{n}{number of observations}
+#' \item{pvalue}{p value}
 #' \item{q}{cochran's q statistic}
-#' \item{pvalue}{p-value}
+#'
 #' @section Deprecated Function:
 #' \code{cochran_test()} has been deprecated. Instead use
 #' \code{infer_cochran_qtest()}.
@@ -26,7 +27,7 @@ infer_cochran_qtest <- function(data, ...) UseMethod("infer_cochran_qtest")
 
 #' @export
 infer_cochran_qtest.default <- function(data, ...) {
-  
+
   vars <- rlang::quos(...)
 
   fdata <- dplyr::select(data, !!! vars)
@@ -40,7 +41,14 @@ infer_cochran_qtest.default <- function(data, ...) {
   }
 
   k <- cochran_comp(fdata)
-  result <- list(n = k$n, df = k$df, q = k$q, pvalue = k$pvalue)
+
+  result <-
+    list(
+      df     = k$df,
+      n      = k$n,
+      pvalue = k$pvalue,
+      q      = k$q)
+
   class(result) <- "infer_cochran_qtest"
   return(result)
 }
@@ -52,7 +60,7 @@ print.infer_cochran_qtest <- function(x, ...) {
 }
 
 coch_data <- function(x, ...) {
-  
+
   if (is.data.frame(x)) {
     data <- x %>%
       lapply(as.numeric) %>%
@@ -69,7 +77,7 @@ coch_data <- function(x, ...) {
 }
 
 cochran_comp <- function(data) {
-  
+
   n  <- nrow(data)
   k  <- ncol(data)
   df <- k - 1
@@ -94,15 +102,21 @@ cochran_comp <- function(data) {
 }
 
 sums <- function(data) {
-  cl <- colSums(data)
+
+  cl      <- colSums(data)
   cls_sum <- sum(cl ^ 2)
-  g <- rowSums(data)
-  gs_sum <- sum(g ^ 2)
-  result <- list(cl = cl, cls_sum = cls_sum, g = g, gs_sum = gs_sum)
+  g       <- rowSums(data)
+  gs_sum  <- sum(g ^ 2)
+
+  list(
+    cl      = cl,
+    cls_sum = cls_sum,
+    g       = g,
+    gs_sum  = gs_sum)
+
 }
 
 coch <- function(k, cls_sum, cl, g, gs_sum) {
-  out <- ((k - 1) * ((k * cls_sum) - (sum(cl) ^ 2))) / ((k * sum(g)) - gs_sum)
-  return(out)
+  ((k - 1) * ((k * cls_sum) - (sum(cl) ^ 2))) / ((k * sum(g)) - gs_sum)
 }
 
