@@ -9,17 +9,18 @@
 #' \code{"infer_chisq_gof_test"}. An object of class \code{"infer_chisq_gof_test"}
 #' is a list containing the following components:
 #'
+#' \item{categories}{levels of \code{x}}
 #' \item{chisquare}{chi square statistic}
-#' \item{pvalue}{p-value}
-#' \item{df}{chi square degrees of freedom}
-#' \item{ssize}{number of observations}
-#' \item{names}{levels of \code{x}}
-#' \item{level}{number of levels of \code{x}}
-#' \item{obs}{observed frequency/proportion}
-#' \item{exp}{expected frequency/proportion}
 #' \item{deviation}{deviation of observed from frequency}
-#' \item{std}{standardized residuals}
+#' \item{degrees_of_freedom}{chi square degrees of freedom}
+#' \item{expected_frequency}{expected frequency/proportion}
+#' \item{n_levels}{number of levels of \code{x}}
+#' \item{observed_frequency}{observed frequency/proportion}
+#' \item{pvalue}{p-value}
+#' \item{sample_size}{number of observations}
+#' \item{std_residuals}{standardized residuals}
 #' \item{varname}{name of categorical variable}
+#'
 #' @section Deprecated Function:
 #' \code{chisq_gof()} has been deprecated. Instead use
 #' \code{infer_chisq_gof_test()}
@@ -91,11 +92,19 @@ infer_chisq_gof_test.default <- function(data, x, y, correct = FALSE) {
 
   sig <- round(stats::pchisq(k$chi, df, lower.tail = FALSE), 4)
 
-  result <- list(
-    chisquare = k$chi, pvalue = sig, df = df, ssize = length(xcheck),
-    names = levels(xcheck), level = nlevels(xcheck), obs = xone, exp = y,
-    deviation = format(k$dev, nsmall = 2), std = format(k$std, nsmall = 2),
-    varname = varname
+  result <-
+    list(
+      categories         = levels(xcheck),
+      chisquare          = k$chi,
+      deviation          = format(k$dev, nsmall = 2),
+      degrees_of_freedom = df,
+      expected_frequency = y,
+      n_levels           = nlevels(xcheck),
+      observed_frequency = xone,
+      pvalue             = sig,
+      sample_size        = length(xcheck),
+      std_residuals      = format(k$std, nsmall = 2),
+      varname            = varname
   )
 
   class(result) <- "infer_chisq_gof_test"
@@ -108,14 +117,14 @@ print.infer_chisq_gof_test <- function(x, ...) {
 }
 
 chi_cort <- function(x, y) {
-  
+
   diff <- x - y - 0.5
   dif  <- abs(x - y) - 0.5
   dif2 <- dif ^ 2
   dev  <- round((diff / y) * 100, 2)
   std  <- round(diff / sqrt(y), 2)
   chi  <- round(sum(dif2 / y), 4)
-  
+
   list(dev = dev, std = std, chi = chi)
 }
 
@@ -126,6 +135,6 @@ chigof <- function(x, y) {
   dev  <- round((dif / y) * 100, 2)
   std  <- round(dif / sqrt(y), 2)
   chi  <- round(sum(dif2 / y), 4)
-  
+
   list(dev = dev, std = std, chi = chi)
 }
