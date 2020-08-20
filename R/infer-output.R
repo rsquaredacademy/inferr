@@ -2,26 +2,26 @@ print_owanova <- function(data) {
 
   # width
   w1 <- nchar("Between Groups")
-  w2 <- max(nchar("Squares"), nchar(data$between), nchar(data$within), nchar(data$total))
+  w2 <- max(nchar("Squares"), nchar(data$ss_between), nchar(data$ss_within), nchar(data$ss_total))
   w3 <- max(nchar("DF"), nchar(data$df_btw), nchar(data$df_btw), nchar(data$df_within), nchar(data$df_total))
   w4 <- max(nchar("Mean Square"), nchar(data$ms_btw), nchar(data$ms_within))
-  w5 <- max(nchar("F"), nchar(data$f))
-  w6 <- max(nchar("Sig."), nchar(format(data$sig, nsmall = 4)))
+  w5 <- max(nchar("F"), nchar(data$fstat))
+  w6 <- max(nchar("Sig."), nchar(format(data$pval, nsmall = 4)))
   w <- sum(w1, w2, w3, w4, w5, w6, 21)
-  w7 <- nchar(data$sigma)
+  w7 <- nchar(data$rmse)
 
-  dc <- as.vector(data$tab[, 1])
+  dc <- as.vector(data$group_stats[, 1])
 
   w8 <- max(nchar("Category"), max(nchar(dc)))
-  w9 <- max(nchar("N"), max(nchar(data$tab[[2]])))
-  w10 <- max(nchar("Mean"), max(nchar(format(data$tab[[3]], nsmall = 3))))
-  w11 <- max(nchar("Std. Dev."), max(nchar(format(data$tab[[4]], nsmall = 3))))
+  w9 <- max(nchar("N"), max(nchar(data$group_stats[[2]])))
+  w10 <- max(nchar("Mean"), max(nchar(format(data$group_stats[[3]], nsmall = 3))))
+  w11 <- max(nchar("Std. Dev."), max(nchar(format(data$group_stats[[4]], nsmall = 3))))
   wr <- sum(w8, w9, w10, w11, 13)
 
 
-  p <- format(data$p, nsmall = 4)
-  q <- nrow(data$tab)
-  s <- length(data$tab)
+  p <- format(data$pval, nsmall = 4)
+  q <- nrow(data$group_stats)
+  s <- length(data$group_stats)
 
 
   cat(fg("ANOVA", w), "\n")
@@ -29,9 +29,9 @@ print_owanova <- function(data) {
   cat(fg("", w1), fs(), fg("Sum of", w2), fs(), fg("", w3), fs(), fg("", w4), fs(), fg("", w5), fs(), fg("", w6), "\n")
   cat(fg("", w1), fs(), fg("Squares", w2), fs(), fg("DF", w3), fs(), fg("Mean Square", w4), fs(), fg("F", w5), fs(), fg("Sig.", w6), "\n")
   cat(rep("-", w), sep = "", "\n")
-  cat(fl("Between Groups", w1), fs(), fg(data$between, w2), fs(), fg(data$df_btw, w3), fs(), fg(data$ms_btw, w4), fs(), fg(data$f, w5), fs(), fg(p, w6), "\n")
-  cat(fl("Within Groups", w1), fs(), fg(data$within, w2), fs(), fg(data$df_within, w3), fs(), fg(data$ms_within, w4), fs(), fg("", w5), fs(), fg("", w6), "\n")
-  cat(fl("Total", w1), fs(), fg(data$total, w2), fs(), fg(data$df_total, w3), fs(), fg("", w4), fs(), fg("", w5), fs(), fg("", w6), "\n")
+  cat(fl("Between Groups", w1), fs(), fg(data$ss_between, w2), fs(), fg(data$df_btw, w3), fs(), fg(data$ms_btw, w4), fs(), fg(data$fstat, w5), fs(), fg(data$pval, w6), "\n")
+  cat(fl("Within Groups", w1), fs(), fg(data$ss_within, w2), fs(), fg(data$df_within, w3), fs(), fg(data$ms_within, w4), fs(), fg("", w5), fs(), fg("", w6), "\n")
+  cat(fl("Total", w1), fs(), fg(data$ss_total, w2), fs(), fg(data$df_total, w3), fs(), fg("", w4), fs(), fg("", w5), fs(), fg("", w6), "\n")
   cat(rep("-", w), sep = "", "\n\n")
 
   cat(fg("Report", wr), "\n")
@@ -40,14 +40,14 @@ print_owanova <- function(data) {
   cat(rep("-", wr), sep = "", "\n")
   for (i in seq_len(q)) {
     cat(
-      fc(data$tab[[i, 1]], w8), fs(), fg(data$tab[[i, 2]], w9), fs(), fk(format(round(data$tab[[i, 3]], 3), nsmall = 3), w10),
-      fs(), fk(format(round(data$tab[[i, 4]], 3), nsmall = 3), w11), "\n"
+      fc(data$group_stats[[i, 1]], w8), fs(), fg(data$group_stats[[i, 2]], w9), fs(), fk(format(round(data$group_stats[[i, 3]], 3), nsmall = 3), w10),
+      fs(), fk(format(round(data$group_stats[[i, 4]], 3), nsmall = 3), w11), "\n"
     )
   }
   cat(rep("-", wr), sep = "", "\n\n")
 
   cat(fl("Number of obs", 13), "=", fl(data$obs, w7), fs(), fl("R-squared", 13), "=", data$r2, "\n")
-  cat(fl("Root MSE", 13), "=", data$sigma, fs(), fl("Adj R-squared", 13), "=", data$ar2, "\n\n")
+  cat(fl("Root MSE", 13), "=", data$rmse, fs(), fl("Adj R-squared", 13), "=", data$adjusted_r2, "\n\n")
 }
 
 
@@ -108,19 +108,13 @@ print_binom <- function(data) {
     cat(" ", rep("-", w11), sep = "", "\n")
     cat(
       " ", format("Lower", width = w6, justify = "left"), fs(), format(paste0("Pr(k <= ", data$k, ")"), width = w8, justify = "centre"), fs(),
-      format(as.character(data$lower), width = w9, justify = "centre"), "\n"
+      format(as.character(data$pval_lower), width = w9, justify = "centre"), "\n"
     )
     cat(
       " ", format("Upper", width = w6, justify = "left"), fs(), format(paste0("Pr(k >= ", data$k, ")"), width = w8, justify = "centre"), fs(),
-      format(as.character(data$upper), width = w9, justify = "centre"), "\n"
+      format(as.character(data$pval_upper), width = w9, justify = "centre"), "\n"
     )
-    # 			if (data$ik < 0) {
-    # 				cat(" ", format('Two', width = w6, justify = 'left'), fs(), format(paste0('Pr(k >= ', data$ik, ')'), width = w8, justify = 'left'), fs(),
-    #         format(data$two_tail, width = w9, justify = 'centre'),'\n')
-    # 			} else {
-    #         cat(" ", format('Two', width = w6, justify = 'left'), fs(), format(paste0('Pr(k <= ', data$k, ' or k >= ', data$ik, ')'), width = w8, justify = 'left'), fs(),
-    #         format(data$two_tail, width = w9, justify = 'centre'),'\n')
-    # 			}
+    
     cat(" ", rep("-", w11), sep = "", "\n")
   } else {
     cat("\n\n", format("Test Summary", width = w10, justify = "centre"), "\n")
@@ -132,19 +126,13 @@ print_binom <- function(data) {
     cat(" ", rep("-", w10), sep = "", "\n")
     cat(
       " ", format("Lower", width = w6, justify = "left"), fs(), format(paste0("Pr(k <= ", data$k, ")"), width = w7, justify = "centre"), fs(),
-      format(as.character(data$lower), width = w9, justify = "centre"), "\n"
+      format(as.character(data$pval_lower), width = w9, justify = "centre"), "\n"
     )
     cat(
       " ", format("Upper", width = w6, justify = "left"), fs(), format(paste0("Pr(k >= ", data$k, ")"), width = w7, justify = "centre"), fs(),
-      format(as.character(data$upper), width = w9, justify = "centre"), "\n"
+      format(as.character(data$pval_upper), width = w9, justify = "centre"), "\n"
     )
-    # 				if (data$ik < 0) {
-    #         cat(" ", format('Two', width = w6, justify = 'left'), fs(), format(paste0('Pr(k >= ', data$k, ')'), width = w7, justify = 'left'), fs(),
-    #         format(data$two_tail, width = w9, justify = 'centre'),'\n')
-    # 				} else {
-    # 					cat(" ", format('Two', width = w6, justify = 'left'), fs(), format(paste0('Pr(k <= ', data$ik, ' or k >= ', data$k, ')'), width = w7, justify = 'left'), fs(),
-    # 	        format(data$two_tail, width = w9, justify = 'centre'),'\n')
-    # 				}
+   
     cat(" ", rep("-", w10), sep = "", "\n")
   }
 }
@@ -884,8 +872,8 @@ print_chisq_test <- function(x) {
   width1 <- nchar("Likelihood Ratio Chi-Square")
   width2 <- max(nchar(x$df))
   width3 <- max(
-    nchar(x$chi), nchar(x$chilr), nchar(x$chimh), nchar(x$chiy), nchar(x$phi),
-    nchar(x$cc), nchar(x$cv)
+    nchar(x$chisquare), nchar(x$chisquare_lr), nchar(x$chisquare_mantel_haenszel), nchar(x$chisquare_adjusted), nchar(x$phi_coefficient),
+    nchar(x$contingency_coefficient), nchar(x$cramers_v)
   )
   width4 <- 6
   widthn <- sum(width1, width2, width3, width4, 12)
@@ -899,31 +887,31 @@ print_chisq_test <- function(x) {
     cat(rep("-", widthn), sep = "", "\n")
     cat(
       format("Chi-Square", width = width1, justify = "left"), formats(), format(x$df, width = width2, justify = "centre"), formats(),
-      format(x$chi, width = width3, justify = "centre", nsmall = 4, scientific = F), formats(), format(x$sig, width = width4, justify = "right", nsmall = 4, scientific = F), "\n", sep = ""
+      format(x$chisquare, width = width3, justify = "centre", nsmall = 4, scientific = F), formats(), format(x$pval_chisquare, width = width4, justify = "right", nsmall = 4, scientific = F), "\n", sep = ""
     )
     cat(
       format("Likelihood Ratio Chi-Square", width = width1, justify = "left"), formats(), format(x$df, width = width2, justify = "centre"), formats(),
-      format(x$chilr, width = width3, justify = "centre", nsmall = 4, scientific = F), formats(), format(x$siglr, width = width4, justify = "right", nsmall = 4, scientific = F), "\n", sep = ""
+      format(x$chisquare_lr, width = width3, justify = "centre", nsmall = 4, scientific = F), formats(), format(x$pval_chisquare_lr, width = width4, justify = "right", nsmall = 4, scientific = F), "\n", sep = ""
     )
     cat(
       format("Continuity Adj. Chi-Square", width = width1, justify = "left"), formats(), format(x$df, width = width2, justify = "right"), formats(),
-      format(x$chiy, width = width3, justify = "centre", nsmall = 4, scientific = F), formats(), format(x$sigy, width = width4, justify = "right", nsmall = 4, scientific = F), "\n", sep = ""
+      format(x$chisquare_adjusted, width = width3, justify = "centre", nsmall = 4, scientific = F), formats(), format(x$pval_chisquare_adjusted, width = width4, justify = "right", nsmall = 4, scientific = F), "\n", sep = ""
     )
     cat(
       format("Mantel-Haenszel Chi-Square", width = width1, justify = "left"), formats(), format(x$df, width = width2, justify = "right"), formats(),
-      format(x$chimh, width = width3, justify = "centre", nsmall = 4, scientific = F), formats(), format(x$sigmh, width = width4, justify = "right", nsmall = 4, scientific = F), "\n", sep = ""
+      format(x$chisquare_mantel_haenszel, width = width3, justify = "centre", nsmall = 4, scientific = F), formats(), format(x$pval_chisquare_mantel_haenszel, width = width4, justify = "right", nsmall = 4, scientific = F), "\n", sep = ""
     )
     cat(
       format("Phi Coefficient", width = width1, justify = "left"), formats(), format(" ", width = width2, justify = "right"), formats(),
-      format(x$phi, width = width3, justify = "centre", nsmall = 4, scientific = F), formats(), format(" ", width = width4, justify = "right"), "\n", sep = ""
+      format(x$phi_coefficient, width = width3, justify = "centre", nsmall = 4, scientific = F), formats(), format(" ", width = width4, justify = "right"), "\n", sep = ""
     )
     cat(
       format("Contingency Coefficient", width = width1, justify = "left"), formats(), format(" ", width = width2, justify = "right"), formats(),
-      format(x$cc, width = width3, justify = "centre", nsmall = 4, scientific = F), formats(), format(" ", width = width4, justify = "right"), "\n", sep = ""
+      format(x$contingency_coefficient, width = width3, justify = "centre", nsmall = 4, scientific = F), formats(), format(" ", width = width4, justify = "right"), "\n", sep = ""
     )
     cat(
       format("Cramer's V", width = width1, justify = "left"), formats(), format(" ", width = width2, justify = "right"), formats(),
-      format(x$cv, width = width3, justify = "centre", nsmall = 4, scientific = F), formats(), format(" ", width = width4, justify = "right"), "\n", sep = ""
+      format(x$cramers_v, width = width3, justify = "centre", nsmall = 4, scientific = F), formats(), format(" ", width = width4, justify = "right"), "\n", sep = ""
     )
     cat(rep("-", widthn), sep = "", "\n")
   } else {
@@ -935,23 +923,23 @@ print_chisq_test <- function(x) {
     cat(rep("-", widthn), sep = "", "\n")
     cat(
       format("Chi-Square", width = width1, justify = "left"), formats(), format(x$df, width = width2, justify = "centre"), formats(),
-      format(x$chi, width = width3, justify = "centre", nsmall = 4, scientific = F), formats(), format(x$sig, width = width4, justify = "right", nsmall = 4, scientific = F), "\n", sep = ""
+      format(x$chisquare, width = width3, justify = "centre", nsmall = 4, scientific = F), formats(), format(x$pval_chisquare, width = width4, justify = "right", nsmall = 4, scientific = F), "\n", sep = ""
     )
     cat(
       format("Likelihood Ratio Chi-Square", width = width1, justify = "left"), formats(), format(x$df, width = width2, justify = "centre"), formats(),
-      format(x$chilr, width = width3, justify = "centre", nsmall = 4, scientific = F), formats(), format(x$siglr, width = width4, justify = "right", nsmall = 4, scientific = F), "\n", sep = ""
+      format(x$chisquare_lr, width = width3, justify = "centre", nsmall = 4, scientific = F), formats(), format(x$pval_chisquare_lr, width = width4, justify = "right", nsmall = 4, scientific = F), "\n", sep = ""
     )
     cat(
       format("Phi Coefficient", width = width1, justify = "left"), formats(), format(" ", width = width2, justify = "right"), formats(),
-      format(x$phi, width = width3, justify = "centre", nsmall = 4, scientific = F), formats(), format(" ", width = width4, justify = "right"), "\n", sep = ""
+      format(x$phi_coefficient, width = width3, justify = "centre", nsmall = 4, scientific = F), formats(), format(" ", width = width4, justify = "right"), "\n", sep = ""
     )
     cat(
       format("Contingency Coefficient", width = width1, justify = "left"), formats(), format(" ", width = width2, justify = "right"), formats(),
-      format(x$cc, width = width3, justify = "centre", nsmall = 4, scientific = F), formats(), format(" ", width = width4, justify = "right"), "\n", sep = ""
+      format(x$contingency_coefficient, width = width3, justify = "centre", nsmall = 4, scientific = F), formats(), format(" ", width = width4, justify = "right"), "\n", sep = ""
     )
     cat(
       format("Cramer's V", width = width1, justify = "left"), formats(), format(" ", width = width2, justify = "right"), formats(),
-      format(x$cv, width = width3, justify = "centre", nsmall = 4, scientific = F), formats(), format(" ", width = width4, justify = "right"), "\n", sep = ""
+      format(x$cramers_v, width = width3, justify = "centre", nsmall = 4, scientific = F), formats(), format(" ", width = width4, justify = "right"), "\n", sep = ""
     )
     cat(rep("-", widthn), sep = "", "\n")
   }
@@ -988,39 +976,6 @@ print_chisq_gof <- function(data) {
   }
   cat(rep("-", w), sep = "", "\n")
 }
-
-
-# print_os_chisqgof <- function(data) {
-
-# 	cwidth <- max(nchar('Chi-Square'), nchar('DF'), nchar('Pr > Chi Sq'), nchar('Sample Size'))
-# 	nwidth <- max(nchar(data$chisquare), nchar(data$df), nchar(data$pvalue), nchar(data$ssize))
-# 	w1 <- sum(cwidth, nwidth, 6)
-# 	lw <- max(nchar('Variable'), nchar(data$names))
-# 	ow <- max(nchar('Observed'), nchar(data$obs))
-# 	ew <- max(nchar('Expected'), nchar(data$exp))
-# 	dw <- max(nchar('% Deviation'), nchar(data$deviation))
-# 	rw <- max(nchar('Std. Residuals'), nchar(data$std))
-# 	w <- sum(lw, ow, ew, dw, rw, 16)
-
-
-# 	cat(format("Test Statistics", width = w1, justify = "centre"), "\n")
-# 	cat(rep("-", w1), sep = "", '\n')
-# 	cat(format('Chi-Square', width = cwidth, justify = 'left'), formats(), format(data$chisquare, width = nwidth, justify = 'right'), '\n')
-# 	cat(format('DF', width = cwidth, justify = 'left'), formats(), format(data$df, width = nwidth, justify = 'right'), '\n')
-# 	cat(format('Pr > Chi Sq', width = cwidth, justify = 'left'), formats(), format(data$pvalue, width = nwidth, justify = 'right'), '\n')
-# 	cat(format('Sample Size', width = cwidth, justify = 'left'), formats(), format(data$ssize, width = nwidth, justify = 'right'), '\n\n')
-# 	cat(format(paste('Variable:', data$varname), width = w, justify = 'centre'), '\n')
-# 	cat(rep("-", w), sep = "", '\n')
-# 	cat(fg('Category', lw), fs(), fg('Observed', ow), fs(), fg('Expected', ew), fs(), fg('% Deviation', dw), fs(), fg('Std. Residuals', rw), '\n')
-# 	cat(rep("-", w), sep = "", '\n')
-# 	for (i in seq_len(data$level)) {
-# 		cat(fg(data$names[i], lw), fs(), fg(data$obs[i], ow), fs(), fg(data$exp[i], ew), fs(),
-# 			fg(data$deviation[i], dw), fs(), fg(data$std[i], rw), '\n')
-# 	}
-# 	cat(rep("-", w), sep = "", '\n')
-
-# }
-
 
 print_runs_test <- function(x) {
   cat(

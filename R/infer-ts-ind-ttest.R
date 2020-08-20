@@ -119,16 +119,186 @@ infer_ts_ind_ttest.default <- function(data, x, y, confint = 0.95,
 }
 
 #' @export
-#' @rdname infer_ts_ind_ttest
-#' @usage NULL
-#'
-ind_ttest <- function(data, x, y, confint = 0.95,
-                      alternative = c("both", "less", "greater", "all"), ...) {
-  .Deprecated("infer_ts_ind_ttest()")
-}
-
-#' @export
 #'
 print.infer_ts_ind_ttest <- function(x, ...) {
   print_two_ttest(x)
+}
+
+indth <- function(data, x, y, a) {
+  x1 <- rlang::enquo(x)
+  y1 <- rlang::enquo(y)
+
+  h <- data_split(data, !! x1, !! y1)
+  h$df <- h$length - 1
+  h$error <- stats::qt(a, h$df) * -1
+  h$lower <- h$mean_t - (h$error * h$std_err)
+  h$upper <- h$mean_t + (h$error * h$std_err)
+  return(h)
+}
+
+data_split <- function(data, x, y) {
+  x1 <- rlang::enquo(x)
+  y1 <- rlang::enquo(y)
+
+  by_gender <-
+    data %>%
+    dplyr::group_by(!! x1) %>%
+    dplyr::select(!! x1, !! y1) %>%
+    dplyr::summarise_all(dplyr::funs(length, mean_t, sd_t, std_err)) %>%
+    as.data.frame()
+
+  return(by_gender)
+}
+
+indcomb <- function(data, y, a) {
+  y1 <- rlang::enquo(y)
+
+  comb <- da(data, !! y1)
+  comb$df <- comb$length - 1
+  comb$error <- stats::qt(a, comb$df) * -1
+  comb$lower <- round(comb$mean_t - (comb$error * comb$std_err), 5)
+  comb$upper <- round(comb$mean_t + (comb$error * comb$std_err), 5)
+  names(comb) <- NULL
+  return(comb)
+}
+
+da <- function(data, y) {
+  y1 <- rlang::enquo(y)
+
+  dat <-
+    data %>%
+    dplyr::select(!! y1) %>%
+    dplyr::summarise_all(dplyr::funs(length, mean_t, sd_t, std_err)) %>%
+    as.data.frame()
+
+  return(dat)
+}
+
+mean_t <- function(x) {
+  return(round(mean(x), 3))
+}
+
+sd_t <- function(x) {
+  s <- stats::sd(x)
+  return(round(s, 3))
+}
+
+std_err <- function(x) {
+  se <- stats::sd(x) / sqrt(length(x))
+  return(round(se, 3))
+}
+
+indcomp <- function(grp_stat, alpha) {
+  n1 <- grp_stat[1, 2]
+  n2 <- grp_stat[2, 2]
+  n <- n1 + n2
+  means <- grp_stat[, 3]
+  mean_diff <- means[1] - means[2]
+  sd1 <- grp_stat[1, 4]
+  sd2 <- grp_stat[2, 4]
+  s1 <- grp_stat[1, 4] ^ 2
+  s2 <- grp_stat[2, 4] ^ 2
+  sd_dif <- sd_diff(n1, n2, s1, s2)
+  se_dif <- se_diff(n1, n2, s1, s2)
+  conf_diff <- conf_int_p(mean_diff, se_dif, alpha = alpha)
+  out <- list(
+    n1 = n1, n2 = n2, n = n, mean_diff = mean_diff, sd1 = sd1,
+    sd2 = sd2, s1 = s1, s2 = s2, sd_dif = sd_dif, se_dif = se_dif,
+    conf_diff = conf_diff
+  )
+  return(out)
+}
+
+sd_diff <- function(n1, n2, s1, s2) {
+  n1 <- n1 - 1
+  n2 <- n2 - 1
+  n <- (n1 + n2) - 2
+  return(((n1 * s1 + n2 * s2) / n) ^ 0.5)
+}
+
+se_diff <- function(n1, n2, s1, s2) {
+  df <- n1 + n2 - 2
+  n_1 <- n1 - 1
+  n_2 <- n2 - 1
+  v <- (n_1 * s1 + n_2 * s2) / df
+  return(sqrt(v * (1 / n1 + 1 / n2)))
+}
+
+conf_int_p <- function(u, se, alpha = 0.05) {
+  a <- alpha / 2
+  error <- round(stats::qnorm(a), 3) * -1
+  lower <- u - (error * se)
+  upper <- u + (error * se)
+  result <- c(lower, upper)
+  return(result)
+}
+
+indsig <- function(n1, n2, s1, s2, mean_diff) {
+  d_f <- as.vector(df(n1, n2, s1, s2))
+  t <- mean_diff / (((s1 / n1) + (s2 / n2)) ^ 0.5)
+  sig_l <- round(stats::pt(t, d_f), 4)
+  sig_u <- round(stats::pt(t, d_f, lower.tail = FALSE), 4)
+  if (sig_l < 0.5) {
+    sig <- round(stats::pt(t, d_f) * 2, 4)
+  } else {
+    sig <- round(stats::pt(t, d_f, lower.tail = FALSE) * 2, 4)
+  }
+  out <- list(d_f = d_f, t = t, sig_l = sig_l, sig_u = sig_u, sig = sig)
+  return(out)
+}
+
+df <- function(n1, n2, s1, s2) {
+  sn1 <- s1 / n1
+  sn2 <- s2 / n2
+  m1 <- 1 / (n1 - 1)
+  m2 <- 1 / (n2 - 1)
+  num <- (sn1 + sn2) ^ 2
+  den <- (m1 * (sn1 ^ 2)) + (m2 * (sn2 ^ 2))
+  return(round(num / den))
+}
+
+fsig <- function(s1, s2, n1, n2) {
+  out <- round(min(
+    stats::pf((s1 / s2), (n1 - 1), (n2 - 1)),
+    stats::pf((s1 / s2), (n1 - 1), (n2 - 1),
+      lower.tail = FALSE
+    )
+  ) * 2, 4)
+  return(out)
+}
+
+
+indpool <- function(n1, n2, mean_diff, se_dif) {
+  df_pooled <- (n1 + n2) - 2
+  t_pooled <- mean_diff / se_dif
+  sig_pooled_l <- round(stats::pt(t_pooled, df_pooled), 4)
+  sig_pooled_u <- round(stats::pt(t_pooled, df_pooled, lower.tail = FALSE), 4)
+  if (sig_pooled_l < 0.5) {
+    sig_pooled <- round(stats::pt(t_pooled, df_pooled) * 2, 4)
+  } else {
+    sig_pooled <- round(stats::pt(t_pooled, df_pooled, lower.tail = FALSE) * 2, 4)
+  }
+  out <- list(
+    df_pooled = df_pooled, t_pooled = t_pooled,
+    sig_pooled_l = sig_pooled_l, sig_pooled_u = sig_pooled_u,
+    sig_pooled = sig_pooled
+  )
+  return(out)
+}
+
+check_x <- function(data, x) {
+  x1 <- rlang::enquo(x)
+
+  data %>%
+    dplyr::pull(!! x1) %>%
+    (is.factor) %>%
+    `!`()
+}
+
+check_level <- function(data, x) {
+  x1 <- rlang::enquo(x)
+
+  data %>%
+    dplyr::pull(!! x1) %>%
+    nlevels()
 }

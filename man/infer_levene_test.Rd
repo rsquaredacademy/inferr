@@ -3,13 +3,11 @@
 \name{infer_levene_test}
 \alias{infer_levene_test}
 \alias{infer_levene_test.default}
-\alias{levene_test}
 \title{Levene's test for equality of variances}
 \usage{
 infer_levene_test(data, ...)
 
-\method{infer_levene_test}{default}(data, ..., group_var = NULL,
-  trim_mean = 0.1)
+\method{infer_levene_test}{default}(data, ..., group_var = NULL, trim_mean = 0.1)
 }
 \arguments{
 \item{data}{a \code{data.frame} or \code{tibble}}

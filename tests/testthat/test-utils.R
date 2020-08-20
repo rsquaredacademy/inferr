@@ -33,11 +33,11 @@ test_that("output from text formatting matches the expected result", {
   expect_equivalent(formatter_pair(3, 6), " 3.00 ")
 })
 
-test_that("output from l matches the expected result", {
-  expect_equal(l(deparse(substitute(mtcars$mpg))), "mpg")
-  expect_equal(l(deparse(substitute(mpg))), "mpg")
-  expect_equal(l(deparse(substitute(mtcars@mpg))), "mtcars@mpg")
-})
+# test_that("output from l matches the expected result", {
+#   expect_equal(l(deparse(substitute(mtcars$mpg))), "mpg")
+#   expect_equal(l(deparse(substitute(mpg))), "mpg")
+#   expect_equal(l(deparse(substitute(mtcars@mpg))), "mtcars@mpg")
+# })
 
 test_that("output from lev_metric matches the expected result", {
   j <- lev_metric(hsb$read, as.factor(hsb$female), mean)

@@ -9,21 +9,22 @@
 #' An object of class \code{"owanova"} is a list containing the
 #' following components:
 #'
-#' \item{between}{between group sum of squares}
-#' \item{within}{within group sum of squares}
-#' \item{total}{total sum of squares}
+#' \item{adjusted_r2}{adjusted r squared value}
 #' \item{df_btw}{between groups degress of freedom}
 #' \item{df_within}{within groups degress of freedom}
 #' \item{df_total}{total degress of freedom}
+#' \item{fstat}{f value}
+#' \item{group_stats}{group statistics}
 #' \item{ms_btw}{between groups mean square}
 #' \item{ms_within}{within groups mean square}
-#' \item{f}{f value}
-#' \item{p}{p value}
-#' \item{r2}{r squared value}
-#' \item{ar2}{adjusted r squared value}
-#' \item{sigma}{root mean squared error}
 #' \item{obs}{number of observations}
-#' \item{tab}{group statistics}
+#' \item{pval}{p value}
+#' \item{r2}{r squared value}
+#' \item{rmse}{root mean squared error}
+#' \item{ss_between}{between group sum of squares}
+#' \item{ss_within}{within group sum of squares}
+#' \item{ss_total}{total sum of squares}
+#'
 #' @section Deprecated Functions:
 #' \code{owanova()} has been deprecated. Instead use \code{infer_oneway_anova()}.
 #' @references Kutner, M. H., Nachtsheim, C., Neter, J., & Li, W. (2005).
@@ -39,7 +40,7 @@ infer_oneway_anova <- function(data, x, y, ...) UseMethod("infer_oneway_anova")
 
 #' @export
 infer_oneway_anova.default <- function(data, x, y, ...) {
-  
+
   x1 <- rlang::enquo(x)
   y1 <- rlang::enquo(y)
 
@@ -49,30 +50,102 @@ infer_oneway_anova.default <- function(data, x, y, ...) {
   k            <- anova_calc(fdata, sample_stats, !! x1, !! y1)
 
 
-  result <- list(
-    between = k$sstr, within = k$ssee, total = k$total,
-    df_btw = k$df_sstr, df_within = k$df_sse,
-    df_total = k$df_sst, ms_btw = k$mstr, ms_within = k$mse,
-    f = k$f, p = k$sig, r2 = round(k$reg$r.squared, 4),
-    ar2 = round(k$reg$adj.r.squared, 4),
-    sigma = round(k$reg$sigma, 4), obs = k$obs,
-    tab = sample_stats[, c(1, 2, 3, 5)]
-  )
+  result <-
+    list(
+      adjusted_r2 = round(k$reg$adj.r.squared, 4),
+      df_btw      = k$df_sstr,
+      df_total    = k$df_sst,
+      df_within   = k$df_sse,
+      fstat       = k$f,
+      group_stats = sample_stats[, c(1, 2, 3, 5)],
+      ms_btw      = k$mstr,
+      ms_within   = k$mse,
+      obs         = k$obs,
+      pval        = k$sig,
+      r2          = round(k$reg$r.squared, 4),
+      rmse        = round(k$reg$sigma, 4),
+      ss_between  = k$sstr,
+      ss_total    = k$total,
+      ss_within   = k$ssee)
 
   class(result) <- "infer_oneway_anova"
   return(result)
 }
 
 #' @export
-#' @rdname infer_oneway_anova
-#' @usage NULL
-#'
-owanova <- function(data, x, y, ...) {
-  .Deprecated("infer_oneway_anova()")
-  infer_oneway_anova(data, x, y, ...)
-}
-
-#' @export
 print.infer_oneway_anova <- function(x, ...) {
   print_owanova(x)
+}
+
+#' @importFrom magrittr %>%
+anova_split <- function(data, x, y, sample_mean) {
+  x1 <- rlang::enquo(x)
+  y1 <- rlang::enquo(y)
+
+  by_factor <-
+    data %>%
+    dplyr::group_by(!! y1) %>%
+    dplyr::select(!! y1, !! x1) %>%
+    dplyr::summarise_all(dplyr::funs(length, mean, var = stats::var, sd = stats::sd)) %>%
+    tibble::as_data_frame() %>%
+    dplyr::mutate(
+      sst = length * ((mean - sample_mean) ^ 2),
+      sse = (length - 1) * var
+    )
+
+  return(by_factor)
+}
+
+anova_avg <- function(data, y) {
+  y1 <- rlang::enquo(y)
+
+  avg <-
+    data %>%
+    dplyr::select(!! y1) %>%
+    dplyr::summarise_all(dplyr::funs(mean))
+
+  return(unlist(avg, use.names = FALSE))
+}
+
+anova_calc <- function(data, sample_stats, x, y) {
+  x1 <- rlang::enquo(x)
+  y1 <- rlang::enquo(y)
+
+  var_names <-
+    data %>%
+    dplyr::select(!! x1, !! y1) %>%
+    names()
+
+  sstr <-
+    sample_stats %>%
+    magrittr::use_series(sst) %>%
+    sum() %>%
+    round(3)
+
+  ssee <-
+    sample_stats %>%
+    magrittr::use_series(sse) %>%
+    sum() %>%
+    round(3)
+
+  total   <- round(sstr + ssee, 3)
+  df_sstr <- nrow(sample_stats) - 1
+  df_sse  <- nrow(data) - nrow(sample_stats)
+  df_sst  <- nrow(data) - 1
+  mstr    <- round(sstr / df_sstr, 3)
+  mse     <- round(ssee / df_sse, 3)
+  f       <- round(mstr / mse, 3)
+  sig     <- round(1 - stats::pf(f, df_sstr, df_sse), 3)
+  obs     <- nrow(data)
+  regs    <- paste(var_names[1], "~ as.factor(", var_names[2], ")")
+  model   <- stats::lm(stats::as.formula(regs), data = data)
+  reg     <- summary(model)
+
+  out <- list(
+    sstr = sstr, ssee = ssee, total = total, df_sstr = df_sstr,
+    df_sse = df_sse, df_sst = df_sst, mstr = mstr, mse = mse, f = f,
+    sig = sig, obs = obs, model = model, reg = reg
+  )
+
+  return(out)
 }

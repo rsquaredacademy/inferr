@@ -3,14 +3,23 @@
 \name{infer_os_prop_test}
 \alias{infer_os_prop_test}
 \alias{infer_os_prop_test.default}
-\alias{prop_test}
 \title{One Sample Test of Proportion}
 \usage{
-infer_os_prop_test(data, variable = NULL, prob = 0.5, phat = 0.5,
-  alternative = c("both", "less", "greater", "all"))
+infer_os_prop_test(
+  data,
+  variable = NULL,
+  prob = 0.5,
+  phat = 0.5,
+  alternative = c("both", "less", "greater", "all")
+)
 
-\method{infer_os_prop_test}{default}(data, variable = NULL, prob = 0.5,
-  phat = 0.5, alternative = c("both", "less", "greater", "all"))
+\method{infer_os_prop_test}{default}(
+  data,
+  variable = NULL,
+  prob = 0.5,
+  phat = 0.5,
+  alternative = c("both", "less", "greater", "all")
+)
 }
 \arguments{
 \item{data}{numeric vector of length 1 or a \code{data.frame} or \code{tibble}}

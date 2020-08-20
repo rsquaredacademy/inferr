@@ -102,16 +102,74 @@ infer_ts_var_test.default <- function(data, ..., group_var = NULL,
 }
 
 #' @export
-#' @rdname infer_ts_var_test
-#' @usage NULL
-#'
-var_test <- function(variable, ..., group_var = NA,
-                     alternative = c("less", "greater", "all")) {
-  .Deprecated("infer_ts_var_test()")
-}
-
-#' @export
 #'
 print.infer_ts_var_test <- function(x, ...) {
   print_var_test(x)
+}
+
+var_comp <- function(variable, group_var) {
+
+  comp  <- stats::complete.cases(variable, group_var)
+  cvar  <- variable[comp]
+  gvar  <- group_var[comp]
+
+  d     <- tibble::tibble(cvar, gvar)
+  vals  <- tibble_stats(d, "cvar", "gvar")
+  lass  <- tbl_stats(d, "cvar")
+
+  lens  <- vals[[2]] %>% purrr::map_int(1)
+  vars  <- vals[[4]] %>% purrr::map_dbl(1)
+
+  f     <- vars[1] / vars[2]
+  n1    <- lens[1] - 1
+  n2    <- lens[2] - 1
+  lower <- stats::pf(f, n1, n2)
+  upper <- stats::pf(f, n1, n2, lower.tail = FALSE)
+
+  list(
+    f = round(f, 4), lower = round(lower, 4),
+    upper = round(upper, 4),
+    vars = round(vars, 2),
+    avgs = round((vals[[3]] %>% purrr::map_dbl(1)), 2),
+    sds = round((vals[[5]] %>% purrr::map_dbl(1)), 2),
+    ses = round((vals[[6]] %>% purrr::map_dbl(1)), 2),
+    avg = round(lass[2], 2),
+    sd = round(lass[3], 2),
+    se = round(lass[4], 2),
+    n1 = n1,
+    n2 = n2,
+    lens = lens,
+    len = lass[1]
+  )
+
+}
+
+tibble_stats <- function(data, x, y) {
+
+  by_factor <- data %>%
+    dplyr::group_by(!! rlang::sym(y)) %>%
+    dplyr::select(!! rlang::sym(y), !! rlang::sym(x)) %>%
+    dplyr::summarise_all(dplyr::funs(length, mean, var = stats::var, sd = stats::sd)) %>%
+    tibble::as_data_frame() %>%
+    dplyr::mutate(
+      ses = sd / sqrt(length)
+    )
+
+  return(by_factor)
+
+}
+
+tbl_stats <- function(data, y) {
+
+  avg <- 
+    data %>%
+    dplyr::select(y) %>%
+    dplyr::summarise_all(dplyr::funs(length, mean, sd = stats::sd)) %>%
+    tibble::as_data_frame() %>%
+    dplyr::mutate(
+      se = sd / sqrt(length)
+    )
+
+  return(unlist(avg, use.names = FALSE))
+
 }

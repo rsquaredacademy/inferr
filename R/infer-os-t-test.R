@@ -94,16 +94,49 @@ infer_os_t_test.default <- function(data, x, mu = 0, alpha = 0.05,
 }
 
 #' @export
-#' @rdname infer_os_t_test
-#' @usage NULL
-#'
-ttest <- function(x, mu = 0, alpha = 0.05,
-                  type = c("both", "less", "greater", "all"), ...) {
-  .Deprecated("infer_os_t_test()")
-}
-
-#' @export
 #'
 print.infer_os_t_test <- function(x, ...) {
   print_ttest(x)
+}
+
+ttest_comp <- function(x, mu, alpha, type) {
+  n <- length(x)
+  a <- (alpha / 2)
+  df <- n - 1
+  conf <- 1 - alpha
+  Mean <- round(mean(x), 4)
+  stddev <- round(stats::sd(x), 4)
+  std_err <- round(stddev / sqrt(n), 4)
+  test_stat <- round((Mean - mu) / std_err, 3)
+
+  if (type == "less") {
+    cint <- c(-Inf, test_stat + stats::qt(1 - alpha, df))
+  } else if (type == "greater") {
+    cint <- c(test_stat - stats::qt(1 - alpha, df), Inf)
+  } else {
+    cint <- stats::qt(1 - a, df)
+    cint <- test_stat + c(-cint, cint)
+  }
+
+  confint <- round(mu + cint * std_err, 4)
+  mean_diff <- round((Mean - mu), 4)
+  mean_diff_l <- confint[1] - mu
+  mean_diff_u <- confint[2] - mu
+  p_l <- stats::pt(test_stat, df)
+  p_u <- stats::pt(test_stat, df, lower.tail = FALSE)
+
+  if (p_l < 0.5) {
+    p <- p_l * 2
+  } else {
+    p <- p_u * 2
+  }
+
+
+  out <- list(
+    mu = mu, n = n, df = df, Mean = Mean, stddev = stddev, std_err = std_err,
+    test_stat = test_stat, confint = confint, mean_diff = mean_diff, mean_diff_l = mean_diff_l,
+    mean_diff_u = mean_diff_u, p_l = p_l, p_u = p_u, p = p, conf = conf
+  )
+
+  return(out)
 }

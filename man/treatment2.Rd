@@ -4,11 +4,13 @@
 \name{treatment2}
 \alias{treatment2}
 \title{Dummy data set for 2 Sample Proportion test}
-\format{A data frame with 200 rows and 2 variables:
+\format{
+A data frame with 200 rows and 2 variables:
 \describe{
   \item{outcome}{outcome of treatment}
   \item{female}{gender of patient, 0 for male and 1 for female}
-}}
+}
+}
 \usage{
 treatment2
 }

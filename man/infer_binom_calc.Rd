@@ -2,9 +2,7 @@
 % Please edit documentation in R/infer-binom-test.R
 \name{infer_binom_calc}
 \alias{infer_binom_calc}
-\alias{binom_calc}
 \alias{infer_binom_test}
-\alias{binom_test}
 \title{Binomial Test}
 \usage{
 infer_binom_calc(n, success, prob = 0.5, ...)
@@ -29,13 +27,13 @@ infer_binom_test(data, variable, prob = 0.5)
 An object of class \code{"binom_test"} is a list containing the
 following components:
 
-\item{n}{number of observations}
-\item{k}{number of successes}
 \item{exp_k}{expected number of successes}
-\item{obs_p}{assumed probability of success}
 \item{exp_p}{expected probability of success}
-\item{lower}{lower one sided p value}
-\item{upper}{upper one sided p value}
+\item{k}{number of successes}
+\item{n}{number of observations}
+\item{obs_p}{assumed probability of success}
+\item{pval_lower}{lower one sided p value}
+\item{pval_upper}{upper one sided p value}
 }
 \description{
 Test whether the proportion of successes on a two-level

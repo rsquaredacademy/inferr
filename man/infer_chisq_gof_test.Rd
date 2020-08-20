@@ -2,7 +2,6 @@
 % Please edit documentation in R/infer-chisq-gof-test.R
 \name{infer_chisq_gof_test}
 \alias{infer_chisq_gof_test}
-\alias{chisq_gof}
 \title{Chi Square Goodness of Fit Test}
 \usage{
 infer_chisq_gof_test(data, x, y, correct = FALSE)

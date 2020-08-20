@@ -4,19 +4,32 @@
 \alias{infer_ts_prop_test}
 \alias{ts_prop_test}
 \alias{infer_ts_prop_grp}
-\alias{ts_prop_grp}
 \alias{infer_ts_prop_calc}
-\alias{ts_prop_calc}
 \title{Two Sample Test of Proportion}
 \usage{
-infer_ts_prop_test(data, var1, var2, alternative = c("both", "less",
-  "greater", "all"), ...)
+infer_ts_prop_test(
+  data,
+  var1,
+  var2,
+  alternative = c("both", "less", "greater", "all"),
+  ...
+)
 
-infer_ts_prop_grp(data, var, group, alternative = c("both", "less",
-  "greater", "all"))
+infer_ts_prop_grp(
+  data,
+  var,
+  group,
+  alternative = c("both", "less", "greater", "all")
+)
 
-infer_ts_prop_calc(n1, n2, p1, p2, alternative = c("both", "less",
-  "greater", "all"), ...)
+infer_ts_prop_calc(
+  n1,
+  n2,
+  p1,
+  p2,
+  alternative = c("both", "less", "greater", "all"),
+  ...
+)
 }
 \arguments{
 \item{data}{a \code{data.frame} or \code{tibble}}

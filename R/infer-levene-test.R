@@ -95,16 +95,57 @@ infer_levene_test.default <- function(data, ..., group_var = NULL,
 }
 
 #' @export
-#' @rdname infer_levene_test
-#' @usage NULL
-#'
-levene_test <- function(variable, ..., group_var = NULL,
-                        trim.mean = 0.1) {
-  .Deprecated("infer_levene_test()")
-}
-
-#' @export
 #'
 print.infer_levene_test <- function(x, ...) {
   print_levene_test(x)
+}
+
+lev_metric <- function(cvar, gvar, loc, ...) {
+
+  metric <- tapply(cvar, gvar, loc, ...)
+  y      <- abs(cvar - metric[gvar])
+  result <- stats::anova(stats::lm(y ~ gvar))
+  
+  list(
+    fstat = result$`F value`[1],
+    p     = result$`Pr(>F)`[1]
+  )
+
+}
+
+lev_comp <- function(variable, group_var, trim.mean) {
+
+  comp <- stats::complete.cases(variable, group_var)
+  n    <- length(comp)
+  k    <- nlevels(group_var)
+  
+  cvar <- variable[comp]
+  gvar <- group_var[comp]
+
+  lens <- tapply(cvar, gvar, length)
+  avgs <- tapply(cvar, gvar, mean)
+  sds  <- tapply(cvar, gvar, stats::sd)
+
+  bf   <- lev_metric(cvar, gvar, mean)
+  lev  <- lev_metric(cvar, gvar, stats::median)
+  bft  <- lev_metric(cvar, gvar, mean, trim = trim.mean)
+  
+  list(
+    bf = round(bf$fstat, 4),
+    p_bf = round(bf$p, 4),
+    lev = round(lev$fstat, 4),
+    p_lev = round(lev$p, 4),
+    bft = round(bft$fstat, 4),
+    p_bft = round(bft$p, 4),
+    avgs = round(avgs, 2),
+    sds = round(sds, 2),
+    avg = round(mean(cvar), 2),
+    sd = round(stats::sd(cvar), 2),
+    n = n,
+    levs = levels(gvar),
+    n_df = (k - 1),
+    d_df = (n - k),
+    lens = lens
+  )
+
 }

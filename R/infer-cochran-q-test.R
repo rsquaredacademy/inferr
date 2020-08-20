@@ -46,15 +46,63 @@ infer_cochran_qtest.default <- function(data, ...) {
 }
 
 #' @export
-#' @rdname infer_cochran_qtest
-#' @usage NULL
-#'
-cochran_test <- function(x, ...) {
-  .Deprecated("infer_cochran_qtest()")
-}
-
-#' @export
 #'
 print.infer_cochran_qtest <- function(x, ...) {
   print_cochran_test(x)
 }
+
+coch_data <- function(x, ...) {
+  
+  if (is.data.frame(x)) {
+    data <- x %>%
+      lapply(as.numeric) %>%
+      as.data.frame() %>%
+      `-`(1)
+  } else {
+    data <- cbind(x, ...) %>%
+      apply(2, as.numeric) %>%
+      `-`(1) %>%
+      as.data.frame()
+  }
+
+  return(data)
+}
+
+cochran_comp <- function(data) {
+  
+  n  <- nrow(data)
+  k  <- ncol(data)
+  df <- k - 1
+
+  cs <-
+    data %>%
+    purrr::map_df(.f = as.numeric) %>%
+    magrittr::subtract(1) %>%
+    sums()
+
+  q <- coch(k, cs$cls_sum, cs$cl, cs$g, cs$gs_sum)
+
+  pvalue <- 1 - stats::pchisq(q, df)
+
+  list(
+    n = n,
+    df = df,
+    q = q,
+    pvalue = round(pvalue, 4)
+  )
+
+}
+
+sums <- function(data) {
+  cl <- colSums(data)
+  cls_sum <- sum(cl ^ 2)
+  g <- rowSums(data)
+  gs_sum <- sum(g ^ 2)
+  result <- list(cl = cl, cls_sum = cls_sum, g = g, gs_sum = gs_sum)
+}
+
+coch <- function(k, cls_sum, cl, g, gs_sum) {
+  out <- ((k - 1) * ((k * cls_sum) - (sum(cl) ^ 2))) / ((k * sum(g)) - gs_sum)
+  return(out)
+}
+

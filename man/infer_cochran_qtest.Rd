@@ -2,7 +2,6 @@
 % Please edit documentation in R/infer-cochran-q-test.R
 \name{infer_cochran_qtest}
 \alias{infer_cochran_qtest}
-\alias{cochran_test}
 \title{Cochran Q Test}
 \usage{
 infer_cochran_qtest(data, ...)

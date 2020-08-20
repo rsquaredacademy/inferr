@@ -111,16 +111,39 @@ infer_runs_test.default <- function(data, x, drop = FALSE,
 }
 
 #' @export
-#' @rdname infer_runs_test
-#' @usage NULL
-#'
-runs_test <- function(x, drop = FALSE, split = FALSE, mean = FALSE,
-                      threshold = NA) {
-  .Deprecated("infer_runs_test()")
-}
-
-#' @export
 #'
 print.infer_runs_test <- function(x, ...) {
   print_runs_test(x)
+}
+
+# expected runs
+expruns <- function(n0, n1) {
+  N <- n0 + n1
+  return(((2 * n0 * n1) / N) + 1)
+}
+
+# standard deviation of runs
+sdruns <- function(n0, n1) {
+  N <- n0 + n1
+  n <- 2 * n0 * n1
+  return(((n * (n - N)) / ((N ^ 2) * (N - 1))))
+}
+
+# function for binary coding
+# nruns <- function(data, value) {
+#   if (data > value) {
+#     return(1)
+#   } else if (data < value) {
+#     return(0)
+#   } else {
+#     return(NA)
+#   }
+# }
+
+nruns2 <- function(data, value) {
+  if (data <= value) {
+    return(0)
+  } else {
+    return(1)
+  }
 }
