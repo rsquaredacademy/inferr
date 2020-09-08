@@ -98,24 +98,40 @@ infer_ts_ind_ttest.default <- function(data, x, y, confint = 0.95,
   j        <- indsig(k$n1, k$n2, k$s1, k$s2, k$mean_diff)
   m        <- indpool(k$n1, k$n2, k$mean_diff, k$se_dif)
 
-  result <- list(
-    levels = g_stat[, 1], obs = g_stat[, 2], n = k$n,
-    mean = g_stat[, 3], sd = g_stat[, 4], se = g_stat[, 5],
-    lower = g_stat[, 8], upper = g_stat[, 9], combined = comb,
-    mean_diff = round(k$mean_diff, 3), sd_dif = round(k$sd_dif, 3),
-    se_dif = round(k$se_dif, 3),
-    conf_diff = round(k$conf_diff, 5), df_pooled = m$df_pooled,
-    df_satterthwaite = j$d_f, t_pooled = round(m$t_pooled, 4),
-    t_satterthwaite = round(j$t, 4),
-    sig_pooled_l = m$sig_pooled_l, sig_pooled_u = m$sig_pooled_u,
-    sig_pooled = m$sig_pooled, sig = j$sig, sig_l = j$sig_l, sig_u = j$sig_u,
-    num_df = k$n1 - 1, den_df = k$n2 - 1, f = round(k$s1 / k$s2, 4),
-    f_sig = fsig(k$s1, k$s2, k$n1, k$n2), var_y = var_y, confint = confint,
-    alternative = method
-  )
+  result <- list(alternative      = method,
+                 combined         = comb,
+                 confint          = confint,
+                 conf_diff        = round(k$conf_diff, 5),
+                 den_df           = k$n2 - 1,
+                 df_pooled        = m$df_pooled,
+                 df_satterthwaite = j$d_f,
+                 f                = round(k$s1 / k$s2, 4),
+                 f_sig            = fsig(k$s1, k$s2, k$n1, k$n2),
+                 levels           = g_stat[, 1],
+                 lower            = g_stat[, 8],
+                 mean             = g_stat[, 3],
+                 mean_diff        = round(k$mean_diff, 3),
+                 n                = k$n,
+                 num_df           = k$n1 - 1,
+                 obs              = g_stat[, 2],
+                 sd               = g_stat[, 4],
+                 sd_dif           = round(k$sd_dif, 3),
+                 se               = g_stat[, 5],
+                 se_dif           = round(k$se_dif, 3),
+                 sig              = j$sig,
+                 sig_l            = j$sig_l,
+                 sig_pooled_l     = m$sig_pooled_l,
+                 sig_pooled_u     = m$sig_pooled_u,
+                 sig_pooled       = m$sig_pooled,
+                 sig_u            = j$sig_u,
+                 t_pooled         = round(m$t_pooled, 4),
+                 t_satterthwaite  = round(j$t, 4),
+                 upper            = g_stat[, 9],
+                 var_y            = var_y)
 
   class(result) <- "infer_ts_ind_ttest"
   return(result)
+
 }
 
 #' @export
@@ -125,180 +141,215 @@ print.infer_ts_ind_ttest <- function(x, ...) {
 }
 
 indth <- function(data, x, y, a) {
+
   x1 <- rlang::enquo(x)
   y1 <- rlang::enquo(y)
 
-  h <- data_split(data, !! x1, !! y1)
-  h$df <- h$length - 1
+  h       <- data_split(data, !! x1, !! y1)
+  h$df    <- h$length - 1
   h$error <- stats::qt(a, h$df) * -1
   h$lower <- h$mean_t - (h$error * h$std_err)
   h$upper <- h$mean_t + (h$error * h$std_err)
+
   return(h)
 }
 
 data_split <- function(data, x, y) {
+
   x1 <- rlang::enquo(x)
   y1 <- rlang::enquo(y)
 
-  by_gender <-
-    data %>%
+  data %>%
     dplyr::group_by(!! x1) %>%
     dplyr::select(!! x1, !! y1) %>%
     dplyr::summarise_all(dplyr::funs(length, mean_t, sd_t, std_err)) %>%
     as.data.frame()
 
-  return(by_gender)
 }
 
 indcomb <- function(data, y, a) {
+
   y1 <- rlang::enquo(y)
 
-  comb <- da(data, !! y1)
-  comb$df <- comb$length - 1
-  comb$error <- stats::qt(a, comb$df) * -1
-  comb$lower <- round(comb$mean_t - (comb$error * comb$std_err), 5)
-  comb$upper <- round(comb$mean_t + (comb$error * comb$std_err), 5)
+  comb        <- da(data, !! y1)
+  comb$df     <- comb$length - 1
+  comb$error  <- stats::qt(a, comb$df) * -1
+  comb$lower  <- round(comb$mean_t - (comb$error * comb$std_err), 5)
+  comb$upper  <- round(comb$mean_t + (comb$error * comb$std_err), 5)
   names(comb) <- NULL
+
   return(comb)
+
 }
 
 da <- function(data, y) {
   y1 <- rlang::enquo(y)
 
-  dat <-
-    data %>%
+  data %>%
     dplyr::select(!! y1) %>%
     dplyr::summarise_all(dplyr::funs(length, mean_t, sd_t, std_err)) %>%
     as.data.frame()
 
-  return(dat)
 }
 
 mean_t <- function(x) {
-  return(round(mean(x), 3))
+  round(mean(x), 3)
 }
 
 sd_t <- function(x) {
   s <- stats::sd(x)
-  return(round(s, 3))
+  round(s, 3)
 }
 
 std_err <- function(x) {
   se <- stats::sd(x) / sqrt(length(x))
-  return(round(se, 3))
+  round(se, 3)
 }
 
 indcomp <- function(grp_stat, alpha) {
-  n1 <- grp_stat[1, 2]
-  n2 <- grp_stat[2, 2]
-  n <- n1 + n2
-  means <- grp_stat[, 3]
+
+  n1        <- grp_stat[1, 2]
+  n2        <- grp_stat[2, 2]
+  n         <- n1 + n2
+  means     <- grp_stat[, 3]
   mean_diff <- means[1] - means[2]
-  sd1 <- grp_stat[1, 4]
-  sd2 <- grp_stat[2, 4]
-  s1 <- grp_stat[1, 4] ^ 2
-  s2 <- grp_stat[2, 4] ^ 2
-  sd_dif <- sd_diff(n1, n2, s1, s2)
-  se_dif <- se_diff(n1, n2, s1, s2)
+  sd1       <- grp_stat[1, 4]
+  sd2       <- grp_stat[2, 4]
+  s1        <- grp_stat[1, 4] ^ 2
+  s2        <- grp_stat[2, 4] ^ 2
+  sd_dif    <- sd_diff(n1, n2, s1, s2)
+  se_dif    <- se_diff(n1, n2, s1, s2)
   conf_diff <- conf_int_p(mean_diff, se_dif, alpha = alpha)
-  out <- list(
-    n1 = n1, n2 = n2, n = n, mean_diff = mean_diff, sd1 = sd1,
-    sd2 = sd2, s1 = s1, s2 = s2, sd_dif = sd_dif, se_dif = se_dif,
-    conf_diff = conf_diff
-  )
-  return(out)
+
+  list(conf_diff = conf_diff,
+       mean_diff = mean_diff,
+       n         = n,
+       n1        = n1,
+       n2        = n2,
+       s1        = s1,
+       s2        = s2,
+       sd1       = sd1,
+       sd2       = sd2,
+       sd_dif    = sd_dif,
+       se_dif    = se_dif)
+
 }
 
 sd_diff <- function(n1, n2, s1, s2) {
+
   n1 <- n1 - 1
   n2 <- n2 - 1
-  n <- (n1 + n2) - 2
-  return(((n1 * s1 + n2 * s2) / n) ^ 0.5)
+  n  <- (n1 + n2) - 2
+
+  ((n1 * s1 + n2 * s2) / n) ^ 0.5
+
 }
 
 se_diff <- function(n1, n2, s1, s2) {
-  df <- n1 + n2 - 2
+
+  df  <- n1 + n2 - 2
   n_1 <- n1 - 1
   n_2 <- n2 - 1
-  v <- (n_1 * s1 + n_2 * s2) / df
-  return(sqrt(v * (1 / n1 + 1 / n2)))
+  v   <- (n_1 * s1 + n_2 * s2) / df
+
+  sqrt(v * (1 / n1 + 1 / n2))
+
 }
 
 conf_int_p <- function(u, se, alpha = 0.05) {
-  a <- alpha / 2
+
+  a     <- alpha / 2
   error <- round(stats::qnorm(a), 3) * -1
   lower <- u - (error * se)
   upper <- u + (error * se)
-  result <- c(lower, upper)
-  return(result)
+  c(lower, upper)
+
 }
 
 indsig <- function(n1, n2, s1, s2, mean_diff) {
-  d_f <- as.vector(df(n1, n2, s1, s2))
-  t <- mean_diff / (((s1 / n1) + (s2 / n2)) ^ 0.5)
+
+  d_f   <- as.vector(df(n1, n2, s1, s2))
+  t     <- mean_diff / (((s1 / n1) + (s2 / n2)) ^ 0.5)
   sig_l <- round(stats::pt(t, d_f), 4)
   sig_u <- round(stats::pt(t, d_f, lower.tail = FALSE), 4)
+
   if (sig_l < 0.5) {
     sig <- round(stats::pt(t, d_f) * 2, 4)
   } else {
     sig <- round(stats::pt(t, d_f, lower.tail = FALSE) * 2, 4)
   }
-  out <- list(d_f = d_f, t = t, sig_l = sig_l, sig_u = sig_u, sig = sig)
-  return(out)
+
+  list(d_f   = d_f,
+       sig_l = sig_l,
+       sig_u = sig_u,
+       sig   = sig,
+       t     = t)
+
 }
 
 df <- function(n1, n2, s1, s2) {
+
   sn1 <- s1 / n1
   sn2 <- s2 / n2
-  m1 <- 1 / (n1 - 1)
-  m2 <- 1 / (n2 - 1)
+  m1  <- 1 / (n1 - 1)
+  m2  <- 1 / (n2 - 1)
   num <- (sn1 + sn2) ^ 2
   den <- (m1 * (sn1 ^ 2)) + (m2 * (sn2 ^ 2))
-  return(round(num / den))
+
+  round(num / den)
+
 }
 
 fsig <- function(s1, s2, n1, n2) {
-  out <- round(min(
+
+  round(min(
     stats::pf((s1 / s2), (n1 - 1), (n2 - 1)),
     stats::pf((s1 / s2), (n1 - 1), (n2 - 1),
       lower.tail = FALSE
     )
   ) * 2, 4)
-  return(out)
+
 }
 
 
 indpool <- function(n1, n2, mean_diff, se_dif) {
-  df_pooled <- (n1 + n2) - 2
-  t_pooled <- mean_diff / se_dif
+
+  df_pooled    <- (n1 + n2) - 2
+  t_pooled     <- mean_diff / se_dif
   sig_pooled_l <- round(stats::pt(t_pooled, df_pooled), 4)
   sig_pooled_u <- round(stats::pt(t_pooled, df_pooled, lower.tail = FALSE), 4)
+
   if (sig_pooled_l < 0.5) {
     sig_pooled <- round(stats::pt(t_pooled, df_pooled) * 2, 4)
   } else {
     sig_pooled <- round(stats::pt(t_pooled, df_pooled, lower.tail = FALSE) * 2, 4)
   }
-  out <- list(
-    df_pooled = df_pooled, t_pooled = t_pooled,
-    sig_pooled_l = sig_pooled_l, sig_pooled_u = sig_pooled_u,
-    sig_pooled = sig_pooled
-  )
-  return(out)
+
+  list(df_pooled    = df_pooled,
+       sig_pooled_l = sig_pooled_l,
+       sig_pooled_u = sig_pooled_u,
+       sig_pooled   = sig_pooled,
+       t_pooled     = t_pooled)
+
 }
 
 check_x <- function(data, x) {
+
   x1 <- rlang::enquo(x)
 
   data %>%
     dplyr::pull(!! x1) %>%
     (is.factor) %>%
     `!`()
+
 }
 
 check_level <- function(data, x) {
+
   x1 <- rlang::enquo(x)
 
   data %>%
     dplyr::pull(!! x1) %>%
     nlevels()
+
 }
