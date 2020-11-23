@@ -52,7 +52,7 @@ infer_levene_test <- function(data, ...) UseMethod("infer_levene_test")
 #' @rdname infer_levene_test
 infer_levene_test.default <- function(data, ..., group_var = NULL,
                                       trim_mean = 0.1) {
-  
+
   groupvar  <- rlang::enquo(group_var)
   varyables <- rlang::quos(...)
   fdata     <- dplyr::select(data, !!! varyables)
@@ -68,10 +68,12 @@ infer_levene_test.default <- function(data, ..., group_var = NULL,
 
     out   <- gvar(ln, ly)
     fdata <- unlist(z)
+
     groupvars <-
       out %>%
       unlist() %>%
       as.factor()
+
   } else {
     fdata     <- dplyr::pull(fdata, 1)
     groupvars <- dplyr::pull(data, !! groupvar)
@@ -83,12 +85,22 @@ infer_levene_test.default <- function(data, ..., group_var = NULL,
 
   k <- lev_comp(fdata, groupvars, trim_mean)
 
-  out <- list(
-    bf = k$bf, p_bf = k$p_bf, lev = k$lev, p_lev = k$p_lev,
-    bft = k$bft, p_bft = k$p_bft, avgs = k$avgs, sds = k$sds,
-    avg = k$avg, sd = k$sd, n = k$n, levs = k$levs, n_df = k$n_df,
-    d_df = k$d_df, lens = k$lens
-  )
+  out <-
+    list(avg   = k$avg,
+         avgs  = k$avgs,
+         bf    = k$bf,
+         bft   = k$bft,
+         d_df  = k$d_df,
+         lens  = k$lens,
+         lev   = k$lev,
+         levs  = k$levs,
+         n     = k$n,
+         n_df  = k$n_df,
+         p_bf  = k$p_bf,
+         p_bft = k$p_bft,
+         p_lev = k$p_lev,
+         sd    = k$sd,
+         sds   = k$sds)
 
   class(out) <- "infer_levene_test"
   return(out)
@@ -105,7 +117,7 @@ lev_metric <- function(cvar, gvar, loc, ...) {
   metric <- tapply(cvar, gvar, loc, ...)
   y      <- abs(cvar - metric[gvar])
   result <- stats::anova(stats::lm(y ~ gvar))
-  
+
   list(
     fstat = result$`F value`[1],
     p     = result$`Pr(>F)`[1]
@@ -118,7 +130,7 @@ lev_comp <- function(variable, group_var, trim.mean) {
   comp <- stats::complete.cases(variable, group_var)
   n    <- length(comp)
   k    <- nlevels(group_var)
-  
+
   cvar <- variable[comp]
   gvar <- group_var[comp]
 
@@ -129,23 +141,22 @@ lev_comp <- function(variable, group_var, trim.mean) {
   bf   <- lev_metric(cvar, gvar, mean)
   lev  <- lev_metric(cvar, gvar, stats::median)
   bft  <- lev_metric(cvar, gvar, mean, trim = trim.mean)
-  
+
   list(
-    bf = round(bf$fstat, 4),
-    p_bf = round(bf$p, 4),
-    lev = round(lev$fstat, 4),
-    p_lev = round(lev$p, 4),
-    bft = round(bft$fstat, 4),
+    avg   = round(mean(cvar), 2),
+    avgs  = round(avgs, 2),
+    bf    = round(bf$fstat, 4),
+    bft   = round(bft$fstat, 4),
+    d_df  = (n - k),
+    lens  = lens,
+    lev   = round(lev$fstat, 4),
+    levs  = levels(gvar),
+    n     = n,
+    n_df  = (k - 1),
+    p_bf  = round(bf$p, 4),
     p_bft = round(bft$p, 4),
-    avgs = round(avgs, 2),
-    sds = round(sds, 2),
-    avg = round(mean(cvar), 2),
-    sd = round(stats::sd(cvar), 2),
-    n = n,
-    levs = levels(gvar),
-    n_df = (k - 1),
-    d_df = (n - k),
-    lens = lens
-  )
+    p_lev = round(lev$p, 4),
+    sd    = round(stats::sd(cvar), 2),
+    sds   = round(sds, 2))
 
 }

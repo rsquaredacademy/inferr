@@ -5,8 +5,7 @@ fg <- function(x, w) {
 }
 
 fk <- function(x, w) {
-  x %>%
-    format(width = w, justify = "centre", nsmall = 3)
+  format(x, width = w, justify = "centre", nsmall = 3)
 }
 
 
@@ -48,28 +47,12 @@ formats_t <- function() {
   rep("  ")
 }
 
-# l <- function(x) {
-#   x <- as.character(x)
-#   k <- grep("\\$", x)
-#   if (length(k) == 1) {
-#     temp <- strsplit(x, "\\$")
-#     out <- temp[[1]][2]
-#   } else {
-#     out <- x
-#   }
-#   return(out)
-# }
-
 formatter_pair <- function(x, w) {
-  x1 <- format(x, nsmall = 2)
-  x2 <- as.character(x1)
+  x1  <- format(x, nsmall = 2)
+  x2  <- as.character(x1)
   ret <- format(x2, width = w, justify = "centre")
   return(ret)
 }
-
-# se_sw <- function(s1, s2, n1, n2) {
-#   return(((s1 / n1) + (s2 / n2)) ^ 0.5)
-# }
 
 fw <- function(x, w) {
   x %>%

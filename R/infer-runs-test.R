@@ -57,7 +57,7 @@ infer_runs_test <- function(data, x, drop = FALSE, split = FALSE, mean = FALSE,
 infer_runs_test.default <- function(data, x, drop = FALSE,
                                     split = FALSE, mean = FALSE,
                                     threshold = NA) {
-  
+
   x1   <- rlang::enquo(x)
   xone <- dplyr::pull(data, !! x1)
   n    <- length(xone)
@@ -71,18 +71,17 @@ infer_runs_test.default <- function(data, x, drop = FALSE,
 
   if (!(is.na(threshold))) {
     thresh <- threshold
-  } else if (mean == TRUE) {
+  } else if (mean) {
     thresh <- mean(xone)
   } else {
     thresh <- stats::median(xone, na.rm = TRUE)
   }
 
-  if (drop == TRUE) {
+  if (drop) {
     xone <- xone[xone != thresh]
   }
 
-  # binary coding the data based on the threshold
-  if (split == TRUE) {
+  if (split) {
     x_binary <- ifelse(xone > thresh, 1, 0)
   } else {
     x_binary <-
@@ -100,11 +99,16 @@ infer_runs_test.default <- function(data, x, drop = FALSE,
   test_stat <- (n_runs - exp_runs) / (sd_runs ^ 0.5)
   sig <- 2 * (1 - stats::pnorm(abs(test_stat), lower.tail = TRUE))
 
-  result <- list(
-    n = n, threshold = thresh, n_below = n0, n_above = n1,
-    mean = exp_runs, var = sd_runs, n_runs = n_runs, z = test_stat,
-    p = sig
-  )
+  result <-
+    list(mean      = exp_runs,
+         n         = n,
+         n_above   = n1,
+         n_below   = n0,
+         n_runs    = n_runs,
+         p         = sig,
+         threshold = thresh,
+         var       = sd_runs,
+         z         = test_stat)
 
   class(result) <- "infer_runs_test"
   return(result)
@@ -128,17 +132,6 @@ sdruns <- function(n0, n1) {
   n <- 2 * n0 * n1
   return(((n * (n - N)) / ((N ^ 2) * (N - 1))))
 }
-
-# function for binary coding
-# nruns <- function(data, value) {
-#   if (data > value) {
-#     return(1)
-#   } else if (data < value) {
-#     return(0)
-#   } else {
-#     return(NA)
-#   }
-# }
 
 nruns2 <- function(data, value) {
   if (data <= value) {

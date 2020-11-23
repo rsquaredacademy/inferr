@@ -93,11 +93,10 @@ cochran_comp <- function(data) {
   pvalue <- 1 - stats::pchisq(q, df)
 
   list(
-    n = n,
     df = df,
-    q = q,
-    pvalue = round(pvalue, 4)
-  )
+    n = n,
+    pvalue = round(pvalue, 4),
+    q = q)
 
 }
 

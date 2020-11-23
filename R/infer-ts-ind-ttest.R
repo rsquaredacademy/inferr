@@ -193,17 +193,30 @@ da <- function(data, y) {
 }
 
 mean_t <- function(x) {
-  round(mean(x), 3)
+
+  x %>%
+    mean() %>%
+    round(3)
+
 }
 
 sd_t <- function(x) {
-  s <- stats::sd(x)
-  round(s, 3)
+
+  x %>%
+    stats::sd() %>%
+    round(3)
+
 }
 
 std_err <- function(x) {
-  se <- stats::sd(x) / sqrt(length(x))
-  round(se, 3)
+
+  x %>%
+    stats::sd() %>%
+    divide_by(x %>%
+                length() %>%
+                sqrt()) %>%
+    round(3)
+
 }
 
 indcomp <- function(grp_stat, alpha) {
@@ -241,7 +254,10 @@ sd_diff <- function(n1, n2, s1, s2) {
   n2 <- n2 - 1
   n  <- (n1 + n2) - 2
 
-  ((n1 * s1 + n2 * s2) / n) ^ 0.5
+  (n1 * s1) %>%
+    add(n2 * s2) %>%
+    divide_by(n) %>%
+    raise_to_power(0.5)
 
 }
 
@@ -250,9 +266,15 @@ se_diff <- function(n1, n2, s1, s2) {
   df  <- n1 + n2 - 2
   n_1 <- n1 - 1
   n_2 <- n2 - 1
-  v   <- (n_1 * s1 + n_2 * s2) / df
 
-  sqrt(v * (1 / n1 + 1 / n2))
+  (n_1 * s1) %>%
+    add(n_2 * s2) %>%
+    divide_by(df) -> v
+
+  (1 / n1) %>%
+    add(1 / n2) %>%
+    multiply_by(v) %>%
+    sqrt()
 
 }
 

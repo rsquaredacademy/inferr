@@ -54,7 +54,7 @@ infer_mcnemar_test <- function(data, x = NULL, y = NULL) UseMethod("infer_mcnema
 #' @export
 #'
 infer_mcnemar_test.default <- function(data, x = NULL, y = NULL) {
-  
+
   if (is.matrix(data) | is.table(data)) {
     dat <- mcdata(data)
   } else {
@@ -69,13 +69,22 @@ infer_mcnemar_test.default <- function(data, x = NULL, y = NULL) {
 
   k <- mccomp(dat)
 
-  result <- list(
-    statistic = k$statistic, df = k$df, pvalue = k$pvalue,
-    exactp = k$exactp, cstat = k$cstat, cpvalue = k$cpvalue, kappa = k$kappa,
-    std_err = k$std_err, kappa_cil = k$kappa_cil, kappa_ciu = k$kappa_ciu,
-    cases = k$cases, controls = k$controls, ratio = k$ratio,
-    odratio = k$odratio, tbl = dat
-  )
+  result <-
+    list(cases     = k$cases,
+         controls  = k$controls,
+         cpvalue   = k$cpvalue,
+         cstat     = k$cstat,
+         df        = k$df,
+         exactp    = k$exactp,
+         kappa     = k$kappa,
+         kappa_cil = k$kappa_cil,
+         kappa_ciu = k$kappa_ciu,
+         odratio   = k$odratio,
+         pvalue    = k$pvalue,
+         ratio     = k$ratio,
+         statistic = k$statistic,
+         std_err   = k$std_err,
+         tbl       = dat)
 
   class(result) <- "infer_mcnemar_test"
   return(result)
@@ -105,116 +114,127 @@ mcdata <- function(x, y) {
 
 mctestp <- function(dat) {
   retrieve <- matrix(c(1, 2, 2, 1), nrow = 2)
-  p <- dat[retrieve]
-  return(p)
+  dat[retrieve]
 }
 
 tetat <- function(p) {
-  out <- ((p[1] - p[2]) ^ 2) / sum(p)
-  return(out)
+  ((p[1] - p[2]) ^ 2) / sum(p)
 }
 
 mcpval <- function(test_stat, df) {
-  out <- 1 - stats::pchisq(test_stat, df)
-  return(out)
+  1 - stats::pchisq(test_stat, df)
 }
 
 mcpex <- function(dat) {
-  out <- 2 * min(stats::pbinom(dat[2], sum(dat[2], dat[3]), 0.5), stats::pbinom(dat[3], sum(dat[2], dat[3]), 0.5))
-  return(out)
+  2 * min(stats::pbinom(dat[2], sum(dat[2], dat[3]), 0.5), stats::pbinom(dat[3], sum(dat[2], dat[3]), 0.5))
 }
 
 mcstat <- function(p) {
-  out <- ((abs(p[1] - p[2]) - 1) ^ 2) / sum(p)
-  return(out)
+  ((abs(p[1] - p[2]) - 1) ^ 2) / sum(p)
 }
 
 mccpval <- function(cstat, df) {
-  out <- 1 - stats::pchisq(cstat, df)
-  return(out)
+  1 - stats::pchisq(cstat, df)
 }
 
 mckappa <- function(dat) {
+
   agreement <- sum(diag(dat)) / sum(dat)
-  expected <- sum(rowSums(dat) * colSums(dat)) / (sum(dat) ^ 2)
-  kappa <- (agreement - expected) / (1 - expected)
-  return(kappa)
+  expected  <- sum(rowSums(dat) * colSums(dat)) / (sum(dat) ^ 2)
+  (agreement - expected) / (1 - expected)
+
 }
 
 mcserr <- function(dat, kappa) {
   expected <- sum(rowSums(dat) * colSums(dat)) / (sum(dat) ^ 2)
-  out <- serr(dat, kappa, expected)
+  serr(dat, kappa, expected)
 }
 
 mcconf <- function(std_err, kappa) {
-  alpha <- 0.05
+
+  alpha    <- 0.05
   interval <- stats::qnorm(1 - (alpha / 2)) * std_err
   ci_lower <- kappa - interval
   ci_upper <- kappa + interval
-  out <- list(ci_lower = ci_lower, ci_upper = ci_upper)
-  return(out)
+
+  list(ci_lower = ci_lower, ci_upper = ci_upper)
+
 }
 
 prop_fact <- function(dat, p) {
-  dat_per <- dat / sum(dat)
-  row_sum <- rowSums(dat_per)
-  col_sum <- colSums(dat_per)
-  controls <- 1 - col_sum[2]
-  cases <- 1 - row_sum[2]
-  ratio <- cases / controls
+
+  dat_per    <- dat / sum(dat)
+  row_sum    <- rowSums(dat_per)
+  col_sum    <- colSums(dat_per)
+  controls   <- 1 - col_sum[2]
+  cases      <- 1 - row_sum[2]
+  ratio      <- cases / controls
   odds_ratio <- p[1] / p[2]
-  out <- list(
-    cases = cases, controls = controls, ratio = ratio,
-    odds_ratio = odds_ratio
+
+  list(cases      = cases,
+       controls   = controls,
+       odds_ratio = odds_ratio,
+       ratio      = ratio
+
   )
-  return(out)
+
 }
 
 serr <- function(dat, kappa, expected) {
-  dat_per <- dat / sum(dat)
-  row_sum <- rowSums(dat_per)
+
+  dat_per    <- dat / sum(dat)
+  row_sum    <- rowSums(dat_per)
   row_sum[3] <- sum(row_sum)
-  col_sum <- colSums(dat_per)
-  dat_per <- rbind(dat_per, col_sum)
-  dat_per <- cbind(dat_per, row_sum)
-  d1 <- dim(dat_per)
+  col_sum    <- colSums(dat_per)
+  dat_per    <- rbind(dat_per, col_sum)
+  dat_per    <- cbind(dat_per, row_sum)
+  d1         <- dim(dat_per)
+
   dat_per[d1[1], d1[2]] <- 1.0
   diagonal <- diag(dat_per)
+
   a <- diagonal[1] * (1 - (row_sum[1] + col_sum[1]) * (1 - kappa)) ^ 2 +
     diagonal[2] * (1 - (row_sum[2] + col_sum[2]) * (1 - kappa)) ^ 2
 
   x1 <- dat_per[lower.tri(dat_per)][1]
   x2 <- dat_per[upper.tri(dat_per)][1]
+
   b <- ((1 - kappa) ^ 2) * ((x1 * (row_sum[1] + col_sum[2]) ^ 2) +
     (x2 * (row_sum[2] + col_sum[1]) ^ 2))
 
   c <- ((kappa) - expected * (1 - kappa)) ^ 2
   variance <- ((a + b - c) / ((1 - expected) ^ 2)) / sum(dat)
 
-  return(sqrt(variance))
+  sqrt(variance)
 }
 
 mccomp <- function(dat) {
-  p <- mctestp(dat)
-  test_stat <- tetat(p)
-  df <- nrow(dat) - 1
-  pvalue <- mcpval(test_stat, df)
-  exactp <- mcpex(dat)
-  cstat <- mcstat(p)
-  cpvalue <- mccpval(cstat, df)
-  kappa <- mckappa(dat)
-  std_err <- mcserr(dat, kappa)
-  clu <- mcconf(std_err, kappa)
-  k <- prop_fact(dat, p)
 
-  out <- list(
-    statistic = round(test_stat, 4), df = df,
-    pvalue = round(pvalue, 4), exactp = round(exactp, 4),
-    cstat = cstat, cpvalue = cpvalue, kappa = round(kappa, 4),
-    std_err = round(std_err, 4), kappa_cil = round(clu$ci_lower, 4),
-    kappa_ciu = round(clu$ci_upper, 4), cases = round(k$cases, 4),
-    controls = round(k$controls, 4), ratio = round(k$ratio, 4),
-    odratio = round(k$odds_ratio, 4)
-  )
-  return(out)
+  p         <- mctestp(dat)
+  test_stat <- tetat(p)
+  df        <- nrow(dat) - 1
+  pvalue    <- mcpval(test_stat, df)
+  exactp    <- mcpex(dat)
+  cstat     <- mcstat(p)
+  cpvalue   <- mccpval(cstat, df)
+  kappa     <- mckappa(dat)
+  std_err   <- mcserr(dat, kappa)
+  clu       <- mcconf(std_err, kappa)
+  k         <- prop_fact(dat, p)
+
+  list(cases     = round(k$cases, 4),
+       controls  = round(k$controls, 4),
+       cpvalue   = cpvalue,
+       cstat     = cstat,
+       df        = df,
+       exactp    = round(exactp, 4),
+       kappa     = round(kappa, 4),
+       kappa_cil = round(clu$ci_lower, 4),
+       kappa_ciu = round(clu$ci_upper, 4),
+       odratio   = round(k$odds_ratio, 4),
+       pvalue    = round(pvalue, 4),
+       ratio     = round(k$ratio, 4),
+       statistic = round(test_stat, 4),
+       std_err   = round(std_err, 4))
+
 }
