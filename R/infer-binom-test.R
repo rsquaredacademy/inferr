@@ -145,10 +145,9 @@ binom_comp <- function(n, success, prob) {
     ttf <- ifelse(tt <= 1, tt, 1)
   }
 
-  out <- list(
+  list(
     n = n, k = k, exp_k = exp_k, obs_p = obs_p, exp_p = prob, ik = i_k,
     lower = round(lt, 6), upper = round(ut, 6), two_tail = round(ttf, 6)
   )
 
-  return(out)
 }

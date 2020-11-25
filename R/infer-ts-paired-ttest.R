@@ -122,17 +122,16 @@ paired_comp <- function(x, y, confint, var_names) {
 }
 
 paired_data <- function(x, y) {
-  d <- 
-    tibble::tibble(x = x, y = y) %>%
+  
+  tibble::tibble(x = x, y = y) %>%
     dplyr::mutate(z = x - y) %>%
     tidyr::gather()
-  return(d)
+
 }
 
 paired_stats <- function(data, key, value) {
 
-  d <- 
-    data %>%
+  data %>%
     dplyr::group_by(key) %>%
     dplyr::select(value, key) %>%
     dplyr::summarise_all(dplyr::funs(length, mean, sd = stats::sd)) %>%
@@ -142,24 +141,26 @@ paired_stats <- function(data, key, value) {
     ) %>%
     dplyr::select(-(key:length))
 
-  return(d)
 }
 
 cor_sig <- function(corr, n) {
-  t <- corr / ((1 - (corr ^ 2)) / (n - 2)) ^ 0.5
-  df <- n - 2
+
+  t   <- corr / ((1 - (corr ^ 2)) / (n - 2)) ^ 0.5
+  df  <- n - 2
   sig <- (1 - stats::pt(t, df)) * 2
-  return(round(sig, 4))
+  round(sig, 4)
+
 }
 
 conf_int_t <- function(u, s, n, alpha = 0.05) {
-  a <- alpha / 2
-  df <- n - 1
+  
+  a     <- alpha / 2
+  df    <- n - 1
   error <- round(stats::qt(a, df), 3) * -1
   lower <- u - (error * samp_err(s, n))
   upper <- u + (error * samp_err(s, n))
-  result <- c(lower, upper)
-  return(result)
+  c(lower, upper)
+  
 }
 
 samp_err <- function(sigma, n) {

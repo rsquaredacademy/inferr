@@ -90,12 +90,22 @@ infer_ts_var_test.default <- function(data, ..., group_var = NULL,
   type <- match.arg(alternative)
   k    <- var_comp(fdata, groupvars)
 
-  out <- list(
-    f = k$f, lower = k$lower, upper = k$upper, vars = k$vars,
-    avgs = k$avgs, sds = k$sds, ses = k$ses, avg = k$avg, sd = k$sd,
-    se = k$se, n1 = k$n1, n2 = k$n2, lens = k$lens, len = k$len,
-    lev = lev, type = type
-  )
+  out <- list(avg   = k$avg,
+              avgs  = k$avgs,
+              f     = k$f,
+              len   = k$len,
+              lens  = k$lens,
+              lev   = lev,
+              lower = k$lower,
+              n1    = k$n1,
+              n2    = k$n2,
+              sd    = k$sd,
+              sds   = k$sds,
+              se    = k$se,
+              ses   = k$ses,
+              type  = type,
+              upper = k$upper,
+              vars  = k$vars)
 
   class(out) <- "infer_ts_var_test"
   return(out)
@@ -126,27 +136,26 @@ var_comp <- function(variable, group_var) {
   lower <- stats::pf(f, n1, n2)
   upper <- stats::pf(f, n1, n2, lower.tail = FALSE)
 
-  list(
-    f = round(f, 4), lower = round(lower, 4),
-    upper = round(upper, 4),
-    vars = round(vars, 2),
-    avgs = round((vals[[3]] %>% purrr::map_dbl(1)), 2),
-    sds = round((vals[[5]] %>% purrr::map_dbl(1)), 2),
-    ses = round((vals[[6]] %>% purrr::map_dbl(1)), 2),
-    avg = round(lass[2], 2),
-    sd = round(lass[3], 2),
-    se = round(lass[4], 2),
-    n1 = n1,
-    n2 = n2,
-    lens = lens,
-    len = lass[1]
-  )
+  list(avg   = round(lass[2], 2),
+       avgs  = round((vals[[3]] %>% purrr::map_dbl(1)), 2),
+       f     = round(f, 4),
+       len   = lass[1],
+       lens  = lens,
+       lower = round(lower, 4),
+       n1    = n1,
+       n2    = n2,
+       sd    = round(lass[3], 2),
+       sds   = round((vals[[5]] %>% purrr::map_dbl(1)), 2),
+       se    = round(lass[4], 2),
+       ses   = round((vals[[6]] %>% purrr::map_dbl(1)), 2),
+       upper = round(upper, 4),
+       vars  = round(vars, 2))
 
 }
 
 tibble_stats <- function(data, x, y) {
 
-  by_factor <- data %>%
+  data %>%
     dplyr::group_by(!! rlang::sym(y)) %>%
     dplyr::select(!! rlang::sym(y), !! rlang::sym(x)) %>%
     dplyr::summarise_all(dplyr::funs(length, mean, var = stats::var, sd = stats::sd)) %>%
@@ -155,13 +164,11 @@ tibble_stats <- function(data, x, y) {
       ses = sd / sqrt(length)
     )
 
-  return(by_factor)
-
 }
 
 tbl_stats <- function(data, y) {
 
-  avg <- 
+  avg <-
     data %>%
     dplyr::select(y) %>%
     dplyr::summarise_all(dplyr::funs(length, mean, sd = stats::sd)) %>%
@@ -170,6 +177,6 @@ tbl_stats <- function(data, y) {
       se = sd / sqrt(length)
     )
 
-  return(unlist(avg, use.names = FALSE))
+  unlist(avg, use.names = FALSE)
 
 }

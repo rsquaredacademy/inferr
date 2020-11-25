@@ -77,7 +77,7 @@ print.infer_oneway_anova <- function(x, ...) {
   print_owanova(x)
 }
 
-#' @importFrom magrittr %>%
+#' @import magrittr
 anova_split <- function(data, x, y, sample_mean) {
   x1 <- rlang::enquo(x)
   y1 <- rlang::enquo(y)

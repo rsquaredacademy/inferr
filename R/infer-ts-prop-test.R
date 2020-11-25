@@ -62,14 +62,17 @@ infer_ts_prop_test.default <- function(data, var1, var2,
   var_2  <- rlang::enquo(var2)
   varone <- dplyr::pull(data, !! var_1)
   vartwo <- dplyr::pull(data, !! var_2)
+  alt    <- match.arg(alternative)
+  k      <- prop_comp2(varone, vartwo, alt)
 
-  alt <- match.arg(alternative)
-  k   <- prop_comp2(varone, vartwo, alt)
-
-  result <- list(
-    n1 = k$n1, n2 = k$n2, phat1 = k$phat1, phat2 = k$phat2,
-    z = k$z, sig = k$sig, alt = alt
-  )
+  result <-
+    list(alt   = alt,
+         n1    = k$n1,
+         n2    = k$n2,
+         phat1 = k$phat1,
+         phat2 = k$phat2,
+         sig   = k$sig,
+         z     = k$z)
 
   class(result) <- "infer_ts_prop_test"
   return(result)
@@ -121,11 +124,11 @@ infer_ts_prop_grp <- function(data, var, group,
   z     <- num / den
 
 
-  lt <- stats::pnorm(z)
-  ut <- round(stats::pnorm(z, lower.tail = FALSE), 4)
-  tt <- round(stats::pnorm(abs(z), lower.tail = FALSE) * 2, 4)
+  lt    <- stats::pnorm(z)
+  ut    <- round(stats::pnorm(z, lower.tail = FALSE), 4)
+  tt    <- round(stats::pnorm(abs(z), lower.tail = FALSE) * 2, 4)
 
-  alt <- match.arg(alternative)
+  alt   <- match.arg(alternative)
 
   if (alt == "all") {
     sig <- c("both" = tt, "less" = lt, "greater" = ut)
@@ -137,15 +140,14 @@ infer_ts_prop_grp <- function(data, var, group,
     sig <- tt
   }
 
-  out <- list(
-    n1 = n1,
-    n2 = n2,
-    phat1 = phat1,
-    phat2 = phat2,
-    z = round(z, 3),
-    sig = round(sig, 3),
-    alt = alt
-  )
+  out <-
+    list(alt   = alt,
+         n1    = n1,
+         n2    = n2,
+         phat1 = phat1,
+         phat2 = phat2,
+         sig   = round(sig, 3),
+         z     = round(z, 3))
 
   class(out) <- "infer_ts_prop_test"
   return(out)
@@ -167,11 +169,11 @@ infer_ts_prop_calc <- function(n1, n2, p1, p2,
   den   <- sqrt(den1 * den2)
   z     <- num / den
 
-  lt <- stats::pnorm(z)
-  ut <- round(stats::pnorm(z, lower.tail = FALSE), 4)
-  tt <- round(stats::pnorm(abs(z), lower.tail = FALSE) * 2, 4)
+  lt    <- stats::pnorm(z)
+  ut    <- round(stats::pnorm(z, lower.tail = FALSE), 4)
+  tt    <- round(stats::pnorm(abs(z), lower.tail = FALSE) * 2, 4)
 
-  alt <- match.arg(alternative)
+  alt   <- match.arg(alternative)
 
   if (alt == "all") {
     sig <- c("both" = tt, "less" = lt, "greater" = ut)
@@ -183,15 +185,14 @@ infer_ts_prop_calc <- function(n1, n2, p1, p2,
     sig <- tt
   }
 
-  out <- list(
-    n1 = n1,
-    n2 = n2,
-    phat1 = round(phat1, 3),
-    phat2 = round(phat2, 3),
-    z = round(z, 3),
-    sig = round(sig, 3),
-    alt = alt
-  )
+  out <-
+    list(alt   = alt,
+         n1    = n1,
+         n2    = n2,
+         phat1 = round(phat1, 3),
+         phat2 = round(phat2, 3),
+         sig   = round(sig, 3),
+         z     = round(z, 3))
 
   class(out) <- "infer_ts_prop_test"
   return(out)
@@ -201,7 +202,6 @@ prop_comp2 <- function(var1, var2, alt) {
 
   n1    <- length(var1)
   n2    <- length(var2)
-
   y1    <- table(var1)[[2]]
   y2    <- table(var2)[[2]]
 
@@ -209,7 +209,6 @@ prop_comp2 <- function(var1, var2, alt) {
   phat2 <- round(y2 / n2, 4)
   phat  <- sum(y1, y2) / sum(n1, n2)
 
-  # test statistic
   num   <- (phat1 - phat2)
   den1  <- phat * (1 - phat)
   den2  <- (1 / n1) + (1 / n2)
@@ -230,9 +229,11 @@ prop_comp2 <- function(var1, var2, alt) {
     sig <- tt
   }
 
-  list(
-    n1 = n1, n2 = n2, phat1 = phat1, phat2 = phat2, z = round(z, 3),
-    sig = round(sig, 3)
-  )
+  list(n1    = n1,
+       n2    = n2,
+       phat1 = phat1,
+       phat2 = phat2,
+       sig   = round(sig, 3),
+       z     = round(z, 3))
 
 }
