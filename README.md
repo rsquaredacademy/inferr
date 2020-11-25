@@ -1,11 +1,13 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# inferr <img src="hex_inferr.png" height="100px" align="right" />
+# inferr
+
+> Tools for Statistical Inference
 
 <!-- badges: start -->
 
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/inferr)](https://cran.r-project.org/package=inferr)
+[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/inferr)](https://cran.r-project.org/package=inferr)
 [![cran
 checks](https://cranchecks.info/badges/summary/inferr)](https://cran.r-project.org/web/checks/check_results_inferr.html)
 [![R build
@@ -53,7 +55,7 @@ devtools::install_github("rsquaredacademy/inferr")
 ## Articles
 
   - [Introduction to
-    inferr](http://www.rsquaredacademy.com/inferr/articles/index.html)
+    inferr](https://inferr.rsquaredacademy.com/articles/intro.html)
 
 ## Usage
 
