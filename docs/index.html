@@ -112,12 +112,14 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="inferr-" class="section level1">
+<div id="inferr" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#inferr-" class="anchor"></a>inferr <img src="hex_inferr.png" height="100px" align="right">
-</h1></div>
+<a href="#inferr" class="anchor"></a>inferr</h1></div>
+<blockquote>
+<p>Tools for Statistical Inference</p>
+</blockquote>
 <!-- badges: start -->
-
+<p><a href="https://cran.r-project.org/package=inferr"><img src="https://www.r-pkg.org/badges/version/inferr" alt="CRAN_Status_Badge"></a> <a href="https://cran.r-project.org/web/checks/check_results_inferr.html"><img src="https://cranchecks.info/badges/summary/inferr" alt="cran checks"></a> <a href="https://github.com/rsquaredacademy/inferr/actions"><img src="https://github.com/rsquaredacademy/inferr/workflows/R-CMD-check/badge.svg" alt="R build status"></a> <a href="https://codecov.io/github/rsquaredacademy/inferr?branch=master"><img src="https://codecov.io/gh/rsquaredacademy/inferr/branch/master/graph/badge.svg" alt="Coverage status"></a> <a href="https://CRAN.R-project.org/package=inferr"><img src="https://tinyverse.netlify.com/badge/inferr" alt="status"></a><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg"><a href="https://cran.r-project.org/package=inferr"><img src="https://cranlogs.r-pkg.org/badges/grand-total/inferr"></a> <!-- badges: end --></p>
 <div id="overview" class="section level2">
 <h2 class="hasAnchor">
 <a href="#overview" class="anchor"></a>Overview</h2>
@@ -143,18 +145,19 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<div class="sourceCode" id="cb1"><pre class="r"><span class="co"># install inferr from CRAN</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"inferr"</span>)
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># install inferr from CRAN</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"inferr"</span><span class="op">)</span>
 
 <span class="co"># the development version from github</span>
 <span class="co"># install.packages("devtools")</span>
-<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"rsquaredacademy/inferr"</span>)</pre></div>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"rsquaredacademy/inferr"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="articles" class="section level2">
 <h2 class="hasAnchor">
 <a href="#articles" class="anchor"></a>Articles</h2>
 <ul>
-<li><a href="http://www.rsquaredacademy.com/inferr/articles/index.html">Introduction to inferr</a></li>
+<li><a href="https://inferr.rsquaredacademy.com/articles/intro.html">Introduction to inferr</a></li>
 </ul>
 </div>
 <div id="usage" class="section level2">
@@ -163,7 +166,8 @@
 <div id="one-sample-t-test" class="section level4">
 <h4 class="hasAnchor">
 <a href="#one-sample-t-test" class="anchor"></a>One Sample t Test</h4>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="fu"><a href="reference/infer_os_t_test.html">infer_os_t_test</a></span>(<span class="no">hsb</span>, <span class="no">write</span>, <span class="kw">mu</span> <span class="kw">=</span> <span class="fl">50</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">'all'</span>)
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/infer_os_t_test.html">infer_os_t_test</a></span><span class="op">(</span><span class="va">hsb</span>, <span class="va">write</span>, mu <span class="op">=</span> <span class="fl">50</span>, type <span class="op">=</span> <span class="st">'all'</span><span class="op">)</span>
 <span class="co">#&gt;                               One-Sample Statistics                               </span>
 <span class="co">#&gt; ---------------------------------------------------------------------------------</span>
 <span class="co">#&gt;  Variable    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] </span>
@@ -180,12 +184,13 @@
 <span class="co">#&gt;  Variable      t      DF       Sig       Mean Diff.    [95% Conf. Interval] </span>
 <span class="co">#&gt; --------------------------------------------------------------------------------</span>
 <span class="co">#&gt;   write      4.141    199    0.99997       2.775         1.4537     4.0969   </span>
-<span class="co">#&gt; --------------------------------------------------------------------------------</span></pre></div>
+<span class="co">#&gt; --------------------------------------------------------------------------------</span></code></pre></div>
 </div>
 <div id="anova" class="section level4">
 <h4 class="hasAnchor">
 <a href="#anova" class="anchor"></a>ANOVA</h4>
-<div class="sourceCode" id="cb3"><pre class="r"><span class="fu"><a href="reference/infer_oneway_anova.html">infer_oneway_anova</a></span>(<span class="no">hsb</span>, <span class="no">write</span>, <span class="no">prog</span>)
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/infer_oneway_anova.html">infer_oneway_anova</a></span><span class="op">(</span><span class="va">hsb</span>, <span class="va">write</span>, <span class="va">prog</span><span class="op">)</span>
 <span class="co">#&gt; Warning: `funs()` is deprecated as of dplyr 0.8.0.</span>
 <span class="co">#&gt; Please use a list of either functions or lambdas: </span>
 <span class="co">#&gt; </span>
@@ -224,12 +229,13 @@
 <span class="co">#&gt; -----------------------------------------</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Number of obs = 200       R-squared     = 0.1776 </span>
-<span class="co">#&gt; Root MSE      = 8.6392    Adj R-squared = 0.1693</span></pre></div>
+<span class="co">#&gt; Root MSE      = 8.6392    Adj R-squared = 0.1693</span></code></pre></div>
 </div>
 <div id="chi-square-test-of-independence" class="section level4">
 <h4 class="hasAnchor">
 <a href="#chi-square-test-of-independence" class="anchor"></a>Chi Square Test of Independence</h4>
-<div class="sourceCode" id="cb4"><pre class="r"><span class="fu"><a href="reference/infer_chisq_assoc_test.html">infer_chisq_assoc_test</a></span>(<span class="no">hsb</span>, <span class="no">female</span>, <span class="no">schtyp</span>)
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/infer_chisq_assoc_test.html">infer_chisq_assoc_test</a></span><span class="op">(</span><span class="va">hsb</span>, <span class="va">female</span>, <span class="va">schtyp</span><span class="op">)</span>
 <span class="co">#&gt;                Chi Square Statistics                 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Statistics                     DF    Value      Prob </span>
@@ -241,12 +247,13 @@
 <span class="co">#&gt; Phi Coefficient                     0.0153          </span>
 <span class="co">#&gt; Contingency Coefficient             0.0153          </span>
 <span class="co">#&gt; Cramer's V                          0.0153          </span>
-<span class="co">#&gt; ----------------------------------------------------</span></pre></div>
+<span class="co">#&gt; ----------------------------------------------------</span></code></pre></div>
 </div>
 <div id="levenes-test" class="section level4">
 <h4 class="hasAnchor">
 <a href="#levenes-test" class="anchor"></a>Levene’s Test</h4>
-<div class="sourceCode" id="cb5"><pre class="r"><span class="fu"><a href="reference/infer_levene_test.html">infer_levene_test</a></span>(<span class="no">hsb</span>, <span class="no">read</span>, <span class="kw">group_var</span> <span class="kw">=</span> <span class="no">race</span>)
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/infer_levene_test.html">infer_levene_test</a></span><span class="op">(</span><span class="va">hsb</span>, <span class="va">read</span>, group_var <span class="op">=</span> <span class="va">race</span><span class="op">)</span>
 <span class="co">#&gt;            Summary Statistics             </span>
 <span class="co">#&gt; Levels    Frequency    Mean     Std. Dev  </span>
 <span class="co">#&gt; -----------------------------------------</span>
@@ -265,30 +272,32 @@
 <span class="co">#&gt; Brown and Forsythe                        3       196      3.44    0.0179 </span>
 <span class="co">#&gt; Levene                                    3       196    3.4792     0.017 </span>
 <span class="co">#&gt; Brown and Forsythe (Trimmed Mean)         3       196    3.3936     0.019 </span>
-<span class="co">#&gt; -------------------------------------------------------------------------</span></pre></div>
+<span class="co">#&gt; -------------------------------------------------------------------------</span></code></pre></div>
 </div>
 <div id="cochrans-q-test" class="section level4">
 <h4 class="hasAnchor">
 <a href="#cochrans-q-test" class="anchor"></a>Cochran’s Q Test</h4>
-<div class="sourceCode" id="cb6"><pre class="r"><span class="fu"><a href="reference/infer_cochran_qtest.html">infer_cochran_qtest</a></span>(<span class="no">exam</span>, <span class="no">exam1</span>, <span class="no">exam2</span>, <span class="no">exam3</span>)
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/infer_cochran_qtest.html">infer_cochran_qtest</a></span><span class="op">(</span><span class="va">exam</span>, <span class="va">exam1</span>, <span class="va">exam2</span>, <span class="va">exam3</span><span class="op">)</span>
 <span class="co">#&gt;    Test Statistics     </span>
 <span class="co">#&gt; ----------------------</span>
 <span class="co">#&gt; N                   15 </span>
 <span class="co">#&gt; Cochran's Q       4.75 </span>
 <span class="co">#&gt; df                   2 </span>
 <span class="co">#&gt; p value          0.093 </span>
-<span class="co">#&gt; ----------------------</span></pre></div>
+<span class="co">#&gt; ----------------------</span></code></pre></div>
 </div>
 <div id="mcnemar-test" class="section level4">
 <h4 class="hasAnchor">
 <a href="#mcnemar-test" class="anchor"></a>McNemar Test</h4>
-<div class="sourceCode" id="cb7"><pre class="r"><span class="no">hb</span> <span class="kw">&lt;-</span>
-   <span class="no">hsb</span> <span class="kw">%&gt;%</span>
-     <span class="fu">mutate</span>(
-       <span class="kw">himath</span> <span class="kw">=</span> <span class="fu">if_else</span>(<span class="no">math</span> <span class="kw">&gt;</span> <span class="fl">60</span>, <span class="fl">1</span>, <span class="fl">0</span>),
-       <span class="kw">hiread</span> <span class="kw">=</span> <span class="fu">if_else</span>(<span class="no">read</span> <span class="kw">&gt;</span> <span class="fl">60</span>, <span class="fl">1</span>, <span class="fl">0</span>)
-     )
-<span class="fu"><a href="reference/infer_mcnemar_test.html">infer_mcnemar_test</a></span>(<span class="no">hb</span>, <span class="no">himath</span>, <span class="no">hiread</span>)
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">hb</span> <span class="op">&lt;-</span>
+   <span class="va">hsb</span> <span class="op">%&gt;%</span>
+     <span class="fu">mutate</span><span class="op">(</span>
+       himath <span class="op">=</span> <span class="fu">if_else</span><span class="op">(</span><span class="va">math</span> <span class="op">&gt;</span> <span class="fl">60</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span>,
+       hiread <span class="op">=</span> <span class="fu">if_else</span><span class="op">(</span><span class="va">read</span> <span class="op">&gt;</span> <span class="fl">60</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span>
+     <span class="op">)</span>
+<span class="fu"><a href="reference/infer_mcnemar_test.html">infer_mcnemar_test</a></span><span class="op">(</span><span class="va">hb</span>, <span class="va">himath</span>, <span class="va">hiread</span><span class="op">)</span>
 <span class="co">#&gt;            Controls </span>
 <span class="co">#&gt; ---------------------------------</span>
 <span class="co">#&gt; Cases       0       1       Total </span>
@@ -321,7 +330,7 @@
 <span class="co">#&gt; controls         0.765 </span>
 <span class="co">#&gt; ratio           1.0196 </span>
 <span class="co">#&gt; odds ratio      1.1667 </span>
-<span class="co">#&gt; ----------------------</span></pre></div>
+<span class="co">#&gt; ----------------------</span></code></pre></div>
 </div>
 </div>
 <div id="getting-help" class="section level2">
@@ -371,18 +380,7 @@
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
-<ul class="list-unstyled">
-<li><a href="https://cran.r-project.org/package=inferr"><img src="http://www.r-pkg.org/badges/version/inferr" alt="CRAN_Status_Badge"></a></li>
-<li><a href="https://cran.r-project.org/web/checks/check_results_inferr.html"><img src="https://cranchecks.info/badges/summary/inferr" alt="cran checks"></a></li>
-<li><a href="https://github.com/rsquaredacademy/inferr/actions"><img src="https://github.com/rsquaredacademy/inferr/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
-<li><a href="https://codecov.io/github/rsquaredacademy/inferr?branch=master"><img src="https://codecov.io/gh/rsquaredacademy/inferr/branch/master/graph/badge.svg" alt="Coverage status"></a></li>
-<li><a href="https://CRAN.R-project.org/package=inferr"><img src="https://tinyverse.netlify.com/badge/inferr" alt="status"></a></li>
-<li><a href="https://cran.r-project.org/package=inferr"><img src="https://cranlogs.r-pkg.org/badges/grand-total/inferr"></a></li>
-</ul>
-</div>
-</div>
+  </div>
 </div>
 
 
@@ -391,7 +389,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
