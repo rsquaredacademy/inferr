@@ -111,7 +111,7 @@ prop_comp <- function(n, prob, alternative, phat) {
   z    <- round(num / den, 4)
   lt   <- round(stats::pnorm(z), 4)
   ut   <- round(1 - stats::pnorm(z), 4)
-  tt   - round((1 - stats::pnorm(abs(z))) * 2, 4)
+  tt   <- round((1 - stats::pnorm(abs(z))) * 2, 4)
   alt  <- alternative
 
   if (alt == "all") {

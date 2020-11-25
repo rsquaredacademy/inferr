@@ -2,7 +2,7 @@
 
   if (!interactive() || stats::runif(1) > 0.1) return()
 
-   pkgs          <- utils::available.packages()
+  pkgs          <- utils::available.packages()
   cran_version  <- package_version(pkgs["inferr", "Version"])
   local_version <- utils::packageVersion("inferr")
   behind_cran   <- cran_version > local_version
@@ -18,7 +18,7 @@
 
   if (interactive()) {
     if (behind_cran) {
-      msg <- message("A new version of inferr is available with bug fixes and new features.")
+      msg <- c("A new version of inferr is available with bug fixes and new features.")
       packageStartupMessage(msg, "\nWould you like to install it?")
       if (utils::menu(c("Yes", "No")) == 1) {
         utils::update.packages("inferr")
