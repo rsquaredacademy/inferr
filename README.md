@@ -3,17 +3,18 @@
 
 # inferr <img src="hex_inferr.png" height="100px" align="right" />
 
+<!-- badges: start -->
+
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/inferr)](https://cran.r-project.org/package=inferr)
 [![cran
 checks](https://cranchecks.info/badges/summary/inferr)](https://cran.r-project.org/web/checks/check_results_inferr.html)
-[![Travis-CI Build
-Status](https://travis-ci.org/rsquaredacademy/inferr.svg?branch=master)](https://travis-ci.org/rsquaredacademy/inferr)
-[![AppVeyor Build
-Status](https://ci.appveyor.com/api/projects/status/github/rsquaredacademy/inferr?branch=master&svg=true)](https://ci.appveyor.com/project/rsquaredacademy/inferr)
+[![R build
+status](https://github.com/rsquaredacademy/inferr/workflows/R-CMD-check/badge.svg)](https://github.com/rsquaredacademy/inferr/actions)
 [![Coverage
 status](https://codecov.io/gh/rsquaredacademy/inferr/branch/master/graph/badge.svg)](https://codecov.io/github/rsquaredacademy/inferr?branch=master)
+[![status](https://tinyverse.netlify.com/badge/inferr)](https://CRAN.R-project.org/package=inferr)![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
 [![](https://cranlogs.r-pkg.org/badges/grand-total/inferr)](https://cran.r-project.org/package=inferr)
-![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
+<!-- badges: end -->
 
 ## Overview
 
@@ -83,12 +84,30 @@ infer_os_t_test(hsb, write, mu = 50, type = 'all')
 
 ``` r
 infer_oneway_anova(hsb, write, prog)
+#> Warning: `funs()` is deprecated as of dplyr 0.8.0.
+#> Please use a list of either functions or lambdas: 
+#> 
+#>   # Simple named list: 
+#>   list(mean = mean, median = median)
+#> 
+#>   # Auto named with `tibble::lst()`: 
+#>   tibble::lst(mean, median)
+#> 
+#>   # Using lambdas
+#>   list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
+#> This warning is displayed once every 8 hours.
+#> Call `lifecycle::last_warnings()` to see where this warning was generated.
+#> Warning: `as_data_frame()` is deprecated as of tibble 2.0.0.
+#> Please use `as_tibble()` instead.
+#> The signature and semantics have changed, see `?as_tibble`.
+#> This warning is displayed once every 8 hours.
+#> Call `lifecycle::last_warnings()` to see where this warning was generated.
 #>                                 ANOVA                                  
 #> ----------------------------------------------------------------------
 #>                    Sum of                                             
 #>                    Squares     DF     Mean Square      F        Sig.  
 #> ----------------------------------------------------------------------
-#> Between Groups    3175.698      2      1587.849      21.275    0.0000 
+#> Between Groups    3175.698      2      1587.849      21.275      0    
 #> Within Groups     14703.177    197      74.635                        
 #> Total             17878.875    199                                    
 #> ----------------------------------------------------------------------
