@@ -53,13 +53,13 @@ infer_levene_test <- function(data, ...) UseMethod("infer_levene_test")
 infer_levene_test.default <- function(data, ..., group_var = NULL,
                                       trim_mean = 0.1) {
 
-  groupvar  <- rlang::enquo(group_var)
-  varyables <- rlang::quos(...)
-  fdata     <- dplyr::select(data, !!! varyables)
+  groupvar  <- deparse(substitute(group_var))
+  varyables <- vapply(substitute(...()), deparse, NA_character_)
+  fdata     <- data[varyables]
 
-  if (rlang::quo_is_null(groupvar)) {
+  if (groupvar == "NULL") {
     z  <- as.list(fdata)
-    ln <- z %>% purrr::map_int(length)
+    ln <- unlist(lapply(z, length))
     ly <- seq_len(length(z))
 
     if (length(z) < 2) {
@@ -75,8 +75,9 @@ infer_levene_test.default <- function(data, ..., group_var = NULL,
       as.factor()
 
   } else {
-    fdata     <- dplyr::pull(fdata, 1)
-    groupvars <- dplyr::pull(data, !! groupvar)
+
+    fdata <- fdata[[1]]
+    groupvars <- data[[groupvar]]
 
     if (length(fdata) != length(groupvars)) {
       stop("Length of variable and group_var do not match.", call. = FALSE)

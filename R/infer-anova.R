@@ -41,13 +41,13 @@ infer_oneway_anova <- function(data, x, y, ...) UseMethod("infer_oneway_anova")
 #' @export
 infer_oneway_anova.default <- function(data, x, y, ...) {
 
-  x1 <- rlang::enquo(x)
-  y1 <- rlang::enquo(y)
+  x1 <- deparse(substitute(x))
+  y1 <- deparse(substitute(y))
 
-  fdata        <- dplyr::select(data, !! x1, !! y1)
-  sample_mean  <- anova_avg(fdata, !! x1)
-  sample_stats <- anova_split(fdata, !! x1, !! y1, sample_mean)
-  k            <- anova_calc(fdata, sample_stats, !! x1, !! y1)
+  fdata        <- data[c(x1, y1)]
+  sample_mean  <- anova_avg(fdata, x1)
+  sample_stats <- anova_split(fdata, x1, y1, sample_mean)
+  k            <- anova_calc(fdata, sample_stats, x1, y1)
 
 
   result <-
@@ -78,43 +78,35 @@ print.infer_oneway_anova <- function(x, ...) {
 }
 
 #' @import magrittr
+#' @importFrom data.table data.table := setDF
 anova_split <- function(data, x, y, sample_mean) {
-  x1 <- rlang::enquo(x)
-  y1 <- rlang::enquo(y)
 
-  by_factor <-
-    data %>%
-    dplyr::group_by(!! y1) %>%
-    dplyr::select(!! y1, !! x1) %>%
-    dplyr::summarise_all(dplyr::funs(length, mean, var = stats::var, sd = stats::sd)) %>%
-    tibble::as_data_frame() %>%
-    dplyr::mutate(
-      sst = length * ((mean - sample_mean) ^ 2),
-      sse = (length - 1) * var
-    )
+  dat <- data[c(y, x)]
+  dm  <- data.table(dat)
+
+  by_factor <- dm[, .(length = length(get(x)),
+                     mean = mean(get(x)),
+                     var = stats::var(get(x)),
+                     sd = stats::sd(get(x))), 
+                  by = y]
+
+  by_factor[, ':='(sst = length * ((mean - sample_mean) ^ 2),
+                   sse = (length - 1) * var)]     
+
+  setDF(by_factor)    
 
   return(by_factor)
 }
 
 anova_avg <- function(data, y) {
-  y1 <- rlang::enquo(y)
 
-  avg <-
-    data %>%
-    dplyr::select(!! y1) %>%
-    dplyr::summarise_all(dplyr::funs(mean))
+  mean(data[[y]])
 
-  return(unlist(avg, use.names = FALSE))
 }
 
 anova_calc <- function(data, sample_stats, x, y) {
-  x1 <- rlang::enquo(x)
-  y1 <- rlang::enquo(y)
 
-  var_names <-
-    data %>%
-    dplyr::select(!! x1, !! y1) %>%
-    names()
+  var_names <- names(data[c(x, y)])
 
   sstr <-
     sample_stats %>%

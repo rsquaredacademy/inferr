@@ -40,19 +40,10 @@ infer_chisq_gof_test <- function(data, x, y, correct = FALSE) UseMethod("infer_c
 #' @export
 infer_chisq_gof_test.default <- function(data, x, y, correct = FALSE) {
 
-  x1 <- rlang::enquo(x)
-  xcheck <- dplyr::pull(data, !! x1)
-
-  xlen <-
-    data %>%
-    dplyr::pull(!! x1) %>%
-    length()
-
-  xone <-
-    data %>%
-    dplyr::pull(!! x1) %>%
-    table() %>%
-    as.vector()
+  x1     <- deparse(substitute(x))
+  xcheck <- data[[x1]]
+  xlen   <- length(data[[x1]])
+  xone   <- as.vector(table(data[[x1]]))
 
   if (!is.factor(xcheck)) {
     stop("x must be an object of class factor")
@@ -66,12 +57,7 @@ infer_chisq_gof_test.default <- function(data, x, y, correct = FALSE) {
     stop("correct must be either TRUE or FALSE")
   }
 
-
-  varname <-
-    data %>%
-    dplyr::select(!! x1) %>%
-    names()
-
+  varname <- names(data[x1])
   n <- length(xone)
 
   if (length(y) != n) {

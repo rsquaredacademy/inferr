@@ -54,8 +54,8 @@ infer_os_prop_test.default <- function(data, variable = NULL, prob = 0.5, phat =
 
   } else {
 
-    varyables <- rlang::enquo(variable)
-    fdata     <- dplyr::pull(data, !! varyables)
+    varyables <- deparse(substitute(variable))
+    fdata     <- data[[varyables]]
     n1        <- length(fdata)
 
     n2 <-

@@ -81,8 +81,8 @@ print.infer_binom_calc <- function(x, ...) {
 #' @rdname infer_binom_calc
 infer_binom_test <- function(data, variable, prob = 0.5) {
 
-  varyable <- rlang::enquo(variable)
-  fdata    <- dplyr::pull(data, !! varyable)
+  varyable <- deparse(substitute(variable))
+  fdata    <- data[[varyable]]
 
   if (!is.factor(fdata)) {
     stop("variable must be of type factor", call. = FALSE)

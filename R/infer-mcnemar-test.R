@@ -58,13 +58,11 @@ infer_mcnemar_test.default <- function(data, x = NULL, y = NULL) {
   if (is.matrix(data) | is.table(data)) {
     dat <- mcdata(data)
   } else {
-    x1 <- rlang::enquo(x)
-    y1 <- rlang::enquo(y)
 
-    dat <-
-      data %>%
-      dplyr::select(!! x1, !! y1) %>%
-      table()
+    x1 <- deparse(substitute(x))
+    y1 <- deparse(substitute(y))
+    dat <- table(data[c(x1, y1)])
+
   }
 
   k <- mccomp(dat)
