@@ -33,11 +33,9 @@
 #' @seealso \code{\link[stats]{mcnemar.test}}
 #' @examples
 #' # using variables from data
-#' library(dplyr)
-#' hb <- mutate(hsb,
-#'         himath = if_else(math > 60, 1, 0),
-#'         hiread = if_else(read > 60, 1, 0)
-#'     )
+#' hb <- hsb
+#' hb$himath <- ifelse(hsb$math > 60, 1, 0)
+#' hb$hiread <- ifelse(hsb$read > 60, 1, 0)
 #' infer_mcnemar_test(hb, himath, hiread)
 #'
 #' # test if the proportion of students in himath and hiread group is same

@@ -125,8 +125,11 @@ var_comp <- function(variable, group_var) {
   vals  <- tibble_stats(d, "cvar", "gvar")
   lass  <- tbl_stats(d, "cvar")
 
-  lens  <- vals[[2]] %>% purrr::map_int(1)
-  vars  <- vals[[4]] %>% purrr::map_dbl(1)
+  # lens  <- vals[[2]] %>% purrr::map_int(1)
+  # vars  <- vals[[4]] %>% purrr::map_dbl(1)
+
+  lens  <- vals[[2]]
+  vars  <- vals[[4]]
 
   f     <- vars[1] / vars[2]
   n1    <- lens[1] - 1
@@ -135,7 +138,7 @@ var_comp <- function(variable, group_var) {
   upper <- stats::pf(f, n1, n2, lower.tail = FALSE)
 
   list(avg   = round(lass[2], 2),
-       avgs  = round((vals[[3]] %>% purrr::map_dbl(1)), 2),
+       avgs  = round(vals[[3]], 2),
        f     = round(f, 4),
        len   = lass[1],
        lens  = lens,
@@ -143,9 +146,9 @@ var_comp <- function(variable, group_var) {
        n1    = n1,
        n2    = n2,
        sd    = round(lass[3], 2),
-       sds   = round((vals[[5]] %>% purrr::map_dbl(1)), 2),
+       sds   = round(vals[[5]], 2),
        se    = round(lass[4], 2),
-       ses   = round((vals[[6]] %>% purrr::map_dbl(1)), 2),
+       ses   = round(vals[[6]], 2),
        upper = round(upper, 4),
        vars  = round(vars, 2))
 

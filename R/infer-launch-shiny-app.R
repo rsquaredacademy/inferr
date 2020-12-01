@@ -8,7 +8,7 @@
 #'
 infer_launch_shiny_app <- function() {
 
-	rlang::inform("`infer_launch_shiny_app()` has been soft-deprecated and will be removed in the next release. In future, to launch the app, run the below code:\n 
+	message("`infer_launch_shiny_app()` has been soft-deprecated and will be removed in the next release. In future, to launch the app, run the below code:\n 
 	- install.packages('xplorerr')\n - xplorerr::app_inference()\n")
 
 	check_suggests('descriptr')

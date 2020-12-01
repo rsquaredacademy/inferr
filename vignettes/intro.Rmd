@@ -10,7 +10,6 @@ vignette: >
 
 ```{r, echo=FALSE, message=FALSE}
 library(inferr)
-library(dplyr)
 ```
 
 Inferential statistics allows us to make generalizations about populations using data drawn from the population.
@@ -311,12 +310,9 @@ be used to answer whether:
 Using the hsb data, test if the proportion of students in himath and hiread group is equal.
 
 ```{r mc3}
-hb <-
-   hsb %>%
-     mutate(
-       himath = if_else(math > 60, 1, 0),
-       hiread = if_else(read > 60, 1, 0)
-     )
+hb <- hsb
+hb$himath <- ifelse(hsb$math > 60, 1, 0)
+hb$hiread <- ifelse(hsb$read > 60, 1, 0)
 infer_mcnemar_test(hb, himath, hiread)
 ```
 
