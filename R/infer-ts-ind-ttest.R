@@ -70,16 +70,9 @@ infer_ts_ind_ttest <- function(data, x, y, confint = 0.95,
 #'
 infer_ts_ind_ttest.default <- function(data, x, y, confint = 0.95,
                                        alternative = c("both", "less", "greater", "all"), ...) {
-  # x1 <- rlang::enquo(x)
-  # y1 <- rlang::enquo(y)
 
   x1 <- deparse(substitute(x))
   y1 <- deparse(substitute(y))
-
-  # yone <-
-  #   data %>%
-  #   dplyr::select(!! y1) %>%
-  #   names()
 
   yone <- names(data[y1])
 
@@ -147,9 +140,6 @@ print.infer_ts_ind_ttest <- function(x, ...) {
 
 indth <- function(data, x, y, a) {
 
-  # x1 <- rlang::enquo(x)
-  # y1 <- rlang::enquo(y)
-
   h       <- data_split(data, x, y)
   h$df    <- h$length - 1
   h$error <- stats::qt(a, h$df) * -1
@@ -161,20 +151,11 @@ indth <- function(data, x, y, a) {
 
 data_split <- function(data, x, y) {
 
-  # x1 <- rlang::enquo(x)
-  # y1 <- rlang::enquo(y)
-
-  # data %>%
-  #   dplyr::group_by(!! x1) %>%
-  #   dplyr::select(!! x1, !! y1) %>%
-  #   dplyr::summarise_all(dplyr::funs(length, mean_t, sd_t, std_err)) %>%
-  #   as.data.frame()
-
   dat <- data.table(data[c(x, y)])
   out <- dat[, .(length = length(get(y)),
                  mean_t = mean_t(get(y)),
                  sd_t = sd_t(get(y)),
-                 std_err = std_err(get(y))), 
+                 std_err = std_err(get(y))),
             by = x]
 
   setDF(out)
@@ -182,8 +163,6 @@ data_split <- function(data, x, y) {
 }
 
 indcomb <- function(data, y, a) {
-
-  # y1 <- rlang::enquo(y)
 
   comb        <- da(data, y)
   comb$df     <- comb$length - 1
@@ -197,12 +176,6 @@ indcomb <- function(data, y, a) {
 }
 
 da <- function(data, y) {
-  # y1 <- rlang::enquo(y)
-
-  # data %>%
-  #   dplyr::select(!! y1) %>%
-  #   dplyr::summarise_all(dplyr::funs(length, mean_t, sd_t, std_err)) %>%
-  #   as.data.frame()
 
   dat <- data[[y]]
   data.frame(length  = length(dat),
@@ -377,24 +350,11 @@ indpool <- function(n1, n2, mean_diff, se_dif) {
 
 check_x <- function(data, x) {
 
-  # x1 <- rlang::enquo(x)
-
-  # data %>%
-  #   dplyr::pull(!! x1) %>%
-  #   (is.factor) %>%
-  #   `!`()
-
   !is.factor(data[[x]])
 
 }
 
 check_level <- function(data, x) {
-
-  # x1 <- rlang::enquo(x)
-
-  # data %>%
-  #   dplyr::pull(!! x1) %>%
-  #   nlevels()
 
   nlevels(data[[x]])
 
