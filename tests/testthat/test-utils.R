@@ -83,7 +83,7 @@ test_that("output from paired_data and paired_stats matches the expected result"
   z <- paired_data(x, y)
   key <- c(rep("x", 5), rep("y", 5), rep("z", 5))
   value <- c(c(2, 4, 6, 8, 10), c(1, 3, 5, 7, 9), rep(1, 5))
-  kv <- tibble::tibble(key, value)
+  kv <- data.frame(key, value)
   expect_equal(z, kv)
 
   j <- paired_data(hsb$read, hsb$write)

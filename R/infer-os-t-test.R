@@ -58,7 +58,7 @@ infer_os_t_test <- function(data, x, mu = 0, alpha = 0.05,
 infer_os_t_test.default <- function(data, x, mu = 0, alpha = 0.05,
                                     alternative = c("both", "less", "greater", "all"), ...) {
 
-  x1 <- deparse(substitute(x))
+  x1   <- deparse(substitute(x))
   xone <- data[[x1]]
 
   if (!is.numeric(xone)) {

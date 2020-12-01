@@ -28,7 +28,7 @@ infer_cochran_qtest <- function(data, ...) UseMethod("infer_cochran_qtest")
 #' @export
 infer_cochran_qtest.default <- function(data, ...) {
 
-  vars <- vapply(substitute(...()), deparse, NA_character_)
+  vars  <- vapply(substitute(...()), deparse, NA_character_)
   fdata <- data[vars]
 
   if (ncol(fdata) < 3) {

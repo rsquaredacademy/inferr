@@ -14,14 +14,9 @@ URL: https://rsquaredacademy.github.io/inferr/, https://github.com/rsquaredacade
 BugReports: https://github.com/rsquaredacademy/inferr/issues
 Imports:    
     data.table,
-    dplyr,
     magrittr,
-    purrr,
     Rcpp,
-    rlang,
     stats,
-    tibble,
-    tidyr,
     utils
 Suggests:
     covr,

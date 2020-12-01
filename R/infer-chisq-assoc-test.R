@@ -41,12 +41,6 @@ infer_chisq_assoc_test <- function(data, x, y) UseMethod("infer_chisq_assoc_test
 #' @export
 infer_chisq_assoc_test.default <- function(data, x, y) {
 
-  # x1 <- rlang::enquo(x)
-  # y1 <- rlang::enquo(y)
-  #
-  # xone <- dplyr::pull(data, !! x1)
-  # yone <- dplyr::pull(data, !! y1)
-
   x1 <- deparse(substitute(x))
   y1 <- deparse(substitute(y))
 

@@ -49,13 +49,14 @@ infer_ts_var_test <- function(data, ..., group_var = NULL,
 #'
 infer_ts_var_test.default <- function(data, ..., group_var = NULL,
                                       alternative = c("less", "greater", "all")) {
-  groupvar  <- rlang::enquo(group_var)
-  varyables <- rlang::quos(...)
-  fdata     <- dplyr::select(data, !!! varyables)
 
-  if (rlang::quo_is_null(groupvar)) {
+  groupvar  <- deparse(substitute(group_var))
+  varyables <- vapply(substitute(...()), deparse, NA_character_)
+  fdata     <- data[varyables]
+
+  if (groupvar == "NULL") {
     z  <- as.list(fdata)
-    ln <- z %>% purrr::map_int(length)
+    ln <- unlist(lapply(z, length))
     ly <- seq_len(length(z))
 
     if (length(z) < 2) {
@@ -70,15 +71,12 @@ infer_ts_var_test.default <- function(data, ..., group_var = NULL,
       unlist() %>%
       as.factor()
 
-    lev <-
-      data %>%
-      dplyr::select(!!! varyables) %>%
-      names()
+    lev <- names(data[varyables])
 
   } else {
 
-    fdata     <- dplyr::pull(fdata, 1)
-    groupvars <- dplyr::pull(data, !! groupvar)
+    fdata     <- fdata[[1]]
+    groupvars <- data[[groupvar]]
     lev       <- levels(groupvars)
 
     if (length(fdata) != length(groupvars)) {
@@ -123,7 +121,7 @@ var_comp <- function(variable, group_var) {
   cvar  <- variable[comp]
   gvar  <- group_var[comp]
 
-  d     <- tibble::tibble(cvar, gvar)
+  d     <- data.frame(cvar, gvar)
   vals  <- tibble_stats(d, "cvar", "gvar")
   lass  <- tbl_stats(d, "cvar")
 
@@ -155,28 +153,24 @@ var_comp <- function(variable, group_var) {
 
 tibble_stats <- function(data, x, y) {
 
-  data %>%
-    dplyr::group_by(!! rlang::sym(y)) %>%
-    dplyr::select(!! rlang::sym(y), !! rlang::sym(x)) %>%
-    dplyr::summarise_all(dplyr::funs(length, mean, var = stats::var, sd = stats::sd)) %>%
-    tibble::as_data_frame() %>%
-    dplyr::mutate(
-      ses = sd / sqrt(length)
-    )
+  dat <- data.table(data[c(x, y)])
+
+  out <- dat[, .(length = length(get(x)),
+                     mean = mean(get(x)),
+                     var = stats::var(get(x)),
+                     sd = stats::sd(get(x))),
+                  by = y]
+
+  out[, ':='(ses = sd / sqrt(length))]
+  setDF(out)
+  out <- out[order(out[, 1]),]
+  return(out)
 
 }
 
 tbl_stats <- function(data, y) {
 
-  avg <-
-    data %>%
-    dplyr::select(y) %>%
-    dplyr::summarise_all(dplyr::funs(length, mean, sd = stats::sd)) %>%
-    tibble::as_data_frame() %>%
-    dplyr::mutate(
-      se = sd / sqrt(length)
-    )
-
-  unlist(avg, use.names = FALSE)
-
+  dat <- data[[y]]
+  c(length(dat), mean(dat), sd(dat), (sd(dat) / sqrt(length(dat))))
+             
 }

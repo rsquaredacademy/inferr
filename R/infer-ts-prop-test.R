@@ -58,10 +58,12 @@ infer_ts_prop_test <- function(data, var1, var2,
 #'
 infer_ts_prop_test.default <- function(data, var1, var2,
                                        alternative = c("both", "less", "greater", "all"), ...) {
-  var_1  <- rlang::enquo(var1)
-  var_2  <- rlang::enquo(var2)
-  varone <- dplyr::pull(data, !! var_1)
-  vartwo <- dplyr::pull(data, !! var_2)
+
+  var_1  <- deparse(substitute(var1))
+  var_2  <- deparse(substitute(var2))
+  varone <- data[[var_1]]
+  vartwo <- data[[var_2]]
+
   alt    <- match.arg(alternative)
   k      <- prop_comp2(varone, vartwo, alt)
 
@@ -99,10 +101,11 @@ print.infer_ts_prop_test <- function(x, ...) {
 #'
 infer_ts_prop_grp <- function(data, var, group,
                               alternative = c("both", "less", "greater", "all")) {
-  var1     <- rlang::enquo(var)
-  group1   <- rlang::enquo(group)
-  varone   <- dplyr::pull(data, !! var1)
-  groupone <- dplyr::pull(data, !! group1)
+
+  var1     <- deparse(substitute(var))
+  group1   <- deparse(substitute(group))
+  varone   <- data[[var1]]
+  groupone <- data[[group1]]
 
   if (nlevels(groupone) > 2) {
     stop("Grouping variable must be a binary factor variables.", call. = FALSE)

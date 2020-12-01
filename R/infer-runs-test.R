@@ -58,8 +58,6 @@ infer_runs_test.default <- function(data, x, drop = FALSE,
                                     split = FALSE, mean = FALSE,
                                     threshold = NA) {
 
-  # x1   <- rlang::enquo(x)
-  # xone <- dplyr::pull(data, !! x1)
   x1   <- deparse(substitute(x))
   xone <- data[[x1]]
   n    <- length(xone)
@@ -86,10 +84,6 @@ infer_runs_test.default <- function(data, x, drop = FALSE,
   if (split) {
     x_binary <- ifelse(xone > thresh, 1, 0)
   } else {
-    # x_binary <-
-    #   xone %>%
-    #   purrr::map(nruns2, thresh) %>%
-    #   unlist(use.names = FALSE)
 
     x_binary <-
       xone %>%

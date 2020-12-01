@@ -71,9 +71,8 @@ infer_ts_ind_ttest <- function(data, x, y, confint = 0.95,
 infer_ts_ind_ttest.default <- function(data, x, y, confint = 0.95,
                                        alternative = c("both", "less", "greater", "all"), ...) {
 
-  x1 <- deparse(substitute(x))
-  y1 <- deparse(substitute(y))
-
+  x1   <- deparse(substitute(x))
+  y1   <- deparse(substitute(y))
   yone <- names(data[y1])
 
   if (check_x(data, x1)) {

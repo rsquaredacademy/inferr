@@ -59,8 +59,8 @@ infer_mcnemar_test.default <- function(data, x = NULL, y = NULL) {
     dat <- mcdata(data)
   } else {
 
-    x1 <- deparse(substitute(x))
-    y1 <- deparse(substitute(y))
+    x1  <- deparse(substitute(x))
+    y1  <- deparse(substitute(y))
     dat <- table(data[c(x1, y1)])
 
   }

@@ -56,7 +56,7 @@ infer_os_var_test <- function(data, x, sd, confint = 0.95,
 infer_os_var_test.default <- function(data, x, sd, confint = 0.95,
                                       alternative = c("both", "less", "greater", "all"), ...) {
 
-  x1 <- deparse(substitute(x))
+  x1   <- deparse(substitute(x))
   xone <- data[[x1]]
 
   if (!is.numeric(xone)) {
