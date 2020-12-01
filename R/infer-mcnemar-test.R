@@ -33,11 +33,9 @@
 #' @seealso \code{\link[stats]{mcnemar.test}}
 #' @examples
 #' # using variables from data
-#' library(dplyr)
-#' hb <- mutate(hsb,
-#'         himath = if_else(math > 60, 1, 0),
-#'         hiread = if_else(read > 60, 1, 0)
-#'     )
+#' hb <- hsb
+#' hb$himath <- ifelse(hsb$math > 60, 1, 0)
+#' hb$hiread <- ifelse(hsb$read > 60, 1, 0)
 #' infer_mcnemar_test(hb, himath, hiread)
 #'
 #' # test if the proportion of students in himath and hiread group is same
@@ -58,13 +56,11 @@ infer_mcnemar_test.default <- function(data, x = NULL, y = NULL) {
   if (is.matrix(data) | is.table(data)) {
     dat <- mcdata(data)
   } else {
-    x1 <- rlang::enquo(x)
-    y1 <- rlang::enquo(y)
 
-    dat <-
-      data %>%
-      dplyr::select(!! x1, !! y1) %>%
-      table()
+    x1  <- deparse(substitute(x))
+    y1  <- deparse(substitute(y))
+    dat <- table(data[c(x1, y1)])
+
   }
 
   k <- mccomp(dat)

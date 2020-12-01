@@ -41,11 +41,11 @@ infer_chisq_assoc_test <- function(data, x, y) UseMethod("infer_chisq_assoc_test
 #' @export
 infer_chisq_assoc_test.default <- function(data, x, y) {
 
-  x1 <- rlang::enquo(x)
-  y1 <- rlang::enquo(y)
+  x1 <- deparse(substitute(x))
+  y1 <- deparse(substitute(y))
 
-  xone <- dplyr::pull(data, !! x1)
-  yone <- dplyr::pull(data, !! y1)
+  xone <- data[[x1]]
+  yone <- data[[y1]]
 
   if (!is.factor(xone)) {
     stop("x must be a categorical variable")

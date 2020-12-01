@@ -70,19 +70,16 @@ infer_ts_ind_ttest <- function(data, x, y, confint = 0.95,
 #'
 infer_ts_ind_ttest.default <- function(data, x, y, confint = 0.95,
                                        alternative = c("both", "less", "greater", "all"), ...) {
-  x1 <- rlang::enquo(x)
-  y1 <- rlang::enquo(y)
 
-  yone <-
-    data %>%
-    dplyr::select(!! y1) %>%
-    names()
+  x1   <- deparse(substitute(x))
+  y1   <- deparse(substitute(y))
+  yone <- names(data[y1])
 
-  if (check_x(data, !! x1)) {
+  if (check_x(data, x1)) {
     stop("x must be a binary factor variable", call. = FALSE)
   }
 
-  if (check_level(data, !! x1) > 2) {
+  if (check_level(data, x1) > 2) {
     stop("x must be a binary factor variable", call. = FALSE)
   }
 
@@ -90,10 +87,10 @@ infer_ts_ind_ttest.default <- function(data, x, y, confint = 0.95,
   var_y    <- yone
   alpha    <- 1 - confint
   a        <- alpha / 2
-  h        <- indth(data, !! x1, !! y1, a)
+  h        <- indth(data, x1, y1, a)
   grp_stat <- h
   g_stat   <- as.matrix(h)
-  comb     <- indcomb(data, !! y1, a)
+  comb     <- indcomb(data, y1, a)
   k        <- indcomp(grp_stat, alpha)
   j        <- indsig(k$n1, k$n2, k$s1, k$s2, k$mean_diff)
   m        <- indpool(k$n1, k$n2, k$mean_diff, k$se_dif)
@@ -142,10 +139,7 @@ print.infer_ts_ind_ttest <- function(x, ...) {
 
 indth <- function(data, x, y, a) {
 
-  x1 <- rlang::enquo(x)
-  y1 <- rlang::enquo(y)
-
-  h       <- data_split(data, !! x1, !! y1)
+  h       <- data_split(data, x, y)
   h$df    <- h$length - 1
   h$error <- stats::qt(a, h$df) * -1
   h$lower <- h$mean_t - (h$error * h$std_err)
@@ -156,22 +150,20 @@ indth <- function(data, x, y, a) {
 
 data_split <- function(data, x, y) {
 
-  x1 <- rlang::enquo(x)
-  y1 <- rlang::enquo(y)
+  dat <- data.table(data[c(x, y)])
+  out <- dat[, .(length = length(get(y)),
+                 mean_t = mean_t(get(y)),
+                 sd_t = sd_t(get(y)),
+                 std_err = std_err(get(y))),
+            by = x]
 
-  data %>%
-    dplyr::group_by(!! x1) %>%
-    dplyr::select(!! x1, !! y1) %>%
-    dplyr::summarise_all(dplyr::funs(length, mean_t, sd_t, std_err)) %>%
-    as.data.frame()
+  setDF(out)
 
 }
 
 indcomb <- function(data, y, a) {
 
-  y1 <- rlang::enquo(y)
-
-  comb        <- da(data, !! y1)
+  comb        <- da(data, y)
   comb$df     <- comb$length - 1
   comb$error  <- stats::qt(a, comb$df) * -1
   comb$lower  <- round(comb$mean_t - (comb$error * comb$std_err), 5)
@@ -183,12 +175,12 @@ indcomb <- function(data, y, a) {
 }
 
 da <- function(data, y) {
-  y1 <- rlang::enquo(y)
 
-  data %>%
-    dplyr::select(!! y1) %>%
-    dplyr::summarise_all(dplyr::funs(length, mean_t, sd_t, std_err)) %>%
-    as.data.frame()
+  dat <- data[[y]]
+  data.frame(length  = length(dat),
+             mean_t  = mean_t(dat),
+             sd_t    = sd_t(dat),
+             std_err = std_err(dat))
 
 }
 
@@ -357,21 +349,12 @@ indpool <- function(n1, n2, mean_diff, se_dif) {
 
 check_x <- function(data, x) {
 
-  x1 <- rlang::enquo(x)
-
-  data %>%
-    dplyr::pull(!! x1) %>%
-    (is.factor) %>%
-    `!`()
+  !is.factor(data[[x]])
 
 }
 
 check_level <- function(data, x) {
 
-  x1 <- rlang::enquo(x)
-
-  data %>%
-    dplyr::pull(!! x1) %>%
-    nlevels()
+  nlevels(data[[x]])
 
 }

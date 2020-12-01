@@ -57,18 +57,14 @@ infer_ts_paired_ttest <- function(data, x, y, confint = 0.95,
 #'
 infer_ts_paired_ttest.default <- function(data, x, y, confint = 0.95,
                                           alternative = c("both", "less", "greater", "all")) {
-  x1 <- rlang::enquo(x)
-  y1 <- rlang::enquo(y)
 
-  method <- match.arg(alternative)
+  x1   <- deparse(substitute(x))
+  y1   <- deparse(substitute(y))
+  xone <- data[[x1]]
+  yone <- data[[y1]]
 
-  var_names <-
-    data %>%
-    dplyr::select(!! x1, !! y1) %>%
-    names()
-
-  xone <- dplyr::pull(data, !! x1)
-  yone <- dplyr::pull(data, !! y1)
+  method    <- match.arg(alternative)
+  var_names <- names(data[c(x1, y1)])
 
   k <- paired_comp(xone, yone, confint, var_names)
 
@@ -122,24 +118,27 @@ paired_comp <- function(x, y, confint, var_names) {
 }
 
 paired_data <- function(x, y) {
-  
-  tibble::tibble(x = x, y = y) %>%
-    dplyr::mutate(z = x - y) %>%
-    tidyr::gather()
+
+  j <- data.frame(x = x, y = y)
+  j$z <- j$x - j$y
+  val <- data.frame(value = c(j$x, j$y, j$z))
+  key <- rep(c("x", "y", "z"), each = nrow(j))
+  cbind(key = key, value = val)
 
 }
 
 paired_stats <- function(data, key, value) {
 
-  data %>%
-    dplyr::group_by(key) %>%
-    dplyr::select(value, key) %>%
-    dplyr::summarise_all(dplyr::funs(length, mean, sd = stats::sd)) %>%
-    tibble::as_data_frame() %>%
-    dplyr::mutate(
-      se = sd / sqrt(length)
-    ) %>%
-    dplyr::select(-(key:length))
+  dat <- data.table(data[c("value", "key")])
+
+  out <- dat[, .(length = length(value),
+                 mean = mean(value),
+                 sd = stats::sd(value)),
+            by = key]
+
+  out[, ':='(se = sd / sqrt(length))]
+  setDF(out)
+  out[, c(-1, -2)]
 
 }
 

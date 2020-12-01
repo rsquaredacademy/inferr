@@ -56,8 +56,8 @@ infer_os_var_test <- function(data, x, sd, confint = 0.95,
 infer_os_var_test.default <- function(data, x, sd, confint = 0.95,
                                       alternative = c("both", "less", "greater", "all"), ...) {
 
-  x1   <- rlang::enquo(x)
-  xone <- dplyr::pull(data, !! x1)
+  x1   <- deparse(substitute(x))
+  xone <- data[[x1]]
 
   if (!is.numeric(xone)) {
     stop("x must be numeric")
@@ -72,12 +72,7 @@ infer_os_var_test.default <- function(data, x, sd, confint = 0.95,
   }
 
   type <- match.arg(alternative)
-
-  varname <-
-    data %>%
-    dplyr::select(!! x1) %>%
-    names()
-
+  varname <- names(data[x1])
   k <- osvar_comp(xone, sd, confint)
 
   result <-
