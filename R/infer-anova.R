@@ -87,13 +87,14 @@ anova_split <- function(data, x, y, sample_mean) {
   by_factor <- dm[, .(length = length(get(x)),
                      mean = mean(get(x)),
                      var = stats::var(get(x)),
-                     sd = stats::sd(get(x))), 
+                     sd = stats::sd(get(x))),
                   by = y]
 
   by_factor[, ':='(sst = length * ((mean - sample_mean) ^ 2),
-                   sse = (length - 1) * var)]     
+                   sse = (length - 1) * var)]
 
-  setDF(by_factor)    
+  setDF(by_factor)
+  by_factor <- by_factor[order(by_factor[, 1]),]
 
   return(by_factor)
 }

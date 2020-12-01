@@ -1,8 +1,8 @@
 context("utils")
 
 test_that("output from anova_split matches the expected result", {
-  smean <- anova_avg(mtcars, mpg)
-  k <- anova_split(mtcars, mpg, cyl, smean)
+  smean <- anova_avg(mtcars, "mpg")
+  k <- anova_split(mtcars, 'mpg', 'cyl', smean)
   expect_equivalent(k$cyl, c(4, 6, 8))
   expect_equivalent(k$length, c(11, 7, 14))
   expect_equivalent(round(k$mean, 2), c(26.66, 19.74, 15.100))
@@ -13,7 +13,7 @@ test_that("output from anova_split matches the expected result", {
 })
 
 test_that("output from anova_avg matches the expected result", {
-  k <- anova_avg(mtcars, mpg)
+  k <- anova_avg(mtcars, "mpg")
   expect_equal(round(k, 1), 20.1)
 })
 
