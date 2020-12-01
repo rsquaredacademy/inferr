@@ -1,4 +1,3 @@
-#' @importFrom rlang !!
 #' @title One Way ANOVA
 #' @description One way analysis of variance
 #' @param data a \code{data.frame} or a \code{tibble}

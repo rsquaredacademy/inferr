@@ -1,4 +1,3 @@
-#' @importFrom rlang !!!
 #' @title Cochran Q Test
 #' @description Test if the proportions of 3 or more dichotomous variables are
 #' equal in the same population.
