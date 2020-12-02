@@ -86,24 +86,6 @@ infer_os_t_test(hsb, write, mu = 50, type = 'all')
 
 ``` r
 infer_oneway_anova(hsb, write, prog)
-#> Warning: `funs()` is deprecated as of dplyr 0.8.0.
-#> Please use a list of either functions or lambdas: 
-#> 
-#>   # Simple named list: 
-#>   list(mean = mean, median = median)
-#> 
-#>   # Auto named with `tibble::lst()`: 
-#>   tibble::lst(mean, median)
-#> 
-#>   # Using lambdas
-#>   list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
-#> This warning is displayed once every 8 hours.
-#> Call `lifecycle::last_warnings()` to see where this warning was generated.
-#> Warning: `as_data_frame()` is deprecated as of tibble 2.0.0.
-#> Please use `as_tibble()` instead.
-#> The signature and semantics have changed, see `?as_tibble`.
-#> This warning is displayed once every 8 hours.
-#> Call `lifecycle::last_warnings()` to see where this warning was generated.
 #>                                 ANOVA                                  
 #> ----------------------------------------------------------------------
 #>                    Sum of                                             
@@ -186,12 +168,9 @@ infer_cochran_qtest(exam, exam1, exam2, exam3)
 #### McNemar Test
 
 ``` r
-hb <-
-   hsb %>%
-     mutate(
-       himath = if_else(math > 60, 1, 0),
-       hiread = if_else(read > 60, 1, 0)
-     )
+hb <- hsb
+hb$himath <- ifelse(hsb$math > 60, 1, 0)
+hb$hiread <- ifelse(hsb$read > 60, 1, 0)
 infer_mcnemar_test(hb, himath, hiread)
 #>            Controls 
 #> ---------------------------------
