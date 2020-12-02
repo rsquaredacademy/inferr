@@ -65,7 +65,6 @@ devtools::install_github("rsquaredacademy/inferr")
 
 ```{r load, echo=FALSE, message=FALSE}
 library(inferr)
-library(dplyr)
 ```
 
 ```{r infer1}
@@ -99,12 +98,9 @@ infer_cochran_qtest(exam, exam1, exam2, exam3)
 #### McNemar Test
 
 ```{r mc1}
-hb <-
-   hsb %>%
-     mutate(
-       himath = if_else(math > 60, 1, 0),
-       hiread = if_else(read > 60, 1, 0)
-     )
+hb <- hsb
+hb$himath <- ifelse(hsb$math > 60, 1, 0)
+hb$hiread <- ifelse(hsb$read > 60, 1, 0)
 infer_mcnemar_test(hb, himath, hiread)
 ```
 

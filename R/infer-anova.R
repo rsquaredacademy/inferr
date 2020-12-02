@@ -4,8 +4,8 @@
 #' @param x numeric; column in \code{data}
 #' @param y factor; column in \code{data}
 #' @param ... additional arguments passed to or from other methods
-#' @return \code{owanova} returns an object of class \code{"owanova"}.
-#' An object of class \code{"owanova"} is a list containing the
+#' @return \code{infer_oneway_anova} returns an object of class \code{"infer_oneway_anova"}.
+#' An object of class \code{"infer_oneway_anova"} is a list containing the
 #' following components:
 #'
 #' \item{adjusted_r2}{adjusted r squared value}
@@ -24,8 +24,6 @@
 #' \item{ss_within}{within group sum of squares}
 #' \item{ss_total}{total sum of squares}
 #'
-#' @section Deprecated Functions:
-#' \code{owanova()} has been deprecated. Instead use \code{infer_oneway_anova()}.
 #' @references Kutner, M. H., Nachtsheim, C., Neter, J., & Li, W. (2005).
 #' Applied linear statistical models. Boston: McGraw-Hill Irwin.
 #'

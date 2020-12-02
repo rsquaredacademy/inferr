@@ -191,24 +191,6 @@
 <a href="#anova" class="anchor"></a>ANOVA</h4>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/infer_oneway_anova.html">infer_oneway_anova</a></span><span class="op">(</span><span class="va">hsb</span>, <span class="va">write</span>, <span class="va">prog</span><span class="op">)</span>
-<span class="co">#&gt; Warning: `funs()` is deprecated as of dplyr 0.8.0.</span>
-<span class="co">#&gt; Please use a list of either functions or lambdas: </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;   # Simple named list: </span>
-<span class="co">#&gt;   list(mean = mean, median = median)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;   # Auto named with `tibble::lst()`: </span>
-<span class="co">#&gt;   tibble::lst(mean, median)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;   # Using lambdas</span>
-<span class="co">#&gt;   list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))</span>
-<span class="co">#&gt; This warning is displayed once every 8 hours.</span>
-<span class="co">#&gt; Call `lifecycle::last_warnings()` to see where this warning was generated.</span>
-<span class="co">#&gt; Warning: `as_data_frame()` is deprecated as of tibble 2.0.0.</span>
-<span class="co">#&gt; Please use `as_tibble()` instead.</span>
-<span class="co">#&gt; The signature and semantics have changed, see `?as_tibble`.</span>
-<span class="co">#&gt; This warning is displayed once every 8 hours.</span>
-<span class="co">#&gt; Call `lifecycle::last_warnings()` to see where this warning was generated.</span>
 <span class="co">#&gt;                                 ANOVA                                  </span>
 <span class="co">#&gt; ----------------------------------------------------------------------</span>
 <span class="co">#&gt;                    Sum of                                             </span>
@@ -291,12 +273,9 @@
 <h4 class="hasAnchor">
 <a href="#mcnemar-test" class="anchor"></a>McNemar Test</h4>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">hb</span> <span class="op">&lt;-</span>
-   <span class="va">hsb</span> <span class="op">%&gt;%</span>
-     <span class="fu">mutate</span><span class="op">(</span>
-       himath <span class="op">=</span> <span class="fu">if_else</span><span class="op">(</span><span class="va">math</span> <span class="op">&gt;</span> <span class="fl">60</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span>,
-       hiread <span class="op">=</span> <span class="fu">if_else</span><span class="op">(</span><span class="va">read</span> <span class="op">&gt;</span> <span class="fl">60</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span>
-     <span class="op">)</span>
+<code class="sourceCode R"><span class="va">hb</span> <span class="op">&lt;-</span> <span class="va">hsb</span>
+<span class="va">hb</span><span class="op">$</span><span class="va">himath</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">hsb</span><span class="op">$</span><span class="va">math</span> <span class="op">&gt;</span> <span class="fl">60</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span>
+<span class="va">hb</span><span class="op">$</span><span class="va">hiread</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">hsb</span><span class="op">$</span><span class="va">read</span> <span class="op">&gt;</span> <span class="fl">60</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span>
 <span class="fu"><a href="reference/infer_mcnemar_test.html">infer_mcnemar_test</a></span><span class="op">(</span><span class="va">hb</span>, <span class="va">himath</span>, <span class="va">hiread</span><span class="op">)</span>
 <span class="co">#&gt;            Controls </span>
 <span class="co">#&gt; ---------------------------------</span>

@@ -16,8 +16,8 @@ infer_oneway_anova(data, x, y, ...)
 \item{...}{additional arguments passed to or from other methods}
 }
 \value{
-\code{owanova} returns an object of class \code{"owanova"}.
-An object of class \code{"owanova"} is a list containing the
+\code{infer_oneway_anova} returns an object of class \code{"infer_oneway_anova"}.
+An object of class \code{"infer_oneway_anova"} is a list containing the
 following components:
 
 \item{adjusted_r2}{adjusted r squared value}
@@ -39,11 +39,6 @@ following components:
 \description{
 One way analysis of variance
 }
-\section{Deprecated Functions}{
-
-\code{owanova()} has been deprecated. Instead use \code{infer_oneway_anova()}.
-}
-
 \examples{
 infer_oneway_anova(mtcars, mpg, cyl)
 infer_oneway_anova(hsb, write, prog)
