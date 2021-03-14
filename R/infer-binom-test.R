@@ -40,19 +40,19 @@ infer_binom_calc <- function(n, success, prob = 0.5, ...) UseMethod("infer_binom
 infer_binom_calc.default <- function(n, success, prob = 0.5, ...) {
 
   if (!is.numeric(n)) {
-    stop("n must be an integer")
+    stop("n must be an integer", call. = FALSE)
   }
 
   if (!is.numeric(success)) {
-    stop("success must be an integer")
+    stop("success must be an integer", call. = FALSE)
   }
 
   if (!is.numeric(prob)) {
-    stop("prob must be numeric")
+    stop("prob must be numeric", call. = FALSE)
   }
 
   if ((prob < 0) | (prob > 1)) {
-    stop("prob must be between 0 and 1")
+    stop("prob must be between 0 and 1", call. = FALSE)
   }
 
   k <- binom_comp(n, success, prob)
@@ -105,49 +105,52 @@ infer_binom_test <- function(data, variable, prob = 0.5) {
   infer_binom_calc.default(n, k, prob)
 }
 
+#' @importFrom stats pbinom dbinom
 binom_comp <- function(n, success, prob) {
 
   n     <- n
   k     <- success
   obs_p <- k / n
   exp_k <- round(n * prob)
-  lt    <- stats::pbinom(k, n, prob, lower.tail = T)
-  ut    <- stats::pbinom(k - 1, n, prob, lower.tail = F)
-  p_opp <- round(stats::dbinom(k, n, prob), 9)
-  i_p   <- stats::dbinom(exp_k, n, prob)
+  lt    <- pbinom(k, n, prob, lower.tail = T)
+  ut    <- pbinom(k - 1, n, prob, lower.tail = F)
+  p_opp <- round(dbinom(k, n, prob), 9)
+  i_p   <- dbinom(exp_k, n, prob)
   i_k   <- exp_k
 
   if (k < exp_k) {
     while (i_p > p_opp) {
       i_k <- i_k + 1
-      i_p <- round(stats::dbinom(i_k, n, prob), 9)
+      i_p <- round(dbinom(i_k, n, prob), 9)
       if (round(i_p) == p_opp) {
         break
       }
     }
 
-    ttf <- stats::pbinom(k, n, prob, lower.tail = T) +
-      stats::pbinom(i_k - 1, n, prob, lower.tail = F)
+    ttf <- pbinom(k, n, prob, lower.tail = T) + pbinom(i_k - 1, n, prob, lower.tail = F)
   } else {
     while (p_opp <= i_p) {
       i_k <- i_k - 1
-      i_p <- stats::dbinom(i_k, n, prob)
+      i_p <- dbinom(i_k, n, prob)
       if (round(i_p) == p_opp) {
         break
       }
     }
 
     i_k <- i_k
-
-    tt <- stats::pbinom(i_k, n, prob, lower.tail = T) +
-      stats::pbinom(k - 1, n, prob, lower.tail = F)
-
+    tt  <- pbinom(i_k, n, prob, lower.tail = T) + pbinom(k - 1, n, prob, lower.tail = F)
     ttf <- ifelse(tt <= 1, tt, 1)
   }
 
-  list(
-    n = n, k = k, exp_k = exp_k, obs_p = obs_p, exp_p = prob, ik = i_k,
-    lower = round(lt, 6), upper = round(ut, 6), two_tail = round(ttf, 6)
+  list(exp_k    = exp_k,
+       exp_p    = prob, 
+       ik       = i_k,
+       k        = k,
+       lower    = round(lt, 6), 
+       n        = n, 
+       obs_p    = obs_p, 
+       two_tail = round(ttf, 6),
+       upper    = round(ut, 6)
   )
 
 }

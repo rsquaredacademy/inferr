@@ -62,18 +62,18 @@ infer_os_t_test.default <- function(data, x, mu = 0, alpha = 0.05,
   xone <- data[[x1]]
 
   if (!is.numeric(xone)) {
-    stop("x must be numeric")
+    stop("x must be numeric", call. = FALSE)
   }
   if (!is.numeric(mu)) {
-    stop("mu must be numeric")
+    stop("mu must be numeric", call. = FALSE)
   }
   if (!is.numeric(alpha)) {
-    stop("alpha must be numeric")
+    stop("alpha must be numeric", call. = FALSE)
   }
 
-  type <- match.arg(alternative)
+  type     <- match.arg(alternative)
   var_name <- names(data[x1])
-  k <- ttest_comp(xone, mu, alpha, type)
+  k        <- ttest_comp(xone, mu, alpha, type)
 
   result <-
     list(conf        = k$conf,
@@ -104,6 +104,7 @@ print.infer_os_t_test <- function(x, ...) {
   print_ttest(x)
 }
 
+#' @importFrom stats qt pt
 ttest_comp <- function(x, mu, alpha, type) {
 
   n         <- length(x)
@@ -111,16 +112,16 @@ ttest_comp <- function(x, mu, alpha, type) {
   df        <- n - 1
   conf      <- 1 - alpha
   Mean      <- round(mean(x), 4)
-  stddev    <- round(stats::sd(x), 4)
+  stddev    <- round(sd(x), 4)
   std_err   <- round(stddev / sqrt(n), 4)
   test_stat <- round((Mean - mu) / std_err, 3)
 
   if (type == "less") {
-    cint <- c(-Inf, test_stat + stats::qt(1 - alpha, df))
+    cint <- c(-Inf, test_stat + qt(1 - alpha, df))
   } else if (type == "greater") {
-    cint <- c(test_stat - stats::qt(1 - alpha, df), Inf)
+    cint <- c(test_stat - qt(1 - alpha, df), Inf)
   } else {
-    cint <- stats::qt(1 - a, df)
+    cint <- qt(1 - a, df)
     cint <- test_stat + c(-cint, cint)
   }
 
@@ -128,8 +129,8 @@ ttest_comp <- function(x, mu, alpha, type) {
   mean_diff   <- round((Mean - mu), 4)
   mean_diff_l <- confint[1] - mu
   mean_diff_u <- confint[2] - mu
-  p_l         <- stats::pt(test_stat, df)
-  p_u         <- stats::pt(test_stat, df, lower.tail = FALSE)
+  p_l         <- pt(test_stat, df)
+  p_u         <- pt(test_stat, df, lower.tail = FALSE)
 
   if (p_l < 0.5) {
     p <- p_l * 2

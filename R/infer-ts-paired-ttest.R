@@ -86,6 +86,7 @@ print.infer_ts_paired_ttest <- function(x, ...) {
   print_paired_ttest(x)
 }
 
+#' @importFrom stats cor
 paired_comp <- function(x, y, confint, var_names) {
 
   n         <- length(x)
@@ -94,7 +95,7 @@ paired_comp <- function(x, y, confint, var_names) {
 
   data_prep <- paired_data(x, y)
   b         <- paired_stats(data_prep, "key", "value")
-  corr      <- round(stats::cor(x, y), 4)
+  corr      <- round(cor(x, y), 4)
   corsig    <- cor_sig(corr, n)
 
   alpha     <- 1 - confint
@@ -105,9 +106,9 @@ paired_comp <- function(x, y, confint, var_names) {
 
   t         <- round(b[[3, 1]] / b[[3, 3]], 4)
 
-  p_l       <- stats::pt(t, df)
-  p_u       <- stats::pt(t, df, lower.tail = FALSE)
-  p         <- stats::pt(abs(t), df, lower.tail = FALSE) * 2
+  p_l       <- pt(t, df)
+  p_u       <- pt(t, df, lower.tail = FALSE)
+  p         <- pt(abs(t), df, lower.tail = FALSE) * 2
 
   list(
     Obs = n, b = b, conf_int1 = confint1, conf_int2 = confint2,
@@ -132,8 +133,8 @@ paired_stats <- function(data, key, value) {
   dat <- data.table(data[c("value", "key")])
 
   out <- dat[, .(length = length(value),
-                 mean = mean(value),
-                 sd = stats::sd(value)),
+                 mean   = mean(value),
+                 sd     = sd(value)),
             by = key]
 
   out[, ':='(se = sd / sqrt(length))]
@@ -146,7 +147,7 @@ cor_sig <- function(corr, n) {
 
   t   <- corr / ((1 - (corr ^ 2)) / (n - 2)) ^ 0.5
   df  <- n - 2
-  sig <- (1 - stats::pt(t, df)) * 2
+  sig <- (1 - pt(t, df)) * 2
   round(sig, 4)
 
 }
@@ -155,7 +156,7 @@ conf_int_t <- function(u, s, n, alpha = 0.05) {
   
   a     <- alpha / 2
   df    <- n - 1
-  error <- round(stats::qt(a, df), 3) * -1
+  error <- round(qt(a, df), 3) * -1
   lower <- u - (error * samp_err(s, n))
   upper <- u + (error * samp_err(s, n))
   c(lower, upper)

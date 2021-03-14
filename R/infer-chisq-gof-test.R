@@ -46,25 +46,24 @@ infer_chisq_gof_test.default <- function(data, x, y, correct = FALSE) {
   xone   <- as.vector(table(data[[x1]]))
 
   if (!is.factor(xcheck)) {
-    stop("x must be an object of class factor")
+    stop("x must be an object of class factor", call. = FALSE)
   }
 
   if (!is.numeric(y)) {
-    stop("y must be numeric")
+    stop("y must be numeric", call. = FALSE)
   }
 
   if (!is.logical(correct)) {
-    stop("correct must be either TRUE or FALSE")
+    stop("correct must be either TRUE or FALSE", call. = FALSE)
   }
 
   varname <- names(data[x1])
-  n <- length(xone)
+  n       <- length(xone)
+  df      <- n - 1
 
   if (length(y) != n) {
-    stop("Length of y must be equal to the number of categories in x")
+    stop("Length of y must be equal to the number of categories in x", call. = FALSE)
   }
-
-  df <- n - 1
 
   if (sum(y) == 1) {
     y <- xlen * y
@@ -76,7 +75,7 @@ infer_chisq_gof_test.default <- function(data, x, y, correct = FALSE) {
     k <- chigof(xone, y)
   }
 
-  sig <- round(stats::pchisq(k$chi, df, lower.tail = FALSE), 4)
+  sig <- round(pchisq(k$chi, df, lower.tail = FALSE), 4)
 
   result <-
     list(

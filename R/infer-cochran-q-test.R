@@ -31,11 +31,11 @@ infer_cochran_qtest.default <- function(data, ...) {
   fdata <- data[vars]
 
   if (ncol(fdata) < 3) {
-    stop("Please specify at least 3 variables.")
+    stop("Please specify at least 3 variables.", call. = FALSE)
   }
 
   if (any(sapply(lapply(fdata, as.factor), nlevels) > 2)) {
-    stop("Please specify dichotomous/binary variables only.")
+    stop("Please specify dichotomous/binary variables only.", call. = FALSE)
   }
 
   k <- cochran_comp(fdata)
@@ -84,18 +84,18 @@ cochran_comp <- function(data) {
     data %>%
     lapply(as.numeric) %>%
     as.data.frame() %>%
-    magrittr::subtract(1) %>%
+    subtract(1) %>%
     sums()
 
   q <- coch(k, cs$cls_sum, cs$cl, cs$g, cs$gs_sum)
 
-  pvalue <- 1 - stats::pchisq(q, df)
+  pvalue <- 1 - pchisq(q, df)
 
   list(
-    df = df,
-    n = n,
+    df     = df,
+    n      = n,
     pvalue = round(pvalue, 4),
-    q = q)
+    q      = q)
 
 }
 

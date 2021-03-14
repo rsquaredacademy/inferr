@@ -48,11 +48,11 @@ infer_chisq_assoc_test.default <- function(data, x, y) {
   yone <- data[[y1]]
 
   if (!is.factor(xone)) {
-    stop("x must be a categorical variable")
+    stop("x must be a categorical variable", call. = FALSE)
   }
 
   if (!is.factor(yone)) {
-    stop("y must be a categorical variable")
+    stop("y must be a categorical variable", call. = FALSE)
   }
 
   # dimensions
@@ -65,18 +65,18 @@ infer_chisq_assoc_test.default <- function(data, x, y) {
 
   if (ds == 4) {
     twoway <- matrix(table(xone, yone), nrow = 2)
-    df <- df_chi(twoway)
-    ef <- efmat(twoway)
-    k  <- pear_chsq(twoway, df, ef)
-    m  <- lr_chsq(twoway, df, ef)
-    n  <- yates_chsq(twoway)
-    p  <- mh_chsq(twoway, n$total, n$prod_totals)
+    df     <- df_chi(twoway)
+    ef     <- efmat(twoway)
+    k      <- pear_chsq(twoway, df, ef)
+    m      <- lr_chsq(twoway, df, ef)
+    n      <- yates_chsq(twoway)
+    p      <- mh_chsq(twoway, n$total, n$prod_totals)
   } else {
     twoway <- matrix(table(xone, yone), nrow = dk[1])
-    ef <- efm(twoway, dk)
-    df <- df_chi(twoway)
-    k  <- pear_chi(twoway, df, ef)
-    m  <- lr_chsq2(twoway, df, ef, ds)
+    ef     <- efm(twoway, dk)
+    df     <- df_chi(twoway)
+    k      <- pear_chi(twoway, df, ef)
+    m      <- lr_chsq2(twoway, df, ef, ds)
   }
 
   j <- chigf(xone, yone, k$chi)
@@ -132,23 +132,24 @@ efmat <- function(twoway) {
   mat1 %*% mat2
 }
 
+#' @importFrom stats pchisq
 pear_chsq <- function(twoway, df, ef) {
   chi <- round(sum(((twoway - ef) ^ 2) / ef), 4)
-  sig <- round(stats::pchisq(chi, df, lower.tail = F), 4)
+  sig <- round(pchisq(chi, df, lower.tail = F), 4)
 
   list(chi = chi, sig = sig)
 }
 
 lr_chsq <- function(twoway, df, ef) {
   chilr  <- round(2 * sum(matrix(log(twoway / ef), nrow = 1) %*% matrix(twoway, nrow = 4)), 4)
-  sig_lr <- round(stats::pchisq(chilr, df, lower.tail = F), 4)
+  sig_lr <- round(pchisq(chilr, df, lower.tail = F), 4)
 
   list(chilr = chilr, sig_lr = sig_lr)
 }
 
 lr_chsq2 <- function(twoway, df, ef, ds) {
   chilr  <- round(2 * sum(matrix(twoway, ncol = ds) %*% matrix(log(twoway / ef), nrow = ds)), 4)
-  sig_lr <- round(stats::pchisq(chilr, df, lower.tail = F), 4)
+  sig_lr <- round(pchisq(chilr, df, lower.tail = F), 4)
 
   list(chilr = chilr, sig_lr = sig_lr)
 }
@@ -159,7 +160,7 @@ yates_chsq <- function(twoway) {
   prods       <- prod(diag(twoway)) - prod(diag(way2))
   prod_totals <- prod(rowSums(twoway)) * prod(colSums(twoway))
   chi_y       <- round((total * (abs(prods) - (total / 2)) ^ 2) / prod_totals, 4)
-  sig_y       <- round(stats::pchisq(chi_y, 1, lower.tail = F), 4)
+  sig_y       <- round(pchisq(chi_y, 1, lower.tail = F), 4)
 
   list(chi_y = chi_y, sig_y = sig_y, total = total, prod_totals = prod_totals)
 }
@@ -168,7 +169,7 @@ mh_chsq <- function(twoway, total, prod_totals) {
   num    <- twoway[1] - ((rowSums(twoway)[1] * colSums(twoway)[1]) / total)
   den    <- prod_totals / ((total ^ 3) - (total ^ 2))
   chimh  <- round((num ^ 2) / den, 4)
-  sig_mh <- round(stats::pchisq(chimh, 1, lower.tail = F), 4)
+  sig_mh <- round(pchisq(chimh, 1, lower.tail = F), 4)
 
   list(chimh = chimh, sig_mh = sig_mh)
 }
@@ -182,7 +183,7 @@ efm <- function(twoway, dk) {
 
 pear_chi <- function(twoway, df, ef) {
   chi <- round(sum(((twoway - ef) ^ 2) / ef), 4)
-  sig <- round(stats::pchisq(chi, df, lower.tail = F), 4)
+  sig <- round(pchisq(chi, df, lower.tail = F), 4)
 
   list(chi = chi, sig = sig)
 }

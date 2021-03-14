@@ -63,15 +63,10 @@ infer_ts_var_test.default <- function(data, ..., group_var = NULL,
       stop("Please specify at least two variables.", call. = FALSE)
     }
 
-    out   <- gvar(ln, ly)
-    fdata <- unlist(z)
-
-    groupvars <-
-      out %>%
-      unlist() %>%
-      as.factor()
-
-    lev <- names(data[varyables])
+    out       <- gvar(ln, ly)
+    fdata     <- unlist(z)
+    groupvars <- as.factor(unlist(out))
+    lev       <- names(data[varyables])
 
   } else {
 
@@ -117,25 +112,19 @@ print.infer_ts_var_test <- function(x, ...) {
 
 var_comp <- function(variable, group_var) {
 
-  comp  <- stats::complete.cases(variable, group_var)
+  comp  <- complete.cases(variable, group_var)
   cvar  <- variable[comp]
   gvar  <- group_var[comp]
-
   d     <- data.frame(cvar, gvar)
   vals  <- tibble_stats(d, "cvar", "gvar")
   lass  <- tbl_stats(d, "cvar")
-
-  # lens  <- vals[[2]] %>% purrr::map_int(1)
-  # vars  <- vals[[4]] %>% purrr::map_dbl(1)
-
   lens  <- vals[[2]]
   vars  <- vals[[4]]
-
   f     <- vars[1] / vars[2]
   n1    <- lens[1] - 1
   n2    <- lens[2] - 1
-  lower <- stats::pf(f, n1, n2)
-  upper <- stats::pf(f, n1, n2, lower.tail = FALSE)
+  lower <- pf(f, n1, n2)
+  upper <- pf(f, n1, n2, lower.tail = FALSE)
 
   list(avg   = round(lass[2], 2),
        avgs  = round(vals[[3]], 2),
@@ -159,9 +148,9 @@ tibble_stats <- function(data, x, y) {
   dat <- data.table(data[c(x, y)])
 
   out <- dat[, .(length = length(get(x)),
-                     mean = mean(get(x)),
-                     var = stats::var(get(x)),
-                     sd = stats::sd(get(x))),
+                 mean   = mean(get(x)),
+                 var    = var(get(x)),
+                 sd     = sd(get(x))),
                   by = y]
 
   out[, ':='(ses = sd / sqrt(length))]

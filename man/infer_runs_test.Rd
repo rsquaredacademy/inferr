@@ -65,6 +65,7 @@ infer_runs_test(hsb, read, split = TRUE)
 infer_runs_test(hsb, read, mean = TRUE)
 
 infer_runs_test(hsb, read, threshold = 0)
+
 }
 \references{
 {Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric Statistical Procedures, 4th edition. : Chapman & Hall/CRC.}

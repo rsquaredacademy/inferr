@@ -127,9 +127,9 @@ infer_ts_prop_grp <- function(data, var, group,
   z     <- num / den
 
 
-  lt    <- stats::pnorm(z)
-  ut    <- round(stats::pnorm(z, lower.tail = FALSE), 4)
-  tt    <- round(stats::pnorm(abs(z), lower.tail = FALSE) * 2, 4)
+  lt    <- pnorm(z)
+  ut    <- round(pnorm(z, lower.tail = FALSE), 4)
+  tt    <- round(pnorm(abs(z), lower.tail = FALSE) * 2, 4)
 
   alt   <- match.arg(alternative)
 
@@ -172,9 +172,9 @@ infer_ts_prop_calc <- function(n1, n2, p1, p2,
   den   <- sqrt(den1 * den2)
   z     <- num / den
 
-  lt    <- stats::pnorm(z)
-  ut    <- round(stats::pnorm(z, lower.tail = FALSE), 4)
-  tt    <- round(stats::pnorm(abs(z), lower.tail = FALSE) * 2, 4)
+  lt    <- pnorm(z)
+  ut    <- round(pnorm(z, lower.tail = FALSE), 4)
+  tt    <- round(pnorm(abs(z), lower.tail = FALSE) * 2, 4)
 
   alt   <- match.arg(alternative)
 
@@ -218,9 +218,9 @@ prop_comp2 <- function(var1, var2, alt) {
   den   <- sqrt(den1 * den2)
   z     <- round(num / den, 4)
 
-  lt    <- round(stats::pnorm(z), 4)
-  ut    <- round(stats::pnorm(z, lower.tail = FALSE), 4)
-  tt    <- round(stats::pnorm(abs(z), lower.tail = FALSE) * 2, 4)
+  lt    <- round(pnorm(z), 4)
+  ut    <- round(pnorm(z, lower.tail = FALSE), 4)
+  tt    <- round(pnorm(abs(z), lower.tail = FALSE) * 2, 4)
 
   if (alt == "all") {
     sig <- c("two-tail" = tt, "lower-tail" = lt, "upper-tail" = ut)

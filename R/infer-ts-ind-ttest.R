@@ -141,7 +141,7 @@ indth <- function(data, x, y, a) {
 
   h       <- data_split(data, x, y)
   h$df    <- h$length - 1
-  h$error <- stats::qt(a, h$df) * -1
+  h$error <- qt(a, h$df) * -1
   h$lower <- h$mean_t - (h$error * h$std_err)
   h$upper <- h$mean_t + (h$error * h$std_err)
 
@@ -151,9 +151,9 @@ indth <- function(data, x, y, a) {
 data_split <- function(data, x, y) {
 
   dat <- data.table(data[c(x, y)])
-  out <- dat[, .(length = length(get(y)),
-                 mean_t = mean_t(get(y)),
-                 sd_t = sd_t(get(y)),
+  out <- dat[, .(length  = length(get(y)),
+                 mean_t  = mean_t(get(y)),
+                 sd_t    = sd_t(get(y)),
                  std_err = std_err(get(y))),
             by = x]
 
@@ -165,7 +165,7 @@ indcomb <- function(data, y, a) {
 
   comb        <- da(data, y)
   comb$df     <- comb$length - 1
-  comb$error  <- stats::qt(a, comb$df) * -1
+  comb$error  <- qt(a, comb$df) * -1
   comb$lower  <- round(comb$mean_t - (comb$error * comb$std_err), 5)
   comb$upper  <- round(comb$mean_t + (comb$error * comb$std_err), 5)
   names(comb) <- NULL
@@ -185,25 +185,17 @@ da <- function(data, y) {
 }
 
 mean_t <- function(x) {
-
-  x %>%
-    mean() %>%
-    round(3)
-
+  round(mean(x), 3)
 }
 
 sd_t <- function(x) {
-
-  x %>%
-    stats::sd() %>%
-    round(3)
-
+  round(sd(x), 3)
 }
 
 std_err <- function(x) {
 
   x %>%
-    stats::sd() %>%
+    sd() %>%
     divide_by(x %>%
                 length() %>%
                 sqrt()) %>%
@@ -273,7 +265,7 @@ se_diff <- function(n1, n2, s1, s2) {
 conf_int_p <- function(u, se, alpha = 0.05) {
 
   a     <- alpha / 2
-  error <- round(stats::qnorm(a), 3) * -1
+  error <- round(qnorm(a), 3) * -1
   lower <- u - (error * se)
   upper <- u + (error * se)
   c(lower, upper)
@@ -284,13 +276,13 @@ indsig <- function(n1, n2, s1, s2, mean_diff) {
 
   d_f   <- as.vector(df(n1, n2, s1, s2))
   t     <- mean_diff / (((s1 / n1) + (s2 / n2)) ^ 0.5)
-  sig_l <- round(stats::pt(t, d_f), 4)
-  sig_u <- round(stats::pt(t, d_f, lower.tail = FALSE), 4)
+  sig_l <- round(pt(t, d_f), 4)
+  sig_u <- round(pt(t, d_f, lower.tail = FALSE), 4)
 
   if (sig_l < 0.5) {
-    sig <- round(stats::pt(t, d_f) * 2, 4)
+    sig <- round(pt(t, d_f) * 2, 4)
   } else {
-    sig <- round(stats::pt(t, d_f, lower.tail = FALSE) * 2, 4)
+    sig <- round(pt(t, d_f, lower.tail = FALSE) * 2, 4)
   }
 
   list(d_f   = d_f,
@@ -317,8 +309,8 @@ df <- function(n1, n2, s1, s2) {
 fsig <- function(s1, s2, n1, n2) {
 
   round(min(
-    stats::pf((s1 / s2), (n1 - 1), (n2 - 1)),
-    stats::pf((s1 / s2), (n1 - 1), (n2 - 1),
+    pf((s1 / s2), (n1 - 1), (n2 - 1)),
+    pf((s1 / s2), (n1 - 1), (n2 - 1),
       lower.tail = FALSE
     )
   ) * 2, 4)
@@ -330,13 +322,13 @@ indpool <- function(n1, n2, mean_diff, se_dif) {
 
   df_pooled    <- (n1 + n2) - 2
   t_pooled     <- mean_diff / se_dif
-  sig_pooled_l <- round(stats::pt(t_pooled, df_pooled), 4)
-  sig_pooled_u <- round(stats::pt(t_pooled, df_pooled, lower.tail = FALSE), 4)
+  sig_pooled_l <- round(pt(t_pooled, df_pooled), 4)
+  sig_pooled_u <- round(pt(t_pooled, df_pooled, lower.tail = FALSE), 4)
 
   if (sig_pooled_l < 0.5) {
-    sig_pooled <- round(stats::pt(t_pooled, df_pooled) * 2, 4)
+    sig_pooled <- round(pt(t_pooled, df_pooled) * 2, 4)
   } else {
-    sig_pooled <- round(stats::pt(t_pooled, df_pooled, lower.tail = FALSE) * 2, 4)
+    sig_pooled <- round(pt(t_pooled, df_pooled, lower.tail = FALSE) * 2, 4)
   }
 
   list(df_pooled    = df_pooled,

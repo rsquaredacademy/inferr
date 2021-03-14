@@ -47,6 +47,9 @@
 #' infer_runs_test(hsb, read, mean = TRUE)
 #'
 #' infer_runs_test(hsb, read, threshold = 0)
+#'
+#' @importFrom stats pnorm
+#'
 #' @export
 #'
 infer_runs_test <- function(data, x, drop = FALSE, split = FALSE, mean = FALSE,
@@ -65,7 +68,7 @@ infer_runs_test.default <- function(data, x, drop = FALSE,
   if (is.na(threshold)) {
     y <- unique(xone)
     if (sum(y) == 1) {
-      stop("Use 0 as threshold if the data is coded as a binary.")
+      stop("Use 0 as threshold if the data is coded as a binary.", call. = FALSE)
     }
   }
 
@@ -74,7 +77,7 @@ infer_runs_test.default <- function(data, x, drop = FALSE,
   } else if (mean) {
     thresh <- mean(xone)
   } else {
-    thresh <- stats::median(xone, na.rm = TRUE)
+    thresh <- median(xone, na.rm = TRUE)
   }
 
   if (drop) {
@@ -98,7 +101,7 @@ infer_runs_test.default <- function(data, x, drop = FALSE,
   sd_runs  <- sdruns(n0, n1)
 
   test_stat <- (n_runs - exp_runs) / (sd_runs ^ 0.5)
-  sig <- 2 * (1 - stats::pnorm(abs(test_stat), lower.tail = TRUE))
+  sig <- 2 * (1 - pnorm(abs(test_stat), lower.tail = TRUE))
 
   result <-
     list(mean      = exp_runs,

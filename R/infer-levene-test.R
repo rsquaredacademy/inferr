@@ -50,8 +50,7 @@ infer_levene_test <- function(data, ...) UseMethod("infer_levene_test")
 
 #' @export
 #' @rdname infer_levene_test
-infer_levene_test.default <- function(data, ..., group_var = NULL,
-                                      trim_mean = 0.1) {
+infer_levene_test.default <- function(data, ..., group_var = NULL, trim_mean = 0.1) {
 
   groupvar  <- deparse(substitute(group_var))
   varyables <- vapply(substitute(...()), deparse, NA_character_)
@@ -66,17 +65,13 @@ infer_levene_test.default <- function(data, ..., group_var = NULL,
       stop("Please specify at least two variables.", call. = FALSE)
     }
 
-    out   <- gvar(ln, ly)
-    fdata <- unlist(z)
-
-    groupvars <-
-      out %>%
-      unlist() %>%
-      as.factor()
+    out       <- gvar(ln, ly)
+    fdata     <- unlist(z)
+    groupvars <- as.factor(unlist(out))
 
   } else {
 
-    fdata <- fdata[[1]]
+    fdata     <- fdata[[1]]
     groupvars <- data[[groupvar]]
 
     if (length(fdata) != length(groupvars)) {
@@ -113,11 +108,12 @@ print.infer_levene_test <- function(x, ...) {
   print_levene_test(x)
 }
 
+#' @importFrom stats anova
 lev_metric <- function(cvar, gvar, loc, ...) {
 
   metric <- tapply(cvar, gvar, loc, ...)
   y      <- abs(cvar - metric[gvar])
-  result <- stats::anova(stats::lm(y ~ gvar))
+  result <- anova(lm(y ~ gvar))
 
   list(
     fstat = result$`F value`[1],
@@ -126,21 +122,19 @@ lev_metric <- function(cvar, gvar, loc, ...) {
 
 }
 
+#' @importFrom stats complete.cases median
 lev_comp <- function(variable, group_var, trim.mean) {
 
-  comp <- stats::complete.cases(variable, group_var)
+  comp <- complete.cases(variable, group_var)
   n    <- length(comp)
   k    <- nlevels(group_var)
-
   cvar <- variable[comp]
   gvar <- group_var[comp]
-
   lens <- tapply(cvar, gvar, length)
   avgs <- tapply(cvar, gvar, mean)
-  sds  <- tapply(cvar, gvar, stats::sd)
-
+  sds  <- tapply(cvar, gvar, sd)
   bf   <- lev_metric(cvar, gvar, mean)
-  lev  <- lev_metric(cvar, gvar, stats::median)
+  lev  <- lev_metric(cvar, gvar, median)
   bft  <- lev_metric(cvar, gvar, mean, trim = trim.mean)
 
   list(
@@ -157,7 +151,7 @@ lev_comp <- function(variable, group_var, trim.mean) {
     p_bf  = round(bf$p, 4),
     p_bft = round(bft$p, 4),
     p_lev = round(lev$p, 4),
-    sd    = round(stats::sd(cvar), 2),
+    sd    = round(sd(cvar), 2),
     sds   = round(sds, 2))
 
 }

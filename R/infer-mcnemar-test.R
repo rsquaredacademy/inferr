@@ -94,12 +94,12 @@ print.infer_mcnemar_test <- function(x, ...) {
 
 mcdata <- function(x, y) {
   if (!is.matrix(x)) {
-    stop("x must be either a table or a matrix")
+    stop("x must be either a table or a matrix", call. = FALSE)
   }
 
   if (is.matrix(x)) {
     if (length(x) != 4) {
-      stop("x must be a 2 x 2 matrix")
+      stop("x must be a 2 x 2 matrix", call. = FALSE)
     }
   }
 
@@ -118,11 +118,11 @@ tetat <- function(p) {
 }
 
 mcpval <- function(test_stat, df) {
-  1 - stats::pchisq(test_stat, df)
+  1 - pchisq(test_stat, df)
 }
 
 mcpex <- function(dat) {
-  2 * min(stats::pbinom(dat[2], sum(dat[2], dat[3]), 0.5), stats::pbinom(dat[3], sum(dat[2], dat[3]), 0.5))
+  2 * min(pbinom(dat[2], sum(dat[2], dat[3]), 0.5), pbinom(dat[3], sum(dat[2], dat[3]), 0.5))
 }
 
 mcstat <- function(p) {
@@ -130,7 +130,7 @@ mcstat <- function(p) {
 }
 
 mccpval <- function(cstat, df) {
-  1 - stats::pchisq(cstat, df)
+  1 - pchisq(cstat, df)
 }
 
 mckappa <- function(dat) {
@@ -146,6 +146,7 @@ mcserr <- function(dat, kappa) {
   serr(dat, kappa, expected)
 }
 
+#' @importFrom stats qnorm
 mcconf <- function(std_err, kappa) {
 
   alpha    <- 0.05

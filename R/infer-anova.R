@@ -75,6 +75,7 @@ print.infer_oneway_anova <- function(x, ...) {
 }
 
 #' @import magrittr
+#' @importFrom stats var sd
 #' @importFrom data.table data.table := setDF
 anova_split <- function(data, x, y, sample_mean) {
 
@@ -82,9 +83,9 @@ anova_split <- function(data, x, y, sample_mean) {
   dm  <- data.table(dat)
 
   by_factor <- dm[, .(length = length(get(x)),
-                     mean = mean(get(x)),
-                     var = stats::var(get(x)),
-                     sd = stats::sd(get(x))),
+                      mean   = mean(get(x)),
+                      var    = var(get(x)),
+                      sd     = sd(get(x))),
                   by = y]
 
   by_factor[, ':='(sst = length * ((mean - sample_mean) ^ 2),
@@ -102,21 +103,20 @@ anova_avg <- function(data, y) {
 
 }
 
+#' @importFrom stats pf as.formula lm
 anova_calc <- function(data, sample_stats, x, y) {
 
   var_names <- names(data[c(x, y)])
 
-  sstr <-
-    sample_stats %>%
-    magrittr::use_series(sst) %>%
+  sample_stats %>%
+    use_series(sst) %>%
     sum() %>%
-    round(3)
+    round(3) -> sstr
 
-  ssee <-
-    sample_stats %>%
-    magrittr::use_series(sse) %>%
+  sample_stats %>%
+    use_series(sse) %>%
     sum() %>%
-    round(3)
+    round(3) -> ssee
 
   total   <- round(sstr + ssee, 3)
   df_sstr <- nrow(sample_stats) - 1
@@ -125,10 +125,10 @@ anova_calc <- function(data, sample_stats, x, y) {
   mstr    <- round(sstr / df_sstr, 3)
   mse     <- round(ssee / df_sse, 3)
   f       <- round(mstr / mse, 3)
-  sig     <- round(1 - stats::pf(f, df_sstr, df_sse), 3)
+  sig     <- round(1 - pf(f, df_sstr, df_sse), 3)
   obs     <- nrow(data)
   regs    <- paste(var_names[1], "~ as.factor(", var_names[2], ")")
-  model   <- stats::lm(stats::as.formula(regs), data = data)
+  model   <- lm(as.formula(regs), data = data)
   reg     <- summary(model)
 
   out <- list(

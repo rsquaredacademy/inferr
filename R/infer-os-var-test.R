@@ -60,20 +60,20 @@ infer_os_var_test.default <- function(data, x, sd, confint = 0.95,
   xone <- data[[x1]]
 
   if (!is.numeric(xone)) {
-    stop("x must be numeric")
+    stop("x must be numeric", call. = FALSE)
   }
 
   if (!is.numeric(sd)) {
-    stop("sd must be numeric")
+    stop("sd must be numeric", call. = FALSE)
   }
 
   if (!is.numeric(confint)) {
-    stop("confint must be numeric")
+    stop("confint must be numeric", call. = FALSE)
   }
 
-  type <- match.arg(alternative)
+  type    <- match.arg(alternative)
   varname <- names(data[x1])
-  k <- osvar_comp(xone, sd, confint)
+  k       <- osvar_comp(xone, sd, confint)
 
   result <-
     list(chi      = round(k$chi, 4),
@@ -102,30 +102,31 @@ print.infer_os_var_test <- function(x, ...) {
   print_os_vartest(x)
 }
 
+#' @importFrom stats qchisq
 osvar_comp <- function(x, sd, confint) {
 
   n     <- length(x)
   df    <- n - 1
   xbar  <- mean(x)
-  sigma <- stats::sd(x)
+  sigma <- sd(x)
   se    <- sigma / sqrt(n)
   chi   <- df * ((sigma / sd) ^ 2)
 
-  p_lower <- stats::pchisq(chi, df)
-  p_upper <- stats::pchisq(chi, df, lower.tail = F)
+  p_lower <- pchisq(chi, df)
+  p_upper <- pchisq(chi, df, lower.tail = F)
 
   if (p_lower < 0.5) {
-    p_two <- stats::pchisq(chi, df) * 2
+    p_two <- pchisq(chi, df) * 2
   } else {
-    p_two <- stats::pchisq(chi, df, lower.tail = F) * 2
+    p_two <- pchisq(chi, df, lower.tail = F) * 2
   }
 
   conf  <- confint
   a     <- (1 - conf) / 2
   al    <- 1 - a
   tv    <- df * sigma
-  c_lwr <- round(tv / stats::qchisq(al, df), 4)
-  c_upr <- round(tv / stats::qchisq(a, df), 4)
+  c_lwr <- round(tv / qchisq(al, df), 4)
+  c_upr <- round(tv / qchisq(a, df), 4)
 
   list(chi     = chi,
        c_lwr   = c_lwr,
