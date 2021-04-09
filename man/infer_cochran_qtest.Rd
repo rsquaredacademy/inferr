@@ -2,6 +2,7 @@
 % Please edit documentation in R/infer-cochran-q-test.R
 \name{infer_cochran_qtest}
 \alias{infer_cochran_qtest}
+\alias{cochran_test}
 \title{Cochran Q Test}
 \usage{
 infer_cochran_qtest(data, ...)
@@ -16,10 +17,10 @@ infer_cochran_qtest(data, ...)
 \code{"infer_cochran_qtest"}. An object of class \code{"infer_cochran_qtest"}
 is a list containing the following components:
 
-\item{df}{degrees of freedom}
 \item{n}{number of observations}
-\item{pvalue}{p value}
+\item{df}{degrees of freedom}
 \item{q}{cochran's q statistic}
+\item{pvalue}{p-value}
 }
 \description{
 Test if the proportions of 3 or more dichotomous variables are

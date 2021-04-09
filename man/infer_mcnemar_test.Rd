@@ -2,6 +2,7 @@
 % Please edit documentation in R/infer-mcnemar-test.R
 \name{infer_mcnemar_test}
 \alias{infer_mcnemar_test}
+\alias{mcnemar_test}
 \title{McNemar Test}
 \usage{
 infer_mcnemar_test(data, x = NULL, y = NULL)
@@ -46,9 +47,11 @@ equal in the same population.
 
 \examples{
 # using variables from data
-hb <- hsb
-hb$himath <- ifelse(hsb$math > 60, 1, 0)
-hb$hiread <- ifelse(hsb$read > 60, 1, 0)
+library(dplyr)
+hb <- mutate(hsb,
+        himath = if_else(math > 60, 1, 0),
+        hiread = if_else(read > 60, 1, 0)
+    )
 infer_mcnemar_test(hb, himath, hiread)
 
 # test if the proportion of students in himath and hiread group is same

@@ -46,3 +46,4 @@ test_that("output from infer_os_prop_test matches expected result", {
   expect_equal(unname(k$sig), c(0, 0, 1))
   expect_equivalent(k$alt, "all")
 })
+

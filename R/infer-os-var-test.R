@@ -1,3 +1,4 @@
+#' @importFrom stats qchisq
 #' @title One Sample Variance Comparison Test
 #' @description  \code{infer_os_var_test} performs tests on the equality of standard
 #' deviations (variances).It tests that the standard deviation of a sample is
@@ -55,9 +56,11 @@ infer_os_var_test <- function(data, x, sd, confint = 0.95,
 #'
 infer_os_var_test.default <- function(data, x, sd, confint = 0.95,
                                       alternative = c("both", "less", "greater", "all"), ...) {
+  x1 <- enquo(x)
 
-  x1   <- deparse(substitute(x))
-  xone <- data[[x1]]
+  xone <-
+    data %>%
+    pull(!! x1)
 
   if (!is.numeric(xone)) {
     stop("x must be numeric")
@@ -72,73 +75,37 @@ infer_os_var_test.default <- function(data, x, sd, confint = 0.95,
   }
 
   type <- match.arg(alternative)
-  varname <- names(data[x1])
+
+  varname <-
+    data %>%
+    select(!! x1) %>%
+    names()
+
   k <- osvar_comp(xone, sd, confint)
 
-  result <-
-    list(chi      = round(k$chi, 4),
-         c_lwr    = k$c_lwr,
-         conf     = k$conf,
-         c_upr    = k$c_upr,
-         df       = k$df,
-         n        = k$n,
-         p_lower  = k$p_lower,
-         p_two    = k$p_two,
-         p_upper  = k$p_upper,
-         sd       = k$sd,
-         se       = round(k$se, 4),
-         sigma    = round(k$sigma, 4),
-         type     = type,
-         var_name = varname,
-         xbar     = round(k$xbar, 4))
+  result <- list(
+    n = k$n, sd = k$sd, sigma = round(k$sigma, 4), se = round(k$se, 4),
+    chi = round(k$chi, 4),
+    df = k$df, p_lower = k$p_lower, p_upper = k$p_upper, p_two = k$p_two,
+    xbar = round(k$xbar, 4), c_lwr = k$c_lwr, c_upr = k$c_upr, var_name = varname,
+    conf = k$conf, type = type
+  )
 
   class(result) <- "infer_os_var_test"
   return(result)
 }
 
 #' @export
+#' @rdname infer_os_var_test
+#' @usage NULL
+#'
+os_vartest <- function(x, sd, confint = 0.95,
+                       alternative = c("both", "less", "greater", "all"), ...) {
+  .Deprecated("infer_os_var_test()")
+}
+
+#' @export
 #'
 print.infer_os_var_test <- function(x, ...) {
   print_os_vartest(x)
-}
-
-osvar_comp <- function(x, sd, confint) {
-
-  n     <- length(x)
-  df    <- n - 1
-  xbar  <- mean(x)
-  sigma <- stats::sd(x)
-  se    <- sigma / sqrt(n)
-  chi   <- df * ((sigma / sd) ^ 2)
-
-  p_lower <- stats::pchisq(chi, df)
-  p_upper <- stats::pchisq(chi, df, lower.tail = F)
-
-  if (p_lower < 0.5) {
-    p_two <- stats::pchisq(chi, df) * 2
-  } else {
-    p_two <- stats::pchisq(chi, df, lower.tail = F) * 2
-  }
-
-  conf  <- confint
-  a     <- (1 - conf) / 2
-  al    <- 1 - a
-  tv    <- df * sigma
-  c_lwr <- round(tv / stats::qchisq(al, df), 4)
-  c_upr <- round(tv / stats::qchisq(a, df), 4)
-
-  list(chi     = chi,
-       c_lwr   = c_lwr,
-       conf    = conf,
-       c_upr   = c_upr,
-       df      = df,
-       n       = n,
-       p_lower = p_lower,
-       p_two   = p_two,
-       p_upper = p_upper,
-       sd      = sd,
-       se      = se,
-       sigma   = sigma,
-       xbar    = xbar)
-
 }

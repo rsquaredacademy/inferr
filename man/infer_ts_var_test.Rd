@@ -2,6 +2,7 @@
 % Please edit documentation in R/infer-ts-var-test.R
 \name{infer_ts_var_test}
 \alias{infer_ts_var_test}
+\alias{var_test}
 \title{Two Sample Variance Comparison Test}
 \usage{
 infer_ts_var_test(

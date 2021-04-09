@@ -1,3 +1,4 @@
+#' @importFrom stats cor
 #' @title Paired t test
 #' @description \code{infer_ts_paired_ttest} tests that two samples have the
 #' same mean, assuming paired data.
@@ -57,14 +58,23 @@ infer_ts_paired_ttest <- function(data, x, y, confint = 0.95,
 #'
 infer_ts_paired_ttest.default <- function(data, x, y, confint = 0.95,
                                           alternative = c("both", "less", "greater", "all")) {
+  x1 <- enquo(x)
+  y1 <- enquo(y)
 
-  x1   <- deparse(substitute(x))
-  y1   <- deparse(substitute(y))
-  xone <- data[[x1]]
-  yone <- data[[y1]]
+  method <- match.arg(alternative)
 
-  method    <- match.arg(alternative)
-  var_names <- names(data[c(x1, y1)])
+  var_names <-
+    data %>%
+    select(!! x1, !! y1) %>%
+    names()
+
+  xone <-
+    data %>%
+    pull(!! x1)
+
+  yone <-
+    data %>%
+    pull(!! y1)
 
   k <- paired_comp(xone, yone, confint, var_names)
 
@@ -81,87 +91,17 @@ infer_ts_paired_ttest.default <- function(data, x, y, confint = 0.95,
 }
 
 #' @export
+#' @rdname infer_ts_paired_ttest
+#' @usage NULL
+#'
+paired_ttest <- function(x, y, confint = 0.95,
+                         alternative = c("both", "less", "greater", "all")) {
+  .Deprecated("infer_ts_paired_ttest()")
+  infer_ts_paired_ttest(x, y, confint, alternative)
+}
+
+#' @export
 #'
 print.infer_ts_paired_ttest <- function(x, ...) {
   print_paired_ttest(x)
-}
-
-paired_comp <- function(x, y, confint, var_names) {
-
-  n         <- length(x)
-  df        <- (n - 1)
-  xy        <- paste(var_names[1], "-", var_names[2])
-
-  data_prep <- paired_data(x, y)
-  b         <- paired_stats(data_prep, "key", "value")
-  corr      <- round(stats::cor(x, y), 4)
-  corsig    <- cor_sig(corr, n)
-
-  alpha     <- 1 - confint
-  
-  confint1  <- conf_int_t(b[[1, 1]], b[[1, 2]], n, alpha = alpha) %>% round(2)
-  confint2  <- conf_int_t(b[[2, 1]], b[[2, 2]], n, alpha = alpha) %>% round(2)
-  confint3  <- conf_int_t(b[[3, 1]], b[[3, 2]], n, alpha = alpha) %>% round(2)
-
-  t         <- round(b[[3, 1]] / b[[3, 3]], 4)
-
-  p_l       <- stats::pt(t, df)
-  p_u       <- stats::pt(t, df, lower.tail = FALSE)
-  p         <- stats::pt(abs(t), df, lower.tail = FALSE) * 2
-
-  list(
-    Obs = n, b = b, conf_int1 = confint1, conf_int2 = confint2,
-    conf_int_diff = confint3, corr = round(corr, 2), corsig = round(corsig, 2),
-    tstat = t, p_lower = p_l, p_upper = p_u, p_two_tail = p, xy = xy, df = df
-  )
-
-}
-
-paired_data <- function(x, y) {
-
-  j <- data.frame(x = x, y = y)
-  j$z <- j$x - j$y
-  val <- data.frame(value = c(j$x, j$y, j$z))
-  key <- rep(c("x", "y", "z"), each = nrow(j))
-  cbind(key = key, value = val)
-
-}
-
-paired_stats <- function(data, key, value) {
-
-  dat <- data.table(data[c("value", "key")])
-
-  out <- dat[, .(length = length(value),
-                 mean = mean(value),
-                 sd = stats::sd(value)),
-            by = key]
-
-  out[, ':='(se = sd / sqrt(length))]
-  setDF(out)
-  out[, c(-1, -2)]
-
-}
-
-cor_sig <- function(corr, n) {
-
-  t   <- corr / ((1 - (corr ^ 2)) / (n - 2)) ^ 0.5
-  df  <- n - 2
-  sig <- (1 - stats::pt(t, df)) * 2
-  round(sig, 4)
-
-}
-
-conf_int_t <- function(u, s, n, alpha = 0.05) {
-  
-  a     <- alpha / 2
-  df    <- n - 1
-  error <- round(stats::qt(a, df), 3) * -1
-  lower <- u - (error * samp_err(s, n))
-  upper <- u + (error * samp_err(s, n))
-  c(lower, upper)
-  
-}
-
-samp_err <- function(sigma, n) {
-  sigma / (n ^ 0.5)
 }

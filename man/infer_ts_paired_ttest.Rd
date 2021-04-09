@@ -2,6 +2,7 @@
 % Please edit documentation in R/infer-ts-paired-ttest.R
 \name{infer_ts_paired_ttest}
 \alias{infer_ts_paired_ttest}
+\alias{paired_ttest}
 \title{Paired t test}
 \usage{
 infer_ts_paired_ttest(
