@@ -57,104 +57,55 @@ infer_os_t_test <- function(data, x, mu = 0, alpha = 0.05,
 #'
 infer_os_t_test.default <- function(data, x, mu = 0, alpha = 0.05,
                                     alternative = c("both", "less", "greater", "all"), ...) {
+  x1 <- enquo(x)
 
-  x1   <- deparse(substitute(x))
-  xone <- data[[x1]]
+  xone <-
+    data %>%
+    pull(!! x1)
 
   if (!is.numeric(xone)) {
-    stop("x must be numeric", call. = FALSE)
+    stop("x must be numeric")
   }
   if (!is.numeric(mu)) {
-    stop("mu must be numeric", call. = FALSE)
+    stop("mu must be numeric")
   }
   if (!is.numeric(alpha)) {
-    stop("alpha must be numeric", call. = FALSE)
+    stop("alpha must be numeric")
   }
 
-  type     <- match.arg(alternative)
-  var_name <- names(data[x1])
-  k        <- ttest_comp(xone, mu, alpha, type)
+  type <- match.arg(alternative)
 
-  result <-
-    list(conf        = k$conf,
-         confint     = k$confint,
-         df          = k$df,
-         Mean        = k$Mean,
-         mean_diff   = k$mean_diff,
-         mean_diff_l = k$mean_diff_l,
-         mean_diff_u = k$mean_diff_u,
-         mu          = k$mu,
-         n           = k$n,
-         p           = k$p,
-         p_l         = k$p_l,
-         p_u         = k$p_u,
-         stddev      = k$stddev,
-         std_err     = k$std_err,
-         test_stat   = k$test_stat,
-         type        = type,
-         var_name    = var_name)
+  var_name <-
+    data %>%
+    select(!! x1) %>%
+    names()
+
+  k <- ttest_comp(xone, mu, alpha, type)
+
+  result <- list(
+    mu = k$mu, n = k$n, df = k$df, Mean = k$Mean,
+    stddev = k$stddev, std_err = k$std_err,
+    test_stat = k$test_stat, confint = k$confint,
+    mean_diff = k$mean_diff, mean_diff_l = k$mean_diff_l,
+    mean_diff_u = k$mean_diff_u, p_l = k$p_l, p_u = k$p_u,
+    p = k$p, conf = k$conf, type = type, var_name = var_name
+  )
 
   class(result) <- "infer_os_t_test"
   return(result)
 }
 
 #' @export
+#' @rdname infer_os_t_test
+#' @usage NULL
+#'
+ttest <- function(x, mu = 0, alpha = 0.05,
+                  type = c("both", "less", "greater", "all"), ...) {
+  .Deprecated("infer_os_t_test()")
+}
+
+#' @export
 #'
 print.infer_os_t_test <- function(x, ...) {
   print_ttest(x)
-}
-
-#' @importFrom stats qt pt
-ttest_comp <- function(x, mu, alpha, type) {
-
-  n         <- length(x)
-  a         <- (alpha / 2)
-  df        <- n - 1
-  conf      <- 1 - alpha
-  Mean      <- round(mean(x), 4)
-  stddev    <- round(sd(x), 4)
-  std_err   <- round(stddev / sqrt(n), 4)
-  test_stat <- round((Mean - mu) / std_err, 3)
-
-  if (type == "less") {
-    cint <- c(-Inf, test_stat + qt(1 - alpha, df))
-  } else if (type == "greater") {
-    cint <- c(test_stat - qt(1 - alpha, df), Inf)
-  } else {
-    cint <- qt(1 - a, df)
-    cint <- test_stat + c(-cint, cint)
-  }
-
-  confint     <- round(mu + cint * std_err, 4)
-  mean_diff   <- round((Mean - mu), 4)
-  mean_diff_l <- confint[1] - mu
-  mean_diff_u <- confint[2] - mu
-  p_l         <- pt(test_stat, df)
-  p_u         <- pt(test_stat, df, lower.tail = FALSE)
-
-  if (p_l < 0.5) {
-    p <- p_l * 2
-  } else {
-    p <- p_u * 2
-  }
-
-
-  out <-
-    list(conf        = conf,
-         confint     = confint,
-         df          = df,
-         Mean        = Mean,
-         mean_diff   = mean_diff,
-         mean_diff_l = mean_diff_l,
-         mean_diff_u = mean_diff_u,
-         mu          = mu,
-         n           = n,
-         p           = p,
-         p_l         = p_l,
-         p_u         = p_u,
-         stddev      = stddev,
-         std_err     = std_err,
-         test_stat   = test_stat)
-
-  return(out)
 }

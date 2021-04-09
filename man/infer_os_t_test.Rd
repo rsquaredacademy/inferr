@@ -2,6 +2,7 @@
 % Please edit documentation in R/infer-os-t-test.R
 \name{infer_os_t_test}
 \alias{infer_os_t_test}
+\alias{ttest}
 \title{One Sample t Test}
 \usage{
 infer_os_t_test(

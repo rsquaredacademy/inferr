@@ -1,8 +1,8 @@
 context("utils")
 
 test_that("output from anova_split matches the expected result", {
-  smean <- anova_avg(mtcars, "mpg")
-  k <- anova_split(mtcars, 'mpg', 'cyl', smean)
+  smean <- anova_avg(mtcars, mpg)
+  k <- anova_split(mtcars, mpg, cyl, smean)
   expect_equivalent(k$cyl, c(4, 6, 8))
   expect_equivalent(k$length, c(11, 7, 14))
   expect_equivalent(round(k$mean, 2), c(26.66, 19.74, 15.100))
@@ -13,7 +13,7 @@ test_that("output from anova_split matches the expected result", {
 })
 
 test_that("output from anova_avg matches the expected result", {
-  k <- anova_avg(mtcars, "mpg")
+  k <- anova_avg(mtcars, mpg)
   expect_equal(round(k, 1), 20.1)
 })
 
@@ -33,11 +33,11 @@ test_that("output from text formatting matches the expected result", {
   expect_equivalent(formatter_pair(3, 6), " 3.00 ")
 })
 
-# test_that("output from l matches the expected result", {
-#   expect_equal(l(deparse(substitute(mtcars$mpg))), "mpg")
-#   expect_equal(l(deparse(substitute(mpg))), "mpg")
-#   expect_equal(l(deparse(substitute(mtcars@mpg))), "mtcars@mpg")
-# })
+test_that("output from l matches the expected result", {
+  expect_equal(l(deparse(substitute(mtcars$mpg))), "mpg")
+  expect_equal(l(deparse(substitute(mpg))), "mpg")
+  expect_equal(l(deparse(substitute(mtcars@mpg))), "mtcars@mpg")
+})
 
 test_that("output from lev_metric matches the expected result", {
   j <- lev_metric(hsb$read, as.factor(hsb$female), mean)
@@ -83,7 +83,7 @@ test_that("output from paired_data and paired_stats matches the expected result"
   z <- paired_data(x, y)
   key <- c(rep("x", 5), rep("y", 5), rep("z", 5))
   value <- c(c(2, 4, 6, 8, 10), c(1, 3, 5, 7, 9), rep(1, 5))
-  kv <- data.frame(key, value)
+  kv <- tibble(key, value)
   expect_equal(z, kv)
 
   j <- paired_data(hsb$read, hsb$write)
@@ -145,3 +145,4 @@ test_that("output from sums and coch matches the expected result", {
   q <- coch(ncol(data), k$cls_sum, k$cl, k$g, k$gs_sum)
   expect_equal(round(q, 3), 1.385)
 })
+

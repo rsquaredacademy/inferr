@@ -1,3 +1,6 @@
+#' @importFrom stats anova model.frame formula
+#' @importFrom purrr map_int
+#' @importFrom rlang quo_is_null
 #' @title Levene's test for equality of variances
 #' @description  \code{infer_levene_test} reports Levene's robust test statistic
 #' for the equality of variances and the
@@ -50,29 +53,39 @@ infer_levene_test <- function(data, ...) UseMethod("infer_levene_test")
 
 #' @export
 #' @rdname infer_levene_test
-infer_levene_test.default <- function(data, ..., group_var = NULL, trim_mean = 0.1) {
+infer_levene_test.default <- function(data, ..., group_var = NULL,
+                                      trim_mean = 0.1) {
+  groupvar <- enquo(group_var)
 
-  groupvar  <- deparse(substitute(group_var))
-  varyables <- vapply(substitute(...()), deparse, NA_character_)
-  fdata     <- data[varyables]
+  varyables <- quos(...)
 
-  if (groupvar == "NULL") {
-    z  <- as.list(fdata)
-    ln <- unlist(lapply(z, length))
+  fdata <-
+    data %>%
+    select(!!! varyables)
+
+  if (quo_is_null(groupvar)) {
+    z <- as.list(fdata)
+    ln <- z %>% map_int(length)
     ly <- seq_len(length(z))
 
     if (length(z) < 2) {
       stop("Please specify at least two variables.", call. = FALSE)
     }
 
-    out       <- gvar(ln, ly)
-    fdata     <- unlist(z)
-    groupvars <- as.factor(unlist(out))
-
+    out <- gvar(ln, ly)
+    fdata <- unlist(z)
+    groupvars <-
+      out %>%
+      unlist() %>%
+      as.factor()
   } else {
+    fdata <-
+      fdata %>%
+      pull(1)
 
-    fdata     <- fdata[[1]]
-    groupvars <- data[[groupvar]]
+    groupvars <-
+      data %>%
+      pull(!! groupvar)
 
     if (length(fdata) != length(groupvars)) {
       stop("Length of variable and group_var do not match.", call. = FALSE)
@@ -81,77 +94,28 @@ infer_levene_test.default <- function(data, ..., group_var = NULL, trim_mean = 0
 
   k <- lev_comp(fdata, groupvars, trim_mean)
 
-  out <-
-    list(avg   = k$avg,
-         avgs  = k$avgs,
-         bf    = k$bf,
-         bft   = k$bft,
-         d_df  = k$d_df,
-         lens  = k$lens,
-         lev   = k$lev,
-         levs  = k$levs,
-         n     = k$n,
-         n_df  = k$n_df,
-         p_bf  = k$p_bf,
-         p_bft = k$p_bft,
-         p_lev = k$p_lev,
-         sd    = k$sd,
-         sds   = k$sds)
+  out <- list(
+    bf = k$bf, p_bf = k$p_bf, lev = k$lev, p_lev = k$p_lev,
+    bft = k$bft, p_bft = k$p_bft, avgs = k$avgs, sds = k$sds,
+    avg = k$avg, sd = k$sd, n = k$n, levs = k$levs, n_df = k$n_df,
+    d_df = k$d_df, lens = k$lens
+  )
 
   class(out) <- "infer_levene_test"
   return(out)
 }
 
 #' @export
+#' @rdname infer_levene_test
+#' @usage NULL
+#'
+levene_test <- function(variable, ..., group_var = NULL,
+                        trim.mean = 0.1) {
+  .Deprecated("infer_levene_test()")
+}
+
+#' @export
 #'
 print.infer_levene_test <- function(x, ...) {
   print_levene_test(x)
-}
-
-#' @importFrom stats anova
-lev_metric <- function(cvar, gvar, loc, ...) {
-
-  metric <- tapply(cvar, gvar, loc, ...)
-  y      <- abs(cvar - metric[gvar])
-  result <- anova(lm(y ~ gvar))
-
-  list(
-    fstat = result$`F value`[1],
-    p     = result$`Pr(>F)`[1]
-  )
-
-}
-
-#' @importFrom stats complete.cases median
-lev_comp <- function(variable, group_var, trim.mean) {
-
-  comp <- complete.cases(variable, group_var)
-  n    <- length(comp)
-  k    <- nlevels(group_var)
-  cvar <- variable[comp]
-  gvar <- group_var[comp]
-  lens <- tapply(cvar, gvar, length)
-  avgs <- tapply(cvar, gvar, mean)
-  sds  <- tapply(cvar, gvar, sd)
-  bf   <- lev_metric(cvar, gvar, mean)
-  lev  <- lev_metric(cvar, gvar, median)
-  bft  <- lev_metric(cvar, gvar, mean, trim = trim.mean)
-
-  list(
-    avg   = round(mean(cvar), 2),
-    avgs  = round(avgs, 2),
-    bf    = round(bf$fstat, 4),
-    bft   = round(bft$fstat, 4),
-    d_df  = (n - k),
-    lens  = lens,
-    lev   = round(lev$fstat, 4),
-    levs  = levels(gvar),
-    n     = n,
-    n_df  = (k - 1),
-    p_bf  = round(bf$p, 4),
-    p_bft = round(bft$p, 4),
-    p_lev = round(lev$p, 4),
-    sd    = round(sd(cvar), 2),
-    sds   = round(sds, 2))
-
 }

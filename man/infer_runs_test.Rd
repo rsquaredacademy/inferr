@@ -2,6 +2,7 @@
 % Please edit documentation in R/infer-runs-test.R
 \name{infer_runs_test}
 \alias{infer_runs_test}
+\alias{runs_test}
 \title{Test for Random Order}
 \usage{
 infer_runs_test(
@@ -65,7 +66,6 @@ infer_runs_test(hsb, read, split = TRUE)
 infer_runs_test(hsb, read, mean = TRUE)
 
 infer_runs_test(hsb, read, threshold = 0)
-
 }
 \references{
 {Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric Statistical Procedures, 4th edition. : Chapman & Hall/CRC.}

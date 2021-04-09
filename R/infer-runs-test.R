@@ -1,5 +1,7 @@
 #' @useDynLib inferr
 #' @importFrom Rcpp sourceCpp
+#' @importFrom stats median
+#' @importFrom purrr map
 #' @title Test for Random Order
 #' @description runtest tests whether the observations of \code{x} are serially
 #' independent i.e. whether they occur in a random order, by counting
@@ -47,9 +49,6 @@
 #' infer_runs_test(hsb, read, mean = TRUE)
 #'
 #' infer_runs_test(hsb, read, threshold = 0)
-#'
-#' @importFrom stats pnorm
-#'
 #' @export
 #'
 infer_runs_test <- function(data, x, drop = FALSE, split = FALSE, mean = FALSE,
@@ -60,87 +59,83 @@ infer_runs_test <- function(data, x, drop = FALSE, split = FALSE, mean = FALSE,
 infer_runs_test.default <- function(data, x, drop = FALSE,
                                     split = FALSE, mean = FALSE,
                                     threshold = NA) {
+  x1 <- enquo(x)
 
-  x1   <- deparse(substitute(x))
-  xone <- data[[x1]]
-  n    <- length(xone)
+  xone <-
+    data %>%
+    pull(!! x1)
+
+  n <- length(xone)
+
+  # if (!(is.numeric(x) || is.integer(x)))
+  #     stop("x must be numeric or integer")
 
   if (is.na(threshold)) {
     y <- unique(xone)
     if (sum(y) == 1) {
-      stop("Use 0 as threshold if the data is coded as a binary.", call. = FALSE)
+      stop("Use 0 as threshold if the data is coded as a binary.")
     }
   }
 
+  # compute threshold
   if (!(is.na(threshold))) {
     thresh <- threshold
-  } else if (mean) {
+  } else if (mean == TRUE) {
     thresh <- mean(xone)
   } else {
     thresh <- median(xone, na.rm = TRUE)
   }
 
-  if (drop) {
+  # drop values equal to threshold if drop == TRUE
+  if (drop == TRUE) {
     xone <- xone[xone != thresh]
   }
 
-  if (split) {
+  # binary coding the data based on the threshold
+  if (split == TRUE) {
     x_binary <- ifelse(xone > thresh, 1, 0)
   } else {
-
     x_binary <-
       xone %>%
-      lapply(nruns2, thresh) %>%
+      map(nruns2, thresh) %>%
       unlist(use.names = FALSE)
   }
 
-  n_runs   <- nsignC(x_binary)
-  n1       <- sum(x_binary)
-  n0       <- length(x_binary) - n1
-  exp_runs <- expruns(n0, n1)
-  sd_runs  <- sdruns(n0, n1)
+  # compute the number of runs
+  n_runs <- nsignC(x_binary)
+  n1 <- sum(x_binary)
+  n0 <- length(x_binary) - n1
 
+  # compute expected runs and sd of runs
+  exp_runs <- expruns(n0, n1)
+  sd_runs <- sdruns(n0, n1)
+
+  # compute the test statistic
   test_stat <- (n_runs - exp_runs) / (sd_runs ^ 0.5)
   sig <- 2 * (1 - pnorm(abs(test_stat), lower.tail = TRUE))
 
-  result <-
-    list(mean      = exp_runs,
-         n         = n,
-         n_above   = n1,
-         n_below   = n0,
-         n_runs    = n_runs,
-         p         = sig,
-         threshold = thresh,
-         var       = sd_runs,
-         z         = test_stat)
+  # result
+  result <- list(
+    n = n, threshold = thresh, n_below = n0, n_above = n1,
+    mean = exp_runs, var = sd_runs, n_runs = n_runs, z = test_stat,
+    p = sig
+  )
 
   class(result) <- "infer_runs_test"
   return(result)
 }
 
 #' @export
+#' @rdname infer_runs_test
+#' @usage NULL
+#'
+runs_test <- function(x, drop = FALSE, split = FALSE, mean = FALSE,
+                      threshold = NA) {
+  .Deprecated("infer_runs_test()")
+}
+
+#' @export
 #'
 print.infer_runs_test <- function(x, ...) {
   print_runs_test(x)
-}
-
-# expected runs
-expruns <- function(n0, n1) {
-  N <- n0 + n1
-  return(((2 * n0 * n1) / N) + 1)
-}
-
-# standard deviation of runs
-sdruns <- function(n0, n1) {
-  N <- n0 + n1
-  n <- 2 * n0 * n1
-  return(((n * (n - N)) / ((N ^ 2) * (N - 1))))
-}
-
-nruns2 <- function(data, value) {
-  if (data <= value) {
-    return(0)
-  } else {
-    return(1)
-  }
 }

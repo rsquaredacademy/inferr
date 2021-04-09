@@ -1,3 +1,4 @@
+#' @importFrom rlang quos !!!
 #' @title Cochran Q Test
 #' @description Test if the proportions of 3 or more dichotomous variables are
 #' equal in the same population.
@@ -7,11 +8,10 @@
 #' \code{"infer_cochran_qtest"}. An object of class \code{"infer_cochran_qtest"}
 #' is a list containing the following components:
 #'
-#' \item{df}{degrees of freedom}
 #' \item{n}{number of observations}
-#' \item{pvalue}{p value}
+#' \item{df}{degrees of freedom}
 #' \item{q}{cochran's q statistic}
-#'
+#' \item{pvalue}{p-value}
 #' @section Deprecated Function:
 #' \code{cochran_test()} has been deprecated. Instead use
 #' \code{infer_cochran_qtest()}.
@@ -26,29 +26,31 @@ infer_cochran_qtest <- function(data, ...) UseMethod("infer_cochran_qtest")
 
 #' @export
 infer_cochran_qtest.default <- function(data, ...) {
+  vars <- quos(...)
 
-  vars  <- vapply(substitute(...()), deparse, NA_character_)
-  fdata <- data[vars]
+  fdata <- data %>%
+    select(!!! vars)
 
   if (ncol(fdata) < 3) {
-    stop("Please specify at least 3 variables.", call. = FALSE)
+    stop("Please specify at least 3 variables.")
   }
 
   if (any(sapply(lapply(fdata, as.factor), nlevels) > 2)) {
-    stop("Please specify dichotomous/binary variables only.", call. = FALSE)
+    stop("Please specify dichotomous/binary variables only.")
   }
 
   k <- cochran_comp(fdata)
-
-  result <-
-    list(
-      df     = k$df,
-      n      = k$n,
-      pvalue = k$pvalue,
-      q      = k$q)
-
+  result <- list(n = k$n, df = k$df, q = k$q, pvalue = k$pvalue)
   class(result) <- "infer_cochran_qtest"
   return(result)
+}
+
+#' @export
+#' @rdname infer_cochran_qtest
+#' @usage NULL
+#'
+cochran_test <- function(x, ...) {
+  .Deprecated("infer_cochran_qtest()")
 }
 
 #' @export
@@ -56,65 +58,3 @@ infer_cochran_qtest.default <- function(data, ...) {
 print.infer_cochran_qtest <- function(x, ...) {
   print_cochran_test(x)
 }
-
-coch_data <- function(x, ...) {
-
-  if (is.data.frame(x)) {
-    data <- x %>%
-      lapply(as.numeric) %>%
-      as.data.frame() %>%
-      `-`(1)
-  } else {
-    data <- cbind(x, ...) %>%
-      apply(2, as.numeric) %>%
-      `-`(1) %>%
-      as.data.frame()
-  }
-
-  return(data)
-}
-
-cochran_comp <- function(data) {
-
-  n  <- nrow(data)
-  k  <- ncol(data)
-  df <- k - 1
-
-  cs <-
-    data %>%
-    lapply(as.numeric) %>%
-    as.data.frame() %>%
-    subtract(1) %>%
-    sums()
-
-  q <- coch(k, cs$cls_sum, cs$cl, cs$g, cs$gs_sum)
-
-  pvalue <- 1 - pchisq(q, df)
-
-  list(
-    df     = df,
-    n      = n,
-    pvalue = round(pvalue, 4),
-    q      = q)
-
-}
-
-sums <- function(data) {
-
-  cl      <- colSums(data)
-  cls_sum <- sum(cl ^ 2)
-  g       <- rowSums(data)
-  gs_sum  <- sum(g ^ 2)
-
-  list(
-    cl      = cl,
-    cls_sum = cls_sum,
-    g       = g,
-    gs_sum  = gs_sum)
-
-}
-
-coch <- function(k, cls_sum, cl, g, gs_sum) {
-  ((k - 1) * ((k * cls_sum) - (sum(cl) ^ 2))) / ((k * sum(g)) - gs_sum)
-}
-

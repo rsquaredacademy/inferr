@@ -3,6 +3,7 @@
 \name{infer_os_prop_test}
 \alias{infer_os_prop_test}
 \alias{infer_os_prop_test.default}
+\alias{prop_test}
 \title{One Sample Test of Proportion}
 \usage{
 infer_os_prop_test(

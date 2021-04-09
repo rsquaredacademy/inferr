@@ -2,6 +2,7 @@
 % Please edit documentation in R/infer-os-var-test.R
 \name{infer_os_var_test}
 \alias{infer_os_var_test}
+\alias{os_vartest}
 \title{One Sample Variance Comparison Test}
 \usage{
 infer_os_var_test(

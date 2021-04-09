@@ -2,6 +2,7 @@
 % Please edit documentation in R/infer-anova.R
 \name{infer_oneway_anova}
 \alias{infer_oneway_anova}
+\alias{owanova}
 \title{One Way ANOVA}
 \usage{
 infer_oneway_anova(data, x, y, ...)
@@ -16,29 +17,34 @@ infer_oneway_anova(data, x, y, ...)
 \item{...}{additional arguments passed to or from other methods}
 }
 \value{
-\code{infer_oneway_anova} returns an object of class \code{"infer_oneway_anova"}.
-An object of class \code{"infer_oneway_anova"} is a list containing the
+\code{owanova} returns an object of class \code{"owanova"}.
+An object of class \code{"owanova"} is a list containing the
 following components:
 
-\item{adjusted_r2}{adjusted r squared value}
+\item{between}{between group sum of squares}
+\item{within}{within group sum of squares}
+\item{total}{total sum of squares}
 \item{df_btw}{between groups degress of freedom}
 \item{df_within}{within groups degress of freedom}
 \item{df_total}{total degress of freedom}
-\item{fstat}{f value}
-\item{group_stats}{group statistics}
 \item{ms_btw}{between groups mean square}
 \item{ms_within}{within groups mean square}
-\item{obs}{number of observations}
-\item{pval}{p value}
+\item{f}{f value}
+\item{p}{p value}
 \item{r2}{r squared value}
-\item{rmse}{root mean squared error}
-\item{ss_between}{between group sum of squares}
-\item{ss_within}{within group sum of squares}
-\item{ss_total}{total sum of squares}
+\item{ar2}{adjusted r squared value}
+\item{sigma}{root mean squared error}
+\item{obs}{number of observations}
+\item{tab}{group statistics}
 }
 \description{
 One way analysis of variance
 }
+\section{Deprecated Functions}{
+
+\code{owanova()} has been deprecated. Instead use \code{infer_oneway_anova()}.
+}
+
 \examples{
 infer_oneway_anova(mtcars, mpg, cyl)
 infer_oneway_anova(hsb, write, prog)
