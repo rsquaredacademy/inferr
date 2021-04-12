@@ -78,9 +78,9 @@ within two independent groups or two samples have the same proportion.
 }
 \section{Deprecated Functions}{
 
-\code{ts_prop_test()}, \code{ts_prop_grp()} and \code{ts_prop_calc()} have
+\code{infer_ts_prop_test()}, \code{infer_ts_prop_grp()} and \code{infer_ts_prop_calc()} have
 been deprecated. Instead use \code{ifr_ts_prop_test()},
-\code{ifr_ts_prop_grp()} and \code{ifr_ts_prop_calc()}.
+\code{ifr_ts_prop_group()} and \code{ifr_ts_prop_calc()}.
 }
 
 \examples{
@@ -91,7 +91,7 @@ alternative = 'less')
 
 # using groups
 # lower tail
-ifr_ts_prop_grp(treatment2, outcome, female,
+ifr_ts_prop_group(treatment2, outcome, female,
 alternative = 'less')
 
 # using sample size and proportions

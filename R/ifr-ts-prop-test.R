@@ -27,9 +27,9 @@
 #' \item{sig}{p-value for z statistic}
 #' \item{alt}{alternative hypothesis}
 #' @section Deprecated Functions:
-#' \code{ts_prop_test()}, \code{ts_prop_grp()} and \code{ts_prop_calc()} have
+#' \code{infer_ts_prop_test()}, \code{infer_ts_prop_grp()} and \code{infer_ts_prop_calc()} have
 #' been deprecated. Instead use \code{ifr_ts_prop_test()},
-#' \code{ifr_ts_prop_grp()} and \code{ifr_ts_prop_calc()}.
+#' \code{ifr_ts_prop_group()} and \code{ifr_ts_prop_calc()}.
 #' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #' @seealso \code{\link[stats]{prop.test}}
@@ -41,7 +41,7 @@
 #'
 #' # using groups
 #' # lower tail
-#' ifr_ts_prop_grp(treatment2, outcome, female,
+#' ifr_ts_prop_group(treatment2, outcome, female,
 #' alternative = 'less')
 #'
 #' # using sample size and proportions

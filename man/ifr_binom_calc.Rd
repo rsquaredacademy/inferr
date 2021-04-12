@@ -4,6 +4,7 @@
 \alias{ifr_binom_calc}
 \alias{infer_binom_calc}
 \alias{ifr_binom_test}
+\alias{infer_binom_test}
 \title{Binomial Test}
 \usage{
 ifr_binom_calc(n, success, prob = 0.5, ...)
