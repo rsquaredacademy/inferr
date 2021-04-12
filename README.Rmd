@@ -68,31 +68,31 @@ library(inferr)
 ```
 
 ```{r infer1}
-infer_os_t_test(hsb, write, mu = 50, type = 'all')
+ifr_os_t_test(hsb, write, mu = 50, type = 'all')
 ```
 
 #### ANOVA
 
 ```{r anova}
-infer_oneway_anova(hsb, write, prog)
+ifr_oneway_anova(hsb, write, prog)
 ```
 
 #### Chi Square Test of Independence
 
 ```{r chi1}
-infer_chisq_assoc_test(hsb, female, schtyp)
+ifr_chisq_assoc_test(hsb, female, schtyp)
 ```
 
 #### Levene's Test
 
 ```{r lev1}
-infer_levene_test(hsb, read, group_var = race)
+ifr_levene_test(hsb, read, group_var = race)
 ```
 
 #### Cochran's Q Test
 
 ```{r cochran}
-infer_cochran_qtest(exam, exam1, exam2, exam3)
+ifr_cochran_qtest(exam, exam1, exam2, exam3)
 ```
 
 #### McNemar Test
@@ -101,7 +101,7 @@ infer_cochran_qtest(exam, exam1, exam2, exam3)
 hb <- hsb
 hb$himath <- ifelse(hsb$math > 60, 1, 0)
 hb$hiread <- ifelse(hsb$read > 60, 1, 0)
-infer_mcnemar_test(hb, himath, hiread)
+ifr_mcnemar_test(hb, himath, hiread)
 ```
 
 ## Getting Help

@@ -2,8 +2,8 @@ context("runs test")
 
 test_that("output from runs test matches the expected result", {
   reg <- lm(mpg ~ disp, data = mtcars)
-  resid <- tibble(residual = residuals(reg))
-  k <- infer_runs_test(resid, residual)
+  resid <- data.frame(residual = residuals(reg))
+  k <- ifr_runs_test(resid, residual)
   expect_equal(k$n, 32)
   expect_equal(round(k$threshold, 3), -0.963)
   expect_equal(k$n_above, 16)
@@ -17,8 +17,8 @@ test_that("output from runs test matches the expected result", {
 
 test_that("output from runs test matches the expected result", {
   reg <- lm(mpg ~ disp, data = mtcars)
-  resid <- tibble(residual = residuals(reg))
-  k <- infer_runs_test(resid, residual, drop = TRUE)
+  resid <- data.frame(residual = residuals(reg))
+  k <- ifr_runs_test(resid, residual, drop = TRUE)
   expect_equal(k$n, 32)
   expect_equal(round(k$threshold, 3), -0.963)
   expect_equal(k$n_above, 16)
@@ -32,8 +32,8 @@ test_that("output from runs test matches the expected result", {
 
 test_that("output from runs test matches the expected result", {
   reg <- lm(mpg ~ disp, data = mtcars)
-  resid <- tibble(residual = residuals(reg))
-  k <- infer_runs_test(resid, residual, split = TRUE)
+  resid <- data.frame(residual = residuals(reg))
+  k <- ifr_runs_test(resid, residual, split = TRUE)
   expect_equal(k$n, 32)
   expect_equal(round(k$threshold, 3), -0.963)
   expect_equal(k$n_above, 16)
@@ -47,8 +47,8 @@ test_that("output from runs test matches the expected result", {
 
 test_that("output from runs test matches the expected result", {
   reg <- lm(mpg ~ disp, data = mtcars)
-  resid <- tibble(residual = residuals(reg))
-  k <- infer_runs_test(resid, residual, mean = TRUE)
+  resid <- data.frame(residual = residuals(reg))
+  k <- ifr_runs_test(resid, residual, mean = TRUE)
   expect_equal(k$n, 32)
   expect_equal(k$threshold, -1.127570e-16)
   expect_equal(k$n_above, 13)
@@ -62,8 +62,8 @@ test_that("output from runs test matches the expected result", {
 
 test_that("output from runs test matches the expected result", {
   reg <- lm(mpg ~ disp, data = mtcars)
-  resid <- tibble(residual = residuals(reg))
-  k <- infer_runs_test(resid, residual, threshold = 0)
+  resid <- data.frame(residual = residuals(reg))
+  k <- ifr_runs_test(resid, residual, threshold = 0)
   expect_equal(k$n, 32)
   expect_equal(round(k$threshold, 3), 0)
   expect_equal(k$n_above, 13)
@@ -88,6 +88,6 @@ test_that("output from runs test is as expected", {
  p-value:  0.03105355")
 
   reg <- lm(mpg ~ disp, data = mtcars)
-  resid <- tibble(residual = residuals(reg))
-  expect_equivalent(print(infer_runs_test(resid, residual)), x)
+  resid <- data.frame(residual = residuals(reg))
+  expect_equivalent(print(ifr_runs_test(resid, residual)), x)
 })

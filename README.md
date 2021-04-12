@@ -25,21 +25,21 @@ additional and flexible input options and more detailed and structured
 test results. As of version 0.3, **inferr** includes a select set of
 parametric and non-parametric statistical tests which are listed below:
 
-  - One Sample t Test
-  - Paired Sample t Test
-  - Independent Sample t Test
-  - One Sample Proportion Test
-  - Two Sample Proportion Test
-  - One Sample Variance Test
-  - Two Sample Variance Test
-  - Binomial Test
-  - ANOVA
-  - Chi Square Goodness of Fit Test
-  - Chi Square Independence Test
-  - Levene’s Test
-  - Cochran’s Q Test
-  - McNemar Test
-  - Runs Test for Randomness
+-   One Sample t Test
+-   Paired Sample t Test
+-   Independent Sample t Test
+-   One Sample Proportion Test
+-   Two Sample Proportion Test
+-   One Sample Variance Test
+-   Two Sample Variance Test
+-   Binomial Test
+-   ANOVA
+-   Chi Square Goodness of Fit Test
+-   Chi Square Independence Test
+-   Levene’s Test
+-   Cochran’s Q Test
+-   McNemar Test
+-   Runs Test for Randomness
 
 ## Installation
 
@@ -54,7 +54,7 @@ devtools::install_github("rsquaredacademy/inferr")
 
 ## Articles
 
-  - [Introduction to
+-   [Introduction to
     inferr](https://inferr.rsquaredacademy.com/articles/intro.html)
 
 ## Usage
@@ -62,7 +62,7 @@ devtools::install_github("rsquaredacademy/inferr")
 #### One Sample t Test
 
 ``` r
-infer_os_t_test(hsb, write, mu = 50, type = 'all')
+ifr_os_t_test(hsb, write, mu = 50, type = 'all')
 #>                               One-Sample Statistics                               
 #> ---------------------------------------------------------------------------------
 #>  Variable    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
@@ -85,7 +85,7 @@ infer_os_t_test(hsb, write, mu = 50, type = 'all')
 #### ANOVA
 
 ``` r
-infer_oneway_anova(hsb, write, prog)
+ifr_oneway_anova(hsb, write, prog)
 #>                                 ANOVA                                  
 #> ----------------------------------------------------------------------
 #>                    Sum of                                             
@@ -112,7 +112,7 @@ infer_oneway_anova(hsb, write, prog)
 #### Chi Square Test of Independence
 
 ``` r
-infer_chisq_assoc_test(hsb, female, schtyp)
+ifr_chisq_assoc_test(hsb, female, schtyp)
 #>                Chi Square Statistics                 
 #> 
 #> Statistics                     DF    Value      Prob 
@@ -130,7 +130,7 @@ infer_chisq_assoc_test(hsb, female, schtyp)
 #### Levene’s Test
 
 ``` r
-infer_levene_test(hsb, read, group_var = race)
+ifr_levene_test(hsb, read, group_var = race)
 #>            Summary Statistics             
 #> Levels    Frequency    Mean     Std. Dev  
 #> -----------------------------------------
@@ -155,7 +155,7 @@ infer_levene_test(hsb, read, group_var = race)
 #### Cochran’s Q Test
 
 ``` r
-infer_cochran_qtest(exam, exam1, exam2, exam3)
+ifr_cochran_qtest(exam, exam1, exam2, exam3)
 #>    Test Statistics     
 #> ----------------------
 #> N                   15 
@@ -171,7 +171,7 @@ infer_cochran_qtest(exam, exam1, exam2, exam3)
 hb <- hsb
 hb$himath <- ifelse(hsb$math > 60, 1, 0)
 hb$hiread <- ifelse(hsb$read > 60, 1, 0)
-infer_mcnemar_test(hb, himath, hiread)
+ifr_mcnemar_test(hb, himath, hiread)
 #>            Controls 
 #> ---------------------------------
 #> Cases       0       1       Total 

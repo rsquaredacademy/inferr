@@ -1,42 +1,43 @@
 context("chi2-contingency")
 
-test_that("ouput from infer_chisq_assoc_test matches the expected result", {
-  k <- infer_chisq_assoc_test(hsb, female, schtyp)
+test_that("ouput from ifr_chisq_assoc_test matches the expected result", {
+  k <- ifr_chisq_assoc_test(hsb, female, schtyp)
   expect_equal(k$df, 1)
-  expect_equal(k$chi, 0.047)
-  expect_equal(k$chilr, 0.0471)
-  expect_equal(k$chimh, 0.0468)
-  expect_equal(k$chiy, 0.0005)
-  expect_equal(k$sig, 0.8284)
-  expect_equal(k$siglr, 0.8282)
-  expect_equal(k$sigmh, 0.8287)
-  expect_equal(k$sigy, 0.9822)
-  expect_equal(k$phi, 0.0153)
-  expect_equal(k$cc, 0.0153)
-  expect_equal(k$cv, 0.0153)
+  expect_equal(k$chisquare, 0.047)
+  expect_equal(k$chisquare_lr, 0.0471)
+  expect_equal(k$chisquare_mantel_haenszel, 0.0468)
+  expect_equal(k$chisquare_adjusted, 0.0005)
+  expect_equal(k$pval_chisquare, 0.8284)
+  expect_equal(k$pval_chisquare_lr, 0.8282)
+  expect_equal(k$pval_chisquare_mantel_haenszel, 0.8287)
+  expect_equal(k$pval_chisquare_adjusted, 0.9822)
+  expect_equal(k$phi_coefficient, 0.0153)
+  expect_equal(k$contingency_coefficient, 0.0153)
+  expect_equal(k$cramers_v, 0.0153)
   expect_equal(k$ds, 4)
 })
 
-test_that("ouput from infer_chisq_assoc_test matches the expected result", {
-  k <- infer_chisq_assoc_test(hsb, female, ses)
+test_that("ouput from ifr_chisq_assoc_test matches the expected result", {
+  k <- ifr_chisq_assoc_test(hsb, female, ses)
   expect_equal(k$df, 2)
-  expect_equal(k$chi, 4.5765)
-  expect_equal(k$chilr, 4.6789)
-  expect_equal(k$sig, 0.1014)
-  expect_equal(k$siglr, 0.0964)
-  expect_equal(k$phi, 0.1513)
-  expect_equal(k$cc, 0.1496)
-  expect_equal(k$cv, 0.1513)
+  expect_equal(k$chisquare, 4.5765)
+  expect_equal(k$chisquare_lr, 4.6789)
+  expect_equal(k$pval_chisquare, 0.1014)
+  expect_equal(k$pval_chisquare_lr, 0.0964)
+  expect_equal(k$phi_coefficient, 0.1513)
+  expect_equal(k$contingency_coefficient, 0.1496)
+  expect_equal(k$cramers_v, 0.1513)
   expect_equal(k$ds, 6)
 })
 
-test_that("infer_chisq_assoc_test throws the appropriate error", {
-  expect_error(infer_chisq_assoc_test(hsb, female, read), "y must be a categorical variable")
-  expect_error(infer_chisq_assoc_test(hsb, read, ses), "x must be a categorical variable")
+test_that("ifr_chisq_assoc_test throws the appropriate error", {
+  expect_error(ifr_chisq_assoc_test(hsb, female, read), "y must be a categorical variable")
+  expect_error(ifr_chisq_assoc_test(hsb, read, ses), "x must be a categorical variable")
 })
 
-test_that("ouput from infer_chisq_assoc_test is as expected", {
+test_that("ouput from ifr_chisq_assoc_test is as expected", {
   x <- cat("               Chi Square Statistics
+
 Statistics                     DF    Value      Prob
 ----------------------------------------------------
 Chi-Square                     1    0.0470    0.8284
@@ -48,11 +49,12 @@ Contingency Coefficient             0.0153
 Cramer's V                          0.0153
 ----------------------------------------------------")
 
-  expect_equivalent(print(infer_chisq_assoc_test(hsb, female, schtyp)), x)
+  expect_equivalent(print(ifr_chisq_assoc_test(hsb, female, schtyp)), x)
 })
 
-test_that("ouput from infer_chisq_assoc_test 2 is as expected", {
+test_that("ouput from ifr_chisq_assoc_test 2 is as expected", {
   x <- cat("               Chi Square Statistics
+
 Statistics                     DF    Value      Prob
 ----------------------------------------------------
 Chi-Square                     2    4.5765    0.1014
@@ -62,5 +64,5 @@ Contingency Coefficient             0.1496
 Cramer's V                          0.1513
 ----------------------------------------------------")
 
-  expect_equivalent(print(infer_chisq_assoc_test(hsb, female, ses)), x)
+  expect_equivalent(print(ifr_chisq_assoc_test(hsb, female, ses)), x)
 })

@@ -13,13 +13,11 @@ License: MIT + file LICENSE
 URL: https://rsquaredacademy.github.io/inferr/, https://github.com/rsquaredacademy/inferr
 BugReports: https://github.com/rsquaredacademy/inferr/issues
 Imports:    
-    dplyr, 
-    magrittr, 
-    purrr, 
-    Rcpp, 
-    rlang, 
-    tibble, 
-    tidyr
+    data.table,
+    magrittr,
+    Rcpp,
+    stats,
+    utils
 Suggests:
     covr,
     knitr,
