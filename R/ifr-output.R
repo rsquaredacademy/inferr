@@ -1,28 +1,26 @@
 print_owanova <- function(data) {
 
   # width
-  w1 <- nchar("Between Groups")
-  w2 <- max(nchar("Squares"), nchar(data$ss_between), nchar(data$ss_within), nchar(data$ss_total))
-  w3 <- max(nchar("DF"), nchar(data$df_btw), nchar(data$df_btw), nchar(data$df_within), nchar(data$df_total))
-  w4 <- max(nchar("Mean Square"), nchar(data$ms_btw), nchar(data$ms_within))
-  w5 <- max(nchar("F"), nchar(data$fstat))
-  w6 <- max(nchar("Sig."), nchar(format(data$pval, nsmall = 4)))
-  w <- sum(w1, w2, w3, w4, w5, w6, 21)
-  w7 <- nchar(data$rmse)
+  w1  <- nchar("Between Groups")
+  w2  <- max(nchar("Squares"), nchar(data$ss_between), nchar(data$ss_within), nchar(data$ss_total))
+  w3  <- max(nchar("DF"), nchar(data$df_btw), nchar(data$df_btw), nchar(data$df_within), nchar(data$df_total))
+  w4  <- max(nchar("Mean Square"), nchar(data$ms_btw), nchar(data$ms_within))
+  w5  <- max(nchar("F"), nchar(data$fstat))
+  w6  <- max(nchar("Sig."), nchar(format(data$pval, nsmall = 4)))
+  w   <- sum(w1, w2, w3, w4, w5, w6, 21)
+  w7  <- nchar(data$rmse)
 
-  dc <- as.vector(data$group_stats[, 1])
+  dc  <- as.vector(data$group_stats[, 1])
 
-  w8 <- max(nchar("Category"), max(nchar(dc)))
-  w9 <- max(nchar("N"), max(nchar(data$group_stats[[2]])))
+  w8  <- max(nchar("Category"), max(nchar(dc)))
+  w9  <- max(nchar("N"), max(nchar(data$group_stats[[2]])))
   w10 <- max(nchar("Mean"), max(nchar(format(data$group_stats[[3]], nsmall = 3))))
   w11 <- max(nchar("Std. Dev."), max(nchar(format(data$group_stats[[4]], nsmall = 3))))
-  wr <- sum(w8, w9, w10, w11, 13)
+  wr  <- sum(w8, w9, w10, w11, 13)
 
-
-  p <- format(data$pval, nsmall = 4)
-  q <- nrow(data$group_stats)
-  s <- length(data$group_stats)
-
+  p   <- format(data$pval, nsmall = 4)
+  q   <- nrow(data$group_stats)
+  s   <- length(data$group_stats)
 
   cat(fg("ANOVA", w), "\n")
   cat(rep("-", w), sep = "", "\n")
@@ -58,7 +56,7 @@ print_binom <- function(data) {
   w2 <- max(nchar("N"), nchar(data$n))
   w3 <- max(nchar("Obs. Prop"), nchar(data$obs_p))
   w4 <- max(nchar("Exp. Prop"), nchar(data$exp_p))
-  w <- sum(w1, w2, w3, w4, 13)
+  w  <- sum(w1, w2, w3, w4, 13)
 
   k0 <- data$n - data$k
   p0 <- 1 - data$obs_p
@@ -88,15 +86,12 @@ print_binom <- function(data) {
   cat(" ", rep("-", w), sep = "", "\n")
 
   # test summary widths
-  w6 <- nchar("Lower")
-  w7 <- nchar(paste0("Pr(k <= ", data$k, " or k >= ", data$k, ")"))
-  w8 <- nchar(paste0("Pr(k <= ", data$k, " or k >= ", data$k, ")"))
-  w9 <- 8
+  w6  <- nchar("Lower")
+  w7  <- nchar(paste0("Pr(k <= ", data$k, " or k >= ", data$k, ")"))
+  w8  <- nchar(paste0("Pr(k <= ", data$k, " or k >= ", data$k, ")"))
+  w9  <- 8
   w10 <- sum(w6, w7, w9, 9)
   w11 <- sum(w6, w8, w9, 9)
-
-
-
 
   if (data$k < data$exp_k) {
     cat("\n\n", format("Test Summary", width = w11, justify = "centre"), "\n")
@@ -139,53 +134,59 @@ print_binom <- function(data) {
 
 
 print_ttest <- function(data) {
-  null_l <- paste0("Ho: mean(", data$var_name, ") >=", as.character(data$mu))
-  alt_l <- paste0(" Ha: mean(", data$var_name, ") <", as.character(data$mu))
-  null_u <- paste0("Ho: mean(", data$var_name, ") <=", as.character(data$mu))
-  alt_u <- paste0("Ha: mean(", data$var_name, ") >", as.character(data$mu))
-  null_t <- paste0("Ho: mean(", data$var_name, ") ~=", as.character(data$mu))
-  alt_t <- paste0("Ha: mean(", data$var_name, ") !=", as.character(data$mu))
-  all_l <- paste("Ha: mean <", as.character(data$mu))
-  all_u <- paste("Ha: mean >", as.character(data$mu))
-  all_t <- paste("Ha: mean ~=", as.character(data$mu))
-  char_p_l <- format(data$p_l, digits = 0, nsmall = 4)
-  char_p_u <- format(data$p_u, digits = 0, nsmall = 4)
-  char_p <- format(data$p, digits = 0, nsmall = 4)
-  all_p_l <- paste("P < t =", char_p_l)
-  all_p_t <- paste("P > |t| =", char_p)
-  all_p_u <- paste("P > t =", char_p_u)
-  all_tval <- paste0(" t = ", as.character(data$test_stat))
+  
+  null_l   <- paste0("Ho: mean(", data$var_name, ") >=", as.character(data$mu))
+  null_u   <- paste0("Ho: mean(", data$var_name, ") <=", as.character(data$mu))
+  null_t   <- paste0("Ho: mean(", data$var_name, ") ~=", as.character(data$mu))
 
+  alt_l    <- paste0(" Ha: mean(", data$var_name, ") <", as.character(data$mu))
+  alt_u    <- paste0("Ha: mean(", data$var_name, ") >", as.character(data$mu))
+  alt_t    <- paste0("Ha: mean(", data$var_name, ") !=", as.character(data$mu))
+  all_l    <- paste("Ha: mean <", as.character(data$mu))
+  all_u    <- paste("Ha: mean >", as.character(data$mu))
+  all_t    <- paste("Ha: mean ~=", as.character(data$mu))
+
+  char_p_l <- format(round(data$p_l, 5), nsmall = 5, scientific = FALSE)
+  char_p_u <- format(round(data$p_u, 5), nsmall = 5, scientific = FALSE)
+  char_p   <- format(round(data$p, 5), nsmall = 5, scientific = FALSE)
+
+  all_p_l  <- paste("P < t =", char_p_l)
+  all_p_t  <- paste("P > |t| =", char_p)
+  all_p_u  <- paste("P > t =", char_p_u)
+  all_tval <- paste0(" t = ", as.character(data$test_stat))
 
   # formatting output
   # compute the characters of each output and decide the overall width
-  var_width <- max(nchar("Variable"), nchar(data$var_name))
-  obs_width <- max(nchar("Obs"), nchar(data$n))
-  mean_width <- max(nchar("Mean"), nchar(data$Mean))
-  se_width <- max(nchar("Std. Err."), nchar(data$std_err))
-  sd_width <- max(nchar("Std. Dev."), nchar(data$stddev))
+  var_width   <- max(nchar("Variable"), nchar(data$var_name))
+  obs_width   <- max(nchar("Obs"), nchar(data$n))
+  mean_width  <- max(nchar("Mean"), nchar(data$Mean))
+  se_width    <- max(nchar("Std. Err."), nchar(data$std_err))
+  sd_width    <- max(nchar("Std. Dev."), nchar(data$stddev))
   conf_length <- nchar(data$confint[1]) + nchar(data$confint[2])
-  conf_str <- paste0("[", data$conf * 100, "% Conf. Interval]")
+  conf_str    <- paste0("[", data$conf * 100, "% Conf. Interval]")
   confint_length <- nchar(conf_str)
+  
   if (conf_length > confint_length) {
     conf_width <- round(conf_length / 2)
   } else {
     conf_width <- round(confint_length / 2)
   }
-  t_width <- nchar(data$test_stat)
-  df_width <- max(nchar("DF"), nchar(data$df))
-  p_width <- max(nchar("2 Tailed"), nchar(round(data$p, 5)))
-  md_width <- max(nchar("Difference"), nchar(data$mean_diff))
-  md_length <- nchar(data$mean_diff_l) + nchar(data$mean_diff_u)
+  
+  t_width     <- nchar(data$test_stat)
+  df_width    <- max(nchar("DF"), nchar(data$df))
+  p_width     <- max(nchar("2 Tailed"), nchar(round(data$p, 5)))
+  md_width    <- max(nchar("Difference"), nchar(data$mean_diff))
+  md_length   <- nchar(data$mean_diff_l) + nchar(data$mean_diff_u)
+ 
   if (md_length > confint_length) {
     md_conf_width <- floor(md_length / 2)
   } else {
     md_conf_width <- floor(confint_length / 2)
   }
 
-  width_1 <- sum(var_width, obs_width, mean_width, se_width, sd_width, ceiling(conf_width * 2), 26)
-  width_2 <- sum(var_width, t_width, df_width, p_width, md_width, ceiling(md_conf_width * 2), 26)
-  all_width <- round(width_1 / 3)
+  width_1     <- sum(var_width, obs_width, mean_width, se_width, sd_width, ceiling(conf_width * 2), 26)
+  width_2     <- sum(var_width, t_width, df_width, p_width, md_width, ceiling(md_conf_width * 2), 26)
+  all_width   <- round(width_1 / 3)
 
   cat(
     format("One-Sample Statistics", width = width_1, justify = "centre"),
@@ -228,7 +229,7 @@ print_ttest <- function(data) {
       "\n", formatter_t(data$var_name, var_width), formats_t(),
       formatter_t(round(data$test_stat, 3), t_width), formats_t(),
       formatter_t(data$df, df_width), formats_t(),
-      formatter_t(round(data$p_l, 5), p_width),
+      formatter_t(format(round(data$p_l, 5), scientific = FALSE), p_width),
       formats_t(), formatter_t(data$mean_diff, md_width), formats_t(),
       format_cil(round(data$mean_diff_l, 4), md_conf_width),
       format_ciu(round(data$mean_diff_u, 4), md_conf_width), "\n"
@@ -249,7 +250,7 @@ print_ttest <- function(data) {
       "\n", formatter_t(data$var_name, var_width), formats_t(),
       formatter_t(round(data$test_stat, 3), t_width), formats_t(),
       formatter_t(data$df, df_width), formats_t(),
-      formatter_t(round(data$p_l, 5), p_width),
+      formatter_t(format(round(data$p_u, 5), scientific = FALSE), p_width),
       formats_t(), formatter_t(data$mean_diff, md_width), formats_t(),
       format_cil(round(data$mean_diff_l, 4), md_conf_width),
       format_ciu(round(data$mean_diff_u, 4), md_conf_width), "\n"
@@ -270,7 +271,7 @@ print_ttest <- function(data) {
       "\n", formatter_t(data$var_name, var_width), formats_t(),
       formatter_t(round(data$test_stat, 3), t_width), formats_t(),
       formatter_t(data$df, df_width), formats_t(),
-      formatter_t(round(data$p_l, 5), p_width),
+      formatter_t(format(round(data$p, 5), scientific = FALSE), p_width),
       formats_t(), formatter_t(data$mean_diff, md_width), formats_t(),
       format_cil(round(data$mean_diff_l, 4), md_conf_width),
       format_ciu(round(data$mean_diff_u, 4), md_conf_width), "\n"
@@ -286,50 +287,52 @@ print_ttest <- function(data) {
 
 
 print_paired_ttest <- function(data) {
-  char_p_u <- format(data$p_upper, digits = 0, nsmall = 3)
-  char_p_l <- format(data$p_lower, digits = 0, nsmall = 3)
-  char_p <- format(data$p_two_tail, digits = 0, nsmall = 3)
+  
+  char_p_u     <- format(round(data$p_upper, 3), nsmall = 3, scientific = FALSE)
+  char_p_l     <- format(round(data$p_lower, 3), nsmall = 3, scientific = FALSE)
+  char_p       <- format(round(data$p_two_tail, 3), nsmall = 3, scientific = FALSE)
 
   # hypothesis heading
-  hyp_null <- paste0("Ho: mean(", data$var_names[1], " - ", data$var_names[2], ") = ", "0")
-  hyp_lt <- paste0("Ha: mean(", data$var_names[1], " - ", data$var_names[2], ") < ", "0")
-  hyp_ut <- paste0("Ha: mean(", data$var_names[1], " - ", data$var_names[2], ") > ", "0")
-  hyp_2t <- paste0("Ha: mean(", data$var_names[1], " - ", data$var_names[2], ") ~= ", "0")
-  conf <- data$confint * 100
-  conf_char <- paste0("[", conf, "% Conf. Interval]")
+  hyp_null     <- paste0("Ho: mean(", data$var_names[1], " - ", data$var_names[2], ") = ", "0")
+  hyp_lt       <- paste0("Ha: mean(", data$var_names[1], " - ", data$var_names[2], ") < ", "0")
+  hyp_ut       <- paste0("Ha: mean(", data$var_names[1], " - ", data$var_names[2], ") > ", "0")
+  hyp_2t       <- paste0("Ha: mean(", data$var_names[1], " - ", data$var_names[2], ") ~= ", "0")
+  conf         <- data$confint * 100
+  conf_char    <- paste0("[", conf, "% Conf. Interval]")
 
   # all tests combines
-  all_null <- paste0("Ho: mean(", data$var_names[1], " - ", data$var_names[2], ") = mean(diff) = ", "0")
-  all_p_l <- paste("P < t =", char_p_l)
-  all_p_t <- paste("P > |t| =", char_p)
-  all_p_u <- paste("P > t =", char_p_u)
-  all_tval <- paste0(" t = ", as.character(data$tstat))
+  all_null     <- paste0("Ho: mean(", data$var_names[1], " - ", data$var_names[2], ") = mean(diff) = ", "0")
+  all_p_l      <- paste("P < t =", char_p_l)
+  all_p_t      <- paste("P > |t| =", char_p)
+  all_p_u      <- paste("P > t =", char_p_u)
+  all_tval     <- paste0(" t = ", as.character(data$tstat))
 
   # formatting output
-  var_width1 <- max(nchar("Variables"), nchar(data$var_names[1]), nchar(data$var_names[2]), nchar("diff"))
-  var_width <- max(nchar("Variables"), nchar(data$xy))
-  obs_width <- max(nchar("Obs"), nchar(data$Obs))
-  mean_width <- max(nchar("Mean"), nchar(format(max(data$b[["mean"]]), nsmall = 2)))
-  se_width <- max(nchar("Std. Err."), nchar(format(max(data$b[["se"]]), nsmall = 2)))
-  sd_width <- max(nchar("Std. Dev."), nchar(format(max(data$b[["sd"]]), nsmall = 2)))
-  corr_width <- nchar("Correlation")
+  var_width1   <- max(nchar("Variables"), nchar(data$var_names[1]), nchar(data$var_names[2]), nchar("diff"))
+  var_width    <- max(nchar("Variables"), nchar(data$xy))
+  obs_width    <- max(nchar("Obs"), nchar(data$Obs))
+  mean_width   <- max(nchar("Mean"), nchar(format(max(data$b[["mean"]]), nsmall = 2)))
+  se_width     <- max(nchar("Std. Err."), nchar(format(max(data$b[["se"]]), nsmall = 2)))
+  sd_width     <- max(nchar("Std. Dev."), nchar(format(max(data$b[["sd"]]), nsmall = 2)))
+  corr_width   <- nchar("Correlation")
   corsig_width <- max(nchar("Sig."), nchar(data$corsig))
-  t_width <- nchar(data$tstat)
-  df_width <- max(nchar("DF"), nchar(data$df))
-  p_width <- max(nchar("Sig."), nchar(format(data$corsig, nsmall = 3)))
-  conf_length <- max(sum(nchar(data$conf_int1)), sum(nchar(data$conf_int2)))
+  t_width      <- nchar(data$tstat)
+  df_width     <- max(nchar("DF"), nchar(data$df))
+  p_width      <- max(nchar("Sig."), nchar(format(data$corsig, nsmall = 3)))
+  conf_length  <- max(sum(nchar(data$conf_int1)), sum(nchar(data$conf_int2)))
+  
   if (conf_length > 20) {
-    conf_width <- conf_length
+    conf_width   <- conf_length
     conf_l_width <- ceiling(conf_width / 2)
     conf_u_width <- ceiling(conf_width / 2)
   } else {
-    conf_width <- 20
+    conf_width   <- 20
     conf_l_width <- 10
     conf_u_width <- 10
   }
-  space1 <- 20
-  space2 <- 13
-  space3 <- 13
+  space1  <- 20
+  space2  <- 13
+  space3  <- 13
   width_1 <- sum(var_width1, obs_width, mean_width, se_width, sd_width, conf_width, space1)
   width_2 <- sum(var_width, obs_width, corr_width, corsig_width, space2)
   width_3 <- sum(var_width, t_width, df_width, p_width, space3)
@@ -432,19 +435,19 @@ print_paired_ttest <- function(data) {
 
 
 print_two_ttest <- function(data) {
-  char_sig <- format(data$sig, digits = 0, nsmall = 4)
-  char_sig_l <- format(data$sig_l, digits = 0, nsmall = 4)
-  char_sig_u <- format(data$sig_u, digits = 0, nsmall = 4)
-  char_sig_pooled <- format(data$sig_pooled, digits = 0, nsmall = 4)
-  char_sig_pooled_l <- format(data$sig_pooled_l, digits = 0, nsmall = 4)
-  char_sig_pooled_u <- format(data$sig_pooled_u, digits = 0, nsmall = 4)
+  char_sig          <- format(round(data$sig, 4), nsmall = 4, scientific = FALSE)
+  char_sig_l        <- format(round(data$sig_l, 4), nsmall = 4, scientific = FALSE)
+  char_sig_u        <- format(round(data$sig_u, 4), nsmall = 4, scientific = FALSE)
+  char_sig_pooled   <- format(round(data$sig_pooled, 4), nsmall = 4, scientific = FALSE)
+  char_sig_pooled_l <- format(round(data$sig_pooled_l, 4), nsmall = 4, scientific = FALSE)
+  char_sig_pooled_u <- format(round(data$sig_pooled_u, 4), nsmall = 4, scientific = FALSE)
 
   # hypothesis heading
-  hyp_null <- paste0("Ho: mean(", data$levels[1], ") - mean(", data$levels[2], ") = diff = ", "0")
-  hyp_lt <- paste0("Ha: diff < ", "0")
-  hyp_2t <- paste0("Ha: diff ~= ", "0")
-  hyp_ut <- paste0("Ha: diff > ", "0")
-  conf <- data$confint * 100
+  hyp_null  <- paste0("Ho: mean(", data$levels[1], ") - mean(", data$levels[2], ") = diff = ", "0")
+  hyp_lt    <- paste0("Ha: diff < ", "0")
+  hyp_2t    <- paste0("Ha: diff ~= ", "0")
+  hyp_ut    <- paste0("Ha: diff > ", "0")
+  conf      <- data$confint * 100
   conf_char <- paste0("[", conf, "% Conf. Interval]")
 
   # all tests combines
@@ -454,34 +457,36 @@ print_two_ttest <- function(data) {
   all_s_l <- paste("P < t =", char_sig_l)
   all_s_t <- paste("P > |t| =", char_sig)
   all_s_u <- paste("P > t =", char_sig_u)
-  p_tval <- paste0(" t = ", as.character(data$t_pooled))
-  s_tval <- paste0(" t = ", as.character(data$t_satterthwaite))
+  p_tval  <- paste0(" t = ", as.character(data$t_pooled))
+  s_tval  <- paste0(" t = ", as.character(data$t_satterthwaite))
 
   # format output
-  grp_w <- max(nchar(data$levels[1]), nchar(data$levels[2]), nchar("Combined"), 10)
-  obs_w <- max(nchar("Obs"), nchar(data$obs[1]), nchar(data$obs[2]), nchar(data$n))
+  grp_w  <- max(nchar(data$levels[1]), nchar(data$levels[2]), nchar("Combined"), 10)
+  obs_w  <- max(nchar("Obs"), nchar(data$obs[1]), nchar(data$obs[2]), nchar(data$n))
   mean_w <- max(nchar("Mean"), nchar(data$mean[1]), nchar(data$mean[2]), nchar(data$mean_diff), nchar(data$combined[2]))
-  se_w <- max(nchar("Std. Err."), nchar(data$se[1]), nchar(data$se[2]), nchar(data$combined[4]), nchar(data$se_dif))
-  sd_w <- max(nchar("Std. Dev."), nchar(data$sd[1]), nchar(data$sd[2]), nchar(data$combined[3]), nchar(data$sd_dif))
-  df_w <- max(nchar("DF"), nchar(as.vector(data$df_pooled)), nchar(as.vector(data$df_satterthwaite)))
-  t_w <- max(nchar("t Value"), nchar(as.vector(data$t_pooled)), nchar(as.vector(data$t_satterthwaite)))
-  pt_w <- max(
+  se_w   <- max(nchar("Std. Err."), nchar(data$se[1]), nchar(data$se[2]), nchar(data$combined[4]), nchar(data$se_dif))
+  sd_w   <- max(nchar("Std. Dev."), nchar(data$sd[1]), nchar(data$sd[2]), nchar(data$combined[3]), nchar(data$sd_dif))
+  df_w   <- max(nchar("DF"), nchar(as.vector(data$df_pooled)), nchar(as.vector(data$df_satterthwaite)))
+  t_w    <- max(nchar("t Value"), nchar(as.vector(data$t_pooled)), nchar(as.vector(data$t_satterthwaite)))
+  pt_w   <- max(
     nchar("P > |t|"), nchar(as.vector(char_sig)), nchar(as.vector(char_sig_l)), nchar(as.vector(char_sig_u)),
     nchar(as.vector(char_sig_pooled)), nchar(as.vector(char_sig_pooled_l)), nchar(as.vector(char_sig_u))
   )
-  numdf_w <- max(nchar("Num DF"), nchar(as.vector(data$num_df)), nchar(as.vector(data$den_df)))
-  f_w <- max(nchar("F Value"), nchar(as.vector(data$f)))
-  fp_w <- max(nchar("P > F"), nchar(as.vector(data$f_sig)))
+  numdf_w     <- max(nchar("Num DF"), nchar(as.vector(data$num_df)), nchar(as.vector(data$den_df)))
+  f_w         <- max(nchar("F Value"), nchar(as.vector(data$f)))
+  fp_w        <- max(nchar("P > F"), nchar(as.vector(data$f_sig)))
   conf_length <- nchar(data$lower[1]) + nchar(data$upper[1])
+  
   if (conf_length > 20) {
-    conf_width <- conf_length
+    conf_width   <- conf_length
     conf_l_width <- ceiling(conf_width / 2)
     conf_u_width <- floor(conf_width / 2)
   } else {
-    conf_width <- 20
+    conf_width   <- 20
     conf_l_width <- 10
     conf_u_width <- 10
   }
+  
   w1 <- sum(grp_w, obs_w, mean_w, se_w, sd_w, conf_width, 20)
   w2 <- sum(grp_w, 13, 9, df_w, t_w, pt_w, 20)
   w3 <- sum(grp_w, 8, numdf_w, numdf_w, f_w, fp_w, 20)
@@ -631,16 +636,17 @@ print_two_ttest <- function(data) {
 
 
 print_prop_test <- function(data) {
+  
   cwidth <- max(nchar("z"), nchar("DF"), nchar("Pr(|Z| > |z|)"), nchar("Sample Size"), nchar("phat"))
   nwidth <- max(nchar(data$z), nchar(data$p0), nchar(data$sig[1]), nchar(data$n), nchar(data$phat))
-  w1 <- sum(cwidth, nwidth, 6)
-  lw <- max(nchar("Variable"), nchar(data$varname))
-  ow <- max(nchar("Observed"), nchar(data$n))
-  ew <- max(nchar("Expected"), nchar(data$exp))
-  dw <- max(nchar("% Deviation"), nchar(data$deviation))
-  rw <- max(nchar("Std. Residuals"), nchar(data$std))
-  w <- sum(lw, ow, ew, dw, rw, 16)
-  names <- c(0, 1)
+  w1     <- sum(cwidth, nwidth, 6)
+  lw     <- max(nchar("Variable"), nchar(data$varname))
+  ow     <- max(nchar("Observed"), nchar(data$n))
+  ew     <- max(nchar("Expected"), nchar(data$exp))
+  dw     <- max(nchar("% Deviation"), nchar(data$deviation))
+  rw     <- max(nchar("Std. Residuals"), nchar(data$std))
+  w      <- sum(lw, ow, ew, dw, rw, 16)
+  names  <- c(0, 1)
 
   if (data$alt == "less") {
     cat(format("Test Statistics", width = w1, justify = "centre"), "\n")
@@ -691,10 +697,10 @@ print_prop_test <- function(data) {
 }
 
 print_ts_prop_test <- function(data) {
+  
   cwidth <- max(nchar("z"), nchar("Pr(|Z| > |z|)"), nchar("Total Observations"))
   nwidth <- max(nchar(data$z), nchar(data$sig[1]), nchar(data$n1), nchar(data$n2))
-  w1 <- sum(cwidth, nwidth, 6)
-
+  w1     <- sum(cwidth, nwidth, 6)
   totobs <- sum(data$n1, data$n2)
 
   if (data$alt == "less") {
@@ -728,53 +734,59 @@ print_ts_prop_test <- function(data) {
 
 
 print_os_vartest <- function(data) {
-  null_l <- paste0("Ho: sd(", data$var_name, ") >= ", as.character(data$sd))
-  alt_l <- paste0(" Ha: sd(", data$var_name, ") < ", as.character(data$sd))
-  null_u <- paste0("Ho: sd(", data$var_name, ") <= ", as.character(data$sd))
-  alt_u <- paste0("Ha: sd(", data$var_name, ") > ", as.character(data$sd))
-  null_t <- paste0("Ho: sd(", data$var_name, ") = ", as.character(data$sd))
-  alt_t <- paste0("Ha: sd(", data$var_name, ") != ", as.character(data$sd))
-  all_l <- paste("Ha: sd <", as.character(data$sd))
-  all_u <- paste("Ha: sd >", as.character(data$sd))
-  all_t <- paste("Ha: sd !=", as.character(data$sd))
-  char_p_l <- format(data$p_lower, digits = 0, nsmall = 4)
-  char_p_u <- format(data$p_upper, digits = 0, nsmall = 4)
-  char_p <- format(data$p_two, digits = 0, nsmall = 4)
-  all_p_l <- paste("Pr(C < c) =", char_p_l)
+  
+  null_l   <- paste0("Ho: sd(", data$var_name, ") >= ", as.character(data$sd))
+  null_u   <- paste0("Ho: sd(", data$var_name, ") <= ", as.character(data$sd))
+  null_t   <- paste0("Ho: sd(", data$var_name, ") = ", as.character(data$sd))
+  
+  alt_l    <- paste0(" Ha: sd(", data$var_name, ") < ", as.character(data$sd))
+  alt_u    <- paste0("Ha: sd(", data$var_name, ") > ", as.character(data$sd))
+  alt_t    <- paste0("Ha: sd(", data$var_name, ") != ", as.character(data$sd))
+  all_l    <- paste("Ha: sd <", as.character(data$sd))
+  all_u    <- paste("Ha: sd >", as.character(data$sd))
+  all_t    <- paste("Ha: sd !=", as.character(data$sd))
+
+  char_p_l <- format(round(data$p_lower, 4), nsmall = 4, scientific = FALSE)
+  char_p_u <- format(round(data$p_upper, 4), nsmall = 4, scientific = FALSE)
+  char_p   <- format(round(data$p_two, 4), nsmall = 4, scientific = FALSE)
+  
   if (data$p_lower < 0.5) {
     all_p_t <- paste("2 * Pr(C < c) =", char_p)
   } else {
     all_p_t <- paste("2 * Pr(C > c) =", char_p)
   }
-  all_p_u <- paste("Pr(C > c) =", char_p_u)
+  
+  all_p_l  <- paste("Pr(C < c) =", char_p_l)
+  all_p_u  <- paste("Pr(C > c) =", char_p_u)
   all_tval <- paste0(" c = ", as.character(data$chi))
-
 
   # formatting output
   # compute the characters of each output and decide the overall width
-  var_width <- max(nchar("Variable"), nchar(data$var_name))
-  obs_width <- max(nchar("Obs"), nchar(data$n))
-  mean_width <- max(nchar("Mean"), nchar(data$xbar))
-  se_width <- max(nchar("Std. Err."), nchar(data$se))
-  sd_width <- max(nchar("Std. Dev."), nchar(data$sigma))
+  var_width   <- max(nchar("Variable"), nchar(data$var_name))
+  obs_width   <- max(nchar("Obs"), nchar(data$n))
+  mean_width  <- max(nchar("Mean"), nchar(data$xbar))
+  se_width    <- max(nchar("Std. Err."), nchar(data$se))
+  sd_width    <- max(nchar("Std. Dev."), nchar(data$sigma))
   conf_length <- nchar(data$c_lwr) + nchar(data$c_upr)
-  conf_str <- paste0("[", data$conf * 100, "% Conf. Interval]")
+  conf_str    <- paste0("[", data$conf * 100, "% Conf. Interval]")
   confint_length <- nchar(conf_str)
+  
   if (conf_length > confint_length) {
     conf_width <- round(conf_length / 2)
   } else {
     conf_width <- round(confint_length / 2)
   }
-  c_width <- nchar(data$chi)
-  df_width <- max(nchar("DF"), nchar(data$df))
-  p_width <- max(nchar("2 Tailed"), nchar(round(data$p_two, 5)))
-  md_width <- max(nchar("Difference"), nchar(data$mean_diff))
+  
+  c_width   <- nchar(data$chi)
+  df_width  <- max(nchar("DF"), nchar(data$df))
+  p_width   <- max(nchar("2 Tailed"), nchar(round(data$p_two, 5)))
+  md_width  <- max(nchar("Difference"), nchar(data$mean_diff))
   md_length <- nchar(data$mean_diff_l) + nchar(data$mean_diff_u)
 
-  width_1 <- sum(var_width, obs_width, mean_width, se_width, sd_width, ceiling(conf_width * 2), 21)
-  width_2 <- sum(var_width, c_width, df_width, p_width, 12)
+  width_1   <- sum(var_width, obs_width, mean_width, se_width, sd_width, ceiling(conf_width * 2), 21)
+  width_2   <- sum(var_width, c_width, df_width, p_width, 12)
   all_width <- round(width_1 / 3)
-  width_3 <- all_width * 3
+  width_3   <- all_width * 3
 
   cat(
     format("One-Sample Statistics", width = width_1, justify = "centre"),
@@ -869,12 +881,15 @@ print_os_vartest <- function(data) {
 
 
 print_chisq_test <- function(x) {
+  
   width1 <- nchar("Likelihood Ratio Chi-Square")
   width2 <- max(nchar(x$df))
+  
   width3 <- max(
     nchar(x$chisquare), nchar(x$chisquare_lr), nchar(x$chisquare_mantel_haenszel), nchar(x$chisquare_adjusted), nchar(x$phi_coefficient),
     nchar(x$contingency_coefficient), nchar(x$cramers_v)
   )
+  
   width4 <- 6
   widthn <- sum(width1, width2, width3, width4, 12)
 
@@ -947,17 +962,17 @@ print_chisq_test <- function(x) {
 
 
 print_chisq_gof <- function(data) {
+  
   cwidth <- max(nchar("Chi-Square"), nchar("DF"), nchar("Pr > Chi Sq"), nchar("Sample Size"))
   nwidth <- max(nchar(data$chisquare), nchar(data$degrees_of_freedom), nchar(data$pvalue), 
     nchar(data$sample_size))
-  w1 <- sum(cwidth, nwidth, 6)
-  lw <- max(nchar("Variable"), nchar(data$categories))
-  ow <- max(nchar("Observed"), nchar(data$observed_frequency))
-  ew <- max(nchar("Expected"), nchar(data$expected_frequency))
-  dw <- max(nchar("% Deviation"), nchar(data$deviation))
-  rw <- max(nchar("Std. Residuals"), nchar(data$std_residuals))
-  w <- sum(lw, ow, ew, dw, rw, 16)
-
+  w1     <- sum(cwidth, nwidth, 6)
+  lw     <- max(nchar("Variable"), nchar(data$categories))
+  ow     <- max(nchar("Observed"), nchar(data$observed_frequency))
+  ew     <- max(nchar("Expected"), nchar(data$expected_frequency))
+  dw     <- max(nchar("% Deviation"), nchar(data$deviation))
+  rw     <- max(nchar("Std. Residuals"), nchar(data$std_residuals))
+  w      <- sum(lw, ow, ew, dw, rw, 16)
 
   cat(format("Test Statistics", width = w1, justify = "centre"), "\n")
   cat(rep("-", w1), sep = "", "\n")
@@ -996,9 +1011,10 @@ print_runs_test <- function(x) {
 
 
 print_cochran_test <- function(data) {
+  
   cwidth <- max(nchar("N"), nchar("Cochran's Q"), nchar("df"), nchar("p value"))
   nwidth <- max(nchar(data$n), nchar(data$q), nchar(data$df), nchar(data$pvalue))
-  w1 <- sum(cwidth, nwidth, 6)
+  w1     <- sum(cwidth, nwidth, 6)
 
   cat(format("Test Statistics", width = w1, justify = "centre"), "\n")
   cat(rep("-", w1), sep = "", "\n")
@@ -1011,43 +1027,26 @@ print_cochran_test <- function(data) {
 
 
 print_mcnemar_test <- function(data) {
-  cwidth1 <- max(
-    nchar("McNemar's chi2"), nchar("DF"), nchar("Pr > chi2"),
-    nchar("Exact Pr >= chi2")
-  )
-  nwidth1 <- max(
-    nchar(data$tatistic), nchar(data$df), nchar(data$pvalue),
-    nchar(data$exactp)
-  )
-  w1 <- sum(cwidth1, nwidth1, 6)
+  
+  cwidth1 <- max(nchar("McNemar's chi2"), nchar("DF"), nchar("Pr > chi2"), nchar("Exact Pr >= chi2"))
+  nwidth1 <- max(nchar(data$tatistic), nchar(data$df), nchar(data$pvalue), nchar(data$exactp))
+  w1      <- sum(cwidth1, nwidth1, 6)
 
-  cwidth2 <- max(
-    nchar("Kappa"), nchar("ASE"), nchar("95% Lower Conf Limit"),
-    nchar("95% Upper Conf Limit")
-  )
-  nwidth2 <- max(
-    nchar(data$kappa), nchar(data$std_err), nchar(data$kappa_cil),
-    nchar(data$kappa_ciu)
-  )
-  w2 <- sum(cwidth2, nwidth2, 6)
+  cwidth2 <- max(nchar("Kappa"), nchar("ASE"), nchar("95% Lower Conf Limit"), nchar("95% Upper Conf Limit"))
+  nwidth2 <- max(nchar(data$kappa), nchar(data$std_err), nchar(data$kappa_cil), nchar(data$kappa_ciu))
+  w2      <- sum(cwidth2, nwidth2, 6)
 
-  cwidth3 <- max(
-    nchar("Cases"), nchar("Controls"), nchar("Ratio"),
-    nchar("Odds Ratio")
-  )
-  nwidth3 <- max(
-    nchar(data$cases), nchar(data$controls), nchar(data$ratio),
-    nchar(data$odratio)
-  )
-  w3 <- sum(cwidth3, nwidth3, 6)
+  cwidth3 <- max(nchar("Cases"), nchar("Controls"), nchar("Ratio"), nchar("Odds Ratio"))
+  nwidth3 <- max(nchar(data$cases), nchar(data$controls), nchar(data$ratio), nchar(data$odratio))
+  w3      <- sum(cwidth3, nwidth3, 6)
 
-  tcs <- colSums(data$tbl)
-  trs <- rowSums(data$tbl)
+  tcs     <- colSums(data$tbl)
+  trs     <- rowSums(data$tbl)
   twidth1 <- 5
   twidth2 <- max(nchar(data$tbl[, 1]), nchar(tcs[1]))
   twidth3 <- max(nchar(data$tbl[, 2]), nchar(tcs[2]))
   twidth4 <- max(5, nchar(sum(trs)))
-  w4 <- sum(twidth1, twidth2, twidth3, twidth4, 18)
+  w4      <- sum(twidth1, twidth2, twidth3, twidth4, 18)
   twidth5 <- sum(twidth2, twidth3)
 
   cat(
@@ -1111,21 +1110,23 @@ print_mcnemar_test <- function(data) {
 
 
 print_levene_test <- function(data) {
-  lw <- max(nchar("Levels"), nchar(data$levs), nchar("Total"))
-  ow <- max(nchar("Frequency"), nchar(data$lens), nchar(data$n))
-  ew <- max(nchar("Mean"), nchar(data$avgs), nchar(data$avg))
-  dw <- max(nchar("Std. Dev."), nchar(data$sds), nchar(data$sd))
-  w <- sum(lw, ow, ew, dw, 12)
+  
+  lw     <- max(nchar("Levels"), nchar(data$levs), nchar("Total"))
+  ow     <- max(nchar("Frequency"), nchar(data$lens), nchar(data$n))
+  ew     <- max(nchar("Mean"), nchar(data$avgs), nchar(data$avg))
+  dw     <- max(nchar("Std. Dev."), nchar(data$sds), nchar(data$sd))
+  w      <- sum(lw, ow, ew, dw, 12)
 
   cwidth <- max(
     nchar("Statistic"), nchar("Brown and Forsythe"), nchar("Levene"),
     nchar("Brown and Forsythe (Trimmed Mean)")
   )
+  
   nwidth <- max(nchar("Num DF"), nchar(data$n_df))
   dwidth <- max(nchar("Den DF"), nchar(data$d_df))
   ewidth <- max(nchar("F"), nchar(data$bf), nchar(data$lev), nchar(data$bft))
   fwidth <- max(nchar("Pr > F"), nchar(data$p_bf), nchar(data$p_lev), nchar(data$p_bft))
-  w1 <- sum(cwidth, nwidth, dwidth, ewidth, fwidth, 16)
+  w1     <- sum(cwidth, nwidth, dwidth, ewidth, fwidth, 16)
 
   cat(format("Summary Statistics", width = w, justify = "centre"), "\n")
   cat(
@@ -1174,30 +1175,32 @@ print_levene_test <- function(data) {
 
 
 print_var_test <- function(data) {
-  var_width <- max(nchar("combined"), nchar(data$lev))
-  obs_width <- max(nchar("Obs"), nchar(data$lens), nchar(data$len))
+
+  var_width  <- max(nchar("combined"), nchar(data$lev))
+  obs_width  <- max(nchar("Obs"), nchar(data$lens), nchar(data$len))
   mean_width <- max(nchar("Mean"), nchar(data$avgs), nchar(data$avg))
-  se_width <- max(nchar("Std. Err."), nchar(data$ses), nchar(data$se))
-  sd_width <- max(nchar("Std. Dev."), nchar(data$sds), nchar(data$sd))
-  width_1 <- sum(var_width, obs_width, mean_width, se_width, sd_width, 16)
+  se_width   <- max(nchar("Std. Err."), nchar(data$ses), nchar(data$se))
+  sd_width   <- max(nchar("Std. Dev."), nchar(data$sds), nchar(data$sd))
+  width_1    <- sum(var_width, obs_width, mean_width, se_width, sd_width, 16)
 
-  rto <- paste0("ratio = sd(", data$lev[1], ") / (", data$lev[2], ")")
-  nhyp <- "Ho: ratio = 1"
-  lhyp <- "Ha: ratio < 1"
-  uhyp <- "Ha: ratio > 1"
-  char_p_l <- format(data$lower, digits = 0, nsmall = 4)
-  char_p_u <- format(data$upper, digits = 0, nsmall = 4)
-  all_p_l <- paste("Pr(F < f) =", char_p_l)
-  all_p_u <- paste("Pr(F > f) =", char_p_u)
+  rto        <- paste0("ratio = sd(", data$lev[1], ") / (", data$lev[2], ")")
+  nhyp       <- "Ho: ratio = 1"
+  lhyp       <- "Ha: ratio < 1"
+  uhyp       <- "Ha: ratio > 1"
 
+  char_p_l   <- format(round(data$lower, 4), nsmall = 4, scientific = FALSE)
+  char_p_u   <- format(round(data$upper, 4), nsmall = 4, scientific = FALSE)
+  
+  all_p_l    <- paste("Pr(F < f) =", char_p_l)
+  all_p_u    <- paste("Pr(F > f) =", char_p_u)
 
-  f_width <- nchar(data$f)
-  df1_width <- max(nchar("Num DF"), nchar(data$n1))
-  df2_width <- max(nchar("Den DF"), nchar(data$n2))
-  p_width <- max(nchar("p"), nchar(char_p_l))
-  width_2 <- sum(f_width, df1_width, df2_width, p_width, 12)
-  width_3 <- sum(f_width, df1_width, df2_width, 8)
-  all_width <- sum(nchar(all_p_l), nchar(all_p_u), 4)
+  f_width    <- nchar(data$f)
+  df1_width  <- max(nchar("Num DF"), nchar(data$n1))
+  df2_width  <- max(nchar("Den DF"), nchar(data$n2))
+  p_width    <- max(nchar("p"), nchar(char_p_l))
+  width_2    <- sum(f_width, df1_width, df2_width, p_width, 12)
+  width_3    <- sum(f_width, df1_width, df2_width, 8)
+  all_width  <- sum(nchar(all_p_l), nchar(all_p_u), 4)
 
   cat(
     format("Variance Ratio Test", width = width_1, justify = "centre"),

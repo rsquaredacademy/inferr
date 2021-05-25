@@ -48,6 +48,7 @@
 #'
 #' # all tails
 #' ifr_os_t_test(hsb, write, mu = 50, alternative = 'all')
+#'
 #' @export
 #'
 ifr_os_t_test <- function(data, x, mu = 0, alpha = 0.05,
