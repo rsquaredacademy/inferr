@@ -34,15 +34,18 @@ Variables    Obs    Mean     Std. Err.    Std. Dev.    [95% Conf. Interval]
 ---------------------------------------------------------------------------
    diff       200    -0.55      0.63         8.89         -1.79       0.69
 ---------------------------------------------------------------------------
+
          Paired Samples Correlations
 -------------------------------------------
   Variables      Obs    Correlation    Sig.
  read & write    200       0.60        0
 -------------------------------------------
+
           Paired Samples Test
           -------------------
       Ho: mean(read - write) = 0
       Ha: mean(read - write) < 0
+
 ---------------------------------------
   Variables        t       df     Sig.
 ---------------------------------------
@@ -65,15 +68,18 @@ Variables    Obs    Mean     Std. Err.    Std. Dev.    [95% Conf. Interval]
 ---------------------------------------------------------------------------
    diff       200    -0.55      0.63         8.89         -1.79       0.69
 ---------------------------------------------------------------------------
+
          Paired Samples Correlations
 -------------------------------------------
   Variables      Obs    Correlation    Sig.
  read & write    200       0.60        0
 -------------------------------------------
+
           Paired Samples Test
           -------------------
       Ho: mean(read - write) = 0
       Ha: mean(read - write) > 0
+
 ---------------------------------------
   Variables        t       df     Sig.
 ---------------------------------------
@@ -96,15 +102,18 @@ Variables    Obs    Mean     Std. Err.    Std. Dev.    [95% Conf. Interval]
 ---------------------------------------------------------------------------
    diff       200    -0.55      0.63         8.89         -1.79       0.69
 ---------------------------------------------------------------------------
+
          Paired Samples Correlations
 -------------------------------------------
   Variables      Obs    Correlation    Sig.
  read & write    200       0.60        0
 -------------------------------------------
+
           Paired Samples Test
           -------------------
       Ho: mean(read - write) = 0
       Ha: mean(read - write) ~= 0
+
 ---------------------------------------
   Variables        t       df     Sig.
 ---------------------------------------
@@ -127,12 +136,15 @@ Variables    Obs    Mean     Std. Err.    Std. Dev.    [95% Conf. Interval]
 ---------------------------------------------------------------------------
    diff       200    -0.55      0.63         8.89         -1.79       0.69
 ---------------------------------------------------------------------------
+
          Paired Samples Correlations
 -------------------------------------------
   Variables      Obs    Correlation    Sig.
  read & write    200       0.60        0
 -------------------------------------------
+
                 Ho: mean(read - write) = mean(diff) = 0
+
    Ha: mean(diff) < 0      Ha: mean(diff) ~= 0       Ha: mean(diff) > 0
        t = -0.873               t = -0.873               t = -0.873
      P < t = 0.192           P > |t| = 0.384           P > t = 0.808")
@@ -142,4 +154,3 @@ Variables    Obs    Mean     Std. Err.    Std. Dev.    [95% Conf. Interval]
     alternative = "all"
   )), x)
 })
-

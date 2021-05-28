@@ -43,10 +43,12 @@ test_that("output from one sample variance test is as expected when alternative 
 -----------------------------------------------------------------------------
    mpg       32     20.0906     1.0654       6.0269        3.8737    10.6526
 -----------------------------------------------------------------------------
+
             Lower Tail Test
             ---------------
            Ho: sd(mpg) >= 5
             Ha: sd(mpg) < 5
+
     Chi-Square Test for Variance
 -------------------------------------
  Variable       c       DF      Sig
@@ -64,10 +66,12 @@ test_that("output from one sample variance test is as expected when alternative 
 -----------------------------------------------------------------------------
    mpg       32     20.0906     1.0654       6.0269        3.8737    10.6526
 -----------------------------------------------------------------------------
+
             Upper Tail Test
             ---------------
            Ho: sd(mpg) <= 5
             Ha: sd(mpg) > 5
+
     Chi-Square Test for Variance
 -------------------------------------
  Variable       c       DF      Sig
@@ -85,10 +89,12 @@ test_that("output from one sample variance test is as expected when alternative 
 -----------------------------------------------------------------------------
    mpg       32     20.0906     1.0654       6.0269        3.8737    10.6526
 -----------------------------------------------------------------------------
+
              Two Tail Test
             ---------------
             Ho: sd(mpg) = 5
            Ha: sd(mpg) != 5
+
     Chi-Square Test for Variance
 -------------------------------------
  Variable       c       DF      Sig
@@ -106,11 +112,12 @@ test_that("output from one sample variance test is as expected when alternative 
 -----------------------------------------------------------------------------
    mpg       32     20.0906     1.0654       6.0269        3.8737    10.6526
 -----------------------------------------------------------------------------
+
                                 Ho: sd(mpg) = 5
+
          Ha: sd < 5                Ha: sd != 5                 Ha: sd > 5
         c = 45.0412                c = 45.0412                c = 45.0412
      Pr(C < c) = 0.9506       2 * Pr(C > c) = 0.0989       Pr(C > c) = 0.0494")
 
   expect_equivalent(print(infer_os_var_test(mtcars, mpg, 5, alternative = "all")), x)
 })
-

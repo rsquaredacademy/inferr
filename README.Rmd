@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/inferr)](https://cran.r-project.org/package=inferr) [![cran checks](https://cranchecks.info/badges/summary/inferr)](https://cran.r-project.org/web/checks/check_results_inferr.html) 
 [![R build status](https://github.com/rsquaredacademy/inferr/workflows/R-CMD-check/badge.svg)](https://github.com/rsquaredacademy/inferr/actions)
 [![Coverage status](https://codecov.io/gh/rsquaredacademy/inferr/branch/master/graph/badge.svg)](https://codecov.io/github/rsquaredacademy/inferr?branch=master) 
-[![status](https://tinyverse.netlify.com/badge/inferr)](https://CRAN.R-project.org/package=inferr)![](https://img.shields.io/badge/lifecycle-maturing-blue.svg) [![](https://cranlogs.r-pkg.org/badges/grand-total/inferr)](https://cran.r-project.org/package=inferr)
+[![status](https://tinyverse.netlify.com/badge/inferr)](https://CRAN.R-project.org/package=inferr) [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html) [![](https://cranlogs.r-pkg.org/badges/grand-total/inferr)](https://cran.r-project.org/package=inferr)
 <!-- badges: end -->
 
 ## Overview
@@ -109,8 +109,3 @@ infer_mcnemar_test(hb, himath, hiread)
 If you encounter a bug, please file a minimal reproducible example using 
 [reprex](https://reprex.tidyverse.org/index.html) on github. For questions and 
 clarifications, use [StackOverflow](https://stackoverflow.com/).
-
-## Code of Conduct
-
-Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md).
-By participating in this project you agree to abide by its terms.

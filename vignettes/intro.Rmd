@@ -72,6 +72,7 @@ infer_ts_paired_ttest(hsb, read, write, alternative = 'all')
 ```
 
 ## Two Independent Sample t Test
+
 An independent samples t-test is used to compare the means of a normally distributed continuous dependent variable for two unrelated groups. The dependent variable must be approximately normally distributed and the cases/subjects in the two groups  must be 
 different i.e. a subject in one group cannot also be a subject of the other group. It can be used to answer whether:
 
@@ -126,7 +127,7 @@ Using the treatment2 data, test whether outcome has same proportion for male and
 
 ```{r ts_prop2}
 # Using Grouping Variable
-infer_ts_prop_grp(treatment2, outcome, female, alternative = 'all')
+infer_ts_prop_group(treatment2, outcome, female, alternative = 'all')
 ```
 
 #### Using Calculator
@@ -353,10 +354,3 @@ infer_runs_test(hsb, read, mean = TRUE)
 # threshold to be used for counting runs
 infer_runs_test(hsb, read, threshold = 0)
 ```
-
-## Credits
-
-The examples and the data set used in the vignette are borrowed from the below listed sources:
-
-- What statistical analysis should I use?  UCLA: Statistical Consulting Group.
-from http://www.ats.ucla.edu/stat/mult_pkg/whatstat/

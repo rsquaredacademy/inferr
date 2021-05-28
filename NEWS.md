@@ -1,26 +1,6 @@
-# inferr 0.3.0.9000
+# inferr 0.3.0.1
 
-The following functions were deprecated in `0.3.0` and have been removed:
-
-- `binom_calc`
-- `binom_test`
-- `chisq_gof`
-- `chisq_test`
-- `cochran_test`
-- `ind_ttest`
-- `launch_inferr`
-- `levene_test`
-- `mcnemar_test`
-- `os_vartest`
-- `owanova`
-- `paired_ttest`
-- `prop_test`
-- `runs_test`
-- `ts_prop_calc`
-- `ts_prop_grp`
-- `ts_prop_test`
-- `ttest`
-- `var_test`
+This is a patch release to fix error on R-devel on Debian and Fedora.
 
 # inferr 0.3.0
 

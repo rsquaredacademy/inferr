@@ -14,7 +14,9 @@ checks](https://cranchecks.info/badges/summary/inferr)](https://cran.r-project.o
 status](https://github.com/rsquaredacademy/inferr/workflows/R-CMD-check/badge.svg)](https://github.com/rsquaredacademy/inferr/actions)
 [![Coverage
 status](https://codecov.io/gh/rsquaredacademy/inferr/branch/master/graph/badge.svg)](https://codecov.io/github/rsquaredacademy/inferr?branch=master)
-[![status](https://tinyverse.netlify.com/badge/inferr)](https://CRAN.R-project.org/package=inferr)![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
+[![status](https://tinyverse.netlify.com/badge/inferr)](https://CRAN.R-project.org/package=inferr)
+[![Lifecycle:
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 [![](https://cranlogs.r-pkg.org/badges/grand-total/inferr)](https://cran.r-project.org/package=inferr)
 <!-- badges: end -->
 
@@ -25,21 +27,21 @@ additional and flexible input options and more detailed and structured
 test results. As of version 0.3, **inferr** includes a select set of
 parametric and non-parametric statistical tests which are listed below:
 
-  - One Sample t Test
-  - Paired Sample t Test
-  - Independent Sample t Test
-  - One Sample Proportion Test
-  - Two Sample Proportion Test
-  - One Sample Variance Test
-  - Two Sample Variance Test
-  - Binomial Test
-  - ANOVA
-  - Chi Square Goodness of Fit Test
-  - Chi Square Independence Test
-  - Levene’s Test
-  - Cochran’s Q Test
-  - McNemar Test
-  - Runs Test for Randomness
+-   One Sample t Test
+-   Paired Sample t Test
+-   Independent Sample t Test
+-   One Sample Proportion Test
+-   Two Sample Proportion Test
+-   One Sample Variance Test
+-   Two Sample Variance Test
+-   Binomial Test
+-   ANOVA
+-   Chi Square Goodness of Fit Test
+-   Chi Square Independence Test
+-   Levene’s Test
+-   Cochran’s Q Test
+-   McNemar Test
+-   Runs Test for Randomness
 
 ## Installation
 
@@ -54,7 +56,7 @@ devtools::install_github("rsquaredacademy/inferr")
 
 ## Articles
 
-  - [Introduction to
+-   [Introduction to
     inferr](https://inferr.rsquaredacademy.com/articles/intro.html)
 
 ## Usage
@@ -78,7 +80,7 @@ infer_os_t_test(hsb, write, mu = 50, type = 'all')
 #> --------------------------------------------------------------------------------
 #>  Variable      t      DF       Sig       Mean Diff.    [95% Conf. Interval] 
 #> --------------------------------------------------------------------------------
-#>   write      4.141    199    0.99997       2.775         1.4537     4.0969   
+#>   write      4.141    199    0.00005       2.775         1.4537     4.0969   
 #> --------------------------------------------------------------------------------
 ```
 
@@ -213,9 +215,3 @@ If you encounter a bug, please file a minimal reproducible example using
 [reprex](https://reprex.tidyverse.org/index.html) on github. For
 questions and clarifications, use
 [StackOverflow](https://stackoverflow.com/).
-
-## Code of Conduct
-
-Please note that this project is released with a [Contributor Code of
-Conduct](CONDUCT.md). By participating in this project you agree to
-abide by its terms.

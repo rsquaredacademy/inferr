@@ -40,8 +40,10 @@ test_that("output from one sample t test is as expected when alternative is less
 ---------------------------------------------------------------------------------
   write      200    52.775     0.6702       9.4786         -Inf     53.8828
 ---------------------------------------------------------------------------------
+
                                  Lower Tail Test
                                  ---------------
+
                                Ho: mean(write) >=50
                                 Ha: mean(write) <50
 --------------------------------------------------------------------------------
@@ -50,7 +52,7 @@ test_that("output from one sample t test is as expected when alternative is less
   write      4.141    199    0.99997       2.775          -Inf      3.8828
 --------------------------------------------------------------------------------")
 
-  expect_equivalent(print(infer_os_t_test(hsb, write, mu = 50, alternative = "less")), x)
+  expect_output(print(infer_os_t_test(hsb, write, mu = 50, alternative = "less")), x)
 })
 
 test_that("output from one sample t test is as expected when alternative is greater", {
@@ -60,8 +62,10 @@ test_that("output from one sample t test is as expected when alternative is grea
 ---------------------------------------------------------------------------------
   write      200    52.775     0.6702       9.4786       51.6678      Inf
 ---------------------------------------------------------------------------------
+
                                  Upper Tail Test
                                  ---------------
+
                                Ho: mean(write) <=50
                                Ha: mean(write) >50
 --------------------------------------------------------------------------------
@@ -70,7 +74,7 @@ test_that("output from one sample t test is as expected when alternative is grea
   write      4.141    199    0.99997       2.775         1.6678      Inf
 --------------------------------------------------------------------------------")
 
-  expect_equivalent(print(infer_os_t_test(hsb, write, mu = 50, alternative = "greater")), x)
+  expect_output(print(infer_os_t_test(hsb, write, mu = 50, alternative = "greater")), x)
 })
 
 test_that("output from one sample t test is as expected when alternative is both", {
@@ -80,8 +84,10 @@ test_that("output from one sample t test is as expected when alternative is both
 ---------------------------------------------------------------------------------
   write      200    52.775     0.6702       9.4786       51.4537    54.0969
 ---------------------------------------------------------------------------------
+
                                   Two Tail Test
                                  ---------------
+
                                Ho: mean(write) ~=50
                                Ha: mean(write) !=50
 --------------------------------------------------------------------------------
@@ -90,7 +96,7 @@ test_that("output from one sample t test is as expected when alternative is both
   write      4.141    199    0.99997       2.775         1.4537     4.0969
 --------------------------------------------------------------------------------")
 
-  expect_equivalent(print(infer_os_t_test(hsb, write, mu = 50, alternative = "both")), x)
+  expect_output(print(infer_os_t_test(hsb, write, mu = 50, alternative = "both")), x)
 })
 
 test_that("output from one sample t test is as expected when alternative is all", {
@@ -100,11 +106,12 @@ test_that("output from one sample t test is as expected when alternative is all"
 ---------------------------------------------------------------------------------
   write      200    52.775     0.6702       9.4786       51.4537    54.0969
 ---------------------------------------------------------------------------------
+
                                Ho: mean(write) ~=50
+
         Ha: mean < 50              Ha: mean ~= 50               Ha: mean > 50
          t = 4.141                   t = 4.141                   t = 4.141
        P < t = 1.0000             P > |t| = 0.0001             P > t = 0.0000")
 
-  expect_equivalent(print(infer_os_t_test(hsb, write, mu = 50, alternative = "all")), x)
+  expect_output(print(infer_os_t_test(hsb, write, mu = 50, alternative = "all")), x)
 })
-
