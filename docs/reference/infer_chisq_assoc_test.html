@@ -73,7 +73,7 @@ relationship between two categorical variables." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">inferr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1.9000</span>
       </span>
     </div>
 
@@ -113,7 +113,7 @@ relationship between two categorical variables." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/rsquaredacademy/inferr">
-    <span class="fa fa-github"></span>
+    <span class="fas fa-github"></span>
      
   </a>
 </li>
@@ -131,7 +131,7 @@ relationship between two categorical variables." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Chi Square Test of Association</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rsquaredacademy/inferr/blob/master/R/infer-chisq-assoc-test.R'><code>R/infer-chisq-assoc-test.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/rsquaredacademy/inferr/blob/master/R/ifr-chisq-assoc-test.R'><code>R/ifr-chisq-assoc-test.R</code></a></small>
     <div class="hidden name"><code>infer_chisq_assoc_test.Rd</code></div>
     </div>
 
@@ -140,7 +140,7 @@ relationship between two categorical variables." />
 relationship between two categorical variables.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>infer_chisq_assoc_test</span>(<span class='no'>data</span>, <span class='no'>x</span>, <span class='no'>y</span>)</pre>
+    <pre class="usage"><span class='fu'>infer_chisq_assoc_test</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>x</span>, <span class='va'>y</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -194,28 +194,32 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
     <div class='dont-index'><p><code><a href='https://rdrr.io/r/stats/chisq.test.html'>chisq.test</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>infer_chisq_assoc_test</span>(<span class='no'>hsb</span>, <span class='no'>female</span>, <span class='no'>schtyp</span>)</div><div class='output co'>#&gt;                Chi Square Statistics                 
-#&gt; 
-#&gt; Statistics                     DF    Value      Prob 
-#&gt; ----------------------------------------------------
-#&gt; Chi-Square                     1    0.0470    0.8284
-#&gt; Likelihood Ratio Chi-Square    1    0.0471    0.8282
-#&gt; Continuity Adj. Chi-Square     1    0.0005    0.9822
-#&gt; Mantel-Haenszel Chi-Square     1    0.0468    0.8287
-#&gt; Phi Coefficient                     0.0153          
-#&gt; Contingency Coefficient             0.0153          
-#&gt; Cramer's V                          0.0153          
-#&gt; ----------------------------------------------------</div><div class='input'>
-<span class='fu'>infer_chisq_assoc_test</span>(<span class='no'>hsb</span>, <span class='no'>female</span>, <span class='no'>ses</span>)</div><div class='output co'>#&gt;                Chi Square Statistics                 
-#&gt; 
-#&gt; Statistics                     DF    Value      Prob 
-#&gt; ----------------------------------------------------
-#&gt; Chi-Square                     2    4.5765    0.1014
-#&gt; Likelihood Ratio Chi-Square    2    4.6789    0.0964
-#&gt; Phi Coefficient                     0.1513          
-#&gt; Contingency Coefficient             0.1496          
-#&gt; Cramer's V                          0.1513          
-#&gt; ----------------------------------------------------</div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'>infer_chisq_assoc_test</span><span class='op'>(</span><span class='va'>hsb</span>, <span class='va'>female</span>, <span class='va'>schtyp</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                Chi Square Statistics                 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Statistics                     DF    Value      Prob </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Chi-Square                     1    0.0470    0.8284</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Likelihood Ratio Chi-Square    1    0.0471    0.8282</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Continuity Adj. Chi-Square     1    0.0005    0.9822</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Mantel-Haenszel Chi-Square     1    0.0468    0.8287</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Phi Coefficient                     0.0153          </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Contingency Coefficient             0.0153          </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Cramer's V                          0.0153          </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>infer_chisq_assoc_test</span><span class='op'>(</span><span class='va'>hsb</span>, <span class='va'>female</span>, <span class='va'>ses</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                Chi Square Statistics                 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Statistics                     DF    Value      Prob </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Chi-Square                     2    4.5765    0.1014</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Likelihood Ratio Chi-Square    2    4.6789    0.0964</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Phi Coefficient                     0.1513          </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Contingency Coefficient             0.1496          </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Cramer's V                          0.1513          </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -231,7 +235,7 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -73,7 +73,7 @@ equal in the same population." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">inferr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1.9000</span>
       </span>
     </div>
 
@@ -113,7 +113,7 @@ equal in the same population." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/rsquaredacademy/inferr">
-    <span class="fa fa-github"></span>
+    <span class="fas fa-github"></span>
      
   </a>
 </li>
@@ -131,7 +131,7 @@ equal in the same population." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>McNemar Test</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rsquaredacademy/inferr/blob/master/R/infer-mcnemar-test.R'><code>R/infer-mcnemar-test.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/rsquaredacademy/inferr/blob/master/R/ifr-mcnemar-test.R'><code>R/ifr-mcnemar-test.R</code></a></small>
     <div class="hidden name"><code>infer_mcnemar_test.Rd</code></div>
     </div>
 
@@ -140,7 +140,7 @@ equal in the same population." />
 equal in the same population.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>infer_mcnemar_test</span>(<span class='no'>data</span>, <span class='kw'>x</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>infer_mcnemar_test</span><span class='op'>(</span><span class='va'>data</span>, x <span class='op'>=</span> <span class='cn'>NULL</span>, y <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -195,121 +195,119 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
     <div class='dont-index'><p><code><a href='https://rdrr.io/r/stats/mcnemar.test.html'>mcnemar.test</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># using variables from data</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘dplyr’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:testthat’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    matches</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:stats’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'><span class='no'>hb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span>(<span class='no'>hsb</span>,
-        <span class='kw'>himath</span> <span class='kw'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else</a></span>(<span class='no'>math</span> <span class='kw'>&gt;</span> <span class='fl'>60</span>, <span class='fl'>1</span>, <span class='fl'>0</span>),
-        <span class='kw'>hiread</span> <span class='kw'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else</a></span>(<span class='no'>read</span> <span class='kw'>&gt;</span> <span class='fl'>60</span>, <span class='fl'>1</span>, <span class='fl'>0</span>)
-    )
-<span class='fu'>infer_mcnemar_test</span>(<span class='no'>hb</span>, <span class='no'>himath</span>, <span class='no'>hiread</span>)</div><div class='output co'>#&gt;            Controls 
-#&gt; ---------------------------------
-#&gt; Cases       0       1       Total 
-#&gt; ---------------------------------
-#&gt;   0        135      21        156 
-#&gt;   1         18      26         44 
-#&gt; ---------------------------------
-#&gt; Total      153      47        200 
-#&gt; ---------------------------------
-#&gt; 
-#&gt;        McNemar's Test        
-#&gt; ----------------------------
-#&gt; McNemar's chi2        0.2308 
-#&gt; DF                         1 
-#&gt; Pr &gt; chi2              0.631 
-#&gt; Exact Pr &gt;= chi2      0.7493 
-#&gt; ----------------------------
-#&gt; 
-#&gt;        Kappa Coefficient         
-#&gt; --------------------------------
-#&gt; Kappa                     0.4454 
-#&gt; ASE                        0.075 
-#&gt; 95% Lower Conf Limit      0.2984 
-#&gt; 95% Upper Conf Limit      0.5923 
-#&gt; --------------------------------
-#&gt; 
-#&gt; Proportion With Factor 
-#&gt; ----------------------
-#&gt; cases             0.78 
-#&gt; controls         0.765 
-#&gt; ratio           1.0196 
-#&gt; odds ratio      1.1667 
-#&gt; ----------------------</div><div class='input'>
-<span class='co'># test if the proportion of students in himath and hiread group is same</span>
-<span class='no'>himath</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span>(<span class='no'>hsb</span>$<span class='no'>math</span> <span class='kw'>&gt;</span> <span class='fl'>60</span>, <span class='fl'>1</span>, <span class='fl'>0</span>)
-<span class='no'>hiread</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span>(<span class='no'>hsb</span>$<span class='no'>read</span> <span class='kw'>&gt;</span> <span class='fl'>60</span>, <span class='fl'>1</span>, <span class='fl'>0</span>)
-<span class='fu'>infer_mcnemar_test</span>(<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='no'>himath</span>, <span class='no'>hiread</span>))</div><div class='output co'>#&gt;            Controls 
-#&gt; ---------------------------------
-#&gt; Cases       0       1       Total 
-#&gt; ---------------------------------
-#&gt;   0        135      21        156 
-#&gt;   1         18      26         44 
-#&gt; ---------------------------------
-#&gt; Total      153      47        200 
-#&gt; ---------------------------------
-#&gt; 
-#&gt;        McNemar's Test        
-#&gt; ----------------------------
-#&gt; McNemar's chi2        0.2308 
-#&gt; DF                         1 
-#&gt; Pr &gt; chi2              0.631 
-#&gt; Exact Pr &gt;= chi2      0.7493 
-#&gt; ----------------------------
-#&gt; 
-#&gt;        Kappa Coefficient         
-#&gt; --------------------------------
-#&gt; Kappa                     0.4454 
-#&gt; ASE                        0.075 
-#&gt; 95% Lower Conf Limit      0.2984 
-#&gt; 95% Upper Conf Limit      0.5923 
-#&gt; --------------------------------
-#&gt; 
-#&gt; Proportion With Factor 
-#&gt; ----------------------
-#&gt; cases             0.78 
-#&gt; controls         0.765 
-#&gt; ratio           1.0196 
-#&gt; odds ratio      1.1667 
-#&gt; ----------------------</div><div class='input'>
-<span class='co'># using matrix</span>
-<span class='fu'>infer_mcnemar_test</span>(<span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>135</span>, <span class='fl'>18</span>, <span class='fl'>21</span>, <span class='fl'>26</span>), <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>2</span>))</div><div class='output co'>#&gt;            Controls 
-#&gt; ---------------------------------
-#&gt; Cases       0       1       Total 
-#&gt; ---------------------------------
-#&gt;   0        135      21        156 
-#&gt;   1         18      26         44 
-#&gt; ---------------------------------
-#&gt; Total      153      47        200 
-#&gt; ---------------------------------
-#&gt; 
-#&gt;        McNemar's Test        
-#&gt; ----------------------------
-#&gt; McNemar's chi2        0.2308 
-#&gt; DF                         1 
-#&gt; Pr &gt; chi2              0.631 
-#&gt; Exact Pr &gt;= chi2      0.7493 
-#&gt; ----------------------------
-#&gt; 
-#&gt;        Kappa Coefficient         
-#&gt; --------------------------------
-#&gt; Kappa                     0.4454 
-#&gt; ASE                        0.075 
-#&gt; 95% Lower Conf Limit      0.2984 
-#&gt; 95% Upper Conf Limit      0.5923 
-#&gt; --------------------------------
-#&gt; 
-#&gt; Proportion With Factor 
-#&gt; ----------------------
-#&gt; cases             0.78 
-#&gt; controls         0.765 
-#&gt; ratio           1.0196 
-#&gt; odds ratio      1.1667 
-#&gt; ----------------------</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># using variables from data</span></span>
+<span class='r-in'><span class='va'>hb</span> <span class='op'>&lt;-</span> <span class='va'>hsb</span></span>
+<span class='r-in'><span class='va'>hb</span><span class='op'>$</span><span class='va'>himath</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>hsb</span><span class='op'>$</span><span class='va'>math</span> <span class='op'>&gt;</span> <span class='fl'>60</span>, <span class='fl'>1</span>, <span class='fl'>0</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>hb</span><span class='op'>$</span><span class='va'>hiread</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>hsb</span><span class='op'>$</span><span class='va'>read</span> <span class='op'>&gt;</span> <span class='fl'>60</span>, <span class='fl'>1</span>, <span class='fl'>0</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>infer_mcnemar_test</span><span class='op'>(</span><span class='va'>hb</span>, <span class='va'>himath</span>, <span class='va'>hiread</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            Controls </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Cases       0       1       Total </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   0        135      21        156 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   1         18      26         44 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Total      153      47        200 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        McNemar's Test        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> McNemar's chi2        0.2308 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> DF                         1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Pr &gt; chi2              0.631 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Exact Pr &gt;= chi2      0.7493 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        Kappa Coefficient         </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> --------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Kappa                     0.4454 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ASE                        0.075 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 95% Lower Conf Limit      0.2984 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 95% Upper Conf Limit      0.5923 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> --------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Proportion With Factor </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> cases             0.78 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> controls         0.765 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ratio           1.0196 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> odds ratio      1.1667 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># test if the proportion of students in himath and hiread group is same</span></span>
+<span class='r-in'><span class='va'>himath</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>hsb</span><span class='op'>$</span><span class='va'>math</span> <span class='op'>&gt;</span> <span class='fl'>60</span>, <span class='fl'>1</span>, <span class='fl'>0</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>hiread</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>hsb</span><span class='op'>$</span><span class='va'>read</span> <span class='op'>&gt;</span> <span class='fl'>60</span>, <span class='fl'>1</span>, <span class='fl'>0</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>infer_mcnemar_test</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>himath</span>, <span class='va'>hiread</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            Controls </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Cases       0       1       Total </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   0        135      21        156 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   1         18      26         44 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Total      153      47        200 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        McNemar's Test        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> McNemar's chi2        0.2308 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> DF                         1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Pr &gt; chi2              0.631 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Exact Pr &gt;= chi2      0.7493 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        Kappa Coefficient         </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> --------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Kappa                     0.4454 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ASE                        0.075 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 95% Lower Conf Limit      0.2984 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 95% Upper Conf Limit      0.5923 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> --------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Proportion With Factor </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> cases             0.78 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> controls         0.765 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ratio           1.0196 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> odds ratio      1.1667 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># using matrix</span></span>
+<span class='r-in'><span class='fu'>infer_mcnemar_test</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>135</span>, <span class='fl'>18</span>, <span class='fl'>21</span>, <span class='fl'>26</span><span class='op'>)</span>, nrow <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            Controls </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Cases       0       1       Total </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   0        135      21        156 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   1         18      26         44 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Total      153      47        200 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        McNemar's Test        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> McNemar's chi2        0.2308 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> DF                         1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Pr &gt; chi2              0.631 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Exact Pr &gt;= chi2      0.7493 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        Kappa Coefficient         </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> --------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Kappa                     0.4454 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ASE                        0.075 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 95% Lower Conf Limit      0.2984 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 95% Upper Conf Limit      0.5923 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> --------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Proportion With Factor </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> cases             0.78 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> controls         0.765 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ratio           1.0196 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> odds ratio      1.1667 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -325,7 +323,7 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

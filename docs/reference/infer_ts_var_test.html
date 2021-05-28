@@ -73,7 +73,7 @@ deviations (variances)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">inferr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1.9000</span>
       </span>
     </div>
 
@@ -113,7 +113,7 @@ deviations (variances)." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/rsquaredacademy/inferr">
-    <span class="fa fa-github"></span>
+    <span class="fas fa-github"></span>
      
   </a>
 </li>
@@ -131,7 +131,7 @@ deviations (variances)." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Two Sample Variance Comparison Test</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rsquaredacademy/inferr/blob/master/R/infer-ts-var-test.R'><code>R/infer-ts-var-test.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/rsquaredacademy/inferr/blob/master/R/ifr-ts-var-test.R'><code>R/ifr-ts-var-test.R</code></a></small>
     <div class="hidden name"><code>infer_ts_var_test.Rd</code></div>
     </div>
 
@@ -140,12 +140,12 @@ deviations (variances)." />
 deviations (variances).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>infer_ts_var_test</span>(
-  <span class='no'>data</span>,
-  <span class='no'>...</span>,
-  <span class='kw'>group_var</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"less"</span>, <span class='st'>"greater"</span>, <span class='st'>"all"</span>)
-)</pre>
+    <pre class="usage"><span class='fu'>infer_ts_var_test</span><span class='op'>(</span>
+  <span class='va'>data</span>,
+  <span class='va'>...</span>,
+  group_var <span class='op'>=</span> <span class='cn'>NULL</span>,
+  alternative <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"less"</span>, <span class='st'>"greater"</span>, <span class='st'>"all"</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -207,53 +207,57 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
     <div class='dont-index'><p><code><a href='https://rdrr.io/r/stats/var.test.html'>var.test</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># using grouping variable</span>
-<span class='fu'>infer_ts_var_test</span>(<span class='no'>hsb</span>, <span class='no'>read</span>, <span class='kw'>group_var</span> <span class='kw'>=</span> <span class='no'>female</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;                Variance Ratio Test                 
-#&gt; --------------------------------------------------
-#&gt;   Group      Obs    Mean     Std. Err.    Std. Dev. 
-#&gt; --------------------------------------------------
-#&gt;    0        91     52.82       1.1         10.51   
-#&gt;    1        109    51.73      0.96         10.06   
-#&gt; --------------------------------------------------
-#&gt;  combined    200    52.23      0.72         10.25   
-#&gt; --------------------------------------------------
-#&gt; 
-#&gt;            Lower Tail Test           
-#&gt;            ---------------           
-#&gt;          ratio = sd(0) / (1)         
-#&gt;             Ho: ratio = 1            
-#&gt;             Ha: ratio &lt; 1             
-#&gt; 
-#&gt;         Variance Ratio Test          
-#&gt; ------------------------------------
-#&gt;    F       Num DF    Den DF      p    
-#&gt; ------------------------------------
-#&gt;  1.0913      90       108      0.6694 
-#&gt; ------------------------------------</div><div class='input'>
-<span class='co'># using two variables</span>
-<span class='fu'>infer_ts_var_test</span>(<span class='no'>hsb</span>, <span class='no'>read</span>, <span class='no'>write</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>'less'</span>)</div><div class='output co'>#&gt;                Variance Ratio Test                 
-#&gt; --------------------------------------------------
-#&gt;   Group      Obs    Mean     Std. Err.    Std. Dev. 
-#&gt; --------------------------------------------------
-#&gt;   read      200    52.23      0.72         10.25   
-#&gt;  write      200    52.77      0.67         9.48    
-#&gt; --------------------------------------------------
-#&gt;  combined    400    52.5       0.49         9.86    
-#&gt; --------------------------------------------------
-#&gt; 
-#&gt;            Lower Tail Test           
-#&gt;            ---------------           
-#&gt;       ratio = sd(read) / (write)     
-#&gt;             Ho: ratio = 1            
-#&gt;             Ha: ratio &lt; 1             
-#&gt; 
-#&gt;         Variance Ratio Test          
-#&gt; ------------------------------------
-#&gt;    F       Num DF    Den DF      p    
-#&gt; ------------------------------------
-#&gt;  1.1701     199       199      0.8656 
-#&gt; ------------------------------------</div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># using grouping variable</span></span>
+<span class='r-in'><span class='fu'>infer_ts_var_test</span><span class='op'>(</span><span class='va'>hsb</span>, <span class='va'>read</span>, group_var <span class='op'>=</span> <span class='va'>female</span>, alternative <span class='op'>=</span> <span class='st'>'less'</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                Variance Ratio Test                 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> --------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Group      Obs    Mean     Std. Err.    Std. Dev. </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> --------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    0        91     52.82       1.1         10.51   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    1        109    51.73      0.96         10.06   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> --------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  combined    200    52.23      0.72         10.25   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> --------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            Lower Tail Test           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            ---------------           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>          ratio = sd(0) / (1)         </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             Ho: ratio = 1            </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             Ha: ratio &lt; 1             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         Variance Ratio Test          </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    F       Num DF    Den DF      p    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  1.0913      90       108      0.6694 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ------------------------------------</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># using two variables</span></span>
+<span class='r-in'><span class='fu'>infer_ts_var_test</span><span class='op'>(</span><span class='va'>hsb</span>, <span class='va'>read</span>, <span class='va'>write</span>, alternative <span class='op'>=</span> <span class='st'>'less'</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                Variance Ratio Test                 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> --------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Group      Obs    Mean     Std. Err.    Std. Dev. </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> --------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   read      200    52.23      0.72         10.25   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  write      200    52.77      0.67         9.48    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> --------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  combined    400    52.5       0.49         9.86    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> --------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            Lower Tail Test           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            ---------------           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       ratio = sd(read) / (write)     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             Ho: ratio = 1            </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             Ha: ratio &lt; 1             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         Variance Ratio Test          </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    F       Num DF    Den DF      p    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  1.1701     199       199      0.8656 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ------------------------------------</span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -269,7 +273,7 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

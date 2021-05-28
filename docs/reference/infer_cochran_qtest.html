@@ -73,7 +73,7 @@ equal in the same population." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">inferr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1.9000</span>
       </span>
     </div>
 
@@ -113,7 +113,7 @@ equal in the same population." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/rsquaredacademy/inferr">
-    <span class="fa fa-github"></span>
+    <span class="fas fa-github"></span>
      
   </a>
 </li>
@@ -131,7 +131,7 @@ equal in the same population." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Cochran Q Test</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rsquaredacademy/inferr/blob/master/R/infer-cochran-q-test.R'><code>R/infer-cochran-q-test.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/rsquaredacademy/inferr/blob/master/R/ifr-cochran-q-test.R'><code>R/ifr-cochran-q-test.R</code></a></small>
     <div class="hidden name"><code>infer_cochran_qtest.Rd</code></div>
     </div>
 
@@ -140,7 +140,7 @@ equal in the same population." />
 equal in the same population.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>infer_cochran_qtest</span>(<span class='no'>data</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>infer_cochran_qtest</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -177,13 +177,15 @@ is a list containing the following components:</p>
 Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>infer_cochran_qtest</span>(<span class='no'>exam</span>, <span class='no'>exam1</span>, <span class='no'>exam2</span>, <span class='no'>exam3</span>)</div><div class='output co'>#&gt;    Test Statistics     
-#&gt; ----------------------
-#&gt; N                   15 
-#&gt; Cochran's Q       4.75 
-#&gt; df                   2 
-#&gt; p value          0.093 
-#&gt; ----------------------</div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'>infer_cochran_qtest</span><span class='op'>(</span><span class='va'>exam</span>, <span class='va'>exam1</span>, <span class='va'>exam2</span>, <span class='va'>exam3</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Test Statistics     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> N                   15 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Cochran's Q       4.75 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> df                   2 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> p value          0.093 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -199,7 +201,7 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

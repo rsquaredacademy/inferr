@@ -73,7 +73,7 @@ specified population proportion." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">inferr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1.9000</span>
       </span>
     </div>
 
@@ -113,7 +113,7 @@ specified population proportion." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/rsquaredacademy/inferr">
-    <span class="fa fa-github"></span>
+    <span class="fas fa-github"></span>
      
   </a>
 </li>
@@ -131,7 +131,7 @@ specified population proportion." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>One Sample Test of Proportion</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rsquaredacademy/inferr/blob/master/R/infer-os-prop-test.R'><code>R/infer-os-prop-test.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/rsquaredacademy/inferr/blob/master/R/ifr-os-prop-test.R'><code>R/ifr-os-prop-test.R</code></a></small>
     <div class="hidden name"><code>infer_os_prop_test.Rd</code></div>
     </div>
 
@@ -140,22 +140,22 @@ specified population proportion." />
 specified population proportion.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>infer_os_prop_test</span>(
-  <span class='no'>data</span>,
-  <span class='kw'>variable</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
-  <span class='kw'>phat</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
-  <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"both"</span>, <span class='st'>"less"</span>, <span class='st'>"greater"</span>, <span class='st'>"all"</span>)
-)
+    <pre class="usage"><span class='fu'>infer_os_prop_test</span><span class='op'>(</span>
+  <span class='va'>data</span>,
+  variable <span class='op'>=</span> <span class='cn'>NULL</span>,
+  prob <span class='op'>=</span> <span class='fl'>0.5</span>,
+  phat <span class='op'>=</span> <span class='fl'>0.5</span>,
+  alternative <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"both"</span>, <span class='st'>"less"</span>, <span class='st'>"greater"</span>, <span class='st'>"all"</span><span class='op'>)</span>
+<span class='op'>)</span>
 
 <span class='co'># S3 method for default</span>
-<span class='fu'>infer_os_prop_test</span>(
-  <span class='no'>data</span>,
-  <span class='kw'>variable</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
-  <span class='kw'>phat</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
-  <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"both"</span>, <span class='st'>"less"</span>, <span class='st'>"greater"</span>, <span class='st'>"all"</span>)
-)</pre>
+<span class='fu'>infer_os_prop_test</span><span class='op'>(</span>
+  <span class='va'>data</span>,
+  variable <span class='op'>=</span> <span class='cn'>NULL</span>,
+  prob <span class='op'>=</span> <span class='fl'>0.5</span>,
+  phat <span class='op'>=</span> <span class='fl'>0.5</span>,
+  alternative <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"both"</span>, <span class='st'>"less"</span>, <span class='st'>"greater"</span>, <span class='st'>"all"</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -214,36 +214,40 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
     <div class='dont-index'><p><code><a href='https://rdrr.io/r/stats/prop.test.html'>prop.test</a></code> <code><a href='https://rdrr.io/r/stats/binom.test.html'>binom.test</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># use as a calculator</span>
-<span class='fu'>infer_os_prop_test</span>(<span class='fl'>200</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>phat</span> <span class='kw'>=</span> <span class='fl'>0.3</span>)</div><div class='output co'>#&gt;      Test Statistics       
-#&gt; --------------------------
-#&gt; Sample Size            200 
-#&gt; Exp Prop               0.5 
-#&gt; Obs Prop               0.3 
-#&gt; z                  -5.6569 
-#&gt; Pr(|Z| &gt; |z|)            0 
-#&gt; 
-#&gt; -----------------------------------------------------------------
-#&gt; Category    Observed    Expected    % Deviation    Std. Residuals 
-#&gt; -----------------------------------------------------------------
-#&gt;    0          140         100          40.00            4.00      
-#&gt;    1           60         100         -40.00           -4.00      
-#&gt; -----------------------------------------------------------------</div><div class='input'>
-<span class='co'># using data set</span>
-<span class='fu'>infer_os_prop_test</span>(<span class='no'>hsb</span>, <span class='no'>female</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</div><div class='output co'>#&gt;      Test Statistics      
-#&gt; -------------------------
-#&gt; Sample Size           200 
-#&gt; Exp Prop              0.5 
-#&gt; Obs Prop            0.545 
-#&gt; z                  1.2728 
-#&gt; Pr(|Z| &gt; |z|)      0.2031 
-#&gt; 
-#&gt; -----------------------------------------------------------------
-#&gt; Category    Observed    Expected    % Deviation    Std. Residuals 
-#&gt; -----------------------------------------------------------------
-#&gt;    0           91         100          -9.00           -0.90      
-#&gt;    1          109         100           9.00            0.90      
-#&gt; -----------------------------------------------------------------</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># use as a calculator</span></span>
+<span class='r-in'><span class='fu'>infer_os_prop_test</span><span class='op'>(</span><span class='fl'>200</span>, prob <span class='op'>=</span> <span class='fl'>0.5</span>, phat <span class='op'>=</span> <span class='fl'>0.3</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      Test Statistics       </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> --------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Sample Size            200 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Exp Prop               0.5 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Obs Prop               0.3 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> z                  -5.6569 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Pr(|Z| &gt; |z|)            0 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Category    Observed    Expected    % Deviation    Std. Residuals </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    0          140         100          40.00            4.00      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    1           60         100         -40.00           -4.00      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------------------------------</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># using data set</span></span>
+<span class='r-in'><span class='fu'>infer_os_prop_test</span><span class='op'>(</span><span class='va'>hsb</span>, <span class='va'>female</span>, prob <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      Test Statistics      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Sample Size           200 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Exp Prop              0.5 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Obs Prop            0.545 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> z                  1.2728 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Pr(|Z| &gt; |z|)      0.2031 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Category    Observed    Expected    % Deviation    Std. Residuals </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    0           91         100          -9.00           -0.90      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    1          109         100           9.00            0.90      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------------------------------</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -259,7 +263,7 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

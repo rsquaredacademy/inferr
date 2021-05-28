@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">inferr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1.9000</span>
       </span>
     </div>
 
@@ -112,7 +112,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/rsquaredacademy/inferr">
-    <span class="fa fa-github"></span>
+    <span class="fas fa-github"></span>
      
   </a>
 </li>
@@ -130,7 +130,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>One Way ANOVA</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rsquaredacademy/inferr/blob/master/R/infer-anova.R'><code>R/infer-anova.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/rsquaredacademy/inferr/blob/master/R/ifr-anova.R'><code>R/ifr-anova.R</code></a></small>
     <div class="hidden name"><code>infer_oneway_anova.Rd</code></div>
     </div>
 
@@ -138,7 +138,7 @@
     <p>One way analysis of variance</p>
     </div>
 
-    <pre class="usage"><span class='fu'>infer_oneway_anova</span>(<span class='no'>data</span>, <span class='no'>x</span>, <span class='no'>y</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>infer_oneway_anova</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>x</span>, <span class='va'>y</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -163,8 +163,8 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>owanova</code> returns an object of class <code>"owanova"</code>.
-An object of class <code>"owanova"</code> is a list containing the
+    <p><code>infer_oneway_anova</code> returns an object of class <code>"infer_oneway_anova"</code>.
+An object of class <code>"infer_oneway_anova"</code> is a list containing the
 following components:</p>
 <dt>adjusted_r2</dt><dd><p>adjusted r squared value</p></dd>
 <dt>df_btw</dt><dd><p>between groups degress of freedom</p></dd>
@@ -182,11 +182,6 @@ following components:</p>
 <dt>ss_within</dt><dd><p>within group sum of squares</p></dd>
 <dt>ss_total</dt><dd><p>total sum of squares</p></dd>
 
-    <h2 class="hasAnchor" id="deprecated-functions"><a class="anchor" href="#deprecated-functions"></a>Deprecated Functions</h2>
-
-    
-
-<p><code>owanova()</code> has been deprecated. Instead use <code>infer_oneway_anova()</code>.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Kutner, M. H., Nachtsheim, C., Neter, J., &amp; Li, W. (2005).
@@ -196,49 +191,53 @@ Applied linear statistical models. Boston: McGraw-Hill Irwin.</p>
     <div class='dont-index'><p><code><a href='https://rdrr.io/r/stats/anova.html'>anova</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>infer_oneway_anova</span>(<span class='no'>mtcars</span>, <span class='no'>mpg</span>, <span class='no'>cyl</span>)</div><div class='output co'>#&gt;                                ANOVA                                 
-#&gt; --------------------------------------------------------------------
-#&gt;                    Sum of                                           
-#&gt;                   Squares     DF    Mean Square      F        Sig.  
-#&gt; --------------------------------------------------------------------
-#&gt; Between Groups    824.785     2       412.392      39.699      0    
-#&gt; Within Groups     301.263     29      10.388                        
-#&gt; Total             1126.048    31                                    
-#&gt; --------------------------------------------------------------------
-#&gt; 
-#&gt;                   Report                   
-#&gt; ------------------------------------------
-#&gt;  Category     N       Mean      Std. Dev. 
-#&gt; ------------------------------------------
-#&gt;     4         11     26.664       4.510   
-#&gt;     6         7      19.743       1.454   
-#&gt;     8         14     15.100       2.560   
-#&gt; ------------------------------------------
-#&gt; 
-#&gt; Number of obs = 32        R-squared     = 0.7325 
-#&gt; Root MSE      = 3.2231    Adj R-squared = 0.714 
-#&gt; </div><div class='input'><span class='fu'>infer_oneway_anova</span>(<span class='no'>hsb</span>, <span class='no'>write</span>, <span class='no'>prog</span>)</div><div class='output co'>#&gt;                                 ANOVA                                  
-#&gt; ----------------------------------------------------------------------
-#&gt;                    Sum of                                             
-#&gt;                    Squares     DF     Mean Square      F        Sig.  
-#&gt; ----------------------------------------------------------------------
-#&gt; Between Groups    3175.698      2      1587.849      21.275      0    
-#&gt; Within Groups     14703.177    197      74.635                        
-#&gt; Total             17878.875    199                                    
-#&gt; ----------------------------------------------------------------------
-#&gt; 
-#&gt;                  Report                   
-#&gt; -----------------------------------------
-#&gt; Category     N       Mean      Std. Dev. 
-#&gt; -----------------------------------------
-#&gt;    1        45      51.333       9.398   
-#&gt;    2        105     56.257       7.943   
-#&gt;    3        50      46.760       9.319   
-#&gt; -----------------------------------------
-#&gt; 
-#&gt; Number of obs = 200       R-squared     = 0.1776 
-#&gt; Root MSE      = 8.6392    Adj R-squared = 0.1693 
-#&gt; </div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'>infer_oneway_anova</span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='va'>mpg</span>, <span class='va'>cyl</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                ANOVA                                 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> --------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                    Sum of                                           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                   Squares     DF    Mean Square      F        Sig.  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> --------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Between Groups    824.785     2       412.392      39.699      0    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Within Groups     301.263     29      10.388                        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Total             1126.048    31                                    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> --------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                  Report                  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Category    N       Mean      Std. Dev. </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    4        11     26.664       4.510   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    6        7      19.743       1.454   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    8        14     15.100       2.560   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Number of obs = 32        R-squared     = 0.7325 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Root MSE      = 3.2231    Adj R-squared = 0.714 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'><span class='fu'>infer_oneway_anova</span><span class='op'>(</span><span class='va'>hsb</span>, <span class='va'>write</span>, <span class='va'>prog</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                 ANOVA                                  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                    Sum of                                             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                    Squares     DF     Mean Square      F        Sig.  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Between Groups    3175.698      2      1587.849      21.275      0    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Within Groups     14703.177    197      74.635                        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Total             17878.875    199                                    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                  Report                   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Category     N       Mean      Std. Dev. </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    1        45      51.333       9.398   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    2        105     56.257       7.943   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    3        50      46.760       9.319   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Number of obs = 200       R-squared     = 0.1776 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Root MSE      = 8.6392    Adj R-squared = 0.1693 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -254,7 +253,7 @@ Applied linear statistical models. Boston: McGraw-Hill Irwin.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

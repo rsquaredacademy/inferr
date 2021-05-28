@@ -73,7 +73,7 @@ differ from hypothesized proportions" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">inferr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1.9000</span>
       </span>
     </div>
 
@@ -113,7 +113,7 @@ differ from hypothesized proportions" />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/rsquaredacademy/inferr">
-    <span class="fa fa-github"></span>
+    <span class="fas fa-github"></span>
      
   </a>
 </li>
@@ -131,7 +131,7 @@ differ from hypothesized proportions" />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Chi Square Goodness of Fit Test</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rsquaredacademy/inferr/blob/master/R/infer-chisq-gof-test.R'><code>R/infer-chisq-gof-test.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/rsquaredacademy/inferr/blob/master/R/ifr-chisq-gof-test.R'><code>R/ifr-chisq-gof-test.R</code></a></small>
     <div class="hidden name"><code>infer_chisq_gof_test.Rd</code></div>
     </div>
 
@@ -140,7 +140,7 @@ differ from hypothesized proportions" />
 differ from hypothesized proportions</p>
     </div>
 
-    <pre class="usage"><span class='fu'>infer_chisq_gof_test</span>(<span class='no'>data</span>, <span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>correct</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>infer_chisq_gof_test</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>x</span>, <span class='va'>y</span>, correct <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -195,39 +195,43 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
     <div class='dont-index'><p><code><a href='https://rdrr.io/r/stats/chisq.test.html'>chisq.test</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>infer_chisq_gof_test</span>(<span class='no'>hsb</span>, <span class='no'>race</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>20</span>, <span class='fl'>20</span>, <span class='fl'>20</span>, <span class='fl'>140</span>))</div><div class='output co'>#&gt;     Test Statistics     
-#&gt; -----------------------
-#&gt; Chi-Square       5.0286 
-#&gt; DF                    3 
-#&gt; Pr &gt; Chi Sq      0.1697 
-#&gt; Sample Size         200 
-#&gt; 
-#&gt;                          Variable: race                           
-#&gt; -----------------------------------------------------------------
-#&gt; Category    Observed    Expected    % Deviation    Std. Residuals 
-#&gt; -----------------------------------------------------------------
-#&gt;    1           24          20          20.00            0.89      
-#&gt;    2           11          20         -45.00           -2.01      
-#&gt;    3           20          20           0.00            0.00      
-#&gt;    4          145         140           3.57            0.42      
-#&gt; -----------------------------------------------------------------</div><div class='input'>
-<span class='co'># apply continuity correction</span>
-<span class='fu'>infer_chisq_gof_test</span>(<span class='no'>hsb</span>, <span class='no'>race</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>20</span>, <span class='fl'>20</span>, <span class='fl'>20</span>, <span class='fl'>140</span>), <span class='kw'>correct</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;     Test Statistics     
-#&gt; -----------------------
-#&gt; Chi-Square       4.3821 
-#&gt; DF                    3 
-#&gt; Pr &gt; Chi Sq      0.2231 
-#&gt; Sample Size         200 
-#&gt; 
-#&gt;                          Variable: race                           
-#&gt; -----------------------------------------------------------------
-#&gt; Category    Observed    Expected    % Deviation    Std. Residuals 
-#&gt; -----------------------------------------------------------------
-#&gt;    1           24          20          17.50            0.78      
-#&gt;    2           11          20         -47.50           -2.12      
-#&gt;    3           20          20          -2.50           -0.11      
-#&gt;    4          145         140           3.21            0.38      
-#&gt; -----------------------------------------------------------------</div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'>infer_chisq_gof_test</span><span class='op'>(</span><span class='va'>hsb</span>, <span class='va'>race</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>20</span>, <span class='fl'>20</span>, <span class='fl'>20</span>, <span class='fl'>140</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     Test Statistics     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Chi-Square       5.0286 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> DF                    3 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Pr &gt; Chi Sq      0.1697 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Sample Size         200 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                          Variable: race                           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Category    Observed    Expected    % Deviation    Std. Residuals </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    1           24          20          20.00            0.89      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    2           11          20         -45.00           -2.01      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    3           20          20           0.00            0.00      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    4          145         140           3.57            0.42      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------------------------------</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># apply continuity correction</span></span>
+<span class='r-in'><span class='fu'>infer_chisq_gof_test</span><span class='op'>(</span><span class='va'>hsb</span>, <span class='va'>race</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>20</span>, <span class='fl'>20</span>, <span class='fl'>20</span>, <span class='fl'>140</span><span class='op'>)</span>, correct <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     Test Statistics     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Chi-Square       4.3821 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> DF                    3 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Pr &gt; Chi Sq      0.2231 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Sample Size         200 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                          Variable: race                           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Category    Observed    Expected    % Deviation    Std. Residuals </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    1           24          20          17.50            0.78      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    2           11          20         -47.50           -2.12      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    3           20          20          -2.50           -0.11      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    4          145         140           3.21            0.38      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------------------------------</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -243,7 +247,7 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
