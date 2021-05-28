@@ -1,7 +1,7 @@
 context("anova")
 
-test_that("output from ifr_oneway_anova matches the expected output", {
-  k <- ifr_oneway_anova(mtcars, mpg, cyl)
+test_that("output from infer_oneway_anova matches the expected output", {
+  k <- infer_oneway_anova(mtcars, mpg, cyl)
   expect_equal(k$ss_between, 824.785)
   expect_equal(k$ss_within, 301.263)
   expect_equal(k$ss_total, 1126.048)
@@ -41,5 +41,5 @@ Total             1126.048    31
 Number of obs = 32        R-squared     = 0.7325
 Root MSE      = 3.2231    Adj R-squared = 0.714")
 
-  expect_equivalent(print(ifr_oneway_anova(mtcars, mpg, cyl)), x)
+  expect_equivalent(print(infer_oneway_anova(mtcars, mpg, cyl)), x)
 })

@@ -54,7 +54,7 @@ test_that("output from lev_metric matches the expected result", {
 })
 
 test_that("output from serr matches the expected result", {
-  k <- ifr_mcnemar_test(matrix(c(135, 18, 21, 26), nrow = 2))
+  k <- infer_mcnemar_test(matrix(c(135, 18, 21, 26), nrow = 2))
   expected <- sum(rowSums(k$tbl) * colSums(k$tbl)) / (sum(k$tbl) ^ 2)
   expect_equal(round(serr(k$tbl, k$kappa, expected), 3), 0.075)
 })

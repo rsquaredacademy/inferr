@@ -1,5 +1,5 @@
 #' @title One Sample Variance Comparison Test
-#' @description  \code{ifr_os_var_test} performs tests on the equality of standard
+#' @description  \code{infer_os_var_test} performs tests on the equality of standard
 #' deviations (variances).It tests that the standard deviation of a sample is
 #' equal to a hypothesized value.
 #' @param data a \code{data.frame} or \code{tibble}
@@ -10,8 +10,8 @@
 #' must be one of "both" (default), "greater", "less" or "all". You can specify
 #' just the initial letter
 #' @param ... additional arguments passed to or from other methods
-#' @return \code{ifr_os_var_test} returns an object of class \code{"ifr_os_var_test"}.
-#' An object of class \code{"ifr_os_var_test"} is a list containing the
+#' @return \code{infer_os_var_test} returns an object of class \code{"infer_os_var_test"}.
+#' An object of class \code{"infer_os_var_test"} is a list containing the
 #' following components:
 #'
 #' \item{n}{number of observations}
@@ -30,30 +30,30 @@
 #' \item{conf}{confidence level}
 #' \item{type}{alternative hypothesis}
 #' @section Deprecated Function:
-#' \code{os_vartest()} has been deprecated. Instead use \code{ifr_os_var_test()}.
+#' \code{os_vartest()} has been deprecated. Instead use \code{infer_os_var_test()}.
 #' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #' @seealso \code{\link[stats]{var.test}}
 #' @examples
 #' # lower tail
-#' ifr_os_var_test(mtcars, mpg, 5, alternative = 'less')
+#' infer_os_var_test(mtcars, mpg, 5, alternative = 'less')
 #'
 #' # upper tail
-#' ifr_os_var_test(mtcars, mpg, 5, alternative = 'greater')
+#' infer_os_var_test(mtcars, mpg, 5, alternative = 'greater')
 #'
 #' # both tails
-#' ifr_os_var_test(mtcars, mpg, 5, alternative = 'both')
+#' infer_os_var_test(mtcars, mpg, 5, alternative = 'both')
 #'
 #' # all tails
-#' ifr_os_var_test(mtcars, mpg, 5, alternative = 'all')
+#' infer_os_var_test(mtcars, mpg, 5, alternative = 'all')
 #' @export
 #'
-ifr_os_var_test <- function(data, x, sd, confint = 0.95,
-                              alternative = c("both", "less", "greater", "all"), ...) UseMethod("ifr_os_var_test")
+infer_os_var_test <- function(data, x, sd, confint = 0.95,
+                              alternative = c("both", "less", "greater", "all"), ...) UseMethod("infer_os_var_test")
 
 #' @export
 #'
-ifr_os_var_test.default <- function(data, x, sd, confint = 0.95,
+infer_os_var_test.default <- function(data, x, sd, confint = 0.95,
                                       alternative = c("both", "less", "greater", "all"), ...) {
 
   x1   <- deparse(substitute(x))
@@ -92,22 +92,13 @@ ifr_os_var_test.default <- function(data, x, sd, confint = 0.95,
          var_name = varname,
          xbar     = round(k$xbar, 4))
 
-  class(result) <- "ifr_os_var_test"
+  class(result) <- "infer_os_var_test"
   return(result)
 }
 
 #' @export
-#' @rdname ifr_os_var_test
-#' @usage NULL
 #'
-infer_os_var_test <- function(data, x, sd, confint = 0.95,
-                              alternative = c("both", "less", "greater", "all"), ...) {
-  .Deprecated("ifr_os_var_test()")
-}
-
-#' @export
-#'
-print.ifr_os_var_test <- function(x, ...) {
+print.infer_os_var_test <- function(x, ...) {
   print_os_vartest(x)
 }
 

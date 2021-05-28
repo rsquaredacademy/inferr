@@ -1,7 +1,7 @@
 context("mcnemar-test")
 
-test_that("output from ifr_mcnemar_test matches the expected result", {
-  k <- ifr_mcnemar_test(matrix(c(172, 7, 6, 15), nrow = 2))
+test_that("output from infer_mcnemar_test matches the expected result", {
+  k <- infer_mcnemar_test(matrix(c(172, 7, 6, 15), nrow = 2))
   expect_equal(k$statistic, 0.0769)
   expect_equal(k$df, 1.000)
   expect_equal(k$pvalue, 0.7815)
@@ -17,8 +17,8 @@ test_that("output from ifr_mcnemar_test matches the expected result", {
 })
 
 
-test_that("output from ifr_mcnemar_test matches the expected result", {
-  k <- ifr_mcnemar_test(table(hsb$female, hsb$schtyp))
+test_that("output from infer_mcnemar_test matches the expected result", {
+  k <- infer_mcnemar_test(table(hsb$female, hsb$schtyp))
   expect_equal(k$statistic, 56.4667)
   expect_equal(k$df, 1)
   expect_equal(k$pvalue, 0)
@@ -73,5 +73,5 @@ odds ratio      1.1667
 
   himath <- ifelse(hsb$math > 60, 1, 0)
   hiread <- ifelse(hsb$read > 60, 1, 0)
-  expect_equivalent(print(ifr_mcnemar_test(table(himath, hiread))), x)
+  expect_equivalent(print(infer_mcnemar_test(table(himath, hiread))), x)
 })

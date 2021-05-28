@@ -1,10 +1,10 @@
 context("levene-test")
 
-test_that("output from ifr_levene_test matches the expected result", {
+test_that("output from infer_levene_test matches the expected result", {
   mt <- mtcars
   mt$cyl <- as.factor(mt$cyl)
 
-  k <- ifr_levene_test(mt, mpg, group_var = cyl)
+  k <- infer_levene_test(mt, mpg, group_var = cyl)
   expect_equal(k$bf, 6.4843)
   expect_equal(k$p_bf, 0.0047)
   expect_equal(k$lev, 5.5071)
@@ -24,8 +24,8 @@ test_that("output from ifr_levene_test matches the expected result", {
 
 
 
-test_that("output from ifr_levene_test matches the expected result", {
-  k <- ifr_levene_test(mtcars, mpg, qsec)
+test_that("output from infer_levene_test matches the expected result", {
+  k <- infer_levene_test(mtcars, mpg, qsec)
   expect_equal(k$bf, 24.3932)
   expect_equal(k$p_bf, 0)
   expect_equal(k$lev, 20.9464)
@@ -65,5 +65,5 @@ Levene                                    3       196    3.4792     0.017
 Brown and Forsythe (Trimmed Mean)         3       196    3.3936     0.019
 -------------------------------------------------------------------------")
 
-  expect_equivalent(print(ifr_levene_test(hsb, read, group_var = race)), x)
+  expect_equivalent(print(infer_levene_test(hsb, read, group_var = race)), x)
 })

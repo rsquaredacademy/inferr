@@ -5,8 +5,8 @@
 #' @param x factor; column in \code{data}
 #' @param y expected proportions
 #' @param correct logical; if TRUE continuity correction is applied
-#' @return \code{ifr_chisq_gof_test} returns an object of class
-#' \code{"ifr_chisq_gof_test"}. An object of class \code{"ifr_chisq_gof_test"}
+#' @return \code{infer_chisq_gof_test} returns an object of class
+#' \code{"infer_chisq_gof_test"}. An object of class \code{"infer_chisq_gof_test"}
 #' is a list containing the following components:
 #'
 #' \item{categories}{levels of \code{x}}
@@ -23,22 +23,22 @@
 #'
 #' @section Deprecated Function:
 #' \code{chisq_gof()} has been deprecated. Instead use
-#' \code{ifr_chisq_gof_test()}
+#' \code{infer_chisq_gof_test()}
 #'
 #' @seealso \code{\link[stats]{chisq.test}}
 #' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #' @examples
-#' ifr_chisq_gof_test(hsb, race, c(20, 20, 20, 140))
+#' infer_chisq_gof_test(hsb, race, c(20, 20, 20, 140))
 #'
 #' # apply continuity correction
-#' ifr_chisq_gof_test(hsb, race, c(20, 20, 20, 140), correct = TRUE)
+#' infer_chisq_gof_test(hsb, race, c(20, 20, 20, 140), correct = TRUE)
 #' @export
 #'
-ifr_chisq_gof_test <- function(data, x, y, correct = FALSE) UseMethod("ifr_chisq_gof_test")
+infer_chisq_gof_test <- function(data, x, y, correct = FALSE) UseMethod("infer_chisq_gof_test")
 
 #' @export
-ifr_chisq_gof_test.default <- function(data, x, y, correct = FALSE) {
+infer_chisq_gof_test.default <- function(data, x, y, correct = FALSE) {
 
   x1     <- deparse(substitute(x))
   xcheck <- data[[x1]]
@@ -92,20 +92,12 @@ ifr_chisq_gof_test.default <- function(data, x, y, correct = FALSE) {
       varname            = varname
   )
 
-  class(result) <- "ifr_chisq_gof_test"
+  class(result) <- "infer_chisq_gof_test"
   return(result)
 }
 
 #' @export
-#' @rdname ifr_chisq_gof_test
-#' @usage NULL
-#'
-infer_chisq_gof_test <- function(data, x, y, correct = FALSE) {
-  .Deprecated("ifr_chisq_gof_test()")
-}
-
-#' @export
-print.ifr_chisq_gof_test <- function(x, ...) {
+print.infer_chisq_gof_test <- function(x, ...) {
   print_chisq_gof(x)
 }
 

@@ -1,5 +1,5 @@
 #' @title Two Independent Sample t Test
-#' @description \code{ifr_ts_ind_ttest} compares the means of two independent groups in order to determine whether
+#' @description \code{infer_ts_ind_ttest} compares the means of two independent groups in order to determine whether
 #' there is statistical evidence that the associated population means are significantly different.
 #' @param data a data frame
 #' @param x factor; a column in \code{data}
@@ -9,8 +9,8 @@
 #' must be one of "both" (default), "greater", "less" or "all". You can specify
 #' just the initial letter
 #' @param ... additional arguments passed to or from other methods
-#' @return \code{ifr_ts_ind_ttest} returns an object of class \code{"ifr_ts_ind_ttest"}.
-#' An object of class \code{"ifr_ts_ind_ttest"} is a list containing the
+#' @return \code{infer_ts_ind_ttest} returns an object of class \code{"infer_ts_ind_ttest"}.
+#' An object of class \code{"infer_ts_ind_ttest"} is a list containing the
 #' following components:
 #'
 #' \item{levels}{levels of \code{x}}
@@ -45,30 +45,30 @@
 #' \item{confint}{confidence level}
 #' \item{alternative}{alternative hypothesis}
 #' @section Deprecated Function:
-#' \code{ind_ttest()} has been deprecated. Instead use \code{ifr_ts_ind_ttest()}.
+#' \code{ind_ttest()} has been deprecated. Instead use \code{infer_ts_ind_ttest()}.
 #' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #' @seealso \code{\link[stats]{t.test}}
 #' @examples
 #' # lower tail
-#' ifr_ts_ind_ttest(hsb, female, write, alternative = 'less')
+#' infer_ts_ind_ttest(hsb, female, write, alternative = 'less')
 #'
 #' # upper tail
-#' ifr_ts_ind_ttest(hsb, female, write, alternative = 'greater')
+#' infer_ts_ind_ttest(hsb, female, write, alternative = 'greater')
 #'
 #' # both tails
-#' ifr_ts_ind_ttest(hsb, female, write, alternative = 'both')
+#' infer_ts_ind_ttest(hsb, female, write, alternative = 'both')
 #'
 #' # all tails
-#' ifr_ts_ind_ttest(hsb, female, write, alternative = 'all')
+#' infer_ts_ind_ttest(hsb, female, write, alternative = 'all')
 #' @export
 #'
-ifr_ts_ind_ttest <- function(data, x, y, confint = 0.95,
-                               alternative = c("both", "less", "greater", "all"), ...) UseMethod("ifr_ts_ind_ttest")
+infer_ts_ind_ttest <- function(data, x, y, confint = 0.95,
+                               alternative = c("both", "less", "greater", "all"), ...) UseMethod("infer_ts_ind_ttest")
 
 #' @export
 #'
-ifr_ts_ind_ttest.default <- function(data, x, y, confint = 0.95,
+infer_ts_ind_ttest.default <- function(data, x, y, confint = 0.95,
                                        alternative = c("both", "less", "greater", "all"), ...) {
 
   x1   <- deparse(substitute(x))
@@ -126,23 +126,14 @@ ifr_ts_ind_ttest.default <- function(data, x, y, confint = 0.95,
                  upper            = g_stat[, 9],
                  var_y            = var_y)
 
-  class(result) <- "ifr_ts_ind_ttest"
+  class(result) <- "infer_ts_ind_ttest"
   return(result)
 
 }
 
 #' @export
-#' @rdname ifr_ts_ind_ttest
-#' @usage NULL
 #'
-infer_ts_ind_ttest <- function(data, x, y, confint = 0.95,
-                               alternative = c("both", "less", "greater", "all"), ...) {
-  .Deprecated("ifr_ts_ind_ttest()")
-}
-
-#' @export
-#'
-print.ifr_ts_ind_ttest <- function(x, ...) {
+print.infer_ts_ind_ttest <- function(x, ...) {
   print_two_ttest(x)
 }
 

@@ -1,5 +1,5 @@
 #' @title Levene's test for equality of variances
-#' @description  \code{ifr_levene_test} reports Levene's robust test statistic
+#' @description  \code{infer_levene_test} reports Levene's robust test statistic
 #' for the equality of variances and the
 #' two statistics proposed by Brown and Forsythe that replace the mean in
 #' Levene's formula with alternative location estimators. The first alternative
@@ -9,8 +9,8 @@
 #' @param ... numeric; columns in \code{data}
 #' @param group_var factor; column in \code{data}
 #' @param trim_mean trimmed mean
-#' @return \code{ifr_levene_test} returns an object of class \code{"ifr_levene_test"}.
-#' An object of class \code{"ifr_levene_test"} is a list containing the
+#' @return \code{infer_levene_test} returns an object of class \code{"infer_levene_test"}.
+#' An object of class \code{"infer_levene_test"} is a list containing the
 #' following components:
 #'
 #' \item{bf}{Brown and Forsythe f statistic}
@@ -30,7 +30,7 @@
 #' \item{lens}{number of observations for each level of the grouping variable}
 #' \item{type}{alternative hypothesis}
 #' @section Deprecated Function:
-#' \code{levene_test()} has been deprecated. Instead use \code{ifr_levene_test()}.
+#' \code{levene_test()} has been deprecated. Instead use \code{infer_levene_test()}.
 #' @references
 #' {Bland, M. 2000. An Introduction to Medical Statistics. 3rd ed. Oxford: Oxford University Press.}
 #'
@@ -39,18 +39,18 @@
 #' {Carroll, R. J., and H. Schneider. 1985. A note on Levene’s tests for equality of variances. Statistics and Probability Letters 3: 191–194.}
 #' @examples
 #' # using grouping variable
-#' ifr_levene_test(hsb, read, group_var = race)
+#' infer_levene_test(hsb, read, group_var = race)
 #'
 #' # using  variables
-#' ifr_levene_test(hsb, read, write, socst)
+#' infer_levene_test(hsb, read, write, socst)
 #'
 #' @export
 #'
-ifr_levene_test <- function(data, ...) UseMethod("ifr_levene_test")
+infer_levene_test <- function(data, ...) UseMethod("infer_levene_test")
 
 #' @export
-#' @rdname ifr_levene_test
-ifr_levene_test.default <- function(data, ..., group_var = NULL, trim_mean = 0.1) {
+#' @rdname infer_levene_test
+infer_levene_test.default <- function(data, ..., group_var = NULL, trim_mean = 0.1) {
 
   groupvar  <- deparse(substitute(group_var))
   varyables <- vapply(substitute(...()), deparse, NA_character_)
@@ -98,21 +98,14 @@ ifr_levene_test.default <- function(data, ..., group_var = NULL, trim_mean = 0.1
          sd    = k$sd,
          sds   = k$sds)
 
-  class(out) <- "ifr_levene_test"
+  class(out) <- "infer_levene_test"
   return(out)
 }
 
-#' @export
-#' @rdname ifr_chisq_assoc_test
-#' @usage NULL
-#'
-infer_levene_test <- function(data, ..., group_var = NULL, trim_mean = 0.1) {
-  .Deprecated("ifr_levene_test()")
-}
 
 #' @export
 #'
-print.ifr_levene_test <- function(x, ...) {
+print.infer_levene_test <- function(x, ...) {
   print_levene_test(x)
 }
 

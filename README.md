@@ -14,7 +14,9 @@ checks](https://cranchecks.info/badges/summary/inferr)](https://cran.r-project.o
 status](https://github.com/rsquaredacademy/inferr/workflows/R-CMD-check/badge.svg)](https://github.com/rsquaredacademy/inferr/actions)
 [![Coverage
 status](https://codecov.io/gh/rsquaredacademy/inferr/branch/master/graph/badge.svg)](https://codecov.io/github/rsquaredacademy/inferr?branch=master)
-[![status](https://tinyverse.netlify.com/badge/inferr)](https://CRAN.R-project.org/package=inferr)![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
+[![status](https://tinyverse.netlify.com/badge/inferr)](https://CRAN.R-project.org/package=inferr)
+[![Lifecycle:
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 [![](https://cranlogs.r-pkg.org/badges/grand-total/inferr)](https://cran.r-project.org/package=inferr)
 <!-- badges: end -->
 
@@ -62,7 +64,7 @@ devtools::install_github("rsquaredacademy/inferr")
 #### One Sample t Test
 
 ``` r
-ifr_os_t_test(hsb, write, mu = 50, type = 'all')
+infer_os_t_test(hsb, write, mu = 50, type = 'all')
 #>                               One-Sample Statistics                               
 #> ---------------------------------------------------------------------------------
 #>  Variable    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
@@ -78,14 +80,14 @@ ifr_os_t_test(hsb, write, mu = 50, type = 'all')
 #> --------------------------------------------------------------------------------
 #>  Variable      t      DF       Sig       Mean Diff.    [95% Conf. Interval] 
 #> --------------------------------------------------------------------------------
-#>   write      4.141    199    0.99997       2.775         1.4537     4.0969   
+#>   write      4.141    199    0.00005       2.775         1.4537     4.0969   
 #> --------------------------------------------------------------------------------
 ```
 
 #### ANOVA
 
 ``` r
-ifr_oneway_anova(hsb, write, prog)
+infer_oneway_anova(hsb, write, prog)
 #>                                 ANOVA                                  
 #> ----------------------------------------------------------------------
 #>                    Sum of                                             
@@ -112,7 +114,7 @@ ifr_oneway_anova(hsb, write, prog)
 #### Chi Square Test of Independence
 
 ``` r
-ifr_chisq_assoc_test(hsb, female, schtyp)
+infer_chisq_assoc_test(hsb, female, schtyp)
 #>                Chi Square Statistics                 
 #> 
 #> Statistics                     DF    Value      Prob 
@@ -130,7 +132,7 @@ ifr_chisq_assoc_test(hsb, female, schtyp)
 #### Levene’s Test
 
 ``` r
-ifr_levene_test(hsb, read, group_var = race)
+infer_levene_test(hsb, read, group_var = race)
 #>            Summary Statistics             
 #> Levels    Frequency    Mean     Std. Dev  
 #> -----------------------------------------
@@ -155,7 +157,7 @@ ifr_levene_test(hsb, read, group_var = race)
 #### Cochran’s Q Test
 
 ``` r
-ifr_cochran_qtest(exam, exam1, exam2, exam3)
+infer_cochran_qtest(exam, exam1, exam2, exam3)
 #>    Test Statistics     
 #> ----------------------
 #> N                   15 
@@ -171,7 +173,7 @@ ifr_cochran_qtest(exam, exam1, exam2, exam3)
 hb <- hsb
 hb$himath <- ifelse(hsb$math > 60, 1, 0)
 hb$hiread <- ifelse(hsb$read > 60, 1, 0)
-ifr_mcnemar_test(hb, himath, hiread)
+infer_mcnemar_test(hb, himath, hiread)
 #>            Controls 
 #> ---------------------------------
 #> Cases       0       1       Total 
@@ -213,9 +215,3 @@ If you encounter a bug, please file a minimal reproducible example using
 [reprex](https://reprex.tidyverse.org/index.html) on github. For
 questions and clarifications, use
 [StackOverflow](https://stackoverflow.com/).
-
-## Code of Conduct
-
-Please note that this project is released with a [Contributor Code of
-Conduct](CONDUCT.md). By participating in this project you agree to
-abide by its terms.

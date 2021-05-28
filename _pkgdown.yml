@@ -45,31 +45,31 @@ reference:
 - title: Parametric Tests
 
   contents:
-  - ifr_binom_calc
-  - ifr_binom_test
-  - ifr_levene_test
-  - ifr_os_prop_test
-  - ifr_os_t_test
-  - ifr_os_var_test
-  - ifr_ts_ind_ttest
-  - ifr_ts_paired_ttest
-  - ifr_ts_prop_test
-  - ifr_ts_var_test
+  - infer_binom_calc
+  - infer_binom_test
+  - infer_levene_test
+  - infer_os_prop_test
+  - infer_os_t_test
+  - infer_os_var_test
+  - infer_ts_ind_ttest
+  - infer_ts_paired_ttest
+  - infer_ts_prop_test
+  - infer_ts_var_test
 
 
 - title: Non-parametric Tests
 
   contents:
-  - ifr_chisq_assoc_test
-  - ifr_chisq_gof_test
-  - ifr_cochran_qtest
-  - ifr_mcnemar_test
-  - ifr_runs_test
+  - infer_chisq_assoc_test
+  - infer_chisq_gof_test
+  - infer_cochran_qtest
+  - infer_mcnemar_test
+  - infer_runs_test
 
 - title: ANOVA
 
   contents:
-  - ifr_oneway_anova
+  - infer_oneway_anova
 
 - title: Data
   desc: >

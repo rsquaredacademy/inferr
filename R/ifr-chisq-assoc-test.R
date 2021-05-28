@@ -4,9 +4,9 @@
 #' @param data a \code{data.frame} or \code{tibble}
 #' @param x factor; column in \code{data}
 #' @param y factor; column in \code{data}
-#' @return \code{ifr_chisq_assoc_test} returns an object of class
-#' \code{"ifr_chisq_assoc_test"}. An object of class
-#' \code{"ifr_chisq_assoc_test"} is a list containing the
+#' @return \code{infer_chisq_assoc_test} returns an object of class
+#' \code{"infer_chisq_assoc_test"}. An object of class
+#' \code{"infer_chisq_assoc_test"} is a list containing the
 #' following components:
 #'
 #' \item{chisquare}{chi square}
@@ -25,21 +25,21 @@
 #'
 #' @section Deprecated Function:
 #' \code{chisq_test()} has been deprecated. Instead use
-#' \code{ifr_chisq_assoc_test()}.
+#' \code{infer_chisq_assoc_test()}.
 #'
 #' @seealso \code{\link[stats]{chisq.test}}
 #' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #' @examples
-#' ifr_chisq_assoc_test(hsb, female, schtyp)
+#' infer_chisq_assoc_test(hsb, female, schtyp)
 #'
-#' ifr_chisq_assoc_test(hsb, female, ses)
+#' infer_chisq_assoc_test(hsb, female, ses)
 #' @export
 #'
-ifr_chisq_assoc_test <- function(data, x, y) UseMethod("ifr_chisq_assoc_test")
+infer_chisq_assoc_test <- function(data, x, y) UseMethod("infer_chisq_assoc_test")
 
 #' @export
-ifr_chisq_assoc_test.default <- function(data, x, y) {
+infer_chisq_assoc_test.default <- function(data, x, y) {
 
   x1 <- deparse(substitute(x))
   y1 <- deparse(substitute(y))
@@ -111,20 +111,12 @@ ifr_chisq_assoc_test.default <- function(data, x, y) {
     )
   }
 
-  class(result) <- "ifr_chisq_assoc_test"
+  class(result) <- "infer_chisq_assoc_test"
   return(result)
 }
 
 #' @export
-#' @rdname ifr_chisq_assoc_test
-#' @usage NULL
-#'
-infer_chisq_assoc_test <- function(data, x, y) {
-  .Deprecated("ifr_chisq_assoc_test()")
-}
-
-#' @export
-print.ifr_chisq_assoc_test <- function(x, ...) {
+print.infer_chisq_assoc_test <- function(x, ...) {
   print_chisq_test(x)
 }
 

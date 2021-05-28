@@ -21,7 +21,7 @@ A data frame with 200 rows and 10 variables:
 }
 }
 \source{
-\url{http://www.ats.ucla.edu/stat/spss/whatstat/whatstat.htm}
+\url{https://nces.ed.gov/surveys/hsb/}
 }
 \usage{
 hsb

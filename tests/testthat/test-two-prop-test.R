@@ -4,8 +4,8 @@ mtcarz <- mtcars
 mtcarz$vs <- as.factor(mtcarz$vs)
 mtcarz$am <- as.factor(mtcarz$am)
 
-test_that("output from ifr_ts_prop_test matches the expected result", {
-  k <- ifr_ts_prop_test(mtcarz, am, vs, alternative = "less")
+test_that("output from infer_ts_prop_test matches the expected result", {
+  k <- infer_ts_prop_test(mtcarz, am, vs, alternative = "less")
   expect_equal(k$n1, 32)
   expect_equal(k$n2, 32)
   expect_equal(k$phat1, 0.4062)
@@ -16,8 +16,8 @@ test_that("output from ifr_ts_prop_test matches the expected result", {
 })
 
 
-test_that("output from ifr_ts_prop_test matches the expected result", {
-  k <- ifr_ts_prop_test(
+test_that("output from infer_ts_prop_test matches the expected result", {
+  k <- infer_ts_prop_test(
     mtcarz, am, vs,
     alternative = "greater"
   )
@@ -26,8 +26,8 @@ test_that("output from ifr_ts_prop_test matches the expected result", {
 })
 
 
-test_that("output from ifr_ts_prop_test matches the expected result", {
-  k <- ifr_ts_prop_test(
+test_that("output from infer_ts_prop_test matches the expected result", {
+  k <- infer_ts_prop_test(
     mtcarz, am, vs,
     alternative = "both"
   )
@@ -35,8 +35,8 @@ test_that("output from ifr_ts_prop_test matches the expected result", {
   expect_equivalent(k$alt, "both")
 })
 
-test_that("output from ifr_ts_prop_test matches the expected result", {
-  k <- ifr_ts_prop_test(
+test_that("output from infer_ts_prop_test matches the expected result", {
+  k <- infer_ts_prop_test(
     mtcarz, am, vs,
     alternative = "all"
   )
@@ -45,8 +45,8 @@ test_that("output from ifr_ts_prop_test matches the expected result", {
 })
 
 
-test_that("output from ifr_ts_prop_test matches the expected result", {
-  k <- ifr_ts_prop_group(mtcarz, am, vs, alternative = "less")
+test_that("output from infer_ts_prop_test matches the expected result", {
+  k <- infer_ts_prop_group(mtcarz, am, vs, alternative = "less")
   expect_equal(k$n1, 18)
   expect_equal(k$n2, 14)
   expect_equal(round(k$phat1, 3), 0.333)
@@ -56,8 +56,8 @@ test_that("output from ifr_ts_prop_test matches the expected result", {
   expect_equivalent(k$alt, "less")
 })
 
-test_that("output from ifr_ts_prop_test matches the expected result", {
-  k <- ifr_ts_prop_group(
+test_that("output from infer_ts_prop_test matches the expected result", {
+  k <- infer_ts_prop_group(
     mtcarz, am, vs,
     alternative = "greater"
   )
@@ -65,8 +65,8 @@ test_that("output from ifr_ts_prop_test matches the expected result", {
   expect_equivalent(k$alt, "greater")
 })
 
-test_that("output from ifr_ts_prop_test matches the expected result", {
-  k <- ifr_ts_prop_group(
+test_that("output from infer_ts_prop_test matches the expected result", {
+  k <- infer_ts_prop_group(
     mtcarz, am, vs,
     alternative = "both"
   )
@@ -74,8 +74,8 @@ test_that("output from ifr_ts_prop_test matches the expected result", {
   expect_equivalent(k$alt, "both")
 })
 
-test_that("output from ifr_ts_prop_test matches the expected result", {
-  k <- ifr_ts_prop_group(
+test_that("output from infer_ts_prop_test matches the expected result", {
+  k <- infer_ts_prop_group(
     mtcarz, am, vs,
     alternative = "all"
   )
@@ -83,8 +83,8 @@ test_that("output from ifr_ts_prop_test matches the expected result", {
   expect_equivalent(k$alt, "all")
 })
 
-test_that("output from ifr_ts_prop_test matches the expected result", {
-  k <- ifr_ts_prop_calc(
+test_that("output from infer_ts_prop_test matches the expected result", {
+  k <- infer_ts_prop_calc(
     n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5,
     alternative = "less"
   )
@@ -97,8 +97,8 @@ test_that("output from ifr_ts_prop_test matches the expected result", {
   expect_equivalent(k$alt, "less")
 })
 
-test_that("output from ifr_ts_prop_test matches the expected result", {
-  k <- ifr_ts_prop_calc(
+test_that("output from infer_ts_prop_test matches the expected result", {
+  k <- infer_ts_prop_calc(
     n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5,
     alternative = "greater"
   )
@@ -106,8 +106,8 @@ test_that("output from ifr_ts_prop_test matches the expected result", {
   expect_equivalent(k$alt, "greater")
 })
 
-test_that("output from ifr_ts_prop_test matches the expected result", {
-  k <- ifr_ts_prop_calc(
+test_that("output from infer_ts_prop_test matches the expected result", {
+  k <- infer_ts_prop_calc(
     n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5,
     alternative = "both"
   )
@@ -116,8 +116,8 @@ test_that("output from ifr_ts_prop_test matches the expected result", {
 })
 
 
-test_that("output from ifr_ts_prop_test matches the expected result", {
-  k <- ifr_ts_prop_calc(
+test_that("output from infer_ts_prop_test matches the expected result", {
+  k <- infer_ts_prop_calc(
     n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5,
     alternative = "all"
   )
@@ -132,7 +132,7 @@ test_that("output from 2 sample proportion test is as expected when alternative 
            z                       0.351
            Pr(Z < z)               0.637 ")
 
-  expect_equivalent(print(ifr_ts_prop_group(treatment2, outcome, female, alternative = "less")), x)
+  expect_equivalent(print(infer_ts_prop_group(treatment2, outcome, female, alternative = "less")), x)
 })
 
 test_that("output from 2 sample proportion test is as expected when alternative is greater", {
@@ -142,7 +142,7 @@ test_that("output from 2 sample proportion test is as expected when alternative 
            z                       0.351
            Pr(Z > z)               0.363")
 
-  expect_equivalent(print(ifr_ts_prop_group(treatment2, outcome, female, alternative = "greater")), x)
+  expect_equivalent(print(infer_ts_prop_group(treatment2, outcome, female, alternative = "greater")), x)
 })
 
 test_that("output from 2 sample proportion test is as expected when alternative is both", {
@@ -152,7 +152,7 @@ test_that("output from 2 sample proportion test is as expected when alternative 
            z                       0.351
            Pr(|Z| < |z|)           0.726")
 
-  expect_equivalent(print(ifr_ts_prop_group(treatment2, outcome, female, alternative = "both")), x)
+  expect_equivalent(print(infer_ts_prop_group(treatment2, outcome, female, alternative = "both")), x)
 })
 
 test_that("output from 2 sample proportion test is as expected when alternative is all", {
@@ -163,5 +163,5 @@ Pr(|Z| < |z|)           0.726
 Pr(Z < z)               0.637
 Pr(Z > z)               0.363")
 
-  expect_equivalent(print(ifr_ts_prop_group(treatment2, outcome, female, alternative = "all")), x)
+  expect_equivalent(print(infer_ts_prop_group(treatment2, outcome, female, alternative = "all")), x)
 })

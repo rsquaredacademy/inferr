@@ -8,8 +8,8 @@
 #' @param variable factor; column in \code{data}
 #' @param ... additional arguments passed to or from other methods
 #'
-#' @return \code{binom_test} returns an object of class \code{"binom_test"}.
-#' An object of class \code{"binom_test"} is a list containing the
+#' @return \code{infer_binom_test} returns an object of class \code{"infer_binom_test"}.
+#' An object of class \code{"infer_binom_test"} is a list containing the
 #' following components:
 #'
 #' \item{exp_k}{expected number of successes}
@@ -21,23 +21,23 @@
 #' \item{pval_upper}{upper one sided p value}
 #' @section Deprecated Functions:
 #' \code{binom_calc()} and \code{binom_test()} have been deprecated. Instead use
-#' \code{ifr_binom_cal()} and \code{ifr_binom_test()}.
+#' \code{infer_binom_cal()} and \code{infer_binom_test()}.
 #' @references Hoel, P. G. 1984. Introduction to Mathematical Statistics.
 #' 5th ed. New York: Wiley.
 #'
 #' @seealso \code{\link[stats]{binom.test}}
 #' @examples
 #' # using calculator
-#' ifr_binom_calc(32, 13, prob = 0.5)
+#' infer_binom_calc(32, 13, prob = 0.5)
 #'
 #' # using data set
-#' ifr_binom_test(hsb, female, prob = 0.5)
+#' infer_binom_test(hsb, female, prob = 0.5)
 #' @export
 #'
-ifr_binom_calc <- function(n, success, prob = 0.5, ...) UseMethod("ifr_binom_calc")
+infer_binom_calc <- function(n, success, prob = 0.5, ...) UseMethod("infer_binom_calc")
 
 #' @export
-ifr_binom_calc.default <- function(n, success, prob = 0.5, ...) {
+infer_binom_calc.default <- function(n, success, prob = 0.5, ...) {
 
   if (!is.numeric(n)) {
     stop("n must be an integer", call. = FALSE)
@@ -68,26 +68,18 @@ ifr_binom_calc.default <- function(n, success, prob = 0.5, ...) {
       pval_upper = k$upper
   )
 
-  class(out) <- "ifr_binom_calc"
+  class(out) <- "infer_binom_calc"
   return(out)
 }
 
 #' @export
-#' @rdname ifr_binom_calc
-#' @usage NULL
-#'
-infer_binom_calc <- function(n, success, prob = 0.5, ...) {
-  .Deprecated("ifr_binom_calc()")
-}
-
-#' @export
-print.ifr_binom_calc <- function(x, ...) {
+print.infer_binom_calc <- function(x, ...) {
   print_binom(x)
 }
 
 #' @export
-#' @rdname ifr_binom_calc
-ifr_binom_test <- function(data, variable, prob = 0.5) {
+#' @rdname infer_binom_calc
+infer_binom_test <- function(data, variable, prob = 0.5) {
 
   varyable <- deparse(substitute(variable))
   fdata    <- data[[varyable]]
@@ -110,15 +102,7 @@ ifr_binom_test <- function(data, variable, prob = 0.5) {
 
   n <- length(fdata)
   k <- table(fdata)[[2]]
-  ifr_binom_calc.default(n, k, prob)
-}
-
-#' @export
-#' @rdname ifr_binom_calc
-#' @usage NULL
-#'
-infer_binom_test <- function(data, variable, prob = 0.5) {
-  .Deprecated("ifr_binom_test()")
+  infer_binom_calc.default(n, k, prob)
 }
 
 #' @importFrom stats pbinom dbinom

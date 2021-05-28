@@ -2,11 +2,11 @@
 #' @description Launches shiny app
 #' @examples
 #' \dontrun{
-#' ifr_launch_shiny_app()
+#' infer_launch_shiny_app()
 #' }
 #' @export
 #'
-ifr_launch_shiny_app <- function() {
+infer_launch_shiny_app <- function() {
 
 	message("`infer_launch_shiny_app()` has been soft-deprecated and will be removed in the next release. In future, to launch the app, run the below code:\n 
 	- install.packages('xplorerr')\n - xplorerr::app_inference()\n")
@@ -26,12 +26,3 @@ ifr_launch_shiny_app <- function() {
 	xplorerr::app_inference()
 
 }
-
-#' @export
-#' @rdname ifr_launch_shiny_app
-#' @usage NULL
-#'
-infer_launch_shiny_app <- function(data, x, y) {
-  .Deprecated("ifr_launch_shiny_app()")
-}
- 
