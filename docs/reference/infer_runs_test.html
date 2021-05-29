@@ -76,7 +76,7 @@ correlation; a large number indicates negative serial correlation." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">inferr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1.9000</span>
       </span>
     </div>
 
@@ -116,7 +116,7 @@ correlation; a large number indicates negative serial correlation." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/rsquaredacademy/inferr">
-    <span class="fa fa-github"></span>
+    <span class="fas fa-github"></span>
      
   </a>
 </li>
@@ -134,7 +134,7 @@ correlation; a large number indicates negative serial correlation." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Test for Random Order</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rsquaredacademy/inferr/blob/master/R/infer-runs-test.R'><code>R/infer-runs-test.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/rsquaredacademy/inferr/blob/master/R/ifr-runs-test.R'><code>R/ifr-runs-test.R</code></a></small>
     <div class="hidden name"><code>infer_runs_test.Rd</code></div>
     </div>
 
@@ -146,14 +146,14 @@ is used as the threshold.  A small number of runs indicates positive serial
 correlation; a large number indicates negative serial correlation.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>infer_runs_test</span>(
-  <span class='no'>data</span>,
-  <span class='no'>x</span>,
-  <span class='kw'>drop</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>split</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>mean</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>NA</span>
-)</pre>
+    <pre class="usage"><span class='fu'>infer_runs_test</span><span class='op'>(</span>
+  <span class='va'>data</span>,
+  <span class='va'>x</span>,
+  drop <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  split <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  mean <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  threshold <span class='op'>=</span> <span class='cn'>NA</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -214,56 +214,67 @@ following components:</p>
 <p>Swed, F. S., and C. Eisenhart. 1943. Tables for testing randomness of grouping in a sequence of alternatives. Annals of Mathematical Statistics 14: 66–87.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>infer_runs_test</span>(<span class='no'>hsb</span>, <span class='no'>read</span>)</div><div class='output co'>#&gt; Runs Test
-#&gt;  Total Cases:  200 
-#&gt;  Test Value :  50 
-#&gt;  Cases &lt; Test Value:  101 
-#&gt;  Cases &gt; Test Value:  99 
-#&gt;  Number of Runs:  95 
-#&gt;  Expected Runs:  100.99 
-#&gt;  Variance (Runs):  49.73874 
-#&gt;  z Statistic:  -0.8493358 
-#&gt;  p-value:  0.3956945 </div><div class='input'>
-<span class='fu'>infer_runs_test</span>(<span class='no'>hsb</span>, <span class='no'>read</span>, <span class='kw'>drop</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Runs Test
-#&gt;  Total Cases:  200 
-#&gt;  Test Value :  50 
-#&gt;  Cases &lt; Test Value:  83 
-#&gt;  Cases &gt; Test Value:  99 
-#&gt;  Number of Runs:  89 
-#&gt;  Expected Runs:  91.2967 
-#&gt;  Variance (Runs):  44.54805 
-#&gt;  z Statistic:  -0.3441046 
-#&gt;  p-value:  0.7307676 </div><div class='input'>
-<span class='fu'>infer_runs_test</span>(<span class='no'>hsb</span>, <span class='no'>read</span>, <span class='kw'>split</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Runs Test
-#&gt;  Total Cases:  200 
-#&gt;  Test Value :  50 
-#&gt;  Cases &lt; Test Value:  101 
-#&gt;  Cases &gt; Test Value:  99 
-#&gt;  Number of Runs:  95 
-#&gt;  Expected Runs:  100.99 
-#&gt;  Variance (Runs):  49.73874 
-#&gt;  z Statistic:  -0.8493358 
-#&gt;  p-value:  0.3956945 </div><div class='input'>
-<span class='fu'>infer_runs_test</span>(<span class='no'>hsb</span>, <span class='no'>read</span>, <span class='kw'>mean</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Runs Test
-#&gt;  Total Cases:  200 
-#&gt;  Test Value :  52.23 
-#&gt;  Cases &lt; Test Value:  115 
-#&gt;  Cases &gt; Test Value:  85 
-#&gt;  Number of Runs:  93 
-#&gt;  Expected Runs:  98.75 
-#&gt;  Variance (Runs):  47.52418 
-#&gt;  z Statistic:  -0.8340854 
-#&gt;  p-value:  0.4042329 </div><div class='input'>
-<span class='fu'>infer_runs_test</span>(<span class='no'>hsb</span>, <span class='no'>read</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>0</span>)</div><div class='output co'>#&gt; Runs Test
-#&gt;  Total Cases:  200 
-#&gt;  Test Value :  0 
-#&gt;  Cases &lt; Test Value:  0 
-#&gt;  Cases &gt; Test Value:  200 
-#&gt;  Number of Runs:  1 
-#&gt;  Expected Runs:  1 
-#&gt;  Variance (Runs):  0 
-#&gt;  z Statistic:  NaN 
-#&gt;  p-value:  NaN </div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'>infer_runs_test</span><span class='op'>(</span><span class='va'>hsb</span>, <span class='va'>read</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Runs Test</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total Cases:  200 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Test Value :  50 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Cases &lt; Test Value:  101 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Cases &gt; Test Value:  99 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Number of Runs:  95 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Expected Runs:  100.99 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Variance (Runs):  49.73874 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  z Statistic:  -0.8493358 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  p-value:  0.3956945 </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>infer_runs_test</span><span class='op'>(</span><span class='va'>hsb</span>, <span class='va'>read</span>, drop <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Runs Test</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total Cases:  200 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Test Value :  50 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Cases &lt; Test Value:  83 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Cases &gt; Test Value:  99 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Number of Runs:  89 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Expected Runs:  91.2967 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Variance (Runs):  44.54805 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  z Statistic:  -0.3441046 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  p-value:  0.7307676 </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>infer_runs_test</span><span class='op'>(</span><span class='va'>hsb</span>, <span class='va'>read</span>, split <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Runs Test</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total Cases:  200 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Test Value :  50 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Cases &lt; Test Value:  101 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Cases &gt; Test Value:  99 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Number of Runs:  95 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Expected Runs:  100.99 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Variance (Runs):  49.73874 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  z Statistic:  -0.8493358 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  p-value:  0.3956945 </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>infer_runs_test</span><span class='op'>(</span><span class='va'>hsb</span>, <span class='va'>read</span>, mean <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Runs Test</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total Cases:  200 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Test Value :  52.23 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Cases &lt; Test Value:  115 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Cases &gt; Test Value:  85 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Number of Runs:  93 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Expected Runs:  98.75 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Variance (Runs):  47.52418 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  z Statistic:  -0.8340854 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  p-value:  0.4042329 </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>infer_runs_test</span><span class='op'>(</span><span class='va'>hsb</span>, <span class='va'>read</span>, threshold <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Runs Test</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total Cases:  200 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Test Value :  0 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Cases &lt; Test Value:  0 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Cases &gt; Test Value:  200 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Number of Runs:  1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Expected Runs:  1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Variance (Runs):  0 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  z Statistic:  NaN </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  p-value:  NaN </span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -279,7 +290,7 @@ following components:</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

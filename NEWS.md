@@ -1,4 +1,6 @@
-# inferr 0.3.0.1
+# inferr 0.3.1.9000
+
+# inferr 0.3.1
 
 This is a patch release to fix error on R-devel on Debian and Fedora.
 
