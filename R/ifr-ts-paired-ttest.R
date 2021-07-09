@@ -1,5 +1,5 @@
 #' @title Paired t test
-#' @description \code{infer_ts_paired_ttest} tests that two samples have the
+#' @description \code{ifr_ts_paired_ttest} tests that two samples have the
 #' same mean, assuming paired data.
 #' @param data a \code{data.frame} or \code{tibble}
 #' @param x numeric; column in \code{data}
@@ -8,8 +8,8 @@
 #' @param alternative a character string specifying the alternative hypothesis, must be
 #' one of "both" (default), "greater", "less" or "all". You can specify just the
 #' initial letter.
-#' @return \code{infer_ts_paired_ttest} returns an object of class \code{"infer_ts_paired_ttest"}.
-#' An object of class \code{"infer_ts_paired_ttest"} is a list containing the
+#' @return \code{ifr_ts_paired_ttest} returns an object of class \code{"ifr_ts_paired_ttest"}.
+#' An object of class \code{"ifr_ts_paired_ttest"} is a list containing the
 #' following components:
 #'
 #' \item{Obs}{number of observations}
@@ -32,30 +32,30 @@
 #' \item{xy}{string used in printing results of the test}
 #' @section Deprecated Function:
 #' \code{paired_ttest()} has been deprecated. Instead use
-#' \code{infer_ts_paired_ttest()}.
+#' \code{ifr_ts_paired_ttest()}.
 #' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #' @seealso \code{\link[stats]{t.test}}
 #' @examples
 #' # lower tail
-#' infer_ts_paired_ttest(hsb, read, write, alternative = 'less')
+#' ifr_ts_paired_ttest(hsb, read, write, alternative = 'less')
 #'
 #' # upper tail
-#' infer_ts_paired_ttest(hsb, read, write, alternative = 'greater')
+#' ifr_ts_paired_ttest(hsb, read, write, alternative = 'greater')
 #'
 #' # both tails
-#' infer_ts_paired_ttest(hsb, read, write, alternative = 'both')
+#' ifr_ts_paired_ttest(hsb, read, write, alternative = 'both')
 #'
 #' # all tails
-#' infer_ts_paired_ttest(hsb, read, write, alternative = 'all')
+#' ifr_ts_paired_ttest(hsb, read, write, alternative = 'all')
 #' @export
 #'
-infer_ts_paired_ttest <- function(data, x, y, confint = 0.95,
-                                  alternative = c("both", "less", "greater", "all")) UseMethod("infer_ts_paired_ttest")
+ifr_ts_paired_ttest <- function(data, x, y, confint = 0.95,
+                                  alternative = c("both", "less", "greater", "all")) UseMethod("ifr_ts_paired_ttest")
 
 #' @export
 #'
-infer_ts_paired_ttest.default <- function(data, x, y, confint = 0.95,
+ifr_ts_paired_ttest.default <- function(data, x, y, confint = 0.95,
                                           alternative = c("both", "less", "greater", "all")) {
 
   x1   <- deparse(substitute(x))
@@ -76,13 +76,13 @@ infer_ts_paired_ttest.default <- function(data, x, y, confint = 0.95,
     xy = k$xy, df = k$df, alternative = method, confint = confint
   )
 
-  class(result) <- "infer_ts_paired_ttest"
+  class(result) <- "ifr_ts_paired_ttest"
   return(result)
 }
 
 #' @export
 #'
-print.infer_ts_paired_ttest <- function(x, ...) {
+print.ifr_ts_paired_ttest <- function(x, ...) {
   print_paired_ttest(x)
 }
 

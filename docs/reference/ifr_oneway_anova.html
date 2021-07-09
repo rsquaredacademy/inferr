@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">inferr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1.9000</span>
       </span>
     </div>
 
@@ -107,6 +107,12 @@
       <a href="../news/index.html">News</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="https://blog.rsquaredacademy.com">Blog</a>
+</li>
+<li>
+  <a href="https://rsquared-academy.thinkific.com">Online Courses</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -191,51 +197,53 @@ Applied linear statistical models. Boston: McGraw-Hill Irwin.</p>
     <div class='dont-index'><p><code><a href='https://rdrr.io/r/stats/anova.html'>anova</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>ifr_oneway_anova</span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='va'>mpg</span>, <span class='va'>cyl</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                                ANOVA                                 
-#&gt; --------------------------------------------------------------------
-#&gt;                    Sum of                                           
-#&gt;                   Squares     DF    Mean Square      F        Sig.  
-#&gt; --------------------------------------------------------------------
-#&gt; Between Groups    824.785     2       412.392      39.699      0    
-#&gt; Within Groups     301.263     29      10.388                        
-#&gt; Total             1126.048    31                                    
-#&gt; --------------------------------------------------------------------
-#&gt; 
-#&gt;                  Report                  
-#&gt; ----------------------------------------
-#&gt; Category    N       Mean      Std. Dev. 
-#&gt; ----------------------------------------
-#&gt;    4        11     26.664       4.510   
-#&gt;    6        7      19.743       1.454   
-#&gt;    8        14     15.100       2.560   
-#&gt; ----------------------------------------
-#&gt; 
-#&gt; Number of obs = 32        R-squared     = 0.7325 
-#&gt; Root MSE      = 3.2231    Adj R-squared = 0.714 
-#&gt; </div><div class='input'><span class='fu'>ifr_oneway_anova</span><span class='op'>(</span><span class='va'>hsb</span>, <span class='va'>write</span>, <span class='va'>prog</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                                 ANOVA                                  
-#&gt; ----------------------------------------------------------------------
-#&gt;                    Sum of                                             
-#&gt;                    Squares     DF     Mean Square      F        Sig.  
-#&gt; ----------------------------------------------------------------------
-#&gt; Between Groups    3175.698      2      1587.849      21.275      0    
-#&gt; Within Groups     14703.177    197      74.635                        
-#&gt; Total             17878.875    199                                    
-#&gt; ----------------------------------------------------------------------
-#&gt; 
-#&gt;                  Report                   
-#&gt; -----------------------------------------
-#&gt; Category     N       Mean      Std. Dev. 
-#&gt; -----------------------------------------
-#&gt;    1        45      51.333       9.398   
-#&gt;    2        105     56.257       7.943   
-#&gt;    3        50      46.760       9.319   
-#&gt; -----------------------------------------
-#&gt; 
-#&gt; Number of obs = 200       R-squared     = 0.1776 
-#&gt; Root MSE      = 8.6392    Adj R-squared = 0.1693 
-#&gt; </div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'>ifr_oneway_anova</span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='va'>mpg</span>, <span class='va'>cyl</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                ANOVA                                 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> --------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                    Sum of                                           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                   Squares     DF    Mean Square      F        Sig.  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> --------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Between Groups    824.785     2       412.392      39.699      0    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Within Groups     301.263     29      10.388                        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Total             1126.048    31                                    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> --------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                  Report                  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Category    N       Mean      Std. Dev. </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    4        11     26.664       4.510   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    6        7      19.743       1.454   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    8        14     15.100       2.560   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Number of obs = 32        R-squared     = 0.7325 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Root MSE      = 3.2231    Adj R-squared = 0.714 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'><span class='fu'>ifr_oneway_anova</span><span class='op'>(</span><span class='va'>hsb</span>, <span class='va'>write</span>, <span class='va'>prog</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                 ANOVA                                  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                    Sum of                                             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                    Squares     DF     Mean Square      F        Sig.  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Between Groups    3175.698      2      1587.849      21.275      0    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Within Groups     14703.177    197      74.635                        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Total             17878.875    199                                    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ----------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                  Report                   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Category     N       Mean      Std. Dev. </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    1        45      51.333       9.398   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    2        105     56.257       7.943   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    3        50      46.760       9.319   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Number of obs = 200       R-squared     = 0.1776 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Root MSE      = 8.6392    Adj R-squared = 0.1693 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

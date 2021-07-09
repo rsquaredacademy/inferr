@@ -73,7 +73,7 @@ there is statistical evidence that the associated population means are significa
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">inferr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1.9000</span>
       </span>
     </div>
 
@@ -108,6 +108,12 @@ there is statistical evidence that the associated population means are significa
       <a href="../news/index.html">News</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="https://blog.rsquaredacademy.com">Blog</a>
+</li>
+<li>
+  <a href="https://rsquared-academy.thinkific.com">Online Courses</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -231,143 +237,147 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
     <div class='dont-index'><p><code><a href='https://rdrr.io/r/stats/t.test.html'>t.test</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># lower tail</span>
-<span class='fu'>ifr_ts_ind_ttest</span><span class='op'>(</span><span class='va'>hsb</span>, <span class='va'>female</span>, <span class='va'>write</span>, alternative <span class='op'>=</span> <span class='st'>'less'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                               Group Statistics                                
-#&gt; -----------------------------------------------------------------------------
-#&gt;   Group       Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
-#&gt; -----------------------------------------------------------------------------
-#&gt;     0          91    50.121      1.080       10.305       47.97539   52.26661  
-#&gt;     1         109    54.991      0.779        8.134       53.44689   56.53511  
-#&gt; -----------------------------------------------------------------------------
-#&gt;  combined     200    52.775      0.67         9.479       51.45379   54.09621  
-#&gt; -----------------------------------------------------------------------------
-#&gt;    diff       200    -4.87       1.304        9.231       -7.42623   -2.31377  
-#&gt; -----------------------------------------------------------------------------
-#&gt; 
-#&gt;                       Independent Samples Test                        
-#&gt;                       ------------------------                        
-#&gt; 
-#&gt;                   Ho: mean(0) - mean(1) = diff = 0                    
-#&gt;                             Ha: diff &lt; 0                              
-#&gt; 
-#&gt; ---------------------------------------------------------------------
-#&gt;  Variable        Method        Variances    DF     t Value     P &lt; t  
-#&gt; ---------------------------------------------------------------------
-#&gt;   write          Pooled          Equal      198    -3.7341    0.0001  
-#&gt;   write       Satterthwaite     Unequal     170    -3.6564    0.0002  
-#&gt; ---------------------------------------------------------------------
-#&gt; 
-#&gt;                 Test for Equality of Variances                  
-#&gt; ---------------------------------------------------------------
-#&gt;  Variable      Method     Num DF    Den DF    F Value    P &gt; F  
-#&gt; ---------------------------------------------------------------
-#&gt;   write       Folded F      90       108       1.605     0.0188 
-#&gt; ---------------------------------------------------------------</div><div class='input'>
-<span class='co'># upper tail</span>
-<span class='fu'>ifr_ts_ind_ttest</span><span class='op'>(</span><span class='va'>hsb</span>, <span class='va'>female</span>, <span class='va'>write</span>, alternative <span class='op'>=</span> <span class='st'>'greater'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                               Group Statistics                                
-#&gt; -----------------------------------------------------------------------------
-#&gt;   Group       Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
-#&gt; -----------------------------------------------------------------------------
-#&gt;     0          91    50.121      1.080       10.305       47.97539   52.26661  
-#&gt;     1         109    54.991      0.779        8.134       53.44689   56.53511  
-#&gt; -----------------------------------------------------------------------------
-#&gt;  combined     200    52.775      0.67         9.479       51.45379   54.09621  
-#&gt; -----------------------------------------------------------------------------
-#&gt;    diff       200    -4.87       1.304        9.231       -7.42623   -2.31377  
-#&gt; -----------------------------------------------------------------------------
-#&gt; 
-#&gt;                       Independent Samples Test                        
-#&gt;                       ------------------------                        
-#&gt; 
-#&gt;                   Ho: mean(0) - mean(1) = diff = 0                    
-#&gt;                             Ha: diff &gt; 0                              
-#&gt; 
-#&gt; ---------------------------------------------------------------------
-#&gt;  Variable        Method        Variances    DF     t Value     P &gt; t  
-#&gt; ---------------------------------------------------------------------
-#&gt;   write          Pooled          Equal      198    -3.7341    0.9999  
-#&gt;   write       Satterthwaite     Unequal     170    -3.6564    0.9998  
-#&gt; ---------------------------------------------------------------------
-#&gt; 
-#&gt;                 Test for Equality of Variances                  
-#&gt; ---------------------------------------------------------------
-#&gt;  Variable      Method     Num DF    Den DF    F Value    P &gt; F  
-#&gt; ---------------------------------------------------------------
-#&gt;   write       Folded F      90       108       1.605     0.0188 
-#&gt; ---------------------------------------------------------------</div><div class='input'>
-<span class='co'># both tails</span>
-<span class='fu'>ifr_ts_ind_ttest</span><span class='op'>(</span><span class='va'>hsb</span>, <span class='va'>female</span>, <span class='va'>write</span>, alternative <span class='op'>=</span> <span class='st'>'both'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                               Group Statistics                                
-#&gt; -----------------------------------------------------------------------------
-#&gt;   Group       Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
-#&gt; -----------------------------------------------------------------------------
-#&gt;     0          91    50.121      1.080       10.305       47.97539   52.26661  
-#&gt;     1         109    54.991      0.779        8.134       53.44689   56.53511  
-#&gt; -----------------------------------------------------------------------------
-#&gt;  combined     200    52.775      0.67         9.479       51.45379   54.09621  
-#&gt; -----------------------------------------------------------------------------
-#&gt;    diff       200    -4.87       1.304        9.231       -7.42623   -2.31377  
-#&gt; -----------------------------------------------------------------------------
-#&gt; 
-#&gt;                       Independent Samples Test                        
-#&gt;                       ------------------------                        
-#&gt; 
-#&gt;                   Ho: mean(0) - mean(1) = diff = 0                    
-#&gt;                             Ha: diff ~= 0                             
-#&gt; 
-#&gt; ---------------------------------------------------------------------
-#&gt;  Variable        Method        Variances    DF     t Value    P &gt; |t| 
-#&gt; ---------------------------------------------------------------------
-#&gt;   write          Pooled          Equal      198    -3.7341    0.0002  
-#&gt;   write       Satterthwaite     Unequal     170    -3.6564    0.0003  
-#&gt; ---------------------------------------------------------------------
-#&gt; 
-#&gt;                 Test for Equality of Variances                  
-#&gt; ---------------------------------------------------------------
-#&gt;  Variable      Method     Num DF    Den DF    F Value    P &gt; F  
-#&gt; ---------------------------------------------------------------
-#&gt;   write       Folded F      90       108       1.605     0.0188 
-#&gt; ---------------------------------------------------------------</div><div class='input'>
-<span class='co'># all tails</span>
-<span class='fu'>ifr_ts_ind_ttest</span><span class='op'>(</span><span class='va'>hsb</span>, <span class='va'>female</span>, <span class='va'>write</span>, alternative <span class='op'>=</span> <span class='st'>'all'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                               Group Statistics                                
-#&gt; -----------------------------------------------------------------------------
-#&gt;   Group       Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
-#&gt; -----------------------------------------------------------------------------
-#&gt;     0          91    50.121      1.080       10.305       47.97539   52.26661  
-#&gt;     1         109    54.991      0.779        8.134       53.44689   56.53511  
-#&gt; -----------------------------------------------------------------------------
-#&gt;  combined     200    52.775      0.67         9.479       51.45379   54.09621  
-#&gt; -----------------------------------------------------------------------------
-#&gt;    diff       200    -4.87       1.304        9.231       -7.42623   -2.31377  
-#&gt; -----------------------------------------------------------------------------
-#&gt; 
-#&gt;                         Independent Samples Test                         
-#&gt;                       ------------------------                        
-#&gt; 
-#&gt;                     Ho: mean(0) - mean(1) = diff = 0                     
-#&gt; 
-#&gt;       Ha: diff &lt; 0            Ha: diff ~= 0             Ha: diff &gt; 0       
-#&gt; 
-#&gt;                                   Pooled                                   
-#&gt; ------------------------------------------------------------------------
-#&gt;        t = -3.7341              t = -3.7341              t = -3.7341       
-#&gt;      P &lt; t = 0.0001          P &gt; |t| = 0.0002          P &gt; t = 0.9999      
-#&gt; 
-#&gt;                               Satterthwaite                                
-#&gt; ------------------------------------------------------------------------
-#&gt;        t = -3.6564              t = -3.6564              t = -3.6564       
-#&gt;      P &lt; t = 0.0002          P &gt; |t| = 0.0003          P &gt; t = 0.9998      
-#&gt; 
-#&gt; 
-#&gt;                 Test for Equality of Variances                  
-#&gt; ---------------------------------------------------------------
-#&gt;  Variable      Method     Num DF    Den DF    F Value    P &gt; F  
-#&gt; ---------------------------------------------------------------
-#&gt;   write       Folded F      90       108       1.605     0.0188 
-#&gt; ---------------------------------------------------------------</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># lower tail</span></span>
+<span class='r-in'><span class='fu'>ifr_ts_ind_ttest</span><span class='op'>(</span><span class='va'>hsb</span>, <span class='va'>female</span>, <span class='va'>write</span>, alternative <span class='op'>=</span> <span class='st'>'less'</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                               Group Statistics                                </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Group       Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     0          91    50.121      1.080       10.305       47.97539   52.26661  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     1         109    54.991      0.779        8.134       53.44689   56.53511  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  combined     200    52.775      0.67         9.479       51.45379   54.09621  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    diff       200    -4.87       1.304        9.231       -7.42623   -2.31377  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                       Independent Samples Test                        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                       ------------------------                        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                   Ho: mean(0) - mean(1) = diff = 0                    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                             Ha: diff &lt; 0                              </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Variable        Method        Variances    DF     t Value     P &lt; t  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   write          Pooled          Equal      198    -3.7341    0.0001  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   write       Satterthwaite     Unequal     170    -3.6564    0.0002  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                 Test for Equality of Variances                  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Variable      Method     Num DF    Den DF    F Value    P &gt; F  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   write       Folded F      90       108       1.605     0.0188 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------------------------------------</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># upper tail</span></span>
+<span class='r-in'><span class='fu'>ifr_ts_ind_ttest</span><span class='op'>(</span><span class='va'>hsb</span>, <span class='va'>female</span>, <span class='va'>write</span>, alternative <span class='op'>=</span> <span class='st'>'greater'</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                               Group Statistics                                </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Group       Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     0          91    50.121      1.080       10.305       47.97539   52.26661  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     1         109    54.991      0.779        8.134       53.44689   56.53511  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  combined     200    52.775      0.67         9.479       51.45379   54.09621  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    diff       200    -4.87       1.304        9.231       -7.42623   -2.31377  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                       Independent Samples Test                        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                       ------------------------                        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                   Ho: mean(0) - mean(1) = diff = 0                    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                             Ha: diff &gt; 0                              </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Variable        Method        Variances    DF     t Value     P &gt; t  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   write          Pooled          Equal      198    -3.7341    0.9999  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   write       Satterthwaite     Unequal     170    -3.6564    0.9998  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                 Test for Equality of Variances                  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Variable      Method     Num DF    Den DF    F Value    P &gt; F  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   write       Folded F      90       108       1.605     0.0188 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------------------------------------</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># both tails</span></span>
+<span class='r-in'><span class='fu'>ifr_ts_ind_ttest</span><span class='op'>(</span><span class='va'>hsb</span>, <span class='va'>female</span>, <span class='va'>write</span>, alternative <span class='op'>=</span> <span class='st'>'both'</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                               Group Statistics                                </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Group       Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     0          91    50.121      1.080       10.305       47.97539   52.26661  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     1         109    54.991      0.779        8.134       53.44689   56.53511  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  combined     200    52.775      0.67         9.479       51.45379   54.09621  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    diff       200    -4.87       1.304        9.231       -7.42623   -2.31377  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                       Independent Samples Test                        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                       ------------------------                        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                   Ho: mean(0) - mean(1) = diff = 0                    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                             Ha: diff ~= 0                             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Variable        Method        Variances    DF     t Value    P &gt; |t| </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   write          Pooled          Equal      198    -3.7341    0.0002  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   write       Satterthwaite     Unequal     170    -3.6564    0.0003  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                 Test for Equality of Variances                  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Variable      Method     Num DF    Den DF    F Value    P &gt; F  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   write       Folded F      90       108       1.605     0.0188 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------------------------------------</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># all tails</span></span>
+<span class='r-in'><span class='fu'>ifr_ts_ind_ttest</span><span class='op'>(</span><span class='va'>hsb</span>, <span class='va'>female</span>, <span class='va'>write</span>, alternative <span class='op'>=</span> <span class='st'>'all'</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                               Group Statistics                                </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Group       Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     0          91    50.121      1.080       10.305       47.97539   52.26661  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     1         109    54.991      0.779        8.134       53.44689   56.53511  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  combined     200    52.775      0.67         9.479       51.45379   54.09621  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    diff       200    -4.87       1.304        9.231       -7.42623   -2.31377  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                         Independent Samples Test                         </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                       ------------------------                        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                     Ho: mean(0) - mean(1) = diff = 0                     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       Ha: diff &lt; 0            Ha: diff ~= 0             Ha: diff &gt; 0       </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                   Pooled                                   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        t = -3.7341              t = -3.7341              t = -3.7341       </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      P &lt; t = 0.0001          P &gt; |t| = 0.0002          P &gt; t = 0.9999      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                               Satterthwaite                                </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        t = -3.6564              t = -3.6564              t = -3.6564       </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      P &lt; t = 0.0002          P &gt; |t| = 0.0003          P &gt; t = 0.9998      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                 Test for Equality of Variances                  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Variable      Method     Num DF    Den DF    F Value    P &gt; F  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   write       Folded F      90       108       1.605     0.0188 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------------------------------------</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

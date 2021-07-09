@@ -1,7 +1,7 @@
-context("infer_os_t_test")
+context("ifr_os_t_test")
 
-test_that("output from infer_os_t_test matches the expected output", {
-  k <- infer_os_t_test(mtcars, mpg, mu = 50, alternative = "less")
+test_that("output from ifr_os_t_test matches the expected output", {
+  k <- ifr_os_t_test(mtcars, mpg, mu = 50, alternative = "less")
   expect_equal(k$mu, 50)
   expect_equal(k$n, 32)
   expect_equal(k$df, 31)
@@ -20,17 +20,17 @@ test_that("output from infer_os_t_test matches the expected output", {
   expect_equivalent(k$type, "less")
   expect_equivalent(k$var_name, "mpg")
 
-  k <- infer_os_t_test(mtcars, mpg, mu = 50, alternative = "greater")
+  k <- ifr_os_t_test(mtcars, mpg, mu = 50, alternative = "greater")
   expect_equivalent(k$confint, c(18.2846, Inf))
 
-  k <- infer_os_t_test(mtcars, mpg, mu = 50, alternative = "both")
+  k <- ifr_os_t_test(mtcars, mpg, mu = 50, alternative = "both")
   expect_equivalent(k$confint, c(17.9181, 22.2639))
 })
 
-test_that("infer_os_t_test throws the appropriate error", {
-  expect_error(infer_os_t_test(hsb, race, mu = 50), "x must be numeric")
-  expect_error(infer_os_t_test(mtcars, mpg, mu = "50"), "mu must be numeric")
-  expect_error(infer_os_t_test(mtcars, mpg, mu = 50, alpha = "0.05"), "alpha must be numeric")
+test_that("ifr_os_t_test throws the appropriate error", {
+  expect_error(ifr_os_t_test(hsb, race, mu = 50), "x must be numeric")
+  expect_error(ifr_os_t_test(mtcars, mpg, mu = "50"), "mu must be numeric")
+  expect_error(ifr_os_t_test(mtcars, mpg, mu = 50, alpha = "0.05"), "alpha must be numeric")
 })
 
 test_that("output from one sample t test is as expected when alternative is less", {
@@ -52,7 +52,7 @@ test_that("output from one sample t test is as expected when alternative is less
   write      4.141    199    0.99997       2.775          -Inf      3.8828
 --------------------------------------------------------------------------------")
 
-  expect_output(print(infer_os_t_test(hsb, write, mu = 50, alternative = "less")), x)
+  expect_output(print(ifr_os_t_test(hsb, write, mu = 50, alternative = "less")), x)
 })
 
 test_that("output from one sample t test is as expected when alternative is greater", {
@@ -74,7 +74,7 @@ test_that("output from one sample t test is as expected when alternative is grea
   write      4.141    199    0.99997       2.775         1.6678      Inf
 --------------------------------------------------------------------------------")
 
-  expect_output(print(infer_os_t_test(hsb, write, mu = 50, alternative = "greater")), x)
+  expect_output(print(ifr_os_t_test(hsb, write, mu = 50, alternative = "greater")), x)
 })
 
 test_that("output from one sample t test is as expected when alternative is both", {
@@ -96,7 +96,7 @@ test_that("output from one sample t test is as expected when alternative is both
   write      4.141    199    0.99997       2.775         1.4537     4.0969
 --------------------------------------------------------------------------------")
 
-  expect_output(print(infer_os_t_test(hsb, write, mu = 50, alternative = "both")), x)
+  expect_output(print(ifr_os_t_test(hsb, write, mu = 50, alternative = "both")), x)
 })
 
 test_that("output from one sample t test is as expected when alternative is all", {
@@ -113,5 +113,5 @@ test_that("output from one sample t test is as expected when alternative is all"
          t = 4.141                   t = 4.141                   t = 4.141
        P < t = 1.0000             P > |t| = 0.0001             P > t = 0.0000")
 
-  expect_output(print(infer_os_t_test(hsb, write, mu = 50, alternative = "all")), x)
+  expect_output(print(ifr_os_t_test(hsb, write, mu = 50, alternative = "all")), x)
 })

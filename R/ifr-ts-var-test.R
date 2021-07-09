@@ -1,5 +1,5 @@
 #' @title Two Sample Variance Comparison Test
-#' @description  \code{infer_ts_var_test} performs tests on the equality of standard
+#' @description  \code{ifr_ts_var_test} performs tests on the equality of standard
 #' deviations (variances).
 #' @param data a \code{data.frame} or \code{tibble}
 #' @param ... numeric; column(s) in \code{data}
@@ -7,8 +7,8 @@
 #' @param alternative a character string specifying the alternative hypothesis,
 #' must be one of "both" (default), "greater", "less" or "all". You can specify
 #' just the initial letter.
-#' @return \code{infer_ts_var_test} returns an object of class \code{"infer_ts_var_test"}.
-#' An object of class \code{"infer_ts_var_test"} is a list containing the
+#' @return \code{ifr_ts_var_test} returns an object of class \code{"ifr_ts_var_test"}.
+#' An object of class \code{"ifr_ts_var_test"} is a list containing the
 #' following components:
 #'
 #' \item{f}{f statistic}
@@ -29,25 +29,25 @@
 #' \item{lev}{levels of the grouping variable}
 #' \item{type}{alternative hypothesis}
 #' @section Deprecated Function:
-#' \code{var_test()} has been deprecated. Instead use \code{infer_ts_var_test()}.
+#' \code{var_test()} has been deprecated. Instead use \code{ifr_ts_var_test()}.
 #' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #' @seealso \code{\link[stats]{var.test}}
 #' @examples
 #' # using grouping variable
-#' infer_ts_var_test(hsb, read, group_var = female, alternative = 'less')
+#' ifr_ts_var_test(hsb, read, group_var = female, alternative = 'less')
 #'
 #' # using two variables
-#' infer_ts_var_test(hsb, read, write, alternative = 'less')
+#' ifr_ts_var_test(hsb, read, write, alternative = 'less')
 #'
 #' @export
 #'
-infer_ts_var_test <- function(data, ..., group_var = NULL,
-                              alternative = c("less", "greater", "all")) UseMethod("infer_ts_var_test")
+ifr_ts_var_test <- function(data, ..., group_var = NULL,
+                              alternative = c("less", "greater", "all")) UseMethod("ifr_ts_var_test")
 
 #' @export
 #'
-infer_ts_var_test.default <- function(data, ..., group_var = NULL,
+ifr_ts_var_test.default <- function(data, ..., group_var = NULL,
                                       alternative = c("less", "greater", "all")) {
 
   groupvar  <- deparse(substitute(group_var))
@@ -100,13 +100,13 @@ infer_ts_var_test.default <- function(data, ..., group_var = NULL,
               upper = k$upper,
               vars  = k$vars)
 
-  class(out) <- "infer_ts_var_test"
+  class(out) <- "ifr_ts_var_test"
   return(out)
 }
 
 #' @export
 #'
-print.infer_ts_var_test <- function(x, ...) {
+print.ifr_ts_var_test <- function(x, ...) {
   print_var_test(x)
 }
 

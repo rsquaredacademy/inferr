@@ -5,8 +5,8 @@
 #' @param data a \code{data.frame} or \code{tibble}
 #' @param x factor; column in \code{data}
 #' @param y factor; column in \code{data}
-#' @return \code{infer_mcnemar_test} returns an object of class \code{"infer_mcnemar_test"}.
-#' An object of class \code{"infer_mcnemar_test"} is a list containing the
+#' @return \code{ifr_mcnemar_test} returns an object of class \code{"ifr_mcnemar_test"}.
+#' An object of class \code{"ifr_mcnemar_test"} is a list containing the
 #' following components:
 #'
 #' \item{statistic}{chi square statistic}
@@ -26,7 +26,7 @@
 #' \item{tbl}{two way table}
 #' @section Deprecated Function:
 #' \code{mcnermar_test()} has been deprecated. Instead use
-#' \code{infer_mcnemar_test()}.
+#' \code{ifr_mcnemar_test()}.
 #' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #'
@@ -36,22 +36,22 @@
 #' hb <- hsb
 #' hb$himath <- ifelse(hsb$math > 60, 1, 0)
 #' hb$hiread <- ifelse(hsb$read > 60, 1, 0)
-#' infer_mcnemar_test(hb, himath, hiread)
+#' ifr_mcnemar_test(hb, himath, hiread)
 #'
 #' # test if the proportion of students in himath and hiread group is same
 #' himath <- ifelse(hsb$math > 60, 1, 0)
 #' hiread <- ifelse(hsb$read > 60, 1, 0)
-#' infer_mcnemar_test(table(himath, hiread))
+#' ifr_mcnemar_test(table(himath, hiread))
 #'
 #' # using matrix
-#' infer_mcnemar_test(matrix(c(135, 18, 21, 26), nrow = 2))
+#' ifr_mcnemar_test(matrix(c(135, 18, 21, 26), nrow = 2))
 #' @export
 #'
-infer_mcnemar_test <- function(data, x = NULL, y = NULL) UseMethod("infer_mcnemar_test")
+ifr_mcnemar_test <- function(data, x = NULL, y = NULL) UseMethod("ifr_mcnemar_test")
 
 #' @export
 #'
-infer_mcnemar_test.default <- function(data, x = NULL, y = NULL) {
+ifr_mcnemar_test.default <- function(data, x = NULL, y = NULL) {
 
   if (is.matrix(data) | is.table(data)) {
     dat <- mcdata(data)
@@ -82,13 +82,13 @@ infer_mcnemar_test.default <- function(data, x = NULL, y = NULL) {
          std_err   = k$std_err,
          tbl       = dat)
 
-  class(result) <- "infer_mcnemar_test"
+  class(result) <- "ifr_mcnemar_test"
   return(result)
 }
 
 #' @export
 #'
-print.infer_mcnemar_test <- function(x, ...) {
+print.ifr_mcnemar_test <- function(x, ...) {
   print_mcnemar_test(x)
 }
 

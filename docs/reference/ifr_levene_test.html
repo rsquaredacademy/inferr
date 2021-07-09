@@ -77,7 +77,7 @@ the mean with the 10" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">inferr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1.9000</span>
       </span>
     </div>
 
@@ -112,6 +112,12 @@ the mean with the 10" />
       <a href="../news/index.html">News</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="https://blog.rsquaredacademy.com">Blog</a>
+</li>
+<li>
+  <a href="https://rsquared-academy.thinkific.com">Online Courses</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -208,48 +214,50 @@ following components:</p>
 <p>Carroll, R. J., and H. Schneider. 1985. A note on Levene’s tests for equality of variances. Statistics and Probability Letters 3: 191–194.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># using grouping variable</span>
-<span class='fu'>ifr_levene_test</span><span class='op'>(</span><span class='va'>hsb</span>, <span class='va'>read</span>, group_var <span class='op'>=</span> <span class='va'>race</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;            Summary Statistics             
-#&gt; Levels    Frequency    Mean     Std. Dev  
-#&gt; -----------------------------------------
-#&gt;   1          24        46.67      10.24   
-#&gt;   2          11        51.91      7.66    
-#&gt;   3          20        46.8       7.12    
-#&gt;   4          145       53.92      10.28   
-#&gt; -----------------------------------------
-#&gt; Total        200       52.23      10.25   
-#&gt; -----------------------------------------
-#&gt; 
-#&gt;                              Test Statistics                              
-#&gt; -------------------------------------------------------------------------
-#&gt; Statistic                            Num DF    Den DF         F    Pr &gt; F 
-#&gt; -------------------------------------------------------------------------
-#&gt; Brown and Forsythe                        3       196      3.44    0.0179 
-#&gt; Levene                                    3       196    3.4792     0.017 
-#&gt; Brown and Forsythe (Trimmed Mean)         3       196    3.3936     0.019 
-#&gt; -------------------------------------------------------------------------</div><div class='input'>
-<span class='co'># using  variables</span>
-<span class='fu'>ifr_levene_test</span><span class='op'>(</span><span class='va'>hsb</span>, <span class='va'>read</span>, <span class='va'>write</span>, <span class='va'>socst</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;            Summary Statistics             
-#&gt; Levels    Frequency    Mean     Std. Dev  
-#&gt; -----------------------------------------
-#&gt;   0          200       52.23      10.25   
-#&gt;   1          200       52.77      9.48    
-#&gt;   2          200       52.41      10.74   
-#&gt; -----------------------------------------
-#&gt; Total        600       52.47      10.15   
-#&gt; -----------------------------------------
-#&gt; 
-#&gt;                              Test Statistics                              
-#&gt; -------------------------------------------------------------------------
-#&gt; Statistic                            Num DF    Den DF         F    Pr &gt; F 
-#&gt; -------------------------------------------------------------------------
-#&gt; Brown and Forsythe                        2       597    1.1683    0.3116 
-#&gt; Levene                                    2       597    1.3803    0.2523 
-#&gt; Brown and Forsythe (Trimmed Mean)         2       597    1.3258    0.2664 
-#&gt; -------------------------------------------------------------------------</div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># using grouping variable</span></span>
+<span class='r-in'><span class='fu'>ifr_levene_test</span><span class='op'>(</span><span class='va'>hsb</span>, <span class='va'>read</span>, group_var <span class='op'>=</span> <span class='va'>race</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            Summary Statistics             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Levels    Frequency    Mean     Std. Dev  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   1          24        46.67      10.24   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   2          11        51.91      7.66    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   3          20        46.8       7.12    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   4          145       53.92      10.28   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Total        200       52.23      10.25   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                              Test Statistics                              </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Statistic                            Num DF    Den DF         F    Pr &gt; F </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Brown and Forsythe                        3       196      3.44    0.0179 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Levene                                    3       196    3.4792     0.017 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Brown and Forsythe (Trimmed Mean)         3       196    3.3936     0.019 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -------------------------------------------------------------------------</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># using  variables</span></span>
+<span class='r-in'><span class='fu'>ifr_levene_test</span><span class='op'>(</span><span class='va'>hsb</span>, <span class='va'>read</span>, <span class='va'>write</span>, <span class='va'>socst</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            Summary Statistics             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Levels    Frequency    Mean     Std. Dev  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   0          200       52.23      10.25   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   1          200       52.77      9.48    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   2          200       52.41      10.74   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Total        600       52.47      10.15   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -----------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                              Test Statistics                              </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Statistic                            Num DF    Den DF         F    Pr &gt; F </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Brown and Forsythe                        2       597    1.1683    0.3116 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Levene                                    2       597    1.3803    0.2523 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Brown and Forsythe (Trimmed Mean)         2       597    1.3258    0.2664 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> -------------------------------------------------------------------------</span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

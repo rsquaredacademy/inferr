@@ -1,7 +1,7 @@
-context("infer_ts_ind_ttest")
+context("ifr_ts_ind_ttest")
 
-test_that("output from infer_ts_ind_ttest matches expected result", {
-  k <- infer_ts_ind_ttest(hsb, female, write)
+test_that("output from ifr_ts_ind_ttest matches expected result", {
+  k <- ifr_ts_ind_ttest(hsb, female, write)
   expect_equivalent(k$levels, c("0", "1"))
   expect_equivalent(as.numeric(k$obs), c(91, 109))
   expect_equal(k$n, 200)
@@ -71,7 +71,7 @@ test_that("output from independent sample t test is as expected when alternative
   write       Folded F      90       108       1.605     0.0188
 ---------------------------------------------------------------")
 
-  expect_equivalent(print(infer_ts_ind_ttest(hsb, female, write, alternative = "less")), x)
+  expect_equivalent(print(ifr_ts_ind_ttest(hsb, female, write, alternative = "less")), x)
 })
 
 test_that("output from independent sample t test is as expected when alternative is greater", {
@@ -107,7 +107,7 @@ test_that("output from independent sample t test is as expected when alternative
   write       Folded F      90       108       1.605     0.0188
 ---------------------------------------------------------------")
 
-  expect_equivalent(print(infer_ts_ind_ttest(hsb, female, write, alternative = "greater")), x)
+  expect_equivalent(print(ifr_ts_ind_ttest(hsb, female, write, alternative = "greater")), x)
 })
 
 test_that("output from independent sample t test is as expected when alternative is both", {
@@ -143,7 +143,7 @@ test_that("output from independent sample t test is as expected when alternative
   write       Folded F      90       108       1.605     0.0188
 ---------------------------------------------------------------")
 
-  expect_equivalent(print(infer_ts_ind_ttest(hsb, female, write, alternative = "both")), x)
+  expect_equivalent(print(ifr_ts_ind_ttest(hsb, female, write, alternative = "both")), x)
 })
 
 test_that("output from independent sample t test is as expected when alternative is all", {
@@ -184,5 +184,5 @@ test_that("output from independent sample t test is as expected when alternative
   write       Folded F      90       108       1.605     0.0188
 ---------------------------------------------------------------")
 
-  expect_equivalent(print(infer_ts_ind_ttest(hsb, female, write, alternative = "all")), x)
+  expect_equivalent(print(ifr_ts_ind_ttest(hsb, female, write, alternative = "all")), x)
 })

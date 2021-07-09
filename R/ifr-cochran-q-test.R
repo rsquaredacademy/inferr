@@ -3,8 +3,8 @@
 #' equal in the same population.
 #' @param data a \code{data.frame} or \code{tibble}
 #' @param ... columns in \code{data}
-#' @return \code{infer_cochran_qtest} returns an object of class
-#' \code{"infer_cochran_qtest"}. An object of class \code{"infer_cochran_qtest"}
+#' @return \code{ifr_cochran_qtest} returns an object of class
+#' \code{"ifr_cochran_qtest"}. An object of class \code{"ifr_cochran_qtest"}
 #' is a list containing the following components:
 #'
 #' \item{df}{degrees of freedom}
@@ -14,18 +14,18 @@
 #'
 #' @section Deprecated Function:
 #' \code{cochran_test()} has been deprecated. Instead use
-#' \code{infer_cochran_qtest()}.
+#' \code{ifr_cochran_qtest()}.
 #' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #'
 #' @examples
-#' infer_cochran_qtest(exam, exam1, exam2, exam3)
+#' ifr_cochran_qtest(exam, exam1, exam2, exam3)
 #' @export
 #'
-infer_cochran_qtest <- function(data, ...) UseMethod("infer_cochran_qtest")
+ifr_cochran_qtest <- function(data, ...) UseMethod("ifr_cochran_qtest")
 
 #' @export
-infer_cochran_qtest.default <- function(data, ...) {
+ifr_cochran_qtest.default <- function(data, ...) {
 
   vars  <- vapply(substitute(...()), deparse, NA_character_)
   fdata <- data[vars]
@@ -47,13 +47,13 @@ infer_cochran_qtest.default <- function(data, ...) {
       pvalue = k$pvalue,
       q      = k$q)
 
-  class(result) <- "infer_cochran_qtest"
+  class(result) <- "ifr_cochran_qtest"
   return(result)
 }
 
 #' @export
 #'
-print.infer_cochran_qtest <- function(x, ...) {
+print.ifr_cochran_qtest <- function(x, ...) {
   print_cochran_test(x)
 }
 

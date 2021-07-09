@@ -4,8 +4,8 @@
 #' @param x numeric; column in \code{data}
 #' @param y factor; column in \code{data}
 #' @param ... additional arguments passed to or from other methods
-#' @return \code{infer_oneway_anova} returns an object of class \code{"infer_oneway_anova"}.
-#' An object of class \code{"infer_oneway_anova"} is a list containing the
+#' @return \code{ifr_oneway_anova} returns an object of class \code{"ifr_oneway_anova"}.
+#' An object of class \code{"ifr_oneway_anova"} is a list containing the
 #' following components:
 #'
 #' \item{adjusted_r2}{adjusted r squared value}
@@ -29,14 +29,14 @@
 #'
 #' @seealso \code{\link[stats]{anova}}
 #' @examples
-#' infer_oneway_anova(mtcars, mpg, cyl)
-#' infer_oneway_anova(hsb, write, prog)
+#' ifr_oneway_anova(mtcars, mpg, cyl)
+#' ifr_oneway_anova(hsb, write, prog)
 #' @export
 #'
-infer_oneway_anova <- function(data, x, y, ...) UseMethod("infer_oneway_anova")
+ifr_oneway_anova <- function(data, x, y, ...) UseMethod("ifr_oneway_anova")
 
 #' @export
-infer_oneway_anova.default <- function(data, x, y, ...) {
+ifr_oneway_anova.default <- function(data, x, y, ...) {
 
   x1 <- deparse(substitute(x))
   y1 <- deparse(substitute(y))
@@ -64,12 +64,12 @@ infer_oneway_anova.default <- function(data, x, y, ...) {
       ss_total    = k$total,
       ss_within   = k$ssee)
 
-  class(result) <- "infer_oneway_anova"
+  class(result) <- "ifr_oneway_anova"
   return(result)
 }
 
 #' @export
-print.infer_oneway_anova <- function(x, ...) {
+print.ifr_oneway_anova <- function(x, ...) {
   print_owanova(x)
 }
 
