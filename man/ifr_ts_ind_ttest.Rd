@@ -2,6 +2,7 @@
 % Please edit documentation in R/ifr-ts-ind-ttest.R
 \name{ifr_ts_ind_ttest}
 \alias{ifr_ts_ind_ttest}
+\alias{infer_chisq_assoc_test}
 \title{Two Independent Sample t Test}
 \usage{
 ifr_ts_ind_ttest(
@@ -71,7 +72,7 @@ there is statistical evidence that the associated population means are significa
 }
 \section{Deprecated Function}{
 
-\code{ind_ttest()} has been deprecated. Instead use \code{ifr_ts_ind_ttest()}.
+\code{infer_ts_ind_ttest()} has been deprecated. Instead use \code{ifr_ts_ind_ttest()}.
 }
 
 \examples{
@@ -86,6 +87,7 @@ ifr_ts_ind_ttest(hsb, female, write, alternative = 'both')
 
 # all tails
 ifr_ts_ind_ttest(hsb, female, write, alternative = 'all')
+
 }
 \references{
 Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric

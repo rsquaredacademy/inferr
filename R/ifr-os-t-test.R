@@ -9,6 +9,7 @@
 #' one of "both" (default), "greater", "less" or "all". You can specify just the
 #' initial letter
 #' @param ... additional arguments passed to or from other methods
+#'
 #' @return \code{ifr_os_t_test} returns an object of class \code{"ifr_os_t_test"}.
 #' An object of class \code{"ifr_os_t_test"} is a list containing the
 #' following components:
@@ -30,11 +31,12 @@
 #' \item{conf}{confidence level}
 #' \item{type}{alternative hypothesis}
 #' \item{var_name}{name of \code{x}}
+#'
 #' @section Deprecated Function:
-#' \code{ttest()} has been deprecated. Instead use \code{ifr_os_t_test()}.
+#' \code{infer_os_t_test()} has been deprecated. Instead use \code{ifr_os_t_test()}.
+#'
 #' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
-#' @seealso \code{\link[stats]{t.test}}
 #'
 #' @examples
 #' # lower tail
@@ -48,6 +50,8 @@
 #'
 #' # all tails
 #' ifr_os_t_test(hsb, write, mu = 50, alternative = 'all')
+#'
+#' @seealso \code{\link[stats]{t.test}}
 #'
 #' @export
 #'
@@ -97,6 +101,15 @@ ifr_os_t_test.default <- function(data, x, mu = 0, alpha = 0.05,
 
   class(result) <- "ifr_os_t_test"
   return(result)
+}
+
+#' @export
+#' @rdname ifr_os_t_test
+#' @usage NULL
+#'
+infer_os_t_test <- function(data, x, mu = 0, alpha = 0.05,
+                            alternative = c("both", "less", "greater", "all"), ...) {
+  .Deprecated("ifr_os_t_test()")
 }
 
 #' @export

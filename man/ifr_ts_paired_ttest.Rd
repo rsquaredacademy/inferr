@@ -2,6 +2,7 @@
 % Please edit documentation in R/ifr-ts-paired-ttest.R
 \name{ifr_ts_paired_ttest}
 \alias{ifr_ts_paired_ttest}
+\alias{infer_ts_paired_ttest}
 \title{Paired t test}
 \usage{
 ifr_ts_paired_ttest(
@@ -55,7 +56,7 @@ same mean, assuming paired data.
 }
 \section{Deprecated Function}{
 
-\code{paired_ttest()} has been deprecated. Instead use
+\code{infer_ts_paired_ttest()} has been deprecated. Instead use
 \code{ifr_ts_paired_ttest()}.
 }
 
@@ -71,6 +72,7 @@ ifr_ts_paired_ttest(hsb, read, write, alternative = 'both')
 
 # all tails
 ifr_ts_paired_ttest(hsb, read, write, alternative = 'all')
+
 }
 \references{
 Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric

@@ -2,6 +2,7 @@
 % Please edit documentation in R/ifr-os-var-test.R
 \name{ifr_os_var_test}
 \alias{ifr_os_var_test}
+\alias{infer_os_var_test}
 \title{One Sample Variance Comparison Test}
 \usage{
 ifr_os_var_test(
@@ -56,7 +57,7 @@ equal to a hypothesized value.
 }
 \section{Deprecated Function}{
 
-\code{os_vartest()} has been deprecated. Instead use \code{ifr_os_var_test()}.
+\code{infer_os_var_test()} has been deprecated. Instead use \code{ifr_os_var_test()}.
 }
 
 \examples{
@@ -71,6 +72,7 @@ ifr_os_var_test(mtcars, mpg, 5, alternative = 'both')
 
 # all tails
 ifr_os_var_test(mtcars, mpg, 5, alternative = 'all')
+
 }
 \references{
 Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric

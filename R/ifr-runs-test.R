@@ -14,7 +14,8 @@
 #' @param mean logical; if TRUE, mean will be used as threshold
 #' @param threshold threshold to be used for counting runs, specify 0 if data
 #' is coded as a binary.
-#' @return \code{ifr_runs_test} returns an object of class \code{"ifr_runs_test"}.
+#'
+#' @return \code{infer_runs_test} returns an object of class \code{"ifr_runs_test"}.
 #' An object of class \code{"ifr_runs_test"} is a list containing the
 #' following components:
 #'
@@ -27,8 +28,10 @@
 #' \item{n_runs}{number of runs}
 #' \item{z}{z statistic}
 #' \item{p}{p-value of \code{z}}
+#'
 #' @section Deprecated Function:
 #' \code{runs_test()} has been deprecated. Instead use \code{ifr_runs_test()}.
+#'
 #' @references
 #' {Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric Statistical Procedures, 4th edition. : Chapman & Hall/CRC.}
 #'
@@ -37,6 +40,7 @@
 #' {Madansky, A. 1988. Prescriptions for Working Statisticians. New York: Springer.}
 #'
 #' {Swed, F. S., and C. Eisenhart. 1943. Tables for testing randomness of grouping in a sequence of alternatives. Annals of Mathematical Statistics 14: 66–87.}
+#'
 #' @examples
 #' ifr_runs_test(hsb, read)
 #'
@@ -116,6 +120,14 @@ ifr_runs_test.default <- function(data, x, drop = FALSE,
 
   class(result) <- "ifr_runs_test"
   return(result)
+}
+
+#' @export
+#' @rdname ifr_runs_test
+#' @usage NULL
+#'
+infer_runs_test <- function(data, x, drop = FALSE, split = FALSE, mean = FALSE, threshold = NA) {
+  .Deprecated("ifr_runs_test()")
 }
 
 #' @export

@@ -2,6 +2,7 @@
 % Please edit documentation in R/ifr-mcnemar-test.R
 \name{ifr_mcnemar_test}
 \alias{ifr_mcnemar_test}
+\alias{infer_mcnemar_test}
 \title{McNemar Test}
 \usage{
 ifr_mcnemar_test(data, x = NULL, y = NULL)
@@ -40,7 +41,7 @@ equal in the same population.
 }
 \section{Deprecated Function}{
 
-\code{mcnermar_test()} has been deprecated. Instead use
+\code{infer_mcnermar_test()} has been deprecated. Instead use
 \code{ifr_mcnemar_test()}.
 }
 
@@ -58,6 +59,7 @@ ifr_mcnemar_test(table(himath, hiread))
 
 # using matrix
 ifr_mcnemar_test(matrix(c(135, 18, 21, 26), nrow = 2))
+
 }
 \references{
 Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric

@@ -1,14 +1,17 @@
 #' @title Levene's test for equality of variances
+#'
 #' @description  \code{ifr_levene_test} reports Levene's robust test statistic
 #' for the equality of variances and the
 #' two statistics proposed by Brown and Forsythe that replace the mean in
 #' Levene's formula with alternative location estimators. The first alternative
 #' replaces the mean with the median. The second alternative replaces
 #' the mean with the 10% trimmed mean.
+#'
 #' @param data a \code{data.frame} or \code{tibble}
 #' @param ... numeric; columns in \code{data}
 #' @param group_var factor; column in \code{data}
 #' @param trim_mean trimmed mean
+#'
 #' @return \code{ifr_levene_test} returns an object of class \code{"ifr_levene_test"}.
 #' An object of class \code{"ifr_levene_test"} is a list containing the
 #' following components:
@@ -29,14 +32,17 @@
 #' \item{levs}{levels of the grouping variable}
 #' \item{lens}{number of observations for each level of the grouping variable}
 #' \item{type}{alternative hypothesis}
+#'
 #' @section Deprecated Function:
-#' \code{levene_test()} has been deprecated. Instead use \code{ifr_levene_test()}.
+#' \code{infer_levene_test()} has been deprecated. Instead use \code{ifr_levene_test()}.
+#'
 #' @references
 #' {Bland, M. 2000. An Introduction to Medical Statistics. 3rd ed. Oxford: Oxford University Press.}
 #'
 #' {Brown, M. B., and A. B. Forsythe. 1974. Robust tests for the equality of variances. Journal of the American Statistical Association 69: 364–367.}
 #'
 #' {Carroll, R. J., and H. Schneider. 1985. A note on Levene’s tests for equality of variances. Statistics and Probability Letters 3: 191–194.}
+#'
 #' @examples
 #' # using grouping variable
 #' ifr_levene_test(hsb, read, group_var = race)
@@ -102,6 +108,13 @@ ifr_levene_test.default <- function(data, ..., group_var = NULL, trim_mean = 0.1
   return(out)
 }
 
+#' @export
+#' @rdname ifr_chisq_assoc_test
+#' @usage NULL
+#'
+infer_levene_test <- function(data, ..., group_var = NULL, trim_mean = 0.1) {
+  .Deprecated("ifr_levene_test()")
+}
 
 #' @export
 #'

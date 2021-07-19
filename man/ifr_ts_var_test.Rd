@@ -2,6 +2,7 @@
 % Please edit documentation in R/ifr-ts-var-test.R
 \name{ifr_ts_var_test}
 \alias{ifr_ts_var_test}
+\alias{infer_ts_var_test}
 \title{Two Sample Variance Comparison Test}
 \usage{
 ifr_ts_var_test(
@@ -51,7 +52,7 @@ deviations (variances).
 }
 \section{Deprecated Function}{
 
-\code{var_test()} has been deprecated. Instead use \code{ifr_ts_var_test()}.
+\code{infer_ts_var_test()} has been deprecated. Instead use \code{ifr_ts_var_test()}.
 }
 
 \examples{

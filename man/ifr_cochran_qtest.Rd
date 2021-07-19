@@ -2,6 +2,7 @@
 % Please edit documentation in R/ifr-cochran-q-test.R
 \name{ifr_cochran_qtest}
 \alias{ifr_cochran_qtest}
+\alias{infer_cochran_qtest}
 \title{Cochran Q Test}
 \usage{
 ifr_cochran_qtest(data, ...)
@@ -27,12 +28,13 @@ equal in the same population.
 }
 \section{Deprecated Function}{
 
-\code{cochran_test()} has been deprecated. Instead use
+\code{infer_cochran_test()} has been deprecated. Instead use
 \code{ifr_cochran_qtest()}.
 }
 
 \examples{
 ifr_cochran_qtest(exam, exam1, exam2, exam3)
+
 }
 \references{
 Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric

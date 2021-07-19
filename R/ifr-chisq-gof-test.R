@@ -22,17 +22,20 @@
 #' \item{varname}{name of categorical variable}
 #'
 #' @section Deprecated Function:
-#' \code{chisq_gof()} has been deprecated. Instead use
+#' \code{infer_chisq_gof_test()} has been deprecated. Instead use
 #' \code{ifr_chisq_gof_test()}
 #'
-#' @seealso \code{\link[stats]{chisq.test}}
 #' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
+#'
 #' @examples
 #' ifr_chisq_gof_test(hsb, race, c(20, 20, 20, 140))
 #'
 #' # apply continuity correction
 #' ifr_chisq_gof_test(hsb, race, c(20, 20, 20, 140), correct = TRUE)
+#'
+#' @seealso \code{\link[stats]{chisq.test}}
+#'
 #' @export
 #'
 ifr_chisq_gof_test <- function(data, x, y, correct = FALSE) UseMethod("ifr_chisq_gof_test")
@@ -97,6 +100,14 @@ ifr_chisq_gof_test.default <- function(data, x, y, correct = FALSE) {
 }
 
 #' @export
+#' @rdname ifr_chisq_gof_test
+#' @usage NULL
+#'
+infer_chisq_gof_test <- function(data, x, y, correct = FALSE) {
+  .Deprecated("ifr_chisq_gof_test()")
+}
+
+#' @export
 print.ifr_chisq_gof_test <- function(x, ...) {
   print_chisq_gof(x)
 }
@@ -110,8 +121,8 @@ chi_cort <- function(x, y) {
   std  <- round(diff / sqrt(y), 2)
   chi  <- round(sum(dif2 / y), 4)
 
-  list(dev = dev, 
-       std = std, 
+  list(dev = dev,
+       std = std,
        chi = chi)
 }
 
@@ -123,7 +134,7 @@ chigof <- function(x, y) {
   std  <- round(dif / sqrt(y), 2)
   chi  <- round(sum(dif2 / y), 4)
 
-  list(dev = dev, 
-       std = std, 
+  list(dev = dev,
+       std = std,
        chi = chi)
 }

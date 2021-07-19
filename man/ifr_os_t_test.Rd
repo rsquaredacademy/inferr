@@ -2,6 +2,7 @@
 % Please edit documentation in R/ifr-os-t-test.R
 \name{ifr_os_t_test}
 \alias{ifr_os_t_test}
+\alias{infer_os_t_test}
 \title{One Sample t Test}
 \usage{
 ifr_os_t_test(
@@ -57,7 +58,7 @@ hypothesis that a sample has a mean equal to a hypothesized value.
 }
 \section{Deprecated Function}{
 
-\code{ttest()} has been deprecated. Instead use \code{ifr_os_t_test()}.
+\code{infer_os_t_test()} has been deprecated. Instead use \code{ifr_os_t_test()}.
 }
 
 \examples{

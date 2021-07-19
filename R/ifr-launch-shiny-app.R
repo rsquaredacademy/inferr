@@ -1,5 +1,7 @@
 #' @title Launch Shiny App
 #' @description Launches shiny app
+#' @section Deprecated Function:
+#' \code{infer_launch_shiny_app()} has been deprecated. Instead use \code{ifr_launch_shiny_app()}.
 #' @examples
 #' \dontrun{
 #' ifr_launch_shiny_app()
@@ -25,4 +27,12 @@ ifr_launch_shiny_app <- function() {
 	
 	xplorerr::app_inference()
 
+}
+
+#' @export
+#' @rdname ifr_launch_shiny_app
+#' @usage NULL
+#'
+infer_launch_shiny_app <- function(data, x, y) {
+  .Deprecated("ifr_launch_shiny_app()")
 }

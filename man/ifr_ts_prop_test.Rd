@@ -2,8 +2,11 @@
 % Please edit documentation in R/ifr-ts-prop-test.R
 \name{ifr_ts_prop_test}
 \alias{ifr_ts_prop_test}
-\alias{ifr_ts_prop_calc}
+\alias{infer_ts_prop_test}
+\alias{infer_ts_prop_grp}
+\alias{infer_ts_prop_calc}
 \alias{ifr_ts_prop_group}
+\alias{ifr_ts_prop_calc}
 \title{Two Sample Test of Proportion}
 \usage{
 ifr_ts_prop_test(
@@ -43,6 +46,10 @@ just the initial letter}
 
 \item{...}{additional arguments passed to or from other methods}
 
+\item{var}{factor; column in \code{data}}
+
+\item{group}{factor; column in \code{data}}
+
 \item{n1}{sample 1 size}
 
 \item{n2}{sample 2 size}
@@ -50,10 +57,6 @@ just the initial letter}
 \item{p1}{sample 1 proportion}
 
 \item{p2}{sample 2 proportion}
-
-\item{var}{factor; column in \code{data}}
-
-\item{group}{factor; column in \code{data}}
 }
 \value{
 an object of class \code{"ifr_ts_prop_test"}.
@@ -75,7 +78,7 @@ within two independent groups or two samples have the same proportion.
 }
 \section{Deprecated Functions}{
 
-\code{ifr_ts_prop_test()}, \code{ifr_ts_prop_grp()} and \code{ifr_ts_prop_calc()} have
+\code{infer_ts_prop_test()}, \code{infer_ts_prop_grp()} and \code{infer_ts_prop_calc()} have
 been deprecated. Instead use \code{ifr_ts_prop_test()},
 \code{ifr_ts_prop_group()} and \code{ifr_ts_prop_calc()}.
 }

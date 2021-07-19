@@ -2,6 +2,7 @@
 % Please edit documentation in R/ifr-anova.R
 \name{ifr_oneway_anova}
 \alias{ifr_oneway_anova}
+\alias{infer_oneway_anova}
 \title{One Way ANOVA}
 \usage{
 ifr_oneway_anova(data, x, y, ...)
@@ -39,9 +40,16 @@ following components:
 \description{
 One way analysis of variance
 }
+\section{Deprecated Function}{
+
+\code{infer_oneway_anova()} has been deprecated. Instead use
+\code{ifr_oneway_anova()}
+}
+
 \examples{
 ifr_oneway_anova(mtcars, mpg, cyl)
 ifr_oneway_anova(hsb, write, prog)
+
 }
 \references{
 Kutner, M. H., Nachtsheim, C., Neter, J., & Li, W. (2005).

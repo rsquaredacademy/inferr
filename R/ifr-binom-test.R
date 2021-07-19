@@ -19,19 +19,23 @@
 #' \item{obs_p}{assumed probability of success}
 #' \item{pval_lower}{lower one sided p value}
 #' \item{pval_upper}{upper one sided p value}
+#'
 #' @section Deprecated Functions:
-#' \code{binom_calc()} and \code{binom_test()} have been deprecated. Instead use
+#' \code{infer_binom_calc()} and \code{infer_binom_test()} have been deprecated. Instead use
 #' \code{ifr_binom_cal()} and \code{ifr_binom_test()}.
+#'
 #' @references Hoel, P. G. 1984. Introduction to Mathematical Statistics.
 #' 5th ed. New York: Wiley.
 #'
-#' @seealso \code{\link[stats]{binom.test}}
 #' @examples
 #' # using calculator
 #' ifr_binom_calc(32, 13, prob = 0.5)
 #'
 #' # using data set
 #' ifr_binom_test(hsb, female, prob = 0.5)
+#'
+#' @seealso \code{\link[stats]{binom.test}}
+#'
 #' @export
 #'
 ifr_binom_calc <- function(n, success, prob = 0.5, ...) UseMethod("ifr_binom_calc")
@@ -73,6 +77,14 @@ ifr_binom_calc.default <- function(n, success, prob = 0.5, ...) {
 }
 
 #' @export
+#' @rdname ifr_binom_calc
+#' @usage NULL
+#'
+infer_binom_calc <- function(n, success, prob = 0.5, ...) {
+  .Deprecated("ifr_binom_calc()")
+}
+
+#' @export
 print.ifr_binom_calc <- function(x, ...) {
   print_binom(x)
 }
@@ -103,6 +115,14 @@ ifr_binom_test <- function(data, variable, prob = 0.5) {
   n <- length(fdata)
   k <- table(fdata)[[2]]
   ifr_binom_calc.default(n, k, prob)
+}
+
+#' @export
+#' @rdname ifr_binom_calc
+#' @usage NULL
+#'
+infer_binom_test <- function(data, variable, prob = 0.5) {
+  .Deprecated("ifr_binom_test()")
 }
 
 #' @importFrom stats pbinom dbinom
@@ -143,12 +163,12 @@ binom_comp <- function(n, success, prob) {
   }
 
   list(exp_k    = exp_k,
-       exp_p    = prob, 
+       exp_p    = prob,
        ik       = i_k,
        k        = k,
-       lower    = round(lt, 6), 
-       n        = n, 
-       obs_p    = obs_p, 
+       lower    = round(lt, 6),
+       n        = n,
+       obs_p    = obs_p,
        two_tail = round(ttf, 6),
        upper    = round(ut, 6)
   )

@@ -2,6 +2,7 @@
 % Please edit documentation in R/ifr-chisq-gof-test.R
 \name{ifr_chisq_gof_test}
 \alias{ifr_chisq_gof_test}
+\alias{infer_chisq_gof_test}
 \title{Chi Square Goodness of Fit Test}
 \usage{
 ifr_chisq_gof_test(data, x, y, correct = FALSE)
@@ -38,7 +39,7 @@ differ from hypothesized proportions
 }
 \section{Deprecated Function}{
 
-\code{chisq_gof()} has been deprecated. Instead use
+\code{infer_chisq_gof_test()} has been deprecated. Instead use
 \code{ifr_chisq_gof_test()}
 }
 
@@ -47,6 +48,7 @@ ifr_chisq_gof_test(hsb, race, c(20, 20, 20, 140))
 
 # apply continuity correction
 ifr_chisq_gof_test(hsb, race, c(20, 20, 20, 140), correct = TRUE)
+
 }
 \references{
 Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric

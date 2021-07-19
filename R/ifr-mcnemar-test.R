@@ -5,6 +5,7 @@
 #' @param data a \code{data.frame} or \code{tibble}
 #' @param x factor; column in \code{data}
 #' @param y factor; column in \code{data}
+#'
 #' @return \code{ifr_mcnemar_test} returns an object of class \code{"ifr_mcnemar_test"}.
 #' An object of class \code{"ifr_mcnemar_test"} is a list containing the
 #' following components:
@@ -24,13 +25,14 @@
 #' \item{ratio}{ratio of proportion with factor}
 #' \item{odratio}{odds ratio}
 #' \item{tbl}{two way table}
+#'
 #' @section Deprecated Function:
-#' \code{mcnermar_test()} has been deprecated. Instead use
+#' \code{infer_mcnermar_test()} has been deprecated. Instead use
 #' \code{ifr_mcnemar_test()}.
+#'
 #' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #'
-#' @seealso \code{\link[stats]{mcnemar.test}}
 #' @examples
 #' # using variables from data
 #' hb <- hsb
@@ -45,6 +47,9 @@
 #'
 #' # using matrix
 #' ifr_mcnemar_test(matrix(c(135, 18, 21, 26), nrow = 2))
+#'
+#' @seealso \code{\link[stats]{mcnemar.test}}
+#'
 #' @export
 #'
 ifr_mcnemar_test <- function(data, x = NULL, y = NULL) UseMethod("ifr_mcnemar_test")
@@ -84,6 +89,14 @@ ifr_mcnemar_test.default <- function(data, x = NULL, y = NULL) {
 
   class(result) <- "ifr_mcnemar_test"
   return(result)
+}
+
+#' @export
+#' @rdname ifr_mcnemar_test
+#' @usage NULL
+#'
+infer_mcnemar_test <- function(data, x = NULL, y = NULL) {
+  .Deprecated("ifr_mcnemar_test()")
 }
 
 #' @export

@@ -50,7 +50,7 @@ the mean with the 10% trimmed mean.
 }
 \section{Deprecated Function}{
 
-\code{levene_test()} has been deprecated. Instead use \code{ifr_levene_test()}.
+\code{infer_levene_test()} has been deprecated. Instead use \code{ifr_levene_test()}.
 }
 
 \examples{

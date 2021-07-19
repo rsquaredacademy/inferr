@@ -9,6 +9,7 @@
 #' must be one of "both" (default), "greater", "less" or "all". You can specify
 #' just the initial letter
 #' @param ... additional arguments passed to or from other methods
+#'
 #' @return \code{ifr_ts_ind_ttest} returns an object of class \code{"ifr_ts_ind_ttest"}.
 #' An object of class \code{"ifr_ts_ind_ttest"} is a list containing the
 #' following components:
@@ -44,11 +45,13 @@
 #' \item{var_y}{name of \code{y}}
 #' \item{confint}{confidence level}
 #' \item{alternative}{alternative hypothesis}
+#'
 #' @section Deprecated Function:
-#' \code{ind_ttest()} has been deprecated. Instead use \code{ifr_ts_ind_ttest()}.
+#' \code{infer_ts_ind_ttest()} has been deprecated. Instead use \code{ifr_ts_ind_ttest()}.
+#'
 #' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
-#' @seealso \code{\link[stats]{t.test}}
+#'
 #' @examples
 #' # lower tail
 #' ifr_ts_ind_ttest(hsb, female, write, alternative = 'less')
@@ -61,6 +64,9 @@
 #'
 #' # all tails
 #' ifr_ts_ind_ttest(hsb, female, write, alternative = 'all')
+#'
+#' @seealso \code{\link[stats]{t.test}}
+#'
 #' @export
 #'
 ifr_ts_ind_ttest <- function(data, x, y, confint = 0.95,
@@ -129,6 +135,15 @@ ifr_ts_ind_ttest.default <- function(data, x, y, confint = 0.95,
   class(result) <- "ifr_ts_ind_ttest"
   return(result)
 
+}
+
+#' @export
+#' @rdname ifr_ts_ind_ttest
+#' @usage NULL
+#'
+infer_chisq_assoc_test <- function(data, x, y, confint = 0.95,
+                               alternative = c("both", "less", "greater", "all"), ...) {
+  .Deprecated("ifr_ts_ind_ttest()")
 }
 
 #' @export

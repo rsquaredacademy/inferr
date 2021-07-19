@@ -24,13 +24,19 @@
 #' \item{ss_within}{within group sum of squares}
 #' \item{ss_total}{total sum of squares}
 #'
+#' @section Deprecated Function:
+#' \code{infer_oneway_anova()} has been deprecated. Instead use
+#' \code{ifr_oneway_anova()}
+#'
 #' @references Kutner, M. H., Nachtsheim, C., Neter, J., & Li, W. (2005).
 #' Applied linear statistical models. Boston: McGraw-Hill Irwin.
 #'
-#' @seealso \code{\link[stats]{anova}}
 #' @examples
 #' ifr_oneway_anova(mtcars, mpg, cyl)
 #' ifr_oneway_anova(hsb, write, prog)
+#'
+#' @seealso \code{\link[stats]{anova}}
+#'
 #' @export
 #'
 ifr_oneway_anova <- function(data, x, y, ...) UseMethod("ifr_oneway_anova")
@@ -66,6 +72,14 @@ ifr_oneway_anova.default <- function(data, x, y, ...) {
 
   class(result) <- "ifr_oneway_anova"
   return(result)
+}
+
+#' @export
+#' @rdname ifr_oneway_anova
+#' @usage NULL
+#'
+infer_oneway_anova <- function(data, x, y, ...) {
+  .Deprecated("ifr_oneway_anova()")
 }
 
 #' @export

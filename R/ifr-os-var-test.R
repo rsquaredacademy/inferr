@@ -10,6 +10,7 @@
 #' must be one of "both" (default), "greater", "less" or "all". You can specify
 #' just the initial letter
 #' @param ... additional arguments passed to or from other methods
+#'
 #' @return \code{ifr_os_var_test} returns an object of class \code{"ifr_os_var_test"}.
 #' An object of class \code{"ifr_os_var_test"} is a list containing the
 #' following components:
@@ -29,11 +30,13 @@
 #' \item{var_name}{name of \code{x}}
 #' \item{conf}{confidence level}
 #' \item{type}{alternative hypothesis}
+#'
 #' @section Deprecated Function:
-#' \code{os_vartest()} has been deprecated. Instead use \code{ifr_os_var_test()}.
+#' \code{infer_os_var_test()} has been deprecated. Instead use \code{ifr_os_var_test()}.
+#'
 #' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
-#' @seealso \code{\link[stats]{var.test}}
+#'
 #' @examples
 #' # lower tail
 #' ifr_os_var_test(mtcars, mpg, 5, alternative = 'less')
@@ -46,6 +49,9 @@
 #'
 #' # all tails
 #' ifr_os_var_test(mtcars, mpg, 5, alternative = 'all')
+#'
+#' @seealso \code{\link[stats]{var.test}}
+#'
 #' @export
 #'
 ifr_os_var_test <- function(data, x, sd, confint = 0.95,
@@ -94,6 +100,15 @@ ifr_os_var_test.default <- function(data, x, sd, confint = 0.95,
 
   class(result) <- "ifr_os_var_test"
   return(result)
+}
+
+#' @export
+#' @rdname ifr_os_var_test
+#' @usage NULL
+#'
+infer_os_var_test <- function(data, x, sd, confint = 0.95,
+                              alternative = c("both", "less", "greater", "all"), ...) {
+  .Deprecated("ifr_os_var_test()")
 }
 
 #' @export

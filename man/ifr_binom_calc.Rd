@@ -2,7 +2,9 @@
 % Please edit documentation in R/ifr-binom-test.R
 \name{ifr_binom_calc}
 \alias{ifr_binom_calc}
+\alias{infer_binom_calc}
 \alias{ifr_binom_test}
+\alias{infer_binom_test}
 \title{Binomial Test}
 \usage{
 ifr_binom_calc(n, success, prob = 0.5, ...)
@@ -41,7 +43,7 @@ categorical dependent variable significantly differs from a hypothesized value.
 }
 \section{Deprecated Functions}{
 
-\code{binom_calc()} and \code{binom_test()} have been deprecated. Instead use
+\code{infer_binom_calc()} and \code{infer_binom_test()} have been deprecated. Instead use
 \code{ifr_binom_cal()} and \code{ifr_binom_test()}.
 }
 
@@ -51,6 +53,7 @@ ifr_binom_calc(32, 13, prob = 0.5)
 
 # using data set
 ifr_binom_test(hsb, female, prob = 0.5)
+
 }
 \references{
 Hoel, P. G. 1984. Introduction to Mathematical Statistics.

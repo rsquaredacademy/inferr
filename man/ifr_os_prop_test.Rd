@@ -3,6 +3,7 @@
 \name{ifr_os_prop_test}
 \alias{ifr_os_prop_test}
 \alias{ifr_os_prop_test.default}
+\alias{infer_os_prop_test}
 \title{One Sample Test of Proportion}
 \usage{
 ifr_os_prop_test(
@@ -56,7 +57,7 @@ specified population proportion.
 }
 \section{Deprecated Function}{
 
-\code{prop_test()} has been deprecated. Instead use \code{ifr_os_prop_test()}.
+\code{infer_os_prop_test()} has been deprecated. Instead use \code{ifr_os_prop_test()}.
 }
 
 \examples{
@@ -65,6 +66,7 @@ ifr_os_prop_test(200, prob = 0.5, phat = 0.3)
 
 # using data set
 ifr_os_prop_test(hsb, female, prob = 0.5)
+
 }
 \references{
 Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric

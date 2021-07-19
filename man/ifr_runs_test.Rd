@@ -2,6 +2,7 @@
 % Please edit documentation in R/ifr-runs-test.R
 \name{ifr_runs_test}
 \alias{ifr_runs_test}
+\alias{infer_runs_test}
 \title{Test for Random Order}
 \usage{
 ifr_runs_test(
@@ -29,7 +30,7 @@ from \code{x}}
 is coded as a binary.}
 }
 \value{
-\code{ifr_runs_test} returns an object of class \code{"ifr_runs_test"}.
+\code{infer_runs_test} returns an object of class \code{"ifr_runs_test"}.
 An object of class \code{"ifr_runs_test"} is a list containing the
 following components:
 

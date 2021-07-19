@@ -2,6 +2,7 @@
 % Please edit documentation in R/ifr-launch-shiny-app.R
 \name{ifr_launch_shiny_app}
 \alias{ifr_launch_shiny_app}
+\alias{infer_launch_shiny_app}
 \title{Launch Shiny App}
 \usage{
 ifr_launch_shiny_app()
@@ -9,6 +10,11 @@ ifr_launch_shiny_app()
 \description{
 Launches shiny app
 }
+\section{Deprecated Function}{
+
+\code{infer_launch_shiny_app()} has been deprecated. Instead use \code{ifr_launch_shiny_app()}.
+}
+
 \examples{
 \dontrun{
 ifr_launch_shiny_app()

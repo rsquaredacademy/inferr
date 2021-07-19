@@ -24,16 +24,19 @@
 #' \item{pval_chisquare_mantel_haenszel}{p-value of mantel haenszel chi square}
 #'
 #' @section Deprecated Function:
-#' \code{chisq_test()} has been deprecated. Instead use
+#' \code{infer_chisq_assoc_test()} has been deprecated. Instead use
 #' \code{ifr_chisq_assoc_test()}.
 #'
-#' @seealso \code{\link[stats]{chisq.test}}
 #' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
+#'
 #' @examples
 #' ifr_chisq_assoc_test(hsb, female, schtyp)
 #'
 #' ifr_chisq_assoc_test(hsb, female, ses)
+#'
+#' @seealso \code{\link[stats]{chisq.test}}
+#'
 #' @export
 #'
 ifr_chisq_assoc_test <- function(data, x, y) UseMethod("ifr_chisq_assoc_test")
@@ -113,6 +116,14 @@ ifr_chisq_assoc_test.default <- function(data, x, y) {
 
   class(result) <- "ifr_chisq_assoc_test"
   return(result)
+}
+
+#' @export
+#' @rdname ifr_chisq_assoc_test
+#' @usage NULL
+#'
+infer_chisq_assoc_test <- function(data, x, y) {
+  .Deprecated("ifr_chisq_assoc_test()")
 }
 
 #' @export

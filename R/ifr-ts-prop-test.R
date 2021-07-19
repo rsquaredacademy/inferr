@@ -15,6 +15,7 @@
 #' must be one of "both" (default), "greater", "less" or "all". You can specify
 #' just the initial letter
 #' @param ... additional arguments passed to or from other methods
+#'
 #' @return an object of class \code{"ifr_ts_prop_test"}.
 #' An object of class \code{"ifr_ts_prop_test"} is a list containing the
 #' following components:
@@ -26,13 +27,15 @@
 #' \item{z}{z statistic}
 #' \item{sig}{p-value for z statistic}
 #' \item{alt}{alternative hypothesis}
+#'
 #' @section Deprecated Functions:
-#' \code{ifr_ts_prop_test()}, \code{ifr_ts_prop_grp()} and \code{ifr_ts_prop_calc()} have
+#' \code{infer_ts_prop_test()}, \code{infer_ts_prop_grp()} and \code{infer_ts_prop_calc()} have
 #' been deprecated. Instead use \code{ifr_ts_prop_test()},
 #' \code{ifr_ts_prop_group()} and \code{ifr_ts_prop_calc()}.
+#'
 #' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
-#' @seealso \code{\link[stats]{prop.test}}
+#'
 #' @examples
 #' # using variables
 #' # lower tail
@@ -47,6 +50,8 @@
 #' # using sample size and proportions
 #' # lower tail
 #' ifr_ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'less')
+#'
+#' @seealso \code{\link[stats]{prop.test}}
 #'
 #' @export
 #'
@@ -84,7 +89,25 @@ ifr_ts_prop_test.default <- function(data, var1, var2,
 #' @rdname ifr_ts_prop_test
 #' @usage NULL
 #'
-ifr_ts_prop_calc <- function(n1, n2, p1, p2,
+infer_ts_prop_test <- function(var1, var2,
+                         alternative = c("both", "less", "greater", "all"), ...) {
+  .Deprecated("ifr_ts_prop_test()")
+}
+
+#' @export
+#' @rdname ifr_ts_prop_test
+#' @usage NULL
+#'
+infer_ts_prop_grp <- function(data, var, group,
+                              alternative = c("both", "less", "greater", "all")) {
+  .Deprecated("ifr_ts_prop_group()")
+}
+
+#' @export
+#' @rdname ifr_ts_prop_test
+#' @usage NULL
+#'
+infer_ts_prop_calc <- function(n1, n2, p1, p2,
                                alternative = c("both", "less", "greater", "all"), ...) {
   .Deprecated("ifr_ts_prop_calc()")
 }
