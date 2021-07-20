@@ -2,7 +2,7 @@
 % Please edit documentation in R/ifr-ts-ind-ttest.R
 \name{ifr_ts_ind_ttest}
 \alias{ifr_ts_ind_ttest}
-\alias{infer_chisq_assoc_test}
+\alias{infer_ts_ind_ttest}
 \title{Two Independent Sample t Test}
 \usage{
 ifr_ts_ind_ttest(

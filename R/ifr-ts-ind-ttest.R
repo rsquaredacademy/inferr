@@ -141,7 +141,7 @@ ifr_ts_ind_ttest.default <- function(data, x, y, confint = 0.95,
 #' @rdname ifr_ts_ind_ttest
 #' @usage NULL
 #'
-infer_chisq_assoc_test <- function(data, x, y, confint = 0.95,
+infer_ts_ind_ttest <- function(data, x, y, confint = 0.95,
                                alternative = c("both", "less", "greater", "all"), ...) {
   .Deprecated("ifr_ts_ind_ttest()")
 }
