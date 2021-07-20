@@ -109,7 +109,7 @@ ifr_levene_test.default <- function(data, ..., group_var = NULL, trim_mean = 0.1
 }
 
 #' @export
-#' @rdname ifr_chisq_assoc_test
+#' @rdname ifr_levene_test
 #' @usage NULL
 #'
 infer_levene_test <- function(data, ..., group_var = NULL, trim_mean = 0.1) {

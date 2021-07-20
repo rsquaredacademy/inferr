@@ -3,6 +3,7 @@
 \name{ifr_levene_test}
 \alias{ifr_levene_test}
 \alias{ifr_levene_test.default}
+\alias{infer_levene_test}
 \title{Levene's test for equality of variances}
 \usage{
 ifr_levene_test(data, ...)
