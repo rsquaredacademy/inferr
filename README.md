@@ -7,17 +7,10 @@
 
 <!-- badges: start -->
 
-[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/inferr)](https://cran.r-project.org/package=inferr)
-[![cran
-checks](https://cranchecks.info/badges/summary/inferr)](https://cran.r-project.org/web/checks/check_results_inferr.html)
-[![R build
-status](https://github.com/rsquaredacademy/inferr/workflows/R-CMD-check/badge.svg)](https://github.com/rsquaredacademy/inferr/actions)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/inferr)](https://cran.r-project.org/package=inferr)
+[![R-CMD-check](https://github.com/rsquaredacademy/inferr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rsquaredacademy/inferr/actions/workflows/R-CMD-check.yaml)
 [![Coverage
 status](https://codecov.io/gh/rsquaredacademy/inferr/branch/master/graph/badge.svg)](https://codecov.io/github/rsquaredacademy/inferr?branch=master)
-[![status](https://tinyverse.netlify.com/badge/inferr)](https://CRAN.R-project.org/package=inferr)
-[![Lifecycle:
-stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html)
-[![](https://cranlogs.r-pkg.org/badges/grand-total/inferr)](https://cran.r-project.org/package=inferr)
 <!-- badges: end -->
 
 ## Overview
@@ -27,21 +20,21 @@ additional and flexible input options and more detailed and structured
 test results. As of version 0.3, **inferr** includes a select set of
 parametric and non-parametric statistical tests which are listed below:
 
--   One Sample t Test
--   Paired Sample t Test
--   Independent Sample t Test
--   One Sample Proportion Test
--   Two Sample Proportion Test
--   One Sample Variance Test
--   Two Sample Variance Test
--   Binomial Test
--   ANOVA
--   Chi Square Goodness of Fit Test
--   Chi Square Independence Test
--   Levene’s Test
--   Cochran’s Q Test
--   McNemar Test
--   Runs Test for Randomness
+- One Sample t Test
+- Paired Sample t Test
+- Independent Sample t Test
+- One Sample Proportion Test
+- Two Sample Proportion Test
+- One Sample Variance Test
+- Two Sample Variance Test
+- Binomial Test
+- ANOVA
+- Chi Square Goodness of Fit Test
+- Chi Square Independence Test
+- Levene’s Test
+- Cochran’s Q Test
+- McNemar Test
+- Runs Test for Randomness
 
 ## Installation
 
@@ -56,8 +49,8 @@ devtools::install_github("rsquaredacademy/inferr")
 
 ## Articles
 
--   [Introduction to
-    inferr](https://inferr.rsquaredacademy.com/articles/intro.html)
+- [Introduction to
+  inferr](https://inferr.rsquaredacademy.com/articles/intro.html)
 
 ## Usage
 
