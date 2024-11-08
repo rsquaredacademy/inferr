@@ -65,7 +65,8 @@ ifr_chisq_gof_test.default <- function(data, x, y, correct = FALSE) {
   df      <- n - 1
 
   if (length(y) != n) {
-    stop("Length of y must be equal to the number of categories in x", call. = FALSE)
+    stop("Length of y must be equal to the number of categories in x",
+         call. = FALSE)
   }
 
   if (sum(y) == 1) {

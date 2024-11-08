@@ -135,7 +135,8 @@ mcpval <- function(test_stat, df) {
 }
 
 mcpex <- function(dat) {
-  2 * min(pbinom(dat[2], sum(dat[2], dat[3]), 0.5), pbinom(dat[3], sum(dat[2], dat[3]), 0.5))
+  2 * min(pbinom(dat[2], sum(dat[2], dat[3]), 0.5), 
+          pbinom(dat[3], sum(dat[2], dat[3]), 0.5))
 }
 
 mcstat <- function(p) {
@@ -204,13 +205,13 @@ serr <- function(dat, kappa, expected) {
   diagonal <- diag(dat_per)
 
   a <- diagonal[1] * (1 - (row_sum[1] + col_sum[1]) * (1 - kappa)) ^ 2 +
-    diagonal[2] * (1 - (row_sum[2] + col_sum[2]) * (1 - kappa)) ^ 2
+       diagonal[2] * (1 - (row_sum[2] + col_sum[2]) * (1 - kappa)) ^ 2
 
   x1 <- dat_per[lower.tri(dat_per)][1]
   x2 <- dat_per[upper.tri(dat_per)][1]
 
   b <- ((1 - kappa) ^ 2) * ((x1 * (row_sum[1] + col_sum[2]) ^ 2) +
-    (x2 * (row_sum[2] + col_sum[1]) ^ 2))
+       (x2 * (row_sum[2] + col_sum[1]) ^ 2))
 
   c <- ((kappa) - expected * (1 - kappa)) ^ 2
   variance <- ((a + b - c) / ((1 - expected) ^ 2)) / sum(dat)

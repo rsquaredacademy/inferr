@@ -42,14 +42,14 @@
 #' @export
 #'
 ifr_os_prop_test <- function(data, variable = NULL, prob = 0.5, phat = 0.5,
-                               alternative = c("both", "less", "greater", "all"))
+                             alternative = c("both", "less", "greater", "all"))
   UseMethod("ifr_os_prop_test")
 
 #' @export
 #' @rdname ifr_os_prop_test
 #'
 ifr_os_prop_test.default <- function(data, variable = NULL, prob = 0.5, phat = 0.5,
-                                       alternative = c("both", "less", "greater", "all")) {
+                                     alternative = c("both", "less", "greater", "all")) {
   if (is.numeric(data)) {
 
     method <- match.arg(alternative)

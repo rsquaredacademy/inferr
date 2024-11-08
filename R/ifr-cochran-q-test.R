@@ -102,11 +102,10 @@ cochran_comp <- function(data) {
 
   pvalue <- 1 - pchisq(q, df)
 
-  list(
-    df     = df,
-    n      = n,
-    pvalue = round(pvalue, 4),
-    q      = q)
+  list(df     = df,
+       n      = n,
+       pvalue = round(pvalue, 4),
+       q      = q)
 
 }
 
@@ -117,15 +116,13 @@ sums <- function(data) {
   g       <- rowSums(data)
   gs_sum  <- sum(g ^ 2)
 
-  list(
-    cl      = cl,
-    cls_sum = cls_sum,
-    g       = g,
-    gs_sum  = gs_sum)
+  list(cl      = cl,
+       cls_sum = cls_sum,
+       g       = g,
+       gs_sum  = gs_sum)
 
 }
 
 coch <- function(k, cls_sum, cl, g, gs_sum) {
   ((k - 1) * ((k * cls_sum) - (sum(cl) ^ 2))) / ((k * sum(g)) - gs_sum)
 }
-

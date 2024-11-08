@@ -56,15 +56,21 @@
 #' @export
 #'
 ifr_os_t_test <- function(data, x, mu = 0, alpha = 0.05,
-                            alternative = c("both", "less", "greater", "all"), ...) UseMethod("ifr_os_t_test")
+                          alternative = c("both", "less", "greater", "all"), ...) UseMethod("ifr_os_t_test")
 
 #' @export
 #'
 ifr_os_t_test.default <- function(data, x, mu = 0, alpha = 0.05,
-                                    alternative = c("both", "less", "greater", "all"), ...) {
+                                  alternative = c("both", "less", "greater", "all"), ...) {
 
-  x1   <- deparse(substitute(x))
-  xone <- data[[x1]]
+  if (is.numeric(data)) {
+    xone <- data
+    var_name <- "x"
+  } else {
+    x1   <- deparse(substitute(x))
+    xone <- data[[x1]]
+    var_name <- names(data[x1])
+  }
 
   if (!is.numeric(xone)) {
     stop("x must be numeric", call. = FALSE)
@@ -77,7 +83,6 @@ ifr_os_t_test.default <- function(data, x, mu = 0, alpha = 0.05,
   }
 
   type     <- match.arg(alternative)
-  var_name <- names(data[x1])
   k        <- ttest_comp(xone, mu, alpha, type)
 
   result <-

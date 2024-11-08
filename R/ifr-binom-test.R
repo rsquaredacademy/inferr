@@ -147,7 +147,8 @@ binom_comp <- function(n, success, prob) {
       }
     }
 
-    ttf <- pbinom(k, n, prob, lower.tail = T) + pbinom(i_k - 1, n, prob, lower.tail = F)
+    ttf <- pbinom(k, n, prob, lower.tail = T) +
+           pbinom(i_k - 1, n, prob, lower.tail = F)
   } else {
     while (p_opp <= i_p) {
       i_k <- i_k - 1
@@ -158,7 +159,8 @@ binom_comp <- function(n, success, prob) {
     }
 
     i_k <- i_k
-    tt  <- pbinom(i_k, n, prob, lower.tail = T) + pbinom(k - 1, n, prob, lower.tail = F)
+    tt  <- pbinom(i_k, n, prob, lower.tail = T) + 
+           pbinom(k - 1, n, prob, lower.tail = F)
     ttf <- ifelse(tt <= 1, tt, 1)
   }
 
