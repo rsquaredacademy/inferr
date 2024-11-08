@@ -1,5 +1,3 @@
-context("cochran")
-
 test_that("output from ifr_cochran_qtest matches the expected result", {
   k <- ifr_cochran_qtest(exam, exam1, exam2, exam3)
   expect_equal(k$n, 15)
@@ -21,13 +19,5 @@ test_that("ifr_cochran_qtest throws appropriate errors", {
 })
 
 test_that("output from cochran test is as expected", {
-  x <- cat("   Test Statistics
-----------------------
-N                   15
-Cochran's Q       4.75
-df                   2
-p value          0.093
-----------------------")
-
-  expect_equivalent(print(ifr_cochran_qtest(exam, exam1, exam2, exam3)), x)
+  expect_snapshot(ifr_cochran_qtest(exam, exam1, exam2, exam3))
 })
