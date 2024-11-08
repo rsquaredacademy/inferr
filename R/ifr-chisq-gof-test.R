@@ -5,8 +5,8 @@
 #' @param x factor; column in \code{data}
 #' @param y expected proportions
 #' @param correct logical; if TRUE continuity correction is applied
-#' @return \code{infer_chisq_gof_test} returns an object of class
-#' \code{"infer_chisq_gof_test"}. An object of class \code{"infer_chisq_gof_test"}
+#' @return \code{ifr_chisq_gof_test} returns an object of class
+#' \code{"ifr_chisq_gof_test"}. An object of class \code{"ifr_chisq_gof_test"}
 #' is a list containing the following components:
 #'
 #' \item{categories}{levels of \code{x}}
@@ -22,23 +22,26 @@
 #' \item{varname}{name of categorical variable}
 #'
 #' @section Deprecated Function:
-#' \code{chisq_gof()} has been deprecated. Instead use
-#' \code{infer_chisq_gof_test()}
+#' \code{infer_chisq_gof_test()} has been deprecated. Instead use
+#' \code{ifr_chisq_gof_test()}
 #'
-#' @seealso \code{\link[stats]{chisq.test}}
 #' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
+#'
 #' @examples
-#' infer_chisq_gof_test(hsb, race, c(20, 20, 20, 140))
+#' ifr_chisq_gof_test(hsb, race, c(20, 20, 20, 140))
 #'
 #' # apply continuity correction
-#' infer_chisq_gof_test(hsb, race, c(20, 20, 20, 140), correct = TRUE)
+#' ifr_chisq_gof_test(hsb, race, c(20, 20, 20, 140), correct = TRUE)
+#'
+#' @seealso \code{\link[stats]{chisq.test}}
+#'
 #' @export
 #'
-infer_chisq_gof_test <- function(data, x, y, correct = FALSE) UseMethod("infer_chisq_gof_test")
+ifr_chisq_gof_test <- function(data, x, y, correct = FALSE) UseMethod("ifr_chisq_gof_test")
 
 #' @export
-infer_chisq_gof_test.default <- function(data, x, y, correct = FALSE) {
+ifr_chisq_gof_test.default <- function(data, x, y, correct = FALSE) {
 
   x1     <- deparse(substitute(x))
   xcheck <- data[[x1]]
@@ -62,7 +65,8 @@ infer_chisq_gof_test.default <- function(data, x, y, correct = FALSE) {
   df      <- n - 1
 
   if (length(y) != n) {
-    stop("Length of y must be equal to the number of categories in x", call. = FALSE)
+    stop("Length of y must be equal to the number of categories in x",
+         call. = FALSE)
   }
 
   if (sum(y) == 1) {
@@ -92,12 +96,20 @@ infer_chisq_gof_test.default <- function(data, x, y, correct = FALSE) {
       varname            = varname
   )
 
-  class(result) <- "infer_chisq_gof_test"
+  class(result) <- "ifr_chisq_gof_test"
   return(result)
 }
 
 #' @export
-print.infer_chisq_gof_test <- function(x, ...) {
+#' @rdname ifr_chisq_gof_test
+#' @usage NULL
+#'
+infer_chisq_gof_test <- function(data, x, y, correct = FALSE) {
+  .Deprecated("ifr_chisq_gof_test()")
+}
+
+#' @export
+print.ifr_chisq_gof_test <- function(x, ...) {
   print_chisq_gof(x)
 }
 
@@ -110,7 +122,9 @@ chi_cort <- function(x, y) {
   std  <- round(diff / sqrt(y), 2)
   chi  <- round(sum(dif2 / y), 4)
 
-  list(dev = dev, std = std, chi = chi)
+  list(dev = dev,
+       std = std,
+       chi = chi)
 }
 
 chigof <- function(x, y) {
@@ -121,5 +135,7 @@ chigof <- function(x, y) {
   std  <- round(dif / sqrt(y), 2)
   chi  <- round(sum(dif2 / y), 4)
 
-  list(dev = dev, std = std, chi = chi)
+  list(dev = dev,
+       std = std,
+       chi = chi)
 }

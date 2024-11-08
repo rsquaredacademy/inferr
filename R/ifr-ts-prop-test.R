@@ -15,8 +15,9 @@
 #' must be one of "both" (default), "greater", "less" or "all". You can specify
 #' just the initial letter
 #' @param ... additional arguments passed to or from other methods
-#' @return an object of class \code{"infer_ts_prop_test"}.
-#' An object of class \code{"infer_ts_prop_test"} is a list containing the
+#'
+#' @return an object of class \code{"ifr_ts_prop_test"}.
+#' An object of class \code{"ifr_ts_prop_test"} is a list containing the
 #' following components:
 #'
 #' \item{n1}{sample 1 size}
@@ -26,37 +27,41 @@
 #' \item{z}{z statistic}
 #' \item{sig}{p-value for z statistic}
 #' \item{alt}{alternative hypothesis}
+#'
 #' @section Deprecated Functions:
 #' \code{infer_ts_prop_test()}, \code{infer_ts_prop_grp()} and \code{infer_ts_prop_calc()} have
-#' been deprecated. Instead use \code{infer_ts_prop_test()},
-#' \code{infer_ts_prop_group()} and \code{infer_ts_prop_calc()}.
+#' been deprecated. Instead use \code{ifr_ts_prop_test()},
+#' \code{ifr_ts_prop_group()} and \code{ifr_ts_prop_calc()}.
+#'
 #' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
-#' @seealso \code{\link[stats]{prop.test}}
+#'
 #' @examples
 #' # using variables
 #' # lower tail
-#' infer_ts_prop_test(treatment, treatment1, treatment2,
+#' ifr_ts_prop_test(treatment, treatment1, treatment2,
 #' alternative = 'less')
 #'
 #' # using groups
 #' # lower tail
-#' infer_ts_prop_group(treatment2, outcome, female,
+#' ifr_ts_prop_group(treatment2, outcome, female,
 #' alternative = 'less')
 #'
 #' # using sample size and proportions
 #' # lower tail
-#' infer_ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'less')
+#' ifr_ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'less')
+#'
+#' @seealso \code{\link[stats]{prop.test}}
 #'
 #' @export
 #'
-infer_ts_prop_test <- function(data, var1, var2,
+ifr_ts_prop_test <- function(data, var1, var2,
                                alternative = c("both", "less", "greater", "all"), ...)
-  UseMethod("infer_ts_prop_test")
+  UseMethod("ifr_ts_prop_test")
 
 #' @export
 #'
-infer_ts_prop_test.default <- function(data, var1, var2,
+ifr_ts_prop_test.default <- function(data, var1, var2,
                                        alternative = c("both", "less", "greater", "all"), ...) {
 
   var_1  <- deparse(substitute(var1))
@@ -76,30 +81,48 @@ infer_ts_prop_test.default <- function(data, var1, var2,
          sig   = k$sig,
          z     = k$z)
 
-  class(result) <- "infer_ts_prop_test"
+  class(result) <- "ifr_ts_prop_test"
   return(result)
 }
 
 #' @export
-#' @rdname infer_ts_prop_test
+#' @rdname ifr_ts_prop_test
+#' @usage NULL
+#'
+infer_ts_prop_test <- function(var1, var2,
+                         alternative = c("both", "less", "greater", "all"), ...) {
+  .Deprecated("ifr_ts_prop_test()")
+}
+
+#' @export
+#' @rdname ifr_ts_prop_test
+#' @usage NULL
+#'
+infer_ts_prop_grp <- function(data, var, group,
+                              alternative = c("both", "less", "greater", "all")) {
+  .Deprecated("ifr_ts_prop_group()")
+}
+
+#' @export
+#' @rdname ifr_ts_prop_test
 #' @usage NULL
 #'
 infer_ts_prop_calc <- function(n1, n2, p1, p2,
                                alternative = c("both", "less", "greater", "all"), ...) {
-  .Deprecated("infer_ts_prop_calc()")
+  .Deprecated("ifr_ts_prop_calc()")
 }
 
 #' @export
 #'
-print.infer_ts_prop_test <- function(x, ...) {
+print.ifr_ts_prop_test <- function(x, ...) {
   print_ts_prop_test(x)
 }
 
 
 #' @export
-#' @rdname infer_ts_prop_test
+#' @rdname ifr_ts_prop_test
 #'
-infer_ts_prop_group <- function(data, var, group,
+ifr_ts_prop_group <- function(data, var, group,
                               alternative = c("both", "less", "greater", "all")) {
 
   var1     <- deparse(substitute(var))
@@ -152,14 +175,14 @@ infer_ts_prop_group <- function(data, var, group,
          sig   = round(sig, 3),
          z     = round(z, 3))
 
-  class(out) <- "infer_ts_prop_test"
+  class(out) <- "ifr_ts_prop_test"
   return(out)
 }
 
 #' @export
-#' @rdname infer_ts_prop_test
+#' @rdname ifr_ts_prop_test
 #'
-infer_ts_prop_calc <- function(n1, n2, p1, p2,
+ifr_ts_prop_calc <- function(n1, n2, p1, p2,
                                alternative = c("both", "less", "greater", "all"), ...) {
   n1    <- n1
   n2    <- n2
@@ -197,7 +220,7 @@ infer_ts_prop_calc <- function(n1, n2, p1, p2,
          sig   = round(sig, 3),
          z     = round(z, 3))
 
-  class(out) <- "infer_ts_prop_test"
+  class(out) <- "ifr_ts_prop_test"
   return(out)
 }
 

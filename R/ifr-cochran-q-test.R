@@ -3,8 +3,9 @@
 #' equal in the same population.
 #' @param data a \code{data.frame} or \code{tibble}
 #' @param ... columns in \code{data}
-#' @return \code{infer_cochran_qtest} returns an object of class
-#' \code{"infer_cochran_qtest"}. An object of class \code{"infer_cochran_qtest"}
+#'
+#' @return \code{ifr_cochran_qtest} returns an object of class
+#' \code{"ifr_cochran_qtest"}. An object of class \code{"ifr_cochran_qtest"}
 #' is a list containing the following components:
 #'
 #' \item{df}{degrees of freedom}
@@ -13,19 +14,21 @@
 #' \item{q}{cochran's q statistic}
 #'
 #' @section Deprecated Function:
-#' \code{cochran_test()} has been deprecated. Instead use
-#' \code{infer_cochran_qtest()}.
+#' \code{infer_cochran_test()} has been deprecated. Instead use
+#' \code{ifr_cochran_qtest()}.
+#'
 #' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #'
 #' @examples
-#' infer_cochran_qtest(exam, exam1, exam2, exam3)
+#' ifr_cochran_qtest(exam, exam1, exam2, exam3)
+#'
 #' @export
 #'
-infer_cochran_qtest <- function(data, ...) UseMethod("infer_cochran_qtest")
+ifr_cochran_qtest <- function(data, ...) UseMethod("ifr_cochran_qtest")
 
 #' @export
-infer_cochran_qtest.default <- function(data, ...) {
+ifr_cochran_qtest.default <- function(data, ...) {
 
   vars  <- vapply(substitute(...()), deparse, NA_character_)
   fdata <- data[vars]
@@ -47,13 +50,21 @@ infer_cochran_qtest.default <- function(data, ...) {
       pvalue = k$pvalue,
       q      = k$q)
 
-  class(result) <- "infer_cochran_qtest"
+  class(result) <- "ifr_cochran_qtest"
   return(result)
 }
 
 #' @export
+#' @rdname ifr_cochran_qtest
+#' @usage NULL
 #'
-print.infer_cochran_qtest <- function(x, ...) {
+infer_cochran_qtest <- function(data, ...) {
+  .Deprecated("ifr_cochran_qtest()")
+}
+
+#' @export
+#'
+print.ifr_cochran_qtest <- function(x, ...) {
   print_cochran_test(x)
 }
 
@@ -91,11 +102,10 @@ cochran_comp <- function(data) {
 
   pvalue <- 1 - pchisq(q, df)
 
-  list(
-    df     = df,
-    n      = n,
-    pvalue = round(pvalue, 4),
-    q      = q)
+  list(df     = df,
+       n      = n,
+       pvalue = round(pvalue, 4),
+       q      = q)
 
 }
 
@@ -106,15 +116,13 @@ sums <- function(data) {
   g       <- rowSums(data)
   gs_sum  <- sum(g ^ 2)
 
-  list(
-    cl      = cl,
-    cls_sum = cls_sum,
-    g       = g,
-    gs_sum  = gs_sum)
+  list(cl      = cl,
+       cls_sum = cls_sum,
+       g       = g,
+       gs_sum  = gs_sum)
 
 }
 
 coch <- function(k, cls_sum, cl, g, gs_sum) {
   ((k - 1) * ((k * cls_sum) - (sum(cl) ^ 2))) / ((k * sum(g)) - gs_sum)
 }
-

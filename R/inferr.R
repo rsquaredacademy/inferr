@@ -6,7 +6,10 @@
 #' \href{https://github.com/rsquaredacademy/inferr}{GitHub}
 #'
 #' @docType package
+#' @keywords internal
 #' @name inferr
+#' @aliases inferr-package
+"_PACKAGE"
 NULL
 
 ## quiets concerns of R CMD check re: the .'s that appear in pipelines

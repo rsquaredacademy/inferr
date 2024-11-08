@@ -5,8 +5,9 @@
 #' @param data a \code{data.frame} or \code{tibble}
 #' @param x factor; column in \code{data}
 #' @param y factor; column in \code{data}
-#' @return \code{infer_mcnemar_test} returns an object of class \code{"infer_mcnemar_test"}.
-#' An object of class \code{"infer_mcnemar_test"} is a list containing the
+#'
+#' @return \code{ifr_mcnemar_test} returns an object of class \code{"ifr_mcnemar_test"}.
+#' An object of class \code{"ifr_mcnemar_test"} is a list containing the
 #' following components:
 #'
 #' \item{statistic}{chi square statistic}
@@ -24,34 +25,38 @@
 #' \item{ratio}{ratio of proportion with factor}
 #' \item{odratio}{odds ratio}
 #' \item{tbl}{two way table}
+#'
 #' @section Deprecated Function:
-#' \code{mcnermar_test()} has been deprecated. Instead use
-#' \code{infer_mcnemar_test()}.
+#' \code{infer_mcnermar_test()} has been deprecated. Instead use
+#' \code{ifr_mcnemar_test()}.
+#'
 #' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #'
-#' @seealso \code{\link[stats]{mcnemar.test}}
 #' @examples
 #' # using variables from data
 #' hb <- hsb
 #' hb$himath <- ifelse(hsb$math > 60, 1, 0)
 #' hb$hiread <- ifelse(hsb$read > 60, 1, 0)
-#' infer_mcnemar_test(hb, himath, hiread)
+#' ifr_mcnemar_test(hb, himath, hiread)
 #'
 #' # test if the proportion of students in himath and hiread group is same
 #' himath <- ifelse(hsb$math > 60, 1, 0)
 #' hiread <- ifelse(hsb$read > 60, 1, 0)
-#' infer_mcnemar_test(table(himath, hiread))
+#' ifr_mcnemar_test(table(himath, hiread))
 #'
 #' # using matrix
-#' infer_mcnemar_test(matrix(c(135, 18, 21, 26), nrow = 2))
+#' ifr_mcnemar_test(matrix(c(135, 18, 21, 26), nrow = 2))
+#'
+#' @seealso \code{\link[stats]{mcnemar.test}}
+#'
 #' @export
 #'
-infer_mcnemar_test <- function(data, x = NULL, y = NULL) UseMethod("infer_mcnemar_test")
+ifr_mcnemar_test <- function(data, x = NULL, y = NULL) UseMethod("ifr_mcnemar_test")
 
 #' @export
 #'
-infer_mcnemar_test.default <- function(data, x = NULL, y = NULL) {
+ifr_mcnemar_test.default <- function(data, x = NULL, y = NULL) {
 
   if (is.matrix(data) | is.table(data)) {
     dat <- mcdata(data)
@@ -82,13 +87,21 @@ infer_mcnemar_test.default <- function(data, x = NULL, y = NULL) {
          std_err   = k$std_err,
          tbl       = dat)
 
-  class(result) <- "infer_mcnemar_test"
+  class(result) <- "ifr_mcnemar_test"
   return(result)
 }
 
 #' @export
+#' @rdname ifr_mcnemar_test
+#' @usage NULL
 #'
-print.infer_mcnemar_test <- function(x, ...) {
+infer_mcnemar_test <- function(data, x = NULL, y = NULL) {
+  .Deprecated("ifr_mcnemar_test()")
+}
+
+#' @export
+#'
+print.ifr_mcnemar_test <- function(x, ...) {
   print_mcnemar_test(x)
 }
 
@@ -122,7 +135,8 @@ mcpval <- function(test_stat, df) {
 }
 
 mcpex <- function(dat) {
-  2 * min(pbinom(dat[2], sum(dat[2], dat[3]), 0.5), pbinom(dat[3], sum(dat[2], dat[3]), 0.5))
+  2 * min(pbinom(dat[2], sum(dat[2], dat[3]), 0.5), 
+          pbinom(dat[3], sum(dat[2], dat[3]), 0.5))
 }
 
 mcstat <- function(p) {
@@ -191,13 +205,13 @@ serr <- function(dat, kappa, expected) {
   diagonal <- diag(dat_per)
 
   a <- diagonal[1] * (1 - (row_sum[1] + col_sum[1]) * (1 - kappa)) ^ 2 +
-    diagonal[2] * (1 - (row_sum[2] + col_sum[2]) * (1 - kappa)) ^ 2
+       diagonal[2] * (1 - (row_sum[2] + col_sum[2]) * (1 - kappa)) ^ 2
 
   x1 <- dat_per[lower.tri(dat_per)][1]
   x2 <- dat_per[upper.tri(dat_per)][1]
 
   b <- ((1 - kappa) ^ 2) * ((x1 * (row_sum[1] + col_sum[2]) ^ 2) +
-    (x2 * (row_sum[2] + col_sum[1]) ^ 2))
+       (x2 * (row_sum[2] + col_sum[1]) ^ 2))
 
   c <- ((kappa) - expected * (1 - kappa)) ^ 2
   variance <- ((a + b - c) / ((1 - expected) ^ 2)) / sum(dat)

@@ -3,6 +3,7 @@
 \docType{package}
 \name{inferr}
 \alias{inferr}
+\alias{inferr-package}
 \title{\code{inferr} package}
 \description{
 Parametric and non parametric statistical tests
@@ -11,3 +12,17 @@ Parametric and non parametric statistical tests
 See the README on
 \href{https://github.com/rsquaredacademy/inferr}{GitHub}
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://rsquaredacademy.github.io/inferr/}
+  \item \url{https://github.com/rsquaredacademy/inferr}
+  \item Report bugs at \url{https://github.com/rsquaredacademy/inferr/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Aravind Hebbali \email{hebbali.aravind@gmail.com} (\href{https://orcid.org/0000-0001-9220-9669}{ORCID})
+
+}
+\keyword{internal}

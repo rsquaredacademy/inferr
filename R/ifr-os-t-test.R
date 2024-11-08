@@ -1,5 +1,5 @@
 #' @title One Sample t Test
-#' @description \code{infer_os_t_test} performs t tests on the equality of means. It tests the
+#' @description \code{ifr_os_t_test} performs t tests on the equality of means. It tests the
 #' hypothesis that a sample has a mean equal to a hypothesized value.
 #' @param data a \code{data.frame} or \code{tibble}
 #' @param x numeric; column in \code{data}
@@ -9,8 +9,9 @@
 #' one of "both" (default), "greater", "less" or "all". You can specify just the
 #' initial letter
 #' @param ... additional arguments passed to or from other methods
-#' @return \code{infer_os_t_test} returns an object of class \code{"infer_os_t_test"}.
-#' An object of class \code{"infer_os_t_test"} is a list containing the
+#'
+#' @return \code{ifr_os_t_test} returns an object of class \code{"ifr_os_t_test"}.
+#' An object of class \code{"ifr_os_t_test"} is a list containing the
 #' following components:
 #'
 #' \item{mu}{a number indicating the true value of the mean}
@@ -30,37 +31,46 @@
 #' \item{conf}{confidence level}
 #' \item{type}{alternative hypothesis}
 #' \item{var_name}{name of \code{x}}
+#'
 #' @section Deprecated Function:
-#' \code{ttest()} has been deprecated. Instead use \code{infer_os_t_test()}.
+#' \code{infer_os_t_test()} has been deprecated. Instead use \code{ifr_os_t_test()}.
+#'
 #' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
-#' @seealso \code{\link[stats]{t.test}}
 #'
 #' @examples
 #' # lower tail
-#' infer_os_t_test(hsb, write, mu = 50, alternative = 'less')
+#' ifr_os_t_test(hsb, write, mu = 50, alternative = 'less')
 #'
 #' # upper tail
-#' infer_os_t_test(hsb, write, mu = 50, alternative = 'greater')
+#' ifr_os_t_test(hsb, write, mu = 50, alternative = 'greater')
 #'
 #' # both tails
-#' infer_os_t_test(hsb, write, mu = 50, alternative = 'both')
+#' ifr_os_t_test(hsb, write, mu = 50, alternative = 'both')
 #'
 #' # all tails
-#' infer_os_t_test(hsb, write, mu = 50, alternative = 'all')
+#' ifr_os_t_test(hsb, write, mu = 50, alternative = 'all')
+#'
+#' @seealso \code{\link[stats]{t.test}}
 #'
 #' @export
 #'
-infer_os_t_test <- function(data, x, mu = 0, alpha = 0.05,
-                            alternative = c("both", "less", "greater", "all"), ...) UseMethod("infer_os_t_test")
+ifr_os_t_test <- function(data, x, mu = 0, alpha = 0.05,
+                          alternative = c("both", "less", "greater", "all"), ...) UseMethod("ifr_os_t_test")
 
 #' @export
 #'
-infer_os_t_test.default <- function(data, x, mu = 0, alpha = 0.05,
-                                    alternative = c("both", "less", "greater", "all"), ...) {
+ifr_os_t_test.default <- function(data, x, mu = 0, alpha = 0.05,
+                                  alternative = c("both", "less", "greater", "all"), ...) {
 
-  x1   <- deparse(substitute(x))
-  xone <- data[[x1]]
+  if (is.numeric(data)) {
+    xone <- data
+    var_name <- "x"
+  } else {
+    x1   <- deparse(substitute(x))
+    xone <- data[[x1]]
+    var_name <- names(data[x1])
+  }
 
   if (!is.numeric(xone)) {
     stop("x must be numeric", call. = FALSE)
@@ -73,7 +83,6 @@ infer_os_t_test.default <- function(data, x, mu = 0, alpha = 0.05,
   }
 
   type     <- match.arg(alternative)
-  var_name <- names(data[x1])
   k        <- ttest_comp(xone, mu, alpha, type)
 
   result <-
@@ -95,13 +104,22 @@ infer_os_t_test.default <- function(data, x, mu = 0, alpha = 0.05,
          type        = type,
          var_name    = var_name)
 
-  class(result) <- "infer_os_t_test"
+  class(result) <- "ifr_os_t_test"
   return(result)
 }
 
 #' @export
+#' @rdname ifr_os_t_test
+#' @usage NULL
 #'
-print.infer_os_t_test <- function(x, ...) {
+infer_os_t_test <- function(data, x, mu = 0, alpha = 0.05,
+                            alternative = c("both", "less", "greater", "all"), ...) {
+  .Deprecated("ifr_os_t_test()")
+}
+
+#' @export
+#'
+print.ifr_os_t_test <- function(x, ...) {
   print_ttest(x)
 }
 

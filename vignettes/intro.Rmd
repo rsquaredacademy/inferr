@@ -52,7 +52,7 @@ A one sample t-test is used to determine whether a sample of observations comes 
 Using the hsb data, test whether the average of write differs significantly from 50.
 
 ```{r ttest}
-infer_os_t_test(hsb, write, mu = 50, alternative = 'all')
+ifr_os_t_test(hsb, write, mu = 50, alternative = 'all')
 ```
 
 ## Paired t test
@@ -65,10 +65,10 @@ Using the hsb data, test whether the mean of read is equal to the mean of write.
 
 ```{r pair1}
 # Lower Tail Test
-infer_ts_paired_ttest(hsb, read, write, alternative = 'less')
+ifr_ts_paired_ttest(hsb, read, write, alternative = 'less')
 
 # Test all alternatives
-infer_ts_paired_ttest(hsb, read, write, alternative = 'all')
+ifr_ts_paired_ttest(hsb, read, write, alternative = 'all')
 ```
 
 ## Two Independent Sample t Test
@@ -84,7 +84,7 @@ different i.e. a subject in one group cannot also be a subject of the other grou
 Using the hsb data, test whether the mean for write is the same for males and females.
 
 ```{r ind}
-infer_ts_ind_ttest(hsb, female, write, alternative = 'all')
+ifr_ts_ind_ttest(hsb, female, write, alternative = 'all')
 ```
 
 ## One Sample Test of Proportion
@@ -97,14 +97,14 @@ Using hsb data, test whether the proportion of females is 50%.
 
 ```{r os_prop1}
 # Using Variables
-infer_os_prop_test(hsb, female, prob = 0.5)
+ifr_os_prop_test(hsb, female, prob = 0.5)
 ```
 
 Using Calculator
 
 ```{r os_prop2}
 # Calculator
-infer_os_prop_test(200, prob = 0.5, phat = 0.3)
+ifr_os_prop_test(200, prob = 0.5, phat = 0.3)
 ```
 
 ## Two Sample Test of Proportion
@@ -118,7 +118,7 @@ Two sample test of proportion performs tests on the equality of proportions usin
 Using the treatment data, test equality of proportion of two treatments
 ```{r ts_prop1}
 # Using Variables
-infer_ts_prop_test(treatment, treatment1, treatment2, alternative = 'all')
+ifr_ts_prop_test(treatment, treatment1, treatment2, alternative = 'all')
 ```
 
 #### Use Grouping Variable
@@ -127,7 +127,7 @@ Using the treatment2 data, test whether outcome has same proportion for male and
 
 ```{r ts_prop2}
 # Using Grouping Variable
-infer_ts_prop_group(treatment2, outcome, female, alternative = 'all')
+ifr_ts_prop_group(treatment2, outcome, female, alternative = 'all')
 ```
 
 #### Using Calculator
@@ -139,7 +139,7 @@ review.
 
 ```{r ts_prop3}
 # Calculator
-infer_ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'all')
+ifr_ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'all')
 ```
 
 ## One Sample Variance Test
@@ -156,10 +156,10 @@ Using the mtcars data, compare the standard deviation of mpg to a hypothesized v
 
 ```{r os_var}
 # Lower Tail Test
-infer_os_var_test(mtcars, mpg, 0.3, alternative = 'less')
+ifr_os_var_test(mtcars, mpg, 0.3, alternative = 'less')
 
 # Test all alternatives
-infer_os_var_test(mtcars, mpg, 0.3, alternative = 'all')
+ifr_os_var_test(mtcars, mpg, 0.3, alternative = 'all')
 ```
 
 ## Two Sample Variance Test
@@ -174,7 +174,7 @@ Using the mtcars data, compare the standard deviation in miles per gallon for au
 
 ```{r ts_var1}
 # Using Grouping Variable
-infer_ts_var_test(hsb, read, group_var = female, alternative = 'all')
+ifr_ts_var_test(hsb, read, group_var = female, alternative = 'all')
 ```
 
 #### Using Variables
@@ -183,7 +183,7 @@ Using the hsb data, compare the standard deviation of reading and writing scores
 
 ```{r ts_var2}
 # Using Variables
-infer_ts_var_test(hsb, read, write, alternative = 'all')
+ifr_ts_var_test(hsb, read, write, alternative = 'all')
 ```
 
 ## Binomial Probability Test
@@ -196,14 +196,14 @@ Using the hsb data, test whether the proportion of females and males are equal.
 
 ```{r binom_calc}
 # Using variables
-infer_binom_test(hsb, female, prob = 0.5)
+ifr_binom_test(hsb, female, prob = 0.5)
 ```
 
 #### Using Calculator
 
 ```{r binom_calc2}
 # calculator
-infer_binom_calc(32, 16, prob = 0.5)
+ifr_binom_calc(32, 16, prob = 0.5)
 ```
 
 ## ANOVA
@@ -215,7 +215,7 @@ The one-way analysis of variance (ANOVA) is used to determine whether there are 
 Using the hsb data, test whether the mean of write differs between the three program types.
 
 ```{r anova}
-infer_oneway_anova(hsb, write, prog)
+ifr_oneway_anova(hsb, write, prog)
 ```
 
 ## Chi Square Goodness of Fit Test
@@ -229,14 +229,14 @@ hypothesized proportions.
 
 ```{r gof1}
 # basic example
-infer_chisq_gof_test(hsb, race, c(20, 20, 20 , 140))
+ifr_chisq_gof_test(hsb, race, c(20, 20, 20 , 140))
 ```
 
 #### Continuity Correction
 
 ```{r gof2}
 # using continuity correction
-infer_chisq_gof_test(hsb, race, c(20, 20, 20 , 140), correct = TRUE)
+ifr_chisq_gof_test(hsb, race, c(20, 20, 20 , 140), correct = TRUE)
 ```
 
 ## Chi Square Test of Independence
@@ -248,7 +248,7 @@ A chi-square test is used when you want to test if there is a significant relati
 
 Using the hsb data, test if there is a relationship between the type of school attended (schtyp) and students' gender (female).
 ```{r chi1}
-infer_chisq_assoc_test(hsb, female, schtyp)
+ifr_chisq_assoc_test(hsb, female, schtyp)
 ```
 
 Using the hsb data, test if there is a relationship between the type of school attended (schtyp) and students'
@@ -256,7 +256,7 @@ socio economic status (ses).
 
 
 ```{r chi2}
-infer_chisq_assoc_test(hsb, schtyp, ses)
+ifr_chisq_assoc_test(hsb, schtyp, ses)
 ```
 
 ## Levene's Test
@@ -271,7 +271,7 @@ Using the hsb data, test whether variance in reading score is same across race.
 
 ```{r lev1}
 # Using Grouping Variable
-infer_levene_test(hsb, read, group_var = race)
+ifr_levene_test(hsb, read, group_var = race)
 ```
 
 #### Using Variables
@@ -281,7 +281,7 @@ social studies scores.
 
 ```{r lev2}
 # Using Variables
-infer_levene_test(hsb, read, write, socst)
+ifr_levene_test(hsb, read, write, socst)
 ```
 
 ## Cochran's Q Test
@@ -292,7 +292,7 @@ Cochran's Q test is an extension to the McNemar test for related samples that pr
 The exam data set contains scores of 15 students for three exams (exam1, exam2, exam3). Test if three exams are equally difficult.
 
 ```{r cochran}
-infer_cochran_qtest(exam, exam1, exam2, exam3)
+ifr_cochran_qtest(exam, exam1, exam2, exam3)
 ```
 
 ## McNemar Test
@@ -314,20 +314,20 @@ Using the hsb data, test if the proportion of students in himath and hiread grou
 hb <- hsb
 hb$himath <- ifelse(hsb$math > 60, 1, 0)
 hb$hiread <- ifelse(hsb$read > 60, 1, 0)
-infer_mcnemar_test(hb, himath, hiread)
+ifr_mcnemar_test(hb, himath, hiread)
 ```
 
 
 ```{r mc1}
 himath <- ifelse(hsb$math > 60, 1, 0)
 hiread <- ifelse(hsb$read > 60, 1, 0)
-infer_mcnemar_test(table(himath, hiread))
+ifr_mcnemar_test(table(himath, hiread))
 ```
 
 Perform the above test using matrix as input.
 
 ```{r mc2}
-infer_mcnemar_test(matrix(c(135, 18, 21, 26), nrow = 2))
+ifr_mcnemar_test(matrix(c(135, 18, 21, 26), nrow = 2))
 ```
 
 ## Runs Test for Randomness
@@ -340,17 +340,17 @@ We will use runs test to check regression residuals for serial correlation.
 
 ```{r runs1}
 # basic example
-infer_runs_test(hsb, read)
+ifr_runs_test(hsb, read)
 
 # drop values equal to threshold
-infer_runs_test(hsb, read, drop = TRUE)
+ifr_runs_test(hsb, read, drop = TRUE)
 
 # recode data in binary format
-infer_runs_test(hsb, read, split = TRUE)
+ifr_runs_test(hsb, read, split = TRUE)
 
 # use mean as threshold
-infer_runs_test(hsb, read, mean = TRUE)
+ifr_runs_test(hsb, read, mean = TRUE)
 
 # threshold to be used for counting runs
-infer_runs_test(hsb, read, threshold = 0)
+ifr_runs_test(hsb, read, threshold = 0)
 ```

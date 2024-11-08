@@ -17,10 +17,8 @@ knitr::opts_chunk$set(
 > Tools for Statistical Inference
 
 <!-- badges: start -->
-[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/inferr)](https://cran.r-project.org/package=inferr) [![cran checks](https://cranchecks.info/badges/summary/inferr)](https://cran.r-project.org/web/checks/check_results_inferr.html) 
-[![R build status](https://github.com/rsquaredacademy/inferr/workflows/R-CMD-check/badge.svg)](https://github.com/rsquaredacademy/inferr/actions)
+[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/inferr)](https://cran.r-project.org/package=inferr)   [![R-CMD-check](https://github.com/rsquaredacademy/inferr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rsquaredacademy/inferr/actions/workflows/R-CMD-check.yaml) 
 [![Coverage status](https://codecov.io/gh/rsquaredacademy/inferr/branch/master/graph/badge.svg)](https://codecov.io/github/rsquaredacademy/inferr?branch=master) 
-[![status](https://tinyverse.netlify.com/badge/inferr)](https://CRAN.R-project.org/package=inferr) [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html) [![](https://cranlogs.r-pkg.org/badges/grand-total/inferr)](https://cran.r-project.org/package=inferr)
 <!-- badges: end -->
 
 ## Overview
@@ -68,31 +66,31 @@ library(inferr)
 ```
 
 ```{r infer1}
-infer_os_t_test(hsb, write, mu = 50, type = 'all')
+ifr_os_t_test(hsb, write, mu = 50, type = 'all')
 ```
 
 #### ANOVA
 
 ```{r anova}
-infer_oneway_anova(hsb, write, prog)
+ifr_oneway_anova(hsb, write, prog)
 ```
 
 #### Chi Square Test of Independence
 
 ```{r chi1}
-infer_chisq_assoc_test(hsb, female, schtyp)
+ifr_chisq_assoc_test(hsb, female, schtyp)
 ```
 
 #### Levene's Test
 
 ```{r lev1}
-infer_levene_test(hsb, read, group_var = race)
+ifr_levene_test(hsb, read, group_var = race)
 ```
 
 #### Cochran's Q Test
 
 ```{r cochran}
-infer_cochran_qtest(exam, exam1, exam2, exam3)
+ifr_cochran_qtest(exam, exam1, exam2, exam3)
 ```
 
 #### McNemar Test
@@ -101,7 +99,7 @@ infer_cochran_qtest(exam, exam1, exam2, exam3)
 hb <- hsb
 hb$himath <- ifelse(hsb$math > 60, 1, 0)
 hb$hiread <- ifelse(hsb$read > 60, 1, 0)
-infer_mcnemar_test(hb, himath, hiread)
+ifr_mcnemar_test(hb, himath, hiread)
 ```
 
 ## Getting Help

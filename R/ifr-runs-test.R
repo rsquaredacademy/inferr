@@ -14,8 +14,9 @@
 #' @param mean logical; if TRUE, mean will be used as threshold
 #' @param threshold threshold to be used for counting runs, specify 0 if data
 #' is coded as a binary.
-#' @return \code{infer_runs_test} returns an object of class \code{"infer_runs_test"}.
-#' An object of class \code{"infer_runs_test"} is a list containing the
+#'
+#' @return \code{infer_runs_test} returns an object of class \code{"ifr_runs_test"}.
+#' An object of class \code{"ifr_runs_test"} is a list containing the
 #' following components:
 #'
 #' \item{n}{number of observations}
@@ -27,8 +28,10 @@
 #' \item{n_runs}{number of runs}
 #' \item{z}{z statistic}
 #' \item{p}{p-value of \code{z}}
+#'
 #' @section Deprecated Function:
-#' \code{runs_test()} has been deprecated. Instead use \code{infer_runs_test()}.
+#' \code{runs_test()} has been deprecated. Instead use \code{ifr_runs_test()}.
+#'
 #' @references
 #' {Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric Statistical Procedures, 4th edition. : Chapman & Hall/CRC.}
 #'
@@ -37,27 +40,28 @@
 #' {Madansky, A. 1988. Prescriptions for Working Statisticians. New York: Springer.}
 #'
 #' {Swed, F. S., and C. Eisenhart. 1943. Tables for testing randomness of grouping in a sequence of alternatives. Annals of Mathematical Statistics 14: 66–87.}
+#'
 #' @examples
-#' infer_runs_test(hsb, read)
+#' ifr_runs_test(hsb, read)
 #'
-#' infer_runs_test(hsb, read, drop = TRUE)
+#' ifr_runs_test(hsb, read, drop = TRUE)
 #'
-#' infer_runs_test(hsb, read, split = TRUE)
+#' ifr_runs_test(hsb, read, split = TRUE)
 #'
-#' infer_runs_test(hsb, read, mean = TRUE)
+#' ifr_runs_test(hsb, read, mean = TRUE)
 #'
-#' infer_runs_test(hsb, read, threshold = 0)
+#' ifr_runs_test(hsb, read, threshold = 0)
 #'
 #' @importFrom stats pnorm
 #'
 #' @export
 #'
-infer_runs_test <- function(data, x, drop = FALSE, split = FALSE, mean = FALSE,
-                            threshold = NA) UseMethod("infer_runs_test")
+ifr_runs_test <- function(data, x, drop = FALSE, split = FALSE, mean = FALSE,
+                            threshold = NA) UseMethod("ifr_runs_test")
 
 #' @export
 #'
-infer_runs_test.default <- function(data, x, drop = FALSE,
+ifr_runs_test.default <- function(data, x, drop = FALSE,
                                     split = FALSE, mean = FALSE,
                                     threshold = NA) {
 
@@ -114,13 +118,21 @@ infer_runs_test.default <- function(data, x, drop = FALSE,
          var       = sd_runs,
          z         = test_stat)
 
-  class(result) <- "infer_runs_test"
+  class(result) <- "ifr_runs_test"
   return(result)
 }
 
 #' @export
+#' @rdname ifr_runs_test
+#' @usage NULL
 #'
-print.infer_runs_test <- function(x, ...) {
+infer_runs_test <- function(data, x, drop = FALSE, split = FALSE, mean = FALSE, threshold = NA) {
+  .Deprecated("ifr_runs_test()")
+}
+
+#' @export
+#'
+print.ifr_runs_test <- function(x, ...) {
   print_runs_test(x)
 }
 

@@ -73,7 +73,7 @@ hypothesis that a sample has a mean equal to a hypothesized value." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">inferr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1.9000</span>
       </span>
     </div>
 
@@ -108,6 +108,12 @@ hypothesis that a sample has a mean equal to a hypothesized value." />
       <a href="../news/index.html">News</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="https://blog.rsquaredacademy.com">Blog</a>
+</li>
+<li>
+  <a href="https://rsquared-academy.thinkific.com">Online Courses</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -217,77 +223,82 @@ Statistical Procedures, 4th edition. : Chapman &amp; Hall/CRC.</p>
     <div class='dont-index'><p><code><a href='https://rdrr.io/r/stats/t.test.html'>t.test</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># lower tail</span>
-<span class='fu'>ifr_os_t_test</span><span class='op'>(</span><span class='va'>hsb</span>, <span class='va'>write</span>, mu <span class='op'>=</span> <span class='fl'>50</span>, alternative <span class='op'>=</span> <span class='st'>'less'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                               One-Sample Statistics                               
-#&gt; ---------------------------------------------------------------------------------
-#&gt;  Variable    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
-#&gt; ---------------------------------------------------------------------------------
-#&gt;   write      200    52.775     0.6702       9.4786         -Inf     53.8828   
-#&gt; ---------------------------------------------------------------------------------
-#&gt; 
-#&gt;                                  Lower Tail Test                                 
-#&gt;                                  ---------------                                  
-#&gt; 
-#&gt;                                Ho: mean(write) &gt;=50                              
-#&gt;                                 Ha: mean(write) &lt;50                               
-#&gt; --------------------------------------------------------------------------------
-#&gt;  Variable      t      DF       Sig       Mean Diff.    [95% Conf. Interval] 
-#&gt; --------------------------------------------------------------------------------
-#&gt;   write      4.141    199    0.99997       2.775          -Inf      3.8828   
-#&gt; --------------------------------------------------------------------------------</div><div class='input'>
-<span class='co'># upper tail</span>
-<span class='fu'>ifr_os_t_test</span><span class='op'>(</span><span class='va'>hsb</span>, <span class='va'>write</span>, mu <span class='op'>=</span> <span class='fl'>50</span>, alternative <span class='op'>=</span> <span class='st'>'greater'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                               One-Sample Statistics                               
-#&gt; ---------------------------------------------------------------------------------
-#&gt;  Variable    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
-#&gt; ---------------------------------------------------------------------------------
-#&gt;   write      200    52.775     0.6702       9.4786       51.6678      Inf     
-#&gt; ---------------------------------------------------------------------------------
-#&gt; 
-#&gt;                                  Upper Tail Test                                 
-#&gt;                                  ---------------                                  
-#&gt; 
-#&gt;                                Ho: mean(write) &lt;=50                              
-#&gt;                                Ha: mean(write) &gt;50                                
-#&gt; --------------------------------------------------------------------------------
-#&gt;  Variable      t      DF       Sig       Mean Diff.    [95% Conf. Interval] 
-#&gt; --------------------------------------------------------------------------------
-#&gt;   write      4.141    199    0.99997       2.775         1.6678      Inf     
-#&gt; --------------------------------------------------------------------------------</div><div class='input'>
-<span class='co'># both tails</span>
-<span class='fu'>ifr_os_t_test</span><span class='op'>(</span><span class='va'>hsb</span>, <span class='va'>write</span>, mu <span class='op'>=</span> <span class='fl'>50</span>, alternative <span class='op'>=</span> <span class='st'>'both'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                               One-Sample Statistics                               
-#&gt; ---------------------------------------------------------------------------------
-#&gt;  Variable    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
-#&gt; ---------------------------------------------------------------------------------
-#&gt;   write      200    52.775     0.6702       9.4786       51.4537    54.0969   
-#&gt; ---------------------------------------------------------------------------------
-#&gt; 
-#&gt;                                   Two Tail Test                                  
-#&gt;                                  ---------------                                  
-#&gt; 
-#&gt;                                Ho: mean(write) ~=50                              
-#&gt;                                Ha: mean(write) !=50                               
-#&gt; --------------------------------------------------------------------------------
-#&gt;  Variable      t      DF       Sig       Mean Diff.    [95% Conf. Interval] 
-#&gt; --------------------------------------------------------------------------------
-#&gt;   write      4.141    199    0.99997       2.775         1.4537     4.0969   
-#&gt; --------------------------------------------------------------------------------</div><div class='input'>
-<span class='co'># all tails</span>
-<span class='fu'>ifr_os_t_test</span><span class='op'>(</span><span class='va'>hsb</span>, <span class='va'>write</span>, mu <span class='op'>=</span> <span class='fl'>50</span>, alternative <span class='op'>=</span> <span class='st'>'all'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                               One-Sample Statistics                               
-#&gt; ---------------------------------------------------------------------------------
-#&gt;  Variable    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
-#&gt; ---------------------------------------------------------------------------------
-#&gt;   write      200    52.775     0.6702       9.4786       51.4537    54.0969   
-#&gt; ---------------------------------------------------------------------------------
-#&gt; 
-#&gt;                                Ho: mean(write) ~=50                              
-#&gt; 
-#&gt;         Ha: mean &lt; 50              Ha: mean ~= 50               Ha: mean &gt; 50        
-#&gt;          t = 4.141                   t = 4.141                   t = 4.141         
-#&gt;        P &lt; t = 1.0000             P &gt; |t| = 0.0001             P &gt; t = 0.0000       </div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># lower tail</span></span>
+<span class='r-in'><span class='fu'>ifr_os_t_test</span><span class='op'>(</span><span class='va'>hsb</span>, <span class='va'>write</span>, mu <span class='op'>=</span> <span class='fl'>50</span>, alternative <span class='op'>=</span> <span class='st'>'less'</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                               One-Sample Statistics                               </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Variable    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   write      200    52.775     0.6702       9.4786         -Inf     53.8828   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                  Lower Tail Test                                 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                  ---------------                                  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                Ho: mean(write) &gt;=50                              </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                 Ha: mean(write) &lt;50                               </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> --------------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Variable      t      DF       Sig       Mean Diff.    [95% Conf. Interval] </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> --------------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   write      4.141    199    0.99997       2.775          -Inf      3.8828   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> --------------------------------------------------------------------------------</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># upper tail</span></span>
+<span class='r-in'><span class='fu'>ifr_os_t_test</span><span class='op'>(</span><span class='va'>hsb</span>, <span class='va'>write</span>, mu <span class='op'>=</span> <span class='fl'>50</span>, alternative <span class='op'>=</span> <span class='st'>'greater'</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                               One-Sample Statistics                               </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Variable    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   write      200    52.775     0.6702       9.4786       51.6678      Inf     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                  Upper Tail Test                                 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                  ---------------                                  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                Ho: mean(write) &lt;=50                              </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                Ha: mean(write) &gt;50                                </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> --------------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Variable      t      DF       Sig       Mean Diff.    [95% Conf. Interval] </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> --------------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   write      4.141    199    0.00003       2.775         1.6678      Inf     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> --------------------------------------------------------------------------------</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># both tails</span></span>
+<span class='r-in'><span class='fu'>ifr_os_t_test</span><span class='op'>(</span><span class='va'>hsb</span>, <span class='va'>write</span>, mu <span class='op'>=</span> <span class='fl'>50</span>, alternative <span class='op'>=</span> <span class='st'>'both'</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                               One-Sample Statistics                               </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Variable    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   write      200    52.775     0.6702       9.4786       51.4537    54.0969   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                   Two Tail Test                                  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                  ---------------                                  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                Ho: mean(write) ~=50                              </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                Ha: mean(write) !=50                               </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> --------------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Variable      t      DF       Sig       Mean Diff.    [95% Conf. Interval] </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> --------------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   write      4.141    199    0.00005       2.775         1.4537     4.0969   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> --------------------------------------------------------------------------------</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># all tails</span></span>
+<span class='r-in'><span class='fu'>ifr_os_t_test</span><span class='op'>(</span><span class='va'>hsb</span>, <span class='va'>write</span>, mu <span class='op'>=</span> <span class='fl'>50</span>, alternative <span class='op'>=</span> <span class='st'>'all'</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                               One-Sample Statistics                               </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Variable    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   write      200    52.775     0.6702       9.4786       51.4537    54.0969   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------------------------------------------------------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                Ho: mean(write) ~=50                              </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         Ha: mean &lt; 50              Ha: mean ~= 50               Ha: mean &gt; 50        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>          t = 4.141                   t = 4.141                   t = 4.141         </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        P &lt; t = 0.99997            P &gt; |t| = 0.00005            P &gt; t = 0.00003      </span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
