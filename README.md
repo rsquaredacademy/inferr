@@ -208,3 +208,9 @@ If you encounter a bug, please file a minimal reproducible example using
 [reprex](https://reprex.tidyverse.org/index.html) on github. For
 questions and clarifications, use
 [StackOverflow](https://stackoverflow.com/).
+
+## Code of Conduct
+
+Please note that the inferr project is released with a [Contributor Code
+of Conduct](https://inferr.rsquaredacademy.com/CODE_OF_CONDUCT.html). By
+contributing to this project, you agree to abide by its terms.
