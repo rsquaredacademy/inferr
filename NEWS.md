@@ -1,3 +1,5 @@
+# inferr 0.3.2.9000
+
 # inferr 0.3.2
 
 This is a patch release to fix minor issues.

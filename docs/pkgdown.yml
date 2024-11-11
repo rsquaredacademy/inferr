@@ -1,10 +1,9 @@
-pandoc: 2.11.4
-pkgdown: 1.6.1
+pandoc: '3.2'
+pkgdown: 2.1.0
 pkgdown_sha: ~
 articles:
   intro: intro.html
-last_built: 2021-07-09T11:59Z
+last_built: 2024-11-11T12:38Z
 urls:
   reference: https://inferr.rsquaredacademy.com/reference
   article: https://inferr.rsquaredacademy.com/articles
-

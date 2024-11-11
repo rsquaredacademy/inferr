@@ -1,72 +1,60 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://inferr.rsquaredacademy.com/index.html</loc>
-  </url>
-  <url>
-    <loc>https://inferr.rsquaredacademy.com/reference/exam.html</loc>
-  </url>
-  <url>
-    <loc>https://inferr.rsquaredacademy.com/reference/hsb.html</loc>
-  </url>
-  <url>
-    <loc>https://inferr.rsquaredacademy.com/reference/ifr_binom_calc.html</loc>
-  </url>
-  <url>
-    <loc>https://inferr.rsquaredacademy.com/reference/ifr_chisq_assoc_test.html</loc>
-  </url>
-  <url>
-    <loc>https://inferr.rsquaredacademy.com/reference/ifr_chisq_gof_test.html</loc>
-  </url>
-  <url>
-    <loc>https://inferr.rsquaredacademy.com/reference/ifr_cochran_qtest.html</loc>
-  </url>
-  <url>
-    <loc>https://inferr.rsquaredacademy.com/reference/ifr_launch_shiny_app.html</loc>
-  </url>
-  <url>
-    <loc>https://inferr.rsquaredacademy.com/reference/ifr_levene_test.html</loc>
-  </url>
-  <url>
-    <loc>https://inferr.rsquaredacademy.com/reference/ifr_mcnemar_test.html</loc>
-  </url>
-  <url>
-    <loc>https://inferr.rsquaredacademy.com/reference/ifr_oneway_anova.html</loc>
-  </url>
-  <url>
-    <loc>https://inferr.rsquaredacademy.com/reference/ifr_os_prop_test.html</loc>
-  </url>
-  <url>
-    <loc>https://inferr.rsquaredacademy.com/reference/ifr_os_t_test.html</loc>
-  </url>
-  <url>
-    <loc>https://inferr.rsquaredacademy.com/reference/ifr_os_var_test.html</loc>
-  </url>
-  <url>
-    <loc>https://inferr.rsquaredacademy.com/reference/ifr_runs_test.html</loc>
-  </url>
-  <url>
-    <loc>https://inferr.rsquaredacademy.com/reference/ifr_ts_ind_ttest.html</loc>
-  </url>
-  <url>
-    <loc>https://inferr.rsquaredacademy.com/reference/ifr_ts_paired_ttest.html</loc>
-  </url>
-  <url>
-    <loc>https://inferr.rsquaredacademy.com/reference/ifr_ts_prop_test.html</loc>
-  </url>
-  <url>
-    <loc>https://inferr.rsquaredacademy.com/reference/ifr_ts_var_test.html</loc>
-  </url>
-  <url>
-    <loc>https://inferr.rsquaredacademy.com/reference/inferr.html</loc>
-  </url>
-  <url>
-    <loc>https://inferr.rsquaredacademy.com/reference/treatment.html</loc>
-  </url>
-  <url>
-    <loc>https://inferr.rsquaredacademy.com/reference/treatment2.html</loc>
-  </url>
-  <url>
-    <loc>https://inferr.rsquaredacademy.com/articles/intro.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://inferr.rsquaredacademy.com/404.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/articles/index.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/articles/intro.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/articles/reference-media.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/articles/shiny-demo.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/authors.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/CODE_OF_CONDUCT.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/CONDUCT.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/google02e424888b5e2def.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/index.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/ISSUE_TEMPLATE.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/LICENSE-text.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/LICENSE.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/news/index.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/binom_calc.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/binom_test.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/chisq_gof.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/chisq_test.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/cochran_test.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/exam.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/hsb.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/ifr_binom_calc.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/ifr_chisq_assoc_test.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/ifr_chisq_gof_test.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/ifr_cochran_qtest.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/ifr_launch_shiny_app.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/ifr_levene_test.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/ifr_mcnemar_test.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/ifr_oneway_anova.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/ifr_os_prop_test.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/ifr_os_t_test.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/ifr_os_var_test.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/ifr_runs_test.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/ifr_ts_ind_ttest.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/ifr_ts_paired_ttest.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/ifr_ts_prop_test.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/ifr_ts_var_test.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/index.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/ind_ttest.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/inferr.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/launch_inferr.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/levene_test.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/mcnemar_test.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/os_chisqgof.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/os_vartest.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/owanova.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/paired_ttest.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/prop_test.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/runs_test.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/treatment.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/treatment2.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/ts_prop_test.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/ttest.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/two_sample_test.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/var_test.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/reference/var_test_shiny.html</loc></url>
+<url><loc>https://inferr.rsquaredacademy.com/SUPPORT.html</loc></url>
 </urlset>
+

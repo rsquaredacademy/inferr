@@ -1,7 +1,7 @@
 Package: inferr
 Type: Package
 Title: Inferential Statistics
-Version: 0.3.2
+Version: 0.3.2.9000
 Authors@R: person("Aravind", "Hebbali", email = "hebbali.aravind@gmail.com", role = c("aut", "cre"),
     comment = c(ORCID = "0000-0001-9220-9669"))
 Description: Select set of parametric and non-parametric statistical tests. 'inferr' builds upon the solid set of

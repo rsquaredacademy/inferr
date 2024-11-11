@@ -1,4 +1,6 @@
 url: https://inferr.rsquaredacademy.com
+template:
+  bootstrap: 5
 
 authors:
   Aravind Hebbali:
@@ -6,11 +8,7 @@ authors:
 
 templates:
   params:
-    bootswatch: cosmo
-    ganalytics: UA-57270671-33
-    docsearch:
-      api_key:
-      index_name: inferr
+    bootswatch: cerulean
 
 navbar:
   title: "inferr"
@@ -28,24 +26,27 @@ navbar:
           href: reference/index.html
         - text: "News"
           href: news/index.html
-    - text: "Blog"
-      href: https://blog.rsquaredacademy.com
-    - text: "Online Courses"
-      href: https://rsquared-academy.thinkific.com
   right:
     - icon: fa-github
       href: https://github.com/rsquaredacademy/inferr
 
 home:
   links:
-  - text: Learn more
-    href: https://www.rsquaredacademy.com
-  - text: Try shiny app
-    href: https://www.rsquaredcomputing.com/shiny/inferr/
-  - text: Docker Image
-    href: https://hub.docker.com/r/rsquaredacademy/inferr/
+    - text: Our R packages
+      href: https://pkgs.rsquaredacademy.com
+    - text: Read our blog
+      href: https://blog.rsquaredacademy.com
+    - text: Our ebooks
+      href: https://ebooks.rsquaredacademy.com
+    - text: Online courses
+      href: https://www.rsquaredacademy.com
 
 reference:
+- title: Shiny App
+
+  contents:
+  - ifr_launch_shiny_app
+
 - title: Parametric Tests
 
   contents:
@@ -83,3 +84,4 @@ reference:
   - hsb
   - exam
   - treatment
+  - treatment2
