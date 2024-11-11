@@ -13,3 +13,4 @@
 ^.*\.jpg$
 ^hex_inferr\.png$
 ^\.github$
+^CODE_OF_CONDUCT\.md$

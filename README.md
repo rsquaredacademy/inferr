@@ -10,7 +10,7 @@
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/inferr)](https://cran.r-project.org/package=inferr)
 [![R-CMD-check](https://github.com/rsquaredacademy/inferr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rsquaredacademy/inferr/actions/workflows/R-CMD-check.yaml)
 [![Coverage
-status](https://codecov.io/gh/rsquaredacademy/inferr/branch/master/graph/badge.svg)](https://codecov.io/github/rsquaredacademy/inferr?branch=master)
+status](https://app.codecov.io/gh/rsquaredacademy/inferr/branch/master/graph/badge.svg)](https://app.codecov.io/github/rsquaredacademy/inferr?branch=master)
 <!-- badges: end -->
 
 ## Overview
@@ -208,9 +208,3 @@ If you encounter a bug, please file a minimal reproducible example using
 [reprex](https://reprex.tidyverse.org/index.html) on github. For
 questions and clarifications, use
 [StackOverflow](https://stackoverflow.com/).
-
-## Code of Conduct
-
-Please note that this project is released with a [Contributor Code of
-Conduct](CONDUCT.md). By participating in this project you agree to
-abide by its terms.
