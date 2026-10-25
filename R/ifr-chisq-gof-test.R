@@ -73,7 +73,7 @@ ifr_chisq_gof_test.default <- function(data, x, y, correct = FALSE) {
     y <- xlen * y
   }
 
-  if ((df == 1) || (correct == TRUE)) {
+  if (correct == TRUE) {
     k <- chi_cort(xone, y)
   } else {
     k <- chigof(xone, y)

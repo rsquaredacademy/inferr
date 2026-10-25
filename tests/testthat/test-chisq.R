@@ -33,6 +33,20 @@ test_that("ifr_chisq_assoc_test throws the appropriate error", {
   expect_error(ifr_chisq_assoc_test(hsb, read, ses), "x must be a categorical variable")
 })
 
+test_that("likelihood ratio chi square handles empty cells", {
+  d <- data.frame(
+    x = factor(c(rep("a", 20), rep("b", 20)), levels = c("a", "b")),
+    y = factor(c(rep("c", 20), rep("d", 20)), levels = c("c", "d"))
+  )
+  k <- ifr_chisq_assoc_test(d, x, y)
+  t <- table(d$x, d$y)
+  e <- outer(rowSums(t), colSums(t)) / sum(t)
+  lr <- 2 * sum(ifelse(t == 0, 0, t * log(t / e)))
+
+  expect_equal(k$chisquare_lr, round(lr, 4))
+  expect_equal(k$chisquare_lr, 55.4518)
+})
+
 test_that("ouput from ifr_chisq_assoc_test is as expected", {
   expect_snapshot(ifr_chisq_assoc_test(hsb, female, schtyp))
 })

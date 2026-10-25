@@ -10,11 +10,23 @@ test_that("output from ifr_os_var_test matches the expected result", {
   expect_equal(k$p_upper, 0)
   expect_equal(k$p_two, 0)
   expect_equal(k$xbar, 20.0906)
-  expect_equal(k$c_lwr, 3.8737)
-  expect_equal(k$c_upr, 10.6527)
+  expect_equal(k$c_lwr, 4.8318)
+  expect_equal(k$c_upr, 8.0127)
   expect_equal(k$conf, 0.95)
   expect_equal(k$var_name, "mpg")
   expect_equal(k$type, "both")
+})
+
+test_that("standard deviation confidence interval matches the chi-square formula", {
+  k   <- ifr_os_var_test(mtcars, mpg, 5)
+  df  <- nrow(mtcars) - 1
+  s2  <- var(mtcars$mpg)
+  lwr <- round(sqrt(df * s2 / qchisq(0.975, df)), 4)
+  upr <- round(sqrt(df * s2 / qchisq(0.025, df)), 4)
+
+  expect_equal(k$c_lwr, lwr)
+  expect_equal(k$c_upr, upr)
+  expect_equal(unname(c(k$c_lwr, k$c_upr)), c(4.8318, 8.0127))
 })
 
 
