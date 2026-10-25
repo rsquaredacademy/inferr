@@ -37,6 +37,10 @@
 #' @references Hoel, P. G. 1984. Introduction to Mathematical Statistics.
 #' 5th ed. New York: Wiley.
 #'
+#' Conover, W. J. (1999). \emph{Practical Nonparametric Statistics}, 3rd ed. New York: Wiley.
+#'
+#' Hollander, M., Wolfe, D. A. and Chicken, E. (2014). \emph{Nonparametric Statistical Methods}, 3rd ed. Hoboken, NJ: Wiley.
+#'
 #' @examples
 #' # using calculator
 #' ifr_binom_calc(32, 13, prob = 0.5)

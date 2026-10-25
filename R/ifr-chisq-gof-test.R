@@ -28,6 +28,8 @@
 #' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #'
+#' Yates, F. (1934). Contingency tables involving small numbers and the chi-squared test. \emph{Supplement to the Journal of the Royal Statistical Society}, 1(2), 217--235.
+#'
 #' @examples
 #' ifr_chisq_gof_test(hsb, race, c(20, 20, 20, 140))
 #'

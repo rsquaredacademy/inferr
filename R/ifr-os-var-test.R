@@ -37,6 +37,8 @@
 #' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #'
+#' Snedecor, G. W. and Cochran, W. G. (1989). \emph{Statistical Methods}, 8th ed. Ames, IA: Iowa State University Press.
+#'
 #' @examples
 #' # lower tail
 #' ifr_os_var_test(mtcars, mpg, 5, alternative = 'less')

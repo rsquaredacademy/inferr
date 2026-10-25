@@ -66,6 +66,8 @@ ifr_ts_var_test(hsb, read, write, alternative = 'less')
 \references{
 Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
+
+Snedecor, G. W. and Cochran, W. G. (1989). \emph{Statistical Methods}, 8th ed. Ames, IA: Iowa State University Press.
 }
 \seealso{
 \code{\link[stats]{var.test}}
