@@ -25,7 +25,7 @@ following components:
 \item{chisquare_mantel_haenszel}{mantel haenszel chi square}
 \item{chisquare_adjusted}{continuity adjusted chi square}
 \item{contingency_coefficient}{contingency coefficient}
-\item{cramers_v}{cramer's v}
+\item{cramers_v}{Cramer's V}
 \item{df}{degrees of freedom}
 \item{ds}{product of dimensions of the table of \code{x} and \code{y}}
 \item{phi_coefficient}{phi coefficient}

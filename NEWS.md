@@ -1,4 +1,4 @@
-# inferr 0.3.2.9000
+# inferr 0.3.3
 
 ## Bug Fixes
 
@@ -15,8 +15,6 @@
 - `ifr_chisq_assoc_test()` no longer returns `NaN` for the likelihood ratio
   statistic when a contingency table contains an empty cell.
 - `ifr_chisq_gof_test()` applies Yates correction only when `correct = TRUE`.
-- `library(inferr)` no longer contacts CRAN or offers to update packages when
-  the package is attached.
 - `ifr_os_t_test()` and `ifr_ts_ind_ttest()` now compute p-values and
   confidence intervals from unrounded statistics.
 - `ifr_levene_test()` now works with a character grouping variable and reports
@@ -53,6 +51,11 @@
   of the mean difference from the unrounded t statistic and standard
   deviation.
 
+## Other changes
+
+- `library(inferr)` no longer contacts CRAN or offers to update packages when
+  the package is attached.
+
 # inferr 0.3.2
 
 This is a patch release to fix minor issues.
@@ -67,11 +70,11 @@ This is a minor release for bug fixes and API changes. We have completely revamp
 
 ### Bug Fixes
 
-- using if/while statement is used with a condition of lenght greater than 1 will result in a runtime error and not warning  ([#9](https://github.com/rsquaredacademy/inferr/issues/9))
+- using if/while statement is used with a condition of length greater than 1 will result in a runtime error and not warning  ([#9](https://github.com/rsquaredacademy/inferr/issues/9))
 
 - error in binomial test ([#11](https://github.com/rsquaredacademy/inferr/issues/11))
 
-THe shiny app has been updated to reflect the changes in the API.
+The shiny app has been updated to reflect the changes in the API.
 
 # inferr 0.2.0
 

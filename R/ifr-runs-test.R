@@ -1,7 +1,7 @@
 #' @useDynLib inferr
 #' @importFrom Rcpp sourceCpp
 #' @title Test for Random Order
-#' @description runtest tests whether the observations of \code{x} are serially
+#' @description \code{ifr_runs_test} tests whether the observations of \code{x} are serially
 #' independent i.e. whether they occur in a random order, by counting
 #' how many runs there are above and below a threshold.  By default, the median
 #' is used as the threshold.  A small number of runs indicates positive serial
