@@ -130,24 +130,24 @@ ttest_comp <- function(x, mu, alpha, type) {
   a         <- (alpha / 2)
   df        <- n - 1
   conf      <- 1 - alpha
-  Mean      <- round(mean(x), 4)
-  stddev    <- round(sd(x), 4)
-  std_err   <- round(stddev / sqrt(n), 4)
-  test_stat <- round((Mean - mu) / std_err, 3)
+  Mean      <- mean(x)
+  stddev    <- sd(x)
+  std_err   <- stddev / sqrt(n)
+  test_stat <- (Mean - mu) / std_err
 
   if (type == "less") {
-    cint <- c(-Inf, test_stat + qt(1 - alpha, df))
+    cint <- c(-Inf, Mean + qt(1 - alpha, df) * std_err)
   } else if (type == "greater") {
-    cint <- c(test_stat - qt(1 - alpha, df), Inf)
+    cint <- c(Mean - qt(1 - alpha, df) * std_err, Inf)
   } else {
     cint <- qt(1 - a, df)
-    cint <- test_stat + c(-cint, cint)
+    cint <- Mean + c(-cint, cint) * std_err
   }
 
-  confint     <- round(mu + cint * std_err, 4)
+  confint     <- round(cint, 4)
   mean_diff   <- round((Mean - mu), 4)
-  mean_diff_l <- confint[1] - mu
-  mean_diff_u <- confint[2] - mu
+  mean_diff_l <- round(cint[1] - mu, 4)
+  mean_diff_u <- round(cint[2] - mu, 4)
   p_l         <- pt(test_stat, df)
   p_u         <- pt(test_stat, df, lower.tail = FALSE)
 
@@ -162,7 +162,7 @@ ttest_comp <- function(x, mu, alpha, type) {
     list(conf        = conf,
          confint     = confint,
          df          = df,
-         Mean        = Mean,
+         Mean        = round(Mean, 4),
          mean_diff   = mean_diff,
          mean_diff_l = mean_diff_l,
          mean_diff_u = mean_diff_u,
@@ -171,9 +171,9 @@ ttest_comp <- function(x, mu, alpha, type) {
          p           = p,
          p_l         = p_l,
          p_u         = p_u,
-         stddev      = stddev,
-         std_err     = std_err,
-         test_stat   = test_stat)
+         stddev      = round(stddev, 4),
+         std_err     = round(std_err, 4),
+         test_stat   = round(test_stat, 3))
 
   return(out)
 }

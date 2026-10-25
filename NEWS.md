@@ -12,6 +12,10 @@
 - `ifr_chisq_assoc_test()` no longer returns `NaN` for the likelihood ratio
   statistic when a contingency table contains an empty cell.
 - `ifr_chisq_gof_test()` applies Yates correction only when `correct = TRUE`.
+- `library(inferr)` no longer contacts CRAN or offers to update packages when
+  the package is attached.
+- `ifr_os_t_test()` and `ifr_ts_ind_ttest()` now compute p-values and
+  confidence intervals from unrounded statistics.
 
 # inferr 0.3.2
 
