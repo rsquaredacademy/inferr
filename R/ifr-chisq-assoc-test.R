@@ -152,14 +152,14 @@ pear_chsq <- function(twoway, df, ef) {
 }
 
 lr_chsq <- function(twoway, df, ef) {
-  chilr  <- round(2 * sum(matrix(log(twoway / ef), nrow = 1) %*% matrix(twoway, nrow = 4)), 4)
+  chilr  <- round(2 * sum(ifelse(twoway == 0, 0, twoway * log(twoway / ef))), 4)
   sig_lr <- round(pchisq(chilr, df, lower.tail = F), 4)
 
   list(chilr = chilr, sig_lr = sig_lr)
 }
 
 lr_chsq2 <- function(twoway, df, ef, ds) {
-  chilr  <- round(2 * sum(matrix(twoway, ncol = ds) %*% matrix(log(twoway / ef), nrow = ds)), 4)
+  chilr  <- round(2 * sum(ifelse(twoway == 0, 0, twoway * log(twoway / ef))), 4)
   sig_lr <- round(pchisq(chilr, df, lower.tail = F), 4)
 
   list(chilr = chilr, sig_lr = sig_lr)

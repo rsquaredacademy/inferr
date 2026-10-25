@@ -48,6 +48,7 @@ ifr_oneway_anova.default <- function(data, x, y, ...) {
   y1 <- deparse(substitute(y))
 
   fdata        <- data[c(x1, y1)]
+  fdata        <- fdata[complete.cases(fdata), ]
   sample_mean  <- anova_avg(fdata, x1)
   sample_stats <- anova_split(fdata, x1, y1, sample_mean)
   k            <- anova_calc(fdata, sample_stats, x1, y1)
@@ -123,22 +124,22 @@ anova_calc <- function(data, sample_stats, x, y) {
 
   sample_stats %>%
     use_series(sst) %>%
-    sum() %>%
-    round(3) -> sstr
+    sum() -> sstr_raw
 
   sample_stats %>%
     use_series(sse) %>%
-    sum() %>%
-    round(3) -> ssee
+    sum() -> ssee_raw
 
-  total   <- round(sstr + ssee, 3)
+  sstr    <- round(sstr_raw, 3)
+  ssee    <- round(ssee_raw, 3)
+  total   <- round(sstr_raw + ssee_raw, 3)
   df_sstr <- nrow(sample_stats) - 1
   df_sse  <- nrow(data) - nrow(sample_stats)
   df_sst  <- nrow(data) - 1
-  mstr    <- round(sstr / df_sstr, 3)
-  mse     <- round(ssee / df_sse, 3)
-  f       <- round(mstr / mse, 3)
-  sig     <- round(1 - pf(f, df_sstr, df_sse), 3)
+  mstr    <- sstr_raw / df_sstr
+  mse     <- ssee_raw / df_sse
+  f       <- mstr / mse
+  sig     <- 1 - pf(f, df_sstr, df_sse)
   obs     <- nrow(data)
   regs    <- paste(var_names[1], "~ as.factor(", var_names[2], ")")
   model   <- lm(as.formula(regs), data = data)
@@ -146,8 +147,8 @@ anova_calc <- function(data, sample_stats, x, y) {
 
   out <- list(
     sstr = sstr, ssee = ssee, total = total, df_sstr = df_sstr,
-    df_sse = df_sse, df_sst = df_sst, mstr = mstr, mse = mse, f = f,
-    sig = sig, obs = obs, model = model, reg = reg
+    df_sse = df_sse, df_sst = df_sst, mstr = round(mstr, 3), mse = round(mse, 3),
+    f = round(f, 3), sig = sig, obs = obs, model = model, reg = reg
   )
 
   return(out)

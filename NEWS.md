@@ -1,5 +1,23 @@
 # inferr 0.3.2.9000
 
+- `ifr_os_var_test()` now reports the correct confidence interval for the
+  standard deviation.
+- `ifr_ts_ind_ttest()` now uses t quantiles, rather than normal quantiles, for
+  the confidence interval of the mean difference and reports both the pooled
+  and Satterthwaite intervals.
+- `ifr_cochran_qtest()` now recodes logical, 0/1, 1/2 and two-level factor
+  columns to 0/1, and rejects other inputs.
+- `ifr_oneway_anova()` now drops incomplete cases and computes the test
+  statistics from unrounded sums of squares; the printed table shows the
+  p-value instead of `0` and keeps it within the `Sig.` column.
+- `ifr_chisq_assoc_test()` no longer returns `NaN` for the likelihood ratio
+  statistic when a contingency table contains an empty cell.
+- `ifr_chisq_gof_test()` applies Yates correction only when `correct = TRUE`.
+- `library(inferr)` no longer contacts CRAN or offers to update packages when
+  the package is attached.
+- `ifr_os_t_test()` and `ifr_ts_ind_ttest()` now compute p-values and
+  confidence intervals from unrounded statistics.
+
 # inferr 0.3.2
 
 This is a patch release to fix minor issues.

@@ -47,7 +47,9 @@ confidence limit of mean of \code{y}}
 \item{mean_diff}{difference in mean of \code{y} for the two groups of \code{x}}
 \item{se_dif}{estimate of the standard error for difference in mean of
 \code{y} for the two groups of \code{x}} \item{sd_dif}{degrees of freedom}
-\item{conf_diff}{confidence interval for \code{mean_diff}}
+\item{conf_diff}{confidence interval for \code{mean_diff} (pooled method)}
+\item{conf_diff_satterthwaite}{confidence interval for \code{mean_diff}
+(Satterthwaite method)}
 \item{df_pooled}{degrees of freedom for the pooled method}
 \item{df_satterthwaite}{degrees of freedom for the Satterthwaite method}
 \item{t_pooled}{t statistic for the pooled method}

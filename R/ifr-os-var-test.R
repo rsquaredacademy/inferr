@@ -139,9 +139,9 @@ osvar_comp <- function(x, sd, confint) {
   conf  <- confint
   a     <- (1 - conf) / 2
   al    <- 1 - a
-  tv    <- df * sigma
-  c_lwr <- round(tv / qchisq(al, df), 4)
-  c_upr <- round(tv / qchisq(a, df), 4)
+  tv    <- df * sigma ^ 2
+  c_lwr <- round(sqrt(tv / qchisq(al, df)), 4)
+  c_upr <- round(sqrt(tv / qchisq(a, df)), 4)
 
   list(chi     = chi,
        c_lwr   = c_lwr,

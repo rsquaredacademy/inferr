@@ -66,6 +66,17 @@ test_that("ifr_chisq_gof_test throws appropriate errors", {
   )
 })
 
+test_that("Yates correction is applied only when requested", {
+  d <- data.frame(x = factor(c(rep("a", 30), rep("b", 70))))
+
+  k <- ifr_chisq_gof_test(d, x, c(50, 50), correct = FALSE)
+  expect_equal(k$chisquare, as.numeric(chisq.test(c(30, 70))$statistic))
+  expect_equal(k$chisquare, 16)
+
+  k <- ifr_chisq_gof_test(d, x, c(50, 50), correct = TRUE)
+  expect_equal(k$chisquare, 15.21)
+})
+
 
 test_that("output from ifr_chisq_gof_test is as expected", {
   expect_snapshot(ifr_chisq_gof_test(hsb, race, c(20, 20, 20, 140)))

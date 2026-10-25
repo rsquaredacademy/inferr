@@ -121,11 +121,11 @@ test_that("output from sd_diff and se_diff matches the expected result", {
 })
 
 test_that("output from df matches the expected result", {
-  expect_equal(df(10, 15, 3, 6), 23)
+  expect_equal(round(df(10, 15, 3, 6), 3), 22.867)
 })
 
 test_that("output from conf_int_p matches the expected result", {
-  expect_equal(round(conf_int_p(10, 3.6), 3), c(2.944, 17.056))
+  expect_equal(round(conf_int_p(10, 3.6, 10), 3), c(1.979, 18.021))
 })
 
 test_that("output from sums and coch matches the expected result", {

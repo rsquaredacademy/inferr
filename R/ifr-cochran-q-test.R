@@ -37,9 +37,7 @@ ifr_cochran_qtest.default <- function(data, ...) {
     stop("Please specify at least 3 variables.", call. = FALSE)
   }
 
-  if (any(sapply(lapply(fdata, as.factor), nlevels) > 2)) {
-    stop("Please specify dichotomous/binary variables only.", call. = FALSE)
-  }
+  fdata <- as.data.frame(lapply(fdata, cochran_recode))
 
   k <- cochran_comp(fdata)
 
@@ -85,6 +83,32 @@ coch_data <- function(x, ...) {
   return(data)
 }
 
+cochran_recode <- function(x) {
+
+  if (is.logical(x)) {
+    return(as.integer(x))
+  }
+
+  if (is.factor(x)) {
+    if (nlevels(x) != 2) {
+      stop("Please specify dichotomous/binary variables only.", call. = FALSE)
+    }
+    return(as.integer(x) - 1L)
+  }
+
+  if (is.numeric(x)) {
+    if (all(x %in% c(0, 1))) {
+      return(as.integer(x))
+    }
+    if (all(x %in% c(1, 2))) {
+      return(as.integer(x) - 1L)
+    }
+  }
+
+  stop("Please specify dichotomous/binary variables only.", call. = FALSE)
+
+}
+
 cochran_comp <- function(data) {
 
   n  <- nrow(data)
@@ -95,7 +119,6 @@ cochran_comp <- function(data) {
     data %>%
     lapply(as.numeric) %>%
     as.data.frame() %>%
-    subtract(1) %>%
     sums()
 
   q <- coch(k, cs$cls_sum, cs$cl, cs$g, cs$gs_sum)

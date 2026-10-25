@@ -7,22 +7,30 @@ test_that("output from ifr_os_t_test matches the expected output", {
   expect_equal(k$stddev, 6.0269)
   expect_equal(k$std_err, 1.0654)
   expect_equal(k$test_stat, -28.073)
-  expect_equal(k$confint, c(-Inf, 21.8974))
+  expect_equal(k$confint, c(-Inf, 21.8971))
   expect_equal(k$mean_diff_l, -Inf)
-  expect_equal(k$mean_diff_u, -28.1026)
+  expect_equal(k$mean_diff_u, -28.1029)
   expect_equal(k$mean_diff, -29.9094)
-  expect_equal(k$p_l, 6.592161e-24)
+  expect_equal(k$p_l, 6.59395020888e-24)
   expect_equal(k$p_u, 1)
-  expect_equal(k$p, 1.31843219487798e-23)
+  expect_equal(k$p, 1.31879004178e-23)
   expect_equal(k$conf, 0.95)
   expect_equal(k$type, "less")
   expect_equal(k$var_name, "mpg")
 
   k <- ifr_os_t_test(mtcars, mpg, mu = 50, alternative = "greater")
-  expect_equal(k$confint, c(18.2846, Inf))
+  expect_equal(k$confint, c(18.2842, Inf))
 
   k <- ifr_os_t_test(mtcars, mpg, mu = 50, alternative = "both")
-  expect_equal(k$confint, c(17.9181, 22.2639))
+  expect_equal(k$confint, c(17.9177, 22.2636))
+})
+
+test_that("one sample t p-value matches t.test using unrounded statistics", {
+  k <- ifr_os_t_test(mtcars, mpg, mu = 50, alternative = "both")
+  expect_equal(k$p, t.test(mtcars$mpg, mu = 50)$p.value, tolerance = 1e-10)
+
+  k <- ifr_os_t_test(hsb, write, mu = 50, alternative = "both")
+  expect_equal(k$p, t.test(hsb$write, mu = 50)$p.value, tolerance = 1e-10)
 })
 
 test_that("ifr_os_t_test throws the appropriate error", {
