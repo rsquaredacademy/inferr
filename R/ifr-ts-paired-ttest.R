@@ -120,9 +120,9 @@ paired_comp <- function(x, y, confint, var_names) {
 
   confint1  <- conf_int_t(b[[1, 1]], b[[1, 2]], n, alpha = alpha) %>% round(2)
   confint2  <- conf_int_t(b[[2, 1]], b[[2, 2]], n, alpha = alpha) %>% round(2)
-  confint3  <- conf_int_t(b[[3, 1]], b[[3, 2]], n, alpha = alpha) %>% round(2)
+  confint3  <- conf_int_t(b[[3, 1]], b[[3, 2]], n, alpha = alpha)
 
-  t         <- round(b[[3, 1]] / b[[3, 3]], 4)
+  t         <- b[[3, 1]] / b[[3, 3]]
 
   p_l       <- pt(t, df)
   p_u       <- pt(t, df, lower.tail = FALSE)
@@ -131,7 +131,8 @@ paired_comp <- function(x, y, confint, var_names) {
   list(
     Obs = n, b = b, conf_int1 = confint1, conf_int2 = confint2,
     conf_int_diff = confint3, corr = round(corr, 2), corsig = round(corsig, 2),
-    tstat = t, p_lower = p_l, p_upper = p_u, p_two_tail = p, xy = xy, df = df
+    tstat = round(t, 4), p_lower = p_l, p_upper = p_u, p_two_tail = p,
+    xy = xy, df = df
   )
 
 }
@@ -174,7 +175,7 @@ conf_int_t <- function(u, s, n, alpha = 0.05) {
 
   a     <- alpha / 2
   df    <- n - 1
-  error <- round(qt(a, df), 3) * -1
+  error <- qt(a, df) * -1
   lower <- u - (error * samp_err(s, n))
   upper <- u + (error * samp_err(s, n))
   c(lower, upper)

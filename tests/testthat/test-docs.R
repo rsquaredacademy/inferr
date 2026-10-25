@@ -8,6 +8,16 @@ test_that("ifr_ts_var_test documentation matches the alternative argument", {
   expect_false(grepl('"both" \\(default\\)', txt))
 })
 
+test_that("binomial test documentation identifies the second level as success", {
+  rd <- test_path("..", "..", "man", "ifr_binom_calc.Rd")
+  skip_if_not(file.exists(rd))
+
+  txt <- paste(readLines(rd), collapse = "\n")
+
+  expect_match(txt, "The success is the \\\\strong\\{second\\} level of the factor")
+  expect_match(txt, "\\\\item\\{two_tail\\}")
+})
+
 test_that("README example does not use the removed type argument", {
   rmd <- test_path("..", "..", "README.Rmd")
   md  <- test_path("..", "..", "README.md")

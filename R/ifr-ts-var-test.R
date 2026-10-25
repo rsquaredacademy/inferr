@@ -105,6 +105,7 @@ ifr_ts_var_test.default <- function(data, ..., group_var = NULL,
               sds   = k$sds,
               se    = k$se,
               ses   = k$ses,
+              two_tail = k$two_tail,
               type  = type,
               upper = k$upper,
               vars  = k$vars)
@@ -143,21 +144,23 @@ var_comp <- function(variable, group_var) {
   n2    <- lens[2] - 1
   lower <- pf(f, n1, n2)
   upper <- pf(f, n1, n2, lower.tail = FALSE)
+  two_tail <- 2 * min(lower, upper)
 
-  list(avg   = round(lass[2], 2),
-       avgs  = round(vals[[3]], 2),
-       f     = round(f, 4),
-       len   = lass[1],
-       lens  = lens,
-       lower = round(lower, 4),
-       n1    = n1,
-       n2    = n2,
-       sd    = round(lass[3], 2),
-       sds   = round(vals[[5]], 2),
-       se    = round(lass[4], 2),
-       ses   = round(vals[[6]], 2),
-       upper = round(upper, 4),
-       vars  = round(vars, 2))
+  list(avg      = round(lass[2], 2),
+       avgs     = round(vals[[3]], 2),
+       f        = round(f, 4),
+       len      = lass[1],
+       lens     = lens,
+       lower    = round(lower, 4),
+       n1       = n1,
+       n2       = n2,
+       sd       = round(lass[3], 2),
+       sds      = round(vals[[5]], 2),
+       se       = round(lass[4], 2),
+       ses      = round(vals[[6]], 2),
+       two_tail = two_tail,
+       upper    = round(upper, 4),
+       vars     = round(vars, 2))
 
 }
 

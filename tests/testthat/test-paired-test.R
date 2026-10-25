@@ -7,7 +7,7 @@ test_that("output from ifr_ts_paired_ttest matches expected output", {
   expect_equal(round(unname(k$b[[3]]), 2), c(1.07, 0.32, 0.98))
   expect_equal(unlist(k$conf_int1), c(17.92, 22.26))
   expect_equal(unlist(k$conf_int2), c(17.2, 18.49))
-  expect_equal(unlist(k$conf_int_diff), c(0.25, 4.23))
+  expect_equal(round(unlist(k$conf_int_diff), 2), c(0.25, 4.23))
   expect_equal(k$corr, 0.42)
   expect_equal(k$corsig, 0.02)
   expect_equal(unname(k$tstat), 2.2964)
@@ -50,6 +50,17 @@ test_that("output from paired sample t test is as expected when alternative is a
   ))
 })
 
+test_that("paired t p-value and CI match t.test using unrounded statistics", {
+  k   <- ifr_ts_paired_ttest(hsb, read, write, alternative = "both")
+  ref <- t.test(hsb$read, hsb$write, paired = TRUE)
+
+  expect_equal(k$tstat, round(unname(ref$statistic), 4))
+  expect_equal(k$p_lower, ref$p.value / 2, tolerance = 1e-8)
+  expect_equal(k$p_upper, 1 - ref$p.value / 2, tolerance = 1e-8)
+  expect_equal(k$p_two_tail, ref$p.value, tolerance = 1e-8)
+  expect_equal(unname(k$conf_int_diff), as.numeric(ref$conf.int), tolerance = 1e-8)
+})
+
 test_that("ifr_ts_paired_ttest drops incomplete pairs", {
   d <- hsb
   d$read[1]  <- NA
@@ -61,6 +72,6 @@ test_that("ifr_ts_paired_ttest drops incomplete pairs", {
   expect_equal(k$Obs, 198)
   expect_equal(k$df, 197)
   expect_equal(k$tstat, round(unname(ref$statistic), 4))
-  expect_equal(k$p_two_tail, ref$p.value, tolerance = 1e-4)
-  expect_equal(k$conf_int_diff, round(as.numeric(ref$conf.int), 2))
+  expect_equal(k$p_two_tail, ref$p.value, tolerance = 1e-8)
+  expect_equal(unname(k$conf_int_diff), as.numeric(ref$conf.int), tolerance = 1e-8)
 })

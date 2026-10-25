@@ -155,8 +155,8 @@ ifr_ts_prop_group <- function(data, var, group,
 
 
   lt    <- pnorm(z)
-  ut    <- round(pnorm(z, lower.tail = FALSE), 4)
-  tt    <- round(pnorm(abs(z), lower.tail = FALSE) * 2, 4)
+  ut    <- pnorm(z, lower.tail = FALSE)
+  tt    <- pnorm(abs(z), lower.tail = FALSE) * 2
 
   alt   <- match.arg(alternative)
 
@@ -200,8 +200,8 @@ ifr_ts_prop_calc <- function(n1, n2, p1, p2,
   z     <- num / den
 
   lt    <- pnorm(z)
-  ut    <- round(pnorm(z, lower.tail = FALSE), 4)
-  tt    <- round(pnorm(abs(z), lower.tail = FALSE) * 2, 4)
+  ut    <- pnorm(z, lower.tail = FALSE)
+  tt    <- pnorm(abs(z), lower.tail = FALSE) * 2
 
   alt   <- match.arg(alternative)
 
