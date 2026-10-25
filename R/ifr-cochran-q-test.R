@@ -11,7 +11,7 @@
 #' \item{df}{degrees of freedom}
 #' \item{n}{number of observations}
 #' \item{pvalue}{p value}
-#' \item{q}{cochran's q statistic}
+#' \item{q}{Cochran's Q statistic}
 #'
 #' @section Deprecated Function:
 #' \code{infer_cochran_test()} has been deprecated. Instead use

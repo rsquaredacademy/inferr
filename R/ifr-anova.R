@@ -9,9 +9,9 @@
 #' following components:
 #'
 #' \item{adjusted_r2}{adjusted r squared value}
-#' \item{df_btw}{between groups degress of freedom}
-#' \item{df_within}{within groups degress of freedom}
-#' \item{df_total}{total degress of freedom}
+#' \item{df_btw}{between groups degrees of freedom}
+#' \item{df_within}{within groups degrees of freedom}
+#' \item{df_total}{total degrees of freedom}
 #' \item{fstat}{f value}
 #' \item{group_stats}{group statistics}
 #' \item{ms_btw}{between groups mean square}

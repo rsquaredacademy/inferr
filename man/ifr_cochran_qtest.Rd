@@ -20,7 +20,7 @@ is a list containing the following components:
 \item{df}{degrees of freedom}
 \item{n}{number of observations}
 \item{pvalue}{p value}
-\item{q}{cochran's q statistic}
+\item{q}{Cochran's Q statistic}
 }
 \description{
 Test if the proportions of 3 or more dichotomous variables are
