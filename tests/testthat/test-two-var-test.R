@@ -53,3 +53,28 @@ test_that("output from 2 sample variance test is as expected when alternative is
 test_that("output from 2 sample variance test is as expected when alternative is all", {
   expect_snapshot(ifr_ts_var_test(hsb, read, write, alternative = "all"))
 })
+
+test_that("ifr_ts_var_test works with a character grouping variable", {
+  mt <- mtcars
+  mt$vs_chr <- as.character(mt$vs)
+
+  k <- ifr_ts_var_test(mt, mpg, group_var = vs_chr)
+
+  expect_equal(k$lev, c("0", "1"))
+
+  # independent computation from stats::var.test
+  ref <- var.test(mpg ~ vs_chr, data = mt)
+  expect_equal(k$f, round(unname(ref$statistic), 4))
+  expect_equal(k$lower, round(pf(unname(ref$statistic), 17, 13), 4))
+  expect_equal(k$upper, round(pf(unname(ref$statistic), 17, 13, lower.tail = FALSE), 4))
+})
+
+test_that("ifr_ts_var_test rejects a grouping variable with more than two levels", {
+  mt <- mtcars
+  mt$cyl_chr <- as.character(mt$cyl)
+
+  expect_error(
+    ifr_ts_var_test(mt, mpg, group_var = cyl_chr),
+    "exactly two levels"
+  )
+})

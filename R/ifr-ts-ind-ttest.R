@@ -1,6 +1,7 @@
 #' @title Two Independent Sample t Test
 #' @description \code{ifr_ts_ind_ttest} compares the means of two independent groups in order to determine whether
 #' there is statistical evidence that the associated population means are significantly different.
+#' Rows with missing values in \code{x} or \code{y} are removed.
 #' @param data a data frame
 #' @param x factor; a column in \code{data}
 #' @param y numeric; a column in \code{data}
@@ -83,11 +84,13 @@ ifr_ts_ind_ttest.default <- function(data, x, y, confint = 0.95,
   y1   <- deparse(substitute(y))
   yone <- names(data[y1])
 
-  if (check_x(data, x1)) {
+  dat  <- data[complete.cases(data[[x1]], data[[y1]]), , drop = FALSE]
+
+  if (check_x(dat, x1)) {
     stop("x must be a binary factor variable", call. = FALSE)
   }
 
-  if (check_level(data, x1) > 2) {
+  if (check_level(dat, x1) > 2) {
     stop("x must be a binary factor variable", call. = FALSE)
   }
 
@@ -95,10 +98,10 @@ ifr_ts_ind_ttest.default <- function(data, x, y, confint = 0.95,
   var_y    <- yone
   alpha    <- 1 - confint
   a        <- alpha / 2
-  h        <- indth(data, x1, y1, a)
+  h        <- indth(dat, x1, y1, a)
   grp_stat <- h
   g_stat   <- as.matrix(h)
-  comb     <- indcomb(data, y1, a)
+  comb     <- indcomb(dat, y1, a)
   k        <- indcomp(grp_stat, alpha)
   j        <- indsig(k$n1, k$n2, k$s1_raw, k$s2_raw, k$mean_diff)
   m        <- indpool(k$n1, k$n2, k$mean_diff, k$se_dif)

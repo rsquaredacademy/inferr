@@ -54,3 +54,17 @@ test_that("output from one sample t test is as expected when alternative is both
 test_that("output from one sample t test is as expected when alternative is all", {
   expect_snapshot(ifr_os_t_test(hsb, write, mu = 50, alternative = "all"))
 })
+
+test_that("ifr_os_t_test drops missing values", {
+  mt <- mtcars
+  mt$mpg[1:3] <- NA
+
+  k   <- ifr_os_t_test(mt, mpg, mu = 20)
+  ref <- t.test(mt$mpg, mu = 20)
+
+  expect_equal(k$n, 29)
+  expect_equal(k$df, 28)
+  expect_equal(k$test_stat, round(unname(ref$statistic), 3))
+  expect_equal(k$p, ref$p.value, tolerance = 1e-10)
+  expect_equal(k$confint, round(as.numeric(ref$conf.int), 4))
+})

@@ -49,3 +49,18 @@ test_that("output from paired sample t test is as expected when alternative is a
     alternative = "all"
   ))
 })
+
+test_that("ifr_ts_paired_ttest drops incomplete pairs", {
+  d <- hsb
+  d$read[1]  <- NA
+  d$write[2] <- NA
+
+  k   <- ifr_ts_paired_ttest(d, read, write)
+  ref <- t.test(d$read, d$write, paired = TRUE)
+
+  expect_equal(k$Obs, 198)
+  expect_equal(k$df, 197)
+  expect_equal(k$tstat, round(unname(ref$statistic), 4))
+  expect_equal(k$p_two_tail, ref$p.value, tolerance = 1e-4)
+  expect_equal(k$conf_int_diff, round(as.numeric(ref$conf.int), 2))
+})

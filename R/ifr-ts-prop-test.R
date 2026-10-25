@@ -2,11 +2,13 @@
 #' @description Tests on the equality of proportions using
 #' large-sample statistics. It tests that a sample has the same proportion
 #' within two independent groups or two samples have the same proportion.
+#' Both variables must be binary; the second level of each variable is
+#' treated as the success level.
 #' @param data a \code{data.frame} or \code{tibble}
 #' @param var1 factor; column in \code{data}
 #' @param var2 factor; column in \code{data}
 #' @param var factor; column in \code{data}
-#' @param group factor; column in \code{data}
+#' @param group factor or character; column in \code{data}
 #' @param n1 sample 1 size
 #' @param n2 sample 2 size
 #' @param p1 sample 1 proportion
@@ -69,6 +71,9 @@ ifr_ts_prop_test.default <- function(data, var1, var2,
   varone <- data[[var_1]]
   vartwo <- data[[var_2]]
 
+  check_binary(varone, "var1")
+  check_binary(vartwo, "var2")
+
   alt    <- match.arg(alternative)
   k      <- prop_comp2(varone, vartwo, alt)
 
@@ -130,9 +135,8 @@ ifr_ts_prop_group <- function(data, var, group,
   varone   <- data[[var1]]
   groupone <- data[[group1]]
 
-  if (nlevels(groupone) > 2) {
-    stop("Grouping variable must be a binary factor variables.", call. = FALSE)
-  }
+  check_binary(varone, "var")
+  check_binary(groupone, "group")
 
   n     <- tapply(varone, groupone, length)
   n1    <- n[[1]]

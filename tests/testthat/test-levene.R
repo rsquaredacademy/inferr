@@ -45,3 +45,40 @@ test_that("output from ifr_levene_test matches the expected result", {
 test_that("output from levene test is as expected", {
   expect_snapshot(ifr_levene_test(hsb, read, group_var = race))
 })
+
+test_that("ifr_levene_test works with a character grouping variable", {
+  mt <- mtcars
+  mt$cyl_chr <- as.character(mt$cyl)
+
+  k <- ifr_levene_test(mt, mpg, group_var = cyl_chr)
+
+  expect_equal(k$n_df, 2)
+  expect_equal(k$d_df, 29)
+  expect_equal(k$levs, c("4", "6", "8"))
+
+  # independent computation: one-way ANOVA on |x - group mean|
+  g   <- ave(mt$mpg, mt$cyl_chr, FUN = mean)
+  ref <- anova(lm(abs(mt$mpg - g) ~ mt$cyl_chr))
+
+  expect_equal(k$bf, round(ref[["F value"]][1], 4))
+  expect_equal(k$p_bf, round(ref[["Pr(>F)"]][1], 4))
+})
+
+test_that("ifr_levene_test counts complete observations when data contain NA", {
+  mt <- mtcars
+  mt$cyl <- as.factor(mt$cyl)
+  mt$mpg[1:5] <- NA
+
+  k <- ifr_levene_test(mt, mpg, group_var = cyl)
+
+  expect_equal(k$n, 27)
+  expect_equal(k$d_df, 24)
+  expect_equal(k$n_df, 2)
+
+  # independent computation on the complete cases
+  ok  <- complete.cases(mt$mpg, mt$cyl)
+  g   <- ave(mt$mpg[ok], mt$cyl[ok], FUN = mean)
+  ref <- anova(lm(abs(mt$mpg[ok] - g) ~ mt$cyl[ok]))
+
+  expect_equal(k$bf, round(ref[["F value"]][1], 4))
+})

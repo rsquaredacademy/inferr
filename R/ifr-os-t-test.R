@@ -1,6 +1,7 @@
 #' @title One Sample t Test
 #' @description \code{ifr_os_t_test} performs t tests on the equality of means. It tests the
-#' hypothesis that a sample has a mean equal to a hypothesized value.
+#' hypothesis that a sample has a mean equal to a hypothesized value. Missing
+#' values are removed.
 #' @param data a \code{data.frame} or \code{tibble}
 #' @param x numeric; column in \code{data}
 #' @param mu a number indicating the true value of the mean
@@ -126,6 +127,7 @@ print.ifr_os_t_test <- function(x, ...) {
 #' @importFrom stats qt pt
 ttest_comp <- function(x, mu, alpha, type) {
 
+  x         <- x[!is.na(x)]
   n         <- length(x)
   a         <- (alpha / 2)
   df        <- n - 1

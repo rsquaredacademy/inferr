@@ -66,3 +66,16 @@ test_that("output from independent sample t test is as expected when alternative
 test_that("output from independent sample t test is as expected when alternative is all", {
   expect_snapshot(ifr_ts_ind_ttest(hsb, female, write, alternative = "all"))
 })
+
+test_that("ifr_ts_ind_ttest drops rows with missing values", {
+  d <- hsb
+  d$read[1] <- NA
+  d$read[5] <- NA
+
+  k   <- ifr_ts_ind_ttest(d, female, read)
+  ref <- t.test(read ~ female, d, var.equal = TRUE)
+
+  expect_equal(k$n, sum(complete.cases(d$female, d$read)))
+  expect_equal(abs(k$t_pooled), round(abs(unname(ref$statistic)), 4))
+  expect_equal(k$sig_pooled, round(ref$p.value, 4))
+})

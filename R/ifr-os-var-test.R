@@ -1,7 +1,7 @@
 #' @title One Sample Variance Comparison Test
 #' @description  \code{ifr_os_var_test} performs tests on the equality of standard
 #' deviations (variances).It tests that the standard deviation of a sample is
-#' equal to a hypothesized value.
+#' equal to a hypothesized value. Missing values are removed.
 #' @param data a \code{data.frame} or \code{tibble}
 #' @param x numeric; column in \code{data}
 #' @param sd hypothesised standard deviation
@@ -120,6 +120,7 @@ print.ifr_os_var_test <- function(x, ...) {
 #' @importFrom stats qchisq
 osvar_comp <- function(x, sd, confint) {
 
+  x     <- x[!is.na(x)]
   n     <- length(x)
   df    <- n - 1
   xbar  <- mean(x)
