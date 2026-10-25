@@ -86,9 +86,10 @@ print_binom <- function(data) {
   cat(" ", rep("-", w), sep = "", "\n")
 
   # test summary widths
-  w6  <- nchar("Lower")
-  w7  <- nchar(paste0("Pr(k <= ", data$k, " or k >= ", data$k, ")"))
-  w8  <- nchar(paste0("Pr(k <= ", data$k, " or k >= ", data$k, ")"))
+  two_prob <- paste0("Pr(k) <= Pr(", data$k, ")")
+  w6  <- max(nchar("Lower"), nchar("Two-sided"))
+  w7  <- nchar(two_prob)
+  w8  <- nchar(two_prob)
   w9  <- 8
   w10 <- sum(w6, w7, w9, 9)
   w11 <- sum(w6, w8, w9, 9)
@@ -109,6 +110,10 @@ print_binom <- function(data) {
       " ", format("Upper", width = w6, justify = "left"), fs(), format(paste0("Pr(k >= ", data$k, ")"), width = w8, justify = "centre"), fs(),
       format(as.character(data$pval_upper), width = w9, justify = "centre"), "\n"
     )
+    cat(
+      " ", format("Two-sided", width = w6, justify = "left"), fs(), format(two_prob, width = w8, justify = "centre"), fs(),
+      format(as.character(round(data$two_tail, 6)), width = w9, justify = "centre"), "\n"
+    )
     
     cat(" ", rep("-", w11), sep = "", "\n")
   } else {
@@ -126,6 +131,10 @@ print_binom <- function(data) {
     cat(
       " ", format("Upper", width = w6, justify = "left"), fs(), format(paste0("Pr(k >= ", data$k, ")"), width = w7, justify = "centre"), fs(),
       format(as.character(data$pval_upper), width = w9, justify = "centre"), "\n"
+    )
+    cat(
+      " ", format("Two-sided", width = w6, justify = "left"), fs(), format(two_prob, width = w7, justify = "centre"), fs(),
+      format(as.character(round(data$two_tail, 6)), width = w9, justify = "centre"), "\n"
     )
    
     cat(" ", rep("-", w10), sep = "", "\n")
@@ -357,8 +366,8 @@ print_paired_ttest <- function(data) {
   cat(rep("-", width_1), sep = "")
   cat(
     "\n", formatter_pair("diff", var_width1), formats_t(), formatter_pair(data$Obs, obs_width), formats_t(), formatter_pair(data$b[[3, 1]], mean_width), formats_t(), formatter_pair(data$b[[3, 3]], se_width),
-    formats_t(), formatter_pair(data$b[[3, 2]], sd_width), formats_t(), format_cil(data$conf_int_diff[[1]], conf_l_width),
-    format_ciu(data$conf_int_diff[[2]], conf_u_width), "\n"
+    formats_t(), formatter_pair(data$b[[3, 2]], sd_width), formats_t(), format_cil(round(data$conf_int_diff[[1]], 2), conf_l_width),
+    format_ciu(round(data$conf_int_diff[[2]], 2), conf_u_width), "\n"
   )
   cat(rep("-", width_1), sep = "")
   cat("\n\n", format("Paired Samples Correlations", width = width_2, justify = "centre"), "\n")

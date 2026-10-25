@@ -69,6 +69,14 @@ test_that("ifr_ts_var_test works with a character grouping variable", {
   expect_equal(k$upper, round(pf(unname(ref$statistic), 17, 13, lower.tail = FALSE), 4))
 })
 
+test_that("ifr_ts_var_test returns the two-sided p-value from the F test", {
+  k   <- ifr_ts_var_test(hsb, read, write)
+  ref <- stats::var.test(hsb$read, hsb$write)
+
+  expect_equal(k$f, round(unname(ref$statistic), 4))
+  expect_equal(k$two_tail, ref$p.value, tolerance = 1e-10)
+})
+
 test_that("ifr_ts_var_test rejects a grouping variable with more than two levels", {
   mt <- mtcars
   mt$cyl_chr <- as.character(mt$cyl)

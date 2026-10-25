@@ -8,9 +8,18 @@
 #' @param variable factor; column in \code{data}
 #' @param ... additional arguments passed to or from other methods
 #'
-#' @return \code{ifr_binom_test} returns an object of class \code{"ifr_binom_test"}.
-#' An object of class \code{"ifr_binom_test"} is a list containing the
-#' following components:
+#' @details The success is the \strong{second} level of the factor. For a
+#' character column the levels are ordered alphabetically, as \code{factor()}
+#' does, so for a binary column the second (last) level is the success. For a
+#' logical column the levels are \code{FALSE} and \code{TRUE}, so \code{TRUE}
+#' is the success; for a numeric 0/1 column the levels are \code{0} and
+#' \code{1}, so \code{1} is the success. \code{ifr_binom_test()} requires the
+#' column to be a factor, so convert character, logical or 0/1 columns with
+#' \code{factor()} first and check the level order with \code{levels()}.
+#'
+#' @return \code{ifr_binom_test} returns an object of class
+#' \code{c("ifr_binom_test", "ifr_binom_calc")}. An object of this class is a
+#' list containing the following components:
 #'
 #' \item{exp_k}{expected number of successes}
 #' \item{exp_p}{expected probability of success}
@@ -19,6 +28,7 @@
 #' \item{obs_p}{assumed probability of success}
 #' \item{pval_lower}{lower one sided p value}
 #' \item{pval_upper}{upper one sided p value}
+#' \item{two_tail}{two sided exact p value}
 #'
 #' @section Deprecated Functions:
 #' \code{infer_binom_calc()} and \code{infer_binom_test()} have been deprecated. Instead use
@@ -69,7 +79,8 @@ ifr_binom_calc.default <- function(n, success, prob = 0.5, ...) {
       n          = n,
       obs_p      = k$obs_p,
       pval_lower = k$lower,
-      pval_upper = k$upper
+      pval_upper = k$upper,
+      two_tail   = k$two_tail
   )
 
   class(out) <- "ifr_binom_calc"
@@ -114,7 +125,10 @@ ifr_binom_test <- function(data, variable, prob = 0.5) {
 
   n <- length(fdata)
   k <- table(fdata)[[2]]
-  ifr_binom_calc.default(n, k, prob)
+
+  out <- ifr_binom_calc.default(n, k, prob)
+  class(out) <- c("ifr_binom_test", "ifr_binom_calc")
+  out
 }
 
 #' @export
@@ -134,44 +148,40 @@ binom_comp <- function(n, success, prob) {
   exp_k <- round(n * prob)
   lt    <- pbinom(k, n, prob, lower.tail = T)
   ut    <- pbinom(k - 1, n, prob, lower.tail = F)
-  p_opp <- round(dbinom(k, n, prob), 9)
-  i_p   <- dbinom(exp_k, n, prob)
-  i_k   <- exp_k
 
-  if (k < exp_k) {
-    while (i_p > p_opp) {
-      i_k <- i_k + 1
-      i_p <- round(dbinom(i_k, n, prob), 9)
-      if (round(i_p) == p_opp) {
-        break
-      }
-    }
-
-    ttf <- pbinom(k, n, prob, lower.tail = T) +
-           pbinom(i_k - 1, n, prob, lower.tail = F)
+  # two-sided p-value using the rule of stats::binom.test(): sum the
+  # probabilities of all outcomes no more likely than the observed one
+  if (prob == 0) {
+    ttf <- as.numeric(k == 0)
+  } else if (prob == 1) {
+    ttf <- as.numeric(k == n)
   } else {
-    while (p_opp <= i_p) {
-      i_k <- i_k - 1
-      i_p <- dbinom(i_k, n, prob)
-      if (round(i_p) == p_opp) {
-        break
-      }
-    }
+    rel_err <- 1 + 1e-07
+    d       <- dbinom(k, n, prob)
+    m       <- n * prob
 
-    i_k <- i_k
-    tt  <- pbinom(i_k, n, prob, lower.tail = T) + 
-           pbinom(k - 1, n, prob, lower.tail = F)
-    ttf <- ifelse(tt <= 1, tt, 1)
+    if (k == m) {
+      ttf <- 1
+    } else if (k < m) {
+      i   <- seq.int(from = ceiling(m), to = n)
+      y   <- sum(dbinom(i, n, prob) <= d * rel_err)
+      ttf <- pbinom(k, n, prob) +
+             pbinom(n - y, n, prob, lower.tail = FALSE)
+    } else {
+      i   <- seq.int(from = 0, to = floor(m))
+      y   <- sum(dbinom(i, n, prob) <= d * rel_err)
+      ttf <- pbinom(y - 1, n, prob) +
+             pbinom(k - 1, n, prob, lower.tail = FALSE)
+    }
   }
 
   list(exp_k    = exp_k,
        exp_p    = prob,
-       ik       = i_k,
        k        = k,
        lower    = round(lt, 6),
        n        = n,
        obs_p    = obs_p,
-       two_tail = round(ttf, 6),
+       two_tail = ttf,
        upper    = round(ut, 6)
   )
 

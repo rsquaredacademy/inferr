@@ -19,6 +19,33 @@ test_that("output from ifr_binom_calc matches the expected output", {
   expect_equal(k$pval_upper, 0.107664)
 })
 
+test_that("ifr_binom_calc two-sided p-value matches stats::binom.test", {
+  cases <- list(
+    c(32, 8, 0.5),   # lower tail, symmetric
+    c(32, 20, 0.5),  # upper tail, symmetric
+    c(32, 5, 0.3),   # lower tail, asymmetric
+    c(32, 20, 0.3)   # upper tail, asymmetric
+  )
+
+  for (x in cases) {
+    k   <- ifr_binom_calc(x[1], x[2], x[3])
+    ref <- stats::binom.test(x[2], x[1], x[3])
+    expect_equal(k$two_tail, ref$p.value, tolerance = 1e-10)
+  }
+})
+
+test_that("ifr_binom_test returns the documented class", {
+  k <- ifr_binom_test(hsb, female)
+  expect_identical(class(k), c("ifr_binom_test", "ifr_binom_calc"))
+  expect_identical(class(ifr_binom_calc(32, 8)), "ifr_binom_calc")
+})
+
+test_that("ifr_binom_test two-sided p-value matches stats::binom.test", {
+  k   <- ifr_binom_test(hsb, female)
+  ref <- stats::binom.test(109, 200, 0.5)
+  expect_equal(k$two_tail, ref$p.value, tolerance = 1e-10)
+})
+
 test_that("ifr_binom_calc throws the appropriate error", {
   expect_error(ifr_binom_calc("32", 20), "n must be an integer")
   expect_error(ifr_binom_calc(32, "20"), "success must be an integer")

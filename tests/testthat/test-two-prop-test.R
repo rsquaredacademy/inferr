@@ -1,3 +1,23 @@
+test_that("proportion test p-values use the unrounded z statistic", {
+  k <- ifr_ts_prop_calc(156, 102, 0.537, 0.348, alternative = "all")
+
+  phat <- (156 * 0.537 + 102 * 0.348) / (156 + 102)
+  z    <- (0.537 - 0.348) / sqrt(phat * (1 - phat) * (1 / 156 + 1 / 102))
+
+  expect_equal(k$z, round(z, 3))
+  expect_equal(
+    unname(k$sig),
+    round(
+      c(
+        2 * stats::pnorm(abs(z), lower.tail = FALSE),
+        stats::pnorm(z),
+        stats::pnorm(z, lower.tail = FALSE)
+      ),
+      3
+    )
+  )
+})
+
 mtcarz <- mtcars
 mtcarz$vs <- as.factor(mtcarz$vs)
 mtcarz$am <- as.factor(mtcarz$am)

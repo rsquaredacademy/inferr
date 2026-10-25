@@ -25,9 +25,9 @@ ifr_binom_test(data, variable, prob = 0.5)
 \item{variable}{factor; column in \code{data}}
 }
 \value{
-\code{ifr_binom_test} returns an object of class \code{"ifr_binom_test"}.
-An object of class \code{"ifr_binom_test"} is a list containing the
-following components:
+\code{ifr_binom_test} returns an object of class
+\code{c("ifr_binom_test", "ifr_binom_calc")}. An object of this class is a
+list containing the following components:
 
 \item{exp_k}{expected number of successes}
 \item{exp_p}{expected probability of success}
@@ -36,10 +36,21 @@ following components:
 \item{obs_p}{assumed probability of success}
 \item{pval_lower}{lower one sided p value}
 \item{pval_upper}{upper one sided p value}
+\item{two_tail}{two sided exact p value}
 }
 \description{
 Test whether the proportion of successes on a two-level
 categorical dependent variable significantly differs from a hypothesized value.
+}
+\details{
+The success is the \strong{second} level of the factor. For a
+character column the levels are ordered alphabetically, as \code{factor()}
+does, so for a binary column the second (last) level is the success. For a
+logical column the levels are \code{FALSE} and \code{TRUE}, so \code{TRUE}
+is the success; for a numeric 0/1 column the levels are \code{0} and
+\code{1}, so \code{1} is the success. \code{ifr_binom_test()} requires the
+column to be a factor, so convert character, logical or 0/1 columns with
+\code{factor()} first and check the level order with \code{levels()}.
 }
 \section{Deprecated Functions}{
 

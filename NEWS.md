@@ -39,6 +39,19 @@
 - Missing suggested packages now produce an informative error message.
 - The documentation for `ifr_ts_var_test()` now lists the accepted
   `alternative` values, and the README example runs again.
+- `ifr_binom_test()` and `ifr_binom_calc()` now return and print the
+  two-sided exact p-value, computed with the same rule as
+  `stats::binom.test()`.
+- `ifr_binom_test()` now returns an object of class `ifr_binom_test` (which
+  also inherits from `ifr_binom_calc`), as documented.
+- The binomial test documentation now states that the success is the second
+  factor level.
+- `ifr_ts_var_test()` now returns the documented two-sided p-value.
+- `ifr_ts_prop_group()` and `ifr_ts_prop_calc()` now compute all p-values
+  from the unrounded z statistic.
+- `ifr_ts_paired_ttest()` now computes p-values and the confidence interval
+  of the mean difference from the unrounded t statistic and standard
+  deviation.
 
 # inferr 0.3.2
 
