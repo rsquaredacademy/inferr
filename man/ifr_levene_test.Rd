@@ -69,4 +69,6 @@ ifr_levene_test(hsb, read, write, socst)
 {Brown, M. B., and A. B. Forsythe. 1974. Robust tests for the equality of variances. Journal of the American Statistical Association 69: 364–367.}
 
 {Carroll, R. J., and H. Schneider. 1985. A note on Levene’s tests for equality of variances. Statistics and Probability Letters 3: 191–194.}
+
+Levene, H. (1960). Robust tests for equality of variances. In I. Olkin et al. (Eds.), \emph{Contributions to Probability and Statistics: Essays in Honor of Harold Hotelling} (pp. 278--292). Stanford, CA: Stanford University Press.
 }

@@ -95,6 +95,10 @@ ifr_ts_ind_ttest(hsb, female, write, alternative = 'all')
 \references{
 Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
+
+Satterthwaite, F. E. (1946). An approximate distribution of estimates of variance components. \emph{Biometrics Bulletin}, 2(6), 110--114.
+
+Welch, B. L. (1947). The generalization of "Student's" problem when several different population variances are involved. \emph{Biometrika}, 34(1/2), 28--35.
 }
 \seealso{
 \code{\link[stats]{t.test}}
