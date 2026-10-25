@@ -1,7 +1,7 @@
 #' @importFrom magrittr %>%
 #' @title McNemar Test
 #' @description Test if the proportions of two dichotomous variables are
-#' equal in the same population.
+#' equal in the same population. Both variables must have exactly two levels.
 #' @param data a \code{data.frame} or \code{tibble}
 #' @param x factor; column in \code{data}
 #' @param y factor; column in \code{data}
@@ -65,6 +65,10 @@ ifr_mcnemar_test.default <- function(data, x = NULL, y = NULL) {
     x1  <- deparse(substitute(x))
     y1  <- deparse(substitute(y))
     dat <- table(data[c(x1, y1)])
+
+    if (!all(dim(dat) == 2)) {
+      stop("x and y must each have exactly two levels.", call. = FALSE)
+    }
 
   }
 

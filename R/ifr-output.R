@@ -720,13 +720,13 @@ print_ts_prop_test <- function(data) {
     cat(rep("-", w1), sep = "", "\n")
     cat(format("Total Observations", width = cwidth, justify = "left"), formats(), format(totobs, width = nwidth, justify = "right"), "\n")
     cat(format("z", width = cwidth, justify = "left"), formats(), format(data$z, width = nwidth, justify = "right"), "\n")
-    cat(format("Pr(|Z| < |z|)", width = cwidth, justify = "left"), formats(), format(data$sig, width = nwidth, justify = "right"), "\n\n")
+    cat(format("Pr(|Z| > |z|)", width = cwidth, justify = "left"), formats(), format(data$sig, width = nwidth, justify = "right"), "\n\n")
   } else {
     cat(format("Test Statistics", width = w1, justify = "centre"), "\n")
     cat(rep("-", w1), sep = "", "\n")
     cat(format("Total Observations", width = cwidth, justify = "left"), formats(), format(totobs, width = nwidth, justify = "right"), "\n")
     cat(format("z", width = cwidth, justify = "left"), formats(), format(data$z, width = nwidth, justify = "right"), "\n")
-    cat(format("Pr(|Z| < |z|)", width = cwidth, justify = "left"), formats(), format(unname(data$sig[1]), width = nwidth, justify = "right"), "\n")
+    cat(format("Pr(|Z| > |z|)", width = cwidth, justify = "left"), formats(), format(unname(data$sig[1]), width = nwidth, justify = "right"), "\n")
     cat(format("Pr(Z < z)", width = cwidth, justify = "left"), formats(), format(unname(data$sig[2]), width = nwidth, justify = "right"), "\n")
     cat(format("Pr(Z > z)", width = cwidth, justify = "left"), formats(), format(unname(data$sig[3]), width = nwidth, justify = "right"), "\n\n")
   }
@@ -886,7 +886,7 @@ print_chisq_test <- function(x) {
   width2 <- max(nchar(x$df))
   
   width3 <- max(
-    nchar(x$chisquare), nchar(x$chisquare_lr), nchar(x$chisquare_mantel_haenszel), nchar(x$chisquare_adjusted), nchar(x$phi_coefficient),
+    nchar(x$chisquare), nchar(x$chisquare_lr), nchar(x$chisquare_mantel_haenszel), nchar(x$chisquare_adjusted), nchar(paste(x$phi_coefficient)),
     nchar(x$contingency_coefficient), nchar(x$cramers_v)
   )
   
@@ -1029,7 +1029,7 @@ print_cochran_test <- function(data) {
 print_mcnemar_test <- function(data) {
   
   cwidth1 <- max(nchar("McNemar's chi2"), nchar("DF"), nchar("Pr > chi2"), nchar("Exact Pr >= chi2"))
-  nwidth1 <- max(nchar(data$tatistic), nchar(data$df), nchar(data$pvalue), nchar(data$exactp))
+  nwidth1 <- max(nchar(data$statistic), nchar(data$df), nchar(data$pvalue), nchar(data$exactp))
   w1      <- sum(cwidth1, nwidth1, 6)
 
   cwidth2 <- max(nchar("Kappa"), nchar("ASE"), nchar("95% Lower Conf Limit"), nchar("95% Upper Conf Limit"))

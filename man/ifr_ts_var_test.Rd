@@ -17,10 +17,10 @@ ifr_ts_var_test(
 
 \item{...}{numeric; column(s) in \code{data}}
 
-\item{group_var}{factor; column in \code{data}}
+\item{group_var}{factor or character; column in \code{data}}
 
 \item{alternative}{a character string specifying the alternative hypothesis,
-must be one of "both" (default), "greater", "less" or "all". You can specify
+must be one of "less" (default), "greater" or "all". You can specify
 just the initial letter.}
 }
 \value{
@@ -48,7 +48,7 @@ following components:
 }
 \description{
 \code{ifr_ts_var_test} performs tests on the equality of standard
-deviations (variances).
+deviations (variances). Observations with missing values are removed.
 }
 \section{Deprecated Function}{
 

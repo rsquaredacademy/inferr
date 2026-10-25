@@ -78,3 +78,25 @@ test_that("output from runs test is as expected", {
   resid <- data.frame(residual = residuals(reg))
   expect_snapshot(ifr_runs_test(resid, residual))
 })
+
+test_that("ifr_runs_test reports n after dropping values equal to the threshold", {
+  d <- data.frame(v = c(1, 2, 2, 3, 4, 4, 5, 6, 7, 8))
+
+  k <- ifr_runs_test(d, v, drop = TRUE)
+
+  expect_equal(k$n, 8)
+  expect_equal(k$n, k$n_above + k$n_below)
+
+  # independent computation of the z statistic on the retained values
+  x  <- d$v[d$v != median(d$v)]
+  n1 <- sum(x > 4)
+  n0 <- sum(x < 4)
+  N  <- n0 + n1
+  runs <- 1 + sum(diff(x > 4) != 0)
+  exp_runs <- (2 * n0 * n1 / N) + 1
+  var_runs <- (2 * n0 * n1 * (2 * n0 * n1 - N)) / (N ^ 2 * (N - 1))
+  z        <- (runs - exp_runs) / sqrt(var_runs)
+
+  expect_equal(k$n_runs, runs)
+  expect_equal(k$z, z)
+})

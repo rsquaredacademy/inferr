@@ -53,7 +53,8 @@ following components:
 }
 \description{
 \code{ifr_os_prop_test} compares proportion in one group to a
-specified population proportion.
+specified population proportion. The variable must be binary; its second
+level is treated as the success level.
 }
 \section{Deprecated Function}{
 

@@ -27,7 +27,7 @@
       ----------------------------------------------------
       Chi-Square                     2    4.5765    0.1014
       Likelihood Ratio Chi-Square    2    4.6789    0.0964
-      Phi Coefficient                     0.1513          
+      Phi Coefficient                         NA          
       Contingency Coefficient             0.1496          
       Cramer's V                          0.1513          
       ----------------------------------------------------

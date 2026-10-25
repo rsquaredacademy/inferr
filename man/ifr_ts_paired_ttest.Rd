@@ -52,7 +52,7 @@ and \code{y}}
 }
 \description{
 \code{ifr_ts_paired_ttest} tests that two samples have the
-same mean, assuming paired data.
+same mean, assuming paired data. Incomplete pairs are removed.
 }
 \section{Deprecated Function}{
 

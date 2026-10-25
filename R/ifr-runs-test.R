@@ -67,7 +67,6 @@ ifr_runs_test.default <- function(data, x, drop = FALSE,
 
   x1   <- deparse(substitute(x))
   xone <- data[[x1]]
-  n    <- length(xone)
 
   if (is.na(threshold)) {
     y <- unique(xone)
@@ -87,6 +86,8 @@ ifr_runs_test.default <- function(data, x, drop = FALSE,
   if (drop) {
     xone <- xone[xone != thresh]
   }
+
+  n <- length(xone)
 
   if (split) {
     x_binary <- ifelse(xone > thresh, 1, 0)

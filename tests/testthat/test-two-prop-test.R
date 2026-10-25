@@ -188,3 +188,12 @@ test_that("ifr_ts_prop_group requires a binary variable and group", {
   expect_equal(k$phat2, 0.3)
   expect_equal(k$z, round(sqrt(unname(ref$statistic)), 3))
 })
+
+test_that("two sample proportion output labels the two-sided p-value correctly", {
+  out <- capture.output(
+    ifr_ts_prop_group(treatment2, outcome, female, alternative = "both")
+  )
+
+  expect_true(any(grepl("Pr\\(\\|Z\\| > \\|z\\|\\)", out)))
+  expect_false(any(grepl("Pr\\(\\|Z\\| < \\|z\\|\\)", out)))
+})

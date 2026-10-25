@@ -205,7 +205,11 @@ chigf <- function(x, y, chi) {
     ncol = nlevels(as.factor(y))
   )
   total <- sum(twoway)
-  phi   <- round(sqrt(chi / total), 4)
+  phi   <- if (nrow(twoway) == 2 && ncol(twoway) == 2) {
+    round(sqrt(chi / total), 4)
+  } else {
+    NA
+  }
   cc    <- round(sqrt(chi / (chi + total)), 4)
   q     <- min(nrow(twoway), ncol(twoway))
   cv    <- round(sqrt(chi / (total * (q - 1))), 4)

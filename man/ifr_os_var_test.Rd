@@ -53,7 +53,7 @@ following components:
 \description{
 \code{ifr_os_var_test} performs tests on the equality of standard
 deviations (variances).It tests that the standard deviation of a sample is
-equal to a hypothesized value.
+equal to a hypothesized value. Missing values are removed.
 }
 \section{Deprecated Function}{
 

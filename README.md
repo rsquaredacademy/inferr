@@ -57,7 +57,7 @@ devtools::install_github("rsquaredacademy/inferr")
 #### One Sample t Test
 
 ``` r
-ifr_os_t_test(hsb, write, mu = 50, type = 'all')
+ifr_os_t_test(hsb, write, mu = 50)
 #>                               One-Sample Statistics                               
 #> ---------------------------------------------------------------------------------
 #>  Variable    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
