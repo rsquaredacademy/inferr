@@ -8,7 +8,8 @@
 - `ifr_cochran_qtest()` now recodes logical, 0/1, 1/2 and two-level factor
   columns to 0/1, and rejects other inputs.
 - `ifr_oneway_anova()` now drops incomplete cases and computes the test
-  statistics from unrounded sums of squares.
+  statistics from unrounded sums of squares; the printed table shows the
+  p-value instead of `0` and keeps it within the `Sig.` column.
 - `ifr_chisq_assoc_test()` no longer returns `NaN` for the likelihood ratio
   statistic when a contingency table contains an empty cell.
 - `ifr_chisq_gof_test()` applies Yates correction only when `correct = TRUE`.

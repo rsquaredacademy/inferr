@@ -32,3 +32,15 @@ test_that("ifr_oneway_anova drops incomplete cases", {
 test_that("output from one way anova is as expected", {
   expect_snapshot(ifr_oneway_anova(mtcars, mpg, cyl))
 })
+
+test_that("ifr_oneway_anova keeps the Sig. column inside the table", {
+  for (x in list(ifr_oneway_anova(mtcars, mpg, cyl),
+                 ifr_oneway_anova(hsb, write, prog))) {
+    out  <- capture.output(print(x))
+    row  <- grep("^Between Groups", out, value = TRUE)
+    rule <- grep("^-+$", out, value = TRUE)
+
+    expect_equal(nchar(row), nchar(rule[[1]]))
+    expect_match(row, "e-09 *$")
+  }
+})

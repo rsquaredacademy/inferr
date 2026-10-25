@@ -27,7 +27,7 @@ print_owanova <- function(data) {
   cat(fg("", w1), fs(), fg("Sum of", w2), fs(), fg("", w3), fs(), fg("", w4), fs(), fg("", w5), fs(), fg("", w6), "\n")
   cat(fg("", w1), fs(), fg("Squares", w2), fs(), fg("DF", w3), fs(), fg("Mean Square", w4), fs(), fg("F", w5), fs(), fg("Sig.", w6), "\n")
   cat(rep("-", w), sep = "", "\n")
-  cat(fl("Between Groups", w1), fs(), fg(data$ss_between, w2), fs(), fg(data$df_btw, w3), fs(), fg(data$ms_btw, w4), fs(), fg(data$fstat, w5), fs(), fg(data$pval, w6), "\n")
+  cat(fl("Between Groups", w1), fs(), fg(data$ss_between, w2), fs(), fg(data$df_btw, w3), fs(), fg(data$ms_btw, w4), fs(), fg(data$fstat, w5), fs(), fg(p, w6), "\n")
   cat(fl("Within Groups", w1), fs(), fg(data$ss_within, w2), fs(), fg(data$df_within, w3), fs(), fg(data$ms_within, w4), fs(), fg("", w5), fs(), fg("", w6), "\n")
   cat(fl("Total", w1), fs(), fg(data$ss_total, w2), fs(), fg(data$df_total, w3), fs(), fg("", w4), fs(), fg("", w5), fs(), fg("", w6), "\n")
   cat(rep("-", w), sep = "", "\n\n")
