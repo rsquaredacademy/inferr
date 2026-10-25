@@ -15,7 +15,7 @@ ifr_levene_test(data, ...)
 
 \item{...}{numeric; columns in \code{data}}
 
-\item{group_var}{factor; column in \code{data}}
+\item{group_var}{factor or character; column in \code{data}}
 
 \item{trim_mean}{trimmed mean}
 }
@@ -47,7 +47,8 @@ for the equality of variances and the
 two statistics proposed by Brown and Forsythe that replace the mean in
 Levene's formula with alternative location estimators. The first alternative
 replaces the mean with the median. The second alternative replaces
-the mean with the 10% trimmed mean.
+the mean with the 10% trimmed mean. Observations with missing values are
+removed.
 }
 \section{Deprecated Function}{
 

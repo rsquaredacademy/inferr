@@ -44,3 +44,16 @@ test_that("output from ifr_os_prop_test matches expected result", {
   expect_equal(unname(k$sig), c(0, 0, 1))
   expect_equal(k$alt, "all")
 })
+
+test_that("ifr_os_prop_test requires a binary variable and matches prop.test", {
+  d <- data.frame(out = factor(rep(c("a", "b", "c"), 20)))
+  expect_error(ifr_os_prop_test(d, out), "variable must be a binary variable")
+
+  d2 <- data.frame(out = factor(c(rep("yes", 120), rep("no", 80))))
+  k  <- ifr_os_prop_test(d2, out)
+  ref <- prop.test(120, 200, p = 0.5, correct = FALSE)
+
+  expect_equal(k$phat, 0.6)
+  expect_equal(k$z, round(sqrt(unname(ref$statistic)), 4))
+  expect_equal(k$sig, round(ref$p.value, 4))
+})

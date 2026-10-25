@@ -1,5 +1,7 @@
 # inferr 0.3.2.9000
 
+## Bug Fixes
+
 - `ifr_os_var_test()` now reports the correct confidence interval for the
   standard deviation.
 - `ifr_ts_ind_ttest()` now uses t quantiles, rather than normal quantiles, for
@@ -17,6 +19,26 @@
   the package is attached.
 - `ifr_os_t_test()` and `ifr_ts_ind_ttest()` now compute p-values and
   confidence intervals from unrounded statistics.
+- `ifr_levene_test()` now works with a character grouping variable and reports
+  the correct number of observations and denominator degrees of freedom when
+  the data contain missing values.
+- `ifr_ts_var_test()` now works with a character grouping variable and requires
+  exactly two groups.
+- `ifr_ts_prop_test()`, `ifr_ts_prop_group()` and `ifr_os_prop_test()` now
+  reject variables that are not binary.
+- `ifr_ts_paired_ttest()` now drops incomplete pairs instead of failing.
+- `ifr_os_t_test()`, `ifr_ts_ind_ttest()` and `ifr_os_var_test()` now drop
+  missing values instead of failing.
+- `ifr_mcnemar_test()` now requires a 2 x 2 table when variables are supplied.
+- `ifr_runs_test()` now reports the number of cases remaining after
+  `drop = TRUE`.
+- `ifr_chisq_assoc_test()` now returns `NA` for the phi coefficient when the
+  table is not 2 x 2.
+- The two-sample proportion test output now labels the two-sided p-value as
+  `Pr(|Z| > |z|)`.
+- Missing suggested packages now produce an informative error message.
+- The documentation for `ifr_ts_var_test()` now lists the accepted
+  `alternative` values, and the README example runs again.
 
 # inferr 0.3.2
 

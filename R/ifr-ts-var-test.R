@@ -1,11 +1,11 @@
 #' @title Two Sample Variance Comparison Test
 #' @description  \code{ifr_ts_var_test} performs tests on the equality of standard
-#' deviations (variances).
+#' deviations (variances). Observations with missing values are removed.
 #' @param data a \code{data.frame} or \code{tibble}
 #' @param ... numeric; column(s) in \code{data}
-#' @param group_var factor; column in \code{data}
+#' @param group_var factor or character; column in \code{data}
 #' @param alternative a character string specifying the alternative hypothesis,
-#' must be one of "both" (default), "greater", "less" or "all". You can specify
+#' must be one of "less" (default), "greater" or "all". You can specify
 #' just the initial letter.
 #'
 #' @return \code{ifr_ts_var_test} returns an object of class \code{"ifr_ts_var_test"}.
@@ -76,11 +76,15 @@ ifr_ts_var_test.default <- function(data, ..., group_var = NULL,
   } else {
 
     fdata     <- fdata[[1]]
-    groupvars <- data[[groupvar]]
+    groupvars <- as.factor(data[[groupvar]])
     lev       <- levels(groupvars)
 
     if (length(fdata) != length(groupvars)) {
       stop("Length of variable and group_var do not match.", call. = FALSE)
+    }
+
+    if (length(lev) != 2) {
+      stop("Grouping variable must have exactly two levels.", call. = FALSE)
     }
   }
 

@@ -1,6 +1,6 @@
 #' @title Paired t test
 #' @description \code{ifr_ts_paired_ttest} tests that two samples have the
-#' same mean, assuming paired data.
+#' same mean, assuming paired data. Incomplete pairs are removed.
 #' @param data a \code{data.frame} or \code{tibble}
 #' @param x numeric; column in \code{data}
 #' @param y numeric; column in \code{data}
@@ -104,6 +104,9 @@ print.ifr_ts_paired_ttest <- function(x, ...) {
 #' @importFrom stats cor
 paired_comp <- function(x, y, confint, var_names) {
 
+  ok        <- complete.cases(x, y)
+  x         <- x[ok]
+  y         <- y[ok]
   n         <- length(x)
   df        <- (n - 1)
   xy        <- paste(var_names[1], "-", var_names[2])

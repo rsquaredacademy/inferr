@@ -77,7 +77,7 @@ check_suggests <- function(pkg) {
   
   if (is.na(pkg_flag)) {
     
-    msg <- message(paste0('\n', pkg, ' must be installed for this functionality.'))
+    msg <- paste0('\n', pkg, ' must be installed for this functionality.')
     
     if (interactive()) {
       message(msg, "\nWould you like to install it?")
@@ -90,5 +90,22 @@ check_suggests <- function(pkg) {
       stop(msg, call. = FALSE)
     } 
   }
+
+}
+
+check_binary <- function(x, name) {
+
+  if (is.factor(x)) {
+    ok <- nlevels(x) == 2
+  } else {
+    ok <- length(unique(x[!is.na(x)])) == 2
+  }
+
+  if (!ok) {
+    stop(paste0(name, " must be a binary variable with exactly two levels."),
+         call. = FALSE)
+  }
+
+  invisible(x)
 
 }

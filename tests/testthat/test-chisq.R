@@ -22,7 +22,7 @@ test_that("ouput from ifr_chisq_assoc_test matches the expected result", {
   expect_equal(k$chisquare_lr, 4.6789)
   expect_equal(k$pval_chisquare, 0.1014)
   expect_equal(k$pval_chisquare_lr, 0.0964)
-  expect_equal(k$phi_coefficient, 0.1513)
+  expect_true(is.na(k$phi_coefficient))
   expect_equal(k$contingency_coefficient, 0.1496)
   expect_equal(k$cramers_v, 0.1513)
   expect_equal(k$ds, 6)
@@ -45,6 +45,19 @@ test_that("likelihood ratio chi square handles empty cells", {
 
   expect_equal(k$chisquare_lr, round(lr, 4))
   expect_equal(k$chisquare_lr, 55.4518)
+})
+
+test_that("phi coefficient is NA for a non-2x2 table", {
+  k <- ifr_chisq_assoc_test(hsb, female, ses)
+
+  expect_true(is.na(k$phi_coefficient))
+
+  # independent computation of Cramer's V
+  tbl <- table(hsb$female, hsb$ses)
+  chi <- unname(chisq.test(tbl, correct = FALSE)$statistic)
+  cv  <- sqrt(chi / sum(tbl) / (min(dim(tbl)) - 1))
+
+  expect_equal(k$cramers_v, round(cv, 4))
 })
 
 test_that("ouput from ifr_chisq_assoc_test is as expected", {

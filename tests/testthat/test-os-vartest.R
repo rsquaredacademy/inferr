@@ -61,3 +61,17 @@ test_that("output from one sample variance test is as expected when alternative 
 test_that("output from one sample variance test is as expected when alternative is all", {
   expect_snapshot(ifr_os_var_test(mtcars, mpg, 5, alternative = "all"))
 })
+
+test_that("ifr_os_var_test drops missing values", {
+  mt <- mtcars
+  mt$mpg[1:3] <- NA
+
+  k  <- ifr_os_var_test(mt, mpg, 5)
+  xx <- na.omit(mt$mpg)
+  chi <- (length(xx) - 1) * var(xx) / 5 ^ 2
+
+  expect_equal(k$n, 29)
+  expect_equal(k$df, 28)
+  expect_equal(k$chi, round(chi, 4))
+  expect_equal(k$p_upper, pchisq(chi, 28, lower.tail = FALSE))
+})

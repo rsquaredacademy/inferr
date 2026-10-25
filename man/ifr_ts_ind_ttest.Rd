@@ -71,6 +71,7 @@ confidence limit of mean of \code{y}}
 \description{
 \code{ifr_ts_ind_ttest} compares the means of two independent groups in order to determine whether
 there is statistical evidence that the associated population means are significantly different.
+Rows with missing values in \code{x} or \code{y} are removed.
 }
 \section{Deprecated Function}{
 

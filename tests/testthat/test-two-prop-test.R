@@ -138,3 +138,62 @@ test_that("output from 2 sample proportion test is as expected when alternative 
 test_that("output from 2 sample proportion test is as expected when alternative is all", {
   expect_snapshot(ifr_ts_prop_group(treatment2, outcome, female, alternative = "all"))
 })
+
+test_that("ifr_ts_prop_test requires binary variables", {
+  d <- data.frame(
+    a = factor(rep(c("a", "b", "c"), 10)),
+    b = factor(rep(c("x", "y"), 15))
+  )
+
+  expect_error(ifr_ts_prop_test(d, a, b), "var1 must be a binary variable")
+  expect_error(ifr_ts_prop_test(d, b, a), "var2 must be a binary variable")
+
+  d2 <- data.frame(
+    a = factor(c(rep("yes", 90), rep("no", 110))),
+    b = factor(c(rep("yes", 100), rep("no", 100)))
+  )
+
+  k   <- ifr_ts_prop_test(d2, a, b)
+  ref <- prop.test(c(90, 100), c(200, 200), correct = FALSE)
+
+  expect_equal(k$phat1, 0.45)
+  expect_equal(k$phat2, 0.5)
+  expect_equal(abs(k$z), round(sqrt(unname(ref$statistic)), 3))
+})
+
+test_that("ifr_ts_prop_group requires a binary variable and group", {
+  d <- data.frame(
+    out = factor(rep(c("a", "b", "c"), 20)),
+    grp = rep(c("a", "b"), 30)
+  )
+  expect_error(ifr_ts_prop_group(d, out, grp), "var must be a binary variable")
+
+  d2 <- data.frame(
+    out = factor(rep(c("a", "b"), 30)),
+    grp = rep(c("a", "b", "c"), 20)
+  )
+  expect_error(ifr_ts_prop_group(d2, out, grp), "group must be a binary variable")
+
+  d3 <- data.frame(
+    out = factor(c(rep("yes", 40), rep("no", 60), rep("yes", 30), rep("no", 70))),
+    grp = c(rep("a", 100), rep("b", 100))
+  )
+
+  k   <- ifr_ts_prop_group(d3, out, grp)
+  ref <- prop.test(c(40, 30), c(100, 100), correct = FALSE)
+
+  expect_equal(k$n1, 100)
+  expect_equal(k$n2, 100)
+  expect_equal(k$phat1, 0.4)
+  expect_equal(k$phat2, 0.3)
+  expect_equal(k$z, round(sqrt(unname(ref$statistic)), 3))
+})
+
+test_that("two sample proportion output labels the two-sided p-value correctly", {
+  out <- capture.output(
+    ifr_ts_prop_group(treatment2, outcome, female, alternative = "both")
+  )
+
+  expect_true(any(grepl("Pr\\(\\|Z\\| > \\|z\\|\\)", out)))
+  expect_false(any(grepl("Pr\\(\\|Z\\| < \\|z\\|\\)", out)))
+})

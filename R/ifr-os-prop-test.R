@@ -1,6 +1,7 @@
 #' @title One Sample Test of Proportion
 #' @description  \code{ifr_os_prop_test} compares proportion in one group to a
-#' specified population proportion.
+#' specified population proportion. The variable must be binary; its second
+#' level is treated as the success level.
 #' @param data numeric vector of length 1 or a \code{data.frame} or \code{tibble}
 #' @param variable factor; column in \code{data}
 #' @param prob hypothesised proportion
@@ -59,6 +60,7 @@ ifr_os_prop_test.default <- function(data, variable = NULL, prob = 0.5, phat = 0
 
     varyables <- deparse(substitute(variable))
     fdata     <- data[[varyables]]
+    check_binary(fdata, "variable")
     n1        <- length(fdata)
     n2        <- table(fdata)[[2]]
     phat      <- round(n2 / n1, 4)

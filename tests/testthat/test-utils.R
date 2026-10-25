@@ -143,3 +143,10 @@ test_that("output from sums and coch matches the expected result", {
   q <- coch(ncol(data), k$cls_sum, k$cl, k$g, k$gs_sum)
   expect_equal(round(q, 3), 1.385)
 })
+
+test_that("check_suggests reports a clear message for a missing package", {
+  expect_error(
+    check_suggests("notARealPkgXYZ"),
+    "notARealPkgXYZ must be installed for this functionality"
+  )
+})
