@@ -13,7 +13,7 @@ test_that("output from ifr_ts_ind_ttest matches expected result", {
     199.000, 1.972, 51.453, 54.097
   ))
   expect_equal(k$mean_diff, -4.87)
-  expect_equal(k$sd_dif, 9.231)
+  expect_equal(k$sd_dif, 9.185)
   expect_equal(k$se_dif, 1.304)
   expect_equal(round(k$conf_diff, 3), c(-7.442, -2.298))
   expect_equal(round(k$conf_diff_satterthwaite, 3), c(-7.499, -2.241))
@@ -78,4 +78,45 @@ test_that("ifr_ts_ind_ttest drops rows with missing values", {
   expect_equal(k$n, sum(complete.cases(d$female, d$read)))
   expect_equal(abs(k$t_pooled), round(abs(unname(ref$statistic)), 4))
   expect_equal(k$sig_pooled, round(ref$p.value, 4))
+})
+
+test_that("pooled SD uses n1 + n2 - 2 in the denominator (H6)", {
+  d <- data.frame(
+    grp = factor(rep(c("a", "b"), each = 3)),
+    val = c(1, 2, 3, 4, 6, 8)
+  )
+  k   <- ifr_ts_ind_ttest(d, grp, val)
+  ref <- sqrt(((3 - 1) * var(d$val[1:3]) + (3 - 1) * var(d$val[4:6])) /
+                (3 + 3 - 2))
+  tt  <- t.test(val ~ grp, d, var.equal = TRUE)
+
+  expect_equal(k$sd_dif, round(ref, 3))
+  expect_equal(k$sd_dif, 1.581)
+  expect_equal(k$se_dif, round(ref * sqrt(1 / 3 + 1 / 3), 3))
+  expect_equal(k$t_pooled, round(unname(tt$statistic), 4))
+  expect_equal(k$conf_diff, round(as.numeric(tt$conf.int), 5))
+
+  # nearby larger sample
+  k2   <- ifr_ts_ind_ttest(hsb, female, write)
+  s1   <- var(hsb$write[hsb$female == "0"])
+  s2   <- var(hsb$write[hsb$female == "1"])
+  ref2 <- sqrt((90 * s1 + 108 * s2) / 198)
+  expect_equal(k2$sd_dif, round(ref2, 3))
+})
+
+test_that("independent t test works when columns are named x or y (H8)", {
+  d <- data.frame(
+    y   = c(1, 2, 3, 5, 6, 7),
+    grp = factor(c("a", "a", "a", "b", "b", "b"))
+  )
+  ref <- t.test(y ~ grp, d, var.equal = TRUE)
+
+  k  <- ifr_ts_ind_ttest(d, grp, y)
+  expect_equal(k$t_pooled, round(unname(ref$statistic), 4))
+  expect_equal(k$sig_pooled, round(ref$p.value, 4))
+
+  d2 <- setNames(d, c("x", "grp"))
+  k2 <- ifr_ts_ind_ttest(d2, grp, x)
+  expect_equal(k2$t_pooled, round(unname(ref$statistic), 4))
+  expect_equal(k2$sig_pooled, round(ref$p.value, 4))
 })

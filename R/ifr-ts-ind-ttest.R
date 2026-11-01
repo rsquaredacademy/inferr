@@ -27,7 +27,8 @@
 #' confidence limit of mean of \code{y}}
 #' \item{mean_diff}{difference in mean of \code{y} for the two groups of \code{x}}
 #' \item{se_dif}{estimate of the standard error for difference in mean of
-#' \code{y} for the two groups of \code{x}} \item{sd_dif}{degrees of freedom}
+#' \code{y} for the two groups of \code{x}}
+#' \item{sd_dif}{pooled standard deviation for the two groups of \code{x}}
 #' \item{conf_diff}{confidence interval for \code{mean_diff} (pooled method)}
 #' \item{conf_diff_satterthwaite}{confidence interval for \code{mean_diff}
 #' (Satterthwaite method)}
@@ -175,16 +176,20 @@ indth <- function(data, x, y, a) {
 
 data_split <- function(data, x, y) {
 
-  dat <- data.table(data[c(x, y)])
-  out <- dat[, .(length   = length(get(y)),
-                 mean_t   = mean_t(get(y)),
-                 sd_t     = sd_t(get(y)),
-                 std_err  = std_err(get(y)),
-                 mean_raw = mean(get(y)),
-                 sd_raw   = sd(get(y))),
-            by = x]
+  dat <- data.frame(.ifr_value = data[[y]], .ifr_group = data[[x]])
+  dm  <- data.table(dat)
+
+  out <- dm[, .(length   = .N,
+                 mean_t   = mean_t(.ifr_value),
+                 sd_t     = sd_t(.ifr_value),
+                 std_err  = std_err(.ifr_value),
+                 mean_raw = mean(.ifr_value),
+                 sd_raw   = sd(.ifr_value)),
+            by = ".ifr_group"]
 
   setDF(out)
+  names(out)[1] <- x
+  out
 
 }
 
@@ -270,12 +275,10 @@ indcomp <- function(grp_stat, alpha) {
 
 sd_diff <- function(n1, n2, s1, s2) {
 
-  n1 <- n1 - 1
-  n2 <- n2 - 1
-  n  <- (n1 + n2) - 2
+  n <- (n1 + n2) - 2
 
-  (n1 * s1) %>%
-    add(n2 * s2) %>%
+  ((n1 - 1) * s1) %>%
+    add((n2 - 1) * s2) %>%
     divide_by(n) %>%
     raise_to_power(0.5)
 

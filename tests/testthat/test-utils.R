@@ -111,13 +111,18 @@ test_that("output from data_split matches the expected result", {
 })
 
 test_that("output from sd_diff and se_diff matches the expected result", {
-  expect_equal(round(sd_diff(200, 200, sd(hsb$read), sd(hsb$write)), 3), 3.149)
-
   n1 <- length(hsb$read)
   n2 <- length(hsb$write)
-  s1 <- sd(hsb$read) / sqrt(n1)
-  s2 <- sd(hsb$write) / sqrt(n2)
-  expect_equal(round(se_diff(n1, n2, s1, s2), 3), 0.084)
+  s1 <- var(hsb$read)
+  s2 <- var(hsb$write)
+  pooled <- sqrt(((n1 - 1) * s1 + (n2 - 1) * s2) / (n1 + n2 - 2))
+
+  expect_equal(sd_diff(n1, n2, s1, s2), pooled)
+  expect_equal(
+    sd_diff(3, 3, var(c(1, 2, 3)), var(c(4, 6, 8))),
+    sqrt((2 * var(c(1, 2, 3)) + 2 * var(c(4, 6, 8))) / 4)
+  )
+  expect_equal(se_diff(n1, n2, s1, s2), sqrt(pooled ^ 2 * (1 / n1 + 1 / n2)))
 })
 
 test_that("output from df matches the expected result", {

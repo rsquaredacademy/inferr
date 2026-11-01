@@ -46,7 +46,8 @@ following components:
 confidence limit of mean of \code{y}}
 \item{mean_diff}{difference in mean of \code{y} for the two groups of \code{x}}
 \item{se_dif}{estimate of the standard error for difference in mean of
-\code{y} for the two groups of \code{x}} \item{sd_dif}{degrees of freedom}
+\code{y} for the two groups of \code{x}}
+\item{sd_dif}{pooled standard deviation for the two groups of \code{x}}
 \item{conf_diff}{confidence interval for \code{mean_diff} (pooled method)}
 \item{conf_diff_satterthwaite}{confidence interval for \code{mean_diff}
 (Satterthwaite method)}
