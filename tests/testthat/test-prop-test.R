@@ -62,7 +62,11 @@ test_that("ifr_os_prop_test rejects invalid proportions and sample sizes (M5)", 
   expect_error(ifr_os_prop_test(100, phat = 2), "phat must be between 0 and 1")
   expect_error(ifr_os_prop_test(100, phat = -0.1), "phat must be between 0 and 1")
   expect_error(ifr_os_prop_test(100, phat = 0.5, prob = 1.5),
-               "prob must be between 0 and 1")
+               "prob must be strictly between 0 and 1")
+  expect_error(ifr_os_prop_test(100, phat = 0, prob = 0),
+               "prob must be strictly between 0 and 1")
+  expect_error(ifr_os_prop_test(100, phat = 1, prob = 1),
+               "prob must be strictly between 0 and 1")
   expect_error(ifr_os_prop_test(0, phat = 0.5), "n must be a positive integer")
   expect_error(ifr_os_prop_test(-5, phat = 0.5), "n must be a positive integer")
 

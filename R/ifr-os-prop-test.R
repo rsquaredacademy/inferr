@@ -52,8 +52,8 @@ ifr_os_prop_test <- function(data, variable = NULL, prob = 0.5, phat = 0.5,
 ifr_os_prop_test.default <- function(data, variable = NULL, prob = 0.5, phat = 0.5,
                                      alternative = c("both", "less", "greater", "all")) {
   if (!is.numeric(prob) || length(prob) != 1 || !is.finite(prob) ||
-      prob < 0 || prob > 1) {
-    stop("prob must be between 0 and 1", call. = FALSE)
+      prob <= 0 || prob >= 1) {
+    stop("prob must be strictly between 0 and 1", call. = FALSE)
   }
 
   if (is.numeric(data)) {
