@@ -5,10 +5,12 @@ bounded, the Yates correction is bounded at zero, the paired-test correlation
 p-value is computed from the upper tail, the Levene and Brown-Forsythe
 statistics are no longer interchanged, the independent-test pooled standard
 deviation uses the correct denominator, and one-way ANOVA handles singleton
-groups and upper-tail p-values. It also adds input checks to the proportion,
-Levene, variance and McNemar tests, handles missing values in the t and
-variance tests, and stops `library(inferr)` from contacting CRAN when the
-package is attached. See `NEWS.md` for the full list.
+groups and upper-tail p-values. Data columns named `x` or `y` no longer break
+the ANOVA or independent t test. The release also adds input checks to the
+proportion, Levene, variance and McNemar tests, requires two samples in the
+variance test, handles missing values in the t and variance tests, and stops
+`library(inferr)` from contacting CRAN when the package is attached. See
+`NEWS.md` for the full list.
 
 ## Test environments
 
