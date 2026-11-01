@@ -91,11 +91,15 @@ ifr_ts_ind_ttest.default <- function(data, x, y, confint = 0.95,
 
   dat  <- data[complete.cases(data[[x1]], data[[y1]]), , drop = FALSE]
 
+  if (is.factor(dat[[x1]])) {
+    dat[[x1]] <- droplevels(dat[[x1]])
+  }
+
   if (check_x(dat, x1)) {
     stop("x must be a binary factor variable", call. = FALSE)
   }
 
-  if (check_level(dat, x1) > 2) {
+  if (check_level(dat, x1) != 2) {
     stop("x must be a binary factor variable", call. = FALSE)
   }
 

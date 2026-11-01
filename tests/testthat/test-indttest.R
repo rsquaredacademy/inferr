@@ -104,6 +104,29 @@ test_that("pooled SD uses n1 + n2 - 2 in the denominator (H6)", {
   expect_equal(k2$sd_dif, round(ref2, 3))
 })
 
+test_that("independent t test drops unused grouping levels (M6)", {
+  d <- data.frame(
+    val = rep(1:3, 2),
+    grp = factor(rep(c("a", "b"), each = 3), levels = c("a", "b", "unused"))
+  )
+  ref <- t.test(val ~ grp, d, var.equal = TRUE)
+  k   <- ifr_ts_ind_ttest(d, grp, val)
+
+  expect_equal(k$levels, c("a", "b"))
+  expect_equal(k$n, 6)
+  expect_equal(as.numeric(k$obs), c(3, 3))
+  expect_equal(k$t_pooled, round(unname(ref$statistic), 4))
+  expect_equal(k$sig_pooled, round(ref$p.value, 4))
+
+  # an unused level must not hide a one-group design
+  d2 <- data.frame(
+    val = c(1, 2, 3),
+    grp = factor(c("a", "a", "a"), levels = c("a", "b"))
+  )
+  expect_error(ifr_ts_ind_ttest(d2, grp, val),
+               "x must be a binary factor variable")
+})
+
 test_that("independent t test works when columns are named x or y (H8)", {
   d <- data.frame(
     y   = c(1, 2, 3, 5, 6, 7),
