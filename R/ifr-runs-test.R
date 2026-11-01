@@ -53,7 +53,7 @@
 #'
 #' ifr_runs_test(hsb, read, mean = TRUE)
 #'
-#' ifr_runs_test(hsb, read, threshold = 0)
+#' ifr_runs_test(hsb, read, threshold = 50)
 #'
 #' @importFrom stats pnorm
 #'

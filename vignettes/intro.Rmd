@@ -352,5 +352,5 @@ ifr_runs_test(hsb, read, split = TRUE)
 ifr_runs_test(hsb, read, mean = TRUE)
 
 # threshold to be used for counting runs
-ifr_runs_test(hsb, read, threshold = 0)
+ifr_runs_test(hsb, read, threshold = 50)
 ```
