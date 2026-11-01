@@ -113,7 +113,7 @@ paired_comp <- function(x, y, confint, var_names) {
 
   data_prep <- paired_data(x, y)
   b         <- paired_stats(data_prep, "key", "value")
-  corr      <- round(cor(x, y), 4)
+  corr      <- cor(x, y)
   corsig    <- cor_sig(corr, n)
 
   alpha     <- 1 - confint
@@ -130,7 +130,7 @@ paired_comp <- function(x, y, confint, var_names) {
 
   list(
     Obs = n, b = b, conf_int1 = confint1, conf_int2 = confint2,
-    conf_int_diff = confint3, corr = round(corr, 2), corsig = round(corsig, 2),
+    conf_int_diff = confint3, corr = round(corr, 2), corsig = corsig,
     tstat = round(t, 4), p_lower = p_l, p_upper = p_u, p_two_tail = p,
     xy = xy, df = df
   )
@@ -166,7 +166,7 @@ cor_sig <- function(corr, n) {
 
   t   <- corr / ((1 - (corr ^ 2)) / (n - 2)) ^ 0.5
   df  <- n - 2
-  sig <- (1 - pt(t, df)) * 2
+  sig <- 2 * pt(abs(t), df, lower.tail = FALSE)
   round(sig, 4)
 
 }
