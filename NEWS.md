@@ -2,10 +2,11 @@
 
 ## Bug Fixes
 
-- `ifr_cochran_qtest()` now resolves the numeric outcome coding once across the
-  selected variables, so a homogeneous column that holds only `1` is recoded as
-  failure when the rest of the design is `1/2`-coded instead of being silently
-  treated as success.
+- `ifr_cochran_qtest()` now resolves a single `0/1` or `1/2` success coding
+  across every selected column (numeric, factor and logical alike) before
+  incomplete rows are dropped, so a homogeneous numeric column of all `1`s
+  follows the coding the rest of the design declares, and genuinely ambiguous
+  mixtures error instead of being silently misread.
 - `ifr_os_prop_test()` now requires the null probability to be strictly inside
   `(0, 1)`, because the normal approximation is undefined at `prob = 0` or
   `prob = 1`.

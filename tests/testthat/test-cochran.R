@@ -229,6 +229,91 @@ test_that("mixed 0/1 and 1/2 numeric codings are rejected (H13)", {
                "single 0/1 or 1/2 coding")
 })
 
+test_that("mixed numeric/factor columns share one success coding (H13)", {
+  d01 <- data.frame(a = c(0, 0, 0, 0),
+                    b = c(0, 1, 1, 1),
+                    c = c(0, 1, 1, 1))
+  d12 <- d01 + 1
+  f12 <- as.data.frame(lapply(d12, factor, levels = c(1, 2)))
+
+  mixed <- d12
+  mixed$b <- factor(mixed$b, levels = c(1, 2))
+  mixed$c <- factor(mixed$c, levels = c(1, 2))
+
+  ref_q <- 6
+  ref_p <- round(pchisq(6, 2, lower.tail = FALSE), 4)
+
+  for (d in list(d01, d12, f12, mixed)) {
+    k <- ifr_cochran_qtest(d, a, b, c)
+    expect_equal(k$n, 4)
+    expect_equal(k$df, 2)
+    expect_equal(k$q, ref_q)
+    expect_equal(k$pvalue, ref_p)
+  }
+  expect_equal(ref_p, 0.0498)
+
+  # the nearby design that also disagreed before the fix
+  n01 <- data.frame(a = c(0, 0, 0, 0),
+                    b = c(0, 0, 0, 1),
+                    c = c(0, 0, 1, 1))
+  n12 <- n01 + 1
+  nmix <- n12
+  nmix$b <- factor(nmix$b, levels = c(1, 2))
+  nmix$c <- factor(nmix$c, levels = c(1, 2))
+
+  kn <- ifr_cochran_qtest(nmix, a, b, c)
+  expect_equal(kn$q, 3)
+  expect_equal(kn$pvalue, round(pchisq(3, 2, lower.tail = FALSE), 4))
+  expect_equal(kn$pvalue, 0.2231)
+
+  # coding evidence must be read before complete-case filtering erases it
+  pf <- d12
+  pf[5, ] <- c(2, NA, 1)
+  pf$b <- factor(pf$b, levels = c(1, 2))
+  pf$c <- factor(pf$c, levels = c(1, 2))
+
+  kp <- ifr_cochran_qtest(pf, a, b, c)
+  expect_equal(kp$n, 4)
+  expect_equal(kp$q, ref_q)
+  expect_equal(kp$pvalue, ref_p)
+})
+
+test_that("every equivalent mixed encoding of the H13 design agrees", {
+  d01 <- data.frame(a = c(0, 0, 0, 0),
+                    b = c(0, 1, 1, 1),
+                    c = c(0, 1, 1, 1))
+  d12 <- d01 + 1
+  f12 <- as.data.frame(lapply(d12, factor, levels = c(1, 2)))
+  l12 <- as.data.frame(lapply(d01, as.logical))
+
+  opts <- list(n = d12, f = f12, l = l12)
+
+  ref_q <- 6
+  ref_p <- round(pchisq(6, 2, lower.tail = FALSE), 4)
+
+  grid <- expand.grid(a = c("n", "f", "l"),
+                      b = c("n", "f", "l"),
+                      c = c("n", "f", "l"),
+                      stringsAsFactors = FALSE)
+
+  for (i in seq_len(nrow(grid))) {
+    idx <- unlist(grid[i, ])
+    d <- data.frame(a = opts[[idx[["a"]]]]$a,
+                    b = opts[[idx[["b"]]]]$b,
+                    c = opts[[idx[["c"]]]]$c)
+
+    # numeric/logical/logical leaves the homogeneous numeric column unresolved
+    if (identical(unname(idx), c("n", "l", "l"))) {
+      expect_error(ifr_cochran_qtest(d, a, b, c),
+                   "homogeneous numeric column")
+    } else {
+      k <- ifr_cochran_qtest(d, a, b, c)
+      expect_equal(k$q, ref_q)
+      expect_equal(k$pvalue, ref_p)
+    }
+  }
+})
+
 test_that("Cochran Q rejects designs without within-subject discordance (M5)", {
   d <- data.frame(a = c(1, 0, 1, 0),
                   b = c(1, 0, 1, 0),

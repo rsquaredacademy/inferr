@@ -38,15 +38,13 @@ ifr_cochran_qtest.default <- function(data, ...) {
     stop("Please specify at least 3 variables.", call. = FALSE)
   }
 
-  # consistent missing-data policy: a row is used only when every specified
-  # variable is observed
-  fdata <- fdata[stats::complete.cases(fdata), , drop = FALSE]
+  # the binary coding is resolved before complete-case filtering can erase the
+  # evidence it relies on (H13); cochran_recode() then filters and recodes
+  fdata <- cochran_recode(fdata)
 
   if (nrow(fdata) < 2) {
     stop("at least two complete observations are required", call. = FALSE)
   }
-
-  fdata <- cochran_recode(fdata)
 
   k <- cochran_comp(fdata)
 
@@ -94,44 +92,17 @@ coch_data <- function(x, ...) {
 
 cochran_recode <- function(data) {
 
-  # resolve the numeric outcome coding once across all columns, before any
-  # homogeneous column is recoded: a column of all 1s can be the success code
-  # of a 0/1 design or the failure code of a 1/2 design, and the other columns
-  # settle that question (H13)
-  num <- vapply(data, is.numeric, logical(1))
-  if (any(num)) {
-    is01  <- vapply(data[num], function(x) all(x %in% c(0, 1)), logical(1))
-    is12  <- vapply(data[num], function(x) all(x %in% c(1, 2)), logical(1))
-    valid <- is01 | is12
-    if (any(!valid)) {
-      stop("Please specify dichotomous/binary variables only.", call. = FALSE)
-    }
-    use01 <- all(is01)
-    use12 <- all(is12)
-  } else {
-    use01 <- TRUE
-    use12 <- FALSE
-  }
+  # one explicit rule normalises every column to the same 0/1 success coding
+  # (H13): logical -> FALSE/TRUE, factor -> first/second level, numeric -> a
+  # single design-wide 0/1 or 1/2 coding. The coding is established from the
+  # full data so that complete-case filtering cannot erase the evidence, and
+  # a homogeneous numeric column of all 1s inherits the coding the rest of the
+  # design declares.
+  coding <- cochran_coding(data)
 
-  if (use01 && !use12) {
-    coding <- "01"
-  } else if (use12 && !use01) {
-    coding <- "12"
-  } else if (use01 && use12) {
-    # every numeric column is a homogeneous 1: the coding is ambiguous but the
-    # statistic is undefined for such a design either way, so keep the 0/1
-    # convention
-    coding <- "01"
-  } else {
-    stop(
-      paste0(
-        "Cannot determine a single 0/1 or 1/2 coding across the numeric ",
-        "columns. Use one coding for every column, or supply factors with ",
-        "declared levels."
-      ),
-      call. = FALSE
-    )
-  }
+  # consistent missing-data policy: a row is used only when every specified
+  # variable is observed
+  data <- data[stats::complete.cases(data), , drop = FALSE]
 
   out <- lapply(data, function(x) {
     if (is.logical(x)) {
@@ -156,6 +127,79 @@ cochran_recode <- function(data) {
   })
 
   as.data.frame(out)
+}
+
+cochran_coding <- function(data) {
+
+  is_num <- vapply(data, is.numeric, logical(1))
+  is_fac <- vapply(data, is.factor, logical(1))
+
+  declared01 <- FALSE
+  declared12 <- FALSE
+  ambiguous  <- FALSE
+
+  for (x in data[is_num]) {
+    vals <- unique(x[!is.na(x)])
+    if (length(vals) == 0L) {
+      next
+    }
+    if (all(vals %in% c(0, 1)) && any(vals == 0)) {
+      declared01 <- TRUE
+    } else if (all(vals %in% c(1, 2)) && any(vals == 2)) {
+      declared12 <- TRUE
+    } else if (all(vals == 1)) {
+      # a column of all 1s is the success code of a 0/1 design or the failure
+      # code of a 1/2 design; the other columns must settle that question
+      ambiguous <- TRUE
+    } else {
+      stop("Please specify dichotomous/binary variables only.", call. = FALSE)
+    }
+  }
+
+  for (x in data[is_fac]) {
+    if (nlevels(x) != 2) {
+      stop("Please specify dichotomous/binary variables only.", call. = FALSE)
+    }
+    lv <- suppressWarnings(as.numeric(levels(x)))
+    if (length(lv) == 2 && !anyNA(lv)) {
+      if (setequal(lv, c(0, 1))) {
+        declared01 <- TRUE
+      }
+      if (setequal(lv, c(1, 2))) {
+        declared12 <- TRUE
+      }
+    }
+  }
+
+  if (declared01 && declared12) {
+    stop(
+      paste0(
+        "Cannot determine a single 0/1 or 1/2 coding across the numeric ",
+        "columns. Use one coding for every column, or supply factors with ",
+        "declared levels."
+      ),
+      call. = FALSE
+    )
+  }
+
+  if (declared12) {
+    return("12")
+  }
+  if (declared01) {
+    return("01")
+  }
+  if (ambiguous) {
+    stop(
+      paste0(
+        "Cannot determine the 0/1 or 1/2 coding of a homogeneous numeric ",
+        "column. Convert it to a factor with declared levels, or include ",
+        "another numeric column that establishes the coding."
+      ),
+      call. = FALSE
+    )
+  }
+
+  "01"
 }
 
 cochran_comp <- function(data) {
