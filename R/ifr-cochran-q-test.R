@@ -99,7 +99,9 @@ cochran_recode <- function(x) {
   }
 
   if (is.factor(x)) {
-    x <- droplevels(x)
+    # use the declared levels: a valid binary factor can still have an
+    # unobserved level, either by declaration or after complete-case
+    # filtering, and dropping it would lose the success mapping
     if (nlevels(x) != 2) {
       stop("Please specify dichotomous/binary variables only.", call. = FALSE)
     }

@@ -75,6 +75,69 @@ test_that("ifr_cochran_qtest handles missing values consistently across encoding
   expect_equal(ifr_cochran_qtest(d2, a, b, c)$n, 2)
 })
 
+test_that("declared factor levels survive homogeneous columns (M9)", {
+  d <- data.frame(a = c(0, 0, 0, 0),
+                  b = c(0, 1, 0, 1),
+                  c = c(1, 0, 1, 0))
+  f <- as.data.frame(lapply(d, factor, levels = c(0, 1)))
+  l <- as.data.frame(lapply(d, as.logical))
+
+  k  <- ifr_cochran_qtest(d, a, b, c)
+  kf <- ifr_cochran_qtest(f, a, b, c)
+  kl <- ifr_cochran_qtest(l, a, b, c)
+
+  expect_equal(k$n, 4)
+  expect_equal(k$df, 2)
+  expect_equal(k$q, 2)
+  expect_equal(k$pvalue, round(pchisq(2, 2, lower.tail = FALSE), 4))
+  expect_equal(k$pvalue, 0.3679)
+  expect_equal(unname(c(kf$n, kf$df, kf$q, kf$pvalue)),
+               unname(c(k$n, k$df, k$q, k$pvalue)))
+  expect_equal(unname(c(kl$n, kl$df, kl$q, kl$pvalue)),
+               unname(c(k$n, k$df, k$q, k$pvalue)))
+
+  # an all-success column must also keep its declared levels
+  d1 <- data.frame(a = c(1, 1, 1, 1),
+                   b = c(0, 1, 0, 1),
+                   c = c(1, 0, 1, 0))
+  f1 <- as.data.frame(lapply(d1, factor, levels = c(0, 1)))
+  l1 <- as.data.frame(lapply(d1, as.logical))
+
+  k1  <- ifr_cochran_qtest(d1, a, b, c)
+  k1f <- ifr_cochran_qtest(f1, a, b, c)
+  k1l <- ifr_cochran_qtest(l1, a, b, c)
+
+  expect_equal(k1$q, 2)
+  expect_equal(k1f$q, k1$q)
+  expect_equal(k1l$q, k1$q)
+  expect_equal(k1f$pvalue, k1$pvalue)
+
+  # a column can become homogeneous only after complete-case filtering
+  d2 <- data.frame(a = c(0, 1, 0, 0, 0),
+                   b = c(0, NA, 1, 0, 1),
+                   c = c(1, 0, 0, 1, 0))
+  f2 <- as.data.frame(lapply(d2, factor, levels = c(0, 1)))
+  l2 <- as.data.frame(lapply(d2, as.logical))
+
+  k2  <- ifr_cochran_qtest(d2, a, b, c)
+  k2f <- ifr_cochran_qtest(f2, a, b, c)
+  k2l <- ifr_cochran_qtest(l2, a, b, c)
+
+  expect_equal(k2$n, 4)
+  expect_equal(k2$q, 2)
+  expect_equal(k2f$q, k2$q)
+  expect_equal(k2l$q, k2$q)
+  expect_equal(k2f$pvalue, k2$pvalue)
+
+  # a third declared level is still not binary
+  d3 <- data.frame(a = c(0, 0, 0, 0),
+                   b = c(0, 1, 0, 1),
+                   c = c(1, 0, 1, 0))
+  f3 <- as.data.frame(lapply(d3, factor, levels = c(0, 1, 2)))
+  expect_error(ifr_cochran_qtest(f3, a, b, c),
+               "Please specify dichotomous/binary variables only.")
+})
+
 test_that("non-binary variables are rejected", {
   d <- data.frame(a = 1:4, b = 1:4, c = 1:4)
   expect_error(
