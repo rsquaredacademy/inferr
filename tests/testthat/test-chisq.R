@@ -8,7 +8,7 @@ test_that("ouput from ifr_chisq_assoc_test matches the expected result", {
   expect_equal(k$pval_chisquare, 0.8284)
   expect_equal(k$pval_chisquare_lr, 0.8282)
   expect_equal(k$pval_chisquare_mantel_haenszel, 0.8287)
-  expect_equal(k$pval_chisquare_adjusted, 0.9822)
+  expect_equal(k$pval_chisquare_adjusted, 0.9815)
   expect_equal(k$phi_coefficient, 0.0153)
   expect_equal(k$contingency_coefficient, 0.0153)
   expect_equal(k$cramers_v, 0.0153)
@@ -66,4 +66,24 @@ test_that("ouput from ifr_chisq_assoc_test is as expected", {
 
 test_that("ouput from ifr_chisq_assoc_test 2 is as expected", {
   expect_snapshot(ifr_chisq_assoc_test(hsb, female, ses))
+})
+
+test_that("Yates correction is bounded by the observed deviation (H3)", {
+  d <- data.frame(
+    x = factor(rep(c("a", "b"), each = 10)),
+    y = factor(rep(c("a", "b"), 10))
+  )
+  k   <- ifr_chisq_assoc_test(d, x, y)
+  ref <- chisq.test(table(d$x, d$y))
+
+  expect_equal(k$chisquare_adjusted, unname(ref$statistic))
+  expect_equal(k$pval_chisquare_adjusted, ref$p.value)
+  expect_equal(k$chisquare_adjusted, 0)
+  expect_equal(k$pval_chisquare_adjusted, 1)
+
+  # a non-zero table still follows stats::chisq.test()
+  k2  <- ifr_chisq_assoc_test(hsb, female, schtyp)
+  ref2 <- chisq.test(table(hsb$female, hsb$schtyp))
+  expect_equal(k2$chisquare_adjusted, round(unname(ref2$statistic), 4))
+  expect_equal(k2$pval_chisquare_adjusted, round(ref2$p.value, 4))
 })

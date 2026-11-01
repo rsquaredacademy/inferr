@@ -28,7 +28,7 @@ test_that("output from ifr_ts_prop_test matches the expected result", {
   expect_equal(k$n2, 32)
   expect_equal(k$phat1, 0.4062)
   expect_equal(k$phat2, 0.4375)
-  expect_equal(round(k$z, 3), -0.254)
+  expect_equal(round(k$z, 3), -0.253)
   expect_equal(round(k$sig, 3), 0.4)
   expect_equal(k$alt, "less")
 })
@@ -216,4 +216,52 @@ test_that("two sample proportion output labels the two-sided p-value correctly",
 
   expect_true(any(grepl("Pr\\(\\|Z\\| > \\|z\\|\\)", out)))
   expect_false(any(grepl("Pr\\(\\|Z\\| < \\|z\\|\\)", out)))
+})
+
+test_that("ifr_ts_prop_test ignores missing outcomes in each vector (H1)", {
+  d <- data.frame(
+    a = factor(c("no", "yes", "yes", NA), levels = c("no", "yes")),
+    b = factor(c("no", "yes", "yes", "yes"), levels = c("no", "yes"))
+  )
+  k   <- ifr_ts_prop_test(d, a, b)
+  ref <- suppressWarnings(prop.test(c(2, 3), c(3, 4), correct = FALSE))
+
+  expect_equal(c(k$n1, k$n2), c(3, 4))
+  expect_equal(k$phat1, round(2 / 3, 4))
+  expect_equal(k$phat2, 0.75)
+  expect_equal(k$z, round(-sqrt(unname(ref$statistic)), 3))
+  expect_equal(k$sig, round(ref$p.value, 3))
+
+  # nearby case: all values missing in one vector still leaves a usable sample
+  d2 <- data.frame(
+    a = factor(c(NA, "yes", "yes"), levels = c("no", "yes")),
+    b = factor(c("no", "yes", "yes"), levels = c("no", "yes"))
+  )
+  k2 <- ifr_ts_prop_test(d2, a, b)
+  expect_equal(c(k2$n1, k2$n2), c(2, 3))
+  expect_equal(k2$phat1, 1)
+})
+
+test_that("ifr_ts_prop_group drops rows missing the outcome or group (H1)", {
+  d <- data.frame(
+    out = factor(c("no", "yes", NA, "no", "yes", "yes"),
+                 levels = c("no", "yes")),
+    grp = rep(c("a", "b"), each = 3)
+  )
+  k   <- ifr_ts_prop_group(d, out, grp)
+  ref <- suppressWarnings(prop.test(c(1, 2), c(2, 3), correct = FALSE))
+
+  expect_equal(c(k$n1, k$n2), c(2, 3))
+  expect_equal(k$phat1, 0.5)
+  expect_equal(k$phat2, 2 / 3)
+  expect_equal(k$z, round(-sqrt(unname(ref$statistic)), 3))
+  expect_equal(k$sig, round(ref$p.value, 3))
+
+  # a missing group value must drop the whole row
+  d2 <- data.frame(
+    out = factor(c("no", "yes", "yes", "no"), levels = c("no", "yes")),
+    grp = factor(c("a", NA, "b", "b"), levels = c("a", "b"))
+  )
+  k2 <- ifr_ts_prop_group(d2, out, grp)
+  expect_equal(c(k2$n1, k2$n2), c(1, 2))
 })

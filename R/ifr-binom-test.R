@@ -127,8 +127,9 @@ ifr_binom_test <- function(data, variable, prob = 0.5) {
     stop("prob must be between 0 and 1", call. = FALSE)
   }
 
-  n <- length(fdata)
-  k <- table(fdata)[[2]]
+  fdata <- fdata[!is.na(fdata)]
+  n     <- length(fdata)
+  k     <- table(fdata)[[2]]
 
   out <- ifr_binom_calc.default(n, k, prob)
   class(out) <- c("ifr_binom_test", "ifr_binom_calc")

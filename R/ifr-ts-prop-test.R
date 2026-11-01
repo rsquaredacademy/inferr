@@ -138,6 +138,15 @@ ifr_ts_prop_group <- function(data, var, group,
   check_binary(varone, "var")
   check_binary(groupone, "group")
 
+  keep     <- complete.cases(varone, groupone)
+  varone   <- varone[keep]
+  groupone <- droplevels(as.factor(groupone[keep]))
+
+  if (nlevels(groupone) != 2) {
+    stop("group must be a binary variable with exactly two levels.",
+         call. = FALSE)
+  }
+
   n     <- tapply(varone, groupone, length)
   n1    <- n[[1]]
   n2    <- n[[2]]
@@ -230,24 +239,26 @@ ifr_ts_prop_calc <- function(n1, n2, p1, p2,
 
 prop_comp2 <- function(var1, var2, alt) {
 
+  var1  <- var1[!is.na(var1)]
+  var2  <- var2[!is.na(var2)]
   n1    <- length(var1)
   n2    <- length(var2)
   y1    <- table(var1)[[2]]
   y2    <- table(var2)[[2]]
 
-  phat1 <- round(y1 / n1, 4)
-  phat2 <- round(y2 / n2, 4)
+  phat1 <- y1 / n1
+  phat2 <- y2 / n2
   phat  <- sum(y1, y2) / sum(n1, n2)
 
   num   <- (phat1 - phat2)
   den1  <- phat * (1 - phat)
   den2  <- (1 / n1) + (1 / n2)
   den   <- sqrt(den1 * den2)
-  z     <- round(num / den, 4)
+  z     <- num / den
 
-  lt    <- round(pnorm(z), 4)
-  ut    <- round(pnorm(z, lower.tail = FALSE), 4)
-  tt    <- round(pnorm(abs(z), lower.tail = FALSE) * 2, 4)
+  lt    <- pnorm(z)
+  ut    <- pnorm(z, lower.tail = FALSE)
+  tt    <- pnorm(abs(z), lower.tail = FALSE) * 2
 
   if (alt == "all") {
     sig <- c("two-tail" = tt, "lower-tail" = lt, "upper-tail" = ut)
@@ -261,8 +272,8 @@ prop_comp2 <- function(var1, var2, alt) {
 
   list(n1    = n1,
        n2    = n2,
-       phat1 = phat1,
-       phat2 = phat2,
+       phat1 = round(phat1, 4),
+       phat2 = round(phat2, 4),
        sig   = round(sig, 3),
        z     = round(z, 3))
 

@@ -57,3 +57,24 @@ test_that("ifr_os_prop_test requires a binary variable and matches prop.test", {
   expect_equal(k$z, round(sqrt(unname(ref$statistic)), 4))
   expect_equal(k$sig, round(ref$p.value, 4))
 })
+
+test_that("ifr_os_prop_test ignores missing outcomes (H1)", {
+  d <- data.frame(x = factor(c("no", "yes", "yes", NA),
+                             levels = c("no", "yes")))
+  k   <- ifr_os_prop_test(d, x)
+  ref <- suppressWarnings(prop.test(2, 3, correct = FALSE))
+
+  expect_equal(k$n, 3)
+  expect_equal(k$phat, round(2 / 3, 4))
+  expect_equal(k$obs, c(1, 2))
+  expect_equal(k$exp, c(1.5, 1.5))
+  expect_equal(k$z, round(sqrt(unname(ref$statistic)), 4))
+  expect_equal(k$sig, round(ref$p.value, 4))
+
+  # nearby case: missing value on the failure side, all remaining successes
+  d2 <- data.frame(x = factor(c(NA, "yes", "yes"), levels = c("no", "yes")))
+  k2 <- ifr_os_prop_test(d2, x)
+  expect_equal(k2$n, 2)
+  expect_equal(k2$phat, 1)
+  expect_equal(k2$obs, c(0, 2))
+})

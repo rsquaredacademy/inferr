@@ -9,7 +9,7 @@
       ----------------------------------------------------
       Chi-Square                     1    0.0470    0.8284
       Likelihood Ratio Chi-Square    1    0.0471    0.8282
-      Continuity Adj. Chi-Square     1    0.0005    0.9822
+      Continuity Adj. Chi-Square     1    0.0005    0.9815
       Mantel-Haenszel Chi-Square     1    0.0468    0.8287
       Phi Coefficient                     0.0153          
       Contingency Coefficient             0.0153          

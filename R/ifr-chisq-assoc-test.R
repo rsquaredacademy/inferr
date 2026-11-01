@@ -174,8 +174,9 @@ yates_chsq <- function(twoway) {
   total       <- sum(twoway)
   prods       <- prod(diag(twoway)) - prod(diag(way2))
   prod_totals <- prod(rowSums(twoway)) * prod(colSums(twoway))
-  chi_y       <- round((total * (abs(prods) - (total / 2)) ^ 2) / prod_totals, 4)
-  sig_y       <- round(pchisq(chi_y, 1, lower.tail = F), 4)
+  chi_raw     <- (total * max(abs(prods) - (total / 2), 0) ^ 2) / prod_totals
+  chi_y       <- round(chi_raw, 4)
+  sig_y       <- round(pchisq(chi_raw, 1, lower.tail = F), 4)
 
   list(chi_y = chi_y, sig_y = sig_y, total = total, prod_totals = prod_totals)
 }

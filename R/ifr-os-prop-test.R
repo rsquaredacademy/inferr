@@ -61,12 +61,15 @@ ifr_os_prop_test.default <- function(data, variable = NULL, prob = 0.5, phat = 0
     varyables <- deparse(substitute(variable))
     fdata     <- data[[varyables]]
     check_binary(fdata, "variable")
+    fdata     <- fdata[!is.na(fdata)]
     n1        <- length(fdata)
     n2        <- table(fdata)[[2]]
-    phat      <- round(n2 / n1, 4)
+    phat      <- n2 / n1
     prob      <- prob
     method    <- match.arg(alternative)
-    k         <- prop_comp(n1, prob = prob, phat = phat, alternative = method)
+    k         <- prop_comp(n1, prob = prob, phat = phat, alternative = method,
+                           obs = c(n1 - n2, n2))
+    k$phat    <- round(k$phat, 4)
   }
 
   result <-
@@ -101,13 +104,17 @@ print.ifr_os_prop_test <- function(x, ...) {
 }
 
 #' @importFrom stats pnorm
-prop_comp <- function(n, prob, alternative, phat) {
+prop_comp <- function(n, prob, alternative, phat, obs = NULL) {
 
   n    <- n
   phat <- phat
   p    <- prob
   q    <- 1 - p
-  obs  <- c(n * (1 - phat), n * phat)
+
+  if (is.null(obs)) {
+    obs <- c(n * (1 - phat), n * phat)
+  }
+
   exp  <- n * c(q, p)
   dif  <- obs - exp
   dev  <- round((dif / exp) * 100, 2)
