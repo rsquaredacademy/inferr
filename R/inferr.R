@@ -13,4 +13,7 @@
 NULL
 
 ## quiets concerns of R CMD check re: the .'s that appear in pipelines
-if (getRversion() >= "2.15.1") utils::globalVariables(c(".", "sse", "sst", "var", "sd"))
+if (getRversion() >= "2.15.1") {
+  utils::globalVariables(c(".", "sse", "sst", "var", "sd", ".N",
+                           ".ifr_value", ".ifr_group"))
+}
