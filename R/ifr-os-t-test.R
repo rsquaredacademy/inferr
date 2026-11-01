@@ -143,11 +143,20 @@ ttest_comp <- function(x, mu, alpha, type) {
   Mean      <- mean(x)
   stddev    <- sd(x)
 
-  if (!is.finite(stddev) || stats::var(x) < .Machine$double.eps) {
+  if (!is.finite(stddev) || stddev <= 0) {
     stop("data are essentially constant", call. = FALSE)
   }
 
-  std_err   <- stddev / sqrt(n)
+  std_err <- stddev / sqrt(n)
+
+  # scale-aware constant-data check: compare the standard error with the
+  # magnitude of the mean, as stats::t.test() does, rather than comparing a
+  # dimensional variance with an absolute machine epsilon
+  if (!is.finite(std_err) || std_err <= 0 ||
+      std_err < 10 * .Machine$double.eps * abs(Mean)) {
+    stop("data are essentially constant", call. = FALSE)
+  }
+
   test_stat <- (Mean - mu) / std_err
 
   if (type == "less") {

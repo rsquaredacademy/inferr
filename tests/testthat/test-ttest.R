@@ -71,6 +71,27 @@ test_that("ifr_os_t_test rejects degenerate samples and invalid alpha (M5)", {
   expect_equal(k$test_stat, 0)
 })
 
+test_that("one-sample t is scale invariant and rejects relative degeneracy (M8)", {
+  x      <- c(1, 2, 4, 8)
+  scaled <- x * 1e-9
+
+  k  <- ifr_os_t_test(scaled)
+  ku <- ifr_os_t_test(x)
+  ref <- t.test(scaled)
+
+  expect_equal(k$n, 4)
+  expect_equal(k$test_stat, round(unname(ref$statistic), 3))
+  expect_equal(k$test_stat, ku$test_stat)
+  expect_equal(k$p, ref$p.value, tolerance = 1e-10)
+  expect_equal(k$p, ku$p, tolerance = 1e-12)
+
+  # a large location with a spread at the limit of double precision is
+  # relative degeneracy, exactly as stats::t.test() reports it
+  y <- 1e8 + c(-1e-7, 0, 1e-7, 2e-7)
+  expect_error(t.test(y), "essentially constant")
+  expect_error(ifr_os_t_test(y), "essentially constant")
+})
+
 test_that("ifr_os_t_test drops missing values", {
   mt <- mtcars
   mt$mpg[1:3] <- NA
