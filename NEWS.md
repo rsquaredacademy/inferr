@@ -2,6 +2,8 @@
 
 ## Bug Fixes
 
+- `ifr_mcnemar_test()` now computes both chi-square p-values from the upper
+  tail, so small representable p-values are no longer returned as zero.
 - `ifr_os_var_test()` now reports the correct confidence interval for the
   standard deviation.
 - `ifr_ts_ind_ttest()` now uses t quantiles, rather than normal quantiles, for

@@ -70,6 +70,32 @@ test_that("McNemar output aligns the statistic and degrees of freedom", {
   expect_equal(nchar(df_line), nchar(stat_line))
 })
 
+test_that("McNemar upper-tail p-values are not lost to cancellation (H11)", {
+  m   <- matrix(c(10, 100, 0, 10), 2)
+  k   <- ifr_mcnemar_test(m)
+  ref <- mcnemar.test(m)
+  refc <- mcnemar.test(m, correct = TRUE)
+
+  expect_equal(k$cstat, unname(refc$statistic))
+  expect_gt(k$cpvalue, 0)
+  expect_equal(k$cpvalue, refc$p.value, tolerance = 1e-10)
+  expect_equal(k$cpvalue / refc$p.value, 1, tolerance = 1e-10)
+
+  # the uncorrected helper must also keep the representable positive tail;
+  # the public p-value is documented to be rounded to four decimals
+  expect_gt(mcpval(k$statistic, k$df), 0)
+  expect_equal(mcpval(k$statistic, k$df), ref$p.value, tolerance = 1e-10)
+  expect_equal(k$pvalue, round(ref$p.value, 4))
+
+  # nearby case with a representable but small corrected tail
+  m2 <- matrix(c(20, 30, 2, 20), 2)
+  k2 <- ifr_mcnemar_test(m2)
+  r2 <- mcnemar.test(m2, correct = TRUE)
+  expect_gt(k2$cpvalue, 0)
+  expect_equal(k2$cpvalue, r2$p.value, tolerance = 1e-10)
+  expect_equal(k2$cpvalue / r2$p.value, 1, tolerance = 1e-10)
+})
+
 test_that("McNemar exact and corrected p-values are bounded (H2)", {
   m <- matrix(c(10, 2, 2, 10), 2)
   k <- ifr_mcnemar_test(m)

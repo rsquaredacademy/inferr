@@ -139,7 +139,7 @@ tetat <- function(p) {
 }
 
 mcpval <- function(test_stat, df) {
-  1 - pchisq(test_stat, df)
+  pchisq(test_stat, df, lower.tail = FALSE)
 }
 
 mcpex <- function(dat) {
@@ -160,7 +160,7 @@ mcstat <- function(p) {
 }
 
 mccpval <- function(cstat, df) {
-  1 - pchisq(cstat, df)
+  pchisq(cstat, df, lower.tail = FALSE)
 }
 
 mckappa <- function(dat) {
