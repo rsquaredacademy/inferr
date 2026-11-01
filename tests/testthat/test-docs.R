@@ -27,6 +27,20 @@ test_that("README example does not use the removed type argument", {
   expect_false(any(grepl("type = 'all'", readLines(md))))
 })
 
+test_that("binomial and runs documentation use correct names and meanings (L2)", {
+  bin <- test_path("..", "..", "man", "ifr_binom_calc.Rd")
+  run <- test_path("..", "..", "man", "ifr_runs_test.Rd")
+  skip_if_not(file.exists(bin) && file.exists(run))
+
+  bin_txt <- paste(readLines(bin), collapse = "\n")
+  run_txt <- paste(readLines(run), collapse = "\n")
+
+  expect_false(grepl("ifr_binom_cal\\(", bin_txt))
+  expect_match(bin_txt, "\\\\item\\{obs_p\\}\\{observed probability of success\\}")
+  expect_match(run_txt, "\\\\item\\{threshold\\}\\{threshold used to count runs\\}")
+  expect_false(grepl("within group sum of squares", run_txt))
+})
+
 test_that("DESCRIPTION uses the release maintainer email (M1)", {
   desc <- test_path("..", "..", "DESCRIPTION")
   skip_if_not(file.exists(desc))

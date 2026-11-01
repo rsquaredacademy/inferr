@@ -23,7 +23,7 @@
 #' following components:
 #'
 #' \item{n}{number of observations}
-#' \item{threshold}{within group sum of squares}
+#' \item{threshold}{threshold used to count runs}
 #' \item{n_below}{number below the threshold}
 #' \item{n_above}{number above the threshold}
 #' \item{mean}{expected number of runs}

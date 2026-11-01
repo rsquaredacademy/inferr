@@ -25,14 +25,14 @@
 #' \item{exp_p}{expected probability of success}
 #' \item{k}{number of successes}
 #' \item{n}{number of observations}
-#' \item{obs_p}{assumed probability of success}
+#' \item{obs_p}{observed probability of success}
 #' \item{pval_lower}{lower one sided p value}
 #' \item{pval_upper}{upper one sided p value}
 #' \item{two_tail}{two sided exact p value}
 #'
 #' @section Deprecated Functions:
 #' \code{infer_binom_calc()} and \code{infer_binom_test()} have been deprecated. Instead use
-#' \code{ifr_binom_cal()} and \code{ifr_binom_test()}.
+#' \code{ifr_binom_calc()} and \code{ifr_binom_test()}.
 #'
 #' @references Hoel, P. G. 1984. Introduction to Mathematical Statistics.
 #' 5th ed. New York: Wiley.

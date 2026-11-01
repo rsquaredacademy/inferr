@@ -95,6 +95,9 @@
 
 ## Other changes
 
+- The binomial and runs test documentation now use the correct replacement
+  function name, describe `obs_p` as observed, and describe the runs threshold
+  correctly.
 - `library(inferr)` no longer contacts CRAN or offers to update packages when
   the package is attached.
 - The maintainer email is now `aravindhebbali@rsquaredacademy.com`.
