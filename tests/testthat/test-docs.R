@@ -26,3 +26,29 @@ test_that("README example does not use the removed type argument", {
   expect_false(any(grepl("type = 'all'", readLines(rmd))))
   expect_false(any(grepl("type = 'all'", readLines(md))))
 })
+
+test_that("DESCRIPTION uses the release maintainer email (M1)", {
+  desc <- test_path("..", "..", "DESCRIPTION")
+  skip_if_not(file.exists(desc))
+
+  txt <- paste(readLines(desc), collapse = "\n")
+  expect_match(txt, "aravindhebbali@rsquaredacademy\\.com", fixed = FALSE)
+  expect_false(grepl("hebbali.aravind@gmail.com", txt))
+})
+
+test_that("the exam data source is reachable and stable (M3)", {
+  rd <- test_path("..", "..", "man", "exam.Rd")
+  skip_if_not(file.exists(rd))
+
+  txt <- paste(readLines(rd), collapse = "\n")
+  expect_false(grepl("spss-tutorials.com", txt))
+  expect_match(txt, "wikipedia.org/wiki/Cochran")
+})
+
+test_that("development reports are excluded from the build (L3)", {
+  rb <- test_path("..", "..", ".Rbuildignore")
+  skip_if_not(file.exists(rb))
+
+  rules <- readLines(rb)
+  expect_true(any(grepl("docs-dev", rules)))
+})
