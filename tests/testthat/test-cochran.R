@@ -138,6 +138,36 @@ test_that("declared factor levels survive homogeneous columns (M9)", {
                "Please specify dichotomous/binary variables only.")
 })
 
+test_that("Cochran Q rejects designs without within-subject discordance (M5)", {
+  d <- data.frame(a = c(1, 0, 1, 0),
+                  b = c(1, 0, 1, 0),
+                  c = c(1, 0, 1, 0))
+  expect_error(
+    ifr_cochran_qtest(d, a, b, c),
+    "no within-subject discordance"
+  )
+
+  # the same design encoded as a factor also has an undefined statistic
+  f <- as.data.frame(lapply(d, factor, levels = c(0, 1)))
+  expect_error(
+    ifr_cochran_qtest(f, a, b, c),
+    "no within-subject discordance"
+  )
+
+  # a single discordant observation is estimable
+  d2 <- d
+  d2$c[1] <- 0
+  k <- ifr_cochran_qtest(d2, a, b, c)
+  m <- as.matrix(d2)
+  q <- (ncol(m) - 1) * (ncol(m) * sum(colSums(m) ^ 2) - sum(m) ^ 2) /
+       (ncol(m) * sum(m) - sum(rowSums(m) ^ 2))
+
+  expect_equal(k$n, 4)
+  expect_equal(k$df, 2)
+  expect_equal(k$q, q)
+  expect_equal(k$pvalue, round(pchisq(k$q, k$df, lower.tail = FALSE), 4))
+})
+
 test_that("non-binary variables are rejected", {
   d <- data.frame(a = 1:4, b = 1:4, c = 1:4)
   expect_error(

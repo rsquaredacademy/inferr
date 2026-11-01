@@ -159,5 +159,12 @@ sums <- function(data) {
 }
 
 coch <- function(k, cls_sum, cl, g, gs_sum) {
-  ((k - 1) * ((k * cls_sum) - (sum(cl) ^ 2))) / ((k * sum(g)) - gs_sum)
+  denom <- (k * sum(g)) - gs_sum
+
+  if (!is.finite(denom) || denom <= 0) {
+    stop("Cochran's Q is undefined: the data contain no within-subject discordance",
+         call. = FALSE)
+  }
+
+  ((k - 1) * ((k * cls_sum) - (sum(cl) ^ 2))) / denom
 }

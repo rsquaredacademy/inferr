@@ -137,6 +137,11 @@ ifr_runs_test.default <- function(data, x, drop = FALSE,
   exp_runs <- expruns(n0, n1)
   sd_runs  <- sdruns(n0, n1)
 
+  if (!is.finite(sd_runs) || sd_runs <= 0) {
+    stop("runs test is undefined: the variance of the number of runs is zero",
+         call. = FALSE)
+  }
+
   test_stat <- (n_runs - exp_runs) / (sd_runs ^ 0.5)
   sig <- 2 * pnorm(abs(test_stat), lower.tail = FALSE)
 

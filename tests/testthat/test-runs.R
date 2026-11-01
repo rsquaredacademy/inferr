@@ -92,6 +92,10 @@ test_that("ifr_runs_test handles ties, missing values and degenerate samples (M5
     ifr_runs_test(data.frame(v = c(1, NA)), v),
     "at least two observations"
   )
+  expect_error(
+    ifr_runs_test(data.frame(v = c(1, 2)), v),
+    "variance of the number of runs"
+  )
 
   # missing values are removed before the threshold is computed
   d <- data.frame(v = c(1, 2, NA, 4))
