@@ -44,6 +44,18 @@
 <div class="section level3">
 <h3 id="bug-fixes-0-3-3">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-3-3"></a></h3>
 <ul><li>
+<code><a href="../reference/ifr_cochran_qtest.html">ifr_cochran_qtest()</a></code> now resolves the numeric outcome coding once across the selected variables, so a homogeneous column that holds only <code>1</code> is recoded as failure when the rest of the design is <code>1/2</code>-coded instead of being silently treated as success.</li>
+<li>
+<code><a href="../reference/ifr_os_prop_test.html">ifr_os_prop_test()</a></code> now requires the null probability to be strictly inside <code>(0, 1)</code>, because the normal approximation is undefined at <code>prob = 0</code> or <code>prob = 1</code>.</li>
+<li>
+<code><a href="../reference/ifr_runs_test.html">ifr_runs_test()</a></code> now computes its p-value from the upper normal tail, so small representable p-values are no longer returned as zero.</li>
+<li>
+<code><a href="../reference/ifr_os_t_test.html">ifr_os_t_test()</a></code> now detects essentially constant data relative to the mean, so a change of units no longer changes whether the t statistic can be estimated, and numerically degenerate data are rejected.</li>
+<li>
+<code><a href="../reference/ifr_cochran_qtest.html">ifr_cochran_qtest()</a></code> now keeps the declared levels of a binary factor, so a homogeneous factor column is accepted when the pairs are discordant elsewhere.</li>
+<li>
+<code><a href="../reference/ifr_runs_test.html">ifr_runs_test()</a></code> and <code><a href="../reference/ifr_cochran_qtest.html">ifr_cochran_qtest()</a></code> now report a clear error when the number of runs has zero variance or the data contain no within-subject discordance, instead of returning <code>NaN</code>.</li>
+<li>
 <code><a href="../reference/ifr_mcnemar_test.html">ifr_mcnemar_test()</a></code> now computes both chi-square p-values from the upper tail, so small representable p-values are no longer returned as zero.</li>
 <li>
 <code><a href="../reference/ifr_ts_prop_test.html">ifr_ts_prop_group()</a></code> now defines one success level before tabulating the groups, so character, logical and 0/1 outcomes work when a group contains only successes or only failures.</li>
@@ -120,7 +132,8 @@
 </ul></div>
 <div class="section level3">
 <h3 id="other-changes-0-3-3">Other changes<a class="anchor" aria-label="anchor" href="#other-changes-0-3-3"></a></h3>
-<ul><li>The binomial and runs test documentation now use the correct replacement function name, describe <code>obs_p</code> as observed, and describe the runs threshold correctly.</li>
+<ul><li>The README and pkgdown site were regenerated, so their printed results and version match the released package.</li>
+<li>The binomial and runs test documentation now use the correct replacement function name, describe <code>obs_p</code> as observed, and describe the runs threshold correctly.</li>
 <li>
 <code><a href="https://rsquaredacademy.github.io/inferr/" class="external-link">library(inferr)</a></code> no longer contacts CRAN or offers to update packages when the package is attached.</li>
 <li>The maintainer email is now <code>aravindhebbali@rsquaredacademy.com</code>.</li>

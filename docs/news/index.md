@@ -4,6 +4,31 @@
 
 ### Bug Fixes
 
+- [`ifr_cochran_qtest()`](https://inferr.rsquaredacademy.com/reference/ifr_cochran_qtest.md)
+  now resolves the numeric outcome coding once across the selected
+  variables, so a homogeneous column that holds only `1` is recoded as
+  failure when the rest of the design is `1/2`-coded instead of being
+  silently treated as success.
+- [`ifr_os_prop_test()`](https://inferr.rsquaredacademy.com/reference/ifr_os_prop_test.md)
+  now requires the null probability to be strictly inside `(0, 1)`,
+  because the normal approximation is undefined at `prob = 0` or
+  `prob = 1`.
+- [`ifr_runs_test()`](https://inferr.rsquaredacademy.com/reference/ifr_runs_test.md)
+  now computes its p-value from the upper normal tail, so small
+  representable p-values are no longer returned as zero.
+- [`ifr_os_t_test()`](https://inferr.rsquaredacademy.com/reference/ifr_os_t_test.md)
+  now detects essentially constant data relative to the mean, so a
+  change of units no longer changes whether the t statistic can be
+  estimated, and numerically degenerate data are rejected.
+- [`ifr_cochran_qtest()`](https://inferr.rsquaredacademy.com/reference/ifr_cochran_qtest.md)
+  now keeps the declared levels of a binary factor, so a homogeneous
+  factor column is accepted when the pairs are discordant elsewhere.
+- [`ifr_runs_test()`](https://inferr.rsquaredacademy.com/reference/ifr_runs_test.md)
+  and
+  [`ifr_cochran_qtest()`](https://inferr.rsquaredacademy.com/reference/ifr_cochran_qtest.md)
+  now report a clear error when the number of runs has zero variance or
+  the data contain no within-subject discordance, instead of returning
+  `NaN`.
 - [`ifr_mcnemar_test()`](https://inferr.rsquaredacademy.com/reference/ifr_mcnemar_test.md)
   now computes both chi-square p-values from the upper tail, so small
   representable p-values are no longer returned as zero.
@@ -150,6 +175,8 @@
 
 ### Other changes
 
+- The README and pkgdown site were regenerated, so their printed results
+  and version match the released package.
 - The binomial and runs test documentation now use the correct
   replacement function name, describe `obs_p` as observed, and describe
   the runs threshold correctly.
