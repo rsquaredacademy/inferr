@@ -4,6 +4,9 @@
 
 - `ifr_mcnemar_test()` now computes both chi-square p-values from the upper
   tail, so small representable p-values are no longer returned as zero.
+- `ifr_ts_prop_group()` now defines one success level before tabulating the
+  groups, so character, logical and 0/1 outcomes work when a group contains
+  only successes or only failures.
 - `ifr_os_var_test()` now reports the correct confidence interval for the
   standard deviation.
 - `ifr_ts_ind_ttest()` now uses t quantiles, rather than normal quantiles, for

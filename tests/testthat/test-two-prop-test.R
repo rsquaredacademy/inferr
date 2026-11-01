@@ -181,6 +181,38 @@ test_that("ifr_ts_prop_test requires binary variables", {
   expect_equal(abs(k$z), round(sqrt(unname(ref$statistic)), 3))
 })
 
+test_that("ifr_ts_prop_group handles homogeneous groups for accepted encodings (M4)", {
+  d <- data.frame(out = c("no", "no", "yes", "yes"),
+                  g   = c("a", "a", "b", "b"))
+  k   <- ifr_ts_prop_group(d, out, g)
+  ref <- suppressWarnings(prop.test(c(0, 2), c(2, 2), correct = FALSE))
+
+  expect_equal(c(k$n1, k$n2), c(2, 2))
+  expect_equal(c(k$phat1, k$phat2), c(0, 1))
+  expect_equal(k$z, round(-sqrt(unname(ref$statistic)), 3))
+  expect_equal(k$z, -2)
+  expect_equal(k$sig, round(ref$p.value, 3))
+  expect_equal(k$sig, 0.046)
+
+  # nearby case: a group with all successes and the other with none
+  d2 <- data.frame(out = c("yes", "yes", "no", "no"),
+                   g   = c("a", "a", "b", "b"))
+  k2 <- ifr_ts_prop_group(d2, out, g)
+  expect_equal(c(k2$phat1, k2$phat2), c(1, 0))
+  expect_equal(k2$z, 2)
+  expect_equal(k2$sig, 0.046)
+
+  # logical and 0/1 encodings use the same second (success) level
+  dlog <- data.frame(out = c(FALSE, FALSE, TRUE, TRUE),
+                     g   = c("a", "a", "b", "b"))
+  dnum <- data.frame(out = c(0, 0, 1, 1),
+                     g   = c("a", "a", "b", "b"))
+  klog <- ifr_ts_prop_group(dlog, out, g)
+  knum <- ifr_ts_prop_group(dnum, out, g)
+  expect_equal(c(klog$phat1, klog$phat2), c(0, 1))
+  expect_equal(unname(c(klog$z, klog$sig)), unname(c(knum$z, knum$sig)))
+})
+
 test_that("ifr_ts_prop_group requires a binary variable and group", {
   d <- data.frame(
     out = factor(rep(c("a", "b", "c"), 20)),

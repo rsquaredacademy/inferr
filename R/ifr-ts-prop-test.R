@@ -3,7 +3,9 @@
 #' large-sample statistics. It tests that a sample has the same proportion
 #' within two independent groups or two samples have the same proportion.
 #' Both variables must be binary; the second level of each variable is
-#' treated as the success level.
+#' treated as the success level. Character, logical and 0/1 encodings are
+#' converted to a factor with a shared success level before the groups are
+#' tabulated.
 #' @param data a \code{data.frame} or \code{tibble}
 #' @param var1 factor; column in \code{data}
 #' @param var2 factor; column in \code{data}
@@ -147,12 +149,25 @@ ifr_ts_prop_group <- function(data, var, group,
          call. = FALSE)
   }
 
-  n     <- tapply(varone, groupone, length)
-  n1    <- n[[1]]
-  n2    <- n[[2]]
-  y     <- tapply(varone, groupone, table)
-  y1    <- y[[1]][[2]]
-  y2    <- y[[2]][[2]]
+  # define one success level for all groups; per-group tables would lose the
+  # unobserved level in a homogeneous group
+  if (!is.factor(varone)) {
+    varone <- factor(varone)
+  }
+
+  if (nlevels(varone) != 2) {
+    stop("var must be a binary variable with exactly two levels.",
+         call. = FALSE)
+  }
+
+  success <- levels(varone)[2]
+  groups  <- levels(groupone)
+
+  n     <- as.vector(table(groupone))
+  n1    <- n[1]
+  n2    <- n[2]
+  y1    <- sum(varone[groupone == groups[1]] == success)
+  y2    <- sum(varone[groupone == groups[2]] == success)
   phat1 <- y1 / n1
   phat2 <- y2 / n2
   phat  <- sum(y1, y2) / sum(n1, n2)
