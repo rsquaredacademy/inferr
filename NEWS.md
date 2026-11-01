@@ -50,11 +50,37 @@
 - `ifr_ts_paired_ttest()` now computes p-values and the confidence interval
   of the mean difference from the unrounded t statistic and standard
   deviation.
+- `ifr_binom_test()`, `ifr_os_prop_test()`, `ifr_ts_prop_test()`,
+  `ifr_ts_prop_group()` and `ifr_chisq_gof_test()` no longer count missing
+  categorical values as failures or scale expected counts by missing
+  observations.
+- `ifr_mcnemar_test()` caps the exact p-value at 1, bounds the continuity
+  correction at zero, and defines the no-discordant-pairs case.
+- `ifr_chisq_assoc_test()` and `ifr_chisq_gof_test()` bound the continuity
+  correction at zero; the goodness-of-fit deviation and standardized residual
+  use the signed bounded correction.
+- `ifr_ts_paired_ttest()` computes the correlation p-value from the unrounded
+  correlation and the upper tail, so it no longer exceeds 1 for negative
+  correlations.
+- `ifr_levene_test()` no longer interchanges Levene's mean-centred statistic
+  with Brown and Forsythe's median-centred statistic.
+- `ifr_ts_ind_ttest()` reports the pooled standard deviation using
+  `n1 + n2 - 2` in the denominator.
+- `ifr_oneway_anova()` handles singleton groups, rejects designs without
+  residual degrees of freedom, and uses the upper tail for the p-value so
+  representable p-values are not returned as zero.
+- `ifr_oneway_anova()` and `ifr_ts_ind_ttest()` work when the data contain
+  columns named `x` or `y`.
+- `ifr_ts_var_test()` requires exactly two columns, or exactly one outcome
+  column with `group_var`, and validates the groups retained after missing
+  values are removed.
 
 ## Other changes
 
 - `library(inferr)` no longer contacts CRAN or offers to update packages when
   the package is attached.
+- The maintainer email is now `aravindhebbali@rsquaredacademy.com`.
+- The documented source of the `exam` data now points to a stable page.
 
 # inferr 0.3.2
 
