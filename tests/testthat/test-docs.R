@@ -36,7 +36,7 @@ test_that("DESCRIPTION uses the release maintainer email (M1)", {
   expect_false(grepl("hebbali.aravind@gmail.com", txt))
 })
 
-test_that("the exam data source is reachable and stable (M3)", {
+test_that("the exam data source documentation is stable (M3)", {
   rd <- test_path("..", "..", "man", "exam.Rd")
   skip_if_not(file.exists(rd))
 

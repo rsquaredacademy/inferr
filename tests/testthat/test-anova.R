@@ -104,10 +104,15 @@ test_that("ANOVA p-value uses the upper tail without cancellation (H10)", {
   ref <- anova(lm(val ~ grp, d))
 
   expect_gt(k$pval, 0)
+  expect_lt(k$pval, 1e-18)
   expect_equal(k$pval, ref[["Pr(>F)"]][1], tolerance = 1e-12)
   expect_equal(
     k$pval,
     pf(ref[["F value"]][1], ref$Df[1], ref$Df[2], lower.tail = FALSE),
     tolerance = 1e-12
   )
+  # relative and log comparisons protect the magnitude, which an absolute
+  # tolerance near 1e-21 does not
+  expect_equal(k$pval / ref[["Pr(>F)"]][1], 1, tolerance = 1e-10)
+  expect_equal(log(k$pval), log(ref[["Pr(>F)"]][1]), tolerance = 1e-10)
 })
