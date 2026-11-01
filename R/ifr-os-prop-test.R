@@ -138,10 +138,11 @@ prop_comp <- function(n, prob, alternative, phat, obs = NULL) {
   std  <- round(dif / sqrt(exp), 2)
   num  <- phat - prob
   den  <- sqrt((p * q) / n)
-  z    <- round(num / den, 4)
+  z    <- num / den
   lt   <- round(pnorm(z), 4)
-  ut   <- round(1 - pnorm(z), 4)
-  tt   <- round((1 - pnorm(abs(z))) * 2, 4)
+  ut   <- round(pnorm(z, lower.tail = FALSE), 4)
+  tt   <- round((pnorm(abs(z), lower.tail = FALSE)) * 2, 4)
+  z    <- round(z, 4)
   alt  <- alternative
 
   if (alt == "all") {

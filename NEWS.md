@@ -17,6 +17,9 @@
 - `ifr_ts_ind_ttest()` now drops unused grouping levels after removing
   incomplete cases, so a factor that declares a third level does not reject
   data with two observed groups.
+- `ifr_os_prop_test()` and `ifr_chisq_assoc_test()` now compute p-values from
+  unrounded z and chi-square statistics, so the reported decimals match the
+  statistical reference.
 - `ifr_os_var_test()` now reports the correct confidence interval for the
   standard deviation.
 - `ifr_ts_ind_ttest()` now uses t quantiles, rather than normal quantiles, for
