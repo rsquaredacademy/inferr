@@ -131,7 +131,11 @@ mctestp <- function(dat) {
 }
 
 tetat <- function(p) {
-  ((p[1] - p[2]) ^ 2) / sum(p)
+  discordant <- sum(p)
+  if (discordant == 0) {
+    return(0)
+  }
+  ((p[1] - p[2]) ^ 2) / discordant
 }
 
 mcpval <- function(test_stat, df) {

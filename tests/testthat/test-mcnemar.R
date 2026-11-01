@@ -84,6 +84,8 @@ test_that("McNemar exact and corrected p-values are bounded (H2)", {
 
   # no discordant pairs: defined as no evidence, statistic 0 and p = 1
   k0 <- ifr_mcnemar_test(matrix(c(10, 0, 0, 10), 2))
+  expect_equal(k0$statistic, 0)
+  expect_equal(k0$pvalue, 1)
   expect_equal(k0$exactp, 1)
   expect_equal(k0$cstat, 0)
   expect_equal(k0$cpvalue, 1)
