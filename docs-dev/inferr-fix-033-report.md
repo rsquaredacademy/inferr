@@ -61,7 +61,7 @@ Source test suite (`NOT_CRAN=true`, `testthat::test_local()`):
 
 ```text
 failed skipped error warning passed
-     0       0     0       0    572
+     0       0     0       0    574
 ```
 
 Build and check, from a clean `git archive HEAD` copy with the build/check
@@ -122,4 +122,7 @@ ce08489 fix: require two samples and validate retained groups in the variance te
 91302f3 chore: update maintainer email, data source URL and build ignores (M1, M3, L3)
 dff3b97 docs: add NEWS entries for the 0.3.3 fixes
 61f6a86 chore: declare data.table globals used by the ANOVA and t test helpers
+2255e3e fix: define the McNemar statistic when there are no discordant pairs (H2)
+a09c883 docs: record the completed check results in cran-comments.md (M2)
+b38a81a docs: add the inferr 0.3.3 fix-round report
 ```
