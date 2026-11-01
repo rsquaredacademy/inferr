@@ -2,6 +2,17 @@
 
 ## Bug Fixes
 
+- `ifr_runs_test()` now computes its p-value from the upper normal tail, so
+  small representable p-values are no longer returned as zero.
+- `ifr_os_t_test()` now detects essentially constant data relative to the
+  mean, so a change of units no longer changes whether the t statistic can be
+  estimated, and numerically degenerate data are rejected.
+- `ifr_cochran_qtest()` now keeps the declared levels of a binary factor, so a
+  homogeneous factor column is accepted when the pairs are discordant
+  elsewhere.
+- `ifr_runs_test()` and `ifr_cochran_qtest()` now report a clear error when
+  the number of runs has zero variance or the data contain no within-subject
+  discordance, instead of returning `NaN`.
 - `ifr_mcnemar_test()` now computes both chi-square p-values from the upper
   tail, so small representable p-values are no longer returned as zero.
 - `ifr_ts_prop_group()` now defines one success level before tabulating the
