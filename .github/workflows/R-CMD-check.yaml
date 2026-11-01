@@ -50,3 +50,11 @@ jobs:
         with:
           upload-snapshots: true
           build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'
+
+      # installed tests skip the source-documentation assertions; run them
+      # against the source tree on one job
+      - name: Source documentation tests
+        if: runner.os == 'Linux' && matrix.config.r == 'release'
+        run: |
+          testthat::test_local('.', filter = 'docs', reporter = 'summary')
+        shell: Rscript {0}
