@@ -55,6 +55,22 @@ test_that("output from one sample t test is as expected when alternative is all"
   expect_snapshot(ifr_os_t_test(hsb, write, mu = 50, alternative = "all"))
 })
 
+test_that("ifr_os_t_test rejects degenerate samples and invalid alpha (M5)", {
+  expect_error(ifr_os_t_test(rep(1, 4)), "essentially constant")
+  expect_error(ifr_os_t_test(c(1, 1, 1, NA)), "essentially constant")
+  expect_error(ifr_os_t_test(1), "at least two")
+  expect_error(ifr_os_t_test(c(NA_real_, NA_real_)), "at least two")
+  expect_error(ifr_os_t_test(mtcars, mpg, mu = 50, alpha = 1.5),
+               "alpha must be between 0 and 1")
+  expect_error(ifr_os_t_test(mtcars, mpg, mu = 50, alpha = 0),
+               "alpha must be between 0 and 1")
+
+  # a two-observation sample with a positive variance remains valid
+  k <- ifr_os_t_test(c(1, 3), mu = 2)
+  expect_equal(k$n, 2)
+  expect_equal(k$test_stat, 0)
+})
+
 test_that("ifr_os_t_test drops missing values", {
   mt <- mtcars
   mt$mpg[1:3] <- NA

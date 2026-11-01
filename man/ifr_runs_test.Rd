@@ -49,7 +49,10 @@ following components:
 independent i.e. whether they occur in a random order, by counting
 how many runs there are above and below a threshold.  By default, the median
 is used as the threshold.  A small number of runs indicates positive serial
-correlation; a large number indicates negative serial correlation.
+correlation; a large number indicates negative serial correlation. Missing
+values are removed before the threshold and the runs are computed; at least
+two observations and at least one value on each side of the threshold are
+required.
 }
 \section{Deprecated Function}{
 

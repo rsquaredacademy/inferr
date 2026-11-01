@@ -1,6 +1,7 @@
 #' @title Cochran Q Test
 #' @description Test if the proportions of 3 or more dichotomous variables are
-#' equal in the same population.
+#' equal in the same population. Rows with a missing value in any of the
+#' specified variables are removed before the test is computed.
 #' @param data a \code{data.frame} or \code{tibble}
 #' @param ... columns in \code{data}
 #'
@@ -35,6 +36,14 @@ ifr_cochran_qtest.default <- function(data, ...) {
 
   if (ncol(fdata) < 3) {
     stop("Please specify at least 3 variables.", call. = FALSE)
+  }
+
+  # consistent missing-data policy: a row is used only when every specified
+  # variable is observed
+  fdata <- fdata[stats::complete.cases(fdata), , drop = FALSE]
+
+  if (nrow(fdata) < 2) {
+    stop("at least two complete observations are required", call. = FALSE)
   }
 
   fdata <- as.data.frame(lapply(fdata, cochran_recode))
@@ -90,6 +99,7 @@ cochran_recode <- function(x) {
   }
 
   if (is.factor(x)) {
+    x <- droplevels(x)
     if (nlevels(x) != 2) {
       stop("Please specify dichotomous/binary variables only.", call. = FALSE)
     }
@@ -123,7 +133,7 @@ cochran_comp <- function(data) {
 
   q <- coch(k, cs$cls_sum, cs$cl, cs$g, cs$gs_sum)
 
-  pvalue <- 1 - pchisq(q, df)
+  pvalue <- pchisq(q, df, lower.tail = FALSE)
 
   list(df     = df,
        n      = n,

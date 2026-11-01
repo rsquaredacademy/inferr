@@ -7,6 +7,13 @@
 - `ifr_ts_prop_group()` now defines one success level before tabulating the
   groups, so character, logical and 0/1 outcomes work when a group contains
   only successes or only failures.
+- `ifr_binom_calc()`, `ifr_binom_test()`, `ifr_os_prop_test()`,
+  `ifr_os_t_test()`, `ifr_runs_test()` and `ifr_cochran_qtest()` now reject
+  invalid counts, probabilities, sample sizes and degenerate samples instead
+  of returning plausible-looking values. The runs and Cochran tests remove
+  incomplete observations with a documented, consistent policy.
+- `ifr_cochran_qtest()` now computes its p-value from the upper tail, so small
+  representable p-values are no longer returned as zero.
 - `ifr_os_var_test()` now reports the correct confidence interval for the
   standard deviation.
 - `ifr_ts_ind_ttest()` now uses t quantiles, rather than normal quantiles, for

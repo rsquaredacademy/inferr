@@ -79,6 +79,40 @@ test_that("output from runs test is as expected", {
   expect_snapshot(ifr_runs_test(resid, residual))
 })
 
+test_that("ifr_runs_test handles ties, missing values and degenerate samples (M5)", {
+  expect_error(
+    ifr_runs_test(data.frame(v = rep(2, 4)), v, drop = TRUE),
+    "fewer than two observations remain"
+  )
+  expect_error(
+    ifr_runs_test(data.frame(v = rep(2, 4)), v),
+    "both above and below the threshold"
+  )
+  expect_error(
+    ifr_runs_test(data.frame(v = c(1, NA)), v),
+    "at least two observations"
+  )
+
+  # missing values are removed before the threshold is computed
+  d <- data.frame(v = c(1, 2, NA, 4))
+  k <- ifr_runs_test(d, v)
+  n0 <- 2
+  n1 <- 1
+  N  <- n0 + n1
+  exp_runs <- (2 * n0 * n1 / N) + 1
+  var_runs <- (2 * n0 * n1 * (2 * n0 * n1 - N)) / (N ^ 2 * (N - 1))
+
+  expect_equal(k$n, 3)
+  expect_equal(k$threshold, 2)
+  expect_equal(k$n_below, n0)
+  expect_equal(k$n_above, n1)
+  expect_equal(k$n_runs, 2)
+  expect_equal(k$mean, exp_runs)
+  expect_equal(k$var, var_runs)
+  expect_equal(k$z, (2 - exp_runs) / sqrt(var_runs))
+  expect_equal(k$p, 2 * pnorm(abs(k$z), lower.tail = FALSE))
+})
+
 test_that("ifr_runs_test reports n after dropping values equal to the threshold", {
   d <- data.frame(v = c(1, 2, 2, 3, 4, 4, 5, 6, 7, 8))
 

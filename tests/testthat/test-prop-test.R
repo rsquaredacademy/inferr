@@ -58,6 +58,23 @@ test_that("ifr_os_prop_test requires a binary variable and matches prop.test", {
   expect_equal(k$sig, round(ref$p.value, 4))
 })
 
+test_that("ifr_os_prop_test rejects invalid proportions and sample sizes (M5)", {
+  expect_error(ifr_os_prop_test(100, phat = 2), "phat must be between 0 and 1")
+  expect_error(ifr_os_prop_test(100, phat = -0.1), "phat must be between 0 and 1")
+  expect_error(ifr_os_prop_test(100, phat = 0.5, prob = 1.5),
+               "prob must be between 0 and 1")
+  expect_error(ifr_os_prop_test(0, phat = 0.5), "n must be a positive integer")
+  expect_error(ifr_os_prop_test(-5, phat = 0.5), "n must be a positive integer")
+
+  d <- data.frame(out = factor(c(NA, NA), levels = c("no", "yes")))
+  expect_error(ifr_os_prop_test(d, out), "at least one non-missing")
+
+  # boundaries remain valid
+  k <- ifr_os_prop_test(100, phat = 0)
+  expect_equal(k$obs, c(100, 0))
+  expect_equal(unname(k$sig), 0)
+})
+
 test_that("ifr_os_prop_test ignores missing outcomes (H1)", {
   d <- data.frame(x = factor(c("no", "yes", "yes", NA),
                              levels = c("no", "yes")))

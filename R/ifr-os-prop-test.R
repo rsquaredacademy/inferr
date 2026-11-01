@@ -51,7 +51,21 @@ ifr_os_prop_test <- function(data, variable = NULL, prob = 0.5, phat = 0.5,
 #'
 ifr_os_prop_test.default <- function(data, variable = NULL, prob = 0.5, phat = 0.5,
                                      alternative = c("both", "less", "greater", "all")) {
+  if (!is.numeric(prob) || length(prob) != 1 || !is.finite(prob) ||
+      prob < 0 || prob > 1) {
+    stop("prob must be between 0 and 1", call. = FALSE)
+  }
+
   if (is.numeric(data)) {
+
+    if (length(data) != 1 || !is.finite(data) || data < 1 ||
+        data != round(data)) {
+      stop("n must be a positive integer", call. = FALSE)
+    }
+    if (!is.numeric(phat) || length(phat) != 1 || !is.finite(phat) ||
+        phat < 0 || phat > 1) {
+      stop("phat must be between 0 and 1", call. = FALSE)
+    }
 
     method <- match.arg(alternative)
     k <- prop_comp(data, prob = prob, phat = phat, alternative = method)
@@ -63,6 +77,9 @@ ifr_os_prop_test.default <- function(data, variable = NULL, prob = 0.5, phat = 0
     check_binary(fdata, "variable")
     fdata     <- fdata[!is.na(fdata)]
     n1        <- length(fdata)
+    if (n1 < 1) {
+      stop("variable must contain at least one non-missing value", call. = FALSE)
+    }
     n2        <- table(fdata)[[2]]
     phat      <- n2 / n1
     prob      <- prob

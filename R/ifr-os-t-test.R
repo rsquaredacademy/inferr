@@ -76,11 +76,14 @@ ifr_os_t_test.default <- function(data, x, mu = 0, alpha = 0.05,
   if (!is.numeric(xone)) {
     stop("x must be numeric", call. = FALSE)
   }
-  if (!is.numeric(mu)) {
+  if (!is.numeric(mu) || length(mu) != 1 || !is.finite(mu)) {
     stop("mu must be numeric", call. = FALSE)
   }
-  if (!is.numeric(alpha)) {
+  if (!is.numeric(alpha) || length(alpha) != 1 || !is.finite(alpha)) {
     stop("alpha must be numeric", call. = FALSE)
+  }
+  if (alpha <= 0 || alpha >= 1) {
+    stop("alpha must be between 0 and 1", call. = FALSE)
   }
 
   type     <- match.arg(alternative)
@@ -129,11 +132,21 @@ ttest_comp <- function(x, mu, alpha, type) {
 
   x         <- x[!is.na(x)]
   n         <- length(x)
+
+  if (n < 2) {
+    stop("at least two observations are required", call. = FALSE)
+  }
+
   a         <- (alpha / 2)
   df        <- n - 1
   conf      <- 1 - alpha
   Mean      <- mean(x)
   stddev    <- sd(x)
+
+  if (!is.finite(stddev) || stats::var(x) < .Machine$double.eps) {
+    stop("data are essentially constant", call. = FALSE)
+  }
+
   std_err   <- stddev / sqrt(n)
   test_stat <- (Mean - mu) / std_err
 

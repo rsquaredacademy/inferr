@@ -49,6 +49,32 @@ test_that("binary, logical and factor encodings give the same Q", {
   expect_equal(unname(q), rep(q[[1]], 4))
 })
 
+test_that("ifr_cochran_qtest handles missing values consistently across encodings (M5)", {
+  dlog <- data.frame(
+    a = c(TRUE, FALSE, TRUE),
+    b = c(FALSE, TRUE, FALSE),
+    c = c(TRUE, TRUE, NA)
+  )
+  dint <- as.data.frame(lapply(dlog, as.integer))
+
+  klog <- ifr_cochran_qtest(dlog, a, b, c)
+  kint <- ifr_cochran_qtest(dint, a, b, c)
+
+  expect_equal(klog$n, 2)
+  expect_equal(klog$df, 2)
+  expect_equal(klog$q, 1)
+  expect_equal(klog$pvalue, round(pchisq(1, 2, lower.tail = FALSE), 4))
+  expect_equal(klog$pvalue, 0.6065)
+  expect_equal(
+    unname(c(klog$n, klog$df, klog$q, klog$pvalue)),
+    unname(c(kint$n, kint$df, kint$q, kint$pvalue))
+  )
+
+  # complete cases, not column-wise means, define the retained sample
+  d2 <- data.frame(a = c(1, 1, 0), b = c(1, 0, 1), c = c(NA, 0, 1))
+  expect_equal(ifr_cochran_qtest(d2, a, b, c)$n, 2)
+})
+
 test_that("non-binary variables are rejected", {
   d <- data.frame(a = 1:4, b = 1:4, c = 1:4)
   expect_error(
