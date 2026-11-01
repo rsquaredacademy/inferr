@@ -69,3 +69,36 @@ test_that("McNemar output aligns the statistic and degrees of freedom", {
 
   expect_equal(nchar(df_line), nchar(stat_line))
 })
+
+test_that("McNemar exact and corrected p-values are bounded (H2)", {
+  m <- matrix(c(10, 2, 2, 10), 2)
+  k <- ifr_mcnemar_test(m)
+  ref <- mcnemar.test(m)
+
+  expect_equal(k$statistic, unname(ref$statistic))
+  expect_equal(k$pvalue, ref$p.value)
+  expect_equal(k$exactp, binom.test(2, 4, 0.5)$p.value)
+  expect_equal(k$exactp, 1)
+  expect_equal(k$cstat, 0)
+  expect_equal(k$cpvalue, 1)
+
+  # no discordant pairs: defined as no evidence, statistic 0 and p = 1
+  k0 <- ifr_mcnemar_test(matrix(c(10, 0, 0, 10), 2))
+  expect_equal(k0$exactp, 1)
+  expect_equal(k0$cstat, 0)
+  expect_equal(k0$cpvalue, 1)
+
+  # nearby cases with a non-zero correction
+  m2 <- matrix(c(0, 9, 3, 0), 2)
+  k2 <- ifr_mcnemar_test(m2)
+  ref2 <- mcnemar.test(m2)
+  expect_equal(k2$cstat, unname(ref2$statistic), tolerance = 1e-10)
+  expect_equal(k2$cpvalue, ref2$p.value, tolerance = 1e-10)
+  expect_equal(k2$exactp, round(binom.test(3, 12, 0.5)$p.value, 4))
+
+  # |b - c| = 1 must not create evidence from the correction alone
+  m3 <- matrix(c(20, 7, 6, 15), 2)
+  k3 <- ifr_mcnemar_test(m3)
+  expect_equal(k3$cstat, 0)
+  expect_equal(k3$cpvalue, 1)
+})

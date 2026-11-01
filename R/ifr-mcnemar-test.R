@@ -139,12 +139,20 @@ mcpval <- function(test_stat, df) {
 }
 
 mcpex <- function(dat) {
-  2 * min(pbinom(dat[2], sum(dat[2], dat[3]), 0.5), 
-          pbinom(dat[3], sum(dat[2], dat[3]), 0.5))
+  discordant <- dat[2] + dat[3]
+  if (discordant == 0) {
+    return(1)
+  }
+  min(1, 2 * min(pbinom(dat[2], discordant, 0.5),
+                 pbinom(dat[3], discordant, 0.5)))
 }
 
 mcstat <- function(p) {
-  ((abs(p[1] - p[2]) - 1) ^ 2) / sum(p)
+  discordant <- sum(p)
+  if (discordant == 0) {
+    return(0)
+  }
+  max(abs(p[1] - p[2]) - 1, 0) ^ 2 / discordant
 }
 
 mccpval <- function(cstat, df) {
