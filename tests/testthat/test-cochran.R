@@ -138,6 +138,97 @@ test_that("declared factor levels survive homogeneous columns (M9)", {
                "Please specify dichotomous/binary variables only.")
 })
 
+test_that("a homogeneous 1/2-coded column follows the rest of the design (H13)", {
+  d01 <- data.frame(a = c(0, 0, 0, 0),
+                    b = c(0, 1, 1, 1),
+                    c = c(0, 1, 1, 1))
+  d12 <- d01 + 1
+  f12 <- as.data.frame(lapply(d12, factor, levels = c(1, 2)))
+
+  k01  <- ifr_cochran_qtest(d01, a, b, c)
+  k12  <- ifr_cochran_qtest(d12, a, b, c)
+  kf12 <- ifr_cochran_qtest(f12, a, b, c)
+
+  expect_equal(k01$n, 4)
+  expect_equal(k01$df, 2)
+  expect_equal(k01$q, 6)
+  expect_equal(k01$pvalue, round(pchisq(6, 2, lower.tail = FALSE), 4))
+  expect_equal(k01$pvalue, 0.0498)
+
+  expect_equal(unname(c(k12$n, k12$df, k12$q, k12$pvalue)),
+               unname(c(k01$n, k01$df, k01$q, k01$pvalue)))
+  expect_equal(unname(c(kf12$n, kf12$df, kf12$q, kf12$pvalue)),
+               unname(c(k01$n, k01$df, k01$q, k01$pvalue)))
+
+  # nearby design that also disagreed before the fix
+  n01 <- data.frame(a = c(0, 0, 0, 0),
+                    b = c(0, 0, 0, 1),
+                    c = c(0, 0, 1, 1))
+  n12 <- n01 + 1
+  nf  <- as.data.frame(lapply(n12, factor, levels = c(1, 2)))
+
+  q01 <- ifr_cochran_qtest(n01, a, b, c)
+  q12 <- ifr_cochran_qtest(n12, a, b, c)
+  qf  <- ifr_cochran_qtest(nf, a, b, c)
+
+  expect_equal(q01$q, 3)
+  expect_equal(q01$pvalue, round(pchisq(3, 2, lower.tail = FALSE), 4))
+  expect_equal(q01$pvalue, 0.2231)
+  expect_equal(unname(c(q12$n, q12$df, q12$q, q12$pvalue)),
+               unname(c(q01$n, q01$df, q01$q, q01$pvalue)))
+  expect_equal(unname(c(qf$n, qf$df, qf$q, qf$pvalue)),
+               unname(c(q01$n, q01$df, q01$q, q01$pvalue)))
+})
+
+test_that("all-success and NA-homogenized 1/2 columns keep their coding (H13)", {
+  # an all-2 (all-success) column in a 1/2 design maps to all 1s
+  s12 <- data.frame(a = c(2, 2, 2, 2),
+                    b = c(1, 2, 2, 2),
+                    c = c(1, 2, 2, 2))
+  s01 <- data.frame(a = c(1, 1, 1, 1),
+                    b = c(0, 1, 1, 1),
+                    c = c(0, 1, 1, 1))
+  sf  <- as.data.frame(lapply(s12, factor, levels = c(1, 2)))
+
+  k12 <- ifr_cochran_qtest(s12, a, b, c)
+  k01 <- ifr_cochran_qtest(s01, a, b, c)
+  kf  <- ifr_cochran_qtest(sf, a, b, c)
+
+  expect_equal(k01$q, 2)
+  expect_equal(k01$pvalue, round(pchisq(2, 2, lower.tail = FALSE), 4))
+  expect_equal(k01$pvalue, 0.3679)
+  expect_equal(unname(c(k12$n, k12$df, k12$q, k12$pvalue)),
+               unname(c(k01$n, k01$df, k01$q, k01$pvalue)))
+  expect_equal(unname(c(kf$n, kf$df, kf$q, kf$pvalue)),
+               unname(c(k01$n, k01$df, k01$q, k01$pvalue)))
+
+  # a column made homogeneous by missing-data removal keeps the 1/2 coding
+  # implied by the retained columns
+  d12 <- data.frame(a = c(1, 2, 1, 1, 1),
+                    b = c(1, NA, 2, 1, 2),
+                    c = c(2, 1, 1, 2, 1))
+  d01 <- data.frame(a = c(0, 0, 0, 0),
+                    b = c(0, 1, 0, 1),
+                    c = c(1, 0, 1, 0))
+
+  k12 <- ifr_cochran_qtest(d12, a, b, c)
+  k01 <- ifr_cochran_qtest(d01, a, b, c)
+
+  expect_equal(k12$n, 4)
+  expect_equal(k12$q, 2)
+  expect_equal(k12$pvalue, 0.3679)
+  expect_equal(unname(c(k12$n, k12$df, k12$q, k12$pvalue)),
+               unname(c(k01$n, k01$df, k01$q, k01$pvalue)))
+})
+
+test_that("mixed 0/1 and 1/2 numeric codings are rejected (H13)", {
+  d <- data.frame(a = c(0, 1, 0, 1),
+                  b = c(1, 2, 1, 2),
+                  c = c(0, 1, 1, 1))
+  expect_error(ifr_cochran_qtest(d, a, b, c),
+               "single 0/1 or 1/2 coding")
+})
+
 test_that("Cochran Q rejects designs without within-subject discordance (M5)", {
   d <- data.frame(a = c(1, 0, 1, 0),
                   b = c(1, 0, 1, 0),
