@@ -138,7 +138,7 @@ ifr_runs_test.default <- function(data, x, drop = FALSE,
   sd_runs  <- sdruns(n0, n1)
 
   test_stat <- (n_runs - exp_runs) / (sd_runs ^ 0.5)
-  sig <- 2 * (1 - pnorm(abs(test_stat), lower.tail = TRUE))
+  sig <- 2 * pnorm(abs(test_stat), lower.tail = FALSE)
 
   result <-
     list(mean      = exp_runs,

@@ -113,6 +113,44 @@ test_that("ifr_runs_test handles ties, missing values and degenerate samples (M5
   expect_equal(k$p, 2 * pnorm(abs(k$z), lower.tail = FALSE))
 })
 
+test_that("runs test keeps a representable upper-tail p-value (H12)", {
+  d <- data.frame(v = c(rep(-1, 100), rep(1, 100)))
+  k <- ifr_runs_test(d, v, threshold = 0)
+
+  n0 <- 100
+  n1 <- 100
+  N  <- n0 + n1
+  exp_runs <- (2 * n0 * n1 / N) + 1
+  var_runs <- (2 * n0 * n1 * (2 * n0 * n1 - N)) / (N ^ 2 * (N - 1))
+  z        <- (2 - exp_runs) / sqrt(var_runs)
+  ref_p    <- 2 * pnorm(abs(z), lower.tail = FALSE)
+
+  expect_equal(k$n, 200)
+  expect_equal(k$n_runs, 2)
+  expect_equal(k$mean, exp_runs)
+  expect_equal(k$var, var_runs)
+  expect_equal(k$z, z)
+  expect_gt(k$p, 0)
+  expect_equal(k$p, ref_p, tolerance = 1e-12)
+  expect_equal(k$p / ref_p, 1, tolerance = 1e-12)
+
+  # nearby ordinary case with the same two-sided normal reference
+  d2 <- data.frame(v = c(rep(-1, 10), rep(1, 10)))
+  k2 <- ifr_runs_test(d2, v, threshold = 0)
+  n0 <- 10
+  n1 <- 10
+  N  <- n0 + n1
+  exp_runs <- (2 * n0 * n1 / N) + 1
+  var_runs <- (2 * n0 * n1 * (2 * n0 * n1 - N)) / (N ^ 2 * (N - 1))
+  z2       <- (2 - exp_runs) / sqrt(var_runs)
+  ref_p2   <- 2 * pnorm(abs(z2), lower.tail = FALSE)
+
+  expect_equal(k2$n_runs, 2)
+  expect_equal(k2$z, z2)
+  expect_equal(k2$p, ref_p2, tolerance = 1e-12)
+  expect_equal(k2$p / ref_p2, 1, tolerance = 1e-12)
+})
+
 test_that("ifr_runs_test reports n after dropping values equal to the threshold", {
   d <- data.frame(v = c(1, 2, 2, 3, 4, 4, 5, 6, 7, 8))
 
