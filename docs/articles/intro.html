@@ -16,8 +16,9 @@
 <script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Introduction to inferr">
-<!-- Rsquared site-kit v1.0.1: GA4 + region-based consent. Kit files are vendored in pkgdown/assets/site-kit/. --><link rel="stylesheet" href="/site-kit/rsa-consent.css">
-<script src="/site-kit/rsa-analytics.js" data-ga-id="G-2QSPEL5WM6" async></script>
+<!-- Rsquared site-kit v1.2.0: GA4 + region-based consent + email sign-up. Kit files are vendored in pkgdown/assets/site-kit/. --><link rel="stylesheet" href="/site-kit/rsa-consent.css">
+<script src="/site-kit/rsa-analytics.js" data-ga-id="G-2QSPEL5WM6" async></script><link rel="stylesheet" href="/site-kit/rsa-signup.css">
+<script src="/site-kit/rsa-signup.js" defer></script>
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -27,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">inferr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.2.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,7 +70,7 @@
 
       <h1>Introduction to inferr</h1>
             
-            <h4 data-toc-skip class="date">2026-10-17</h4>
+            <h4 data-toc-skip class="date">2026-11-01</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/rsquaredacademy/inferr/blob/HEAD/vignettes/intro.Rmd" class="external-link"><code>vignettes/intro.Rmd</code></a></small>
       <div class="d-none name"><code>intro.Rmd</code></div>
@@ -134,13 +135,13 @@ significantly from 50.</p>
 <span><span class="co">## ---------------------------------------------------------------------------------</span></span>
 <span><span class="co">##  Variable    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] </span></span>
 <span><span class="co">## ---------------------------------------------------------------------------------</span></span>
-<span><span class="co">##   write      200    52.775     0.6702       9.4786       51.4537    54.0969   </span></span>
+<span><span class="co">##   write      200    52.775     0.6702       9.4786       51.4533    54.0967   </span></span>
 <span><span class="co">## ---------------------------------------------------------------------------------</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##                                Ho: mean(write) ~=50                              </span></span>
+<span><span class="co">##                               Ho: mean(write) ~=50                              </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##         Ha: mean &lt; 50              Ha: mean ~= 50               Ha: mean &gt; 50        </span></span>
-<span><span class="co">##          t = 4.141                   t = 4.141                   t = 4.141         </span></span>
+<span><span class="co">##           t = 4.14                    t = 4.14                    t = 4.14         </span></span>
 <span><span class="co">##        P &lt; t = 0.99997            P &gt; |t| = 0.00005            P &gt; t = 0.00003</span></span></code></pre>
 </div>
 </div>
@@ -238,12 +239,12 @@ males and females.</p>
 <span><span class="co">## -----------------------------------------------------------------------------</span></span>
 <span><span class="co">##   Group       Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] </span></span>
 <span><span class="co">## -----------------------------------------------------------------------------</span></span>
-<span><span class="co">##     0          91    50.121      1.080       10.305       47.97539   52.26661  </span></span>
-<span><span class="co">##     1         109    54.991      0.779        8.134       53.44689   56.53511  </span></span>
+<span><span class="co">##     0          91    50.121      1.080       10.305       47.97473   52.26703  </span></span>
+<span><span class="co">##     1         109    54.991      0.779        8.134       53.44658   56.53507  </span></span>
 <span><span class="co">## -----------------------------------------------------------------------------</span></span>
-<span><span class="co">##  combined     200    52.775      0.67         9.479       51.45379   54.09621  </span></span>
+<span><span class="co">##  combined     200    52.775      0.67         9.479       51.45332   54.09668  </span></span>
 <span><span class="co">## -----------------------------------------------------------------------------</span></span>
-<span><span class="co">##    diff       200    -4.87       1.304        9.231       -7.42623   -2.31377  </span></span>
+<span><span class="co">##    diff       200    -4.87       1.304        9.185       -7.44183   -2.29806  </span></span>
 <span><span class="co">## -----------------------------------------------------------------------------</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##                         Independent Samples Test                         </span></span>
@@ -268,7 +269,7 @@ males and females.</p>
 <span><span class="co">## ---------------------------------------------------------------</span></span>
 <span><span class="co">##  Variable      Method     Num DF    Den DF    F Value    P &gt; F  </span></span>
 <span><span class="co">## ---------------------------------------------------------------</span></span>
-<span><span class="co">##   write       Folded F      90       108       1.605     0.0188 </span></span>
+<span><span class="co">##   write       Folded F      90       108      1.6052     0.0187 </span></span>
 <span><span class="co">## ---------------------------------------------------------------</span></span></code></pre>
 </div>
 </div>
@@ -340,7 +341,7 @@ treatments</p>
 <span><span class="co">## -----------------------------</span></span>
 <span><span class="co">## Total Observations        100 </span></span>
 <span><span class="co">## z                       0.403 </span></span>
-<span><span class="co">## Pr(|Z| &lt; |z|)           0.687 </span></span>
+<span><span class="co">## Pr(|Z| &gt; |z|)           0.687 </span></span>
 <span><span class="co">## Pr(Z &lt; z)               0.656 </span></span>
 <span><span class="co">## Pr(Z &gt; z)               0.344</span></span></code></pre>
 </div>
@@ -356,7 +357,7 @@ for male and female</p>
 <span><span class="co">## -----------------------------</span></span>
 <span><span class="co">## Total Observations        200 </span></span>
 <span><span class="co">## z                       0.351 </span></span>
-<span><span class="co">## Pr(|Z| &lt; |z|)           0.726 </span></span>
+<span><span class="co">## Pr(|Z| &gt; |z|)           0.726 </span></span>
 <span><span class="co">## Pr(Z &lt; z)               0.637 </span></span>
 <span><span class="co">## Pr(Z &gt; z)               0.363</span></span></code></pre>
 </div>
@@ -374,7 +375,7 @@ participants, 50% passed the review.</p>
 <span><span class="co">## ------------------------------</span></span>
 <span><span class="co">## Total Observations          55 </span></span>
 <span><span class="co">## z                       -1.514 </span></span>
-<span><span class="co">## Pr(|Z| &lt; |z|)             0.13 </span></span>
+<span><span class="co">## Pr(|Z| &gt; |z|)             0.13 </span></span>
 <span><span class="co">## Pr(Z &lt; z)                0.065 </span></span>
 <span><span class="co">## Pr(Z &gt; z)                0.935</span></span></code></pre>
 </div>
@@ -405,7 +406,7 @@ hypothesized value.</p>
 <span><span class="co">## -----------------------------------------------------------------------------</span></span>
 <span><span class="co">##  Variable    Obs     Mean      Std. Err.    Std. Dev.    [95% Conf. Interval] </span></span>
 <span><span class="co">## -----------------------------------------------------------------------------</span></span>
-<span><span class="co">##    mpg       32     20.0906     1.0654       6.0269        3.8737    10.6527   </span></span>
+<span><span class="co">##    mpg       32     20.0906     1.0654       6.0269        4.8318     8.0127   </span></span>
 <span><span class="co">## -----------------------------------------------------------------------------</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##              Lower Tail Test             </span></span>
@@ -426,7 +427,7 @@ hypothesized value.</p>
 <span><span class="co">## -----------------------------------------------------------------------------</span></span>
 <span><span class="co">##  Variable    Obs     Mean      Std. Err.    Std. Dev.    [95% Conf. Interval] </span></span>
 <span><span class="co">## -----------------------------------------------------------------------------</span></span>
-<span><span class="co">##    mpg       32     20.0906     1.0654       6.0269        3.8737    10.6527   </span></span>
+<span><span class="co">##    mpg       32     20.0906     1.0654       6.0269        4.8318     8.0127   </span></span>
 <span><span class="co">## -----------------------------------------------------------------------------</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##                                Ho: sd(mpg) = 0.3                               </span></span>
@@ -539,13 +540,14 @@ are equal.</p>
 <span><span class="co">##  ---------------------------------------</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##                   Test Summary                  </span></span>
-<span><span class="co">##  ----------------------------------------------</span></span>
-<span><span class="co">##   Tail               Prob              p-value  </span></span>
-<span><span class="co">##  ----------------------------------------------</span></span>
-<span><span class="co">##   Lower          Pr(k &lt;= 109)          0.910518 </span></span>
-<span><span class="co">##   Upper          Pr(k &gt;= 109)          0.114623 </span></span>
-<span><span class="co">##  ----------------------------------------------</span></span></code></pre>
+<span><span class="co">##                 Test Summary                </span></span>
+<span><span class="co">##  ------------------------------------------</span></span>
+<span><span class="co">##   Tail               Prob          p-value  </span></span>
+<span><span class="co">##  ------------------------------------------</span></span>
+<span><span class="co">##   Lower          Pr(k &lt;= 109)      0.910518 </span></span>
+<span><span class="co">##   Upper          Pr(k &gt;= 109)      0.114623 </span></span>
+<span><span class="co">##   Two-sided    Pr(k) &lt;= Pr(109)    0.229247 </span></span>
+<span><span class="co">##  ------------------------------------------</span></span></code></pre>
 <div class="section level4">
 <h4 id="using-calculator-1">Using Calculator<a class="anchor" aria-label="anchor" href="#using-calculator-1"></a>
 </h4>
@@ -561,13 +563,14 @@ are equal.</p>
 <span><span class="co">##  --------------------------------------</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##                  Test Summary                 </span></span>
-<span><span class="co">##  --------------------------------------------</span></span>
-<span><span class="co">##   Tail              Prob             p-value  </span></span>
-<span><span class="co">##  --------------------------------------------</span></span>
-<span><span class="co">##   Lower         Pr(k &lt;= 16)          0.569975 </span></span>
-<span><span class="co">##   Upper         Pr(k &gt;= 16)          0.569975 </span></span>
-<span><span class="co">##  --------------------------------------------</span></span></code></pre>
+<span><span class="co">##                Test Summary                </span></span>
+<span><span class="co">##  -----------------------------------------</span></span>
+<span><span class="co">##   Tail              Prob          p-value  </span></span>
+<span><span class="co">##  -----------------------------------------</span></span>
+<span><span class="co">##   Lower          Pr(k &lt;= 16)      0.569975 </span></span>
+<span><span class="co">##   Upper          Pr(k &gt;= 16)      0.569975 </span></span>
+<span><span class="co">##   Two-sided    Pr(k) &lt;= Pr(16)       1     </span></span>
+<span><span class="co">##  -----------------------------------------</span></span></code></pre>
 </div>
 </div>
 </div>
@@ -589,15 +592,15 @@ data.</p>
 the three program types.</p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ifr_oneway_anova.html">ifr_oneway_anova</a></span><span class="op">(</span><span class="va">hsb</span>, <span class="va">write</span>, <span class="va">prog</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##                                 ANOVA                                  </span></span>
-<span><span class="co">## ----------------------------------------------------------------------</span></span>
-<span><span class="co">##                    Sum of                                             </span></span>
-<span><span class="co">##                    Squares     DF     Mean Square      F        Sig.  </span></span>
-<span><span class="co">## ----------------------------------------------------------------------</span></span>
-<span><span class="co">## Between Groups    3175.698      2      1587.849      21.275      0    </span></span>
-<span><span class="co">## Within Groups     14703.177    197      74.635                        </span></span>
-<span><span class="co">## Total             17878.875    199                                    </span></span>
-<span><span class="co">## ----------------------------------------------------------------------</span></span>
+<pre><code><span><span class="co">##                                    ANOVA                                     </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------</span></span>
+<span><span class="co">##                    Sum of                                                   </span></span>
+<span><span class="co">##                    Squares     DF     Mean Square      F           Sig.     </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------</span></span>
+<span><span class="co">## Between Groups    3175.698      2      1587.849      21.275    4.310163e-09 </span></span>
+<span><span class="co">## Within Groups     14703.177    197      74.635                              </span></span>
+<span><span class="co">## Total             17878.875    199                                          </span></span>
+<span><span class="co">## ----------------------------------------------------------------------------</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##                  Report                   </span></span>
 <span><span class="co">## -----------------------------------------</span></span>
@@ -657,9 +660,9 @@ differs significantly from the hypothesized proportions.</p>
 <span><span class="fu"><a href="../reference/ifr_chisq_gof_test.html">ifr_chisq_gof_test</a></span><span class="op">(</span><span class="va">hsb</span>, <span class="va">race</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">20</span>, <span class="fl">20</span> , <span class="fl">140</span><span class="op">)</span>, correct <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##     Test Statistics     </span></span>
 <span><span class="co">## -----------------------</span></span>
-<span><span class="co">## Chi-Square       4.3821 </span></span>
+<span><span class="co">## Chi-Square       4.3696 </span></span>
 <span><span class="co">## DF                    3 </span></span>
-<span><span class="co">## Pr &gt; Chi Sq      0.2231 </span></span>
+<span><span class="co">## Pr &gt; Chi Sq      0.2242 </span></span>
 <span><span class="co">## Sample Size         200 </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##                          Variable: race                           </span></span>
@@ -667,8 +670,8 @@ differs significantly from the hypothesized proportions.</p>
 <span><span class="co">## Category    Observed    Expected    % Deviation    Std. Residuals </span></span>
 <span><span class="co">## -----------------------------------------------------------------</span></span>
 <span><span class="co">##    1           24          20          17.50            0.78      </span></span>
-<span><span class="co">##    2           11          20         -47.50           -2.12      </span></span>
-<span><span class="co">##    3           20          20          -2.50           -0.11      </span></span>
+<span><span class="co">##    2           11          20         -42.50           -1.90      </span></span>
+<span><span class="co">##    3           20          20           0.00            0.00      </span></span>
 <span><span class="co">##    4          145         140           3.21            0.38      </span></span>
 <span><span class="co">## -----------------------------------------------------------------</span></span></code></pre>
 </div>
@@ -691,9 +694,9 @@ of school attended (schtyp) and students’ gender (female).</p>
 <span><span class="co">## </span></span>
 <span><span class="co">## Statistics                     DF    Value      Prob </span></span>
 <span><span class="co">## ----------------------------------------------------</span></span>
-<span><span class="co">## Chi-Square                     1    0.0470    0.8284</span></span>
-<span><span class="co">## Likelihood Ratio Chi-Square    1    0.0471    0.8282</span></span>
-<span><span class="co">## Continuity Adj. Chi-Square     1    0.0005    0.9822</span></span>
+<span><span class="co">## Chi-Square                     1    0.0470    0.8283</span></span>
+<span><span class="co">## Likelihood Ratio Chi-Square    1    0.0471    0.8281</span></span>
+<span><span class="co">## Continuity Adj. Chi-Square     1    0.0005    0.9815</span></span>
 <span><span class="co">## Mantel-Haenszel Chi-Square     1    0.0468    0.8287</span></span>
 <span><span class="co">## Phi Coefficient                     0.0153          </span></span>
 <span><span class="co">## Contingency Coefficient             0.0153          </span></span>
@@ -710,7 +713,7 @@ of school attended (schtyp) and students’ socio economic status
 <span><span class="co">## ----------------------------------------------------</span></span>
 <span><span class="co">## Chi-Square                     2    6.3342    0.0421</span></span>
 <span><span class="co">## Likelihood Ratio Chi-Square    2    7.9060    0.0192</span></span>
-<span><span class="co">## Phi Coefficient                     0.1780          </span></span>
+<span><span class="co">## Phi Coefficient                         NA          </span></span>
 <span><span class="co">## Contingency Coefficient             0.1752          </span></span>
 <span><span class="co">## Cramer's V                          0.1780          </span></span>
 <span><span class="co">## ----------------------------------------------------</span></span></code></pre>
@@ -752,8 +755,8 @@ across race.</p>
 <span><span class="co">## -------------------------------------------------------------------------</span></span>
 <span><span class="co">## Statistic                            Num DF    Den DF         F    Pr &gt; F </span></span>
 <span><span class="co">## -------------------------------------------------------------------------</span></span>
-<span><span class="co">## Brown and Forsythe                        3       196      3.44    0.0179 </span></span>
-<span><span class="co">## Levene                                    3       196    3.4792     0.017 </span></span>
+<span><span class="co">## Brown and Forsythe                        3       196    3.4792     0.017 </span></span>
+<span><span class="co">## Levene                                    3       196      3.44    0.0179 </span></span>
 <span><span class="co">## Brown and Forsythe (Trimmed Mean)         3       196    3.3936     0.019 </span></span>
 <span><span class="co">## -------------------------------------------------------------------------</span></span></code></pre>
 </div>
@@ -779,8 +782,8 @@ writing and social studies scores.</p>
 <span><span class="co">## -------------------------------------------------------------------------</span></span>
 <span><span class="co">## Statistic                            Num DF    Den DF         F    Pr &gt; F </span></span>
 <span><span class="co">## -------------------------------------------------------------------------</span></span>
-<span><span class="co">## Brown and Forsythe                        2       597    1.1683    0.3116 </span></span>
-<span><span class="co">## Levene                                    2       597    1.3803    0.2523 </span></span>
+<span><span class="co">## Brown and Forsythe                        2       597    1.3803    0.2523 </span></span>
+<span><span class="co">## Levene                                    2       597    1.1683    0.3116 </span></span>
 <span><span class="co">## Brown and Forsythe (Trimmed Mean)         2       597    1.3258    0.2664 </span></span>
 <span><span class="co">## -------------------------------------------------------------------------</span></span></code></pre>
 </div>
@@ -979,7 +982,7 @@ correlation.</p>
 <code class="sourceCode R"><span><span class="co"># drop values equal to threshold</span></span>
 <span><span class="fu"><a href="../reference/ifr_runs_test.html">ifr_runs_test</a></span><span class="op">(</span><span class="va">hsb</span>, <span class="va">read</span>, drop <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Runs Test</span></span>
-<span><span class="co">##  Total Cases:  200 </span></span>
+<span><span class="co">##  Total Cases:  182 </span></span>
 <span><span class="co">##  Test Value :  50 </span></span>
 <span><span class="co">##  Cases &lt; Test Value:  83 </span></span>
 <span><span class="co">##  Cases &gt; Test Value:  99 </span></span>
@@ -1016,17 +1019,17 @@ correlation.</p>
 <span><span class="co">##  p-value:  0.4042329</span></span></code></pre>
 <div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># threshold to be used for counting runs</span></span>
-<span><span class="fu"><a href="../reference/ifr_runs_test.html">ifr_runs_test</a></span><span class="op">(</span><span class="va">hsb</span>, <span class="va">read</span>, threshold <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/ifr_runs_test.html">ifr_runs_test</a></span><span class="op">(</span><span class="va">hsb</span>, <span class="va">read</span>, threshold <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Runs Test</span></span>
 <span><span class="co">##  Total Cases:  200 </span></span>
-<span><span class="co">##  Test Value :  0 </span></span>
-<span><span class="co">##  Cases &lt; Test Value:  0 </span></span>
-<span><span class="co">##  Cases &gt; Test Value:  200 </span></span>
-<span><span class="co">##  Number of Runs:  1 </span></span>
-<span><span class="co">##  Expected Runs:  1 </span></span>
-<span><span class="co">##  Variance (Runs):  0 </span></span>
-<span><span class="co">##  z Statistic:  NaN </span></span>
-<span><span class="co">##  p-value:  NaN</span></span></code></pre>
+<span><span class="co">##  Test Value :  50 </span></span>
+<span><span class="co">##  Cases &lt; Test Value:  101 </span></span>
+<span><span class="co">##  Cases &gt; Test Value:  99 </span></span>
+<span><span class="co">##  Number of Runs:  95 </span></span>
+<span><span class="co">##  Expected Runs:  100.99 </span></span>
+<span><span class="co">##  Variance (Runs):  49.73874 </span></span>
+<span><span class="co">##  z Statistic:  -0.8493358 </span></span>
+<span><span class="co">##  p-value:  0.3956945</span></span></code></pre>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -1040,7 +1043,7 @@ correlation.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0. <a href="https://www.rsquaredacademy.com/privacy-policy.html" class="external-link">Privacy</a> · <a href="#" data-rsa-analytics-optout>Turn off analytics</a></p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1. <a href="https://www.rsquaredacademy.com/privacy-policy.html" class="external-link">Privacy</a> · <a href="#" data-rsa-analytics-optout>Turn off analytics</a></p>
 </div>
 
     </footer>

@@ -1,7 +1,7 @@
 # McNemar Test
 
 Test if the proportions of two dichotomous variables are equal in the
-same population.
+same population. Both variables must have exactly two levels.
 
 ## Usage
 

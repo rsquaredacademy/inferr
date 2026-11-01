@@ -51,7 +51,7 @@ a list containing the following components:
 
 - cramers_v:
 
-  cramer's v
+  Cramer's V
 
 - df:
 
@@ -91,6 +91,12 @@ a list containing the following components:
 Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 
+Agresti, A. (2013). *Categorical Data Analysis*, 3rd ed. Hoboken, NJ:
+Wiley.
+
+Cramér, H. (1946). *Mathematical Methods of Statistics*. Princeton, NJ:
+Princeton University Press.
+
 ## See also
 
 [`chisq.test`](https://rdrr.io/r/stats/chisq.test.html)
@@ -103,9 +109,9 @@ ifr_chisq_assoc_test(hsb, female, schtyp)
 #> 
 #> Statistics                     DF    Value      Prob 
 #> ----------------------------------------------------
-#> Chi-Square                     1    0.0470    0.8284
-#> Likelihood Ratio Chi-Square    1    0.0471    0.8282
-#> Continuity Adj. Chi-Square     1    0.0005    0.9822
+#> Chi-Square                     1    0.0470    0.8283
+#> Likelihood Ratio Chi-Square    1    0.0471    0.8281
+#> Continuity Adj. Chi-Square     1    0.0005    0.9815
 #> Mantel-Haenszel Chi-Square     1    0.0468    0.8287
 #> Phi Coefficient                     0.0153          
 #> Contingency Coefficient             0.0153          
@@ -119,7 +125,7 @@ ifr_chisq_assoc_test(hsb, female, ses)
 #> ----------------------------------------------------
 #> Chi-Square                     2    4.5765    0.1014
 #> Likelihood Ratio Chi-Square    2    4.6789    0.0964
-#> Phi Coefficient                     0.1513          
+#> Phi Coefficient                         NA          
 #> Contingency Coefficient             0.1496          
 #> Cramer's V                          0.1513          
 #> ----------------------------------------------------

@@ -49,19 +49,20 @@ approximately distributed and should not contain any outliers.
 Using the hsb data, test whether the average of write differs
 significantly from 50.
 
-[`ifr_os_t_test`](https://inferr.rsquaredacademy.com/reference/ifr_os_t_test.md)`(``hsb``, ``write``, mu ``=`` ``50``, alternative ``=`` ``'all'``)`
+\
+[`ifr_os_t_test`](https://inferr.rsquaredacademy.com/reference/ifr_os_t_test.md)`(``hsb``, ``write``, mu ``=`` ``50``, alternative ``=`` ``'all'``)`
 
     ##                               One-Sample Statistics                               
     ## ---------------------------------------------------------------------------------
     ##  Variable    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
     ## ---------------------------------------------------------------------------------
-    ##   write      200    52.775     0.6702       9.4786       51.4537    54.0969   
+    ##   write      200    52.775     0.6702       9.4786       51.4533    54.0967   
     ## ---------------------------------------------------------------------------------
     ## 
-    ##                                Ho: mean(write) ~=50                              
+    ##                               Ho: mean(write) ~=50                              
     ## 
     ##         Ha: mean < 50              Ha: mean ~= 50               Ha: mean > 50        
-    ##          t = 4.141                   t = 4.141                   t = 4.141         
+    ##           t = 4.14                    t = 4.14                    t = 4.14         
     ##        P < t = 0.99997            P > |t| = 0.00005            P > t = 0.00003
 
 ## Paired t test
@@ -78,7 +79,9 @@ test.
 Using the hsb data, test whether the mean of read is equal to the mean
 of write.
 
-`# Lower Tail Test`` `[`ifr_ts_paired_ttest`](https://inferr.rsquaredacademy.com/reference/ifr_ts_paired_ttest.md)`(``hsb``, ``read``, ``write``, alternative ``=`` ``'less'``)`
+\
+`# Lower Tail Test`\
+[`ifr_ts_paired_ttest`](https://inferr.rsquaredacademy.com/reference/ifr_ts_paired_ttest.md)`(``hsb``, ``read``, ``write``, alternative ``=`` ``'less'``)`
 
     ##                          Paired Samples Statistics                           
     ## ----------------------------------------------------------------------------
@@ -107,7 +110,9 @@ of write.
     ##  read - write    -0.8673    199    0.193 
     ## ----------------------------------------
 
-`# Test all alternatives`` `[`ifr_ts_paired_ttest`](https://inferr.rsquaredacademy.com/reference/ifr_ts_paired_ttest.md)`(``hsb``, ``read``, ``write``, alternative ``=`` ``'all'``)`
+\
+`# Test all alternatives`\
+[`ifr_ts_paired_ttest`](https://inferr.rsquaredacademy.com/reference/ifr_ts_paired_ttest.md)`(``hsb``, ``read``, ``write``, alternative ``=`` ``'all'``)`
 
     ##                          Paired Samples Statistics                           
     ## ----------------------------------------------------------------------------
@@ -149,18 +154,19 @@ answer whether:
 Using the hsb data, test whether the mean for write is the same for
 males and females.
 
-[`ifr_ts_ind_ttest`](https://inferr.rsquaredacademy.com/reference/ifr_ts_ind_ttest.md)`(``hsb``, ``female``, ``write``, alternative ``=`` ``'all'``)`
+\
+[`ifr_ts_ind_ttest`](https://inferr.rsquaredacademy.com/reference/ifr_ts_ind_ttest.md)`(``hsb``, ``female``, ``write``, alternative ``=`` ``'all'``)`
 
     ##                               Group Statistics                                
     ## -----------------------------------------------------------------------------
     ##   Group       Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
     ## -----------------------------------------------------------------------------
-    ##     0          91    50.121      1.080       10.305       47.97539   52.26661  
-    ##     1         109    54.991      0.779        8.134       53.44689   56.53511  
+    ##     0          91    50.121      1.080       10.305       47.97473   52.26703  
+    ##     1         109    54.991      0.779        8.134       53.44658   56.53507  
     ## -----------------------------------------------------------------------------
-    ##  combined     200    52.775      0.67         9.479       51.45379   54.09621  
+    ##  combined     200    52.775      0.67         9.479       51.45332   54.09668  
     ## -----------------------------------------------------------------------------
-    ##    diff       200    -4.87       1.304        9.231       -7.42623   -2.31377  
+    ##    diff       200    -4.87       1.304        9.185       -7.44183   -2.29806  
     ## -----------------------------------------------------------------------------
     ## 
     ##                         Independent Samples Test                         
@@ -185,7 +191,7 @@ males and females.
     ## ---------------------------------------------------------------
     ##  Variable      Method     Num DF    Den DF    F Value    P > F  
     ## ---------------------------------------------------------------
-    ##   write       Folded F      90       108       1.605     0.0188 
+    ##   write       Folded F      90       108      1.6052     0.0187 
     ## ---------------------------------------------------------------
 
 ## One Sample Test of Proportion
@@ -197,7 +203,9 @@ specified population proportion.
 
 Using hsb data, test whether the proportion of females is 50%.
 
-`# Using Variables`` `[`ifr_os_prop_test`](https://inferr.rsquaredacademy.com/reference/ifr_os_prop_test.md)`(``hsb``, ``female``, prob ``=`` ``0.5``)`
+\
+`# Using Variables`\
+[`ifr_os_prop_test`](https://inferr.rsquaredacademy.com/reference/ifr_os_prop_test.md)`(``hsb``, ``female``, prob ``=`` ``0.5``)`
 
     ##      Test Statistics      
     ## -------------------------
@@ -216,7 +224,9 @@ Using hsb data, test whether the proportion of females is 50%.
 
 Using Calculator
 
-`# Calculator`` `[`ifr_os_prop_test`](https://inferr.rsquaredacademy.com/reference/ifr_os_prop_test.md)`(``200``, prob ``=`` ``0.5``, phat ``=`` ``0.3``)`
+\
+`# Calculator`\
+[`ifr_os_prop_test`](https://inferr.rsquaredacademy.com/reference/ifr_os_prop_test.md)`(``200``, prob ``=`` ``0.5``, phat ``=`` ``0.3``)`
 
     ##      Test Statistics       
     ## --------------------------
@@ -246,13 +256,15 @@ have the same proportion.
 
 Using the treatment data, test equality of proportion of two treatments
 
-`# Using Variables`` `[`ifr_ts_prop_test`](https://inferr.rsquaredacademy.com/reference/ifr_ts_prop_test.md)`(``treatment``, ``treatment1``, ``treatment2``, alternative ``=`` ``'all'``)`
+\
+`# Using Variables`\
+[`ifr_ts_prop_test`](https://inferr.rsquaredacademy.com/reference/ifr_ts_prop_test.md)`(``treatment``, ``treatment1``, ``treatment2``, alternative ``=`` ``'all'``)`
 
     ##        Test Statistics        
     ## -----------------------------
     ## Total Observations        100 
     ## z                       0.403 
-    ## Pr(|Z| < |z|)           0.687 
+    ## Pr(|Z| > |z|)           0.687 
     ## Pr(Z < z)               0.656 
     ## Pr(Z > z)               0.344
 
@@ -261,13 +273,15 @@ Using the treatment data, test equality of proportion of two treatments
 Using the treatment2 data, test whether outcome has same proportion for
 male and female
 
-`# Using Grouping Variable`` `[`ifr_ts_prop_group`](https://inferr.rsquaredacademy.com/reference/ifr_ts_prop_test.md)`(``treatment2``, ``outcome``, ``female``, alternative ``=`` ``'all'``)`
+\
+`# Using Grouping Variable`\
+[`ifr_ts_prop_group`](https://inferr.rsquaredacademy.com/reference/ifr_ts_prop_test.md)`(``treatment2``, ``outcome``, ``female``, alternative ``=`` ``'all'``)`
 
     ##        Test Statistics        
     ## -----------------------------
     ## Total Observations        200 
     ## z                       0.351 
-    ## Pr(|Z| < |z|)           0.726 
+    ## Pr(|Z| > |z|)           0.726 
     ## Pr(Z < z)               0.637 
     ## Pr(Z > z)               0.363
 
@@ -278,13 +292,15 @@ review exam for a training program. In the first batch of 30
 participants, 30% passed the review, whereas in the second batch of 25
 participants, 50% passed the review.
 
-`# Calculator`` `[`ifr_ts_prop_calc`](https://inferr.rsquaredacademy.com/reference/ifr_ts_prop_test.md)`(``n1 ``=`` ``30``, n2 ``=`` ``25``, p1 ``=`` ``0.3``, p2 ``=`` ``0.5``, alternative ``=`` ``'all'``)`
+\
+`# Calculator`\
+[`ifr_ts_prop_calc`](https://inferr.rsquaredacademy.com/reference/ifr_ts_prop_test.md)`(``n1 ``=`` ``30``, n2 ``=`` ``25``, p1 ``=`` ``0.3``, p2 ``=`` ``0.5``, alternative ``=`` ``'all'``)`
 
     ##        Test Statistics         
     ## ------------------------------
     ## Total Observations          55 
     ## z                       -1.514 
-    ## Pr(|Z| < |z|)             0.13 
+    ## Pr(|Z| > |z|)             0.13 
     ## Pr(Z < z)                0.065 
     ## Pr(Z > z)                0.935
 
@@ -304,13 +320,15 @@ used to answer the following questions:
 Using the mtcars data, compare the standard deviation of mpg to a
 hypothesized value.
 
-`# Lower Tail Test`` `[`ifr_os_var_test`](https://inferr.rsquaredacademy.com/reference/ifr_os_var_test.md)`(``mtcars``, ``mpg``, ``0.3``, alternative ``=`` ``'less'``)`
+\
+`# Lower Tail Test`\
+[`ifr_os_var_test`](https://inferr.rsquaredacademy.com/reference/ifr_os_var_test.md)`(``mtcars``, ``mpg``, ``0.3``, alternative ``=`` ``'less'``)`
 
     ##                             One-Sample Statistics                             
     ## -----------------------------------------------------------------------------
     ##  Variable    Obs     Mean      Std. Err.    Std. Dev.    [95% Conf. Interval] 
     ## -----------------------------------------------------------------------------
-    ##    mpg       32     20.0906     1.0654       6.0269        3.8737    10.6527   
+    ##    mpg       32     20.0906     1.0654       6.0269        4.8318     8.0127   
     ## -----------------------------------------------------------------------------
     ## 
     ##              Lower Tail Test             
@@ -325,13 +343,15 @@ hypothesized value.
     ##    mpg       12511.635     31     1.0000  
     ## ----------------------------------------
 
-`# Test all alternatives`` `[`ifr_os_var_test`](https://inferr.rsquaredacademy.com/reference/ifr_os_var_test.md)`(``mtcars``, ``mpg``, ``0.3``, alternative ``=`` ``'all'``)`
+\
+`# Test all alternatives`\
+[`ifr_os_var_test`](https://inferr.rsquaredacademy.com/reference/ifr_os_var_test.md)`(``mtcars``, ``mpg``, ``0.3``, alternative ``=`` ``'all'``)`
 
     ##                             One-Sample Statistics                             
     ## -----------------------------------------------------------------------------
     ##  Variable    Obs     Mean      Std. Err.    Std. Dev.    [95% Conf. Interval] 
     ## -----------------------------------------------------------------------------
-    ##    mpg       32     20.0906     1.0654       6.0269        3.8737    10.6527   
+    ##    mpg       32     20.0906     1.0654       6.0269        4.8318     8.0127   
     ## -----------------------------------------------------------------------------
     ## 
     ##                                Ho: sd(mpg) = 0.3                               
@@ -354,7 +374,9 @@ continuous variables is equal.
 Using the mtcars data, compare the standard deviation in miles per
 gallon for automatic and manual vehicles.
 
-`# Using Grouping Variable`` `[`ifr_ts_var_test`](https://inferr.rsquaredacademy.com/reference/ifr_ts_var_test.md)`(``hsb``, ``read``, group_var ``=`` ``female``, alternative ``=`` ``'all'``)`
+\
+`# Using Grouping Variable`\
+[`ifr_ts_var_test`](https://inferr.rsquaredacademy.com/reference/ifr_ts_var_test.md)`(``hsb``, ``read``, group_var ``=`` ``female``, alternative ``=`` ``'all'``)`
 
     ##                Variance Ratio Test                 
     ## --------------------------------------------------
@@ -387,7 +409,9 @@ gallon for automatic and manual vehicles.
 Using the hsb data, compare the standard deviation of reading and
 writing scores.
 
-`# Using Variables`` `[`ifr_ts_var_test`](https://inferr.rsquaredacademy.com/reference/ifr_ts_var_test.md)`(``hsb``, ``read``, ``write``, alternative ``=`` ``'all'``)`
+\
+`# Using Variables`\
+[`ifr_ts_var_test`](https://inferr.rsquaredacademy.com/reference/ifr_ts_var_test.md)`(``hsb``, ``read``, ``write``, alternative ``=`` ``'all'``)`
 
     ##                Variance Ratio Test                 
     ## --------------------------------------------------
@@ -426,7 +450,9 @@ differs from a hypothesized value.
 Using the hsb data, test whether the proportion of females and males are
 equal.
 
-`# Using variables`` `[`ifr_binom_test`](https://inferr.rsquaredacademy.com/reference/ifr_binom_calc.md)`(``hsb``, ``female``, prob ``=`` ``0.5``)`
+\
+`# Using variables`\
+[`ifr_binom_test`](https://inferr.rsquaredacademy.com/reference/ifr_binom_calc.md)`(``hsb``, ``female``, prob ``=`` ``0.5``)`
 
     ##              Binomial Test              
     ##  ---------------------------------------
@@ -437,17 +463,20 @@ equal.
     ##  ---------------------------------------
     ## 
     ## 
-    ##                   Test Summary                  
-    ##  ----------------------------------------------
-    ##   Tail               Prob              p-value  
-    ##  ----------------------------------------------
-    ##   Lower          Pr(k <= 109)          0.910518 
-    ##   Upper          Pr(k >= 109)          0.114623 
-    ##  ----------------------------------------------
+    ##                 Test Summary                
+    ##  ------------------------------------------
+    ##   Tail               Prob          p-value  
+    ##  ------------------------------------------
+    ##   Lower          Pr(k <= 109)      0.910518 
+    ##   Upper          Pr(k >= 109)      0.114623 
+    ##   Two-sided    Pr(k) <= Pr(109)    0.229247 
+    ##  ------------------------------------------
 
 #### Using Calculator
 
-`# calculator`` `[`ifr_binom_calc`](https://inferr.rsquaredacademy.com/reference/ifr_binom_calc.md)`(``32``, ``16``, prob ``=`` ``0.5``)`
+\
+`# calculator`\
+[`ifr_binom_calc`](https://inferr.rsquaredacademy.com/reference/ifr_binom_calc.md)`(``32``, ``16``, prob ``=`` ``0.5``)`
 
     ##             Binomial Test              
     ##  --------------------------------------
@@ -458,13 +487,14 @@ equal.
     ##  --------------------------------------
     ## 
     ## 
-    ##                  Test Summary                 
-    ##  --------------------------------------------
-    ##   Tail              Prob             p-value  
-    ##  --------------------------------------------
-    ##   Lower         Pr(k <= 16)          0.569975 
-    ##   Upper         Pr(k >= 16)          0.569975 
-    ##  --------------------------------------------
+    ##                Test Summary                
+    ##  -----------------------------------------
+    ##   Tail              Prob          p-value  
+    ##  -----------------------------------------
+    ##   Lower          Pr(k <= 16)      0.569975 
+    ##   Upper          Pr(k >= 16)      0.569975 
+    ##   Two-sided    Pr(k) <= Pr(16)       1     
+    ##  -----------------------------------------
 
 ## ANOVA
 
@@ -481,17 +511,18 @@ least two groups were different and can be used only for numerical data.
 Using the hsb data, test whether the mean of write differs between the
 three program types.
 
-[`ifr_oneway_anova`](https://inferr.rsquaredacademy.com/reference/ifr_oneway_anova.md)`(``hsb``, ``write``, ``prog``)`
+\
+[`ifr_oneway_anova`](https://inferr.rsquaredacademy.com/reference/ifr_oneway_anova.md)`(``hsb``, ``write``, ``prog``)`
 
-    ##                                 ANOVA                                  
-    ## ----------------------------------------------------------------------
-    ##                    Sum of                                             
-    ##                    Squares     DF     Mean Square      F        Sig.  
-    ## ----------------------------------------------------------------------
-    ## Between Groups    3175.698      2      1587.849      21.275      0    
-    ## Within Groups     14703.177    197      74.635                        
-    ## Total             17878.875    199                                    
-    ## ----------------------------------------------------------------------
+    ##                                    ANOVA                                     
+    ## ----------------------------------------------------------------------------
+    ##                    Sum of                                                   
+    ##                    Squares     DF     Mean Square      F           Sig.     
+    ## ----------------------------------------------------------------------------
+    ## Between Groups    3175.698      2      1587.849      21.275    4.310163e-09 
+    ## Within Groups     14703.177    197      74.635                              
+    ## Total             17878.875    199                                          
+    ## ----------------------------------------------------------------------------
     ## 
     ##                  Report                   
     ## -----------------------------------------
@@ -522,7 +553,9 @@ approximation to be valid, the sample size must be sufficiently large.
 Using the hsb data, test whether the observed proportions for race
 differs significantly from the hypothesized proportions.
 
-`# basic example`` `[`ifr_chisq_gof_test`](https://inferr.rsquaredacademy.com/reference/ifr_chisq_gof_test.md)`(``hsb``, ``race``, `[`c`](https://rdrr.io/r/base/c.html)`(``20``, ``20``, ``20`` , ``140``)``)`
+\
+`# basic example`\
+[`ifr_chisq_gof_test`](https://inferr.rsquaredacademy.com/reference/ifr_chisq_gof_test.md)`(``hsb``, ``race``, `[`c`](https://rdrr.io/r/base/c.html)`(``20``, ``20``, ``20`` , ``140``)``)`
 
     ##     Test Statistics     
     ## -----------------------
@@ -543,13 +576,15 @@ differs significantly from the hypothesized proportions.
 
 #### Continuity Correction
 
-`# using continuity correction`` `[`ifr_chisq_gof_test`](https://inferr.rsquaredacademy.com/reference/ifr_chisq_gof_test.md)`(``hsb``, ``race``, `[`c`](https://rdrr.io/r/base/c.html)`(``20``, ``20``, ``20`` , ``140``)``, correct ``=`` ``TRUE``)`
+\
+`# using continuity correction`\
+[`ifr_chisq_gof_test`](https://inferr.rsquaredacademy.com/reference/ifr_chisq_gof_test.md)`(``hsb``, ``race``, `[`c`](https://rdrr.io/r/base/c.html)`(``20``, ``20``, ``20`` , ``140``)``, correct ``=`` ``TRUE``)`
 
     ##     Test Statistics     
     ## -----------------------
-    ## Chi-Square       4.3821 
+    ## Chi-Square       4.3696 
     ## DF                    3 
-    ## Pr > Chi Sq      0.2231 
+    ## Pr > Chi Sq      0.2242 
     ## Sample Size         200 
     ## 
     ##                          Variable: race                           
@@ -557,8 +592,8 @@ differs significantly from the hypothesized proportions.
     ## Category    Observed    Expected    % Deviation    Std. Residuals 
     ## -----------------------------------------------------------------
     ##    1           24          20          17.50            0.78      
-    ##    2           11          20         -47.50           -2.12      
-    ##    3           20          20          -2.50           -0.11      
+    ##    2           11          20         -42.50           -1.90      
+    ##    3           20          20           0.00            0.00      
     ##    4          145         140           3.21            0.38      
     ## -----------------------------------------------------------------
 
@@ -572,15 +607,16 @@ significant relationship between two nominal (categorical) variables.
 Using the hsb data, test if there is a relationship between the type of
 school attended (schtyp) and students’ gender (female).
 
-[`ifr_chisq_assoc_test`](https://inferr.rsquaredacademy.com/reference/ifr_chisq_assoc_test.md)`(``hsb``, ``female``, ``schtyp``)`
+\
+[`ifr_chisq_assoc_test`](https://inferr.rsquaredacademy.com/reference/ifr_chisq_assoc_test.md)`(``hsb``, ``female``, ``schtyp``)`
 
     ##                Chi Square Statistics                 
     ## 
     ## Statistics                     DF    Value      Prob 
     ## ----------------------------------------------------
-    ## Chi-Square                     1    0.0470    0.8284
-    ## Likelihood Ratio Chi-Square    1    0.0471    0.8282
-    ## Continuity Adj. Chi-Square     1    0.0005    0.9822
+    ## Chi-Square                     1    0.0470    0.8283
+    ## Likelihood Ratio Chi-Square    1    0.0471    0.8281
+    ## Continuity Adj. Chi-Square     1    0.0005    0.9815
     ## Mantel-Haenszel Chi-Square     1    0.0468    0.8287
     ## Phi Coefficient                     0.0153          
     ## Contingency Coefficient             0.0153          
@@ -590,7 +626,8 @@ school attended (schtyp) and students’ gender (female).
 Using the hsb data, test if there is a relationship between the type of
 school attended (schtyp) and students’ socio economic status (ses).
 
-[`ifr_chisq_assoc_test`](https://inferr.rsquaredacademy.com/reference/ifr_chisq_assoc_test.md)`(``hsb``, ``schtyp``, ``ses``)`
+\
+[`ifr_chisq_assoc_test`](https://inferr.rsquaredacademy.com/reference/ifr_chisq_assoc_test.md)`(``hsb``, ``schtyp``, ``ses``)`
 
     ##                Chi Square Statistics                 
     ## 
@@ -598,7 +635,7 @@ school attended (schtyp) and students’ socio economic status (ses).
     ## ----------------------------------------------------
     ## Chi-Square                     2    6.3342    0.0421
     ## Likelihood Ratio Chi-Square    2    7.9060    0.0192
-    ## Phi Coefficient                     0.1780          
+    ## Phi Coefficient                         NA          
     ## Contingency Coefficient             0.1752          
     ## Cramer's V                          0.1780          
     ## ----------------------------------------------------
@@ -620,7 +657,9 @@ replaces the mean with the 10% trimmed mean.
 Using the hsb data, test whether variance in reading score is same
 across race.
 
-`# Using Grouping Variable`` `[`ifr_levene_test`](https://inferr.rsquaredacademy.com/reference/ifr_levene_test.md)`(``hsb``, ``read``, group_var ``=`` ``race``)`
+\
+`# Using Grouping Variable`\
+[`ifr_levene_test`](https://inferr.rsquaredacademy.com/reference/ifr_levene_test.md)`(``hsb``, ``read``, group_var ``=`` ``race``)`
 
     ##            Summary Statistics             
     ## Levels    Frequency    Mean     Std. Dev  
@@ -637,8 +676,8 @@ across race.
     ## -------------------------------------------------------------------------
     ## Statistic                            Num DF    Den DF         F    Pr > F 
     ## -------------------------------------------------------------------------
-    ## Brown and Forsythe                        3       196      3.44    0.0179 
-    ## Levene                                    3       196    3.4792     0.017 
+    ## Brown and Forsythe                        3       196    3.4792     0.017 
+    ## Levene                                    3       196      3.44    0.0179 
     ## Brown and Forsythe (Trimmed Mean)         3       196    3.3936     0.019 
     ## -------------------------------------------------------------------------
 
@@ -647,7 +686,9 @@ across race.
 Using the hsb data, test whether variance is equal for reading, writing
 and social studies scores.
 
-`# Using Variables`` `[`ifr_levene_test`](https://inferr.rsquaredacademy.com/reference/ifr_levene_test.md)`(``hsb``, ``read``, ``write``, ``socst``)`
+\
+`# Using Variables`\
+[`ifr_levene_test`](https://inferr.rsquaredacademy.com/reference/ifr_levene_test.md)`(``hsb``, ``read``, ``write``, ``socst``)`
 
     ##            Summary Statistics             
     ## Levels    Frequency    Mean     Std. Dev  
@@ -663,8 +704,8 @@ and social studies scores.
     ## -------------------------------------------------------------------------
     ## Statistic                            Num DF    Den DF         F    Pr > F 
     ## -------------------------------------------------------------------------
-    ## Brown and Forsythe                        2       597    1.1683    0.3116 
-    ## Levene                                    2       597    1.3803    0.2523 
+    ## Brown and Forsythe                        2       597    1.3803    0.2523 
+    ## Levene                                    2       597    1.1683    0.3116 
     ## Brown and Forsythe (Trimmed Mean)         2       597    1.3258    0.2664 
     ## -------------------------------------------------------------------------
 
@@ -682,7 +723,8 @@ same people or other statistical units.
 The exam data set contains scores of 15 students for three exams (exam1,
 exam2, exam3). Test if three exams are equally difficult.
 
-[`ifr_cochran_qtest`](https://inferr.rsquaredacademy.com/reference/ifr_cochran_qtest.md)`(``exam``, ``exam1``, ``exam2``, ``exam3``)`
+\
+[`ifr_cochran_qtest`](https://inferr.rsquaredacademy.com/reference/ifr_cochran_qtest.md)`(``exam``, ``exam1``, ``exam2``, ``exam3``)`
 
     ##    Test Statistics     
     ## ----------------------
@@ -711,7 +753,11 @@ used to answer whether:
 Using the hsb data, test if the proportion of students in himath and
 hiread group is equal.
 
-`hb`` ``<-`` ``hsb`` ``hb``$``himath`` ``<-`` `[`ifelse`](https://rdrr.io/r/base/ifelse.html)`(``hsb``$``math`` ``>`` ``60``, ``1``, ``0``)`` ``hb``$``hiread`` ``<-`` `[`ifelse`](https://rdrr.io/r/base/ifelse.html)`(``hsb``$``read`` ``>`` ``60``, ``1``, ``0``)`` `[`ifr_mcnemar_test`](https://inferr.rsquaredacademy.com/reference/ifr_mcnemar_test.md)`(``hb``, ``himath``, ``hiread``)`
+\
+`hb`` ``<-`` ``hsb`\
+`hb``$``himath`` ``<-`` `[`ifelse`](https://rdrr.io/r/base/ifelse.html)`(``hsb``$``math`` ``>`` ``60``, ``1``, ``0``)`\
+`hb``$``hiread`` ``<-`` `[`ifelse`](https://rdrr.io/r/base/ifelse.html)`(``hsb``$``read`` ``>`` ``60``, ``1``, ``0``)`\
+[`ifr_mcnemar_test`](https://inferr.rsquaredacademy.com/reference/ifr_mcnemar_test.md)`(``hb``, ``himath``, ``hiread``)`
 
     ##            Controls 
     ## ---------------------------------
@@ -747,7 +793,10 @@ hiread group is equal.
     ## odds ratio      1.1667 
     ## ----------------------
 
-`himath`` ``<-`` `[`ifelse`](https://rdrr.io/r/base/ifelse.html)`(``hsb``$``math`` ``>`` ``60``, ``1``, ``0``)`` ``hiread`` ``<-`` `[`ifelse`](https://rdrr.io/r/base/ifelse.html)`(``hsb``$``read`` ``>`` ``60``, ``1``, ``0``)`` `[`ifr_mcnemar_test`](https://inferr.rsquaredacademy.com/reference/ifr_mcnemar_test.md)`(`[`table`](https://rdrr.io/r/base/table.html)`(``himath``, ``hiread``)``)`
+\
+`himath`` ``<-`` `[`ifelse`](https://rdrr.io/r/base/ifelse.html)`(``hsb``$``math`` ``>`` ``60``, ``1``, ``0``)`\
+`hiread`` ``<-`` `[`ifelse`](https://rdrr.io/r/base/ifelse.html)`(``hsb``$``read`` ``>`` ``60``, ``1``, ``0``)`\
+[`ifr_mcnemar_test`](https://inferr.rsquaredacademy.com/reference/ifr_mcnemar_test.md)`(`[`table`](https://rdrr.io/r/base/table.html)`(``himath``, ``hiread``)``)`
 
     ##            Controls 
     ## ---------------------------------
@@ -785,7 +834,8 @@ hiread group is equal.
 
 Perform the above test using matrix as input.
 
-[`ifr_mcnemar_test`](https://inferr.rsquaredacademy.com/reference/ifr_mcnemar_test.md)`(`[`matrix`](https://rdrr.io/r/base/matrix.html)`(`[`c`](https://rdrr.io/r/base/c.html)`(``135``, ``18``, ``21``, ``26``)``, nrow ``=`` ``2``)``)`
+\
+[`ifr_mcnemar_test`](https://inferr.rsquaredacademy.com/reference/ifr_mcnemar_test.md)`(`[`matrix`](https://rdrr.io/r/base/matrix.html)`(`[`c`](https://rdrr.io/r/base/c.html)`(``135``, ``18``, ``21``, ``26``)``, nrow ``=`` ``2``)``)`
 
     ##            Controls 
     ## ---------------------------------
@@ -838,7 +888,9 @@ correlation.
 We will use runs test to check regression residuals for serial
 correlation.
 
-`# basic example`` `[`ifr_runs_test`](https://inferr.rsquaredacademy.com/reference/ifr_runs_test.md)`(``hsb``, ``read``)`
+\
+`# basic example`\
+[`ifr_runs_test`](https://inferr.rsquaredacademy.com/reference/ifr_runs_test.md)`(``hsb``, ``read``)`
 
     ## Runs Test
     ##  Total Cases:  200 
@@ -851,10 +903,12 @@ correlation.
     ##  z Statistic:  -0.8493358 
     ##  p-value:  0.3956945
 
-`# drop values equal to threshold`` `[`ifr_runs_test`](https://inferr.rsquaredacademy.com/reference/ifr_runs_test.md)`(``hsb``, ``read``, drop ``=`` ``TRUE``)`
+\
+`# drop values equal to threshold`\
+[`ifr_runs_test`](https://inferr.rsquaredacademy.com/reference/ifr_runs_test.md)`(``hsb``, ``read``, drop ``=`` ``TRUE``)`
 
     ## Runs Test
-    ##  Total Cases:  200 
+    ##  Total Cases:  182 
     ##  Test Value :  50 
     ##  Cases < Test Value:  83 
     ##  Cases > Test Value:  99 
@@ -864,7 +918,9 @@ correlation.
     ##  z Statistic:  -0.3441046 
     ##  p-value:  0.7307676
 
-`# recode data in binary format`` `[`ifr_runs_test`](https://inferr.rsquaredacademy.com/reference/ifr_runs_test.md)`(``hsb``, ``read``, split ``=`` ``TRUE``)`
+\
+`# recode data in binary format`\
+[`ifr_runs_test`](https://inferr.rsquaredacademy.com/reference/ifr_runs_test.md)`(``hsb``, ``read``, split ``=`` ``TRUE``)`
 
     ## Runs Test
     ##  Total Cases:  200 
@@ -877,7 +933,9 @@ correlation.
     ##  z Statistic:  -0.8493358 
     ##  p-value:  0.3956945
 
-`# use mean as threshold`` `[`ifr_runs_test`](https://inferr.rsquaredacademy.com/reference/ifr_runs_test.md)`(``hsb``, ``read``, mean ``=`` ``TRUE``)`
+\
+`# use mean as threshold`\
+[`ifr_runs_test`](https://inferr.rsquaredacademy.com/reference/ifr_runs_test.md)`(``hsb``, ``read``, mean ``=`` ``TRUE``)`
 
     ## Runs Test
     ##  Total Cases:  200 
@@ -890,15 +948,17 @@ correlation.
     ##  z Statistic:  -0.8340854 
     ##  p-value:  0.4042329
 
-`# threshold to be used for counting runs`` `[`ifr_runs_test`](https://inferr.rsquaredacademy.com/reference/ifr_runs_test.md)`(``hsb``, ``read``, threshold ``=`` ``0``)`
+\
+`# threshold to be used for counting runs`\
+[`ifr_runs_test`](https://inferr.rsquaredacademy.com/reference/ifr_runs_test.md)`(``hsb``, ``read``, threshold ``=`` ``50``)`
 
     ## Runs Test
     ##  Total Cases:  200 
-    ##  Test Value :  0 
-    ##  Cases < Test Value:  0 
-    ##  Cases > Test Value:  200 
-    ##  Number of Runs:  1 
-    ##  Expected Runs:  1 
-    ##  Variance (Runs):  0 
-    ##  z Statistic:  NaN 
-    ##  p-value:  NaN
+    ##  Test Value :  50 
+    ##  Cases < Test Value:  101 
+    ##  Cases > Test Value:  99 
+    ##  Number of Runs:  95 
+    ##  Expected Runs:  100.99 
+    ##  Variance (Runs):  49.73874 
+    ##  z Statistic:  -0.8493358 
+    ##  p-value:  0.3956945

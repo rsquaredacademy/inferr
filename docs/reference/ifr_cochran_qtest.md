@@ -1,7 +1,8 @@
 # Cochran Q Test
 
 Test if the proportions of 3 or more dichotomous variables are equal in
-the same population.
+the same population. Rows with a missing value in any of the specified
+variables are removed before the test is computed.
 
 ## Usage
 
@@ -39,7 +40,7 @@ components:
 
 - q:
 
-  cochran's q statistic
+  Cochran's Q statistic
 
 ## Deprecated Function
 

@@ -87,6 +87,10 @@ following components:
 Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 
+Yates, F. (1934). Contingency tables involving small numbers and the
+chi-squared test. *Supplement to the Journal of the Royal Statistical
+Society*, 1(2), 217–235.
+
 ## See also
 
 [`chisq.test`](https://rdrr.io/r/stats/chisq.test.html)
@@ -116,9 +120,9 @@ ifr_chisq_gof_test(hsb, race, c(20, 20, 20, 140))
 ifr_chisq_gof_test(hsb, race, c(20, 20, 20, 140), correct = TRUE)
 #>     Test Statistics     
 #> -----------------------
-#> Chi-Square       4.3821 
+#> Chi-Square       4.3696 
 #> DF                    3 
-#> Pr > Chi Sq      0.2231 
+#> Pr > Chi Sq      0.2242 
 #> Sample Size         200 
 #> 
 #>                          Variable: race                           
@@ -126,8 +130,8 @@ ifr_chisq_gof_test(hsb, race, c(20, 20, 20, 140), correct = TRUE)
 #> Category    Observed    Expected    % Deviation    Std. Residuals 
 #> -----------------------------------------------------------------
 #>    1           24          20          17.50            0.78      
-#>    2           11          20         -47.50           -2.12      
-#>    3           20          20          -2.50           -0.11      
+#>    2           11          20         -42.50           -1.90      
+#>    3           20          20           0.00            0.00      
 #>    4          145         140           3.21            0.38      
 #> -----------------------------------------------------------------
 ```

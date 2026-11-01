@@ -4,7 +4,7 @@
 equality of variances and the two statistics proposed by Brown and
 Forsythe that replace the mean in Levene's formula with alternative
 location estimators. The first alternative replaces the mean with the
-median. The second alternative replaces the mean with the 10
+median. The second alternative replaces the mean with the 10 removed.
 
 ## Usage
 
@@ -27,7 +27,7 @@ ifr_levene_test(data, ..., group_var = NULL, trim_mean = 0.1)
 
 - group_var:
 
-  factor; column in `data`
+  factor or character; column in `data`
 
 - trim_mean:
 
@@ -119,6 +119,11 @@ variances. Journal of the American Statistical Association 69: 364–367.
 Carroll, R. J., and H. Schneider. 1985. A note on Levene’s tests for
 equality of variances. Statistics and Probability Letters 3: 191–194.
 
+Levene, H. (1960). Robust tests for equality of variances. In I. Olkin
+et al. (Eds.), *Contributions to Probability and Statistics: Essays in
+Honor of Harold Hotelling* (pp. 278–292). Stanford, CA: Stanford
+University Press.
+
 ## Examples
 
 ``` r
@@ -139,8 +144,8 @@ ifr_levene_test(hsb, read, group_var = race)
 #> -------------------------------------------------------------------------
 #> Statistic                            Num DF    Den DF         F    Pr > F 
 #> -------------------------------------------------------------------------
-#> Brown and Forsythe                        3       196      3.44    0.0179 
-#> Levene                                    3       196    3.4792     0.017 
+#> Brown and Forsythe                        3       196    3.4792     0.017 
+#> Levene                                    3       196      3.44    0.0179 
 #> Brown and Forsythe (Trimmed Mean)         3       196    3.3936     0.019 
 #> -------------------------------------------------------------------------
 
@@ -160,8 +165,8 @@ ifr_levene_test(hsb, read, write, socst)
 #> -------------------------------------------------------------------------
 #> Statistic                            Num DF    Den DF         F    Pr > F 
 #> -------------------------------------------------------------------------
-#> Brown and Forsythe                        2       597    1.1683    0.3116 
-#> Levene                                    2       597    1.3803    0.2523 
+#> Brown and Forsythe                        2       597    1.3803    0.2523 
+#> Levene                                    2       597    1.1683    0.3116 
 #> Brown and Forsythe (Trimmed Mean)         2       597    1.3258    0.2664 
 #> -------------------------------------------------------------------------
 ```

@@ -2,7 +2,7 @@
 
 `ifr_os_var_test` performs tests on the equality of standard deviations
 (variances).It tests that the standard deviation of a sample is equal to
-a hypothesized value.
+a hypothesized value. Missing values are removed.
 
 ## Usage
 
@@ -121,6 +121,9 @@ components:
 Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 
+Snedecor, G. W. and Cochran, W. G. (1989). *Statistical Methods*, 8th
+ed. Ames, IA: Iowa State University Press.
+
 ## See also
 
 [`var.test`](https://rdrr.io/r/stats/var.test.html)
@@ -134,7 +137,7 @@ ifr_os_var_test(mtcars, mpg, 5, alternative = 'less')
 #> -----------------------------------------------------------------------------
 #>  Variable    Obs     Mean      Std. Err.    Std. Dev.    [95% Conf. Interval] 
 #> -----------------------------------------------------------------------------
-#>    mpg       32     20.0906     1.0654       6.0269        3.8737    10.6527   
+#>    mpg       32     20.0906     1.0654       6.0269        4.8318     8.0127   
 #> -----------------------------------------------------------------------------
 #> 
 #>             Lower Tail Test           
@@ -155,7 +158,7 @@ ifr_os_var_test(mtcars, mpg, 5, alternative = 'greater')
 #> -----------------------------------------------------------------------------
 #>  Variable    Obs     Mean      Std. Err.    Std. Dev.    [95% Conf. Interval] 
 #> -----------------------------------------------------------------------------
-#>    mpg       32     20.0906     1.0654       6.0269        3.8737    10.6527   
+#>    mpg       32     20.0906     1.0654       6.0269        4.8318     8.0127   
 #> -----------------------------------------------------------------------------
 #> 
 #>             Upper Tail Test           
@@ -176,7 +179,7 @@ ifr_os_var_test(mtcars, mpg, 5, alternative = 'both')
 #> -----------------------------------------------------------------------------
 #>  Variable    Obs     Mean      Std. Err.    Std. Dev.    [95% Conf. Interval] 
 #> -----------------------------------------------------------------------------
-#>    mpg       32     20.0906     1.0654       6.0269        3.8737    10.6527   
+#>    mpg       32     20.0906     1.0654       6.0269        4.8318     8.0127   
 #> -----------------------------------------------------------------------------
 #> 
 #>              Two Tail Test            
@@ -197,7 +200,7 @@ ifr_os_var_test(mtcars, mpg, 5, alternative = 'all')
 #> -----------------------------------------------------------------------------
 #>  Variable    Obs     Mean      Std. Err.    Std. Dev.    [95% Conf. Interval] 
 #> -----------------------------------------------------------------------------
-#>    mpg       32     20.0906     1.0654       6.0269        3.8737    10.6527   
+#>    mpg       32     20.0906     1.0654       6.0269        4.8318     8.0127   
 #> -----------------------------------------------------------------------------
 #> 
 #>                                 Ho: sd(mpg) = 5                                

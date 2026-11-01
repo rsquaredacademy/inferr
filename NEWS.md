@@ -95,6 +95,8 @@
 
 ## Other changes
 
+- The README and pkgdown site were regenerated, so their printed results and
+  version match the released package.
 - The binomial and runs test documentation now use the correct replacement
   function name, describe `obs_p` as observed, and describe the runs threshold
   correctly.
