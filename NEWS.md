@@ -2,6 +2,13 @@
 
 ## Bug Fixes
 
+- `ifr_cochran_qtest()` now resolves the numeric outcome coding once across the
+  selected variables, so a homogeneous column that holds only `1` is recoded as
+  failure when the rest of the design is `1/2`-coded instead of being silently
+  treated as success.
+- `ifr_os_prop_test()` now requires the null probability to be strictly inside
+  `(0, 1)`, because the normal approximation is undefined at `prob = 0` or
+  `prob = 1`.
 - `ifr_runs_test()` now computes its p-value from the upper normal tail, so
   small representable p-values are no longer returned as zero.
 - `ifr_os_t_test()` now detects essentially constant data relative to the
