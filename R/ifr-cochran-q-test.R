@@ -96,8 +96,8 @@ cochran_recode <- function(data) {
   # (H13): logical -> FALSE/TRUE, factor -> first/second level, numeric -> a
   # single design-wide 0/1 or 1/2 coding. The coding is established from the
   # full data so that complete-case filtering cannot erase the evidence, and
-  # a homogeneous numeric column of all 1s inherits the coding the rest of the
-  # design declares.
+  # a homogeneous numeric column of all 1s inherits explicit numeric evidence,
+  # or consistent factor-label hints when no numeric evidence is available.
   coding <- cochran_coding(data)
 
   # consistent missing-data policy: a row is used only when every specified
@@ -156,6 +156,8 @@ cochran_coding <- function(data) {
     }
   }
 
+  factor01 <- FALSE
+  factor12 <- FALSE
   for (x in data[is_fac]) {
     if (nlevels(x) != 2) {
       stop("Please specify dichotomous/binary variables only.", call. = FALSE)
@@ -163,19 +165,27 @@ cochran_coding <- function(data) {
     lv <- suppressWarnings(as.numeric(levels(x)))
     if (length(lv) == 2 && !anyNA(lv)) {
       if (setequal(lv, c(0, 1))) {
-        declared01 <- TRUE
+        factor01 <- TRUE
       }
       if (setequal(lv, c(1, 2))) {
-        declared12 <- TRUE
+        factor12 <- TRUE
       }
     }
+  }
+
+  # Each factor maps independently by level order (M10). Labels only help
+  # resolve otherwise ambiguous numeric columns (H13); they never override
+  # explicit numeric evidence or constrain an all-factor design.
+  if (ambiguous && !declared01 && !declared12) {
+    declared01 <- factor01
+    declared12 <- factor12
   }
 
   if (declared01 && declared12) {
     stop(
       paste0(
         "Cannot determine a single 0/1 or 1/2 coding across the numeric ",
-        "columns. Use one coding for every column, or supply factors with ",
+        "columns. Use one coding for every numeric column, or supply factors with ",
         "declared levels."
       ),
       call. = FALSE

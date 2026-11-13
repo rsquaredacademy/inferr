@@ -314,6 +314,77 @@ test_that("every equivalent mixed encoding of the H13 design agrees", {
   }
 })
 
+test_that("each factor uses its own declared levels (M10)", {
+  d <- data.frame(a = c(0, 0, 0, 0),
+                  b = c(0, 1, 1, 1),
+                  c = c(0, 1, 1, 1))
+  nearby <- data.frame(a = c(0, 0, 0, 0),
+                       b = c(0, 0, 0, 1),
+                       c = c(0, 0, 1, 1))
+  labels <- list(c("0", "1"), c("1", "2"), c("no", "yes"),
+                 c("1", "0"), c("2", "1"), c("yes", "no"))
+
+  for (base in list(d, nearby)) {
+    m <- as.matrix(base)
+    q <- 2 * (3 * sum(colSums(m)^2) - sum(m)^2) /
+         (3 * sum(m) - sum(rowSums(m)^2))
+    p <- pchisq(q, 2, lower.tail = FALSE)
+    # The audit's exact factor frame is the first combination below.
+    for (i in seq_along(labels)) {
+      f <- data.frame(
+        a = factor(labels[[i]][base$a + 1], levels = labels[[i]]),
+        b = factor(labels[[i %% 6 + 1]][base$b + 1],
+                   levels = labels[[i %% 6 + 1]]),
+        c = factor(labels[[2]][base$c + 1], levels = labels[[2]])
+      )
+      # Include reversed column order and a discarded incomplete row.
+      inputs <- list(f, f, rbind(f, f[NA_integer_, , drop = FALSE]))
+      for (j in seq_along(inputs)) {
+        input <- inputs[[j]]
+        k <- if (j == 2) ifr_cochran_qtest(input, c, b, a) else
+          ifr_cochran_qtest(input, a, b, c)
+        expect_equal(k$n, 4)
+        expect_equal(k$df, 2)
+        expect_equal(k$q, q)
+        expect_equal(k$pvalue, round(p, 4))
+        expect_equal(pchisq(k$q, k$df, lower.tail = FALSE), p,
+                     tolerance = 1e-14)
+      }
+    }
+  }
+  expect_equal(ifr_cochran_qtest(d, a, b, c)$q, 6)
+  expect_equal(pchisq(6, 2, lower.tail = FALSE), 0.04978706836786394,
+               tolerance = 1e-14)
+})
+
+test_that("numeric coding takes precedence over independent factor labels (M10)", {
+  d <- data.frame(a = c(0, 0, 0, 0),
+                  b = c(0, 1, 1, 1),
+                  c = c(0, 1, 1, 1))
+  for (offset in 0:1) {
+    mixed <- d + offset
+    mixed$b <- factor(d$b + 1 - offset, levels = c(0, 1) + 1 - offset)
+    # c supplies explicit numeric evidence; a is homogeneous numeric.
+    evidence <- mixed
+    evidence$b <- d$b + offset
+    evidence$c <- factor(d$c + 1 - offset, levels = c(0, 1) + 1 - offset)
+    for (input in list(mixed, evidence)) {
+      k <- ifr_cochran_qtest(input, a, b, c)
+      expect_equal(k$n, 4)
+      expect_equal(k$df, 2)
+      expect_equal(k$q, 6)
+      expect_equal(k$pvalue, 0.0498)
+      expect_equal(pchisq(k$q, k$df, lower.tail = FALSE),
+                   0.04978706836786394, tolerance = 1e-14)
+    }
+  }
+  ambiguous <- data.frame(a = rep(1, 4),
+                          b = factor(d$b, levels = c(0, 1)),
+                          c = factor(d$c + 1, levels = c(1, 2)))
+  expect_error(ifr_cochran_qtest(ambiguous, a, b, c),
+               "single 0/1 or 1/2 coding")
+})
+
 test_that("Cochran Q rejects designs without within-subject discordance (M5)", {
   d <- data.frame(a = c(1, 0, 1, 0),
                   b = c(1, 0, 1, 0),

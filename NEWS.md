@@ -2,11 +2,13 @@
 
 ## Bug Fixes
 
-- `ifr_cochran_qtest()` now resolves a single `0/1` or `1/2` success coding
-  across every selected column (numeric, factor and logical alike) before
-  incomplete rows are dropped, so a homogeneous numeric column of all `1`s
-  follows the coding the rest of the design declares, and genuinely ambiguous
-  mixtures error instead of being silently misread.
+- `ifr_cochran_qtest()` now maps each factor by its own declared level order,
+  accepting factors with different labels and using explicit numeric evidence
+  to resolve the shared coding of numeric columns.
+- `ifr_cochran_qtest()` now resolves the shared numeric `0/1` or `1/2` coding
+  before incomplete rows are dropped, so a homogeneous numeric column of all
+  `1`s follows numeric evidence or consistent factor-label hints, and
+  ambiguous mixtures error instead of being silently misread.
 - `ifr_os_prop_test()` now requires the null probability to be strictly inside
   `(0, 1)`, because the normal approximation is undefined at `prob = 0` or
   `prob = 1`.
