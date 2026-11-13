@@ -22,7 +22,7 @@ Suggests:
     covr,
     knitr,
     rmarkdown,
-    testthat (>= 3.0.0),
+    testthat (>= 3.1.7),
     xplorerr
 Encoding: UTF-8
 LazyData: true
