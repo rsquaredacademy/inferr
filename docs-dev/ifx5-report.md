@@ -34,13 +34,13 @@ guessing `0/1`.
 ## Hand-calculated verification
 
 The re-audit design `a=c(0,0,0,0)`, `b=c(0,1,1,1)`, `c=c(0,1,1,1)` has column
-sums `4,3,3`, row sums `1,3,3,3`, `k=3`, so
+sums `0,3,3`, row sums `0,2,2,2`, `k=3`, so
 
 ```
 Q = (k-1) * (k*sum(colSums(m)^2) - sum(m)^2) / (k*sum(m) - sum(rowSums(m)^2))
-  = 2 * (3*34 - 100) / (3*10 - 28)
+  = 2 * (3*18 - 36) / (3*6 - 12)
   = 6
-p = pchisq(6, 2, lower.tail = FALSE) = 0.04978707 -> 0.0498
+p = pchisq(6, 2, lower.tail = FALSE) = 0.04978706836786394 -> 0.0498
 ```
 
 The four encodings `d01` (numeric 0/1), `d12` (numeric 1/2), `f12` (factor
