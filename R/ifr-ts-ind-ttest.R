@@ -1,6 +1,7 @@
 #' @title Two Independent Sample t Test
 #' @description \code{ifr_ts_ind_ttest} compares the means of two independent groups in order to determine whether
 #' there is statistical evidence that the associated population means are significantly different.
+#' Rows with missing values in \code{x} or \code{y} are removed.
 #' @param data a data frame
 #' @param x factor; a column in \code{data}
 #' @param y numeric; a column in \code{data}
@@ -26,8 +27,11 @@
 #' confidence limit of mean of \code{y}}
 #' \item{mean_diff}{difference in mean of \code{y} for the two groups of \code{x}}
 #' \item{se_dif}{estimate of the standard error for difference in mean of
-#' \code{y} for the two groups of \code{x}} \item{sd_dif}{degrees of freedom}
-#' \item{conf_diff}{confidence interval for \code{mean_diff}}
+#' \code{y} for the two groups of \code{x}}
+#' \item{sd_dif}{pooled standard deviation for the two groups of \code{x}}
+#' \item{conf_diff}{confidence interval for \code{mean_diff} (pooled method)}
+#' \item{conf_diff_satterthwaite}{confidence interval for \code{mean_diff}
+#' (Satterthwaite method)}
 #' \item{df_pooled}{degrees of freedom for the pooled method}
 #' \item{df_satterthwaite}{degrees of freedom for the Satterthwaite method}
 #' \item{t_pooled}{t statistic for the pooled method}
@@ -51,6 +55,10 @@
 #'
 #' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
+#'
+#' Satterthwaite, F. E. (1946). An approximate distribution of estimates of variance components. \emph{Biometrics Bulletin}, 2(6), 110--114.
+#'
+#' Welch, B. L. (1947). The generalization of "Student's" problem when several different population variances are involved. \emph{Biometrika}, 34(1/2), 28--35.
 #'
 #' @examples
 #' # lower tail
@@ -81,11 +89,17 @@ ifr_ts_ind_ttest.default <- function(data, x, y, confint = 0.95,
   y1   <- deparse(substitute(y))
   yone <- names(data[y1])
 
-  if (check_x(data, x1)) {
+  dat  <- data[complete.cases(data[[x1]], data[[y1]]), , drop = FALSE]
+
+  if (is.factor(dat[[x1]])) {
+    dat[[x1]] <- droplevels(dat[[x1]])
+  }
+
+  if (check_x(dat, x1)) {
     stop("x must be a binary factor variable", call. = FALSE)
   }
 
-  if (check_level(data, x1) > 2) {
+  if (check_level(dat, x1) != 2) {
     stop("x must be a binary factor variable", call. = FALSE)
   }
 
@@ -93,25 +107,26 @@ ifr_ts_ind_ttest.default <- function(data, x, y, confint = 0.95,
   var_y    <- yone
   alpha    <- 1 - confint
   a        <- alpha / 2
-  h        <- indth(data, x1, y1, a)
+  h        <- indth(dat, x1, y1, a)
   grp_stat <- h
   g_stat   <- as.matrix(h)
-  comb     <- indcomb(data, y1, a)
+  comb     <- indcomb(dat, y1, a)
   k        <- indcomp(grp_stat, alpha)
-  j        <- indsig(k$n1, k$n2, k$s1, k$s2, k$mean_diff)
+  j        <- indsig(k$n1, k$n2, k$s1_raw, k$s2_raw, k$mean_diff)
   m        <- indpool(k$n1, k$n2, k$mean_diff, k$se_dif)
 
   result <- list(alternative      = method,
                  combined         = comb,
                  confint          = confint,
                  conf_diff        = round(k$conf_diff, 5),
+                 conf_diff_satterthwaite = round(k$conf_diff_satt, 5),
                  den_df           = k$n2 - 1,
                  df_pooled        = m$df_pooled,
-                 df_satterthwaite = j$d_f,
-                 f                = round(k$s1 / k$s2, 4),
-                 f_sig            = fsig(k$s1, k$s2, k$n1, k$n2),
+                 df_satterthwaite = round(j$d_f),
+                 f                = round(k$s1_raw / k$s2_raw, 4),
+                 f_sig            = fsig(k$s1_raw, k$s2_raw, k$n1, k$n2),
                  levels           = g_stat[, 1],
-                 lower            = g_stat[, 8],
+                 lower            = g_stat[, "lower"],
                  mean             = g_stat[, 3],
                  mean_diff        = round(k$mean_diff, 3),
                  n                = k$n,
@@ -129,7 +144,7 @@ ifr_ts_ind_ttest.default <- function(data, x, y, confint = 0.95,
                  sig_u            = j$sig_u,
                  t_pooled         = round(m$t_pooled, 4),
                  t_satterthwaite  = round(j$t, 4),
-                 upper            = g_stat[, 9],
+                 upper            = g_stat[, "upper"],
                  var_y            = var_y)
 
   class(result) <- "ifr_ts_ind_ttest"
@@ -157,32 +172,40 @@ indth <- function(data, x, y, a) {
   h       <- data_split(data, x, y)
   h$df    <- h$length - 1
   h$error <- qt(a, h$df) * -1
-  h$lower <- h$mean_t - (h$error * h$std_err)
-  h$upper <- h$mean_t + (h$error * h$std_err)
+  h$lower <- h$mean_raw - (h$error * (h$sd_raw / sqrt(h$length)))
+  h$upper <- h$mean_raw + (h$error * (h$sd_raw / sqrt(h$length)))
 
   return(h)
 }
 
 data_split <- function(data, x, y) {
 
-  dat <- data.table(data[c(x, y)])
-  out <- dat[, .(length  = length(get(y)),
-                 mean_t  = mean_t(get(y)),
-                 sd_t    = sd_t(get(y)),
-                 std_err = std_err(get(y))),
-            by = x]
+  dat <- data.frame(.ifr_value = data[[y]], .ifr_group = data[[x]])
+  dm  <- data.table(dat)
+
+  out <- dm[, .(length   = .N,
+                 mean_t   = mean_t(.ifr_value),
+                 sd_t     = sd_t(.ifr_value),
+                 std_err  = std_err(.ifr_value),
+                 mean_raw = mean(.ifr_value),
+                 sd_raw   = sd(.ifr_value)),
+            by = ".ifr_group"]
 
   setDF(out)
+  names(out)[1] <- x
+  out
 
 }
 
 indcomb <- function(data, y, a) {
 
   comb        <- da(data, y)
+  raw         <- data[[y]]
+  se_raw      <- sd(raw) / sqrt(length(raw))
   comb$df     <- comb$length - 1
   comb$error  <- qt(a, comb$df) * -1
-  comb$lower  <- round(comb$mean_t - (comb$error * comb$std_err), 5)
-  comb$upper  <- round(comb$mean_t + (comb$error * comb$std_err), 5)
+  comb$lower  <- round(mean(raw) - (comb$error * se_raw), 5)
+  comb$upper  <- round(mean(raw) + (comb$error * se_raw), 5)
   names(comb) <- NULL
 
   return(comb)
@@ -223,38 +246,43 @@ indcomp <- function(grp_stat, alpha) {
   n1        <- grp_stat[1, 2]
   n2        <- grp_stat[2, 2]
   n         <- n1 + n2
-  means     <- grp_stat[, 3]
+  means     <- grp_stat[, "mean_raw"]
   mean_diff <- means[1] - means[2]
-  sd1       <- grp_stat[1, 4]
-  sd2       <- grp_stat[2, 4]
-  s1        <- grp_stat[1, 4] ^ 2
-  s2        <- grp_stat[2, 4] ^ 2
+  sd1       <- grp_stat[1, "sd_raw"]
+  sd2       <- grp_stat[2, "sd_raw"]
+  s1        <- sd1 ^ 2
+  s2        <- sd2 ^ 2
   sd_dif    <- sd_diff(n1, n2, s1, s2)
   se_dif    <- se_diff(n1, n2, s1, s2)
-  conf_diff <- conf_int_p(mean_diff, se_dif, alpha = alpha)
+  se_satt   <- sqrt((s1 / n1) + (s2 / n2))
+  df_pooled <- n1 + n2 - 2
+  df_satt   <- df(n1, n2, s1, s2)
+  conf_diff <- conf_int_p(mean_diff, se_dif, df_pooled, alpha = alpha)
+  conf_satt <- conf_int_p(mean_diff, se_satt, df_satt, alpha = alpha)
 
-  list(conf_diff = conf_diff,
-       mean_diff = mean_diff,
-       n         = n,
-       n1        = n1,
-       n2        = n2,
-       s1        = s1,
-       s2        = s2,
-       sd1       = sd1,
-       sd2       = sd2,
-       sd_dif    = sd_dif,
-       se_dif    = se_dif)
+  list(conf_diff   = conf_diff,
+       conf_diff_satt = conf_satt,
+       mean_diff   = mean_diff,
+       n           = n,
+       n1          = n1,
+       n2          = n2,
+       s1          = grp_stat[1, 4] ^ 2,
+       s2          = grp_stat[2, 4] ^ 2,
+       s1_raw      = s1,
+       s2_raw      = s2,
+       sd1         = sd1,
+       sd2         = sd2,
+       sd_dif      = sd_dif,
+       se_dif      = se_dif)
 
 }
 
 sd_diff <- function(n1, n2, s1, s2) {
 
-  n1 <- n1 - 1
-  n2 <- n2 - 1
-  n  <- (n1 + n2) - 2
+  n <- (n1 + n2) - 2
 
-  (n1 * s1) %>%
-    add(n2 * s2) %>%
+  ((n1 - 1) * s1) %>%
+    add((n2 - 1) * s2) %>%
     divide_by(n) %>%
     raise_to_power(0.5)
 
@@ -277,10 +305,10 @@ se_diff <- function(n1, n2, s1, s2) {
 
 }
 
-conf_int_p <- function(u, se, alpha = 0.05) {
+conf_int_p <- function(u, se, df, alpha = 0.05) {
 
   a     <- alpha / 2
-  error <- round(qnorm(a), 3) * -1
+  error <- qt(1 - a, df)
   lower <- u - (error * se)
   upper <- u + (error * se)
   c(lower, upper)
@@ -317,7 +345,7 @@ df <- function(n1, n2, s1, s2) {
   num <- (sn1 + sn2) ^ 2
   den <- (m1 * (sn1 ^ 2)) + (m2 * (sn2 ^ 2))
 
-  round(num / den)
+  num / den
 
 }
 

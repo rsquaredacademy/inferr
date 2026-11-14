@@ -7,22 +7,30 @@ test_that("output from ifr_os_t_test matches the expected output", {
   expect_equal(k$stddev, 6.0269)
   expect_equal(k$std_err, 1.0654)
   expect_equal(k$test_stat, -28.073)
-  expect_equal(k$confint, c(-Inf, 21.8974))
+  expect_equal(k$confint, c(-Inf, 21.8971))
   expect_equal(k$mean_diff_l, -Inf)
-  expect_equal(k$mean_diff_u, -28.1026)
+  expect_equal(k$mean_diff_u, -28.1029)
   expect_equal(k$mean_diff, -29.9094)
-  expect_equal(k$p_l, 6.592161e-24)
+  expect_equal(k$p_l, 6.59395020888e-24)
   expect_equal(k$p_u, 1)
-  expect_equal(k$p, 1.31843219487798e-23)
+  expect_equal(k$p, 1.31879004178e-23)
   expect_equal(k$conf, 0.95)
   expect_equal(k$type, "less")
   expect_equal(k$var_name, "mpg")
 
   k <- ifr_os_t_test(mtcars, mpg, mu = 50, alternative = "greater")
-  expect_equal(k$confint, c(18.2846, Inf))
+  expect_equal(k$confint, c(18.2842, Inf))
 
   k <- ifr_os_t_test(mtcars, mpg, mu = 50, alternative = "both")
-  expect_equal(k$confint, c(17.9181, 22.2639))
+  expect_equal(k$confint, c(17.9177, 22.2636))
+})
+
+test_that("one sample t p-value matches t.test using unrounded statistics", {
+  k <- ifr_os_t_test(mtcars, mpg, mu = 50, alternative = "both")
+  expect_equal(k$p, t.test(mtcars$mpg, mu = 50)$p.value, tolerance = 1e-10)
+
+  k <- ifr_os_t_test(hsb, write, mu = 50, alternative = "both")
+  expect_equal(k$p, t.test(hsb$write, mu = 50)$p.value, tolerance = 1e-10)
 })
 
 test_that("ifr_os_t_test throws the appropriate error", {
@@ -45,4 +53,55 @@ test_that("output from one sample t test is as expected when alternative is both
 
 test_that("output from one sample t test is as expected when alternative is all", {
   expect_snapshot(ifr_os_t_test(hsb, write, mu = 50, alternative = "all"))
+})
+
+test_that("ifr_os_t_test rejects degenerate samples and invalid alpha (M5)", {
+  expect_error(ifr_os_t_test(rep(1, 4)), "essentially constant")
+  expect_error(ifr_os_t_test(c(1, 1, 1, NA)), "essentially constant")
+  expect_error(ifr_os_t_test(1), "at least two")
+  expect_error(ifr_os_t_test(c(NA_real_, NA_real_)), "at least two")
+  expect_error(ifr_os_t_test(mtcars, mpg, mu = 50, alpha = 1.5),
+               "alpha must be between 0 and 1")
+  expect_error(ifr_os_t_test(mtcars, mpg, mu = 50, alpha = 0),
+               "alpha must be between 0 and 1")
+
+  # a two-observation sample with a positive variance remains valid
+  k <- ifr_os_t_test(c(1, 3), mu = 2)
+  expect_equal(k$n, 2)
+  expect_equal(k$test_stat, 0)
+})
+
+test_that("one-sample t is scale invariant and rejects relative degeneracy (M8)", {
+  x      <- c(1, 2, 4, 8)
+  scaled <- x * 1e-9
+
+  k  <- ifr_os_t_test(scaled)
+  ku <- ifr_os_t_test(x)
+  ref <- t.test(scaled)
+
+  expect_equal(k$n, 4)
+  expect_equal(k$test_stat, round(unname(ref$statistic), 3))
+  expect_equal(k$test_stat, ku$test_stat)
+  expect_equal(k$p, ref$p.value, tolerance = 1e-10)
+  expect_equal(k$p, ku$p, tolerance = 1e-12)
+
+  # a large location with a spread at the limit of double precision is
+  # relative degeneracy, exactly as stats::t.test() reports it
+  y <- 1e8 + c(-1e-7, 0, 1e-7, 2e-7)
+  expect_error(t.test(y), "essentially constant")
+  expect_error(ifr_os_t_test(y), "essentially constant")
+})
+
+test_that("ifr_os_t_test drops missing values", {
+  mt <- mtcars
+  mt$mpg[1:3] <- NA
+
+  k   <- ifr_os_t_test(mt, mpg, mu = 20)
+  ref <- t.test(mt$mpg, mu = 20)
+
+  expect_equal(k$n, 29)
+  expect_equal(k$df, 28)
+  expect_equal(k$test_stat, round(unname(ref$statistic), 3))
+  expect_equal(k$p, ref$p.value, tolerance = 1e-10)
+  expect_equal(k$confint, round(as.numeric(ref$conf.int), 4))
 })

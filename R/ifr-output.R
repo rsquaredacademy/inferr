@@ -27,7 +27,7 @@ print_owanova <- function(data) {
   cat(fg("", w1), fs(), fg("Sum of", w2), fs(), fg("", w3), fs(), fg("", w4), fs(), fg("", w5), fs(), fg("", w6), "\n")
   cat(fg("", w1), fs(), fg("Squares", w2), fs(), fg("DF", w3), fs(), fg("Mean Square", w4), fs(), fg("F", w5), fs(), fg("Sig.", w6), "\n")
   cat(rep("-", w), sep = "", "\n")
-  cat(fl("Between Groups", w1), fs(), fg(data$ss_between, w2), fs(), fg(data$df_btw, w3), fs(), fg(data$ms_btw, w4), fs(), fg(data$fstat, w5), fs(), fg(data$pval, w6), "\n")
+  cat(fl("Between Groups", w1), fs(), fg(data$ss_between, w2), fs(), fg(data$df_btw, w3), fs(), fg(data$ms_btw, w4), fs(), fg(data$fstat, w5), fs(), fg(p, w6), "\n")
   cat(fl("Within Groups", w1), fs(), fg(data$ss_within, w2), fs(), fg(data$df_within, w3), fs(), fg(data$ms_within, w4), fs(), fg("", w5), fs(), fg("", w6), "\n")
   cat(fl("Total", w1), fs(), fg(data$ss_total, w2), fs(), fg(data$df_total, w3), fs(), fg("", w4), fs(), fg("", w5), fs(), fg("", w6), "\n")
   cat(rep("-", w), sep = "", "\n\n")
@@ -86,9 +86,10 @@ print_binom <- function(data) {
   cat(" ", rep("-", w), sep = "", "\n")
 
   # test summary widths
-  w6  <- nchar("Lower")
-  w7  <- nchar(paste0("Pr(k <= ", data$k, " or k >= ", data$k, ")"))
-  w8  <- nchar(paste0("Pr(k <= ", data$k, " or k >= ", data$k, ")"))
+  two_prob <- paste0("Pr(k) <= Pr(", data$k, ")")
+  w6  <- max(nchar("Lower"), nchar("Two-sided"))
+  w7  <- nchar(two_prob)
+  w8  <- nchar(two_prob)
   w9  <- 8
   w10 <- sum(w6, w7, w9, 9)
   w11 <- sum(w6, w8, w9, 9)
@@ -109,6 +110,10 @@ print_binom <- function(data) {
       " ", format("Upper", width = w6, justify = "left"), fs(), format(paste0("Pr(k >= ", data$k, ")"), width = w8, justify = "centre"), fs(),
       format(as.character(data$pval_upper), width = w9, justify = "centre"), "\n"
     )
+    cat(
+      " ", format("Two-sided", width = w6, justify = "left"), fs(), format(two_prob, width = w8, justify = "centre"), fs(),
+      format(as.character(round(data$two_tail, 6)), width = w9, justify = "centre"), "\n"
+    )
     
     cat(" ", rep("-", w11), sep = "", "\n")
   } else {
@@ -126,6 +131,10 @@ print_binom <- function(data) {
     cat(
       " ", format("Upper", width = w6, justify = "left"), fs(), format(paste0("Pr(k >= ", data$k, ")"), width = w7, justify = "centre"), fs(),
       format(as.character(data$pval_upper), width = w9, justify = "centre"), "\n"
+    )
+    cat(
+      " ", format("Two-sided", width = w6, justify = "left"), fs(), format(two_prob, width = w7, justify = "centre"), fs(),
+      format(as.character(round(data$two_tail, 6)), width = w9, justify = "centre"), "\n"
     )
    
     cat(" ", rep("-", w10), sep = "", "\n")
@@ -357,8 +366,8 @@ print_paired_ttest <- function(data) {
   cat(rep("-", width_1), sep = "")
   cat(
     "\n", formatter_pair("diff", var_width1), formats_t(), formatter_pair(data$Obs, obs_width), formats_t(), formatter_pair(data$b[[3, 1]], mean_width), formats_t(), formatter_pair(data$b[[3, 3]], se_width),
-    formats_t(), formatter_pair(data$b[[3, 2]], sd_width), formats_t(), format_cil(data$conf_int_diff[[1]], conf_l_width),
-    format_ciu(data$conf_int_diff[[2]], conf_u_width), "\n"
+    formats_t(), formatter_pair(data$b[[3, 2]], sd_width), formats_t(), format_cil(round(data$conf_int_diff[[1]], 2), conf_l_width),
+    format_ciu(round(data$conf_int_diff[[2]], 2), conf_u_width), "\n"
   )
   cat(rep("-", width_1), sep = "")
   cat("\n\n", format("Paired Samples Correlations", width = width_2, justify = "centre"), "\n")
@@ -720,13 +729,13 @@ print_ts_prop_test <- function(data) {
     cat(rep("-", w1), sep = "", "\n")
     cat(format("Total Observations", width = cwidth, justify = "left"), formats(), format(totobs, width = nwidth, justify = "right"), "\n")
     cat(format("z", width = cwidth, justify = "left"), formats(), format(data$z, width = nwidth, justify = "right"), "\n")
-    cat(format("Pr(|Z| < |z|)", width = cwidth, justify = "left"), formats(), format(data$sig, width = nwidth, justify = "right"), "\n\n")
+    cat(format("Pr(|Z| > |z|)", width = cwidth, justify = "left"), formats(), format(data$sig, width = nwidth, justify = "right"), "\n\n")
   } else {
     cat(format("Test Statistics", width = w1, justify = "centre"), "\n")
     cat(rep("-", w1), sep = "", "\n")
     cat(format("Total Observations", width = cwidth, justify = "left"), formats(), format(totobs, width = nwidth, justify = "right"), "\n")
     cat(format("z", width = cwidth, justify = "left"), formats(), format(data$z, width = nwidth, justify = "right"), "\n")
-    cat(format("Pr(|Z| < |z|)", width = cwidth, justify = "left"), formats(), format(unname(data$sig[1]), width = nwidth, justify = "right"), "\n")
+    cat(format("Pr(|Z| > |z|)", width = cwidth, justify = "left"), formats(), format(unname(data$sig[1]), width = nwidth, justify = "right"), "\n")
     cat(format("Pr(Z < z)", width = cwidth, justify = "left"), formats(), format(unname(data$sig[2]), width = nwidth, justify = "right"), "\n")
     cat(format("Pr(Z > z)", width = cwidth, justify = "left"), formats(), format(unname(data$sig[3]), width = nwidth, justify = "right"), "\n\n")
   }
@@ -886,7 +895,7 @@ print_chisq_test <- function(x) {
   width2 <- max(nchar(x$df))
   
   width3 <- max(
-    nchar(x$chisquare), nchar(x$chisquare_lr), nchar(x$chisquare_mantel_haenszel), nchar(x$chisquare_adjusted), nchar(x$phi_coefficient),
+    nchar(x$chisquare), nchar(x$chisquare_lr), nchar(x$chisquare_mantel_haenszel), nchar(x$chisquare_adjusted), nchar(paste(x$phi_coefficient)),
     nchar(x$contingency_coefficient), nchar(x$cramers_v)
   )
   
@@ -1029,7 +1038,7 @@ print_cochran_test <- function(data) {
 print_mcnemar_test <- function(data) {
   
   cwidth1 <- max(nchar("McNemar's chi2"), nchar("DF"), nchar("Pr > chi2"), nchar("Exact Pr >= chi2"))
-  nwidth1 <- max(nchar(data$tatistic), nchar(data$df), nchar(data$pvalue), nchar(data$exactp))
+  nwidth1 <- max(nchar(data$statistic), nchar(data$df), nchar(data$pvalue), nchar(data$exactp))
   w1      <- sum(cwidth1, nwidth1, 6)
 
   cwidth2 <- max(nchar("Kappa"), nchar("ASE"), nchar("95% Lower Conf Limit"), nchar("95% Upper Conf Limit"))

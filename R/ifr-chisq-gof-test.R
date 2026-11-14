@@ -28,6 +28,8 @@
 #' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #'
+#' Yates, F. (1934). Contingency tables involving small numbers and the chi-squared test. \emph{Supplement to the Journal of the Royal Statistical Society}, 1(2), 217--235.
+#'
 #' @examples
 #' ifr_chisq_gof_test(hsb, race, c(20, 20, 20, 140))
 #'
@@ -45,8 +47,8 @@ ifr_chisq_gof_test.default <- function(data, x, y, correct = FALSE) {
 
   x1     <- deparse(substitute(x))
   xcheck <- data[[x1]]
-  xlen   <- length(data[[x1]])
   xone   <- as.vector(table(data[[x1]]))
+  xlen   <- sum(xone)
 
   if (!is.factor(xcheck)) {
     stop("x must be an object of class factor", call. = FALSE)
@@ -73,13 +75,13 @@ ifr_chisq_gof_test.default <- function(data, x, y, correct = FALSE) {
     y <- xlen * y
   }
 
-  if ((df == 1) || (correct == TRUE)) {
+  if (correct == TRUE) {
     k <- chi_cort(xone, y)
   } else {
     k <- chigof(xone, y)
   }
 
-  sig <- round(pchisq(k$chi, df, lower.tail = FALSE), 4)
+  sig <- round(pchisq(k$raw, df, lower.tail = FALSE), 4)
 
   result <-
     list(
@@ -91,7 +93,7 @@ ifr_chisq_gof_test.default <- function(data, x, y, correct = FALSE) {
       n_levels           = nlevels(xcheck),
       observed_frequency = xone,
       pvalue             = sig,
-      sample_size        = length(xcheck),
+      sample_size        = xlen,
       std_residuals      = format(k$std, nsmall = 2),
       varname            = varname
   )
@@ -115,8 +117,8 @@ print.ifr_chisq_gof_test <- function(x, ...) {
 
 chi_cort <- function(x, y) {
 
-  diff <- x - y - 0.5
-  dif  <- abs(x - y) - 0.5
+  dif  <- pmax(abs(x - y) - 0.5, 0)
+  diff <- sign(x - y) * dif
   dif2 <- dif ^ 2
   dev  <- round((diff / y) * 100, 2)
   std  <- round(diff / sqrt(y), 2)
@@ -124,7 +126,8 @@ chi_cort <- function(x, y) {
 
   list(dev = dev,
        std = std,
-       chi = chi)
+       chi = chi,
+       raw = sum(dif2 / y))
 }
 
 chigof <- function(x, y) {
@@ -137,5 +140,6 @@ chigof <- function(x, y) {
 
   list(dev = dev,
        std = std,
-       chi = chi)
+       chi = chi,
+       raw = sum(dif2 / y))
 }

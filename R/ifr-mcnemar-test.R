@@ -1,7 +1,7 @@
 #' @importFrom magrittr %>%
 #' @title McNemar Test
 #' @description Test if the proportions of two dichotomous variables are
-#' equal in the same population.
+#' equal in the same population. Both variables must have exactly two levels.
 #' @param data a \code{data.frame} or \code{tibble}
 #' @param x factor; column in \code{data}
 #' @param y factor; column in \code{data}
@@ -66,6 +66,10 @@ ifr_mcnemar_test.default <- function(data, x = NULL, y = NULL) {
     y1  <- deparse(substitute(y))
     dat <- table(data[c(x1, y1)])
 
+    if (!all(dim(dat) == 2)) {
+      stop("x and y must each have exactly two levels.", call. = FALSE)
+    }
+
   }
 
   k <- mccomp(dat)
@@ -127,24 +131,36 @@ mctestp <- function(dat) {
 }
 
 tetat <- function(p) {
-  ((p[1] - p[2]) ^ 2) / sum(p)
+  discordant <- sum(p)
+  if (discordant == 0) {
+    return(0)
+  }
+  ((p[1] - p[2]) ^ 2) / discordant
 }
 
 mcpval <- function(test_stat, df) {
-  1 - pchisq(test_stat, df)
+  pchisq(test_stat, df, lower.tail = FALSE)
 }
 
 mcpex <- function(dat) {
-  2 * min(pbinom(dat[2], sum(dat[2], dat[3]), 0.5), 
-          pbinom(dat[3], sum(dat[2], dat[3]), 0.5))
+  discordant <- dat[2] + dat[3]
+  if (discordant == 0) {
+    return(1)
+  }
+  min(1, 2 * min(pbinom(dat[2], discordant, 0.5),
+                 pbinom(dat[3], discordant, 0.5)))
 }
 
 mcstat <- function(p) {
-  ((abs(p[1] - p[2]) - 1) ^ 2) / sum(p)
+  discordant <- sum(p)
+  if (discordant == 0) {
+    return(0)
+  }
+  max(abs(p[1] - p[2]) - 1, 0) ^ 2 / discordant
 }
 
 mccpval <- function(cstat, df) {
-  1 - pchisq(cstat, df)
+  pchisq(cstat, df, lower.tail = FALSE)
 }
 
 mckappa <- function(dat) {

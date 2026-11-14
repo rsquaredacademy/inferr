@@ -37,3 +37,110 @@ test_that("output from mcnemar test is as expected", {
   hiread <- ifelse(hsb$read > 60, 1, 0)
   expect_snapshot(ifr_mcnemar_test(table(himath, hiread)))
 })
+
+test_that("ifr_mcnemar_test requires a 2 x 2 table and matches mcnemar.test", {
+  d <- data.frame(
+    a = factor(c(rep("0", 20), rep("1", 10), rep("0", 5), rep("1", 15))),
+    b = factor(c(rep("0", 20), rep("0", 10), rep("1", 5), rep("1", 15)))
+  )
+
+  k    <- ifr_mcnemar_test(d, a, b)
+  tbl  <- table(d$a, d$b)
+  ref1 <- mcnemar.test(tbl, correct = FALSE)
+  ref2 <- mcnemar.test(tbl, correct = TRUE)
+
+  expect_equal(k$statistic, round(unname(ref1$statistic), 4))
+  expect_equal(k$pvalue, round(ref1$p.value, 4))
+  expect_equal(k$cstat, unname(ref2$statistic), tolerance = 1e-10)
+  expect_equal(k$cpvalue, ref2$p.value, tolerance = 1e-10)
+
+  d3 <- data.frame(
+    a = factor(rep(c("a", "b", "c"), 4)),
+    b = factor(rep(c("a", "b", "c"), each = 4))
+  )
+  expect_error(ifr_mcnemar_test(d3, a, b), "exactly two levels")
+})
+
+test_that("McNemar output aligns the statistic and degrees of freedom", {
+  out <- capture.output(ifr_mcnemar_test(matrix(c(0, 1, 100, 0), nrow = 2)))
+
+  stat_line <- out[grep("McNemar's chi2", out)]
+  df_line   <- out[grep("^DF", out)]
+
+  expect_equal(nchar(df_line), nchar(stat_line))
+})
+
+test_that("McNemar upper-tail p-values are not lost to cancellation (H11)", {
+  m    <- matrix(c(10, 100, 0, 10), 2)
+  k    <- ifr_mcnemar_test(m)
+  ref  <- mcnemar.test(m, correct = FALSE)
+  refc <- mcnemar.test(m, correct = TRUE)
+  raw  <- mcpval(k$statistic, k$df)
+
+  # the two references are genuinely different, so the comparison below
+  # distinguishes the corrected and uncorrected tests
+  expect_gt(abs(ref$p.value / refc$p.value - 1), 0.1)
+
+  expect_equal(k$cstat, unname(refc$statistic))
+  expect_gt(k$cpvalue, 0)
+  expect_equal(k$cpvalue, refc$p.value, tolerance = 1e-10)
+  expect_equal(k$cpvalue / refc$p.value, 1, tolerance = 1e-10)
+
+  # the uncorrected helper must keep the representable positive tail and
+  # match the uncorrected reference, not the corrected one; the public
+  # p-value is documented to be rounded to four decimals
+  expect_gt(raw, 0)
+  expect_equal(raw, ref$p.value, tolerance = 1e-10)
+  expect_equal(raw / ref$p.value, 1, tolerance = 1e-10)
+  expect_equal(log(raw), log(ref$p.value), tolerance = 1e-10)
+  expect_equal(k$pvalue, round(ref$p.value, 4))
+
+  # nearby case with a representable but small corrected tail
+  m2 <- matrix(c(20, 30, 2, 20), 2)
+  k2 <- ifr_mcnemar_test(m2)
+  r2 <- mcnemar.test(m2, correct = TRUE)
+  r2u <- mcnemar.test(m2, correct = FALSE)
+  raw2 <- mcpval(k2$statistic, k2$df)
+
+  expect_gt(k2$cpvalue, 0)
+  expect_equal(k2$cpvalue, r2$p.value, tolerance = 1e-10)
+  expect_equal(k2$cpvalue / r2$p.value, 1, tolerance = 1e-10)
+  expect_gt(raw2, 0)
+  expect_equal(raw2, r2u$p.value, tolerance = 1e-10)
+  expect_equal(raw2 / r2u$p.value, 1, tolerance = 1e-10)
+})
+
+test_that("McNemar exact and corrected p-values are bounded (H2)", {
+  m <- matrix(c(10, 2, 2, 10), 2)
+  k <- ifr_mcnemar_test(m)
+  ref <- mcnemar.test(m)
+
+  expect_equal(k$statistic, unname(ref$statistic))
+  expect_equal(k$pvalue, ref$p.value)
+  expect_equal(k$exactp, binom.test(2, 4, 0.5)$p.value)
+  expect_equal(k$exactp, 1)
+  expect_equal(k$cstat, 0)
+  expect_equal(k$cpvalue, 1)
+
+  # no discordant pairs: defined as no evidence, statistic 0 and p = 1
+  k0 <- ifr_mcnemar_test(matrix(c(10, 0, 0, 10), 2))
+  expect_equal(k0$statistic, 0)
+  expect_equal(k0$pvalue, 1)
+  expect_equal(k0$exactp, 1)
+  expect_equal(k0$cstat, 0)
+  expect_equal(k0$cpvalue, 1)
+
+  # nearby cases with a non-zero correction
+  m2 <- matrix(c(0, 9, 3, 0), 2)
+  k2 <- ifr_mcnemar_test(m2)
+  ref2 <- mcnemar.test(m2)
+  expect_equal(k2$cstat, unname(ref2$statistic), tolerance = 1e-10)
+  expect_equal(k2$cpvalue, ref2$p.value, tolerance = 1e-10)
+  expect_equal(k2$exactp, round(binom.test(3, 12, 0.5)$p.value, 4))
+
+  # |b - c| = 1 must not create evidence from the correction alone
+  m3 <- matrix(c(20, 7, 6, 15), 2)
+  k3 <- ifr_mcnemar_test(m3)
+  expect_equal(k3$cstat, 0)
+  expect_equal(k3$cpvalue, 1)
+})

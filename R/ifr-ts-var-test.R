@@ -1,11 +1,11 @@
 #' @title Two Sample Variance Comparison Test
 #' @description  \code{ifr_ts_var_test} performs tests on the equality of standard
-#' deviations (variances).
+#' deviations (variances). Observations with missing values are removed.
 #' @param data a \code{data.frame} or \code{tibble}
 #' @param ... numeric; column(s) in \code{data}
-#' @param group_var factor; column in \code{data}
+#' @param group_var factor or character; column in \code{data}
 #' @param alternative a character string specifying the alternative hypothesis,
-#' must be one of "both" (default), "greater", "less" or "all". You can specify
+#' must be one of "less" (default), "greater" or "all". You can specify
 #' just the initial letter.
 #'
 #' @return \code{ifr_ts_var_test} returns an object of class \code{"ifr_ts_var_test"}.
@@ -36,6 +36,8 @@
 #' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #'
+#' Snedecor, G. W. and Cochran, W. G. (1989). \emph{Statistical Methods}, 8th ed. Ames, IA: Iowa State University Press.
+#'
 #' @examples
 #' # using grouping variable
 #' ifr_ts_var_test(hsb, read, group_var = female, alternative = 'less')
@@ -64,8 +66,8 @@ ifr_ts_var_test.default <- function(data, ..., group_var = NULL,
     ln <- unlist(lapply(z, length))
     ly <- seq_len(length(z))
 
-    if (length(z) < 2) {
-      stop("Please specify at least two variables.", call. = FALSE)
+    if (length(z) != 2) {
+      stop("Please specify exactly two variables.", call. = FALSE)
     }
 
     out       <- gvar(ln, ly)
@@ -75,12 +77,25 @@ ifr_ts_var_test.default <- function(data, ..., group_var = NULL,
 
   } else {
 
+    if (length(varyables) != 1) {
+      stop("Please specify exactly one variable when group_var is supplied.",
+           call. = FALSE)
+    }
+
     fdata     <- fdata[[1]]
-    groupvars <- data[[groupvar]]
-    lev       <- levels(groupvars)
+    groupvars <- as.factor(data[[groupvar]])
 
     if (length(fdata) != length(groupvars)) {
       stop("Length of variable and group_var do not match.", call. = FALSE)
+    }
+
+    keep      <- complete.cases(fdata, groupvars)
+    fdata     <- fdata[keep]
+    groupvars <- droplevels(as.factor(groupvars[keep]))
+    lev       <- levels(groupvars)
+
+    if (length(lev) != 2) {
+      stop("Grouping variable must have exactly two levels.", call. = FALSE)
     }
   }
 
@@ -101,6 +116,7 @@ ifr_ts_var_test.default <- function(data, ..., group_var = NULL,
               sds   = k$sds,
               se    = k$se,
               ses   = k$ses,
+              two_tail = k$two_tail,
               type  = type,
               upper = k$upper,
               vars  = k$vars)
@@ -139,21 +155,23 @@ var_comp <- function(variable, group_var) {
   n2    <- lens[2] - 1
   lower <- pf(f, n1, n2)
   upper <- pf(f, n1, n2, lower.tail = FALSE)
+  two_tail <- 2 * min(lower, upper)
 
-  list(avg   = round(lass[2], 2),
-       avgs  = round(vals[[3]], 2),
-       f     = round(f, 4),
-       len   = lass[1],
-       lens  = lens,
-       lower = round(lower, 4),
-       n1    = n1,
-       n2    = n2,
-       sd    = round(lass[3], 2),
-       sds   = round(vals[[5]], 2),
-       se    = round(lass[4], 2),
-       ses   = round(vals[[6]], 2),
-       upper = round(upper, 4),
-       vars  = round(vars, 2))
+  list(avg      = round(lass[2], 2),
+       avgs     = round(vals[[3]], 2),
+       f        = round(f, 4),
+       len      = lass[1],
+       lens     = lens,
+       lower    = round(lower, 4),
+       n1       = n1,
+       n2       = n2,
+       sd       = round(lass[3], 2),
+       sds      = round(vals[[5]], 2),
+       se       = round(lass[4], 2),
+       ses      = round(vals[[6]], 2),
+       two_tail = two_tail,
+       upper    = round(upper, 4),
+       vars     = round(vars, 2))
 
 }
 

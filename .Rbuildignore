@@ -8,9 +8,12 @@
 ^cran-comments\.md$
 ^_pkgdown\.yml$
 ^docs$
+^pkgdown$
 ^NEWS$
 ^CONDUCT\.md$
 ^.*\.jpg$
 ^hex_inferr\.png$
 ^\.github$
 ^CODE_OF_CONDUCT\.md$
+^docs-dev$
+^\.hz-

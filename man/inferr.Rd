@@ -22,7 +22,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Aravind Hebbali \email{hebbali.aravind@gmail.com} (\href{https://orcid.org/0000-0001-9220-9669}{ORCID})
+\strong{Maintainer}: Aravind Hebbali \email{aravindhebbali@rsquaredacademy.com} (\href{https://orcid.org/0000-0001-9220-9669}{ORCID})
 
 }
 \keyword{internal}

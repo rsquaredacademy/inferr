@@ -13,7 +13,7 @@ A data frame with 15 rows and 3 variables:
 }
 }
 \source{
-\url{https://www.spss-tutorials.com/spss-cochran-q-test/}
+\url{https://en.wikipedia.org/wiki/Cochran\%27s_Q_test}
 }
 \usage{
 exam

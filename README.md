@@ -57,39 +57,39 @@ devtools::install_github("rsquaredacademy/inferr")
 #### One Sample t Test
 
 ``` r
-ifr_os_t_test(hsb, write, mu = 50, type = 'all')
+ifr_os_t_test(hsb, write, mu = 50)
 #>                               One-Sample Statistics                               
 #> ---------------------------------------------------------------------------------
 #>  Variable    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
 #> ---------------------------------------------------------------------------------
-#>   write      200    52.775     0.6702       9.4786       51.4537    54.0969   
+#>   write      200    52.775     0.6702       9.4786       51.4533    54.0967   
 #> ---------------------------------------------------------------------------------
 #> 
-#>                                   Two Tail Test                                  
-#>                                  ---------------                                  
+#>                                   Two Tail Test                                 
+#>                                  ---------------                                 
 #> 
-#>                                Ho: mean(write) ~=50                              
-#>                                Ha: mean(write) !=50                               
-#> --------------------------------------------------------------------------------
-#>  Variable      t      DF       Sig       Mean Diff.    [95% Conf. Interval] 
-#> --------------------------------------------------------------------------------
-#>   write      4.141    199    0.00005       2.775         1.4537     4.0969   
-#> --------------------------------------------------------------------------------
+#>                               Ho: mean(write) ~=50                              
+#>                               Ha: mean(write) !=50                               
+#> -------------------------------------------------------------------------------
+#>  Variable     t      DF       Sig       Mean Diff.    [95% Conf. Interval] 
+#> -------------------------------------------------------------------------------
+#>   write      4.14    199    0.00005       2.775         1.4533     4.0967   
+#> -------------------------------------------------------------------------------
 ```
 
 #### ANOVA
 
 ``` r
 ifr_oneway_anova(hsb, write, prog)
-#>                                 ANOVA                                  
-#> ----------------------------------------------------------------------
-#>                    Sum of                                             
-#>                    Squares     DF     Mean Square      F        Sig.  
-#> ----------------------------------------------------------------------
-#> Between Groups    3175.698      2      1587.849      21.275      0    
-#> Within Groups     14703.177    197      74.635                        
-#> Total             17878.875    199                                    
-#> ----------------------------------------------------------------------
+#>                                    ANOVA                                     
+#> ----------------------------------------------------------------------------
+#>                    Sum of                                                   
+#>                    Squares     DF     Mean Square      F           Sig.     
+#> ----------------------------------------------------------------------------
+#> Between Groups    3175.698      2      1587.849      21.275    4.310163e-09 
+#> Within Groups     14703.177    197      74.635                              
+#> Total             17878.875    199                                          
+#> ----------------------------------------------------------------------------
 #> 
 #>                  Report                   
 #> -----------------------------------------
@@ -112,9 +112,9 @@ ifr_chisq_assoc_test(hsb, female, schtyp)
 #> 
 #> Statistics                     DF    Value      Prob 
 #> ----------------------------------------------------
-#> Chi-Square                     1    0.0470    0.8284
-#> Likelihood Ratio Chi-Square    1    0.0471    0.8282
-#> Continuity Adj. Chi-Square     1    0.0005    0.9822
+#> Chi-Square                     1    0.0470    0.8283
+#> Likelihood Ratio Chi-Square    1    0.0471    0.8281
+#> Continuity Adj. Chi-Square     1    0.0005    0.9815
 #> Mantel-Haenszel Chi-Square     1    0.0468    0.8287
 #> Phi Coefficient                     0.0153          
 #> Contingency Coefficient             0.0153          
@@ -141,8 +141,8 @@ ifr_levene_test(hsb, read, group_var = race)
 #> -------------------------------------------------------------------------
 #> Statistic                            Num DF    Den DF         F    Pr > F 
 #> -------------------------------------------------------------------------
-#> Brown and Forsythe                        3       196      3.44    0.0179 
-#> Levene                                    3       196    3.4792     0.017 
+#> Brown and Forsythe                        3       196    3.4792     0.017 
+#> Levene                                    3       196      3.44    0.0179 
 #> Brown and Forsythe (Trimmed Mean)         3       196    3.3936     0.019 
 #> -------------------------------------------------------------------------
 ```
@@ -206,11 +206,15 @@ ifr_mcnemar_test(hb, himath, hiread)
 
 If you encounter a bug, please file a minimal reproducible example using
 [reprex](https://reprex.tidyverse.org/index.html) on github. For
-questions and clarifications, use
-[StackOverflow](https://stackoverflow.com/).
+questions and clarifications, ask on Stack Overflow with the `r` tag.
 
 ## Code of Conduct
 
 Please note that the inferr project is released with a [Contributor Code
 of Conduct](https://inferr.rsquaredacademy.com/CODE_OF_CONDUCT.html). By
 contributing to this project, you agree to abide by its terms.
+
+<div data-rsa-signup="" data-site="inferr.rsquaredacademy.com"
+data-privacy-url="https://www.rsquaredacademy.com/privacy-policy.html">
+
+</div>

@@ -5,11 +5,12 @@
 #' two statistics proposed by Brown and Forsythe that replace the mean in
 #' Levene's formula with alternative location estimators. The first alternative
 #' replaces the mean with the median. The second alternative replaces
-#' the mean with the 10% trimmed mean.
+#' the mean with the 10% trimmed mean. Observations with missing values are
+#' removed.
 #'
 #' @param data a \code{data.frame} or \code{tibble}
 #' @param ... numeric; columns in \code{data}
-#' @param group_var factor; column in \code{data}
+#' @param group_var factor or character; column in \code{data}
 #' @param trim_mean trimmed mean
 #'
 #' @return \code{ifr_levene_test} returns an object of class \code{"ifr_levene_test"}.
@@ -42,6 +43,8 @@
 #' {Brown, M. B., and A. B. Forsythe. 1974. Robust tests for the equality of variances. Journal of the American Statistical Association 69: 364–367.}
 #'
 #' {Carroll, R. J., and H. Schneider. 1985. A note on Levene’s tests for equality of variances. Statistics and Probability Letters 3: 191–194.}
+#'
+#' Levene, H. (1960). Robust tests for equality of variances. In I. Olkin et al. (Eds.), \emph{Contributions to Probability and Statistics: Essays in Honor of Harold Hotelling} (pp. 278--292). Stanford, CA: Stanford University Press.
 #'
 #' @examples
 #' # using grouping variable
@@ -140,15 +143,15 @@ lev_metric <- function(cvar, gvar, loc, ...) {
 lev_comp <- function(variable, group_var, trim.mean) {
 
   comp <- complete.cases(variable, group_var)
-  n    <- length(comp)
-  k    <- nlevels(group_var)
+  n    <- sum(comp)
   cvar <- variable[comp]
-  gvar <- group_var[comp]
+  gvar <- factor(group_var[comp])
+  k    <- nlevels(gvar)
   lens <- tapply(cvar, gvar, length)
   avgs <- tapply(cvar, gvar, mean)
   sds  <- tapply(cvar, gvar, sd)
-  bf   <- lev_metric(cvar, gvar, mean)
-  lev  <- lev_metric(cvar, gvar, median)
+  bf   <- lev_metric(cvar, gvar, median)
+  lev  <- lev_metric(cvar, gvar, mean)
   bft  <- lev_metric(cvar, gvar, mean, trim = trim.mean)
 
   list(

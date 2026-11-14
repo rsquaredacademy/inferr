@@ -2,11 +2,15 @@
 #' @description Tests on the equality of proportions using
 #' large-sample statistics. It tests that a sample has the same proportion
 #' within two independent groups or two samples have the same proportion.
+#' Both variables must be binary; the second level of each variable is
+#' treated as the success level. Character, logical and 0/1 encodings are
+#' converted to a factor with a shared success level before the groups are
+#' tabulated.
 #' @param data a \code{data.frame} or \code{tibble}
 #' @param var1 factor; column in \code{data}
 #' @param var2 factor; column in \code{data}
 #' @param var factor; column in \code{data}
-#' @param group factor; column in \code{data}
+#' @param group factor or character; column in \code{data}
 #' @param n1 sample 1 size
 #' @param n2 sample 2 size
 #' @param p1 sample 1 proportion
@@ -69,6 +73,9 @@ ifr_ts_prop_test.default <- function(data, var1, var2,
   varone <- data[[var_1]]
   vartwo <- data[[var_2]]
 
+  check_binary(varone, "var1")
+  check_binary(vartwo, "var2")
+
   alt    <- match.arg(alternative)
   k      <- prop_comp2(varone, vartwo, alt)
 
@@ -130,16 +137,37 @@ ifr_ts_prop_group <- function(data, var, group,
   varone   <- data[[var1]]
   groupone <- data[[group1]]
 
-  if (nlevels(groupone) > 2) {
-    stop("Grouping variable must be a binary factor variables.", call. = FALSE)
+  check_binary(varone, "var")
+  check_binary(groupone, "group")
+
+  keep     <- complete.cases(varone, groupone)
+  varone   <- varone[keep]
+  groupone <- droplevels(as.factor(groupone[keep]))
+
+  if (nlevels(groupone) != 2) {
+    stop("group must be a binary variable with exactly two levels.",
+         call. = FALSE)
   }
 
-  n     <- tapply(varone, groupone, length)
-  n1    <- n[[1]]
-  n2    <- n[[2]]
-  y     <- tapply(varone, groupone, table)
-  y1    <- y[[1]][[2]]
-  y2    <- y[[2]][[2]]
+  # define one success level for all groups; per-group tables would lose the
+  # unobserved level in a homogeneous group
+  if (!is.factor(varone)) {
+    varone <- factor(varone)
+  }
+
+  if (nlevels(varone) != 2) {
+    stop("var must be a binary variable with exactly two levels.",
+         call. = FALSE)
+  }
+
+  success <- levels(varone)[2]
+  groups  <- levels(groupone)
+
+  n     <- as.vector(table(groupone))
+  n1    <- n[1]
+  n2    <- n[2]
+  y1    <- sum(varone[groupone == groups[1]] == success)
+  y2    <- sum(varone[groupone == groups[2]] == success)
   phat1 <- y1 / n1
   phat2 <- y2 / n2
   phat  <- sum(y1, y2) / sum(n1, n2)
@@ -151,8 +179,8 @@ ifr_ts_prop_group <- function(data, var, group,
 
 
   lt    <- pnorm(z)
-  ut    <- round(pnorm(z, lower.tail = FALSE), 4)
-  tt    <- round(pnorm(abs(z), lower.tail = FALSE) * 2, 4)
+  ut    <- pnorm(z, lower.tail = FALSE)
+  tt    <- pnorm(abs(z), lower.tail = FALSE) * 2
 
   alt   <- match.arg(alternative)
 
@@ -196,8 +224,8 @@ ifr_ts_prop_calc <- function(n1, n2, p1, p2,
   z     <- num / den
 
   lt    <- pnorm(z)
-  ut    <- round(pnorm(z, lower.tail = FALSE), 4)
-  tt    <- round(pnorm(abs(z), lower.tail = FALSE) * 2, 4)
+  ut    <- pnorm(z, lower.tail = FALSE)
+  tt    <- pnorm(abs(z), lower.tail = FALSE) * 2
 
   alt   <- match.arg(alternative)
 
@@ -226,24 +254,26 @@ ifr_ts_prop_calc <- function(n1, n2, p1, p2,
 
 prop_comp2 <- function(var1, var2, alt) {
 
+  var1  <- var1[!is.na(var1)]
+  var2  <- var2[!is.na(var2)]
   n1    <- length(var1)
   n2    <- length(var2)
   y1    <- table(var1)[[2]]
   y2    <- table(var2)[[2]]
 
-  phat1 <- round(y1 / n1, 4)
-  phat2 <- round(y2 / n2, 4)
+  phat1 <- y1 / n1
+  phat2 <- y2 / n2
   phat  <- sum(y1, y2) / sum(n1, n2)
 
   num   <- (phat1 - phat2)
   den1  <- phat * (1 - phat)
   den2  <- (1 / n1) + (1 / n2)
   den   <- sqrt(den1 * den2)
-  z     <- round(num / den, 4)
+  z     <- num / den
 
-  lt    <- round(pnorm(z), 4)
-  ut    <- round(pnorm(z, lower.tail = FALSE), 4)
-  tt    <- round(pnorm(abs(z), lower.tail = FALSE) * 2, 4)
+  lt    <- pnorm(z)
+  ut    <- pnorm(z, lower.tail = FALSE)
+  tt    <- pnorm(abs(z), lower.tail = FALSE) * 2
 
   if (alt == "all") {
     sig <- c("two-tail" = tt, "lower-tail" = lt, "upper-tail" = ut)
@@ -257,8 +287,8 @@ prop_comp2 <- function(var1, var2, alt) {
 
   list(n1    = n1,
        n2    = n2,
-       phat1 = phat1,
-       phat2 = phat2,
+       phat1 = round(phat1, 4),
+       phat2 = round(phat2, 4),
        sig   = round(sig, 3),
        z     = round(z, 3))
 

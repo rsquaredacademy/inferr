@@ -46,8 +46,11 @@ following components:
 confidence limit of mean of \code{y}}
 \item{mean_diff}{difference in mean of \code{y} for the two groups of \code{x}}
 \item{se_dif}{estimate of the standard error for difference in mean of
-\code{y} for the two groups of \code{x}} \item{sd_dif}{degrees of freedom}
-\item{conf_diff}{confidence interval for \code{mean_diff}}
+\code{y} for the two groups of \code{x}}
+\item{sd_dif}{pooled standard deviation for the two groups of \code{x}}
+\item{conf_diff}{confidence interval for \code{mean_diff} (pooled method)}
+\item{conf_diff_satterthwaite}{confidence interval for \code{mean_diff}
+(Satterthwaite method)}
 \item{df_pooled}{degrees of freedom for the pooled method}
 \item{df_satterthwaite}{degrees of freedom for the Satterthwaite method}
 \item{t_pooled}{t statistic for the pooled method}
@@ -69,6 +72,7 @@ confidence limit of mean of \code{y}}
 \description{
 \code{ifr_ts_ind_ttest} compares the means of two independent groups in order to determine whether
 there is statistical evidence that the associated population means are significantly different.
+Rows with missing values in \code{x} or \code{y} are removed.
 }
 \section{Deprecated Function}{
 
@@ -92,6 +96,10 @@ ifr_ts_ind_ttest(hsb, female, write, alternative = 'all')
 \references{
 Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
+
+Satterthwaite, F. E. (1946). An approximate distribution of estimates of variance components. \emph{Biometrics Bulletin}, 2(6), 110--114.
+
+Welch, B. L. (1947). The generalization of "Student's" problem when several different population variances are involved. \emph{Biometrika}, 34(1/2), 28--35.
 }
 \seealso{
 \code{\link[stats]{t.test}}

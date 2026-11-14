@@ -1,6 +1,6 @@
 #' @title Paired t test
 #' @description \code{ifr_ts_paired_ttest} tests that two samples have the
-#' same mean, assuming paired data.
+#' same mean, assuming paired data. Incomplete pairs are removed.
 #' @param data a \code{data.frame} or \code{tibble}
 #' @param x numeric; column in \code{data}
 #' @param y numeric; column in \code{data}
@@ -104,22 +104,25 @@ print.ifr_ts_paired_ttest <- function(x, ...) {
 #' @importFrom stats cor
 paired_comp <- function(x, y, confint, var_names) {
 
+  ok        <- complete.cases(x, y)
+  x         <- x[ok]
+  y         <- y[ok]
   n         <- length(x)
   df        <- (n - 1)
   xy        <- paste(var_names[1], "-", var_names[2])
 
   data_prep <- paired_data(x, y)
   b         <- paired_stats(data_prep, "key", "value")
-  corr      <- round(cor(x, y), 4)
+  corr      <- cor(x, y)
   corsig    <- cor_sig(corr, n)
 
   alpha     <- 1 - confint
 
   confint1  <- conf_int_t(b[[1, 1]], b[[1, 2]], n, alpha = alpha) %>% round(2)
   confint2  <- conf_int_t(b[[2, 1]], b[[2, 2]], n, alpha = alpha) %>% round(2)
-  confint3  <- conf_int_t(b[[3, 1]], b[[3, 2]], n, alpha = alpha) %>% round(2)
+  confint3  <- conf_int_t(b[[3, 1]], b[[3, 2]], n, alpha = alpha)
 
-  t         <- round(b[[3, 1]] / b[[3, 3]], 4)
+  t         <- b[[3, 1]] / b[[3, 3]]
 
   p_l       <- pt(t, df)
   p_u       <- pt(t, df, lower.tail = FALSE)
@@ -127,8 +130,9 @@ paired_comp <- function(x, y, confint, var_names) {
 
   list(
     Obs = n, b = b, conf_int1 = confint1, conf_int2 = confint2,
-    conf_int_diff = confint3, corr = round(corr, 2), corsig = round(corsig, 2),
-    tstat = t, p_lower = p_l, p_upper = p_u, p_two_tail = p, xy = xy, df = df
+    conf_int_diff = confint3, corr = round(corr, 2), corsig = corsig,
+    tstat = round(t, 4), p_lower = p_l, p_upper = p_u, p_two_tail = p,
+    xy = xy, df = df
   )
 
 }
@@ -162,7 +166,7 @@ cor_sig <- function(corr, n) {
 
   t   <- corr / ((1 - (corr ^ 2)) / (n - 2)) ^ 0.5
   df  <- n - 2
-  sig <- (1 - pt(t, df)) * 2
+  sig <- 2 * pt(abs(t), df, lower.tail = FALSE)
   round(sig, 4)
 
 }
@@ -171,7 +175,7 @@ conf_int_t <- function(u, s, n, alpha = 0.05) {
 
   a     <- alpha / 2
   df    <- n - 1
-  error <- round(qt(a, df), 3) * -1
+  error <- qt(a, df) * -1
   lower <- u - (error * samp_err(s, n))
   upper <- u + (error * samp_err(s, n))
   c(lower, upper)

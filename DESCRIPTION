@@ -1,8 +1,8 @@
 Package: inferr
 Type: Package
 Title: Inferential Statistics
-Version: 0.3.2.9000
-Authors@R: person("Aravind", "Hebbali", email = "hebbali.aravind@gmail.com", role = c("aut", "cre"),
+Version: 0.3.3
+Authors@R: person("Aravind", "Hebbali", email = "aravindhebbali@rsquaredacademy.com", role = c("aut", "cre"),
     comment = c(ORCID = "0000-0001-9220-9669"))
 Description: Select set of parametric and non-parametric statistical tests. 'inferr' builds upon the solid set of
     statistical tests provided in 'stats' package by including additional data types as inputs, expanding and
@@ -22,7 +22,7 @@ Suggests:
     covr,
     knitr,
     rmarkdown,
-    testthat (>= 3.0.0),
+    testthat (>= 3.1.7),
     xplorerr
 Encoding: UTF-8
 LazyData: true

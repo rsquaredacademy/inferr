@@ -1,7 +1,7 @@
 #' @title One Sample Variance Comparison Test
 #' @description  \code{ifr_os_var_test} performs tests on the equality of standard
 #' deviations (variances).It tests that the standard deviation of a sample is
-#' equal to a hypothesized value.
+#' equal to a hypothesized value. Missing values are removed.
 #' @param data a \code{data.frame} or \code{tibble}
 #' @param x numeric; column in \code{data}
 #' @param sd hypothesised standard deviation
@@ -36,6 +36,8 @@
 #'
 #' @references Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
+#'
+#' Snedecor, G. W. and Cochran, W. G. (1989). \emph{Statistical Methods}, 8th ed. Ames, IA: Iowa State University Press.
 #'
 #' @examples
 #' # lower tail
@@ -120,6 +122,7 @@ print.ifr_os_var_test <- function(x, ...) {
 #' @importFrom stats qchisq
 osvar_comp <- function(x, sd, confint) {
 
+  x     <- x[!is.na(x)]
   n     <- length(x)
   df    <- n - 1
   xbar  <- mean(x)
@@ -139,9 +142,9 @@ osvar_comp <- function(x, sd, confint) {
   conf  <- confint
   a     <- (1 - conf) / 2
   al    <- 1 - a
-  tv    <- df * sigma
-  c_lwr <- round(tv / qchisq(al, df), 4)
-  c_upr <- round(tv / qchisq(a, df), 4)
+  tv    <- df * sigma ^ 2
+  c_lwr <- round(sqrt(tv / qchisq(al, df)), 4)
+  c_upr <- round(sqrt(tv / qchisq(a, df)), 4)
 
   list(chi     = chi,
        c_lwr   = c_lwr,

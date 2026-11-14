@@ -111,21 +111,26 @@ test_that("output from data_split matches the expected result", {
 })
 
 test_that("output from sd_diff and se_diff matches the expected result", {
-  expect_equal(round(sd_diff(200, 200, sd(hsb$read), sd(hsb$write)), 3), 3.149)
-
   n1 <- length(hsb$read)
   n2 <- length(hsb$write)
-  s1 <- sd(hsb$read) / sqrt(n1)
-  s2 <- sd(hsb$write) / sqrt(n2)
-  expect_equal(round(se_diff(n1, n2, s1, s2), 3), 0.084)
+  s1 <- var(hsb$read)
+  s2 <- var(hsb$write)
+  pooled <- sqrt(((n1 - 1) * s1 + (n2 - 1) * s2) / (n1 + n2 - 2))
+
+  expect_equal(sd_diff(n1, n2, s1, s2), pooled)
+  expect_equal(
+    sd_diff(3, 3, var(c(1, 2, 3)), var(c(4, 6, 8))),
+    sqrt((2 * var(c(1, 2, 3)) + 2 * var(c(4, 6, 8))) / 4)
+  )
+  expect_equal(se_diff(n1, n2, s1, s2), sqrt(pooled ^ 2 * (1 / n1 + 1 / n2)))
 })
 
 test_that("output from df matches the expected result", {
-  expect_equal(df(10, 15, 3, 6), 23)
+  expect_equal(round(df(10, 15, 3, 6), 3), 22.867)
 })
 
 test_that("output from conf_int_p matches the expected result", {
-  expect_equal(round(conf_int_p(10, 3.6), 3), c(2.944, 17.056))
+  expect_equal(round(conf_int_p(10, 3.6, 10), 3), c(1.979, 18.021))
 })
 
 test_that("output from sums and coch matches the expected result", {
@@ -142,4 +147,11 @@ test_that("output from sums and coch matches the expected result", {
 
   q <- coch(ncol(data), k$cls_sum, k$cl, k$g, k$gs_sum)
   expect_equal(round(q, 3), 1.385)
+})
+
+test_that("check_suggests reports a clear message for a missing package", {
+  expect_error(
+    check_suggests("notARealPkgXYZ"),
+    "notARealPkgXYZ must be installed for this functionality"
+  )
 })

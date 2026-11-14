@@ -37,7 +37,7 @@ following components:
 }
 \description{
 Test if the proportions of two dichotomous variables are
-equal in the same population.
+equal in the same population. Both variables must have exactly two levels.
 }
 \section{Deprecated Function}{
 

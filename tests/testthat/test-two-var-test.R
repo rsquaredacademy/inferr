@@ -53,3 +53,80 @@ test_that("output from 2 sample variance test is as expected when alternative is
 test_that("output from 2 sample variance test is as expected when alternative is all", {
   expect_snapshot(ifr_ts_var_test(hsb, read, write, alternative = "all"))
 })
+
+test_that("ifr_ts_var_test works with a character grouping variable", {
+  mt <- mtcars
+  mt$vs_chr <- as.character(mt$vs)
+
+  k <- ifr_ts_var_test(mt, mpg, group_var = vs_chr)
+
+  expect_equal(k$lev, c("0", "1"))
+
+  # independent computation from stats::var.test
+  ref <- var.test(mpg ~ vs_chr, data = mt)
+  expect_equal(k$f, round(unname(ref$statistic), 4))
+  expect_equal(k$lower, round(pf(unname(ref$statistic), 17, 13), 4))
+  expect_equal(k$upper, round(pf(unname(ref$statistic), 17, 13, lower.tail = FALSE), 4))
+})
+
+test_that("ifr_ts_var_test returns the two-sided p-value from the F test", {
+  k   <- ifr_ts_var_test(hsb, read, write)
+  ref <- stats::var.test(hsb$read, hsb$write)
+
+  expect_equal(k$f, round(unname(ref$statistic), 4))
+  expect_equal(k$two_tail, ref$p.value, tolerance = 1e-10)
+})
+
+test_that("ifr_ts_var_test rejects a grouping variable with more than two levels", {
+  mt <- mtcars
+  mt$cyl_chr <- as.character(mt$cyl)
+
+  expect_error(
+    ifr_ts_var_test(mt, mpg, group_var = cyl_chr),
+    "exactly two levels"
+  )
+})
+
+test_that("ifr_ts_var_test requires exactly two columns or one outcome (H9)", {
+  expect_error(
+    ifr_ts_var_test(mtcars, mpg, disp, hp),
+    "exactly two variables"
+  )
+  expect_error(
+    ifr_ts_var_test(mtcars, mpg, disp, group_var = cyl),
+    "exactly one variable"
+  )
+
+  # the accepted two-column call still matches stats::var.test
+  k   <- ifr_ts_var_test(mtcars, mpg, disp)
+  ref <- var.test(mtcars$mpg, mtcars$disp)
+  expect_equal(k$f, round(unname(ref$statistic), 4))
+  expect_equal(k$two_tail, ref$p.value, tolerance = 1e-10)
+  expect_equal(k$len, 64)
+  expect_equal(as.vector(k$lens), c(32, 32))
+
+  # grouped call with exactly one outcome column
+  mt  <- mtcars
+  mt$vs <- as.factor(mt$vs)
+  k2  <- ifr_ts_var_test(mt, mpg, group_var = vs)
+  ref2 <- var.test(mpg ~ vs, data = mt)
+  expect_equal(k2$f, round(unname(ref2$statistic), 4))
+  expect_equal(k2$two_tail, ref2$p.value, tolerance = 1e-10)
+})
+
+test_that("ifr_ts_var_test validates the groups retained after NA removal (H9)", {
+  d <- data.frame(
+    val = c(1, 2, 3, 4, 5, 6),
+    grp = factor(c("a", "a", "a", "b", "b", "b"), levels = c("a", "b", "unused"))
+  )
+  k   <- ifr_ts_var_test(d, val, group_var = grp)
+  ref <- var.test(val ~ grp, data = d)
+  expect_equal(k$f, round(unname(ref$statistic), 4))
+  expect_equal(k$two_tail, ref$p.value, tolerance = 1e-10)
+
+  d$val[d$grp == "b"] <- NA
+  expect_error(
+    ifr_ts_var_test(d, val, group_var = grp),
+    "exactly two levels"
+  )
+})

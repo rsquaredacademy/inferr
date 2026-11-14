@@ -54,7 +54,8 @@ following components:
 }
 \description{
 \code{ifr_os_t_test} performs t tests on the equality of means. It tests the
-hypothesis that a sample has a mean equal to a hypothesized value.
+hypothesis that a sample has a mean equal to a hypothesized value. Missing
+values are removed.
 }
 \section{Deprecated Function}{
 

@@ -19,6 +19,33 @@ test_that("output from ifr_binom_calc matches the expected output", {
   expect_equal(k$pval_upper, 0.107664)
 })
 
+test_that("ifr_binom_calc two-sided p-value matches stats::binom.test", {
+  cases <- list(
+    c(32, 8, 0.5),   # lower tail, symmetric
+    c(32, 20, 0.5),  # upper tail, symmetric
+    c(32, 5, 0.3),   # lower tail, asymmetric
+    c(32, 20, 0.3)   # upper tail, asymmetric
+  )
+
+  for (x in cases) {
+    k   <- ifr_binom_calc(x[1], x[2], x[3])
+    ref <- stats::binom.test(x[2], x[1], x[3])
+    expect_equal(k$two_tail, ref$p.value, tolerance = 1e-10)
+  }
+})
+
+test_that("ifr_binom_test returns the documented class", {
+  k <- ifr_binom_test(hsb, female)
+  expect_identical(class(k), c("ifr_binom_test", "ifr_binom_calc"))
+  expect_identical(class(ifr_binom_calc(32, 8)), "ifr_binom_calc")
+})
+
+test_that("ifr_binom_test two-sided p-value matches stats::binom.test", {
+  k   <- ifr_binom_test(hsb, female)
+  ref <- stats::binom.test(109, 200, 0.5)
+  expect_equal(k$two_tail, ref$p.value, tolerance = 1e-10)
+})
+
 test_that("ifr_binom_calc throws the appropriate error", {
   expect_error(ifr_binom_calc("32", 20), "n must be an integer")
   expect_error(ifr_binom_calc(32, "20"), "success must be an integer")
@@ -57,4 +84,46 @@ test_that("output from ifr_binom_calc is as expected when k < exp_k", {
 
 test_that("output from ifr_binom_calc is as expected when k > exp_k", {
   expect_snapshot(ifr_binom_calc(32, 20))
+})
+
+test_that("ifr_binom_calc rejects fractional and out-of-range counts (M5)", {
+  expect_error(ifr_binom_calc(4, 1.5), "success must be an integer")
+  expect_error(ifr_binom_calc(4, 5), "success must be an integer between 0 and n")
+  expect_error(ifr_binom_calc(4, -1), "success must be an integer between 0 and n")
+  expect_error(ifr_binom_calc(0, 0), "n must be an integer")
+  expect_error(ifr_binom_calc(4.5, 1), "n must be an integer")
+  expect_error(ifr_binom_calc(NA, 1), "n must be an integer")
+  expect_error(ifr_binom_calc(4, 1, NA), "prob must be")
+
+  # boundary counts remain valid
+  expect_equal(ifr_binom_calc(4, 0)$two_tail,
+               stats::binom.test(0, 4)$p.value, tolerance = 1e-12)
+  expect_equal(ifr_binom_calc(4, 4)$two_tail,
+               stats::binom.test(4, 4)$p.value, tolerance = 1e-12)
+})
+
+test_that("ifr_binom_test requires exactly two factor levels (M5)", {
+  d1 <- data.frame(out = factor(rep("yes", 3), levels = "yes"))
+  expect_error(ifr_binom_test(d1, out), "binary data")
+})
+
+test_that("ifr_binom_test ignores missing outcomes in n and k (H1)", {
+  d <- data.frame(out = factor(c(rep("yes", 8), "no", NA),
+                               levels = c("no", "yes")))
+  k   <- ifr_binom_test(d, out)
+  ref <- binom.test(8, 9, 0.5)
+
+  expect_equal(k$n, 9)
+  expect_equal(k$k, 8)
+  expect_equal(k$obs_p, 8 / 9)
+  expect_equal(k$two_tail, ref$p.value, tolerance = 1e-12)
+  expect_equal(k$pval_lower, round(pbinom(8, 9, 0.5), 6))
+  expect_equal(k$pval_upper, round(pbinom(7, 9, 0.5, lower.tail = FALSE), 6))
+
+  # nearby case: missing value on the success side
+  d2 <- data.frame(out = factor(c("yes", NA, "no"), levels = c("no", "yes")))
+  k2 <- ifr_binom_test(d2, out)
+  expect_equal(k2$n, 2)
+  expect_equal(k2$k, 1)
+  expect_equal(k2$two_tail, binom.test(1, 2, 0.5)$p.value, tolerance = 1e-12)
 })

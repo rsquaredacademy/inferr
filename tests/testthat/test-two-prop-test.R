@@ -1,3 +1,23 @@
+test_that("proportion test p-values use the unrounded z statistic", {
+  k <- ifr_ts_prop_calc(156, 102, 0.537, 0.348, alternative = "all")
+
+  phat <- (156 * 0.537 + 102 * 0.348) / (156 + 102)
+  z    <- (0.537 - 0.348) / sqrt(phat * (1 - phat) * (1 / 156 + 1 / 102))
+
+  expect_equal(k$z, round(z, 3))
+  expect_equal(
+    unname(k$sig),
+    round(
+      c(
+        2 * stats::pnorm(abs(z), lower.tail = FALSE),
+        stats::pnorm(z),
+        stats::pnorm(z, lower.tail = FALSE)
+      ),
+      3
+    )
+  )
+})
+
 mtcarz <- mtcars
 mtcarz$vs <- as.factor(mtcarz$vs)
 mtcarz$am <- as.factor(mtcarz$am)
@@ -8,7 +28,7 @@ test_that("output from ifr_ts_prop_test matches the expected result", {
   expect_equal(k$n2, 32)
   expect_equal(k$phat1, 0.4062)
   expect_equal(k$phat2, 0.4375)
-  expect_equal(round(k$z, 3), -0.254)
+  expect_equal(round(k$z, 3), -0.253)
   expect_equal(round(k$sig, 3), 0.4)
   expect_equal(k$alt, "less")
 })
@@ -137,4 +157,143 @@ test_that("output from 2 sample proportion test is as expected when alternative 
 
 test_that("output from 2 sample proportion test is as expected when alternative is all", {
   expect_snapshot(ifr_ts_prop_group(treatment2, outcome, female, alternative = "all"))
+})
+
+test_that("ifr_ts_prop_test requires binary variables", {
+  d <- data.frame(
+    a = factor(rep(c("a", "b", "c"), 10)),
+    b = factor(rep(c("x", "y"), 15))
+  )
+
+  expect_error(ifr_ts_prop_test(d, a, b), "var1 must be a binary variable")
+  expect_error(ifr_ts_prop_test(d, b, a), "var2 must be a binary variable")
+
+  d2 <- data.frame(
+    a = factor(c(rep("yes", 90), rep("no", 110))),
+    b = factor(c(rep("yes", 100), rep("no", 100)))
+  )
+
+  k   <- ifr_ts_prop_test(d2, a, b)
+  ref <- prop.test(c(90, 100), c(200, 200), correct = FALSE)
+
+  expect_equal(k$phat1, 0.45)
+  expect_equal(k$phat2, 0.5)
+  expect_equal(abs(k$z), round(sqrt(unname(ref$statistic)), 3))
+})
+
+test_that("ifr_ts_prop_group handles homogeneous groups for accepted encodings (M4)", {
+  d <- data.frame(out = c("no", "no", "yes", "yes"),
+                  g   = c("a", "a", "b", "b"))
+  k   <- ifr_ts_prop_group(d, out, g)
+  ref <- suppressWarnings(prop.test(c(0, 2), c(2, 2), correct = FALSE))
+
+  expect_equal(c(k$n1, k$n2), c(2, 2))
+  expect_equal(c(k$phat1, k$phat2), c(0, 1))
+  expect_equal(k$z, round(-sqrt(unname(ref$statistic)), 3))
+  expect_equal(k$z, -2)
+  expect_equal(k$sig, round(ref$p.value, 3))
+  expect_equal(k$sig, 0.046)
+
+  # nearby case: a group with all successes and the other with none
+  d2 <- data.frame(out = c("yes", "yes", "no", "no"),
+                   g   = c("a", "a", "b", "b"))
+  k2 <- ifr_ts_prop_group(d2, out, g)
+  expect_equal(c(k2$phat1, k2$phat2), c(1, 0))
+  expect_equal(k2$z, 2)
+  expect_equal(k2$sig, 0.046)
+
+  # logical and 0/1 encodings use the same second (success) level
+  dlog <- data.frame(out = c(FALSE, FALSE, TRUE, TRUE),
+                     g   = c("a", "a", "b", "b"))
+  dnum <- data.frame(out = c(0, 0, 1, 1),
+                     g   = c("a", "a", "b", "b"))
+  klog <- ifr_ts_prop_group(dlog, out, g)
+  knum <- ifr_ts_prop_group(dnum, out, g)
+  expect_equal(c(klog$phat1, klog$phat2), c(0, 1))
+  expect_equal(unname(c(klog$z, klog$sig)), unname(c(knum$z, knum$sig)))
+})
+
+test_that("ifr_ts_prop_group requires a binary variable and group", {
+  d <- data.frame(
+    out = factor(rep(c("a", "b", "c"), 20)),
+    grp = rep(c("a", "b"), 30)
+  )
+  expect_error(ifr_ts_prop_group(d, out, grp), "var must be a binary variable")
+
+  d2 <- data.frame(
+    out = factor(rep(c("a", "b"), 30)),
+    grp = rep(c("a", "b", "c"), 20)
+  )
+  expect_error(ifr_ts_prop_group(d2, out, grp), "group must be a binary variable")
+
+  d3 <- data.frame(
+    out = factor(c(rep("yes", 40), rep("no", 60), rep("yes", 30), rep("no", 70))),
+    grp = c(rep("a", 100), rep("b", 100))
+  )
+
+  k   <- ifr_ts_prop_group(d3, out, grp)
+  ref <- prop.test(c(40, 30), c(100, 100), correct = FALSE)
+
+  expect_equal(k$n1, 100)
+  expect_equal(k$n2, 100)
+  expect_equal(k$phat1, 0.4)
+  expect_equal(k$phat2, 0.3)
+  expect_equal(k$z, round(sqrt(unname(ref$statistic)), 3))
+})
+
+test_that("two sample proportion output labels the two-sided p-value correctly", {
+  out <- capture.output(
+    ifr_ts_prop_group(treatment2, outcome, female, alternative = "both")
+  )
+
+  expect_true(any(grepl("Pr\\(\\|Z\\| > \\|z\\|\\)", out)))
+  expect_false(any(grepl("Pr\\(\\|Z\\| < \\|z\\|\\)", out)))
+})
+
+test_that("ifr_ts_prop_test ignores missing outcomes in each vector (H1)", {
+  d <- data.frame(
+    a = factor(c("no", "yes", "yes", NA), levels = c("no", "yes")),
+    b = factor(c("no", "yes", "yes", "yes"), levels = c("no", "yes"))
+  )
+  k   <- ifr_ts_prop_test(d, a, b)
+  ref <- suppressWarnings(prop.test(c(2, 3), c(3, 4), correct = FALSE))
+
+  expect_equal(c(k$n1, k$n2), c(3, 4))
+  expect_equal(k$phat1, round(2 / 3, 4))
+  expect_equal(k$phat2, 0.75)
+  expect_equal(k$z, round(-sqrt(unname(ref$statistic)), 3))
+  expect_equal(k$sig, round(ref$p.value, 3))
+
+  # nearby case: all values missing in one vector still leaves a usable sample
+  d2 <- data.frame(
+    a = factor(c(NA, "yes", "yes"), levels = c("no", "yes")),
+    b = factor(c("no", "yes", "yes"), levels = c("no", "yes"))
+  )
+  k2 <- ifr_ts_prop_test(d2, a, b)
+  expect_equal(c(k2$n1, k2$n2), c(2, 3))
+  expect_equal(k2$phat1, 1)
+})
+
+test_that("ifr_ts_prop_group drops rows missing the outcome or group (H1)", {
+  d <- data.frame(
+    out = factor(c("no", "yes", NA, "no", "yes", "yes"),
+                 levels = c("no", "yes")),
+    grp = rep(c("a", "b"), each = 3)
+  )
+  k   <- ifr_ts_prop_group(d, out, grp)
+  ref <- suppressWarnings(prop.test(c(1, 2), c(2, 3), correct = FALSE))
+
+  expect_equal(c(k$n1, k$n2), c(2, 3))
+  expect_equal(k$phat1, 0.5)
+  expect_equal(k$phat2, 2 / 3)
+  expect_equal(k$z, round(-sqrt(unname(ref$statistic)), 3))
+  expect_equal(k$sig, round(ref$p.value, 3))
+
+  # a missing group value must drop the whole row
+  d2 <- data.frame(
+    out = factor(c("no", "yes", "yes", "no"), levels = c("no", "yes")),
+    grp = factor(c("a", NA, "b", "b"), levels = c("a", "b"))
+  )
+  k2 <- ifr_ts_prop_group(d2, out, grp)
+  expect_equal(c(k2$n1, k2$n2), c(1, 2))
 })

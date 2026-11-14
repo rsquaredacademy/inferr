@@ -7,9 +7,9 @@
       
       Statistics                     DF    Value      Prob 
       ----------------------------------------------------
-      Chi-Square                     1    0.0470    0.8284
-      Likelihood Ratio Chi-Square    1    0.0471    0.8282
-      Continuity Adj. Chi-Square     1    0.0005    0.9822
+      Chi-Square                     1    0.0470    0.8283
+      Likelihood Ratio Chi-Square    1    0.0471    0.8281
+      Continuity Adj. Chi-Square     1    0.0005    0.9815
       Mantel-Haenszel Chi-Square     1    0.0468    0.8287
       Phi Coefficient                     0.0153          
       Contingency Coefficient             0.0153          
@@ -27,7 +27,7 @@
       ----------------------------------------------------
       Chi-Square                     2    4.5765    0.1014
       Likelihood Ratio Chi-Square    2    4.6789    0.0964
-      Phi Coefficient                     0.1513          
+      Phi Coefficient                         NA          
       Contingency Coefficient             0.1496          
       Cramer's V                          0.1513          
       ----------------------------------------------------

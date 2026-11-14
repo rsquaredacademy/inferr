@@ -25,7 +25,7 @@ following components:
 \item{chisquare_mantel_haenszel}{mantel haenszel chi square}
 \item{chisquare_adjusted}{continuity adjusted chi square}
 \item{contingency_coefficient}{contingency coefficient}
-\item{cramers_v}{cramer's v}
+\item{cramers_v}{Cramer's V}
 \item{df}{degrees of freedom}
 \item{ds}{product of dimensions of the table of \code{x} and \code{y}}
 \item{phi_coefficient}{phi coefficient}
@@ -53,6 +53,10 @@ ifr_chisq_assoc_test(hsb, female, ses)
 \references{
 Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
+
+Agresti, A. (2013). \emph{Categorical Data Analysis}, 3rd ed. Hoboken, NJ: Wiley.
+
+Cramér, H. (1946). \emph{Mathematical Methods of Statistics}. Princeton, NJ: Princeton University Press.
 }
 \seealso{
 \code{\link[stats]{chisq.test}}
