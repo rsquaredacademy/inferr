@@ -5,7 +5,8 @@ bounded, the Yates correction is bounded at zero, the paired-test correlation
 p-value is computed from the upper tail, the Levene and Brown-Forsythe
 statistics are no longer interchanged, the independent-test pooled standard
 deviation uses the correct denominator, and one-way ANOVA handles singleton
-groups and upper-tail p-values. Data columns named `x` or `y` no longer break
+groups and upper-tail p-values. Cochran's Q test now reads numeric, logical and factor
+codings of the binary variables consistently. Data columns named `x` or `y` no longer break
 the ANOVA or independent t test. The release also adds input checks to the
 proportion, Levene, variance and McNemar tests, requires two samples in the
 variance test, handles missing values in the t and variance tests, and stops
@@ -14,15 +15,12 @@ variance test, handles missing values in the t and variance tests, and stops
 
 ## Test environments
 
-- local: Windows 11 x64 build 26300, R 4.6.1 (2026-06-24 ucrt),
-  x86_64-w64-mingw32, Rtools45
-
-Not run for this submission:
-
-- win-builder (devel and release)
-- R-hub
-- macOS
-- reverse-dependency checks
+- local: Windows 11 x64 build 26300, R 4.6.1 (2026-06-24 ucrt), Rtools45
+- win-builder: R-devel (2026-11-13 r90888 ucrt)
+- R-hub: linux, windows, macos, macos-arm64 (R-devel)
+- GitHub Actions: ubuntu-latest (devel, release, oldrel-1), windows-latest
+  (release), macos-latest (release)
+- Ubuntu 26.04, R 4.5.2
 
 ## R CMD check results
 
@@ -38,8 +36,8 @@ The check was run from a clean `git archive HEAD` copy (build directory
 outside the source tree) with `LC_ALL=C`, `LANG=C` and `LANGUAGE=en`:
 
 ```text
-R CMD build --no-manual src
-R CMD check --as-cran --no-manual inferr_0.3.3.tar.gz
+R CMD build src
+R CMD check --as-cran inferr_0.3.3.tar.gz
 ```
 
 DESCRIPTION, dependencies, loading/unloading, native code, R code, Rd files,
@@ -47,4 +45,4 @@ examples, tests and vignette rebuilding all pass.
 
 ## Reverse dependencies
 
-Reverse-dependency checks were not run for this patch release.
+There are no reverse dependencies on CRAN.
