@@ -35,7 +35,7 @@ An object of class \code{"ifr_runs_test"} is a list containing the
 following components:
 
 \item{n}{number of observations}
-\item{threshold}{within group sum of squares}
+\item{threshold}{threshold used to count runs}
 \item{n_below}{number below the threshold}
 \item{n_above}{number above the threshold}
 \item{mean}{expected number of runs}
@@ -45,11 +45,14 @@ following components:
 \item{p}{p-value of \code{z}}
 }
 \description{
-runtest tests whether the observations of \code{x} are serially
+\code{ifr_runs_test} tests whether the observations of \code{x} are serially
 independent i.e. whether they occur in a random order, by counting
 how many runs there are above and below a threshold.  By default, the median
 is used as the threshold.  A small number of runs indicates positive serial
-correlation; a large number indicates negative serial correlation.
+correlation; a large number indicates negative serial correlation. Missing
+values are removed before the threshold and the runs are computed; at least
+two observations and at least one value on each side of the threshold are
+required.
 }
 \section{Deprecated Function}{
 
@@ -65,7 +68,7 @@ ifr_runs_test(hsb, read, split = TRUE)
 
 ifr_runs_test(hsb, read, mean = TRUE)
 
-ifr_runs_test(hsb, read, threshold = 0)
+ifr_runs_test(hsb, read, threshold = 50)
 
 }
 \references{

@@ -86,3 +86,47 @@ test_that("ifr_ts_var_test rejects a grouping variable with more than two levels
     "exactly two levels"
   )
 })
+
+test_that("ifr_ts_var_test requires exactly two columns or one outcome (H9)", {
+  expect_error(
+    ifr_ts_var_test(mtcars, mpg, disp, hp),
+    "exactly two variables"
+  )
+  expect_error(
+    ifr_ts_var_test(mtcars, mpg, disp, group_var = cyl),
+    "exactly one variable"
+  )
+
+  # the accepted two-column call still matches stats::var.test
+  k   <- ifr_ts_var_test(mtcars, mpg, disp)
+  ref <- var.test(mtcars$mpg, mtcars$disp)
+  expect_equal(k$f, round(unname(ref$statistic), 4))
+  expect_equal(k$two_tail, ref$p.value, tolerance = 1e-10)
+  expect_equal(k$len, 64)
+  expect_equal(as.vector(k$lens), c(32, 32))
+
+  # grouped call with exactly one outcome column
+  mt  <- mtcars
+  mt$vs <- as.factor(mt$vs)
+  k2  <- ifr_ts_var_test(mt, mpg, group_var = vs)
+  ref2 <- var.test(mpg ~ vs, data = mt)
+  expect_equal(k2$f, round(unname(ref2$statistic), 4))
+  expect_equal(k2$two_tail, ref2$p.value, tolerance = 1e-10)
+})
+
+test_that("ifr_ts_var_test validates the groups retained after NA removal (H9)", {
+  d <- data.frame(
+    val = c(1, 2, 3, 4, 5, 6),
+    grp = factor(c("a", "a", "a", "b", "b", "b"), levels = c("a", "b", "unused"))
+  )
+  k   <- ifr_ts_var_test(d, val, group_var = grp)
+  ref <- var.test(val ~ grp, data = d)
+  expect_equal(k$f, round(unname(ref$statistic), 4))
+  expect_equal(k$two_tail, ref$p.value, tolerance = 1e-10)
+
+  d$val[d$grp == "b"] <- NA
+  expect_error(
+    ifr_ts_var_test(d, val, group_var = grp),
+    "exactly two levels"
+  )
+})

@@ -1,10 +1,13 @@
 # Test for Random Order
 
-runtest tests whether the observations of `x` are serially independent
-i.e. whether they occur in a random order, by counting how many runs
-there are above and below a threshold. By default, the median is used as
-the threshold. A small number of runs indicates positive serial
-correlation; a large number indicates negative serial correlation.
+`ifr_runs_test` tests whether the observations of `x` are serially
+independent i.e. whether they occur in a random order, by counting how
+many runs there are above and below a threshold. By default, the median
+is used as the threshold. A small number of runs indicates positive
+serial correlation; a large number indicates negative serial
+correlation. Missing values are removed before the threshold and the
+runs are computed; at least two observations and at least one value on
+each side of the threshold are required.
 
 ## Usage
 
@@ -59,7 +62,7 @@ components:
 
 - threshold:
 
-  within group sum of squares
+  threshold used to count runs
 
 - n_below:
 
@@ -126,7 +129,7 @@ ifr_runs_test(hsb, read)
 
 ifr_runs_test(hsb, read, drop = TRUE)
 #> Runs Test
-#>  Total Cases:  200 
+#>  Total Cases:  182 
 #>  Test Value :  50 
 #>  Cases < Test Value:  83 
 #>  Cases > Test Value:  99 
@@ -160,15 +163,15 @@ ifr_runs_test(hsb, read, mean = TRUE)
 #>  z Statistic:  -0.8340854 
 #>  p-value:  0.4042329 
 
-ifr_runs_test(hsb, read, threshold = 0)
+ifr_runs_test(hsb, read, threshold = 50)
 #> Runs Test
 #>  Total Cases:  200 
-#>  Test Value :  0 
-#>  Cases < Test Value:  0 
-#>  Cases > Test Value:  200 
-#>  Number of Runs:  1 
-#>  Expected Runs:  1 
-#>  Variance (Runs):  0 
-#>  z Statistic:  NaN 
-#>  p-value:  NaN 
+#>  Test Value :  50 
+#>  Cases < Test Value:  101 
+#>  Cases > Test Value:  99 
+#>  Number of Runs:  95 
+#>  Expected Runs:  100.99 
+#>  Variance (Runs):  49.73874 
+#>  z Statistic:  -0.8493358 
+#>  p-value:  0.3956945 
 ```

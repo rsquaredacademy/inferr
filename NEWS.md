@@ -1,7 +1,46 @@
-# inferr 0.3.2.9000
+# inferr 0.3.3
 
 ## Bug Fixes
 
+- `ifr_cochran_qtest()` now maps each factor by its own declared level order,
+  accepting factors with different labels and using explicit numeric evidence
+  to resolve the shared coding of numeric columns.
+- `ifr_cochran_qtest()` now resolves the shared numeric `0/1` or `1/2` coding
+  before incomplete rows are dropped, so a homogeneous numeric column of all
+  `1`s follows numeric evidence or consistent factor-label hints, and
+  ambiguous mixtures error instead of being silently misread.
+- `ifr_os_prop_test()` now requires the null probability to be strictly inside
+  `(0, 1)`, because the normal approximation is undefined at `prob = 0` or
+  `prob = 1`.
+- `ifr_runs_test()` now computes its p-value from the upper normal tail, so
+  small representable p-values are no longer returned as zero.
+- `ifr_os_t_test()` now detects essentially constant data relative to the
+  mean, so a change of units no longer changes whether the t statistic can be
+  estimated, and numerically degenerate data are rejected.
+- `ifr_cochran_qtest()` now keeps the declared levels of a binary factor, so a
+  homogeneous factor column is accepted when the pairs are discordant
+  elsewhere.
+- `ifr_runs_test()` and `ifr_cochran_qtest()` now report a clear error when
+  the number of runs has zero variance or the data contain no within-subject
+  discordance, instead of returning `NaN`.
+- `ifr_mcnemar_test()` now computes both chi-square p-values from the upper
+  tail, so small representable p-values are no longer returned as zero.
+- `ifr_ts_prop_group()` now defines one success level before tabulating the
+  groups, so character, logical and 0/1 outcomes work when a group contains
+  only successes or only failures.
+- `ifr_binom_calc()`, `ifr_binom_test()`, `ifr_os_prop_test()`,
+  `ifr_os_t_test()`, `ifr_runs_test()` and `ifr_cochran_qtest()` now reject
+  invalid counts, probabilities, sample sizes and degenerate samples instead
+  of returning plausible-looking values. The runs and Cochran tests remove
+  incomplete observations with a documented, consistent policy.
+- `ifr_cochran_qtest()` now computes its p-value from the upper tail, so small
+  representable p-values are no longer returned as zero.
+- `ifr_ts_ind_ttest()` now drops unused grouping levels after removing
+  incomplete cases, so a factor that declares a third level does not reject
+  data with two observed groups.
+- `ifr_os_prop_test()` and `ifr_chisq_assoc_test()` now compute p-values from
+  unrounded z and chi-square statistics, so the reported decimals match the
+  statistical reference.
 - `ifr_os_var_test()` now reports the correct confidence interval for the
   standard deviation.
 - `ifr_ts_ind_ttest()` now uses t quantiles, rather than normal quantiles, for
@@ -15,8 +54,6 @@
 - `ifr_chisq_assoc_test()` no longer returns `NaN` for the likelihood ratio
   statistic when a contingency table contains an empty cell.
 - `ifr_chisq_gof_test()` applies Yates correction only when `correct = TRUE`.
-- `library(inferr)` no longer contacts CRAN or offers to update packages when
-  the package is attached.
 - `ifr_os_t_test()` and `ifr_ts_ind_ttest()` now compute p-values and
   confidence intervals from unrounded statistics.
 - `ifr_levene_test()` now works with a character grouping variable and reports
@@ -52,6 +89,42 @@
 - `ifr_ts_paired_ttest()` now computes p-values and the confidence interval
   of the mean difference from the unrounded t statistic and standard
   deviation.
+- `ifr_binom_test()`, `ifr_os_prop_test()`, `ifr_ts_prop_test()`,
+  `ifr_ts_prop_group()` and `ifr_chisq_gof_test()` no longer count missing
+  categorical values as failures or scale expected counts by missing
+  observations.
+- `ifr_mcnemar_test()` caps the exact p-value at 1, bounds the continuity
+  correction at zero, and defines the no-discordant-pairs case.
+- `ifr_chisq_assoc_test()` and `ifr_chisq_gof_test()` bound the continuity
+  correction at zero; the goodness-of-fit deviation and standardized residual
+  use the signed bounded correction.
+- `ifr_ts_paired_ttest()` computes the correlation p-value from the unrounded
+  correlation and the upper tail, so it no longer exceeds 1 for negative
+  correlations.
+- `ifr_levene_test()` no longer interchanges Levene's mean-centred statistic
+  with Brown and Forsythe's median-centred statistic.
+- `ifr_ts_ind_ttest()` reports the pooled standard deviation using
+  `n1 + n2 - 2` in the denominator.
+- `ifr_oneway_anova()` handles singleton groups, rejects designs without
+  residual degrees of freedom, and uses the upper tail for the p-value so
+  representable p-values are not returned as zero.
+- `ifr_oneway_anova()` and `ifr_ts_ind_ttest()` work when the data contain
+  columns named `x` or `y`.
+- `ifr_ts_var_test()` requires exactly two columns, or exactly one outcome
+  column with `group_var`, and validates the groups retained after missing
+  values are removed.
+
+## Other changes
+
+- The README and pkgdown site were regenerated, so their printed results and
+  version match the released package.
+- The binomial and runs test documentation now use the correct replacement
+  function name, describe `obs_p` as observed, and describe the runs threshold
+  correctly.
+- `library(inferr)` no longer contacts CRAN or offers to update packages when
+  the package is attached.
+- The maintainer email is now `aravindhebbali@rsquaredacademy.com`.
+- The documented source of the `exam` data now points to a stable page.
 
 # inferr 0.3.2
 
@@ -67,11 +140,11 @@ This is a minor release for bug fixes and API changes. We have completely revamp
 
 ### Bug Fixes
 
-- using if/while statement is used with a condition of lenght greater than 1 will result in a runtime error and not warning  ([#9](https://github.com/rsquaredacademy/inferr/issues/9))
+- using if/while statement is used with a condition of length greater than 1 will result in a runtime error and not warning  ([#9](https://github.com/rsquaredacademy/inferr/issues/9))
 
 - error in binomial test ([#11](https://github.com/rsquaredacademy/inferr/issues/11))
 
-THe shiny app has been updated to reflect the changes in the API.
+The shiny app has been updated to reflect the changes in the API.
 
 # inferr 0.2.0
 

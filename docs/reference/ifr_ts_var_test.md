@@ -1,7 +1,7 @@
 # Two Sample Variance Comparison Test
 
 `ifr_ts_var_test` performs tests on the equality of standard deviations
-(variances).
+(variances). Observations with missing values are removed.
 
 ## Usage
 
@@ -26,13 +26,13 @@ ifr_ts_var_test(
 
 - group_var:
 
-  factor; column in `data`
+  factor or character; column in `data`
 
 - alternative:
 
   a character string specifying the alternative hypothesis, must be one
-  of "both" (default), "greater", "less" or "all". You can specify just
-  the initial letter.
+  of "less" (default), "greater" or "all". You can specify just the
+  initial letter.
 
 ## Value
 
@@ -117,6 +117,9 @@ components:
 
 Sheskin, D. J. 2007. Handbook of Parametric and Nonparametric
 Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
+
+Snedecor, G. W. and Cochran, W. G. (1989). *Statistical Methods*, 8th
+ed. Ames, IA: Iowa State University Press.
 
 ## See also
 

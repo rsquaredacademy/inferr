@@ -14,7 +14,7 @@
 #' \item{chisquare_mantel_haenszel}{mantel haenszel chi square}
 #' \item{chisquare_adjusted}{continuity adjusted chi square}
 #' \item{contingency_coefficient}{contingency coefficient}
-#' \item{cramers_v}{cramer's v}
+#' \item{cramers_v}{Cramer's V}
 #' \item{df}{degrees of freedom}
 #' \item{ds}{product of dimensions of the table of \code{x} and \code{y}}
 #' \item{phi_coefficient}{phi coefficient}
@@ -149,24 +149,24 @@ efmat <- function(twoway) {
 
 #' @importFrom stats pchisq
 pear_chsq <- function(twoway, df, ef) {
-  chi <- round(sum(((twoway - ef) ^ 2) / ef), 4)
+  chi <- sum(((twoway - ef) ^ 2) / ef)
   sig <- round(pchisq(chi, df, lower.tail = F), 4)
 
-  list(chi = chi, sig = sig)
+  list(chi = round(chi, 4), sig = sig)
 }
 
 lr_chsq <- function(twoway, df, ef) {
-  chilr  <- round(2 * sum(ifelse(twoway == 0, 0, twoway * log(twoway / ef))), 4)
+  chilr  <- 2 * sum(ifelse(twoway == 0, 0, twoway * log(twoway / ef)))
   sig_lr <- round(pchisq(chilr, df, lower.tail = F), 4)
 
-  list(chilr = chilr, sig_lr = sig_lr)
+  list(chilr = round(chilr, 4), sig_lr = sig_lr)
 }
 
 lr_chsq2 <- function(twoway, df, ef, ds) {
-  chilr  <- round(2 * sum(ifelse(twoway == 0, 0, twoway * log(twoway / ef))), 4)
+  chilr  <- 2 * sum(ifelse(twoway == 0, 0, twoway * log(twoway / ef)))
   sig_lr <- round(pchisq(chilr, df, lower.tail = F), 4)
 
-  list(chilr = chilr, sig_lr = sig_lr)
+  list(chilr = round(chilr, 4), sig_lr = sig_lr)
 }
 
 yates_chsq <- function(twoway) {
@@ -174,8 +174,9 @@ yates_chsq <- function(twoway) {
   total       <- sum(twoway)
   prods       <- prod(diag(twoway)) - prod(diag(way2))
   prod_totals <- prod(rowSums(twoway)) * prod(colSums(twoway))
-  chi_y       <- round((total * (abs(prods) - (total / 2)) ^ 2) / prod_totals, 4)
-  sig_y       <- round(pchisq(chi_y, 1, lower.tail = F), 4)
+  chi_raw     <- (total * max(abs(prods) - (total / 2), 0) ^ 2) / prod_totals
+  chi_y       <- round(chi_raw, 4)
+  sig_y       <- round(pchisq(chi_raw, 1, lower.tail = F), 4)
 
   list(chi_y = chi_y, sig_y = sig_y, total = total, prod_totals = prod_totals)
 }
@@ -183,10 +184,10 @@ yates_chsq <- function(twoway) {
 mh_chsq <- function(twoway, total, prod_totals) {
   num    <- twoway[1] - ((rowSums(twoway)[1] * colSums(twoway)[1]) / total)
   den    <- prod_totals / ((total ^ 3) - (total ^ 2))
-  chimh  <- round((num ^ 2) / den, 4)
+  chimh  <- (num ^ 2) / den
   sig_mh <- round(pchisq(chimh, 1, lower.tail = F), 4)
 
-  list(chimh = chimh, sig_mh = sig_mh)
+  list(chimh = round(chimh, 4), sig_mh = sig_mh)
 }
 
 efm <- function(twoway, dk) {
@@ -197,10 +198,10 @@ efm <- function(twoway, dk) {
 }
 
 pear_chi <- function(twoway, df, ef) {
-  chi <- round(sum(((twoway - ef) ^ 2) / ef), 4)
+  chi <- sum(((twoway - ef) ^ 2) / ef)
   sig <- round(pchisq(chi, df, lower.tail = F), 4)
 
-  list(chi = chi, sig = sig)
+  list(chi = round(chi, 4), sig = sig)
 }
 
 chigf <- function(x, y, chi) {

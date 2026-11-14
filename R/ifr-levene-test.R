@@ -150,8 +150,8 @@ lev_comp <- function(variable, group_var, trim.mean) {
   lens <- tapply(cvar, gvar, length)
   avgs <- tapply(cvar, gvar, mean)
   sds  <- tapply(cvar, gvar, sd)
-  bf   <- lev_metric(cvar, gvar, mean)
-  lev  <- lev_metric(cvar, gvar, median)
+  bf   <- lev_metric(cvar, gvar, median)
+  lev  <- lev_metric(cvar, gvar, mean)
   bft  <- lev_metric(cvar, gvar, mean, trim = trim.mean)
 
   list(

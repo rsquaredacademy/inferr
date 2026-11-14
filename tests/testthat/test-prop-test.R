@@ -57,3 +57,68 @@ test_that("ifr_os_prop_test requires a binary variable and matches prop.test", {
   expect_equal(k$z, round(sqrt(unname(ref$statistic)), 4))
   expect_equal(k$sig, round(ref$p.value, 4))
 })
+
+test_that("ifr_os_prop_test rejects invalid proportions and sample sizes (M5)", {
+  expect_error(ifr_os_prop_test(100, phat = 2), "phat must be between 0 and 1")
+  expect_error(ifr_os_prop_test(100, phat = -0.1), "phat must be between 0 and 1")
+  expect_error(ifr_os_prop_test(100, phat = 0.5, prob = 1.5),
+               "prob must be strictly between 0 and 1")
+  expect_error(ifr_os_prop_test(100, phat = 0, prob = 0),
+               "prob must be strictly between 0 and 1")
+  expect_error(ifr_os_prop_test(100, phat = 1, prob = 1),
+               "prob must be strictly between 0 and 1")
+  expect_error(ifr_os_prop_test(0, phat = 0.5), "n must be a positive integer")
+  expect_error(ifr_os_prop_test(-5, phat = 0.5), "n must be a positive integer")
+
+  d <- data.frame(out = factor(c(NA, NA), levels = c("no", "yes")))
+  expect_error(ifr_os_prop_test(d, out), "at least one non-missing")
+
+  # boundaries remain valid
+  k <- ifr_os_prop_test(100, phat = 0)
+  expect_equal(k$obs, c(100, 0))
+  expect_equal(unname(k$sig), 0)
+})
+
+test_that("one-sample proportion p-values use the unrounded z (L4)", {
+  d <- data.frame(out = factor(c("no", "no", "yes")))
+  k <- ifr_os_prop_test(d, out, alternative = "all")
+
+  ref <- vapply(
+    c("two.sided", "less", "greater"),
+    function(a) {
+      suppressWarnings(prop.test(1, 3, alternative = a, correct = FALSE))$p.value
+    },
+    numeric(1)
+  )
+
+  expect_equal(unname(k$sig), unname(round(ref, 4)))
+  expect_equal(unname(k$sig), c(0.5637, 0.2819, 0.7181))
+  expect_equal(k$z, round(-sqrt(unname(suppressWarnings(prop.test(1, 3, correct = FALSE)$statistic))), 4))
+
+  # the same unrounded z drives the single-alternative output
+  for (a in c("both", "less", "greater")) {
+    ka <- ifr_os_prop_test(d, out, alternative = a)
+    expect_equal(ka$sig, round(ref[[switch(a, both = 1, less = 2, greater = 3)]], 4))
+  }
+})
+
+test_that("ifr_os_prop_test ignores missing outcomes (H1)", {
+  d <- data.frame(x = factor(c("no", "yes", "yes", NA),
+                             levels = c("no", "yes")))
+  k   <- ifr_os_prop_test(d, x)
+  ref <- suppressWarnings(prop.test(2, 3, correct = FALSE))
+
+  expect_equal(k$n, 3)
+  expect_equal(k$phat, round(2 / 3, 4))
+  expect_equal(k$obs, c(1, 2))
+  expect_equal(k$exp, c(1.5, 1.5))
+  expect_equal(k$z, round(sqrt(unname(ref$statistic)), 4))
+  expect_equal(k$sig, round(ref$p.value, 4))
+
+  # nearby case: missing value on the failure side, all remaining successes
+  d2 <- data.frame(x = factor(c(NA, "yes", "yes"), levels = c("no", "yes")))
+  k2 <- ifr_os_prop_test(d2, x)
+  expect_equal(k2$n, 2)
+  expect_equal(k2$phat, 1)
+  expect_equal(k2$obs, c(0, 2))
+})

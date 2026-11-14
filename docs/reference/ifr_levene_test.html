@@ -4,12 +4,14 @@ for the equality of variances and the
 two statistics proposed by Brown and Forsythe that replace the mean in
 Levene's formula with alternative location estimators. The first alternative
 replaces the mean with the median. The second alternative replaces
-the mean with the 10"><meta property="og:description" content="ifr_levene_test reports Levene's robust test statistic
+the mean with the 10
+removed."><meta property="og:description" content="ifr_levene_test reports Levene's robust test statistic
 for the equality of variances and the
 two statistics proposed by Brown and Forsythe that replace the mean in
 Levene's formula with alternative location estimators. The first alternative
 replaces the mean with the median. The second alternative replaces
-the mean with the 10"><!-- Rsquared site-kit v1.0.1: GA4 + region-based consent. Kit files are vendored in pkgdown/assets/site-kit/. --><link rel="stylesheet" href="/site-kit/rsa-consent.css"><script src="/site-kit/rsa-analytics.js" data-ga-id="G-2QSPEL5WM6" async></script></head><body>
+the mean with the 10
+removed."><!-- Rsquared site-kit v1.2.0: GA4 + region-based consent + email sign-up. Kit files are vendored in pkgdown/assets/site-kit/. --><link rel="stylesheet" href="/site-kit/rsa-consent.css"><script src="/site-kit/rsa-analytics.js" data-ga-id="G-2QSPEL5WM6" async></script><link rel="stylesheet" href="/site-kit/rsa-signup.css"><script src="/site-kit/rsa-signup.js" defer></script></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -17,7 +19,7 @@ the mean with the 10"><!-- Rsquared site-kit v1.0.1: GA4 + region-based consent.
 
     <a class="navbar-brand me-2" href="../index.html">inferr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.2.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,7 +58,8 @@ for the equality of variances and the
 two statistics proposed by Brown and Forsythe that replace the mean in
 Levene's formula with alternative location estimators. The first alternative
 replaces the mean with the median. The second alternative replaces
-the mean with the 10<!-- % trimmed mean. --></p>
+the mean with the 10<!-- % trimmed mean. Observations with missing values are -->
+removed.</p>
     </div>
 
     <div class="section level2">
@@ -80,7 +83,7 @@ the mean with the 10<!-- % trimmed mean. --></p>
 
 
 <dt id="arg-group-var">group_var<a class="anchor" aria-label="anchor" href="#arg-group-var"></a></dt>
-<dd><p>factor; column in <code>data</code></p></dd>
+<dd><p>factor or character; column in <code>data</code></p></dd>
 
 
 <dt id="arg-trim-mean">trim_mean<a class="anchor" aria-label="anchor" href="#arg-trim-mean"></a></dt>
@@ -152,6 +155,7 @@ following components:</p>
     <p>Bland, M. 2000. An Introduction to Medical Statistics. 3rd ed. Oxford: Oxford University Press.</p>
 <p>Brown, M. B., and A. B. Forsythe. 1974. Robust tests for the equality of variances. Journal of the American Statistical Association 69: 364–367.</p>
 <p>Carroll, R. J., and H. Schneider. 1985. A note on Levene’s tests for equality of variances. Statistics and Probability Letters 3: 191–194.</p>
+<p>Levene, H. (1960). Robust tests for equality of variances. In I. Olkin et al. (Eds.), <em>Contributions to Probability and Statistics: Essays in Honor of Harold Hotelling</em> (pp. 278–292). Stanford, CA: Stanford University Press.</p>
     </div>
 
     <div class="section level2">
@@ -173,8 +177,8 @@ following components:</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------------------------------------------------</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Statistic                            Num DF    Den DF         F    Pr &gt; F </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------------------------------------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Brown and Forsythe                        3       196      3.44    0.0179 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Levene                                    3       196    3.4792     0.017 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Brown and Forsythe                        3       196    3.4792     0.017 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Levene                                    3       196      3.44    0.0179 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Brown and Forsythe (Trimmed Mean)         3       196    3.3936     0.019 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------------------------------------------------</span>
 <span class="r-in"><span></span></span>
@@ -194,8 +198,8 @@ following components:</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------------------------------------------------</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Statistic                            Num DF    Den DF         F    Pr &gt; F </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------------------------------------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Brown and Forsythe                        2       597    1.1683    0.3116 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Levene                                    2       597    1.3803    0.2523 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Brown and Forsythe                        2       597    1.3803    0.2523 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Levene                                    2       597    1.1683    0.3116 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Brown and Forsythe (Trimmed Mean)         2       597    1.3258    0.2664 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------------------------------------------------</span>
 <span class="r-in"><span></span></span>
@@ -210,7 +214,7 @@ following components:</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0. <a href="https://www.rsquaredacademy.com/privacy-policy.html" class="external-link">Privacy</a> · <a href="#" data-rsa-analytics-optout>Turn off analytics</a></p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1. <a href="https://www.rsquaredacademy.com/privacy-policy.html" class="external-link">Privacy</a> · <a href="#" data-rsa-analytics-optout>Turn off analytics</a></p>
 </div>
 
     </footer></div>

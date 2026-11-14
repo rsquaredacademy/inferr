@@ -2,7 +2,10 @@
 
 Tests on the equality of proportions using large-sample statistics. It
 tests that a sample has the same proportion within two independent
-groups or two samples have the same proportion.
+groups or two samples have the same proportion. Both variables must be
+binary; the second level of each variable is treated as the success
+level. Character, logical and 0/1 encodings are converted to a factor
+with a shared success level before the groups are tabulated.
 
 ## Usage
 
@@ -62,7 +65,7 @@ ifr_ts_prop_calc(
 
 - group:
 
-  factor; column in `data`
+  factor or character; column in `data`
 
 - n1:
 

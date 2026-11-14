@@ -26,4 +26,4 @@ A data frame with 15 rows and 3 variables:
 
 ## Source
 
-<https://www.spss-tutorials.com/spss-cochran-q-test/>
+<https://en.wikipedia.org/wiki/Cochran%27s_Q_test>

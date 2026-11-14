@@ -85,3 +85,45 @@ test_that("output from ifr_binom_calc is as expected when k < exp_k", {
 test_that("output from ifr_binom_calc is as expected when k > exp_k", {
   expect_snapshot(ifr_binom_calc(32, 20))
 })
+
+test_that("ifr_binom_calc rejects fractional and out-of-range counts (M5)", {
+  expect_error(ifr_binom_calc(4, 1.5), "success must be an integer")
+  expect_error(ifr_binom_calc(4, 5), "success must be an integer between 0 and n")
+  expect_error(ifr_binom_calc(4, -1), "success must be an integer between 0 and n")
+  expect_error(ifr_binom_calc(0, 0), "n must be an integer")
+  expect_error(ifr_binom_calc(4.5, 1), "n must be an integer")
+  expect_error(ifr_binom_calc(NA, 1), "n must be an integer")
+  expect_error(ifr_binom_calc(4, 1, NA), "prob must be")
+
+  # boundary counts remain valid
+  expect_equal(ifr_binom_calc(4, 0)$two_tail,
+               stats::binom.test(0, 4)$p.value, tolerance = 1e-12)
+  expect_equal(ifr_binom_calc(4, 4)$two_tail,
+               stats::binom.test(4, 4)$p.value, tolerance = 1e-12)
+})
+
+test_that("ifr_binom_test requires exactly two factor levels (M5)", {
+  d1 <- data.frame(out = factor(rep("yes", 3), levels = "yes"))
+  expect_error(ifr_binom_test(d1, out), "binary data")
+})
+
+test_that("ifr_binom_test ignores missing outcomes in n and k (H1)", {
+  d <- data.frame(out = factor(c(rep("yes", 8), "no", NA),
+                               levels = c("no", "yes")))
+  k   <- ifr_binom_test(d, out)
+  ref <- binom.test(8, 9, 0.5)
+
+  expect_equal(k$n, 9)
+  expect_equal(k$k, 8)
+  expect_equal(k$obs_p, 8 / 9)
+  expect_equal(k$two_tail, ref$p.value, tolerance = 1e-12)
+  expect_equal(k$pval_lower, round(pbinom(8, 9, 0.5), 6))
+  expect_equal(k$pval_upper, round(pbinom(7, 9, 0.5, lower.tail = FALSE), 6))
+
+  # nearby case: missing value on the success side
+  d2 <- data.frame(out = factor(c("yes", NA, "no"), levels = c("no", "yes")))
+  k2 <- ifr_binom_test(d2, out)
+  expect_equal(k2$n, 2)
+  expect_equal(k2$k, 1)
+  expect_equal(k2$two_tail, binom.test(1, 2, 0.5)$p.value, tolerance = 1e-12)
+})

@@ -1,11 +1,14 @@
 #' @useDynLib inferr
 #' @importFrom Rcpp sourceCpp
 #' @title Test for Random Order
-#' @description runtest tests whether the observations of \code{x} are serially
+#' @description \code{ifr_runs_test} tests whether the observations of \code{x} are serially
 #' independent i.e. whether they occur in a random order, by counting
 #' how many runs there are above and below a threshold.  By default, the median
 #' is used as the threshold.  A small number of runs indicates positive serial
-#' correlation; a large number indicates negative serial correlation.
+#' correlation; a large number indicates negative serial correlation. Missing
+#' values are removed before the threshold and the runs are computed; at least
+#' two observations and at least one value on each side of the threshold are
+#' required.
 #' @param data a \code{data.frame} or \code{tibble}
 #' @param x numeric; column in \code{data}
 #' @param drop logical; if TRUE, values equal to the threshold will be dropped
@@ -20,7 +23,7 @@
 #' following components:
 #'
 #' \item{n}{number of observations}
-#' \item{threshold}{within group sum of squares}
+#' \item{threshold}{threshold used to count runs}
 #' \item{n_below}{number below the threshold}
 #' \item{n_above}{number above the threshold}
 #' \item{mean}{expected number of runs}
@@ -50,7 +53,7 @@
 #'
 #' ifr_runs_test(hsb, read, mean = TRUE)
 #'
-#' ifr_runs_test(hsb, read, threshold = 0)
+#' ifr_runs_test(hsb, read, threshold = 50)
 #'
 #' @importFrom stats pnorm
 #'
@@ -67,6 +70,24 @@ ifr_runs_test.default <- function(data, x, drop = FALSE,
 
   x1   <- deparse(substitute(x))
   xone <- data[[x1]]
+
+  if (!is.numeric(xone)) {
+    stop("x must be numeric", call. = FALSE)
+  }
+
+  if (length(threshold) != 1L ||
+      (!is.na(threshold) &&
+        (!is.numeric(threshold) || !is.finite(threshold)))) {
+    stop("threshold must be a single finite number", call. = FALSE)
+  }
+
+  # consistent missing-data policy: incomplete observations are removed
+  # before the threshold and the runs are computed
+  xone <- xone[!is.na(xone)]
+
+  if (length(xone) < 2) {
+    stop("at least two observations are required", call. = FALSE)
+  }
 
   if (is.na(threshold)) {
     y <- unique(xone)
@@ -85,6 +106,11 @@ ifr_runs_test.default <- function(data, x, drop = FALSE,
 
   if (drop) {
     xone <- xone[xone != thresh]
+
+    if (length(xone) < 2) {
+      stop("fewer than two observations remain after dropping values equal to the threshold",
+           call. = FALSE)
+    }
   }
 
   n <- length(xone)
@@ -102,11 +128,22 @@ ifr_runs_test.default <- function(data, x, drop = FALSE,
   n_runs   <- nsignC(x_binary)
   n1       <- sum(x_binary)
   n0       <- length(x_binary) - n1
+
+  if (n0 < 1 || n1 < 1) {
+    stop("runs test requires observations both above and below the threshold",
+         call. = FALSE)
+  }
+
   exp_runs <- expruns(n0, n1)
   sd_runs  <- sdruns(n0, n1)
 
+  if (!is.finite(sd_runs) || sd_runs <= 0) {
+    stop("runs test is undefined: the variance of the number of runs is zero",
+         call. = FALSE)
+  }
+
   test_stat <- (n_runs - exp_runs) / (sd_runs ^ 0.5)
-  sig <- 2 * (1 - pnorm(abs(test_stat), lower.tail = TRUE))
+  sig <- 2 * pnorm(abs(test_stat), lower.tail = FALSE)
 
   result <-
     list(mean      = exp_runs,

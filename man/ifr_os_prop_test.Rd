@@ -49,7 +49,7 @@ following components:
 \item{obs}{observed number of 0's and 1's}
 \item{exp}{expected number of 0's and 1's}
 \item{deviation}{deviation of observed from expected}
-\item{std}{standardized resiudals}
+\item{std}{standardized residuals}
 }
 \description{
 \code{ifr_os_prop_test} compares proportion in one group to a

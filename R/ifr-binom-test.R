@@ -25,14 +25,14 @@
 #' \item{exp_p}{expected probability of success}
 #' \item{k}{number of successes}
 #' \item{n}{number of observations}
-#' \item{obs_p}{assumed probability of success}
+#' \item{obs_p}{observed probability of success}
 #' \item{pval_lower}{lower one sided p value}
 #' \item{pval_upper}{upper one sided p value}
 #' \item{two_tail}{two sided exact p value}
 #'
 #' @section Deprecated Functions:
 #' \code{infer_binom_calc()} and \code{infer_binom_test()} have been deprecated. Instead use
-#' \code{ifr_binom_cal()} and \code{ifr_binom_test()}.
+#' \code{ifr_binom_calc()} and \code{ifr_binom_test()}.
 #'
 #' @references Hoel, P. G. 1984. Introduction to Mathematical Statistics.
 #' 5th ed. New York: Wiley.
@@ -57,15 +57,17 @@ ifr_binom_calc <- function(n, success, prob = 0.5, ...) UseMethod("ifr_binom_cal
 #' @export
 ifr_binom_calc.default <- function(n, success, prob = 0.5, ...) {
 
-  if (!is.numeric(n)) {
-    stop("n must be an integer", call. = FALSE)
+  if (!is.numeric(n) || length(n) != 1 || !is.finite(n) ||
+      n < 1 || n != round(n)) {
+    stop("n must be an integer greater than or equal to 1", call. = FALSE)
   }
 
-  if (!is.numeric(success)) {
-    stop("success must be an integer", call. = FALSE)
+  if (!is.numeric(success) || length(success) != 1 || !is.finite(success) ||
+      success != round(success) || success < 0 || success > n) {
+    stop("success must be an integer between 0 and n", call. = FALSE)
   }
 
-  if (!is.numeric(prob)) {
+  if (!is.numeric(prob) || length(prob) != 1 || !is.finite(prob)) {
     stop("prob must be numeric", call. = FALSE)
   }
 
@@ -115,7 +117,7 @@ ifr_binom_test <- function(data, variable, prob = 0.5) {
     stop("variable must be of type factor", call. = FALSE)
   }
 
-  if (nlevels(fdata) > 2) {
+  if (nlevels(fdata) != 2) {
     stop("Binomial test is applicable only to binary data i.e. categorical data with 2 levels.", call. = FALSE)
   }
 
@@ -127,8 +129,14 @@ ifr_binom_test <- function(data, variable, prob = 0.5) {
     stop("prob must be between 0 and 1", call. = FALSE)
   }
 
-  n <- length(fdata)
-  k <- table(fdata)[[2]]
+  fdata <- fdata[!is.na(fdata)]
+  n     <- length(fdata)
+
+  if (n < 1) {
+    stop("variable must contain at least one non-missing value", call. = FALSE)
+  }
+
+  k     <- table(fdata)[[2]]
 
   out <- ifr_binom_calc.default(n, k, prob)
   class(out) <- c("ifr_binom_test", "ifr_binom_calc")

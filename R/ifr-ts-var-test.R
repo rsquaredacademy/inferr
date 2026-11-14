@@ -66,8 +66,8 @@ ifr_ts_var_test.default <- function(data, ..., group_var = NULL,
     ln <- unlist(lapply(z, length))
     ly <- seq_len(length(z))
 
-    if (length(z) < 2) {
-      stop("Please specify at least two variables.", call. = FALSE)
+    if (length(z) != 2) {
+      stop("Please specify exactly two variables.", call. = FALSE)
     }
 
     out       <- gvar(ln, ly)
@@ -77,13 +77,22 @@ ifr_ts_var_test.default <- function(data, ..., group_var = NULL,
 
   } else {
 
+    if (length(varyables) != 1) {
+      stop("Please specify exactly one variable when group_var is supplied.",
+           call. = FALSE)
+    }
+
     fdata     <- fdata[[1]]
     groupvars <- as.factor(data[[groupvar]])
-    lev       <- levels(groupvars)
 
     if (length(fdata) != length(groupvars)) {
       stop("Length of variable and group_var do not match.", call. = FALSE)
     }
+
+    keep      <- complete.cases(fdata, groupvars)
+    fdata     <- fdata[keep]
+    groupvars <- droplevels(as.factor(groupvars[keep]))
+    lev       <- levels(groupvars)
 
     if (length(lev) != 2) {
       stop("Grouping variable must have exactly two levels.", call. = FALSE)

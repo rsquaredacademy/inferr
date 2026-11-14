@@ -9,9 +9,9 @@
 #' following components:
 #'
 #' \item{adjusted_r2}{adjusted r squared value}
-#' \item{df_btw}{between groups degress of freedom}
-#' \item{df_within}{within groups degress of freedom}
-#' \item{df_total}{total degress of freedom}
+#' \item{df_btw}{between groups degrees of freedom}
+#' \item{df_within}{within groups degrees of freedom}
+#' \item{df_total}{total degrees of freedom}
 #' \item{fstat}{f value}
 #' \item{group_stats}{group statistics}
 #' \item{ms_btw}{between groups mean square}
@@ -93,20 +93,21 @@ print.ifr_oneway_anova <- function(x, ...) {
 #' @importFrom data.table data.table := setDF
 anova_split <- function(data, x, y, sample_mean) {
 
-  dat <- data[c(y, x)]
+  dat <- data.frame(.ifr_value = data[[x]], .ifr_group = data[[y]])
   dm  <- data.table(dat)
 
-  by_factor <- dm[, .(length = length(get(x)),
-                      mean   = mean(get(x)),
-                      var    = var(get(x)),
-                      sd     = sd(get(x))),
-                  by = y]
+  by_factor <- dm[, .(length = .N,
+                      mean   = mean(.ifr_value),
+                      var    = var(.ifr_value),
+                      sd     = sd(.ifr_value),
+                      sse    = sum((.ifr_value - mean(.ifr_value)) ^ 2)),
+                  by = ".ifr_group"]
 
-  by_factor[, ':='(sst = length * ((mean - sample_mean) ^ 2),
-                   sse = (length - 1) * var)]
+  by_factor[, sst := length * ((mean - sample_mean) ^ 2)]
 
   setDF(by_factor)
   by_factor <- by_factor[order(by_factor[, 1]),]
+  names(by_factor)[1] <- y
 
   return(by_factor)
 }
@@ -136,10 +137,15 @@ anova_calc <- function(data, sample_stats, x, y) {
   df_sstr <- nrow(sample_stats) - 1
   df_sse  <- nrow(data) - nrow(sample_stats)
   df_sst  <- nrow(data) - 1
+
+  if (df_sse < 1) {
+    stop("ANOVA requires residual degrees of freedom.", call. = FALSE)
+  }
+
   mstr    <- sstr_raw / df_sstr
   mse     <- ssee_raw / df_sse
   f       <- mstr / mse
-  sig     <- 1 - pf(f, df_sstr, df_sse)
+  sig     <- pf(f, df_sstr, df_sse, lower.tail = FALSE)
   obs     <- nrow(data)
   regs    <- paste(var_names[1], "~ as.factor(", var_names[2], ")")
   model   <- lm(as.formula(regs), data = data)

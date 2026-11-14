@@ -1,7 +1,7 @@
 # Paired t test
 
 `ifr_ts_paired_ttest` tests that two samples have the same mean,
-assuming paired data.
+assuming paired data. Incomplete pairs are removed.
 
 ## Usage
 

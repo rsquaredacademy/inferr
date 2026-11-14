@@ -9,7 +9,7 @@ test_that("output from ifr_ts_paired_ttest matches expected output", {
   expect_equal(unlist(k$conf_int2), c(17.2, 18.49))
   expect_equal(round(unlist(k$conf_int_diff), 2), c(0.25, 4.23))
   expect_equal(k$corr, 0.42)
-  expect_equal(k$corsig, 0.02)
+  expect_equal(k$corsig, 0.0171)
   expect_equal(unname(k$tstat), 2.2964)
   expect_equal(round(unname(k$p_lower), 3), 0.986)
   expect_equal(round(unname(k$p_upper), 3), 0.014)
@@ -74,4 +74,23 @@ test_that("ifr_ts_paired_ttest drops incomplete pairs", {
   expect_equal(k$tstat, round(unname(ref$statistic), 4))
   expect_equal(k$p_two_tail, ref$p.value, tolerance = 1e-8)
   expect_equal(unname(k$conf_int_diff), as.numeric(ref$conf.int), tolerance = 1e-8)
+})
+
+test_that("paired correlation p-value matches cor.test for both signs (H4)", {
+  d <- data.frame(x = 1:5, y = c(5, 4, 2, 3, 1))
+  k   <- ifr_ts_paired_ttest(d, x, y)
+  ref <- cor.test(d$x, d$y)
+
+  expect_equal(k$corr, round(unname(ref$estimate), 2))
+  expect_equal(k$corr, -0.9)
+  expect_lte(k$corsig, 1)
+  expect_equal(k$corsig, round(ref$p.value, 4))
+
+  # nearby case: same strength, positive correlation
+  d2  <- data.frame(x = 1:5, y = rev(d$y))
+  k2  <- ifr_ts_paired_ttest(d2, x, y)
+  ref2 <- cor.test(d2$x, d2$y)
+  expect_equal(k2$corr, round(unname(ref2$estimate), 2))
+  expect_equal(k2$corr, 0.9)
+  expect_equal(k2$corsig, round(ref2$p.value, 4))
 })
