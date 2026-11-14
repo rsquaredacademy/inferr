@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Usage questions
+    url: https://rsquaredacademy.github.io/inferr/
+    about: Ask how to use inferr and read its reference documentation.
