@@ -79,12 +79,7 @@ ifr_os_t_test.default <- function(data, x, mu = 0, alpha = 0.05,
   if (!is.numeric(mu) || length(mu) != 1 || !is.finite(mu)) {
     stop("mu must be numeric", call. = FALSE)
   }
-  if (!is.numeric(alpha) || length(alpha) != 1 || !is.finite(alpha)) {
-    stop("alpha must be numeric", call. = FALSE)
-  }
-  if (alpha <= 0 || alpha >= 1) {
-    stop("alpha must be between 0 and 1", call. = FALSE)
-  }
+  check_probability(alpha, "alpha")
 
   type     <- match.arg(alternative)
   k        <- ttest_comp(xone, mu, alpha, type)

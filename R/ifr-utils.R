@@ -109,3 +109,26 @@ check_binary <- function(x, name) {
   invisible(x)
 
 }
+
+# confidence levels and type I error rates share the same open interval; a
+# single helper keeps every user-facing message and range consistent
+check_probability <- function(x, name) {
+
+  if (!is.numeric(x) || length(x) != 1L) {
+    stop(paste0(name, " must be numeric"), call. = FALSE)
+  }
+
+  if (!is.finite(x) || x <= 0 || x >= 1) {
+    stop(paste0(name, " must be between 0 and 1 (exclusive)"),
+         call. = FALSE)
+  }
+
+  invisible(x)
+
+}
+
+# Satterthwaite degrees of freedom are printed with two decimals, as
+# stats::t.test() does, while the stored value remains unrounded
+format_satt_df <- function(x) {
+  format(round(x, 2), nsmall = 2, trim = TRUE)
+}

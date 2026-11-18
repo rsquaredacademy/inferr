@@ -79,8 +79,7 @@ test_that("ANOVA rejects a design with no residual degrees of freedom (H7)", {
   expect_error(ifr_oneway_anova(d, val, grp), "residual degrees of freedom")
 })
 
-test_that("ANOVA works when columns are named x or y (H8)", {
-  d <- data.frame(
+test_that("ANOVA works when columns are named x or y (H8)", {  d <- data.frame(
     v   = c(1, 2, 3, 5, 6, 7),
     grp = factor(c("a", "a", "a", "b", "b", "b"))
   )
@@ -115,4 +114,26 @@ test_that("ANOVA p-value uses the upper tail without cancellation (H10)", {
   # tolerance near 1e-21 does not
   expect_equal(k$pval / ref[["Pr(>F)"]][1], 1, tolerance = 1e-10)
   expect_equal(log(k$pval), log(ref[["Pr(>F)"]][1]), tolerance = 1e-10)
+})
+
+test_that("a constant response is rejected instead of returning NaN (#100)", {
+  d <- data.frame(x = rep(1, 6), g = factor(rep(c("a", "b"), each = 3)))
+
+  expect_error(
+    ifr_oneway_anova(d, x, g),
+    "response 'x' has no variation; a one-way ANOVA is undefined"
+  )
+
+  # the name in the message follows the response column
+  d2 <- data.frame(val = rep(5, 6), g = rep(c("a", "b"), each = 3))
+  expect_error(
+    ifr_oneway_anova(d2, val, g),
+    "response 'val' has no variation; a one-way ANOVA is undefined"
+  )
+
+  # and the guard is not over-eager: a non-constant response still works
+  d3 <- data.frame(val = c(1, 1.5, 2, 3, 3.5, 4), g = rep(c("a", "b"), each = 3))
+  k  <- ifr_oneway_anova(d3, val, g)
+  expect_true(is.finite(k$fstat))
+  expect_true(k$r2 > 0)
 })

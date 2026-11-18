@@ -94,3 +94,22 @@ test_that("paired correlation p-value matches cor.test for both signs (H4)", {
   expect_equal(k2$corr, 0.9)
   expect_equal(k2$corsig, round(ref2$p.value, 4))
 })
+
+test_that("ifr_ts_paired_ttest rejects a confidence level outside (0, 1) (#99)", {
+  for (cf in c(0, 1, -0.5, 1.5, NA)) {
+    expect_error(
+      ifr_ts_paired_ttest(hsb, read, write, confint = cf),
+      "confint must be between 0 and 1 \\(exclusive\\)"
+    )
+  }
+  expect_error(
+    ifr_ts_paired_ttest(hsb, read, write, confint = "0.95"),
+    "confint must be numeric"
+  )
+
+  k   <- ifr_ts_paired_ttest(hsb, read, write, confint = 0.9)
+  ref <- t.test(hsb$read, hsb$write, paired = TRUE, conf.level = 0.9)
+  expect_equal(k$confint, 0.9)
+  expect_equal(unname(k$conf_int_diff), as.numeric(ref$conf.int),
+               tolerance = 1e-8)
+})

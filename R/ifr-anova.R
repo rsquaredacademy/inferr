@@ -49,6 +49,19 @@ ifr_oneway_anova.default <- function(data, x, y, ...) {
 
   fdata        <- data[c(x1, y1)]
   fdata        <- fdata[complete.cases(fdata), ]
+
+  # a constant response has no between- or within-group variation, so the F
+  # ratio is 0/0; report the undefined test instead of a NaN with a spurious
+  # R-squared produced by floating-point error in lm()
+  response     <- fdata[[x1]]
+  response_ss  <- sum((response - mean(response)) ^ 2)
+
+  if (!is.finite(response_ss) || response_ss <= 0) {
+    stop(paste0("response '", x1,
+                "' has no variation; a one-way ANOVA is undefined"),
+         call. = FALSE)
+  }
+
   sample_mean  <- anova_avg(fdata, x1)
   sample_stats <- anova_split(fdata, x1, y1, sample_mean)
   k            <- anova_calc(fdata, sample_stats, x1, y1)

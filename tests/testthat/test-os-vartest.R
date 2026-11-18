@@ -45,6 +45,33 @@ test_that("ifr_os_var_test returns appropriate errors", {
   )
 })
 
+test_that("ifr_os_var_test rejects a non-positive hypothesised sd (#99)", {
+  expect_error(ifr_os_var_test(hsb, read, sd = 0), "sd must be greater than 0")
+  expect_error(ifr_os_var_test(hsb, read, sd = -1), "sd must be greater than 0")
+  expect_error(ifr_os_var_test(hsb, read, sd = NA_real_),
+               "sd must be a finite number greater than 0")
+  expect_error(ifr_os_var_test(hsb, read, sd = c(5, 6)),
+               "sd must be a finite number greater than 0")
+
+  # a positive sd still returns the same finite statistic
+  k <- ifr_os_var_test(hsb, read, sd = 10)
+  expect_true(is.finite(k$chi))
+})
+
+test_that("ifr_os_var_test rejects a confidence level outside (0, 1) (#99)", {
+  for (cf in c(0, 1, -0.5, 1.5, NA)) {
+    expect_error(
+      ifr_os_var_test(hsb, read, sd = 10, confint = cf),
+      "confint must be between 0 and 1 \\(exclusive\\)"
+    )
+  }
+
+  k <- ifr_os_var_test(hsb, read, sd = 10, confint = 0.9)
+  expect_equal(k$conf, 0.9)
+  expect_equal(k$c_lwr, 9.4772)
+  expect_equal(k$c_upr, 11.1802)
+})
+
 
 test_that("output from one sample variance test is as expected when alternative is less", {
   expect_snapshot(ifr_os_var_test(mtcars, mpg, 5, alternative = "less"))

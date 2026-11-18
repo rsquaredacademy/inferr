@@ -212,6 +212,27 @@ ifr_ts_prop_group <- function(data, var, group,
 #'
 ifr_ts_prop_calc <- function(n1, n2, p1, p2,
                                alternative = c("both", "less", "greater", "all"), ...) {
+
+  if (!is.numeric(n1) || length(n1) != 1L || !is.finite(n1) ||
+      n1 <= 0 || n1 != round(n1)) {
+    stop("n1 must be a positive integer", call. = FALSE)
+  }
+
+  if (!is.numeric(n2) || length(n2) != 1L || !is.finite(n2) ||
+      n2 <= 0 || n2 != round(n2)) {
+    stop("n2 must be a positive integer", call. = FALSE)
+  }
+
+  if (!is.numeric(p1) || length(p1) != 1L || !is.finite(p1) ||
+      p1 < 0 || p1 > 1) {
+    stop("p1 must be between 0 and 1", call. = FALSE)
+  }
+
+  if (!is.numeric(p2) || length(p2) != 1L || !is.finite(p2) ||
+      p2 < 0 || p2 > 1) {
+    stop("p2 must be between 0 and 1", call. = FALSE)
+  }
+
   n1    <- n1
   n2    <- n2
   phat1 <- p1

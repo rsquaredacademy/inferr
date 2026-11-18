@@ -1,3 +1,20 @@
+# inferr (development version)
+
+## Bug Fixes
+
+- `ifr_oneway_anova()` now stops with an error naming the response when the
+  response has no variation, instead of returning a `NaN` F statistic and a
+  spurious R-squared from floating-point noise.
+- `ifr_os_var_test()` now rejects a hypothesised standard deviation that is
+  not greater than zero, and `ifr_os_var_test()`, `ifr_ts_ind_ttest()` and
+  `ifr_ts_paired_ttest()` now reject a confidence level outside `(0, 1)`.
+  `ifr_os_t_test()` uses the same validation for `alpha`.
+- `ifr_ts_prop_calc()` now rejects non-positive or non-integer sample sizes and
+  proportions outside `[0, 1]`; `ifr_chisq_gof_test()` and
+  `ifr_mcnemar_test()` now reject negative counts.
+- `ifr_ts_ind_ttest()` now stores the Satterthwaite degrees of freedom
+  unrounded and prints them with two decimals, as `stats::t.test()` does.
+
 # inferr 0.3.3
 
 ## Bug Fixes

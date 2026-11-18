@@ -69,6 +69,8 @@ ifr_ts_paired_ttest.default <- function(data, x, y, confint = 0.95,
   xone <- data[[x1]]
   yone <- data[[y1]]
 
+  check_probability(confint, "confint")
+
   method    <- match.arg(alternative)
   var_names <- names(data[c(x1, y1)])
 

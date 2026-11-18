@@ -297,3 +297,27 @@ test_that("ifr_ts_prop_group drops rows missing the outcome or group (H1)", {
   k2 <- ifr_ts_prop_group(d2, out, grp)
   expect_equal(c(k2$n1, k2$n2), c(1, 2))
 })
+
+test_that("ifr_ts_prop_calc rejects invalid sample sizes and proportions (#99)", {
+  expect_error(ifr_ts_prop_calc(0, 25, 0.3, 0.5), "n1 must be a positive integer")
+  expect_error(ifr_ts_prop_calc(-1, 25, 0.3, 0.5), "n1 must be a positive integer")
+  expect_error(ifr_ts_prop_calc(30.5, 25, 0.3, 0.5), "n1 must be a positive integer")
+  expect_error(ifr_ts_prop_calc(NA, 25, 0.3, 0.5), "n1 must be a positive integer")
+
+  expect_error(ifr_ts_prop_calc(30, 0, 0.3, 0.5), "n2 must be a positive integer")
+  expect_error(ifr_ts_prop_calc(30, -1, 0.3, 0.5), "n2 must be a positive integer")
+  expect_error(ifr_ts_prop_calc(30, 25.5, 0.3, 0.5), "n2 must be a positive integer")
+
+  expect_error(ifr_ts_prop_calc(30, 25, -0.1, 0.5), "p1 must be between 0 and 1")
+  expect_error(ifr_ts_prop_calc(30, 25, 1.5, 0.5), "p1 must be between 0 and 1")
+  expect_error(ifr_ts_prop_calc(30, 25, NA, 0.5), "p1 must be between 0 and 1")
+
+  expect_error(ifr_ts_prop_calc(30, 25, 0.3, -0.1), "p2 must be between 0 and 1")
+  expect_error(ifr_ts_prop_calc(30, 25, 0.3, 1.5), "p2 must be between 0 and 1")
+  expect_error(ifr_ts_prop_calc(30, 25, 0.3, NA), "p2 must be between 0 and 1")
+
+  # boundaries and ordinary values remain valid
+  k <- ifr_ts_prop_calc(30, 25, 0, 1)
+  expect_equal(k$z, -7.416)
+  expect_equal(ifr_ts_prop_calc(30, 25, 0.3, 0.5)$z, -1.514)
+})

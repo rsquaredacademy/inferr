@@ -58,6 +58,16 @@ ifr_chisq_gof_test.default <- function(data, x, y, correct = FALSE) {
     stop("y must be numeric", call. = FALSE)
   }
 
+  if (any(!is.finite(y)) || any(y < 0)) {
+    stop("y must contain non-negative expected counts or proportions",
+         call. = FALSE)
+  }
+
+  if (sum(y) <= 0) {
+    stop("y must contain at least one positive expected count",
+         call. = FALSE)
+  }
+
   if (!is.logical(correct)) {
     stop("correct must be either TRUE or FALSE", call. = FALSE)
   }
