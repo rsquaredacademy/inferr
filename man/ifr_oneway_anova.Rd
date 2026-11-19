@@ -40,6 +40,13 @@ following components:
 \description{
 One way analysis of variance
 }
+\details{
+A response with population standard deviation at most
+\code{1e-12 * mean(abs(x))} is treated as numerically constant and rejected.
+This tolerance is relative to the response's magnitude, with no absolute
+minimum scale. The F statistic is stored to three decimal places; its
+p-value is computed from the unrounded statistic.
+}
 \section{Deprecated Function}{
 
 \code{infer_oneway_anova()} has been deprecated. Instead use

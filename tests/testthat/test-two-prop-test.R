@@ -321,3 +321,38 @@ test_that("ifr_ts_prop_calc rejects invalid sample sizes and proportions (#99)",
   expect_equal(k$z, -7.416)
   expect_equal(ifr_ts_prop_calc(30, 25, 0.3, 0.5)$z, -1.514)
 })
+
+test_that("pooled proportion tests reject common zero or one boundaries (L3)", {
+  for (p in c(0, 1)) {
+    msg <- paste0("p1 and p2: both samples have proportion ", p,
+                  "; the pooled z test is undefined")
+    d <- data.frame(
+      a = factor(rep(p, 30), levels = c(0, 1)),
+      b = factor(rep(p, 30), levels = c(0, 1))
+    )
+    grouped <- data.frame(
+      outcome = factor(rep(p, 55), levels = c(0, 1)),
+      group = rep(c("a", "b"), c(30, 25))
+    )
+
+    for (alt in c("both", "less", "greater", "all")) {
+      expect_error(ifr_ts_prop_calc(30, 25, p, p, alternative = alt),
+                   msg, fixed = TRUE)
+      expect_error(ifr_ts_prop_test(d, a, b, alternative = alt),
+                   msg, fixed = TRUE)
+      expect_error(ifr_ts_prop_group(grouped, outcome, group, alternative = alt),
+                   msg, fixed = TRUE)
+    }
+  }
+
+  # One homogeneous sample, opposite boundaries, and equal interior
+  # proportions still define a pooled test.
+  for (props in list(c(0, 1), c(1, 0), c(0, 0.4), c(1, 0.4), c(0.4, 0.4))) {
+    k <- ifr_ts_prop_calc(30, 25, props[1], props[2])
+    ref <- suppressWarnings(prop.test(c(30, 25) * props, c(30, 25),
+                                     correct = FALSE))
+    z <- sign(props[1] - props[2]) * sqrt(unname(ref$statistic))
+    expect_equal(k$z, round(z, 3))
+    expect_equal(k$sig, round(ref$p.value, 3))
+  }
+})

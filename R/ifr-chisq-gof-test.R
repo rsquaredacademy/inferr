@@ -3,8 +3,13 @@
 #' differ from hypothesized proportions
 #' @param data a \code{data.frame} or \code{tibble}
 #' @param x factor; column in \code{data}
-#' @param y expected proportions
+#' @param y finite, non-negative expected counts or proportions, in the order
+#' of the levels of \code{x}; proportions must sum to one
 #' @param correct logical; if TRUE continuity correction is applied
+#' @details A zero expected cell with a positive observed count is rejected
+#' with an error identifying its position and category. The chi-square
+#' statistic and p-value are stored to four decimal places; the p-value is
+#' computed from the unrounded statistic.
 #' @return \code{ifr_chisq_gof_test} returns an object of class
 #' \code{"ifr_chisq_gof_test"}. An object of class \code{"ifr_chisq_gof_test"}
 #' is a list containing the following components:
@@ -83,6 +88,16 @@ ifr_chisq_gof_test.default <- function(data, x, y, correct = FALSE) {
 
   if (sum(y) == 1) {
     y <- xlen * y
+  }
+
+  zero_expected <- which(y == 0 & xone > 0)
+  if (length(zero_expected) > 0) {
+    cell <- zero_expected[1]
+    stop(paste0("y[", cell, "] for category '", levels(xcheck)[cell],
+                "' of '", x1,
+                "' is zero but its observed count is positive; ",
+                "the chi-square goodness-of-fit test is undefined"),
+         call. = FALSE)
   }
 
   if (correct == TRUE) {

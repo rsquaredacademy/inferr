@@ -163,3 +163,25 @@ test_that("a response constant up to double precision is rejected (M1)", {
   expect_equal(kh$pval, refh[["Pr(>F)"]][1], tolerance = 1e-10)
   expect_true(kh$r2 > 0)
 })
+
+test_that("ANOVA accepts real spread independently of response scale (RX1)", {
+  d <- data.frame(x = 1:6, g = factor(rep(c("a", "b"), each = 3)))
+  ordinary <- ifr_oneway_anova(d, x, g)
+
+  for (scale in c(1e-13, 1e-8, 1, 1e6, -1e-13)) {
+    scaled <- d
+    scaled$x <- d$x * scale
+    k <- ifr_oneway_anova(scaled, x, g)
+    ref <- anova(lm(x ~ g, data = scaled))
+
+    expect_equal(k$fstat, ordinary$fstat)
+    expect_equal(k$pval, ordinary$pval, tolerance = 1e-12)
+    expect_equal(k$fstat, round(ref[["F value"]][1], 3))
+    expect_equal(k$pval, ref[["Pr(>F)"]][1], tolerance = 1e-12)
+  }
+
+  for (value in c(0, 0.3, 1e-13)) {
+    d$x <- rep(value, 6)
+    expect_error(ifr_oneway_anova(d, x, g), "response 'x' has no variation")
+  }
+})

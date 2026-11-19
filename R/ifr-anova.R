@@ -4,6 +4,11 @@
 #' @param x numeric; column in \code{data}
 #' @param y factor; column in \code{data}
 #' @param ... additional arguments passed to or from other methods
+#' @details A response with population standard deviation at most
+#' \code{1e-12 * mean(abs(x))} is treated as numerically constant and rejected.
+#' This tolerance is relative to the response's magnitude, with no absolute
+#' minimum scale. The F statistic is stored to three decimal places; its
+#' p-value is computed from the unrounded statistic.
 #' @return \code{ifr_oneway_anova} returns an object of class \code{"ifr_oneway_anova"}.
 #' An object of class \code{"ifr_oneway_anova"} is a list containing the
 #' following components:
@@ -60,7 +65,7 @@ ifr_oneway_anova.default <- function(data, x, y, ...) {
   response_sd  <- sqrt(response_ss / length(response))
 
   if (!is.finite(response_sd) ||
-      response_sd <= 1e-12 * max(1, mean(abs(response)))) {
+      response_sd <= 1e-12 * mean(abs(response))) {
     stop(paste0("response '", x1,
                 "' has no variation; a one-way ANOVA is undefined"),
          call. = FALSE)

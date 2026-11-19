@@ -19,6 +19,13 @@
 #' must be one of "both" (default), "greater", "less" or "all". You can specify
 #' just the initial letter
 #' @param ... additional arguments passed to or from other methods
+#' @details In \code{ifr_ts_prop_calc()}, sample sizes must be positive
+#' integers and proportions must be finite values in \code{[0, 1]}.
+#' All three entry points reject samples whose proportions are both zero or
+#' both one, because the pooled z test then has zero standard error and is
+#' undefined. A single boundary proportion or opposite boundary proportions
+#' are allowed. The z statistic and p-values are stored to three decimal
+#' places; p-values are computed from the unrounded statistic.
 #'
 #' @return an object of class \code{"ifr_ts_prop_test"}.
 #' An object of class \code{"ifr_ts_prop_test"} is a list containing the
@@ -170,6 +177,7 @@ ifr_ts_prop_group <- function(data, var, group,
   y2    <- sum(varone[groupone == groups[2]] == success)
   phat1 <- y1 / n1
   phat2 <- y2 / n2
+  check_ts_prop_boundary(phat1, phat2)
   phat  <- sum(y1, y2) / sum(n1, n2)
   num   <- (phat1 - phat2)
   den1  <- phat * (1 - phat)
@@ -237,6 +245,7 @@ ifr_ts_prop_calc <- function(n1, n2, p1, p2,
   n2    <- n2
   phat1 <- p1
   phat2 <- p2
+  check_ts_prop_boundary(phat1, phat2)
   phat  <- sum(n1 * p1, n2 * p2) / sum(n1, n2)
   num   <- (phat1 - phat2)
   den1  <- phat * (1 - phat)
@@ -273,6 +282,16 @@ ifr_ts_prop_calc <- function(n1, n2, p1, p2,
   return(out)
 }
 
+check_ts_prop_boundary <- function(p1, p2) {
+
+  if (isTRUE(p1 == p2) && p1 %in% c(0, 1)) {
+    stop(paste0("p1 and p2: both samples have proportion ", p1,
+                "; the pooled z test is undefined"), call. = FALSE)
+  }
+
+  invisible(NULL)
+}
+
 prop_comp2 <- function(var1, var2, alt) {
 
   var1  <- var1[!is.na(var1)]
@@ -284,6 +303,7 @@ prop_comp2 <- function(var1, var2, alt) {
 
   phat1 <- y1 / n1
   phat2 <- y2 / n2
+  check_ts_prop_boundary(phat1, phat2)
   phat  <- sum(y1, y2) / sum(n1, n2)
 
   num   <- (phat1 - phat2)

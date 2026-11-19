@@ -80,6 +80,15 @@ treated as the success level. Character, logical and 0/1 encodings are
 converted to a factor with a shared success level before the groups are
 tabulated.
 }
+\details{
+In \code{ifr_ts_prop_calc()}, sample sizes must be positive
+integers and proportions must be finite values in \code{[0, 1]}.
+All three entry points reject samples whose proportions are both zero or
+both one, because the pooled z test then has zero standard error and is
+undefined. A single boundary proportion or opposite boundary proportions
+are allowed. The z statistic and p-values are stored to three decimal
+places; p-values are computed from the unrounded statistic.
+}
 \section{Deprecated Functions}{
 
 \code{infer_ts_prop_test()}, \code{infer_ts_prop_grp()} and \code{infer_ts_prop_calc()} have

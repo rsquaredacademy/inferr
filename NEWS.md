@@ -2,6 +2,18 @@
 
 ## Bug Fixes
 
+- `ifr_oneway_anova()` now uses a purely relative constant-response guard
+  (`SD <= 1e-12 * mean(abs(x))`), accepting real spread at small response
+  scales while still rejecting constants and floating-point noise. F remains
+  stored to three decimals, with p computed from the unrounded statistic.
+- The two-sample proportion tests now error when both sample proportions
+  are zero or both are one, naming `p1` and `p2`, because the pooled z test
+  is undefined. Other proportions in `[0, 1]` remain supported with positive
+  integer sample sizes; z and p remain stored to three decimals.
+- `ifr_chisq_gof_test()` now errors when an expected cell is zero but its
+  observed count is positive, naming the cell and category. Expected values
+  must be finite, non-negative counts or proportions; chi-square and p remain
+  stored to four decimals.
 - `ifr_oneway_anova()` now stops with an error naming the response when the
   response has no variation, instead of returning a `NaN` F statistic and a
   spurious R-squared from floating-point noise.
