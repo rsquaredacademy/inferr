@@ -118,6 +118,9 @@ mcdata <- function(x, y) {
     if (length(x) != 4) {
       stop("x must be a 2 x 2 matrix", call. = FALSE)
     }
+    if (any(!is.finite(x)) || any(x < 0)) {
+      stop("data must contain non-negative counts", call. = FALSE)
+    }
   }
 
   dat <- x

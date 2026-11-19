@@ -75,9 +75,15 @@ ifr_os_var_test.default <- function(data, x, sd, confint = 0.95,
     stop("sd must be numeric", call. = FALSE)
   }
 
-  if (!is.numeric(confint)) {
-    stop("confint must be numeric", call. = FALSE)
+  if (length(sd) != 1L || !is.finite(sd)) {
+    stop("sd must be a finite number greater than 0", call. = FALSE)
   }
+
+  if (sd <= 0) {
+    stop("sd must be greater than 0", call. = FALSE)
+  }
+
+  check_probability(confint, "confint")
 
   type    <- match.arg(alternative)
   varname <- names(data[x1])

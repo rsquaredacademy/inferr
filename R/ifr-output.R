@@ -475,7 +475,8 @@ print_two_ttest <- function(data) {
   mean_w <- max(nchar("Mean"), nchar(data$mean[1]), nchar(data$mean[2]), nchar(data$mean_diff), nchar(data$combined[2]))
   se_w   <- max(nchar("Std. Err."), nchar(data$se[1]), nchar(data$se[2]), nchar(data$combined[4]), nchar(data$se_dif))
   sd_w   <- max(nchar("Std. Dev."), nchar(data$sd[1]), nchar(data$sd[2]), nchar(data$combined[3]), nchar(data$sd_dif))
-  df_w   <- max(nchar("DF"), nchar(as.vector(data$df_pooled)), nchar(as.vector(data$df_satterthwaite)))
+  df_w   <- max(nchar("DF"), nchar(as.vector(data$df_pooled)),
+                nchar(format_satt_df(data$df_satterthwaite)))
   t_w    <- max(nchar("t Value"), nchar(as.vector(data$t_pooled)), nchar(as.vector(data$t_satterthwaite)))
   pt_w   <- max(
     nchar("P > |t|"), nchar(as.vector(char_sig)), nchar(as.vector(char_sig_l)), nchar(as.vector(char_sig_u)),
@@ -553,7 +554,7 @@ print_two_ttest <- function(data) {
     )
     cat(
       fw(data$var_y, w = grp_w), formats_t(), fw("Satterthwaite", w = 13), formats_t(),
-      fw("Unequal", w = 9), formats_t(), fn(data$df_satterthwaite, w = df_w), formats_t(),
+      fw("Unequal", w = 9), formats_t(), fw(format_satt_df(data$df_satterthwaite), w = df_w), formats_t(),
       fw(data$t_satterthwaite, w = t_w), formats_t(), fw(char_sig_l, w = pt_w), "\n"
     )
     cat(rep("-", w2), sep = "", "\n\n")
@@ -576,7 +577,7 @@ print_two_ttest <- function(data) {
     )
     cat(
       fw(data$var_y, w = grp_w), formats_t(), fw("Satterthwaite", w = 13), formats_t(),
-      fw("Unequal", w = 9), formats_t(), fn(data$df_satterthwaite, w = df_w), formats_t(),
+      fw("Unequal", w = 9), formats_t(), fw(format_satt_df(data$df_satterthwaite), w = df_w), formats_t(),
       fw(data$t_satterthwaite, w = t_w), formats_t(), fw(char_sig_u, w = pt_w), "\n"
     )
     cat(rep("-", w2), sep = "", "\n\n")
@@ -599,7 +600,7 @@ print_two_ttest <- function(data) {
     )
     cat(
       fw(data$var_y, w = grp_w), formats_t(), fw("Satterthwaite", w = 13), formats_t(),
-      fw("Unequal", w = 9), formats_t(), fn(data$df_satterthwaite, w = df_w), formats_t(),
+      fw("Unequal", w = 9), formats_t(), fw(format_satt_df(data$df_satterthwaite), w = df_w), formats_t(),
       fw(data$t_satterthwaite, w = t_w), formats_t(), fw(char_sig, w = pt_w), "\n"
     )
     cat(rep("-", w2), sep = "", "\n\n")

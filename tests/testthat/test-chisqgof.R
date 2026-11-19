@@ -84,6 +84,41 @@ test_that("ifr_chisq_gof_test throws appropriate errors", {
   )
 })
 
+test_that("ifr_chisq_gof_test rejects negative or all-zero expected counts (#99)", {
+  expect_error(
+    ifr_chisq_gof_test(hsb, race, c(20, 20, 20, -10)),
+    "y must contain non-negative expected counts or proportions"
+  )
+  expect_error(
+    ifr_chisq_gof_test(hsb, race, c(20, 20, 20, NA)),
+    "y must contain non-negative expected counts or proportions"
+  )
+  expect_error(
+    ifr_chisq_gof_test(hsb, race, c(0, 0, 0, 0)),
+    "y must contain at least one positive expected count"
+  )
+})
+
+test_that("GOF rejects zero expected cells with positive observed counts (L4)", {
+  for (correct in c(FALSE, TRUE)) {
+    for (expected in list(c(0, 20, 40, 140), c(0, 0.1, 0.2, 0.7))) {
+      expect_error(
+        ifr_chisq_gof_test(hsb, race, expected, correct = correct),
+        "y[1] for category '1' of 'race' is zero but its observed count is positive",
+        fixed = TRUE
+      )
+    }
+  }
+
+  # The message follows the cell position and category label.
+  d <- data.frame(kind = factor(c("alpha", "beta", "beta")))
+  expect_error(
+    ifr_chisq_gof_test(d, kind, c(3, 0)),
+    "y[2] for category 'beta' of 'kind' is zero but its observed count is positive",
+    fixed = TRUE
+  )
+})
+
 test_that("Yates correction is applied only when requested", {
   d <- data.frame(x = factor(c(rep("a", 30), rep("b", 70))))
 

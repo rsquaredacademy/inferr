@@ -18,7 +18,12 @@ test_that("output from ifr_ts_ind_ttest matches expected result", {
   expect_equal(round(k$conf_diff, 3), c(-7.442, -2.298))
   expect_equal(round(k$conf_diff_satterthwaite, 3), c(-7.499, -2.241))
   expect_equal(k$df_pooled, 198)
-  expect_equal(k$df_satterthwaite, 170)
+  expect_equal(
+    k$df_satterthwaite,
+    unname(t.test(write ~ female, hsb)$parameter),
+    tolerance = 1e-10
+  )
+  expect_false(k$df_satterthwaite == round(k$df_satterthwaite))
   expect_equal(round(k$t_pooled, 2), -3.73)
   expect_equal(round(k$t_satterthwaite, 2), -3.66)
   expect_equal(k$sig_pooled_l, 1e-04)
@@ -142,4 +147,38 @@ test_that("independent t test works when columns are named x or y (H8)", {
   k2 <- ifr_ts_ind_ttest(d2, grp, x)
   expect_equal(k2$t_pooled, round(unname(ref$statistic), 4))
   expect_equal(k2$sig_pooled, round(ref$p.value, 4))
+})
+
+test_that("ifr_ts_ind_ttest rejects a confidence level outside (0, 1)", {
+  for (cf in c(0, 1, -0.5, 1.5, NA)) {
+    expect_error(
+      ifr_ts_ind_ttest(hsb, female, write, confint = cf),
+      "confint must be between 0 and 1 \\(exclusive\\)"
+    )
+  }
+  expect_error(
+    ifr_ts_ind_ttest(hsb, female, write, confint = "0.95"),
+    "confint must be numeric"
+  )
+
+  # a valid non-default level is still accepted
+  k <- ifr_ts_ind_ttest(hsb, female, write, confint = 0.9)
+  ref <- t.test(write ~ female, hsb, var.equal = FALSE, conf.level = 0.9)
+  expect_equal(k$conf_diff_satterthwaite,
+               round(as.numeric(ref$conf.int), 5))
+})
+
+test_that("Satterthwaite degrees of freedom are stored and printed unrounded (#89)", {
+  k   <- ifr_ts_ind_ttest(hsb, female, write)
+  ref <- t.test(write ~ female, hsb)
+  printed <- format_satt_df(unname(ref$parameter))
+
+  expect_equal(k$df_satterthwaite, unname(ref$parameter), tolerance = 1e-10)
+  expect_equal(format_satt_df(k$df_satterthwaite), printed)
+  expect_match(printed, "^[0-9]+\\.[0-9]{2}$")
+
+  out <- capture.output(print(k))
+  expect_true(any(grepl("Satterthwaite", out) & grepl(printed, out, fixed = TRUE)))
+  expect_false(any(grepl("Satterthwaite", out) &
+                   grepl(" 170 ", out, fixed = TRUE)))
 })

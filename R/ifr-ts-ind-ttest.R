@@ -89,6 +89,8 @@ ifr_ts_ind_ttest.default <- function(data, x, y, confint = 0.95,
   y1   <- deparse(substitute(y))
   yone <- names(data[y1])
 
+  check_probability(confint, "confint")
+
   dat  <- data[complete.cases(data[[x1]], data[[y1]]), , drop = FALSE]
 
   if (is.factor(dat[[x1]])) {
@@ -122,7 +124,7 @@ ifr_ts_ind_ttest.default <- function(data, x, y, confint = 0.95,
                  conf_diff_satterthwaite = round(k$conf_diff_satt, 5),
                  den_df           = k$n2 - 1,
                  df_pooled        = m$df_pooled,
-                 df_satterthwaite = round(j$d_f),
+                 df_satterthwaite = j$d_f,
                  f                = round(k$s1_raw / k$s2_raw, 4),
                  f_sig            = fsig(k$s1_raw, k$s2_raw, k$n1, k$n2),
                  levels           = g_stat[, 1],

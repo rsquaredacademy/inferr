@@ -12,7 +12,8 @@ ifr_chisq_gof_test(data, x, y, correct = FALSE)
 
 \item{x}{factor; column in \code{data}}
 
-\item{y}{expected proportions}
+\item{y}{finite, non-negative expected counts or proportions, in the order
+of the levels of \code{x}; proportions must sum to one}
 
 \item{correct}{logical; if TRUE continuity correction is applied}
 }
@@ -36,6 +37,12 @@ is a list containing the following components:
 \description{
 Test whether the observed proportions for a categorical variable
 differ from hypothesized proportions
+}
+\details{
+A zero expected cell with a positive observed count is rejected
+with an error identifying its position and category. The chi-square
+statistic and p-value are stored to four decimal places; the p-value is
+computed from the unrounded statistic.
 }
 \section{Deprecated Function}{
 

@@ -4,6 +4,11 @@
 #' @param x numeric; column in \code{data}
 #' @param y factor; column in \code{data}
 #' @param ... additional arguments passed to or from other methods
+#' @details A response with population standard deviation at most
+#' \code{1e-12 * mean(abs(x))} is treated as numerically constant and rejected.
+#' This tolerance is relative to the response's magnitude, with no absolute
+#' minimum scale. The F statistic is stored to three decimal places; its
+#' p-value is computed from the unrounded statistic.
 #' @return \code{ifr_oneway_anova} returns an object of class \code{"ifr_oneway_anova"}.
 #' An object of class \code{"ifr_oneway_anova"} is a list containing the
 #' following components:
@@ -49,6 +54,23 @@ ifr_oneway_anova.default <- function(data, x, y, ...) {
 
   fdata        <- data[c(x1, y1)]
   fdata        <- fdata[complete.cases(fdata), ]
+
+  # a constant response has no between- or within-group variation, so the F
+  # ratio is 0/0; report the undefined test instead of a NaN with a spurious
+  # R-squared produced by floating-point error in lm(). The guard is relative
+  # to the size of the response: a spread at the rounding error of the
+  # response's own magnitude cannot be told apart from a constant.
+  response     <- fdata[[x1]]
+  response_ss  <- sum((response - mean(response)) ^ 2)
+  response_sd  <- sqrt(response_ss / length(response))
+
+  if (!is.finite(response_sd) ||
+      response_sd <= 1e-12 * mean(abs(response))) {
+    stop(paste0("response '", x1,
+                "' has no variation; a one-way ANOVA is undefined"),
+         call. = FALSE)
+  }
+
   sample_mean  <- anova_avg(fdata, x1)
   sample_stats <- anova_split(fdata, x1, y1, sample_mean)
   k            <- anova_calc(fdata, sample_stats, x1, y1)
