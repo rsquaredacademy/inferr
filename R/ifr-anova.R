@@ -52,11 +52,15 @@ ifr_oneway_anova.default <- function(data, x, y, ...) {
 
   # a constant response has no between- or within-group variation, so the F
   # ratio is 0/0; report the undefined test instead of a NaN with a spurious
-  # R-squared produced by floating-point error in lm()
+  # R-squared produced by floating-point error in lm(). The guard is relative
+  # to the size of the response: a spread at the rounding error of the
+  # response's own magnitude cannot be told apart from a constant.
   response     <- fdata[[x1]]
   response_ss  <- sum((response - mean(response)) ^ 2)
+  response_sd  <- sqrt(response_ss / length(response))
 
-  if (!is.finite(response_ss) || response_ss <= 0) {
+  if (!is.finite(response_sd) ||
+      response_sd <= 1e-12 * max(1, mean(abs(response)))) {
     stop(paste0("response '", x1,
                 "' has no variation; a one-way ANOVA is undefined"),
          call. = FALSE)

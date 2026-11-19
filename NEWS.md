@@ -13,7 +13,7 @@
   proportions outside `[0, 1]`; `ifr_chisq_gof_test()` and
   `ifr_mcnemar_test()` now reject negative counts.
 - `ifr_ts_ind_ttest()` now stores the Satterthwaite degrees of freedom
-  unrounded and prints them with two decimals, as `stats::t.test()` does.
+  unrounded and prints them with two decimals.
 
 # inferr 0.3.3
 

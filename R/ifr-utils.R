@@ -127,8 +127,8 @@ check_probability <- function(x, name) {
 
 }
 
-# Satterthwaite degrees of freedom are printed with two decimals, as
-# stats::t.test() does, while the stored value remains unrounded
+# Satterthwaite degrees of freedom are printed with two decimals, while the
+# stored value remains unrounded
 format_satt_df <- function(x) {
   format(round(x, 2), nsmall = 2, trim = TRUE)
 }

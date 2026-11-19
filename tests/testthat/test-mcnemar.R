@@ -148,11 +148,11 @@ test_that("McNemar exact and corrected p-values are bounded (H2)", {
 test_that("ifr_mcnemar_test rejects negative matrix counts (#99)", {
   expect_error(
     ifr_mcnemar_test(matrix(c(10, 2, -1, 5), 2)),
-    "counts must be non-negative"
+    "data must contain non-negative counts"
   )
   expect_error(
     ifr_mcnemar_test(matrix(c(10, 2, NA, 5), 2)),
-    "counts must be non-negative"
+    "data must contain non-negative counts"
   )
 
   # a valid table still works

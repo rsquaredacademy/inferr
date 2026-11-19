@@ -119,7 +119,7 @@ mcdata <- function(x, y) {
       stop("x must be a 2 x 2 matrix", call. = FALSE)
     }
     if (any(!is.finite(x)) || any(x < 0)) {
-      stop("counts must be non-negative", call. = FALSE)
+      stop("data must contain non-negative counts", call. = FALSE)
     }
   }
 

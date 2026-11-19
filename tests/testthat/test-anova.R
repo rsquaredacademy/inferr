@@ -79,7 +79,8 @@ test_that("ANOVA rejects a design with no residual degrees of freedom (H7)", {
   expect_error(ifr_oneway_anova(d, val, grp), "residual degrees of freedom")
 })
 
-test_that("ANOVA works when columns are named x or y (H8)", {  d <- data.frame(
+test_that("ANOVA works when columns are named x or y (H8)", {
+  d <- data.frame(
     v   = c(1, 2, 3, 5, 6, 7),
     grp = factor(c("a", "a", "a", "b", "b", "b"))
   )
@@ -136,4 +137,29 @@ test_that("a constant response is rejected instead of returning NaN (#100)", {
   k  <- ifr_oneway_anova(d3, val, g)
   expect_true(is.finite(k$fstat))
   expect_true(k$r2 > 0)
+})
+
+test_that("a response constant up to double precision is rejected (M1)", {
+  # 0.3 and 0.1 + 0.2 differ by one ulp, so the old absolute guard let the
+  # response through and lm() reported a spurious F and R-squared
+  d <- data.frame(
+    x = c(0.3, 0.1 + 0.2, 0.3, 0.1 + 0.2, 0.3, 0.1 + 0.2),
+    g = factor(rep(c("a", "b"), each = 3))
+  )
+  expect_error(
+    ifr_oneway_anova(d, x, g),
+    "response 'x' has no variation; a one-way ANOVA is undefined"
+  )
+
+  # ordinary responses are unaffected
+  km   <- ifr_oneway_anova(mtcars, mpg, cyl)
+  refm <- anova(lm(mpg ~ as.factor(cyl), data = mtcars))
+  expect_equal(km$fstat, round(refm[["F value"]][1], 3))
+  expect_equal(km$pval, refm[["Pr(>F)"]][1], tolerance = 1e-10)
+
+  kh   <- ifr_oneway_anova(hsb, write, prog)
+  refh <- anova(lm(write ~ as.factor(prog), data = hsb))
+  expect_equal(kh$fstat, round(refh[["F value"]][1], 3))
+  expect_equal(kh$pval, refh[["Pr(>F)"]][1], tolerance = 1e-10)
+  expect_true(kh$r2 > 0)
 })
