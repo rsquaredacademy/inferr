@@ -58,6 +58,11 @@ or infinity.
 The sums of squares and mean squares are stored to three decimal places, as
 is the F statistic. The p-value is computed from the unrounded F statistic;
 an underflowed zero is printed as a bound such as \code{< 0.0001}.
+
+An exact fit (within-groups sum of squares zero with positive between-groups
+sum of squares) is a boundary case, not an error: the F statistic is
+\code{Inf} and the p-value is \code{0}. Only a response with no total
+variation at all is undefined and stops with an error.
 }
 \section{Deprecated Function}{
 

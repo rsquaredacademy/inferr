@@ -259,3 +259,36 @@ were deliberately left for the package backlog, per the stop rule:
   chi-square statistic and p-value are now correct. The statistic and p-value
   are the tested quantities; increasing the precision of the ancillary fields
   is a display-precision backlog item, not a wrong test result.
+
+## Boundary restoration from the rx25c regression audit (pkg-inferr-fx25c)
+
+The regression-only audit (`pkg-inferr-rx25c-audit.md`) found two guards added
+in rx25b that rejected boundary cases the `5722a08` baseline and base R accept.
+Both are restored without changing any other fx25/fx25b behaviour.
+
+| case | 5722a08 | before (`e326122`) | after |
+|---|---|---|---|
+| Two variances, constant first sample (`x = rep(2,5)`, `y = 1:5`) | F `0`; lower `0`; upper `1`; two-sided `0`; prints | error requiring positive, finite variances | F `0`; lower `0`; upper `1`; two-sided `0`; prints; matches `var.test` |
+| Two variances, constant second sample (`y` first, `x` second) | F `Inf`; lower `1`; upper `0`; two-sided `0`; prints | same error | F `Inf`; lower `1`; upper `0`; two-sided `0`; prints; matches `var.test` |
+| Two variances, grouped form with one constant group | F `0` or `Inf`; matching tails `0`/`1`; prints | same error | same as `5722a08`; matches `var.test` |
+| Two variances, both samples constant | `NaN` (undefined) | error | error (undefined, as instructed) |
+| Exact-fit one-way ANOVA (between SS `1.5`, within SS `0`) | F `Inf`; p `0`; prints | error: computed F statistic is not finite | between SS `1.5`; within SS `0`; F `Inf`; p `0`; prints |
+| One-way ANOVA with no total variation | error: response has no variation | error | error (unchanged) |
+
+A genuinely constant group is now distinguished from a non-constant group
+whose variance is not positive and representable: the latter still stops, as
+does the all-constant variance case. Tests in
+`tests/testthat/test-rx25c-fixes.R` assert the restored values against both
+`stats::var.test` and the `5722a08` values, and exercise the printed output.
+
+### Checks
+
+From a clean `git archive` of the staged tree (`037c56b`) in a disposable
+folder: `devtools::test()` passed all files with no failures, warnings or
+errors. `R CMD build --no-manual` produced `inferr_0.3.4.tar.gz`, and
+`R CMD check --as-cran --no-manual` on that tarball completed with
+**Status: OK** (exit 0; 0 errors, 0 warnings, 0 notes). The check test summary
+was `[ FAIL 0 | WARN 0 | SKIP 42 | PASS 1614 ]` in `[13s]`, below the
+four-minute limit. Temporary folders, the disposable library and the tarball
+were removed afterwards.
+

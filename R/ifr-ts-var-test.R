@@ -10,9 +10,13 @@
 #' @details Supported inputs: finite data with absolute value \code{<= 1e150}
 #' and sample sizes \code{<= 1e15}. Missing values are removed. Exactly two
 #' variables, or one variable and a two-level grouping variable, are required.
-#' Both groups must have positive, finite variances; a constant group or a
-#' variance too small to represent stops with a clear error. The F statistic
-#' is stored to four decimal places and unrounded in
+#' A constant group is a boundary case, not an error: when exactly one group is
+#' constant and the other has a positive, finite variance, the F statistic is
+#' returned as \code{0} or \code{Inf} with matching tail probabilities, as in
+#' \code{\link[stats]{var.test}}. Both groups constant is undefined and stops
+#' with a clear error; so does a non-constant group whose variance is not
+#' positive and finite (for example a variance too small to represent). The F
+#' statistic is stored to four decimal places and unrounded in
 #' \code{f_raw}; the variances and group statistics are rounded for display.
 #' One-sided p-values are stored to four decimal places and unrounded in
 #' \code{lower_raw} and \code{upper_raw}; an underflowed positive tail is
@@ -170,7 +174,16 @@ var_comp <- function(variable, group_var) {
   lens  <- vals[[2]]
   vars  <- vals[[4]]
 
-  if (any(!is.finite(vars)) || any(vars <= 0)) {
+  # a truly constant group is a legitimate boundary case when the other group
+  # varies; only two constant groups (0/0) are undefined. A non-constant group
+  # whose variance is zero, negative, or non-finite is not representable and
+  # remains an error.
+  constant <- unname(tapply(cvar, gvar, function(v) {
+    length(v) >= 2L && all(v == v[1L])
+  }))
+
+  if (all(constant) ||
+      any(!constant & (!is.finite(vars) | vars <= 0))) {
     stop(paste0("both groups must have positive, finite variances; the ",
                 "variance ratio is undefined"),
          call. = FALSE)

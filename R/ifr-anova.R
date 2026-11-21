@@ -20,6 +20,11 @@
 #' The sums of squares and mean squares are stored to three decimal places, as
 #' is the F statistic. The p-value is computed from the unrounded F statistic;
 #' an underflowed zero is printed as a bound such as \code{< 0.0001}.
+#'
+#' An exact fit (within-groups sum of squares zero with positive between-groups
+#' sum of squares) is a boundary case, not an error: the F statistic is
+#' \code{Inf} and the p-value is \code{0}. Only a response with no total
+#' variation at all is undefined and stops with an error.
 #' @return \code{ifr_oneway_anova} returns an object of class \code{"ifr_oneway_anova"}.
 #' An object of class \code{"ifr_oneway_anova"} is a list containing the
 #' following components:
@@ -117,7 +122,13 @@ ifr_oneway_anova.default <- function(data, x, y, ...) {
   sample_stats <- anova_split(work, x1, y1, sample_mean)
   k            <- anova_calc(work, sample_stats, x1, y1)
 
-  check_finite_moment(k$f, "F statistic", x1)
+  # an exact fit has zero within-groups variation and a positive between-groups
+  # sum of squares: F is the boundary value Inf with p = 0, as in the earlier
+  # release. Any other non-finite F remains an error.
+  exact_fit <- k$mse == 0 && k$mstr > 0 && is.infinite(k$f) && k$f > 0
+  if (!exact_fit) {
+    check_finite_moment(k$f, "F statistic", x1)
+  }
   check_finite_moment(k$sig, "p-value", x1)
 
   sample_stats[[3]] <- sample_stats[[3]] * scale
