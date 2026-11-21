@@ -4,11 +4,13 @@
 #' @param x numeric; column in \code{data}
 #' @param y factor; column in \code{data}
 #' @param ... additional arguments passed to or from other methods
-#' @details A response with population standard deviation at most
+#' @details Supported inputs: finite data with absolute value \code{<= 1e150}
+#' and sample sizes \code{<= 1e15}. A response with standard deviation at most
 #' \code{1e-12 * mean(abs(x))} is treated as numerically constant and rejected.
-#' This tolerance is relative to the response's magnitude, with no absolute
-#' minimum scale. The F statistic is stored to three decimal places; its
-#' p-value is computed from the unrounded statistic.
+#' This tolerance is purely relative to the response's magnitude, with no
+#' absolute minimum scale; the guard is computed from a scaled response so it
+#' does not underflow or overflow. The F statistic is stored to three decimal
+#' places; its p-value is computed from the unrounded statistic.
 #' @return \code{ifr_oneway_anova} returns an object of class \code{"ifr_oneway_anova"}.
 #' An object of class \code{"ifr_oneway_anova"} is a list containing the
 #' following components:
@@ -55,25 +57,61 @@ ifr_oneway_anova.default <- function(data, x, y, ...) {
   fdata        <- data[c(x1, y1)]
   fdata        <- fdata[complete.cases(fdata), ]
 
+  response     <- fdata[[x1]]
+
+  if (length(response) < 2L) {
+    stop(paste0("response '", x1,
+                "' must contain at least two non-missing observations"),
+         call. = FALSE)
+  }
+
+  check_finite_range(response, x1)
+  check_max_sample_size(length(response), "sample size")
+
   # a constant response has no between- or within-group variation, so the F
   # ratio is 0/0; report the undefined test instead of a NaN with a spurious
-  # R-squared produced by floating-point error in lm(). The guard is relative
-  # to the size of the response: a spread at the rounding error of the
-  # response's own magnitude cannot be told apart from a constant.
-  response     <- fdata[[x1]]
-  response_ss  <- sum((response - mean(response)) ^ 2)
-  response_sd  <- sqrt(response_ss / length(response))
+  # R-squared produced by floating-point error in lm(). The guard is purely
+  # relative to the size of the response, and is computed after scaling the
+  # response so that tiny or large finite inputs cannot underflow or overflow.
+  response_scale <- max(abs(response))
 
-  if (!is.finite(response_sd) ||
-      response_sd <= 1e-12 * mean(abs(response))) {
+  if (!is.finite(response_scale) || response_scale == 0) {
     stop(paste0("response '", x1,
                 "' has no variation; a one-way ANOVA is undefined"),
          call. = FALSE)
   }
 
-  sample_mean  <- anova_avg(fdata, x1)
-  sample_stats <- anova_split(fdata, x1, y1, sample_mean)
-  k            <- anova_calc(fdata, sample_stats, x1, y1)
+  response_scaled <- response / response_scale
+  response_sd     <- sqrt(mean((response_scaled - mean(response_scaled)) ^ 2))
+  response_mean   <- mean(abs(response_scaled))
+
+  check_finite_moment(response_sd, "standard deviation", x1)
+
+  if (response_sd == 0 || response_sd <= 1e-12 * response_mean) {
+    stop(paste0("response '", x1,
+                "' has no variation; a one-way ANOVA is undefined"),
+         call. = FALSE)
+  }
+
+  # keep ordinary inputs bit-for-bit unchanged; rescale only when the response
+  # magnitude would make the sums of squares underflow or overflow
+  work  <- fdata
+  scale <- 1
+
+  if (response_scale > 1e100 || response_scale < 1e-100) {
+    scale <- response_scale
+    work[[x1]] <- response / scale
+  }
+
+  sample_mean  <- anova_avg(work, x1)
+  sample_stats <- anova_split(work, x1, y1, sample_mean)
+  k            <- anova_calc(work, sample_stats, x1, y1)
+
+  check_finite_moment(k$f, "F statistic", x1)
+  check_finite_moment(k$sig, "p-value", x1)
+
+  sample_stats[[3]] <- sample_stats[[3]] * scale
+  sample_stats[[5]] <- sample_stats[[5]] * scale
 
   result <-
     list(
@@ -83,15 +121,15 @@ ifr_oneway_anova.default <- function(data, x, y, ...) {
       df_within   = k$df_sse,
       fstat       = k$f,
       group_stats = sample_stats[, c(1, 2, 3, 5)],
-      ms_btw      = k$mstr,
-      ms_within   = k$mse,
+      ms_btw      = k$mstr * scale ^ 2,
+      ms_within   = k$mse * scale ^ 2,
       obs         = k$obs,
       pval        = k$sig,
       r2          = round(k$reg$r.squared, 4),
-      rmse        = round(k$reg$sigma, 4),
-      ss_between  = k$sstr,
-      ss_total    = k$total,
-      ss_within   = k$ssee)
+      rmse        = round(k$reg$sigma * scale, 4),
+      ss_between  = k$sstr * scale ^ 2,
+      ss_total    = k$total * scale ^ 2,
+      ss_within   = k$ssee * scale ^ 2)
 
   class(result) <- "ifr_oneway_anova"
   return(result)

@@ -10,6 +10,12 @@
 #' must be one of "both" (default), "greater", "less" or "all". You can specify
 #' just the initial letter
 #' @param ... additional arguments passed to or from other methods
+#' @details Supported inputs: finite data with absolute value \code{<= 1e150}
+#' and sample sizes \code{<= 1e15}. Rows with missing values in \code{x} or
+#' \code{y} are removed, and each group must retain at least two observations.
+#' The Satterthwaite degrees of freedom are stored unrounded and printed to two
+#' decimals. p-values are stored to four decimal places, with the unrounded
+#' values retained for printing bounds below the display resolution.
 #'
 #' @return \code{ifr_ts_ind_ttest} returns an object of class \code{"ifr_ts_ind_ttest"}.
 #' An object of class \code{"ifr_ts_ind_ttest"} is a list containing the
@@ -105,6 +111,14 @@ ifr_ts_ind_ttest.default <- function(data, x, y, confint = 0.95,
     stop("x must be a binary factor variable", call. = FALSE)
   }
 
+  check_finite_range(dat[[y1]], y1)
+  check_max_sample_size(nrow(dat), "sample size")
+
+  if (any(table(dat[[x1]]) < 2)) {
+    stop("each group of x must contain at least two observations of y",
+         call. = FALSE)
+  }
+
   method   <- match.arg(alternative)
   var_y    <- yone
   alpha    <- 1 - confint
@@ -116,6 +130,11 @@ ifr_ts_ind_ttest.default <- function(data, x, y, confint = 0.95,
   k        <- indcomp(grp_stat, alpha)
   j        <- indsig(k$n1, k$n2, k$s1_raw, k$s2_raw, k$mean_diff)
   m        <- indpool(k$n1, k$n2, k$mean_diff, k$se_dif)
+
+  check_finite_moment(k$mean_diff, "mean difference", y1)
+  check_finite_moment(k$se_dif, "standard error", y1)
+  check_finite_moment(j$t, "t statistic", y1)
+  check_finite_moment(m$t_pooled, "pooled t statistic", y1)
 
   result <- list(alternative      = method,
                  combined         = comb,
@@ -144,6 +163,13 @@ ifr_ts_ind_ttest.default <- function(data, x, y, confint = 0.95,
                  sig_pooled_u     = m$sig_pooled_u,
                  sig_pooled       = m$sig_pooled,
                  sig_u            = j$sig_u,
+                 sig_raw          = j$sig_raw,
+                 sig_l_raw        = j$sig_l_raw,
+                 sig_u_raw        = j$sig_u_raw,
+                 sig_pooled_raw   = m$sig_pooled_raw,
+                 sig_pooled_l_raw = m$sig_pooled_l_raw,
+                 sig_pooled_u_raw = m$sig_pooled_u_raw,
+                 f_sig_raw        = fsig_raw(k$s1_raw, k$s2_raw, k$n1, k$n2),
                  t_pooled         = round(m$t_pooled, 4),
                  t_satterthwaite  = round(j$t, 4),
                  upper            = g_stat[, "upper"],
@@ -321,20 +347,28 @@ indsig <- function(n1, n2, s1, s2, mean_diff) {
 
   d_f   <- as.vector(df(n1, n2, s1, s2))
   t     <- mean_diff / (((s1 / n1) + (s2 / n2)) ^ 0.5)
-  sig_l <- round(pt(t, d_f), 4)
-  sig_u <- round(pt(t, d_f, lower.tail = FALSE), 4)
+  raw_l <- pt(t, d_f)
+  raw_u <- pt(t, d_f, lower.tail = FALSE)
+
+  sig_l <- round(raw_l, 4)
+  sig_u <- round(raw_u, 4)
 
   if (sig_l < 0.5) {
-    sig <- round(pt(t, d_f) * 2, 4)
+    raw   <- raw_l * 2
+    sig   <- round(raw, 4)
   } else {
-    sig <- round(pt(t, d_f, lower.tail = FALSE) * 2, 4)
+    raw   <- raw_u * 2
+    sig   <- round(raw, 4)
   }
 
-  list(d_f   = d_f,
-       sig_l = sig_l,
-       sig_u = sig_u,
-       sig   = sig,
-       t     = t)
+  list(d_f      = d_f,
+       sig_l    = sig_l,
+       sig_u    = sig_u,
+       sig      = sig,
+       sig_l_raw = raw_l,
+       sig_u_raw = raw_u,
+       sig_raw   = raw,
+       t        = t)
 
 }
 
@@ -352,13 +386,17 @@ df <- function(n1, n2, s1, s2) {
 }
 
 fsig <- function(s1, s2, n1, n2) {
+  round(fsig_raw(s1, s2, n1, n2), 4)
+}
 
-  round(min(
+fsig_raw <- function(s1, s2, n1, n2) {
+
+  min(
     pf((s1 / s2), (n1 - 1), (n2 - 1)),
     pf((s1 / s2), (n1 - 1), (n2 - 1),
       lower.tail = FALSE
     )
-  ) * 2, 4)
+  ) * 2
 
 }
 
@@ -367,20 +405,28 @@ indpool <- function(n1, n2, mean_diff, se_dif) {
 
   df_pooled    <- (n1 + n2) - 2
   t_pooled     <- mean_diff / se_dif
-  sig_pooled_l <- round(pt(t_pooled, df_pooled), 4)
-  sig_pooled_u <- round(pt(t_pooled, df_pooled, lower.tail = FALSE), 4)
+  raw_l        <- pt(t_pooled, df_pooled)
+  raw_u        <- pt(t_pooled, df_pooled, lower.tail = FALSE)
+
+  sig_pooled_l <- round(raw_l, 4)
+  sig_pooled_u <- round(raw_u, 4)
 
   if (sig_pooled_l < 0.5) {
-    sig_pooled <- round(pt(t_pooled, df_pooled) * 2, 4)
+    raw_pooled   <- raw_l * 2
+    sig_pooled   <- round(raw_pooled, 4)
   } else {
-    sig_pooled <- round(pt(t_pooled, df_pooled, lower.tail = FALSE) * 2, 4)
+    raw_pooled   <- raw_u * 2
+    sig_pooled   <- round(raw_pooled, 4)
   }
 
-  list(df_pooled    = df_pooled,
-       sig_pooled_l = sig_pooled_l,
-       sig_pooled_u = sig_pooled_u,
-       sig_pooled   = sig_pooled,
-       t_pooled     = t_pooled)
+  list(df_pooled        = df_pooled,
+       sig_pooled_l     = sig_pooled_l,
+       sig_pooled_u     = sig_pooled_u,
+       sig_pooled       = sig_pooled,
+       sig_pooled_l_raw = raw_l,
+       sig_pooled_u_raw = raw_u,
+       sig_pooled_raw   = raw_pooled,
+       t_pooled         = t_pooled)
 
 }
 

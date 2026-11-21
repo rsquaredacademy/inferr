@@ -102,7 +102,11 @@ ifr_chisq_assoc_test.default <- function(data, x, y) {
       pval_chisquare                 = k$sig,
       pval_chisquare_adjusted        = n$sig_y,
       pval_chisquare_lr              = m$sig_lr,
-      pval_chisquare_mantel_haenszel = p$sig_mh
+      pval_chisquare_mantel_haenszel = p$sig_mh,
+      pval_chisquare_raw                 = k$sig_raw,
+      pval_chisquare_adjusted_raw        = n$sig_y_raw,
+      pval_chisquare_lr_raw              = m$sig_lr_raw,
+      pval_chisquare_mantel_haenszel_raw = p$sig_mh_raw
     )
   } else {
     list(
@@ -114,7 +118,9 @@ ifr_chisq_assoc_test.default <- function(data, x, y) {
       ds                      = ds,
       phi_coefficient         = j$phi,
       pval_chisquare          = k$sig,
-      pval_chisquare_lr       = m$sig_lr
+      pval_chisquare_lr       = m$sig_lr,
+      pval_chisquare_raw      = k$sig_raw,
+      pval_chisquare_lr_raw   = m$sig_lr_raw
     )
   }
 
@@ -150,23 +156,23 @@ efmat <- function(twoway) {
 #' @importFrom stats pchisq
 pear_chsq <- function(twoway, df, ef) {
   chi <- sum(((twoway - ef) ^ 2) / ef)
-  sig <- round(pchisq(chi, df, lower.tail = F), 4)
+  sig <- pchisq(chi, df, lower.tail = F)
 
-  list(chi = round(chi, 4), sig = sig)
+  list(chi = round(chi, 4), sig = round(sig, 4), sig_raw = sig)
 }
 
 lr_chsq <- function(twoway, df, ef) {
   chilr  <- 2 * sum(ifelse(twoway == 0, 0, twoway * log(twoway / ef)))
-  sig_lr <- round(pchisq(chilr, df, lower.tail = F), 4)
+  sig_lr <- pchisq(chilr, df, lower.tail = F)
 
-  list(chilr = round(chilr, 4), sig_lr = sig_lr)
+  list(chilr = round(chilr, 4), sig_lr = round(sig_lr, 4), sig_lr_raw = sig_lr)
 }
 
 lr_chsq2 <- function(twoway, df, ef, ds) {
   chilr  <- 2 * sum(ifelse(twoway == 0, 0, twoway * log(twoway / ef)))
-  sig_lr <- round(pchisq(chilr, df, lower.tail = F), 4)
+  sig_lr <- pchisq(chilr, df, lower.tail = F)
 
-  list(chilr = round(chilr, 4), sig_lr = sig_lr)
+  list(chilr = round(chilr, 4), sig_lr = round(sig_lr, 4), sig_lr_raw = sig_lr)
 }
 
 yates_chsq <- function(twoway) {
@@ -176,18 +182,19 @@ yates_chsq <- function(twoway) {
   prod_totals <- prod(rowSums(twoway)) * prod(colSums(twoway))
   chi_raw     <- (total * max(abs(prods) - (total / 2), 0) ^ 2) / prod_totals
   chi_y       <- round(chi_raw, 4)
-  sig_y       <- round(pchisq(chi_raw, 1, lower.tail = F), 4)
+  sig_y       <- pchisq(chi_raw, 1, lower.tail = F)
 
-  list(chi_y = chi_y, sig_y = sig_y, total = total, prod_totals = prod_totals)
+  list(chi_y = chi_y, sig_y = round(sig_y, 4), sig_y_raw = sig_y,
+       total = total, prod_totals = prod_totals)
 }
 
 mh_chsq <- function(twoway, total, prod_totals) {
   num    <- twoway[1] - ((rowSums(twoway)[1] * colSums(twoway)[1]) / total)
   den    <- prod_totals / ((total ^ 3) - (total ^ 2))
   chimh  <- (num ^ 2) / den
-  sig_mh <- round(pchisq(chimh, 1, lower.tail = F), 4)
+  sig_mh <- pchisq(chimh, 1, lower.tail = F)
 
-  list(chimh = round(chimh, 4), sig_mh = sig_mh)
+  list(chimh = round(chimh, 4), sig_mh = round(sig_mh, 4), sig_mh_raw = sig_mh)
 }
 
 efm <- function(twoway, dk) {
@@ -199,9 +206,9 @@ efm <- function(twoway, dk) {
 
 pear_chi <- function(twoway, df, ef) {
   chi <- sum(((twoway - ef) ^ 2) / ef)
-  sig <- round(pchisq(chi, df, lower.tail = F), 4)
+  sig <- pchisq(chi, df, lower.tail = F)
 
-  list(chi = round(chi, 4), sig = sig)
+  list(chi = round(chi, 4), sig = round(sig, 4), sig_raw = sig)
 }
 
 chigf <- function(x, y, chi) {

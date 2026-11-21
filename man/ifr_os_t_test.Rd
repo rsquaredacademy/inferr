@@ -57,6 +57,13 @@ following components:
 hypothesis that a sample has a mean equal to a hypothesized value. Missing
 values are removed.
 }
+\details{
+Supported inputs: finite data with absolute value \code{<= 1e150}
+and sample sizes \code{<= 1e15}. At least two non-missing observations are
+required. Missing values are removed. The t statistic is stored to three
+decimal places; p-values are stored unrounded and printed as bounds when they
+are below the display resolution.
+}
 \section{Deprecated Function}{
 
 \code{infer_os_t_test()} has been deprecated. Instead use \code{ifr_os_t_test()}.

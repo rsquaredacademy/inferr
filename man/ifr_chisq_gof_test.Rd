@@ -13,7 +13,7 @@ ifr_chisq_gof_test(data, x, y, correct = FALSE)
 \item{x}{factor; column in \code{data}}
 
 \item{y}{finite, non-negative expected counts or proportions, in the order
-of the levels of \code{x}; proportions must sum to one}
+of the levels of \code{x}; see Details for the count/proportion rule}
 
 \item{correct}{logical; if TRUE continuity correction is applied}
 }
@@ -29,7 +29,8 @@ is a list containing the following components:
 \item{expected_frequency}{expected frequency/proportion}
 \item{n_levels}{number of levels of \code{x}}
 \item{observed_frequency}{observed frequency/proportion}
-\item{pvalue}{p-value}
+\item{pvalue}{p-value, stored to four decimal places}
+\item{pvalue_raw}{unrounded p-value}
 \item{sample_size}{number of observations}
 \item{std_residuals}{standardized residuals}
 \item{varname}{name of categorical variable}
@@ -39,10 +40,19 @@ Test whether the observed proportions for a categorical variable
 differ from hypothesized proportions
 }
 \details{
-A zero expected cell with a positive observed count is rejected
-with an error identifying its position and category. The chi-square
-statistic and p-value are stored to four decimal places; the p-value is
-computed from the unrounded statistic.
+Supported inputs: finite data with absolute value \code{<= 1e150}
+and sample sizes \code{<= 1e15}. Missing observations in \code{x} (including
+an explicit \code{NA} factor level) are removed with a message.
+
+Expected values in \code{y} are counts and must sum to the sample size. If
+they sum to one (within a small tolerance) they are treated as proportions
+and multiplied by the sample size. A zero expected count is always rejected
+with an error identifying its position and category, because the statistic
+and its standardized residuals are undefined for that cell.
+
+The chi-square statistic and p-value are stored to four decimal places; the
+unrounded p-value is retained in \code{pvalue_raw} and printed as a bound
+when it is below the display resolution.
 }
 \section{Deprecated Function}{
 

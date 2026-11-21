@@ -44,7 +44,8 @@ following components:
 \item{phat}{proportion of 1's}
 \item{p}{assumed probability of success}
 \item{z}{z statistic}
-\item{sig}{p-value for z statistic}
+\item{sig}{p-value for z statistic, stored to four decimal places}
+\item{sig_raw}{unrounded p-value for z statistic}
 \item{alt}{alternative hypothesis}
 \item{obs}{observed number of 0's and 1's}
 \item{exp}{expected number of 0's and 1's}
@@ -55,6 +56,16 @@ following components:
 \code{ifr_os_prop_test} compares proportion in one group to a
 specified population proportion. The variable must be binary; its second
 level is treated as the success level.
+}
+\details{
+Supported inputs: finite data with absolute value \code{<= 1e150}
+and sample sizes \code{<= 1e15}. The calculator requires a positive integer
+sample size no greater than \code{1e15}, a null probability strictly inside
+\code{(0, 1)}, and an observed proportion in \code{[0, 1]}. Missing values in
+a factor variable are removed and at least one observation must remain. The
+z statistic and p-values are stored to four decimal places; the unrounded
+p-value is retained in \code{sig_raw} and printed as a bound when it is below
+the display resolution.
 }
 \section{Deprecated Function}{
 

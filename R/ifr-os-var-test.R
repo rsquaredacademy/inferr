@@ -10,6 +10,11 @@
 #' must be one of "both" (default), "greater", "less" or "all". You can specify
 #' just the initial letter
 #' @param ... additional arguments passed to or from other methods
+#' @details Supported inputs: finite data with absolute value \code{<= 1e150}
+#' and sample sizes \code{<= 1e15}. At least two non-missing observations are
+#' required. Missing values are removed. The chi-square statistic and standard
+#' deviation are stored to four decimal places; p-values are stored unrounded
+#' and printed as bounds when they are below the display resolution.
 #'
 #' @return \code{ifr_os_var_test} returns an object of class \code{"ifr_os_var_test"}.
 #' An object of class \code{"ifr_os_var_test"} is a list containing the
@@ -130,11 +135,27 @@ osvar_comp <- function(x, sd, confint) {
 
   x     <- x[!is.na(x)]
   n     <- length(x)
+
+  if (n < 2) {
+    stop("x must contain at least two non-missing observations",
+         call. = FALSE)
+  }
+
+  check_finite_range(x, "x")
+  check_max_sample_size(n, "sample size")
+
   df    <- n - 1
   xbar  <- mean(x)
   sigma <- sd(x)
+
+  check_finite_moment(xbar, "mean", "x")
+  check_finite_moment(sigma, "standard deviation", "x")
+
   se    <- sigma / sqrt(n)
   chi   <- df * ((sigma / sd) ^ 2)
+
+  check_finite_moment(se, "standard error", "x")
+  check_finite_moment(chi, "chi-square statistic", "x")
 
   p_lower <- pchisq(chi, df)
   p_upper <- pchisq(chi, df, lower.tail = F)
@@ -149,6 +170,9 @@ osvar_comp <- function(x, sd, confint) {
   a     <- (1 - conf) / 2
   al    <- 1 - a
   tv    <- df * sigma ^ 2
+
+  check_finite_moment(tv, "variance", "x")
+
   c_lwr <- round(sqrt(tv / qchisq(al, df)), 4)
   c_upr <- round(sqrt(tv / qchisq(a, df)), 4)
 

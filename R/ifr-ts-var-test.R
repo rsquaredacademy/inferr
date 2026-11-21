@@ -110,6 +110,7 @@ ifr_ts_var_test.default <- function(data, ..., group_var = NULL,
               lens  = k$lens,
               lev   = lev,
               lower = k$lower,
+              lower_raw = k$lower_raw,
               n1    = k$n1,
               n2    = k$n2,
               sd    = k$sd,
@@ -119,6 +120,7 @@ ifr_ts_var_test.default <- function(data, ..., group_var = NULL,
               two_tail = k$two_tail,
               type  = type,
               upper = k$upper,
+              upper_raw = k$upper_raw,
               vars  = k$vars)
 
   class(out) <- "ifr_ts_var_test"
@@ -163,6 +165,7 @@ var_comp <- function(variable, group_var) {
        len      = lass[1],
        lens     = lens,
        lower    = round(lower, 4),
+       lower_raw = lower,
        n1       = n1,
        n2       = n2,
        sd       = round(lass[3], 2),
@@ -171,6 +174,7 @@ var_comp <- function(variable, group_var) {
        ses      = round(vals[[6]], 2),
        two_tail = two_tail,
        upper    = round(upper, 4),
+       upper_raw = upper,
        vars     = round(vars, 2))
 
 }

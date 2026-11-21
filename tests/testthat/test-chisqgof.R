@@ -99,22 +99,31 @@ test_that("ifr_chisq_gof_test rejects negative or all-zero expected counts (#99)
   )
 })
 
-test_that("GOF rejects zero expected cells with positive observed counts (L4)", {
+test_that("GOF rejects zero expected cells with any observed count (H1)", {
   for (correct in c(FALSE, TRUE)) {
     for (expected in list(c(0, 20, 40, 140), c(0, 0.1, 0.2, 0.7))) {
       expect_error(
         ifr_chisq_gof_test(hsb, race, expected, correct = correct),
-        "y[1] for category '1' of 'race' is zero but its observed count is positive",
+        "y[1] for category '1' of 'race' is zero",
         fixed = TRUE
       )
     }
+
+    # a zero/zero cell is rejected as well; it is not silently dropped
+    d <- data.frame(x = factor(c("a", "a", "b", "b"),
+                               levels = c("a", "b", "c")))
+    expect_error(
+      ifr_chisq_gof_test(d, x, c(2, 2, 0), correct = correct),
+      "y[3] for category 'c' of 'x' is zero",
+      fixed = TRUE
+    )
   }
 
   # The message follows the cell position and category label.
   d <- data.frame(kind = factor(c("alpha", "beta", "beta")))
   expect_error(
     ifr_chisq_gof_test(d, kind, c(3, 0)),
-    "y[2] for category 'beta' of 'kind' is zero but its observed count is positive",
+    "y[2] for category 'beta' of 'kind' is zero",
     fixed = TRUE
   )
 })

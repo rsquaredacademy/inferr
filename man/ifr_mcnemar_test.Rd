@@ -25,6 +25,9 @@ following components:
 \item{exactp}{exact p-value}
 \item{cstat}{continuity correction chi square statistic}
 \item{cpvalue}{continuity correction p-value}
+\item{pvalue_raw}{unrounded p-value}
+\item{cpvalue_raw}{unrounded continuity correction p-value}
+\item{exactp_raw}{unrounded exact p-value}
 \item{kappa}{kappa coefficient; measure of interrater agreement}
 \item{std_err}{asymptotic standard error}
 \item{kappa_cil}{95\% kappa lower confidence limit}
@@ -38,6 +41,16 @@ following components:
 \description{
 Test if the proportions of two dichotomous variables are
 equal in the same population. Both variables must have exactly two levels.
+}
+\details{
+Supported inputs: finite non-negative integer counts with absolute
+value \code{<= 1e150} and sample sizes \code{<= 1e15}. A matrix (or table)
+must be exactly 2 x 2. Both variables in a data frame must have exactly two
+levels. Missing pairs are removed by \code{table()}. A table with no
+observations is rejected. When there are no discordant pairs the statistic
+is 0 and all p-values are 1. The statistic and p-values are stored to four
+decimal places; unrounded values are retained in \code{*_raw} fields and
+printed as bounds when they are below the display resolution.
 }
 \section{Deprecated Function}{
 

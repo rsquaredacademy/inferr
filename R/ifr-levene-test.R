@@ -103,6 +103,9 @@ ifr_levene_test.default <- function(data, ..., group_var = NULL, trim_mean = 0.1
          n_df  = k$n_df,
          p_bf  = k$p_bf,
          p_bft = k$p_bft,
+         p_bf_raw  = k$p_bf_raw,
+         p_bft_raw = k$p_bft_raw,
+         p_lev_raw = k$p_lev_raw,
          p_lev = k$p_lev,
          sd    = k$sd,
          sds   = k$sds)
@@ -168,6 +171,9 @@ lev_comp <- function(variable, group_var, trim.mean) {
     p_bf  = round(bf$p, 4),
     p_bft = round(bft$p, 4),
     p_lev = round(lev$p, 4),
+    p_bf_raw  = bf$p,
+    p_bft_raw = bft$p,
+    p_lev_raw = lev$p,
     sd    = round(sd(cvar), 2),
     sds   = round(sds, 2))
 

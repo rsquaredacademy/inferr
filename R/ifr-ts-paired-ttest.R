@@ -8,6 +8,11 @@
 #' @param alternative a character string specifying the alternative hypothesis, must be
 #' one of "both" (default), "greater", "less" or "all". You can specify just the
 #' initial letter.
+#' @details Supported inputs: finite data with absolute value \code{<= 1e150}
+#' and sample sizes \code{<= 1e15}. At least two complete pairs are required;
+#' incomplete pairs are removed. The t statistic is stored to four decimal
+#' places; p-values are stored unrounded and printed as bounds when they are
+#' below the display resolution.
 #'
 #' @return \code{ifr_ts_paired_ttest} returns an object of class \code{"ifr_ts_paired_ttest"}.
 #' An object of class \code{"ifr_ts_paired_ttest"} is a list containing the
@@ -79,7 +84,7 @@ ifr_ts_paired_ttest.default <- function(data, x, y, confint = 0.95,
   result <- list(
     Obs = k$Obs, b = k$b, conf_int1 = k$conf_int1,
     conf_int2 = k$conf_int2, conf_int_diff = k$conf_int_diff, corr = k$corr,
-    corsig = k$corsig, tstat = k$tstat, p_lower = k$p_lower,
+    corsig = k$corsig, corsig_raw = k$corsig_raw, tstat = k$tstat, p_lower = k$p_lower,
     p_upper = k$p_upper, p_two_tail = k$p_two_tail, var_names = var_names,
     xy = k$xy, df = k$df, alternative = method, confint = confint
   )
@@ -110,13 +115,28 @@ paired_comp <- function(x, y, confint, var_names) {
   x         <- x[ok]
   y         <- y[ok]
   n         <- length(x)
+
+  if (n < 2) {
+    stop("x and y must contain at least two complete pairs", call. = FALSE)
+  }
+
+  check_finite_range(x, var_names[1])
+  check_finite_range(y, var_names[2])
+  check_max_sample_size(n, "sample size")
+
   df        <- (n - 1)
   xy        <- paste(var_names[1], "-", var_names[2])
 
   data_prep <- paired_data(x, y)
   b         <- paired_stats(data_prep, "key", "value")
-  corr      <- cor(x, y)
-  corsig    <- cor_sig(corr, n)
+  corr      <- suppressWarnings(stats::cor(x, y))
+
+  check_finite_moment(b[[1]], "mean", var_names[1])
+  check_finite_moment(b[[2]], "standard deviation", var_names[1])
+  check_finite_moment(corr, "correlation", xy)
+
+  corsig    <- if (n > 2L) cor_sig(corr, n) else NA_real_
+  corsig_raw <- if (n > 2L) cor_sig_raw(corr, n) else NA_real_
 
   alpha     <- 1 - confint
 
@@ -126,6 +146,8 @@ paired_comp <- function(x, y, confint, var_names) {
 
   t         <- b[[3, 1]] / b[[3, 3]]
 
+  check_finite_moment(t, "t statistic", xy)
+
   p_l       <- pt(t, df)
   p_u       <- pt(t, df, lower.tail = FALSE)
   p         <- pt(abs(t), df, lower.tail = FALSE) * 2
@@ -133,6 +155,7 @@ paired_comp <- function(x, y, confint, var_names) {
   list(
     Obs = n, b = b, conf_int1 = confint1, conf_int2 = confint2,
     conf_int_diff = confint3, corr = round(corr, 2), corsig = corsig,
+    corsig_raw = corsig_raw,
     tstat = round(t, 4), p_lower = p_l, p_upper = p_u, p_two_tail = p,
     xy = xy, df = df
   )
@@ -166,10 +189,15 @@ paired_stats <- function(data, key, value) {
 
 cor_sig <- function(corr, n) {
 
+  round(cor_sig_raw(corr, n), 4)
+
+}
+
+cor_sig_raw <- function(corr, n) {
+
   t   <- corr / ((1 - (corr ^ 2)) / (n - 2)) ^ 0.5
   df  <- n - 2
-  sig <- 2 * pt(abs(t), df, lower.tail = FALSE)
-  round(sig, 4)
+  2 * pt(abs(t), df, lower.tail = FALSE)
 
 }
 

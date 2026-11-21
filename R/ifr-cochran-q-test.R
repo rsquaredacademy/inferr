@@ -53,6 +53,7 @@ ifr_cochran_qtest.default <- function(data, ...) {
       df     = k$df,
       n      = k$n,
       pvalue = k$pvalue,
+      pvalue_raw = k$pvalue_raw,
       q      = k$q)
 
   class(result) <- "ifr_cochran_qtest"
@@ -231,6 +232,7 @@ cochran_comp <- function(data) {
   list(df     = df,
        n      = n,
        pvalue = round(pvalue, 4),
+       pvalue_raw = pvalue,
        q      = q)
 
 }

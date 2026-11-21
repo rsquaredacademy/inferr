@@ -41,11 +41,13 @@ following components:
 One way analysis of variance
 }
 \details{
-A response with population standard deviation at most
+Supported inputs: finite data with absolute value \code{<= 1e150}
+and sample sizes \code{<= 1e15}. A response with standard deviation at most
 \code{1e-12 * mean(abs(x))} is treated as numerically constant and rejected.
-This tolerance is relative to the response's magnitude, with no absolute
-minimum scale. The F statistic is stored to three decimal places; its
-p-value is computed from the unrounded statistic.
+This tolerance is purely relative to the response's magnitude, with no
+absolute minimum scale; the guard is computed from a scaled response so it
+does not underflow or overflow. The F statistic is stored to three decimal
+places; its p-value is computed from the unrounded statistic.
 }
 \section{Deprecated Function}{
 

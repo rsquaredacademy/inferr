@@ -74,6 +74,14 @@ confidence limit of mean of \code{y}}
 there is statistical evidence that the associated population means are significantly different.
 Rows with missing values in \code{x} or \code{y} are removed.
 }
+\details{
+Supported inputs: finite data with absolute value \code{<= 1e150}
+and sample sizes \code{<= 1e15}. Rows with missing values in \code{x} or
+\code{y} are removed, and each group must retain at least two observations.
+The Satterthwaite degrees of freedom are stored unrounded and printed to two
+decimals. p-values are stored to four decimal places, with the unrounded
+values retained for printing bounds below the display resolution.
+}
 \section{Deprecated Function}{
 
 \code{infer_ts_ind_ttest()} has been deprecated. Instead use \code{ifr_ts_ind_ttest()}.

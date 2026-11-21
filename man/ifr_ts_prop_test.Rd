@@ -68,7 +68,8 @@ following components:
 \item{phat1}{sample 1 proportion}
 \item{phat2}{sample 2 proportion}
 \item{z}{z statistic}
-\item{sig}{p-value for z statistic}
+\item{sig}{p-value for z statistic, stored to three decimal places}
+\item{sig_raw}{unrounded p-value for z statistic}
 \item{alt}{alternative hypothesis}
 }
 \description{
@@ -81,13 +82,17 @@ converted to a factor with a shared success level before the groups are
 tabulated.
 }
 \details{
-In \code{ifr_ts_prop_calc()}, sample sizes must be positive
-integers and proportions must be finite values in \code{[0, 1]}.
+Supported inputs: finite data with absolute value \code{<= 1e150}
+and sample sizes \code{<= 1e15}. In \code{ifr_ts_prop_calc()}, sample sizes
+must be positive integers no greater than \code{1e15} and proportions must
+be finite values in \code{[0, 1]}. Observations with missing values are
+removed; each sample must retain at least one observation.
 All three entry points reject samples whose proportions are both zero or
 both one, because the pooled z test then has zero standard error and is
 undefined. A single boundary proportion or opposite boundary proportions
 are allowed. The z statistic and p-values are stored to three decimal
-places; p-values are computed from the unrounded statistic.
+places; the unrounded p-value is retained in \code{sig_raw} and printed as a
+bound when it is below the display resolution.
 }
 \section{Deprecated Functions}{
 

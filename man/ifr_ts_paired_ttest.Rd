@@ -54,6 +54,13 @@ and \code{y}}
 \code{ifr_ts_paired_ttest} tests that two samples have the
 same mean, assuming paired data. Incomplete pairs are removed.
 }
+\details{
+Supported inputs: finite data with absolute value \code{<= 1e150}
+and sample sizes \code{<= 1e15}. At least two complete pairs are required;
+incomplete pairs are removed. The t statistic is stored to four decimal
+places; p-values are stored unrounded and printed as bounds when they are
+below the display resolution.
+}
 \section{Deprecated Function}{
 
 \code{infer_ts_paired_ttest()} has been deprecated. Instead use

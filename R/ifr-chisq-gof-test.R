@@ -4,12 +4,21 @@
 #' @param data a \code{data.frame} or \code{tibble}
 #' @param x factor; column in \code{data}
 #' @param y finite, non-negative expected counts or proportions, in the order
-#' of the levels of \code{x}; proportions must sum to one
+#' of the levels of \code{x}; see Details for the count/proportion rule
 #' @param correct logical; if TRUE continuity correction is applied
-#' @details A zero expected cell with a positive observed count is rejected
-#' with an error identifying its position and category. The chi-square
-#' statistic and p-value are stored to four decimal places; the p-value is
-#' computed from the unrounded statistic.
+#' @details Supported inputs: finite data with absolute value \code{<= 1e150}
+#' and sample sizes \code{<= 1e15}. Missing observations in \code{x} (including
+#' an explicit \code{NA} factor level) are removed with a message.
+#'
+#' Expected values in \code{y} are counts and must sum to the sample size. If
+#' they sum to one (within a small tolerance) they are treated as proportions
+#' and multiplied by the sample size. A zero expected count is always rejected
+#' with an error identifying its position and category, because the statistic
+#' and its standardized residuals are undefined for that cell.
+#'
+#' The chi-square statistic and p-value are stored to four decimal places; the
+#' unrounded p-value is retained in \code{pvalue_raw} and printed as a bound
+#' when it is below the display resolution.
 #' @return \code{ifr_chisq_gof_test} returns an object of class
 #' \code{"ifr_chisq_gof_test"}. An object of class \code{"ifr_chisq_gof_test"}
 #' is a list containing the following components:
@@ -21,7 +30,8 @@
 #' \item{expected_frequency}{expected frequency/proportion}
 #' \item{n_levels}{number of levels of \code{x}}
 #' \item{observed_frequency}{observed frequency/proportion}
-#' \item{pvalue}{p-value}
+#' \item{pvalue}{p-value, stored to four decimal places}
+#' \item{pvalue_raw}{unrounded p-value}
 #' \item{sample_size}{number of observations}
 #' \item{std_residuals}{standardized residuals}
 #' \item{varname}{name of categorical variable}
@@ -52,12 +62,33 @@ ifr_chisq_gof_test.default <- function(data, x, y, correct = FALSE) {
 
   x1     <- deparse(substitute(x))
   xcheck <- data[[x1]]
-  xone   <- as.vector(table(data[[x1]]))
-  xlen   <- sum(xone)
 
   if (!is.factor(xcheck)) {
     stop("x must be an object of class factor", call. = FALSE)
   }
+
+  # an explicit NA factor level is stored as a level code, so is.na() does not
+  # see it; detect that level as well as ordinary missing values
+  missing_x <- is.na(xcheck)
+  if (anyNA(levels(xcheck))) {
+    missing_x <- missing_x |
+      as.integer(xcheck) %in% which(is.na(levels(xcheck)))
+  }
+
+  if (any(missing_x)) {
+    n_missing <- sum(missing_x)
+    message("removing ", n_missing, " observation(s) with missing '", x1, "'")
+    xcheck <- droplevels(xcheck[!missing_x])
+  }
+
+  if (length(xcheck) < 1L) {
+    stop("x must contain at least one non-missing observation", call. = FALSE)
+  }
+
+  xone   <- as.vector(table(xcheck))
+  xlen   <- sum(xone)
+
+  check_max_sample_size(xlen, "sample size")
 
   if (!is.numeric(y)) {
     stop("y must be numeric", call. = FALSE)
@@ -82,21 +113,30 @@ ifr_chisq_gof_test.default <- function(data, x, y, correct = FALSE) {
   df      <- n - 1
 
   if (length(y) != n) {
-    stop("Length of y must be equal to the number of categories in x",
+    stop(paste0("Length of y must be equal to the number of categories in x ",
+                "after removing missing observations"),
          call. = FALSE)
   }
 
-  if (sum(y) == 1) {
+  # expected values are counts unless they sum to one, in which case they are
+  # proportions; a count vector must total the observed sample size
+  y_sum <- sum(y)
+  tol   <- sqrt(.Machine$double.eps) * max(1, abs(y_sum), xlen)
+
+  if (abs(y_sum - 1) <= tol) {
     y <- xlen * y
+  } else if (abs(y_sum - xlen) > tol) {
+    stop(paste0("expected counts in y must sum to the sample size (",
+                xlen, "); expected values in y are counts unless they sum to 1"),
+         call. = FALSE)
   }
 
-  zero_expected <- which(y == 0 & xone > 0)
+  zero_expected <- which(y == 0)
   if (length(zero_expected) > 0) {
     cell <- zero_expected[1]
     stop(paste0("y[", cell, "] for category '", levels(xcheck)[cell],
                 "' of '", x1,
-                "' is zero but its observed count is positive; ",
-                "the chi-square goodness-of-fit test is undefined"),
+                "' is zero; the chi-square goodness-of-fit test is undefined"),
          call. = FALSE)
   }
 
@@ -106,7 +146,7 @@ ifr_chisq_gof_test.default <- function(data, x, y, correct = FALSE) {
     k <- chigof(xone, y)
   }
 
-  sig <- round(pchisq(k$raw, df, lower.tail = FALSE), 4)
+  sig <- pchisq(k$raw, df, lower.tail = FALSE)
 
   result <-
     list(
@@ -117,7 +157,8 @@ ifr_chisq_gof_test.default <- function(data, x, y, correct = FALSE) {
       expected_frequency = y,
       n_levels           = nlevels(xcheck),
       observed_frequency = xone,
-      pvalue             = sig,
+      pvalue             = round(sig, 4),
+      pvalue_raw         = sig,
       sample_size        = xlen,
       std_residuals      = format(k$std, nsmall = 2),
       varname            = varname
