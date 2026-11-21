@@ -30,13 +30,25 @@ following components:
 \item{ds}{product of dimensions of the table of \code{x} and \code{y}}
 \item{phi_coefficient}{phi coefficient}
 \item{pval_chisquare}{p-value of chi square}
+\item{pval_chisquare_raw}{unrounded p-value of chi square}
 \item{pval_chisquare_adjusted}{p-value of continuity adjusted chi square}
+\item{pval_chisquare_adjusted_raw}{unrounded p-value of continuity adjusted chi square}
 \item{pval_chisquare_lr}{p-value of likelihood ratio chi square}
+\item{pval_chisquare_lr_raw}{unrounded p-value of likelihood ratio chi square}
 \item{pval_chisquare_mantel_haenszel}{p-value of mantel haenszel chi square}
+\item{pval_chisquare_mantel_haenszel_raw}{unrounded p-value of mantel haenszel chi square}
 }
 \description{
 Chi Square test of association to examine if there is a
 relationship between two categorical variables.
+}
+\details{
+Supported inputs: two factor columns with a table of at least two
+cells and a total count \code{<= 1e15}. Both variables must be factors.
+The chi-square statistics are stored to four decimal places. p-values are
+stored to four decimal places in the \code{pval_*} fields and unrounded in
+the corresponding \code{*_raw} fields; an underflowed positive tail is
+printed as a bound rather than as an exact zero.
 }
 \section{Deprecated Function}{
 

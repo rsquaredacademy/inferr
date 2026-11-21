@@ -13,7 +13,8 @@ ifr_chisq_gof_test(data, x, y, correct = FALSE)
 \item{x}{factor; column in \code{data}}
 
 \item{y}{finite, non-negative expected counts or proportions, in the order
-of the levels of \code{x}; proportions must sum to one}
+of the declared non-missing levels of \code{x}; see Details for the
+count/proportion rule}
 
 \item{correct}{logical; if TRUE continuity correction is applied}
 }
@@ -29,7 +30,8 @@ is a list containing the following components:
 \item{expected_frequency}{expected frequency/proportion}
 \item{n_levels}{number of levels of \code{x}}
 \item{observed_frequency}{observed frequency/proportion}
-\item{pvalue}{p-value}
+\item{pvalue}{p-value, stored to four decimal places}
+\item{pvalue_raw}{unrounded p-value}
 \item{sample_size}{number of observations}
 \item{std_residuals}{standardized residuals}
 \item{varname}{name of categorical variable}
@@ -39,10 +41,30 @@ Test whether the observed proportions for a categorical variable
 differ from hypothesized proportions
 }
 \details{
-A zero expected cell with a positive observed count is rejected
-with an error identifying its position and category. The chi-square
-statistic and p-value are stored to four decimal places; the p-value is
-computed from the unrounded statistic.
+Supported inputs: at least two declared non-missing categories,
+finite non-negative expected values with absolute value \code{<= 1e150},
+and sample sizes \code{<= 1e15}. Missing observations in \code{x} (including
+values stored in an explicit \code{NA} factor level) are removed with a
+message. The explicit \code{NA} level is dropped, but every other declared
+level is retained even when it is unobserved, because it is part of the
+hypothesis.
+
+Expected values in \code{y} must have one entry per retained level. They are
+treated as proportions when they sum to one within a small tolerance, or
+when every value is one (the equal-proportions shorthand). Otherwise they
+are counts and must sum to the sample size. The tolerance for a proportion
+total is relative to that total, not to the sample size, so a vector such as
+\code{c(.5, .501)} is rejected instead of being accepted as proportions. A
+zero expected count is always rejected with an error identifying its
+position and category, because the statistic and its standardized residuals
+are undefined for that cell. A factor with only one retained category is
+rejected because a goodness-of-fit test with zero degrees of freedom does
+not exist.
+
+The chi-square statistic is stored to four decimal places. The p-value is
+stored unrounded in \code{pvalue_raw} and to four decimal places in
+\code{pvalue}; it is printed as a bound when it is below the display
+resolution.
 }
 \section{Deprecated Function}{
 

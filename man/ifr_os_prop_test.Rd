@@ -43,8 +43,10 @@ following components:
 \item{n}{number of observations}
 \item{phat}{proportion of 1's}
 \item{p}{assumed probability of success}
-\item{z}{z statistic}
-\item{sig}{p-value for z statistic}
+\item{z}{z statistic, stored to four decimal places}
+\item{z_raw}{unrounded z statistic}
+\item{sig}{p-value for z statistic, stored to four decimal places}
+\item{sig_raw}{unrounded p-value for z statistic}
 \item{alt}{alternative hypothesis}
 \item{obs}{observed number of 0's and 1's}
 \item{exp}{expected number of 0's and 1's}
@@ -55,6 +57,23 @@ following components:
 \code{ifr_os_prop_test} compares proportion in one group to a
 specified population proportion. The variable must be binary; its second
 level is treated as the success level.
+}
+\details{
+Supported inputs: finite data with absolute value \code{<= 1e150}
+and sample sizes \code{<= 1e15}. The calculator requires a positive integer
+sample size no greater than \code{1e15}, a null probability strictly inside
+\code{(0, 1)}, and an observed proportion in \code{[0, 1]}. Missing values in
+a factor variable are removed and at least one observation must remain.
+
+The standard error is computed with the direct expression for ordinary null
+probabilities and with a factored square root when the null probability is
+subnormal, so the z statistic stays finite near the smallest positive
+doubles. The z statistic is stored to four decimal places and unrounded in
+\code{z_raw}. p-values are stored to four decimal places and unrounded in
+\code{sig_raw}; they are printed as bounds when they are below the display
+resolution. A percentage deviation whose magnitude exceeds the largest
+double is printed as \code{> 1e308} or \code{< -1e308} instead of
+\code{Inf}.
 }
 \section{Deprecated Function}{
 

@@ -4,6 +4,12 @@
 #' specified variables are removed before the test is computed.
 #' @param data a \code{data.frame} or \code{tibble}
 #' @param ... columns in \code{data}
+#' @details Supported inputs: at least three binary variables, at least two
+#' complete observations, and a sample size \code{<= 1e15}. A row is used only
+#' when every specified variable is observed. The Q statistic is stored
+#' unrounded. The p-value is stored to four decimal places in \code{pvalue}
+#' and unrounded in \code{pvalue_raw}; an underflowed positive tail is printed
+#' as a bound rather than as an exact zero.
 #'
 #' @return \code{ifr_cochran_qtest} returns an object of class
 #' \code{"ifr_cochran_qtest"}. An object of class \code{"ifr_cochran_qtest"}
@@ -11,7 +17,8 @@
 #'
 #' \item{df}{degrees of freedom}
 #' \item{n}{number of observations}
-#' \item{pvalue}{p value}
+#' \item{pvalue}{p value, stored to four decimal places}
+#' \item{pvalue_raw}{unrounded p value}
 #' \item{q}{Cochran's Q statistic}
 #'
 #' @section Deprecated Function:
@@ -46,6 +53,8 @@ ifr_cochran_qtest.default <- function(data, ...) {
     stop("at least two complete observations are required", call. = FALSE)
   }
 
+  check_max_sample_size(nrow(fdata), "sample size")
+
   k <- cochran_comp(fdata)
 
   result <-
@@ -53,6 +62,7 @@ ifr_cochran_qtest.default <- function(data, ...) {
       df     = k$df,
       n      = k$n,
       pvalue = k$pvalue,
+      pvalue_raw = k$pvalue_raw,
       q      = k$q)
 
   class(result) <- "ifr_cochran_qtest"
@@ -231,6 +241,7 @@ cochran_comp <- function(data) {
   list(df     = df,
        n      = n,
        pvalue = round(pvalue, 4),
+       pvalue_raw = pvalue,
        q      = q)
 
 }

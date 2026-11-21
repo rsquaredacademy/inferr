@@ -5,6 +5,14 @@
 #' @param data a \code{data.frame} or \code{tibble}
 #' @param x factor; column in \code{data}
 #' @param y factor; column in \code{data}
+#' @details Supported inputs: finite non-negative integer counts with absolute
+#' value \code{<= 1e150} and sample sizes \code{<= 1e15}. A matrix (or table)
+#' must be exactly 2 x 2. Both variables in a data frame must have exactly two
+#' levels. Missing pairs are removed by \code{table()}. A table with no
+#' observations is rejected. When there are no discordant pairs the statistic
+#' is 0 and all p-values are 1. The statistic and p-values are stored to four
+#' decimal places; unrounded values are retained in \code{*_raw} fields and
+#' printed as bounds when they are below the display resolution.
 #'
 #' @return \code{ifr_mcnemar_test} returns an object of class \code{"ifr_mcnemar_test"}.
 #' An object of class \code{"ifr_mcnemar_test"} is a list containing the
@@ -16,6 +24,9 @@
 #' \item{exactp}{exact p-value}
 #' \item{cstat}{continuity correction chi square statistic}
 #' \item{cpvalue}{continuity correction p-value}
+#' \item{pvalue_raw}{unrounded p-value}
+#' \item{cpvalue_raw}{unrounded continuity correction p-value}
+#' \item{exactp_raw}{unrounded exact p-value}
 #' \item{kappa}{kappa coefficient; measure of interrater agreement}
 #' \item{std_err}{asymptotic standard error}
 #' \item{kappa_cil}{95\% kappa lower confidence limit}
@@ -72,6 +83,14 @@ ifr_mcnemar_test.default <- function(data, x = NULL, y = NULL) {
 
   }
 
+  if (sum(dat) <= 0) {
+    stop("data must contain at least one observation", call. = FALSE)
+  }
+
+  if (sum(dat) > 1e15) {
+    stop("total count must be <= 1e15", call. = FALSE)
+  }
+
   k <- mccomp(dat)
 
   result <-
@@ -86,6 +105,9 @@ ifr_mcnemar_test.default <- function(data, x = NULL, y = NULL) {
          kappa_ciu = k$kappa_ciu,
          odratio   = k$odratio,
          pvalue    = k$pvalue,
+         pvalue_raw = k$pvalue_raw,
+         exactp_raw = k$exactp_raw,
+         cpvalue_raw = k$cpvalue_raw,
          ratio     = k$ratio,
          statistic = k$statistic,
          std_err   = k$std_err,
@@ -115,11 +137,14 @@ mcdata <- function(x, y) {
   }
 
   if (is.matrix(x)) {
-    if (length(x) != 4) {
-      stop("x must be a 2 x 2 matrix", call. = FALSE)
+    if (!all(dim(x) == 2)) {
+      stop("data must be a 2 x 2 matrix", call. = FALSE)
     }
     if (any(!is.finite(x)) || any(x < 0)) {
       stop("data must contain non-negative counts", call. = FALSE)
+    }
+    if (any(x != round(x))) {
+      stop("data must contain non-negative integer counts", call. = FALSE)
     }
   }
 
@@ -258,11 +283,14 @@ mccomp <- function(dat) {
        cstat     = cstat,
        df        = df,
        exactp    = round(exactp, 4),
+       exactp_raw = exactp,
        kappa     = round(kappa, 4),
        kappa_cil = round(clu$ci_lower, 4),
        kappa_ciu = round(clu$ci_upper, 4),
        odratio   = round(k$odds_ratio, 4),
        pvalue    = round(pvalue, 4),
+       pvalue_raw = pvalue,
+       cpvalue_raw = cpvalue,
        ratio     = round(k$ratio, 4),
        statistic = round(test_stat, 4),
        std_err   = round(std_err, 4))

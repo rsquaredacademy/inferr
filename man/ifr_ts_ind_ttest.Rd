@@ -55,16 +55,24 @@ confidence limit of mean of \code{y}}
 \item{df_satterthwaite}{degrees of freedom for the Satterthwaite method}
 \item{t_pooled}{t statistic for the pooled method}
 \item{t_satterthwaite}{t statistic for the Satterthwaite method}
-\item{sig_pooled}{two-sided p-value for the pooled method}
+\item{sig_pooled}{two-sided p-value for the pooled method, stored to four decimal places}
 \item{sig_pooled_l}{lower one-sided p-value for the pooled method}
 \item{sig_pooled_u}{upper one-sided p-value for the pooled method}
-\item{sig}{two-sided p-value for the Satterthwaite method}
+\item{sig_pooled_raw}{unrounded two-sided p-value for the pooled method}
+\item{sig_pooled_l_raw}{unrounded lower one-sided p-value for the pooled method}
+\item{sig_pooled_u_raw}{unrounded upper one-sided p-value for the pooled method}
+\item{sig}{two-sided p-value for the Satterthwaite method, stored to four decimal places}
 \item{sig_l}{lower one-sided p-value for the Satterthwaite method}
 \item{sig_u}{upper one-sided p-value for the Satterthwaite method}
+\item{sig_raw}{unrounded two-sided p-value for the Satterthwaite method}
+\item{sig_l_raw}{unrounded lower one-sided p-value for the Satterthwaite method}
+\item{sig_u_raw}{unrounded upper one-sided p-value for the Satterthwaite method}
 \item{num_df}{numerator degrees of freedom for folded f test}
 \item{den_df}{denominator degrees of freedom for folded f test}
-\item{f}{f value for the equality of variances test}
-\item{f_sig}{p-value for the folded f test}
+\item{f}{f value for the equality of variances test, stored to four decimal places}
+\item{f_raw}{unrounded f value for the equality of variances test}
+\item{f_sig}{p-value for the folded f test, stored to four decimal places}
+\item{f_sig_raw}{unrounded p-value for the folded f test}
 \item{var_y}{name of \code{y}}
 \item{confint}{confidence level}
 \item{alternative}{alternative hypothesis}
@@ -73,6 +81,21 @@ confidence limit of mean of \code{y}}
 \code{ifr_ts_ind_ttest} compares the means of two independent groups in order to determine whether
 there is statistical evidence that the associated population means are significantly different.
 Rows with missing values in \code{x} or \code{y} are removed.
+}
+\details{
+Supported inputs: finite data with absolute value \code{<= 1e150}
+and sample sizes \code{<= 1e15}. Rows with missing values in \code{x} or
+\code{y} are removed, and each group must retain at least two observations.
+The Satterthwaite degrees of freedom are calculated from scaled variances,
+so large finite data do not overflow the intermediate squares, and are
+stored unrounded and printed to two decimals.
+
+Two-sided p-values are selected from the unrounded lower and upper tails and
+capped at one, so a returned p-value always lies in \code{[0, 1]}. p-values
+are stored to four decimal places and unrounded in \code{*_raw} fields;
+underflowed values are printed as bounds. The folded-F variance row is
+printed from \code{f_sig_raw} and \code{f_raw}, so a positive tail below the
+display resolution is not shown as zero.
 }
 \section{Deprecated Function}{
 

@@ -4,12 +4,33 @@
 #' @param data a \code{data.frame} or \code{tibble}
 #' @param x factor; column in \code{data}
 #' @param y finite, non-negative expected counts or proportions, in the order
-#' of the levels of \code{x}; proportions must sum to one
+#' of the declared non-missing levels of \code{x}; see Details for the
+#' count/proportion rule
 #' @param correct logical; if TRUE continuity correction is applied
-#' @details A zero expected cell with a positive observed count is rejected
-#' with an error identifying its position and category. The chi-square
-#' statistic and p-value are stored to four decimal places; the p-value is
-#' computed from the unrounded statistic.
+#' @details Supported inputs: at least two declared non-missing categories,
+#' finite non-negative expected values with absolute value \code{<= 1e150},
+#' and sample sizes \code{<= 1e15}. Missing observations in \code{x} (including
+#' values stored in an explicit \code{NA} factor level) are removed with a
+#' message. The explicit \code{NA} level is dropped, but every other declared
+#' level is retained even when it is unobserved, because it is part of the
+#' hypothesis.
+#'
+#' Expected values in \code{y} must have one entry per retained level. They are
+#' treated as proportions when they sum to one within a small tolerance, or
+#' when every value is one (the equal-proportions shorthand). Otherwise they
+#' are counts and must sum to the sample size. The tolerance for a proportion
+#' total is relative to that total, not to the sample size, so a vector such as
+#' \code{c(.5, .501)} is rejected instead of being accepted as proportions. A
+#' zero expected count is always rejected with an error identifying its
+#' position and category, because the statistic and its standardized residuals
+#' are undefined for that cell. A factor with only one retained category is
+#' rejected because a goodness-of-fit test with zero degrees of freedom does
+#' not exist.
+#'
+#' The chi-square statistic is stored to four decimal places. The p-value is
+#' stored unrounded in \code{pvalue_raw} and to four decimal places in
+#' \code{pvalue}; it is printed as a bound when it is below the display
+#' resolution.
 #' @return \code{ifr_chisq_gof_test} returns an object of class
 #' \code{"ifr_chisq_gof_test"}. An object of class \code{"ifr_chisq_gof_test"}
 #' is a list containing the following components:
@@ -21,7 +42,8 @@
 #' \item{expected_frequency}{expected frequency/proportion}
 #' \item{n_levels}{number of levels of \code{x}}
 #' \item{observed_frequency}{observed frequency/proportion}
-#' \item{pvalue}{p-value}
+#' \item{pvalue}{p-value, stored to four decimal places}
+#' \item{pvalue_raw}{unrounded p-value}
 #' \item{sample_size}{number of observations}
 #' \item{std_residuals}{standardized residuals}
 #' \item{varname}{name of categorical variable}
@@ -52,12 +74,47 @@ ifr_chisq_gof_test.default <- function(data, x, y, correct = FALSE) {
 
   x1     <- deparse(substitute(x))
   xcheck <- data[[x1]]
-  xone   <- as.vector(table(data[[x1]]))
-  xlen   <- sum(xone)
 
   if (!is.factor(xcheck)) {
     stop("x must be an object of class factor", call. = FALSE)
   }
+
+  # an explicit NA factor level is stored as a level code, so is.na() does not
+  # see it; detect that level as well as ordinary missing values
+  na_levels <- which(is.na(levels(xcheck)))
+  missing_x <- is.na(xcheck)
+  if (length(na_levels) > 0L) {
+    missing_x <- missing_x | as.integer(xcheck) %in% na_levels
+  }
+
+  if (any(missing_x)) {
+    n_missing <- sum(missing_x)
+    message("removing ", n_missing, " observation(s) with missing '", x1, "'")
+    xcheck <- xcheck[!missing_x]
+  }
+
+  # drop only the explicit NA level; declared but unobserved non-NA levels are
+  # part of the hypothesis and must be retained
+  if (length(na_levels) > 0L) {
+    keep_levels <- levels(xcheck)[!is.na(levels(xcheck))]
+    xcheck      <- factor(as.character(xcheck), levels = keep_levels)
+  }
+
+  if (length(xcheck) < 1L) {
+    stop("x must contain at least one non-missing observation", call. = FALSE)
+  }
+
+  xone   <- as.vector(table(xcheck))
+  xlen   <- sum(xone)
+  n      <- length(xone)
+
+  if (n < 2L) {
+    stop(paste0("the chi-square goodness-of-fit test requires at least two ",
+                "categories with positive expected values"),
+         call. = FALSE)
+  }
+
+  check_max_sample_size(xlen, "sample size")
 
   if (!is.numeric(y)) {
     stop("y must be numeric", call. = FALSE)
@@ -65,6 +122,11 @@ ifr_chisq_gof_test.default <- function(data, x, y, correct = FALSE) {
 
   if (any(!is.finite(y)) || any(y < 0)) {
     stop("y must contain non-negative expected counts or proportions",
+         call. = FALSE)
+  }
+
+  if (any(y > 1e150)) {
+    stop("expected values in y must have absolute value <= 1e150",
          call. = FALSE)
   }
 
@@ -78,25 +140,42 @@ ifr_chisq_gof_test.default <- function(data, x, y, correct = FALSE) {
   }
 
   varname <- names(data[x1])
-  n       <- length(xone)
   df      <- n - 1
 
   if (length(y) != n) {
-    stop("Length of y must be equal to the number of categories in x",
+    stop(paste0("Length of y must be equal to the number of categories in x ",
+                "after removing missing observations"),
          call. = FALSE)
   }
 
-  if (sum(y) == 1) {
-    y <- xlen * y
+  # expected values are counts unless they sum to one, in which case they are
+  # proportions; a vector of ones is the equal-proportions shorthand. A count
+  # vector must total the observed sample size. Proportions and counts use
+  # separate tolerances so a proportion total is never compared on the scale of
+  # the sample size.
+  y_sum <- sum(y)
+
+  if (!is.finite(y_sum)) {
+    stop("the sum of expected values in y must be finite", call. = FALSE)
   }
 
-  zero_expected <- which(y == 0 & xone > 0)
+  tol_prop  <- sqrt(.Machine$double.eps) * max(1, abs(y_sum))
+  tol_count <- sqrt(.Machine$double.eps) * max(1, abs(xlen), abs(y_sum))
+
+  if (abs(y_sum - 1) <= tol_prop || all(y == 1)) {
+    y <- xlen * (y / y_sum)
+  } else if (abs(y_sum - xlen) > tol_count) {
+    stop(paste0("expected counts in y must sum to the sample size (",
+                xlen, "); expected values in y are counts unless they sum to 1"),
+         call. = FALSE)
+  }
+
+  zero_expected <- which(y == 0)
   if (length(zero_expected) > 0) {
     cell <- zero_expected[1]
     stop(paste0("y[", cell, "] for category '", levels(xcheck)[cell],
                 "' of '", x1,
-                "' is zero but its observed count is positive; ",
-                "the chi-square goodness-of-fit test is undefined"),
+                "' is zero; the chi-square goodness-of-fit test is undefined"),
          call. = FALSE)
   }
 
@@ -106,7 +185,7 @@ ifr_chisq_gof_test.default <- function(data, x, y, correct = FALSE) {
     k <- chigof(xone, y)
   }
 
-  sig <- round(pchisq(k$raw, df, lower.tail = FALSE), 4)
+  sig <- pchisq(k$raw, df, lower.tail = FALSE)
 
   result <-
     list(
@@ -117,7 +196,8 @@ ifr_chisq_gof_test.default <- function(data, x, y, correct = FALSE) {
       expected_frequency = y,
       n_levels           = nlevels(xcheck),
       observed_frequency = xone,
-      pvalue             = sig,
+      pvalue             = round(sig, 4),
+      pvalue_raw         = sig,
       sample_size        = xlen,
       std_residuals      = format(k$std, nsmall = 2),
       varname            = varname

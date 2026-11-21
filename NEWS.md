@@ -2,18 +2,73 @@
 
 ## Bug Fixes
 
-- `ifr_oneway_anova()` now uses a purely relative constant-response guard
-  (`SD <= 1e-12 * mean(abs(x))`), accepting real spread at small response
-  scales while still rejecting constants and floating-point noise. F remains
-  stored to three decimals, with p computed from the unrounded statistic.
-- The two-sample proportion tests now error when both sample proportions
-  are zero or both are one, naming `p1` and `p2`, because the pooled z test
-  is undefined. Other proportions in `[0, 1]` remain supported with positive
+- P-values are no longer printed as exact zero in the proportion tests, ANOVA,
+  t tests, variance tests, chi-square tests or McNemar test. The unrounded
+  p-value is retained in the returned object (for example `sig_raw` or
+  `pvalue_raw`) and values below the printer's resolution are printed as a
+  bound such as `< 0.0001`.
+- `ifr_chisq_gof_test()` now rejects any zero expected count, including a
+  zero/zero cell, with an error naming the cell and category. Expected values
+  are proportions when they sum to one or are all one, and counts otherwise;
+  counts must total the sample size. A proportion total is checked on its own
+  scale, so `c(.5, .501)` is rejected, and a non-finite or oversized sum is
+  rejected before any total comparison. A factor with only one retained
+  category is rejected because the test has zero degrees of freedom.
+- `ifr_chisq_gof_test()` now removes missing observations and an explicit `NA`
+  factor level only, retaining every other declared level, including an
+  unused non-NA category, so the hypothesis is not silently changed.
+- The touched interfaces now document and enforce their supported domains:
+  finite data with absolute value `<= 1e150` where a numeric response is used,
+  and sample sizes `<= 1e15`. Inputs outside those limits, and non-finite
+  computed moments, stop with an error naming the argument or response. The
+  ANOVA sums of squares additionally stop if a positive value underflows at
+  the response scale instead of returning zero.
+- The two-sample proportion tests error when both sample proportions are zero
+  or both are one, naming `p1` and `p2`, because the pooled z test is
+  undefined. Other proportions in `[0, 1]` remain supported with positive
   integer sample sizes; z and p remain stored to three decimals.
-- `ifr_chisq_gof_test()` now errors when an expected cell is zero but its
-  observed count is positive, naming the cell and category. Expected values
-  must be finite, non-negative counts or proportions; chi-square and p remain
-  stored to four decimals.
+- `ifr_oneway_anova()` now uses a purely relative constant-response guard
+  (`SD <= 1e-12 * mean(abs(x))`), computed from a scaled response so tiny or
+  large finite responses do not underflow or overflow. Ordinary results are
+  unchanged.
+- `ifr_chisq_gof_test()` drops missing observations, including an explicit
+  `NA` factor level, with a message before tabulating.
+- `ifr_mcnemar_test()` now requires an exact 2 x 2 table of non-negative
+  integer counts and rejects an empty table, instead of failing later or
+  returning a meaningless result.
+- `ifr_os_var_test()` requires at least two non-missing observations and
+  `ifr_ts_paired_ttest()` requires at least two complete pairs, with clear
+  errors. Correlation significance is reported as `NA` when fewer than three
+  pairs remain.
+- `ifr_ts_prop_test()` now rejects an empty sample after removing missing
+  values, naming `var1` or `var2`.
+- `ifr_ts_paired_ttest()` no longer rejects a valid paired t test because an
+  ancillary correlation is undefined. With a constant column the correlation
+  and its significance print as `NA`, while t, degrees of freedom and the
+  p-value are still computed. Two-pair objects print completely instead of
+  failing on an `NA` column width.
+- `ifr_ts_ind_ttest()` selects the two-sided p-value from the unrounded tails
+  and caps it at one, so stored two-sided p-values and `*_raw` fields stay in
+  `[0, 1]`. Its Satterthwaite degrees of freedom are calculated from scaled
+  variances, so large finite data no longer overflow.
+- `ifr_os_var_test()` computes the standard deviation from a scaled sample for
+  extremely small data, and its confidence limits from `sigma * sqrt(df / q)`,
+  so the chi-square statistic and p-value are scale invariant. The rounded
+  chi-square statistic is retained unrounded in `chi_raw` for honest p-value
+  bounds.
+- `ifr_ts_prop_test()`, `ifr_ts_prop_group()`, `ifr_ts_prop_calc()` and
+  `ifr_os_prop_test()` use a factored square root for subnormal probabilities
+  and a stable pooled complement near one, so tiny or near-one proportions no
+  longer produce an infinite z or a false zero p-value. The unrounded z is
+  retained in `z_raw`. A one-sample percentage deviation beyond the largest
+  double prints as `> 1e308` or `< -1e308` instead of `Inf`.
+- ANOVA and the folded-F row of `ifr_ts_ind_ttest()`, the one-sample variance
+  printer and the two-sample variance printer now use their unrounded
+  statistics to print an underflowed positive p-value as a bound; they no
+  longer display `0.0000` or `0`.
+- The newly added raw p-value fields are documented on the help pages for the
+  association, Cochran, Levene and two-sample variance tests, together with the
+  actual precision and degenerate-case handling of every touched interface.
 - `ifr_oneway_anova()` now stops with an error naming the response when the
   response has no variation, instead of returning a `NaN` F statistic and a
   spurious R-squared from floating-point noise.
@@ -21,8 +76,8 @@
   not greater than zero, and `ifr_os_var_test()`, `ifr_ts_ind_ttest()` and
   `ifr_ts_paired_ttest()` now reject a confidence level outside `(0, 1)`.
   `ifr_os_t_test()` uses the same validation for `alpha`.
-- `ifr_ts_prop_calc()` now rejects non-positive or non-integer sample sizes and
-  proportions outside `[0, 1]`; `ifr_chisq_gof_test()` and
+- `ifr_ts_prop_calc()` now rejects non-positive, non-integer or oversized
+  sample sizes and proportions outside `[0, 1]`; `ifr_chisq_gof_test()` and
   `ifr_mcnemar_test()` now reject negative counts.
 - `ifr_ts_ind_ttest()` now stores the Satterthwaite degrees of freedom
   unrounded and prints them with two decimals.

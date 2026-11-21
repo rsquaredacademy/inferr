@@ -9,6 +9,21 @@
 #' @param alternative a character string specifying the alternative hypothesis,
 #' must be one of "both" (default), "greater", "less" or "all". You can specify
 #' just the initial letter.
+#' @details Supported inputs: finite data with absolute value \code{<= 1e150}
+#' and sample sizes \code{<= 1e15}. The calculator requires a positive integer
+#' sample size no greater than \code{1e15}, a null probability strictly inside
+#' \code{(0, 1)}, and an observed proportion in \code{[0, 1]}. Missing values in
+#' a factor variable are removed and at least one observation must remain.
+#'
+#' The standard error is computed with the direct expression for ordinary null
+#' probabilities and with a factored square root when the null probability is
+#' subnormal, so the z statistic stays finite near the smallest positive
+#' doubles. The z statistic is stored to four decimal places and unrounded in
+#' \code{z_raw}. p-values are stored to four decimal places and unrounded in
+#' \code{sig_raw}; they are printed as bounds when they are below the display
+#' resolution. A percentage deviation whose magnitude exceeds the largest
+#' double is printed as \code{> 1e308} or \code{< -1e308} instead of
+#' \code{Inf}.
 #'
 #' @return \code{ifr_os_prop_test} returns an object of class \code{"ifr_os_prop_test"}.
 #' An object of class \code{"ifr_os_prop_test"} is a list containing the
@@ -17,8 +32,10 @@
 #' \item{n}{number of observations}
 #' \item{phat}{proportion of 1's}
 #' \item{p}{assumed probability of success}
-#' \item{z}{z statistic}
-#' \item{sig}{p-value for z statistic}
+#' \item{z}{z statistic, stored to four decimal places}
+#' \item{z_raw}{unrounded z statistic}
+#' \item{sig}{p-value for z statistic, stored to four decimal places}
+#' \item{sig_raw}{unrounded p-value for z statistic}
 #' \item{alt}{alternative hypothesis}
 #' \item{obs}{observed number of 0's and 1's}
 #' \item{exp}{expected number of 0's and 1's}
@@ -62,6 +79,9 @@ ifr_os_prop_test.default <- function(data, variable = NULL, prob = 0.5, phat = 0
         data != round(data)) {
       stop("n must be a positive integer", call. = FALSE)
     }
+    if (data > 1e15) {
+      stop("n must be a positive integer no greater than 1e15", call. = FALSE)
+    }
     if (!is.numeric(phat) || length(phat) != 1 || !is.finite(phat) ||
         phat < 0 || phat > 1) {
       stop("phat must be between 0 and 1", call. = FALSE)
@@ -80,6 +100,7 @@ ifr_os_prop_test.default <- function(data, variable = NULL, prob = 0.5, phat = 0
     if (n1 < 1) {
       stop("variable must contain at least one non-missing value", call. = FALSE)
     }
+    check_max_sample_size(n1, "sample size")
     n2        <- table(fdata)[[2]]
     phat      <- n2 / n1
     prob      <- prob
@@ -98,8 +119,10 @@ ifr_os_prop_test.default <- function(data, variable = NULL, prob = 0.5, phat = 0
          p         = k$p,
          phat      = k$phat,
          sig       = k$sig,
+         sig_raw   = k$sig_raw,
          std       = k$std,
-         z         = k$z)
+         z         = k$z,
+         z_raw     = k$z_raw)
 
   class(result) <- "ifr_os_prop_test"
   return(result)
@@ -135,13 +158,23 @@ prop_comp <- function(n, prob, alternative, phat, obs = NULL) {
   exp  <- n * c(q, p)
   dif  <- obs - exp
   dev  <- round((dif / exp) * 100, 2)
+  dev_chr <- format(dev, nsmall = 2)
+  overflow <- which(!is.na(dev) & !is.finite(dev))
+  for (i in overflow) {
+    dev_chr[i] <-
+      if (is.finite(dif[i]) && is.finite(exp[i]) && exp[i] > 0) {
+        if (dif[i] > 0) "> 1e308" else "< -1e308"
+      } else {
+        as.character(dev[i])
+      }
+  }
+  dev_chr[is.na(dev)] <- "NA"
   std  <- round(dif / sqrt(exp), 2)
-  num  <- phat - prob
-  den  <- sqrt((p * q) / n)
-  z    <- num / den
-  lt   <- round(pnorm(z), 4)
-  ut   <- round(pnorm(z, lower.tail = FALSE), 4)
-  tt   <- round((pnorm(abs(z), lower.tail = FALSE)) * 2, 4)
+  z    <- prop_z_1sample(n, p, phat)
+  lt   <- pnorm(z)
+  ut   <- pnorm(z, lower.tail = FALSE)
+  tt   <- pmin(1, pnorm(abs(z), lower.tail = FALSE) * 2)
+  z_raw <- z
   z    <- round(z, 4)
   alt  <- alternative
 
@@ -157,15 +190,17 @@ prop_comp <- function(n, prob, alternative, phat, obs = NULL) {
 
   out <-
     list(alt       = alt,
-         deviation = format(dev, nsmall = 2),
+         deviation = dev_chr,
          exp       = exp,
          n         = n,
          obs       = obs,
          p         = prob,
          phat      = phat,
-         sig       = sig,
+         sig       = round(sig, 4),
+         sig_raw   = sig,
          std       = format(std, nsmall = 2),
-         z         = z)
+         z         = z,
+         z_raw     = z_raw)
 
   return(out)
 }

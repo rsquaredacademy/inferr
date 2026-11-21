@@ -19,13 +19,22 @@ is a list containing the following components:
 
 \item{df}{degrees of freedom}
 \item{n}{number of observations}
-\item{pvalue}{p value}
+\item{pvalue}{p value, stored to four decimal places}
+\item{pvalue_raw}{unrounded p value}
 \item{q}{Cochran's Q statistic}
 }
 \description{
 Test if the proportions of 3 or more dichotomous variables are
 equal in the same population. Rows with a missing value in any of the
 specified variables are removed before the test is computed.
+}
+\details{
+Supported inputs: at least three binary variables, at least two
+complete observations, and a sample size \code{<= 1e15}. A row is used only
+when every specified variable is observed. The Q statistic is stored
+unrounded. The p-value is stored to four decimal places in \code{pvalue}
+and unrounded in \code{pvalue_raw}; an underflowed positive tail is printed
+as a bound rather than as an exact zero.
 }
 \section{Deprecated Function}{
 

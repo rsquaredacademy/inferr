@@ -28,9 +28,12 @@ just the initial letter.}
 An object of class \code{"ifr_ts_var_test"} is a list containing the
 following components:
 
-\item{f}{f statistic}
-\item{lower}{lower one-sided p-value}
-\item{upper}{upper one-sided p-value}
+\item{f}{f statistic, stored to four decimal places}
+\item{f_raw}{unrounded f statistic}
+\item{lower}{lower one-sided p-value, stored to four decimal places}
+\item{lower_raw}{unrounded lower one-sided p-value}
+\item{upper}{upper one-sided p-value, stored to four decimal places}
+\item{upper_raw}{unrounded upper one-sided p-value}
 \item{two_tail}{two-sided p-value}
 \item{vars}{variances for each level of the grouping variable}
 \item{avgs}{means for each level of the grouping variable}
@@ -49,6 +52,22 @@ following components:
 \description{
 \code{ifr_ts_var_test} performs tests on the equality of standard
 deviations (variances). Observations with missing values are removed.
+}
+\details{
+Supported inputs: finite data with absolute value \code{<= 1e150}
+and sample sizes \code{<= 1e15}. Missing values are removed. Exactly two
+variables, or one variable and a two-level grouping variable, are required.
+A constant group is a boundary case, not an error: when exactly one group is
+constant and the other has a positive, finite variance, the F statistic is
+returned as \code{0} or \code{Inf} with matching tail probabilities, as in
+\code{\link[stats]{var.test}}. Both groups constant is undefined and stops
+with a clear error; so does a non-constant group whose variance is not
+positive and finite (for example a variance too small to represent). The F
+statistic is stored to four decimal places and unrounded in
+\code{f_raw}; the variances and group statistics are rounded for display.
+One-sided p-values are stored to four decimal places and unrounded in
+\code{lower_raw} and \code{upper_raw}; an underflowed positive tail is
+printed as a bound using \code{f_raw}, not the rounded statistic.
 }
 \section{Deprecated Function}{
 

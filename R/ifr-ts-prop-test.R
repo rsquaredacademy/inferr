@@ -19,13 +19,23 @@
 #' must be one of "both" (default), "greater", "less" or "all". You can specify
 #' just the initial letter
 #' @param ... additional arguments passed to or from other methods
-#' @details In \code{ifr_ts_prop_calc()}, sample sizes must be positive
-#' integers and proportions must be finite values in \code{[0, 1]}.
+#' @details Supported inputs: finite data with absolute value \code{<= 1e150}
+#' and sample sizes \code{<= 1e15}. In \code{ifr_ts_prop_calc()}, sample sizes
+#' must be positive integers no greater than \code{1e15} and proportions must
+#' be finite values in \code{[0, 1]}. Observations with missing values are
+#' removed; each sample must retain at least one observation.
 #' All three entry points reject samples whose proportions are both zero or
 #' both one, because the pooled z test then has zero standard error and is
 #' undefined. A single boundary proportion or opposite boundary proportions
-#' are allowed. The z statistic and p-values are stored to three decimal
-#' places; p-values are computed from the unrounded statistic.
+#' are allowed.
+#'
+#' The pooled standard error is computed with the direct pooled-variance
+#' expression for ordinary proportions and with a factored square root when
+#' that product would underflow, so probabilities near zero and near one remain
+#' finite rather than producing an infinite z. The z statistic is stored to
+#' three decimal places and unrounded in \code{z_raw}. p-values are stored to
+#' three decimal places and unrounded in \code{sig_raw}; they are printed as
+#' bounds when they are below the display resolution.
 #'
 #' @return an object of class \code{"ifr_ts_prop_test"}.
 #' An object of class \code{"ifr_ts_prop_test"} is a list containing the
@@ -35,8 +45,10 @@
 #' \item{n2}{sample 2 size}
 #' \item{phat1}{sample 1 proportion}
 #' \item{phat2}{sample 2 proportion}
-#' \item{z}{z statistic}
-#' \item{sig}{p-value for z statistic}
+#' \item{z}{z statistic, stored to three decimal places}
+#' \item{z_raw}{unrounded z statistic}
+#' \item{sig}{p-value for z statistic, stored to three decimal places}
+#' \item{sig_raw}{unrounded p-value for z statistic}
 #' \item{alt}{alternative hypothesis}
 #'
 #' @section Deprecated Functions:
@@ -93,7 +105,9 @@ ifr_ts_prop_test.default <- function(data, var1, var2,
          phat1 = k$phat1,
          phat2 = k$phat2,
          sig   = k$sig,
-         z     = k$z)
+         sig_raw = k$sig_raw,
+         z     = k$z,
+         z_raw = k$z_raw)
 
   class(result) <- "ifr_ts_prop_test"
   return(result)
@@ -173,22 +187,19 @@ ifr_ts_prop_group <- function(data, var, group,
   n     <- as.vector(table(groupone))
   n1    <- n[1]
   n2    <- n[2]
+  check_max_sample_size(n1, "n1")
+  check_max_sample_size(n2, "n2")
   y1    <- sum(varone[groupone == groups[1]] == success)
   y2    <- sum(varone[groupone == groups[2]] == success)
   phat1 <- y1 / n1
   phat2 <- y2 / n2
   check_ts_prop_boundary(phat1, phat2)
-  phat  <- sum(y1, y2) / sum(n1, n2)
-  num   <- (phat1 - phat2)
-  den1  <- phat * (1 - phat)
-  den2  <- (1 / n1) + (1 / n2)
-  den   <- sqrt(den1 * den2)
-  z     <- num / den
+  z     <- prop_z_2sample(n1, n2, phat1, phat2)
 
 
   lt    <- pnorm(z)
   ut    <- pnorm(z, lower.tail = FALSE)
-  tt    <- pnorm(abs(z), lower.tail = FALSE) * 2
+  tt    <- pmin(1, pnorm(abs(z), lower.tail = FALSE) * 2)
 
   alt   <- match.arg(alternative)
 
@@ -209,7 +220,9 @@ ifr_ts_prop_group <- function(data, var, group,
          phat1 = phat1,
          phat2 = phat2,
          sig   = round(sig, 3),
-         z     = round(z, 3))
+         sig_raw = sig,
+         z     = round(z, 3),
+         z_raw = z)
 
   class(out) <- "ifr_ts_prop_test"
   return(out)
@@ -226,9 +239,17 @@ ifr_ts_prop_calc <- function(n1, n2, p1, p2,
     stop("n1 must be a positive integer", call. = FALSE)
   }
 
+  if (n1 > 1e15) {
+    stop("n1 must be a positive integer no greater than 1e15", call. = FALSE)
+  }
+
   if (!is.numeric(n2) || length(n2) != 1L || !is.finite(n2) ||
       n2 <= 0 || n2 != round(n2)) {
     stop("n2 must be a positive integer", call. = FALSE)
+  }
+
+  if (n2 > 1e15) {
+    stop("n2 must be a positive integer no greater than 1e15", call. = FALSE)
   }
 
   if (!is.numeric(p1) || length(p1) != 1L || !is.finite(p1) ||
@@ -246,16 +267,11 @@ ifr_ts_prop_calc <- function(n1, n2, p1, p2,
   phat1 <- p1
   phat2 <- p2
   check_ts_prop_boundary(phat1, phat2)
-  phat  <- sum(n1 * p1, n2 * p2) / sum(n1, n2)
-  num   <- (phat1 - phat2)
-  den1  <- phat * (1 - phat)
-  den2  <- (1 / n1) + (1 / n2)
-  den   <- sqrt(den1 * den2)
-  z     <- num / den
+  z     <- prop_z_2sample(n1, n2, phat1, phat2)
 
   lt    <- pnorm(z)
   ut    <- pnorm(z, lower.tail = FALSE)
-  tt    <- pnorm(abs(z), lower.tail = FALSE) * 2
+  tt    <- pmin(1, pnorm(abs(z), lower.tail = FALSE) * 2)
 
   alt   <- match.arg(alternative)
 
@@ -276,7 +292,9 @@ ifr_ts_prop_calc <- function(n1, n2, p1, p2,
          phat1 = round(phat1, 3),
          phat2 = round(phat2, 3),
          sig   = round(sig, 3),
-         z     = round(z, 3))
+         sig_raw = sig,
+         z     = round(z, 3),
+         z_raw = z)
 
   class(out) <- "ifr_ts_prop_test"
   return(out)
@@ -298,23 +316,31 @@ prop_comp2 <- function(var1, var2, alt) {
   var2  <- var2[!is.na(var2)]
   n1    <- length(var1)
   n2    <- length(var2)
+
+  if (n1 < 1) {
+    stop("var1 must contain at least one non-missing observation",
+         call. = FALSE)
+  }
+
+  if (n2 < 1) {
+    stop("var2 must contain at least one non-missing observation",
+         call. = FALSE)
+  }
+
+  check_max_sample_size(n1, "n1")
+  check_max_sample_size(n2, "n2")
+
   y1    <- table(var1)[[2]]
   y2    <- table(var2)[[2]]
 
   phat1 <- y1 / n1
   phat2 <- y2 / n2
   check_ts_prop_boundary(phat1, phat2)
-  phat  <- sum(y1, y2) / sum(n1, n2)
-
-  num   <- (phat1 - phat2)
-  den1  <- phat * (1 - phat)
-  den2  <- (1 / n1) + (1 / n2)
-  den   <- sqrt(den1 * den2)
-  z     <- num / den
+  z     <- prop_z_2sample(n1, n2, phat1, phat2)
 
   lt    <- pnorm(z)
   ut    <- pnorm(z, lower.tail = FALSE)
-  tt    <- pnorm(abs(z), lower.tail = FALSE) * 2
+  tt    <- pmin(1, pnorm(abs(z), lower.tail = FALSE) * 2)
 
   if (alt == "all") {
     sig <- c("two-tail" = tt, "lower-tail" = lt, "upper-tail" = ut)
@@ -331,6 +357,8 @@ prop_comp2 <- function(var1, var2, alt) {
        phat1 = round(phat1, 4),
        phat2 = round(phat2, 4),
        sig   = round(sig, 3),
-       z     = round(z, 3))
+       sig_raw = sig,
+       z     = round(z, 3),
+       z_raw = z)
 
 }

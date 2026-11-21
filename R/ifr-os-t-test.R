@@ -10,6 +10,11 @@
 #' one of "both" (default), "greater", "less" or "all". You can specify just the
 #' initial letter
 #' @param ... additional arguments passed to or from other methods
+#' @details Supported inputs: finite data with absolute value \code{<= 1e150}
+#' and sample sizes \code{<= 1e15}. At least two non-missing observations are
+#' required. Missing values are removed. The t statistic is stored to three
+#' decimal places; p-values are stored unrounded and printed as bounds when they
+#' are below the display resolution.
 #'
 #' @return \code{ifr_os_t_test} returns an object of class \code{"ifr_os_t_test"}.
 #' An object of class \code{"ifr_os_t_test"} is a list containing the
@@ -132,22 +137,30 @@ ttest_comp <- function(x, mu, alpha, type) {
     stop("at least two observations are required", call. = FALSE)
   }
 
+  check_finite_range(x, "x")
+  check_max_sample_size(n, "sample size")
+
   a         <- (alpha / 2)
   df        <- n - 1
   conf      <- 1 - alpha
   Mean      <- mean(x)
   stddev    <- sd(x)
 
-  if (!is.finite(stddev) || stddev <= 0) {
+  check_finite_moment(Mean, "mean", "x")
+  check_finite_moment(stddev, "standard deviation", "x")
+
+  if (stddev <= 0) {
     stop("data are essentially constant", call. = FALSE)
   }
 
   std_err <- stddev / sqrt(n)
 
+  check_finite_moment(std_err, "standard error", "x")
+
   # scale-aware constant-data check: compare the standard error with the
   # magnitude of the mean, as stats::t.test() does, rather than comparing a
   # dimensional variance with an absolute machine epsilon
-  if (!is.finite(std_err) || std_err <= 0 ||
+  if (std_err <= 0 ||
       std_err < 10 * .Machine$double.eps * abs(Mean)) {
     stop("data are essentially constant", call. = FALSE)
   }

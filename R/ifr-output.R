@@ -1,12 +1,20 @@
 print_owanova <- function(data) {
 
+  # keep the existing scientific display for representable small p-values;
+  # only an underflowed zero is replaced by a bound
+  p   <- format(data$pval, nsmall = 4)
+  if (length(data$pval) == 1L && !is.na(data$pval) && data$pval == 0 &&
+      is.finite(data$fstat) && data$fstat != 0) {
+    p <- "< 0.0001"
+  }
+
   # width
   w1  <- nchar("Between Groups")
   w2  <- max(nchar("Squares"), nchar(data$ss_between), nchar(data$ss_within), nchar(data$ss_total))
   w3  <- max(nchar("DF"), nchar(data$df_btw), nchar(data$df_btw), nchar(data$df_within), nchar(data$df_total))
   w4  <- max(nchar("Mean Square"), nchar(data$ms_btw), nchar(data$ms_within))
   w5  <- max(nchar("F"), nchar(data$fstat))
-  w6  <- max(nchar("Sig."), nchar(format(data$pval, nsmall = 4)))
+  w6  <- max(nchar("Sig."), nchar(p))
   w   <- sum(w1, w2, w3, w4, w5, w6, 21)
   w7  <- nchar(data$rmse)
 
@@ -18,7 +26,6 @@ print_owanova <- function(data) {
   w11 <- max(nchar("Std. Dev."), max(nchar(format(data$group_stats[[4]], nsmall = 3))))
   wr  <- sum(w8, w9, w10, w11, 13)
 
-  p   <- format(data$pval, nsmall = 4)
   q   <- nrow(data$group_stats)
   s   <- length(data$group_stats)
 
@@ -155,9 +162,9 @@ print_ttest <- function(data) {
   all_u    <- paste("Ha: mean >", as.character(data$mu))
   all_t    <- paste("Ha: mean ~=", as.character(data$mu))
 
-  char_p_l <- format(round(data$p_l, 5), nsmall = 5, scientific = FALSE)
-  char_p_u <- format(round(data$p_u, 5), nsmall = 5, scientific = FALSE)
-  char_p   <- format(round(data$p, 5), nsmall = 5, scientific = FALSE)
+  char_p_l <- format_p_bound(data$p_l, digits = 5, nsmall = 5, scientific = FALSE, statistic = data$test_stat)
+  char_p_u <- format_p_bound(data$p_u, digits = 5, nsmall = 5, scientific = FALSE, statistic = data$test_stat)
+  char_p   <- format_p_bound(data$p, digits = 5, nsmall = 5, scientific = FALSE, statistic = data$test_stat)
 
   all_p_l  <- paste("P < t =", char_p_l)
   all_p_t  <- paste("P > |t| =", char_p)
@@ -183,7 +190,7 @@ print_ttest <- function(data) {
   
   t_width     <- nchar(data$test_stat)
   df_width    <- max(nchar("DF"), nchar(data$df))
-  p_width     <- max(nchar("2 Tailed"), nchar(round(data$p, 5)))
+  p_width     <- max(nchar("2 Tailed"), nchar(char_p))
   md_width    <- max(nchar("Difference"), nchar(data$mean_diff))
   md_length   <- nchar(data$mean_diff_l) + nchar(data$mean_diff_u)
  
@@ -238,7 +245,7 @@ print_ttest <- function(data) {
       "\n", formatter_t(data$var_name, var_width), formats_t(),
       formatter_t(round(data$test_stat, 3), t_width), formats_t(),
       formatter_t(data$df, df_width), formats_t(),
-      formatter_t(format(round(data$p_l, 5), scientific = FALSE), p_width),
+      formatter_t(char_p_l, p_width),
       formats_t(), formatter_t(data$mean_diff, md_width), formats_t(),
       format_cil(round(data$mean_diff_l, 4), md_conf_width),
       format_ciu(round(data$mean_diff_u, 4), md_conf_width), "\n"
@@ -259,7 +266,7 @@ print_ttest <- function(data) {
       "\n", formatter_t(data$var_name, var_width), formats_t(),
       formatter_t(round(data$test_stat, 3), t_width), formats_t(),
       formatter_t(data$df, df_width), formats_t(),
-      formatter_t(format(round(data$p_u, 5), scientific = FALSE), p_width),
+      formatter_t(char_p_u, p_width),
       formats_t(), formatter_t(data$mean_diff, md_width), formats_t(),
       format_cil(round(data$mean_diff_l, 4), md_conf_width),
       format_ciu(round(data$mean_diff_u, 4), md_conf_width), "\n"
@@ -280,7 +287,7 @@ print_ttest <- function(data) {
       "\n", formatter_t(data$var_name, var_width), formats_t(),
       formatter_t(round(data$test_stat, 3), t_width), formats_t(),
       formatter_t(data$df, df_width), formats_t(),
-      formatter_t(format(round(data$p, 5), scientific = FALSE), p_width),
+      formatter_t(char_p, p_width),
       formats_t(), formatter_t(data$mean_diff, md_width), formats_t(),
       format_cil(round(data$mean_diff_l, 4), md_conf_width),
       format_ciu(round(data$mean_diff_u, 4), md_conf_width), "\n"
@@ -297,9 +304,10 @@ print_ttest <- function(data) {
 
 print_paired_ttest <- function(data) {
   
-  char_p_u     <- format(round(data$p_upper, 3), nsmall = 3, scientific = FALSE)
-  char_p_l     <- format(round(data$p_lower, 3), nsmall = 3, scientific = FALSE)
-  char_p       <- format(round(data$p_two_tail, 3), nsmall = 3, scientific = FALSE)
+  char_p_u     <- format_p_bound(data$p_upper, digits = 3, nsmall = 3, scientific = FALSE, statistic = data$tstat)
+  char_p_l     <- format_p_bound(data$p_lower, digits = 3, nsmall = 3, scientific = FALSE, statistic = data$tstat)
+  char_p       <- format_p_bound(data$p_two_tail, digits = 3, nsmall = 3, scientific = FALSE, statistic = data$tstat)
+  char_corsig  <- format_p_bound(data$corsig, data$corsig_raw, digits = 4, statistic = data$corr)
 
   # hypothesis heading
   hyp_null     <- paste0("Ho: mean(", data$var_names[1], " - ", data$var_names[2], ") = ", "0")
@@ -324,10 +332,10 @@ print_paired_ttest <- function(data) {
   se_width     <- max(nchar("Std. Err."), nchar(format(max(data$b[["se"]]), nsmall = 2)))
   sd_width     <- max(nchar("Std. Dev."), nchar(format(max(data$b[["sd"]]), nsmall = 2)))
   corr_width   <- nchar("Correlation")
-  corsig_width <- max(nchar("Sig."), nchar(data$corsig))
+  corsig_width <- max(nchar("Sig."), nchar(char_corsig))
   t_width      <- nchar(data$tstat)
   df_width     <- max(nchar("DF"), nchar(data$df))
-  p_width      <- max(nchar("Sig."), nchar(format(data$corsig, nsmall = 3)))
+  p_width      <- max(nchar("Sig."), nchar(char_p), nchar(char_corsig))
   conf_length  <- max(sum(nchar(data$conf_int1)), sum(nchar(data$conf_int2)))
   
   if (conf_length > 20) {
@@ -378,7 +386,7 @@ print_paired_ttest <- function(data) {
   )
   cat(
     "\n", formatter_pair(paste(data$var_names[1], "&", data$var_names[2]), var_width), formats_t(), formatter_pair(data$Obs, obs_width),
-    formats_t(), formatter_pair(data$corr, corr_width), formats_t(), format(data$corsig, corsig_width), "\n"
+    formats_t(), formatter_pair(data$corr, corr_width), formats_t(), format(char_corsig, corsig_width), "\n"
   )
   cat(rep("-", width_2), sep = "", "\n\n")
 
@@ -444,12 +452,15 @@ print_paired_ttest <- function(data) {
 
 
 print_two_ttest <- function(data) {
-  char_sig          <- format(round(data$sig, 4), nsmall = 4, scientific = FALSE)
-  char_sig_l        <- format(round(data$sig_l, 4), nsmall = 4, scientific = FALSE)
-  char_sig_u        <- format(round(data$sig_u, 4), nsmall = 4, scientific = FALSE)
-  char_sig_pooled   <- format(round(data$sig_pooled, 4), nsmall = 4, scientific = FALSE)
-  char_sig_pooled_l <- format(round(data$sig_pooled_l, 4), nsmall = 4, scientific = FALSE)
-  char_sig_pooled_u <- format(round(data$sig_pooled_u, 4), nsmall = 4, scientific = FALSE)
+  char_sig          <- format_p_bound(data$sig, data$sig_raw, digits = 4, nsmall = 4, scientific = FALSE, statistic = data$t_satterthwaite)
+  char_sig_l        <- format_p_bound(data$sig_l, data$sig_l_raw, digits = 4, nsmall = 4, scientific = FALSE, statistic = data$t_satterthwaite)
+  char_sig_u        <- format_p_bound(data$sig_u, data$sig_u_raw, digits = 4, nsmall = 4, scientific = FALSE, statistic = data$t_satterthwaite)
+  char_sig_pooled   <- format_p_bound(data$sig_pooled, data$sig_pooled_raw, digits = 4, nsmall = 4, scientific = FALSE, statistic = data$t_pooled)
+  char_sig_pooled_l <- format_p_bound(data$sig_pooled_l, data$sig_pooled_l_raw, digits = 4, nsmall = 4, scientific = FALSE, statistic = data$t_pooled)
+  char_sig_pooled_u <- format_p_bound(data$sig_pooled_u, data$sig_pooled_u_raw, digits = 4, nsmall = 4, scientific = FALSE, statistic = data$t_pooled)
+  char_f_sig        <- format_p_bound(data$f_sig, data$f_sig_raw, digits = 4,
+                                      nsmall = 4, scientific = FALSE,
+                                      statistic = data$f_raw)
 
   # hypothesis heading
   hyp_null  <- paste0("Ho: mean(", data$levels[1], ") - mean(", data$levels[2], ") = diff = ", "0")
@@ -484,7 +495,7 @@ print_two_ttest <- function(data) {
   )
   numdf_w     <- max(nchar("Num DF"), nchar(as.vector(data$num_df)), nchar(as.vector(data$den_df)))
   f_w         <- max(nchar("F Value"), nchar(as.vector(data$f)))
-  fp_w        <- max(nchar("P > F"), nchar(as.vector(data$f_sig)))
+  fp_w        <- max(nchar("P > F"), nchar(as.vector(char_f_sig)))
   conf_length <- nchar(data$lower[1]) + nchar(data$upper[1])
   
   if (conf_length > 20) {
@@ -639,7 +650,7 @@ print_two_ttest <- function(data) {
   cat(
     fw(data$var_y, w = grp_w), formats_t(), fw("Folded F", w = 8), formats_t(),
     fn(data$num_df, w = numdf_w), formats_t(), fn(data$den_df, w = numdf_w), formats_t(),
-    fn(data$f, w = f_w), formats_t(), fn(data$f_sig, w = fp_w), "\n"
+    fn(data$f, w = f_w), formats_t(), fn(char_f_sig, w = fp_w), "\n"
   )
   cat(rep("-", w3), sep = "")
 }
@@ -647,8 +658,10 @@ print_two_ttest <- function(data) {
 
 print_prop_test <- function(data) {
   
+  z_stat   <- if (is.null(data$z_raw)) data$z else data$z_raw
+  sig_disp <- format_p_bound(data$sig, data$sig_raw, digits = 4, statistic = z_stat)
   cwidth <- max(nchar("z"), nchar("DF"), nchar("Pr(|Z| > |z|)"), nchar("Sample Size"), nchar("phat"))
-  nwidth <- max(nchar(data$z), nchar(data$p0), nchar(data$sig[1]), nchar(data$n), nchar(data$phat))
+  nwidth <- max(nchar(data$z), nchar(data$p0), nchar(sig_disp), nchar(data$n), nchar(data$phat))
   w1     <- sum(cwidth, nwidth, 6)
   lw     <- max(nchar("Variable"), nchar(data$varname))
   ow     <- max(nchar("Observed"), nchar(data$n))
@@ -665,7 +678,7 @@ print_prop_test <- function(data) {
     cat(format("Exp Prop", width = cwidth, justify = "left"), formats(), format(data$p, width = nwidth, justify = "right"), "\n")
     cat(format("Obs Prop", width = cwidth, justify = "left"), formats(), format(data$phat, width = nwidth, justify = "right"), "\n")
     cat(format("z", width = cwidth, justify = "left"), formats(), format(data$z, width = nwidth, justify = "right"), "\n")
-    cat(format("Pr(Z < z)", width = cwidth, justify = "left"), formats(), format(data$sig, width = nwidth, justify = "right"), "\n\n")
+    cat(format("Pr(Z < z)", width = cwidth, justify = "left"), formats(), format(sig_disp, width = nwidth, justify = "right"), "\n\n")
   } else if (data$alt == "greater") {
     cat(format("Test Statistics", width = w1, justify = "centre"), "\n")
     cat(rep("-", w1), sep = "", "\n")
@@ -673,7 +686,7 @@ print_prop_test <- function(data) {
     cat(format("Exp Prop", width = cwidth, justify = "left"), formats(), format(data$p, width = nwidth, justify = "right"), "\n")
     cat(format("Obs Prop", width = cwidth, justify = "left"), formats(), format(data$phat, width = nwidth, justify = "right"), "\n")
     cat(format("z", width = cwidth, justify = "left"), formats(), format(data$z, width = nwidth, justify = "right"), "\n")
-    cat(format("Pr(Z > z)", width = cwidth, justify = "left"), formats(), format(data$sig, width = nwidth, justify = "right"), "\n\n")
+    cat(format("Pr(Z > z)", width = cwidth, justify = "left"), formats(), format(sig_disp, width = nwidth, justify = "right"), "\n\n")
   } else if (data$alt == "both") {
     cat(format("Test Statistics", width = w1, justify = "centre"), "\n")
     cat(rep("-", w1), sep = "", "\n")
@@ -681,7 +694,7 @@ print_prop_test <- function(data) {
     cat(format("Exp Prop", width = cwidth, justify = "left"), formats(), format(data$p, width = nwidth, justify = "right"), "\n")
     cat(format("Obs Prop", width = cwidth, justify = "left"), formats(), format(data$phat, width = nwidth, justify = "right"), "\n")
     cat(format("z", width = cwidth, justify = "left"), formats(), format(data$z, width = nwidth, justify = "right"), "\n")
-    cat(format("Pr(|Z| > |z|)", width = cwidth, justify = "left"), formats(), format(data$sig, width = nwidth, justify = "right"), "\n\n")
+    cat(format("Pr(|Z| > |z|)", width = cwidth, justify = "left"), formats(), format(sig_disp, width = nwidth, justify = "right"), "\n\n")
   } else {
     cat(format("Test Statistics", width = w1, justify = "centre"), "\n")
     cat(rep("-", w1), sep = "", "\n")
@@ -689,9 +702,9 @@ print_prop_test <- function(data) {
     cat(format("Exp Prop", width = cwidth, justify = "left"), formats(), format(data$p, width = nwidth, justify = "right"), "\n")
     cat(format("Obs Prop", width = cwidth, justify = "left"), formats(), format(data$phat, width = nwidth, justify = "right"), "\n")
     cat(format("z", width = cwidth, justify = "left"), formats(), format(data$z, width = nwidth, justify = "right"), "\n")
-    cat(format("Pr(|Z| > |z|)", width = cwidth, justify = "left"), formats(), format(unname(data$sig[1]), width = nwidth, justify = "right"), "\n")
-    cat(format("Pr(Z < z)", width = cwidth, justify = "left"), formats(), format(unname(data$sig[2]), width = nwidth, justify = "right"), "\n")
-    cat(format("Pr(Z > z)", width = cwidth, justify = "left"), formats(), format(unname(data$sig[3]), width = nwidth, justify = "right"), "\n\n")
+    cat(format("Pr(|Z| > |z|)", width = cwidth, justify = "left"), formats(), format(sig_disp[1], width = nwidth, justify = "right"), "\n")
+    cat(format("Pr(Z < z)", width = cwidth, justify = "left"), formats(), format(sig_disp[2], width = nwidth, justify = "right"), "\n")
+    cat(format("Pr(Z > z)", width = cwidth, justify = "left"), formats(), format(sig_disp[3], width = nwidth, justify = "right"), "\n\n")
   }
 
   cat(rep("-", w), sep = "", "\n")
@@ -708,8 +721,10 @@ print_prop_test <- function(data) {
 
 print_ts_prop_test <- function(data) {
   
+  z_stat   <- if (is.null(data$z_raw)) data$z else data$z_raw
+  sig_disp <- format_p_bound(data$sig, data$sig_raw, digits = 3, statistic = z_stat)
   cwidth <- max(nchar("z"), nchar("Pr(|Z| > |z|)"), nchar("Total Observations"))
-  nwidth <- max(nchar(data$z), nchar(data$sig[1]), nchar(data$n1), nchar(data$n2))
+  nwidth <- max(nchar(data$z), nchar(sig_disp), nchar(data$n1), nchar(data$n2))
   w1     <- sum(cwidth, nwidth, 6)
   totobs <- sum(data$n1, data$n2)
 
@@ -718,27 +733,27 @@ print_ts_prop_test <- function(data) {
     cat(rep("-", w1), sep = "", "\n")
     cat(format("Total Observations", width = cwidth, justify = "left"), formats(), format(totobs, width = nwidth, justify = "right"), "\n")
     cat(format("z", width = cwidth, justify = "left"), formats(), format(data$z, width = nwidth, justify = "right"), "\n")
-    cat(format("Pr(Z < z)", width = cwidth, justify = "left"), formats(), format(data$sig, width = nwidth, justify = "right"), "\n\n")
+    cat(format("Pr(Z < z)", width = cwidth, justify = "left"), formats(), format(sig_disp, width = nwidth, justify = "right"), "\n\n")
   } else if (data$alt == "greater") {
     cat(format("Test Statistics", width = w1, justify = "centre"), "\n")
     cat(rep("-", w1), sep = "", "\n")
     cat(format("Total Observations", width = cwidth, justify = "left"), formats(), format(totobs, width = nwidth, justify = "right"), "\n")
     cat(format("z", width = cwidth, justify = "left"), formats(), format(data$z, width = nwidth, justify = "right"), "\n")
-    cat(format("Pr(Z > z)", width = cwidth, justify = "left"), formats(), format(data$sig, width = nwidth, justify = "right"), "\n\n")
+    cat(format("Pr(Z > z)", width = cwidth, justify = "left"), formats(), format(sig_disp, width = nwidth, justify = "right"), "\n\n")
   } else if (data$alt == "both") {
     cat(format("Test Statistics", width = w1, justify = "centre"), "\n")
     cat(rep("-", w1), sep = "", "\n")
     cat(format("Total Observations", width = cwidth, justify = "left"), formats(), format(totobs, width = nwidth, justify = "right"), "\n")
     cat(format("z", width = cwidth, justify = "left"), formats(), format(data$z, width = nwidth, justify = "right"), "\n")
-    cat(format("Pr(|Z| > |z|)", width = cwidth, justify = "left"), formats(), format(data$sig, width = nwidth, justify = "right"), "\n\n")
+    cat(format("Pr(|Z| > |z|)", width = cwidth, justify = "left"), formats(), format(sig_disp, width = nwidth, justify = "right"), "\n\n")
   } else {
     cat(format("Test Statistics", width = w1, justify = "centre"), "\n")
     cat(rep("-", w1), sep = "", "\n")
     cat(format("Total Observations", width = cwidth, justify = "left"), formats(), format(totobs, width = nwidth, justify = "right"), "\n")
     cat(format("z", width = cwidth, justify = "left"), formats(), format(data$z, width = nwidth, justify = "right"), "\n")
-    cat(format("Pr(|Z| > |z|)", width = cwidth, justify = "left"), formats(), format(unname(data$sig[1]), width = nwidth, justify = "right"), "\n")
-    cat(format("Pr(Z < z)", width = cwidth, justify = "left"), formats(), format(unname(data$sig[2]), width = nwidth, justify = "right"), "\n")
-    cat(format("Pr(Z > z)", width = cwidth, justify = "left"), formats(), format(unname(data$sig[3]), width = nwidth, justify = "right"), "\n\n")
+    cat(format("Pr(|Z| > |z|)", width = cwidth, justify = "left"), formats(), format(sig_disp[1], width = nwidth, justify = "right"), "\n")
+    cat(format("Pr(Z < z)", width = cwidth, justify = "left"), formats(), format(sig_disp[2], width = nwidth, justify = "right"), "\n")
+    cat(format("Pr(Z > z)", width = cwidth, justify = "left"), formats(), format(sig_disp[3], width = nwidth, justify = "right"), "\n\n")
   }
 }
 
@@ -756,9 +771,10 @@ print_os_vartest <- function(data) {
   all_u    <- paste("Ha: sd >", as.character(data$sd))
   all_t    <- paste("Ha: sd !=", as.character(data$sd))
 
-  char_p_l <- format(round(data$p_lower, 4), nsmall = 4, scientific = FALSE)
-  char_p_u <- format(round(data$p_upper, 4), nsmall = 4, scientific = FALSE)
-  char_p   <- format(round(data$p_two, 4), nsmall = 4, scientific = FALSE)
+  chi_stat <- if (is.null(data$chi_raw)) data$chi else data$chi_raw
+  char_p_l <- format_p_bound(data$p_lower, digits = 4, nsmall = 4, scientific = FALSE, statistic = chi_stat)
+  char_p_u <- format_p_bound(data$p_upper, digits = 4, nsmall = 4, scientific = FALSE, statistic = chi_stat)
+  char_p   <- format_p_bound(data$p_two, digits = 4, nsmall = 4, scientific = FALSE, statistic = chi_stat)
   
   if (data$p_lower < 0.5) {
     all_p_t <- paste("2 * Pr(C < c) =", char_p)
@@ -789,7 +805,7 @@ print_os_vartest <- function(data) {
   
   c_width   <- nchar(data$chi)
   df_width  <- max(nchar("DF"), nchar(data$df))
-  p_width   <- max(nchar("2 Tailed"), nchar(round(data$p_two, 5)))
+  p_width   <- max(nchar("2 Tailed"), nchar(char_p))
   md_width  <- max(nchar("Difference"), nchar(data$mean_diff))
   md_length <- nchar(data$mean_diff_l) + nchar(data$mean_diff_u)
 
@@ -892,6 +908,28 @@ print_os_vartest <- function(data) {
 
 print_chisq_test <- function(x) {
   
+  p_chisq <- format_p_bound(x$pval_chisquare, x$pval_chisquare_raw,
+                            digits = 4, nsmall = 4, scientific = FALSE,
+                            statistic = x$chisquare)
+  p_lr    <- format_p_bound(x$pval_chisquare_lr, x$pval_chisquare_lr_raw,
+                            digits = 4, nsmall = 4, scientific = FALSE,
+                            statistic = x$chisquare_lr)
+  p_adj   <- if (!is.null(x$pval_chisquare_adjusted)) {
+    format_p_bound(x$pval_chisquare_adjusted, x$pval_chisquare_adjusted_raw,
+                   digits = 4, nsmall = 4, scientific = FALSE,
+                   statistic = x$chisquare_adjusted)
+  } else {
+    NULL
+  }
+  p_mh    <- if (!is.null(x$pval_chisquare_mantel_haenszel)) {
+    format_p_bound(x$pval_chisquare_mantel_haenszel,
+                   x$pval_chisquare_mantel_haenszel_raw,
+                   digits = 4, nsmall = 4, scientific = FALSE,
+                   statistic = x$chisquare_mantel_haenszel)
+  } else {
+    NULL
+  }
+
   width1 <- nchar("Likelihood Ratio Chi-Square")
   width2 <- max(nchar(x$df))
   
@@ -900,7 +938,7 @@ print_chisq_test <- function(x) {
     nchar(x$contingency_coefficient), nchar(x$cramers_v)
   )
   
-  width4 <- 6
+  width4 <- max(6, nchar(p_chisq), nchar(p_lr), nchar(p_adj), nchar(p_mh))
   widthn <- sum(width1, width2, width3, width4, 12)
 
   if (x$ds == 4) {
@@ -912,19 +950,19 @@ print_chisq_test <- function(x) {
     cat(rep("-", widthn), sep = "", "\n")
     cat(
       format("Chi-Square", width = width1, justify = "left"), formats(), format(x$df, width = width2, justify = "centre"), formats(),
-      format(x$chisquare, width = width3, justify = "centre", nsmall = 4, scientific = F), formats(), format(x$pval_chisquare, width = width4, justify = "right", nsmall = 4, scientific = F), "\n", sep = ""
+      format(x$chisquare, width = width3, justify = "centre", nsmall = 4, scientific = F), formats(), format(p_chisq, width = width4, justify = "right"), "\n", sep = ""
     )
     cat(
       format("Likelihood Ratio Chi-Square", width = width1, justify = "left"), formats(), format(x$df, width = width2, justify = "centre"), formats(),
-      format(x$chisquare_lr, width = width3, justify = "centre", nsmall = 4, scientific = F), formats(), format(x$pval_chisquare_lr, width = width4, justify = "right", nsmall = 4, scientific = F), "\n", sep = ""
+      format(x$chisquare_lr, width = width3, justify = "centre", nsmall = 4, scientific = F), formats(), format(p_lr, width = width4, justify = "right"), "\n", sep = ""
     )
     cat(
       format("Continuity Adj. Chi-Square", width = width1, justify = "left"), formats(), format(x$df, width = width2, justify = "right"), formats(),
-      format(x$chisquare_adjusted, width = width3, justify = "centre", nsmall = 4, scientific = F), formats(), format(x$pval_chisquare_adjusted, width = width4, justify = "right", nsmall = 4, scientific = F), "\n", sep = ""
+      format(x$chisquare_adjusted, width = width3, justify = "centre", nsmall = 4, scientific = F), formats(), format(p_adj, width = width4, justify = "right"), "\n", sep = ""
     )
     cat(
       format("Mantel-Haenszel Chi-Square", width = width1, justify = "left"), formats(), format(x$df, width = width2, justify = "right"), formats(),
-      format(x$chisquare_mantel_haenszel, width = width3, justify = "centre", nsmall = 4, scientific = F), formats(), format(x$pval_chisquare_mantel_haenszel, width = width4, justify = "right", nsmall = 4, scientific = F), "\n", sep = ""
+      format(x$chisquare_mantel_haenszel, width = width3, justify = "centre", nsmall = 4, scientific = F), formats(), format(p_mh, width = width4, justify = "right"), "\n", sep = ""
     )
     cat(
       format("Phi Coefficient", width = width1, justify = "left"), formats(), format(" ", width = width2, justify = "right"), formats(),
@@ -948,11 +986,11 @@ print_chisq_test <- function(x) {
     cat(rep("-", widthn), sep = "", "\n")
     cat(
       format("Chi-Square", width = width1, justify = "left"), formats(), format(x$df, width = width2, justify = "centre"), formats(),
-      format(x$chisquare, width = width3, justify = "centre", nsmall = 4, scientific = F), formats(), format(x$pval_chisquare, width = width4, justify = "right", nsmall = 4, scientific = F), "\n", sep = ""
+      format(x$chisquare, width = width3, justify = "centre", nsmall = 4, scientific = F), formats(), format(p_chisq, width = width4, justify = "right"), "\n", sep = ""
     )
     cat(
       format("Likelihood Ratio Chi-Square", width = width1, justify = "left"), formats(), format(x$df, width = width2, justify = "centre"), formats(),
-      format(x$chisquare_lr, width = width3, justify = "centre", nsmall = 4, scientific = F), formats(), format(x$pval_chisquare_lr, width = width4, justify = "right", nsmall = 4, scientific = F), "\n", sep = ""
+      format(x$chisquare_lr, width = width3, justify = "centre", nsmall = 4, scientific = F), formats(), format(p_lr, width = width4, justify = "right"), "\n", sep = ""
     )
     cat(
       format("Phi Coefficient", width = width1, justify = "left"), formats(), format(" ", width = width2, justify = "right"), formats(),
@@ -973,8 +1011,9 @@ print_chisq_test <- function(x) {
 
 print_chisq_gof <- function(data) {
   
+  p_disp <- format_p_bound(data$pvalue, data$pvalue_raw, digits = 4, statistic = data$chisquare)
   cwidth <- max(nchar("Chi-Square"), nchar("DF"), nchar("Pr > Chi Sq"), nchar("Sample Size"))
-  nwidth <- max(nchar(data$chisquare), nchar(data$degrees_of_freedom), nchar(data$pvalue), 
+  nwidth <- max(nchar(data$chisquare), nchar(data$degrees_of_freedom), nchar(p_disp), 
     nchar(data$sample_size))
   w1     <- sum(cwidth, nwidth, 6)
   lw     <- max(nchar("Variable"), nchar(data$categories))
@@ -988,7 +1027,7 @@ print_chisq_gof <- function(data) {
   cat(rep("-", w1), sep = "", "\n")
   cat(format("Chi-Square", width = cwidth, justify = "left"), formats(), format(data$chisquare, width = nwidth, justify = "right"), "\n")
   cat(format("DF", width = cwidth, justify = "left"), formats(), format(data$degrees_of_freedom, width = nwidth, justify = "right"), "\n")
-  cat(format("Pr > Chi Sq", width = cwidth, justify = "left"), formats(), format(data$pvalue, width = nwidth, justify = "right"), "\n")
+  cat(format("Pr > Chi Sq", width = cwidth, justify = "left"), formats(), format(p_disp, width = nwidth, justify = "right"), "\n")
   cat(format("Sample Size", width = cwidth, justify = "left"), formats(), format(data$sample_size, width = nwidth, justify = "right"), "\n\n")
   cat(format(paste("Variable:", data$varname), width = w, justify = "centre"), "\n")
   cat(rep("-", w), sep = "", "\n")
@@ -1022,8 +1061,9 @@ print_runs_test <- function(x) {
 
 print_cochran_test <- function(data) {
   
+  p_disp <- format_p_bound(data$pvalue, data$pvalue_raw, digits = 4, statistic = data$q)
   cwidth <- max(nchar("N"), nchar("Cochran's Q"), nchar("df"), nchar("p value"))
-  nwidth <- max(nchar(data$n), nchar(data$q), nchar(data$df), nchar(data$pvalue))
+  nwidth <- max(nchar(data$n), nchar(data$q), nchar(data$df), nchar(p_disp))
   w1     <- sum(cwidth, nwidth, 6)
 
   cat(format("Test Statistics", width = w1, justify = "centre"), "\n")
@@ -1031,15 +1071,17 @@ print_cochran_test <- function(data) {
   cat(format("N", width = cwidth, justify = "left"), formats(), format(data$n, width = nwidth, justify = "right"), "\n")
   cat(format("Cochran's Q", width = cwidth, justify = "left"), formats(), format(data$q, width = nwidth, justify = "right"), "\n")
   cat(format("df", width = cwidth, justify = "left"), formats(), format(data$df, width = nwidth, justify = "right"), "\n")
-  cat(format("p value", width = cwidth, justify = "left"), formats(), format(data$pvalue, width = nwidth, justify = "right"), "\n")
+  cat(format("p value", width = cwidth, justify = "left"), formats(), format(p_disp, width = nwidth, justify = "right"), "\n")
   cat(rep("-", w1), sep = "", "\n")
 }
 
 
 print_mcnemar_test <- function(data) {
   
+  p_disp       <- format_p_bound(data$pvalue, data$pvalue_raw, digits = 4, statistic = data$statistic)
+  exactp_disp  <- format_p_bound(data$exactp, data$exactp_raw, digits = 4, statistic = data$statistic)
   cwidth1 <- max(nchar("McNemar's chi2"), nchar("DF"), nchar("Pr > chi2"), nchar("Exact Pr >= chi2"))
-  nwidth1 <- max(nchar(data$statistic), nchar(data$df), nchar(data$pvalue), nchar(data$exactp))
+  nwidth1 <- max(nchar(data$statistic), nchar(data$df), nchar(p_disp), nchar(exactp_disp))
   w1      <- sum(cwidth1, nwidth1, 6)
 
   cwidth2 <- max(nchar("Kappa"), nchar("ASE"), nchar("95% Lower Conf Limit"), nchar("95% Upper Conf Limit"))
@@ -1097,8 +1139,8 @@ print_mcnemar_test <- function(data) {
   cat(rep("-", w1), sep = "", "\n")
   cat(format("McNemar's chi2", width = cwidth1, justify = "left"), formats(), format(data$statistic, width = nwidth1, justify = "right"), "\n")
   cat(format("DF", width = cwidth1, justify = "left"), formats(), format(data$df, width = nwidth1, justify = "right"), "\n")
-  cat(format("Pr > chi2", width = cwidth1, justify = "left"), formats(), format(data$pvalue, width = nwidth1, justify = "right"), "\n")
-  cat(format("Exact Pr >= chi2", width = cwidth1, justify = "left"), formats(), format(data$exactp, width = nwidth1, justify = "right"), "\n")
+  cat(format("Pr > chi2", width = cwidth1, justify = "left"), formats(), format(p_disp, width = nwidth1, justify = "right"), "\n")
+  cat(format("Exact Pr >= chi2", width = cwidth1, justify = "left"), formats(), format(exactp_disp, width = nwidth1, justify = "right"), "\n")
   cat(rep("-", w1), sep = "", "\n\n")
 
   cat(format("Kappa Coefficient", width = w2, justify = "centre"), "\n")
@@ -1121,6 +1163,10 @@ print_mcnemar_test <- function(data) {
 
 print_levene_test <- function(data) {
   
+  p_bf_disp  <- format_p_bound(data$p_bf, data$p_bf_raw, digits = 4, statistic = data$bf)
+  p_lev_disp <- format_p_bound(data$p_lev, data$p_lev_raw, digits = 4, statistic = data$lev)
+  p_bft_disp <- format_p_bound(data$p_bft, data$p_bft_raw, digits = 4, statistic = data$bft)
+
   lw     <- max(nchar("Levels"), nchar(data$levs), nchar("Total"))
   ow     <- max(nchar("Frequency"), nchar(data$lens), nchar(data$n))
   ew     <- max(nchar("Mean"), nchar(data$avgs), nchar(data$avg))
@@ -1135,7 +1181,7 @@ print_levene_test <- function(data) {
   nwidth <- max(nchar("Num DF"), nchar(data$n_df))
   dwidth <- max(nchar("Den DF"), nchar(data$d_df))
   ewidth <- max(nchar("F"), nchar(data$bf), nchar(data$lev), nchar(data$bft))
-  fwidth <- max(nchar("Pr > F"), nchar(data$p_bf), nchar(data$p_lev), nchar(data$p_bft))
+  fwidth <- max(nchar("Pr > F"), nchar(p_bf_disp), nchar(p_lev_disp), nchar(p_bft_disp))
   w1     <- sum(cwidth, nwidth, dwidth, ewidth, fwidth, 16)
 
   cat(format("Summary Statistics", width = w, justify = "centre"), "\n")
@@ -1168,17 +1214,17 @@ print_levene_test <- function(data) {
   cat(
     format("Brown and Forsythe", width = cwidth, justify = "left"), fs(),
     format(data$n_df, width = nwidth, justify = "right"), fs(), format(data$d_df, width = dwidth, justify = "right"),
-    fs(), format(data$bf, width = ewidth, justify = "right"), fs(), format(data$p_bf, width = fwidth, justify = "right"), "\n"
+    fs(), format(data$bf, width = ewidth, justify = "right"), fs(), format(p_bf_disp, width = fwidth, justify = "right"), "\n"
   )
   cat(
     format("Levene", width = cwidth, justify = "left"), fs(),
     format(data$n_df, width = nwidth, justify = "right"), fs(), format(data$d_df, width = dwidth, justify = "right"),
-    fs(), format(data$lev, width = ewidth, justify = "right"), fs(), format(data$p_lev, width = fwidth, justify = "right"), "\n"
+    fs(), format(data$lev, width = ewidth, justify = "right"), fs(), format(p_lev_disp, width = fwidth, justify = "right"), "\n"
   )
   cat(
     format("Brown and Forsythe (Trimmed Mean)", width = cwidth, justify = "left"), fs(),
     format(data$n_df, width = nwidth, justify = "right"), fs(), format(data$d_df, width = dwidth, justify = "right"),
-    fs(), format(data$bft, width = ewidth, justify = "right"), fs(), format(data$p_bft, width = fwidth, justify = "right"), "\n"
+    fs(), format(data$bft, width = ewidth, justify = "right"), fs(), format(p_bft_disp, width = fwidth, justify = "right"), "\n"
   )
   cat(rep("-", w1), sep = "", "\n")
 }
@@ -1198,8 +1244,9 @@ print_var_test <- function(data) {
   lhyp       <- "Ha: ratio < 1"
   uhyp       <- "Ha: ratio > 1"
 
-  char_p_l   <- format(round(data$lower, 4), nsmall = 4, scientific = FALSE)
-  char_p_u   <- format(round(data$upper, 4), nsmall = 4, scientific = FALSE)
+  f_stat     <- if (is.null(data$f_raw)) data$f else data$f_raw
+  char_p_l   <- format_p_bound(data$lower, data$lower_raw, digits = 4, nsmall = 4, scientific = FALSE, statistic = f_stat)
+  char_p_u   <- format_p_bound(data$upper, data$upper_raw, digits = 4, nsmall = 4, scientific = FALSE, statistic = f_stat)
   
   all_p_l    <- paste("Pr(F < f) =", char_p_l)
   all_p_u    <- paste("Pr(F > f) =", char_p_u)
