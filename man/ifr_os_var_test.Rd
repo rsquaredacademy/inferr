@@ -38,7 +38,8 @@ following components:
 \item{sd}{hypothesised standard deviation of \code{x}}
 \item{sigma}{observed standard deviation}
 \item{se}{estimated standard error}
-\item{chi}{chi-square statistic}
+\item{chi}{chi-square statistic, stored to four decimal places}
+\item{chi_raw}{unrounded chi-square statistic}
 \item{df}{degrees of freedom}
 \item{p_lower}{lower one-sided p-value}
 \item{p_upper}{upper one-sided p-value}
@@ -58,9 +59,18 @@ equal to a hypothesized value. Missing values are removed.
 \details{
 Supported inputs: finite data with absolute value \code{<= 1e150}
 and sample sizes \code{<= 1e15}. At least two non-missing observations are
-required. Missing values are removed. The chi-square statistic and standard
-deviation are stored to four decimal places; p-values are stored unrounded
-and printed as bounds when they are below the display resolution.
+required. Missing values are removed. The standard deviation is computed
+from a scaled sample when the data magnitude is below \code{1e-100}, so the
+chi-square statistic and its p-value are invariant to a common rescaling of
+the data and the hypothesised standard deviation, including scales near the
+smallest positive doubles.
+
+The chi-square statistic is stored to four decimal places and unrounded in
+\code{chi_raw}; the standard deviation, standard error and confidence limits
+are stored to four decimal places. p-values are stored unrounded and printed
+as bounds when they are below the display resolution; an underflowed
+positive tail is detected from \code{chi_raw} rather than from the rounded
+statistic.
 }
 \section{Deprecated Function}{
 

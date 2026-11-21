@@ -4,21 +4,33 @@
 #' @param data a \code{data.frame} or \code{tibble}
 #' @param x factor; column in \code{data}
 #' @param y finite, non-negative expected counts or proportions, in the order
-#' of the levels of \code{x}; see Details for the count/proportion rule
+#' of the declared non-missing levels of \code{x}; see Details for the
+#' count/proportion rule
 #' @param correct logical; if TRUE continuity correction is applied
-#' @details Supported inputs: finite data with absolute value \code{<= 1e150}
+#' @details Supported inputs: at least two declared non-missing categories,
+#' finite non-negative expected values with absolute value \code{<= 1e150},
 #' and sample sizes \code{<= 1e15}. Missing observations in \code{x} (including
-#' an explicit \code{NA} factor level) are removed with a message.
+#' values stored in an explicit \code{NA} factor level) are removed with a
+#' message. The explicit \code{NA} level is dropped, but every other declared
+#' level is retained even when it is unobserved, because it is part of the
+#' hypothesis.
 #'
-#' Expected values in \code{y} are counts and must sum to the sample size. If
-#' they sum to one (within a small tolerance) they are treated as proportions
-#' and multiplied by the sample size. A zero expected count is always rejected
-#' with an error identifying its position and category, because the statistic
-#' and its standardized residuals are undefined for that cell.
+#' Expected values in \code{y} must have one entry per retained level. They are
+#' treated as proportions when they sum to one within a small tolerance, or
+#' when every value is one (the equal-proportions shorthand). Otherwise they
+#' are counts and must sum to the sample size. The tolerance for a proportion
+#' total is relative to that total, not to the sample size, so a vector such as
+#' \code{c(.5, .501)} is rejected instead of being accepted as proportions. A
+#' zero expected count is always rejected with an error identifying its
+#' position and category, because the statistic and its standardized residuals
+#' are undefined for that cell. A factor with only one retained category is
+#' rejected because a goodness-of-fit test with zero degrees of freedom does
+#' not exist.
 #'
-#' The chi-square statistic and p-value are stored to four decimal places; the
-#' unrounded p-value is retained in \code{pvalue_raw} and printed as a bound
-#' when it is below the display resolution.
+#' The chi-square statistic is stored to four decimal places. The p-value is
+#' stored unrounded in \code{pvalue_raw} and to four decimal places in
+#' \code{pvalue}; it is printed as a bound when it is below the display
+#' resolution.
 #' @return \code{ifr_chisq_gof_test} returns an object of class
 #' \code{"ifr_chisq_gof_test"}. An object of class \code{"ifr_chisq_gof_test"}
 #' is a list containing the following components:
@@ -69,16 +81,23 @@ ifr_chisq_gof_test.default <- function(data, x, y, correct = FALSE) {
 
   # an explicit NA factor level is stored as a level code, so is.na() does not
   # see it; detect that level as well as ordinary missing values
+  na_levels <- which(is.na(levels(xcheck)))
   missing_x <- is.na(xcheck)
-  if (anyNA(levels(xcheck))) {
-    missing_x <- missing_x |
-      as.integer(xcheck) %in% which(is.na(levels(xcheck)))
+  if (length(na_levels) > 0L) {
+    missing_x <- missing_x | as.integer(xcheck) %in% na_levels
   }
 
   if (any(missing_x)) {
     n_missing <- sum(missing_x)
     message("removing ", n_missing, " observation(s) with missing '", x1, "'")
-    xcheck <- droplevels(xcheck[!missing_x])
+    xcheck <- xcheck[!missing_x]
+  }
+
+  # drop only the explicit NA level; declared but unobserved non-NA levels are
+  # part of the hypothesis and must be retained
+  if (length(na_levels) > 0L) {
+    keep_levels <- levels(xcheck)[!is.na(levels(xcheck))]
+    xcheck      <- factor(as.character(xcheck), levels = keep_levels)
   }
 
   if (length(xcheck) < 1L) {
@@ -87,6 +106,13 @@ ifr_chisq_gof_test.default <- function(data, x, y, correct = FALSE) {
 
   xone   <- as.vector(table(xcheck))
   xlen   <- sum(xone)
+  n      <- length(xone)
+
+  if (n < 2L) {
+    stop(paste0("the chi-square goodness-of-fit test requires at least two ",
+                "categories with positive expected values"),
+         call. = FALSE)
+  }
 
   check_max_sample_size(xlen, "sample size")
 
@@ -96,6 +122,11 @@ ifr_chisq_gof_test.default <- function(data, x, y, correct = FALSE) {
 
   if (any(!is.finite(y)) || any(y < 0)) {
     stop("y must contain non-negative expected counts or proportions",
+         call. = FALSE)
+  }
+
+  if (any(y > 1e150)) {
+    stop("expected values in y must have absolute value <= 1e150",
          call. = FALSE)
   }
 
@@ -109,7 +140,6 @@ ifr_chisq_gof_test.default <- function(data, x, y, correct = FALSE) {
   }
 
   varname <- names(data[x1])
-  n       <- length(xone)
   df      <- n - 1
 
   if (length(y) != n) {
@@ -119,13 +149,22 @@ ifr_chisq_gof_test.default <- function(data, x, y, correct = FALSE) {
   }
 
   # expected values are counts unless they sum to one, in which case they are
-  # proportions; a count vector must total the observed sample size
+  # proportions; a vector of ones is the equal-proportions shorthand. A count
+  # vector must total the observed sample size. Proportions and counts use
+  # separate tolerances so a proportion total is never compared on the scale of
+  # the sample size.
   y_sum <- sum(y)
-  tol   <- sqrt(.Machine$double.eps) * max(1, abs(y_sum), xlen)
 
-  if (abs(y_sum - 1) <= tol) {
-    y <- xlen * y
-  } else if (abs(y_sum - xlen) > tol) {
+  if (!is.finite(y_sum)) {
+    stop("the sum of expected values in y must be finite", call. = FALSE)
+  }
+
+  tol_prop  <- sqrt(.Machine$double.eps) * max(1, abs(y_sum))
+  tol_count <- sqrt(.Machine$double.eps) * max(1, abs(xlen), abs(y_sum))
+
+  if (abs(y_sum - 1) <= tol_prop || all(y == 1)) {
+    y <- xlen * (y / y_sum)
+  } else if (abs(y_sum - xlen) > tol_count) {
     stop(paste0("expected counts in y must sum to the sample size (",
                 xlen, "); expected values in y are counts unless they sum to 1"),
          call. = FALSE)

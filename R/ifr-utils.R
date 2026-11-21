@@ -207,6 +207,12 @@ format_p_bound <- function(p, raw = NULL, digits = 4L, nsmall = NULL,
                   scientific = scientific, trim = TRUE)
   }
 
+  # an undefined p-value or label must still have a printable width; several
+  # printers take nchar() of this result before formatting
+  if (length(p) > 0L) {
+    out[is.na(p)] <- "NA"
+  }
+
   tiny <- !is.na(raw) & is.finite(raw) & raw > 0 & raw < resolution
   if (any(tiny)) {
     out[tiny] <- paste0("< ",
@@ -214,4 +220,39 @@ format_p_bound <- function(p, raw = NULL, digits = 4L, nsmall = NULL,
   }
 
   out
+}
+
+# Pooled two-sample z statistic. The direct pooled-variance product underflows
+# when the pooled proportion is subnormal or when it rounds to one, so the
+# original expression is kept for ordinary inputs and a factored square root is
+# used only when the direct denominator is zero or non-finite.
+prop_z_2sample <- function(n1, n2, p1, p2) {
+
+  n_total <- n1 + n2
+  p_sum   <- n1 * p1 + n2 * p2
+  q_sum   <- n1 * (1 - p1) + n2 * (1 - p2)
+  phat    <- p_sum / n_total
+  den2    <- (1 / n1) + (1 / n2)
+  den     <- sqrt(phat * (1 - phat) * den2)
+
+  if (!is.finite(den) || den == 0) {
+    # p_sum / n_total can underflow below the smallest subnormal even when
+    # p_sum itself is representable; keep the numerator and complement separate
+    den <- sqrt(p_sum) * sqrt(q_sum) / n_total * sqrt(den2)
+  }
+
+  (p1 - p2) / den
+}
+
+# One-sample z statistic with the same fallback for a subnormal null
+# probability whose product with its complement underflows.
+prop_z_1sample <- function(n, p, phat) {
+
+  den <- sqrt((p * (1 - p)) / n)
+
+  if (!is.finite(den) || den == 0) {
+    den <- sqrt(p) * sqrt(1 - p) / sqrt(n)
+  }
+
+  (phat - p) / den
 }

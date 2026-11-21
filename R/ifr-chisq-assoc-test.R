@@ -4,6 +4,13 @@
 #' @param data a \code{data.frame} or \code{tibble}
 #' @param x factor; column in \code{data}
 #' @param y factor; column in \code{data}
+#' @details Supported inputs: two factor columns with a table of at least two
+#' cells and a total count \code{<= 1e15}. Both variables must be factors.
+#' The chi-square statistics are stored to four decimal places. p-values are
+#' stored to four decimal places in the \code{pval_*} fields and unrounded in
+#' the corresponding \code{*_raw} fields; an underflowed positive tail is
+#' printed as a bound rather than as an exact zero.
+#'
 #' @return \code{ifr_chisq_assoc_test} returns an object of class
 #' \code{"ifr_chisq_assoc_test"}. An object of class
 #' \code{"ifr_chisq_assoc_test"} is a list containing the
@@ -19,9 +26,13 @@
 #' \item{ds}{product of dimensions of the table of \code{x} and \code{y}}
 #' \item{phi_coefficient}{phi coefficient}
 #' \item{pval_chisquare}{p-value of chi square}
+#' \item{pval_chisquare_raw}{unrounded p-value of chi square}
 #' \item{pval_chisquare_adjusted}{p-value of continuity adjusted chi square}
+#' \item{pval_chisquare_adjusted_raw}{unrounded p-value of continuity adjusted chi square}
 #' \item{pval_chisquare_lr}{p-value of likelihood ratio chi square}
+#' \item{pval_chisquare_lr_raw}{unrounded p-value of likelihood ratio chi square}
 #' \item{pval_chisquare_mantel_haenszel}{p-value of mantel haenszel chi square}
+#' \item{pval_chisquare_mantel_haenszel_raw}{unrounded p-value of mantel haenszel chi square}
 #'
 #' @section Deprecated Function:
 #' \code{infer_chisq_assoc_test()} has been deprecated. Instead use
@@ -64,6 +75,11 @@ ifr_chisq_assoc_test.default <- function(data, x, y) {
 
   # dimensions
   k  <- table(xone, yone)
+
+  if (sum(k) > 1e15) {
+    stop("total count must be <= 1e15", call. = FALSE)
+  }
+
   dk <- dim(k)
   ds <- prod(dk)
   nr <- dk[1]

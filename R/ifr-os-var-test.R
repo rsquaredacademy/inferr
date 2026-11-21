@@ -12,9 +12,18 @@
 #' @param ... additional arguments passed to or from other methods
 #' @details Supported inputs: finite data with absolute value \code{<= 1e150}
 #' and sample sizes \code{<= 1e15}. At least two non-missing observations are
-#' required. Missing values are removed. The chi-square statistic and standard
-#' deviation are stored to four decimal places; p-values are stored unrounded
-#' and printed as bounds when they are below the display resolution.
+#' required. Missing values are removed. The standard deviation is computed
+#' from a scaled sample when the data magnitude is below \code{1e-100}, so the
+#' chi-square statistic and its p-value are invariant to a common rescaling of
+#' the data and the hypothesised standard deviation, including scales near the
+#' smallest positive doubles.
+#'
+#' The chi-square statistic is stored to four decimal places and unrounded in
+#' \code{chi_raw}; the standard deviation, standard error and confidence limits
+#' are stored to four decimal places. p-values are stored unrounded and printed
+#' as bounds when they are below the display resolution; an underflowed
+#' positive tail is detected from \code{chi_raw} rather than from the rounded
+#' statistic.
 #'
 #' @return \code{ifr_os_var_test} returns an object of class \code{"ifr_os_var_test"}.
 #' An object of class \code{"ifr_os_var_test"} is a list containing the
@@ -24,7 +33,8 @@
 #' \item{sd}{hypothesised standard deviation of \code{x}}
 #' \item{sigma}{observed standard deviation}
 #' \item{se}{estimated standard error}
-#' \item{chi}{chi-square statistic}
+#' \item{chi}{chi-square statistic, stored to four decimal places}
+#' \item{chi_raw}{unrounded chi-square statistic}
 #' \item{df}{degrees of freedom}
 #' \item{p_lower}{lower one-sided p-value}
 #' \item{p_upper}{upper one-sided p-value}
@@ -96,6 +106,7 @@ ifr_os_var_test.default <- function(data, x, sd, confint = 0.95,
 
   result <-
     list(chi      = round(k$chi, 4),
+         chi_raw  = k$chi_raw,
          c_lwr    = k$c_lwr,
          conf     = k$conf,
          c_upr    = k$c_upr,
@@ -146,7 +157,15 @@ osvar_comp <- function(x, sd, confint) {
 
   df    <- n - 1
   xbar  <- mean(x)
-  sigma <- sd(x)
+
+  # squaring centred values underflows when the data are extremely small, so
+  # compute the scale-invariant standard deviation from a scaled sample
+  xscale <- max(abs(x))
+  if (is.finite(xscale) && xscale > 0 && xscale < 1e-100) {
+    sigma <- stats::sd(x / xscale) * xscale
+  } else {
+    sigma <- sd(x)
+  }
 
   check_finite_moment(xbar, "mean", "x")
   check_finite_moment(sigma, "standard deviation", "x")
@@ -166,17 +185,25 @@ osvar_comp <- function(x, sd, confint) {
     p_two <- pchisq(chi, df, lower.tail = F) * 2
   }
 
+  p_two <- min(1, p_two)
+
   conf  <- confint
   a     <- (1 - conf) / 2
   al    <- 1 - a
   tv    <- df * sigma ^ 2
 
-  check_finite_moment(tv, "variance", "x")
-
-  c_lwr <- round(sqrt(tv / qchisq(al, df)), 4)
-  c_upr <- round(sqrt(tv / qchisq(a, df)), 4)
+  # the confidence limits are sigma * sqrt(df / quantile); the product form
+  # stays representable when sigma^2 itself underflows
+  if (is.finite(tv) && tv > 0) {
+    c_lwr <- round(sqrt(tv / qchisq(al, df)), 4)
+    c_upr <- round(sqrt(tv / qchisq(a, df)), 4)
+  } else {
+    c_lwr <- round(sigma * sqrt(df / qchisq(al, df)), 4)
+    c_upr <- round(sigma * sqrt(df / qchisq(a, df)), 4)
+  }
 
   list(chi     = chi,
+       chi_raw = chi,
        c_lwr   = c_lwr,
        conf    = conf,
        c_upr   = c_upr,

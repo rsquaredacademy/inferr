@@ -30,7 +30,8 @@ following components:
 \item{ms_btw}{between groups mean square}
 \item{ms_within}{within groups mean square}
 \item{obs}{number of observations}
-\item{pval}{p value}
+\item{pval}{p value; underflow is printed as a bound}
+\item{pval_raw}{p value, retained unrounded}
 \item{r2}{r squared value}
 \item{rmse}{root mean squared error}
 \item{ss_between}{between group sum of squares}
@@ -46,8 +47,17 @@ and sample sizes \code{<= 1e15}. A response with standard deviation at most
 \code{1e-12 * mean(abs(x))} is treated as numerically constant and rejected.
 This tolerance is purely relative to the response's magnitude, with no
 absolute minimum scale; the guard is computed from a scaled response so it
-does not underflow or overflow. The F statistic is stored to three decimal
-places; its p-value is computed from the unrounded statistic.
+does not underflow or overflow.
+
+Sums of squares are computed from unrounded scaled values and converted back
+to the response's original units before rounding. If a positive sum of
+squares or mean square is too small or too large to represent as a double at
+that response scale (for example an ordinary spread around \code{1e-170}),
+the test stops with an error naming the response rather than returning zero
+or infinity.
+The sums of squares and mean squares are stored to three decimal places, as
+is the F statistic. The p-value is computed from the unrounded F statistic;
+an underflowed zero is printed as a bound such as \code{< 0.0001}.
 }
 \section{Deprecated Function}{
 

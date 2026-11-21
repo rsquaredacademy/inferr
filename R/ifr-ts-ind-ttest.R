@@ -13,9 +13,16 @@
 #' @details Supported inputs: finite data with absolute value \code{<= 1e150}
 #' and sample sizes \code{<= 1e15}. Rows with missing values in \code{x} or
 #' \code{y} are removed, and each group must retain at least two observations.
-#' The Satterthwaite degrees of freedom are stored unrounded and printed to two
-#' decimals. p-values are stored to four decimal places, with the unrounded
-#' values retained for printing bounds below the display resolution.
+#' The Satterthwaite degrees of freedom are calculated from scaled variances,
+#' so large finite data do not overflow the intermediate squares, and are
+#' stored unrounded and printed to two decimals.
+#'
+#' Two-sided p-values are selected from the unrounded lower and upper tails and
+#' capped at one, so a returned p-value always lies in \code{[0, 1]}. p-values
+#' are stored to four decimal places and unrounded in \code{*_raw} fields;
+#' underflowed values are printed as bounds. The folded-F variance row is
+#' printed from \code{f_sig_raw} and \code{f_raw}, so a positive tail below the
+#' display resolution is not shown as zero.
 #'
 #' @return \code{ifr_ts_ind_ttest} returns an object of class \code{"ifr_ts_ind_ttest"}.
 #' An object of class \code{"ifr_ts_ind_ttest"} is a list containing the
@@ -42,16 +49,24 @@
 #' \item{df_satterthwaite}{degrees of freedom for the Satterthwaite method}
 #' \item{t_pooled}{t statistic for the pooled method}
 #' \item{t_satterthwaite}{t statistic for the Satterthwaite method}
-#' \item{sig_pooled}{two-sided p-value for the pooled method}
+#' \item{sig_pooled}{two-sided p-value for the pooled method, stored to four decimal places}
 #' \item{sig_pooled_l}{lower one-sided p-value for the pooled method}
 #' \item{sig_pooled_u}{upper one-sided p-value for the pooled method}
-#' \item{sig}{two-sided p-value for the Satterthwaite method}
+#' \item{sig_pooled_raw}{unrounded two-sided p-value for the pooled method}
+#' \item{sig_pooled_l_raw}{unrounded lower one-sided p-value for the pooled method}
+#' \item{sig_pooled_u_raw}{unrounded upper one-sided p-value for the pooled method}
+#' \item{sig}{two-sided p-value for the Satterthwaite method, stored to four decimal places}
 #' \item{sig_l}{lower one-sided p-value for the Satterthwaite method}
 #' \item{sig_u}{upper one-sided p-value for the Satterthwaite method}
+#' \item{sig_raw}{unrounded two-sided p-value for the Satterthwaite method}
+#' \item{sig_l_raw}{unrounded lower one-sided p-value for the Satterthwaite method}
+#' \item{sig_u_raw}{unrounded upper one-sided p-value for the Satterthwaite method}
 #' \item{num_df}{numerator degrees of freedom for folded f test}
 #' \item{den_df}{denominator degrees of freedom for folded f test}
-#' \item{f}{f value for the equality of variances test}
-#' \item{f_sig}{p-value for the folded f test}
+#' \item{f}{f value for the equality of variances test, stored to four decimal places}
+#' \item{f_raw}{unrounded f value for the equality of variances test}
+#' \item{f_sig}{p-value for the folded f test, stored to four decimal places}
+#' \item{f_sig_raw}{unrounded p-value for the folded f test}
 #' \item{var_y}{name of \code{y}}
 #' \item{confint}{confidence level}
 #' \item{alternative}{alternative hypothesis}
@@ -145,6 +160,7 @@ ifr_ts_ind_ttest.default <- function(data, x, y, confint = 0.95,
                  df_pooled        = m$df_pooled,
                  df_satterthwaite = j$d_f,
                  f                = round(k$s1_raw / k$s2_raw, 4),
+                 f_raw            = k$s1_raw / k$s2_raw,
                  f_sig            = fsig(k$s1_raw, k$s2_raw, k$n1, k$n2),
                  levels           = g_stat[, 1],
                  lower            = g_stat[, "lower"],
@@ -353,13 +369,10 @@ indsig <- function(n1, n2, s1, s2, mean_diff) {
   sig_l <- round(raw_l, 4)
   sig_u <- round(raw_u, 4)
 
-  if (sig_l < 0.5) {
-    raw   <- raw_l * 2
-    sig   <- round(raw, 4)
-  } else {
-    raw   <- raw_u * 2
-    sig   <- round(raw, 4)
-  }
+  # choose the two-sided tail from the unrounded tails; using the rounded
+  # lower tail can select the larger tail and produce a value above one
+  raw   <- min(1, 2 * min(raw_l, raw_u))
+  sig   <- round(raw, 4)
 
   list(d_f      = d_f,
        sig_l    = sig_l,
@@ -373,6 +386,14 @@ indsig <- function(n1, n2, s1, s2, mean_diff) {
 }
 
 df <- function(n1, n2, s1, s2) {
+
+  # the Satterthwaite ratio is invariant to a common scale of the variances;
+  # scaling first keeps its square from overflowing for large finite data
+  vscale <- max(s1, s2, na.rm = TRUE)
+  if (is.finite(vscale) && vscale > 0) {
+    s1 <- s1 / vscale
+    s2 <- s2 / vscale
+  }
 
   sn1 <- s1 / n1
   sn2 <- s2 / n2
@@ -391,12 +412,14 @@ fsig <- function(s1, s2, n1, n2) {
 
 fsig_raw <- function(s1, s2, n1, n2) {
 
-  min(
-    pf((s1 / s2), (n1 - 1), (n2 - 1)),
-    pf((s1 / s2), (n1 - 1), (n2 - 1),
-      lower.tail = FALSE
+  min(1,
+    2 * min(
+      pf((s1 / s2), (n1 - 1), (n2 - 1)),
+      pf((s1 / s2), (n1 - 1), (n2 - 1),
+        lower.tail = FALSE
+      )
     )
-  ) * 2
+  )
 
 }
 
@@ -411,13 +434,8 @@ indpool <- function(n1, n2, mean_diff, se_dif) {
   sig_pooled_l <- round(raw_l, 4)
   sig_pooled_u <- round(raw_u, 4)
 
-  if (sig_pooled_l < 0.5) {
-    raw_pooled   <- raw_l * 2
-    sig_pooled   <- round(raw_pooled, 4)
-  } else {
-    raw_pooled   <- raw_u * 2
-    sig_pooled   <- round(raw_pooled, 4)
-  }
+  raw_pooled   <- min(1, 2 * min(raw_l, raw_u))
+  sig_pooled   <- round(raw_pooled, 4)
 
   list(df_pooled        = df_pooled,
        sig_pooled_l     = sig_pooled_l,

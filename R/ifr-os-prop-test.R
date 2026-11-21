@@ -13,10 +13,17 @@
 #' and sample sizes \code{<= 1e15}. The calculator requires a positive integer
 #' sample size no greater than \code{1e15}, a null probability strictly inside
 #' \code{(0, 1)}, and an observed proportion in \code{[0, 1]}. Missing values in
-#' a factor variable are removed and at least one observation must remain. The
-#' z statistic and p-values are stored to four decimal places; the unrounded
-#' p-value is retained in \code{sig_raw} and printed as a bound when it is below
-#' the display resolution.
+#' a factor variable are removed and at least one observation must remain.
+#'
+#' The standard error is computed with the direct expression for ordinary null
+#' probabilities and with a factored square root when the null probability is
+#' subnormal, so the z statistic stays finite near the smallest positive
+#' doubles. The z statistic is stored to four decimal places and unrounded in
+#' \code{z_raw}. p-values are stored to four decimal places and unrounded in
+#' \code{sig_raw}; they are printed as bounds when they are below the display
+#' resolution. A percentage deviation whose magnitude exceeds the largest
+#' double is printed as \code{> 1e308} or \code{< -1e308} instead of
+#' \code{Inf}.
 #'
 #' @return \code{ifr_os_prop_test} returns an object of class \code{"ifr_os_prop_test"}.
 #' An object of class \code{"ifr_os_prop_test"} is a list containing the
@@ -25,7 +32,8 @@
 #' \item{n}{number of observations}
 #' \item{phat}{proportion of 1's}
 #' \item{p}{assumed probability of success}
-#' \item{z}{z statistic}
+#' \item{z}{z statistic, stored to four decimal places}
+#' \item{z_raw}{unrounded z statistic}
 #' \item{sig}{p-value for z statistic, stored to four decimal places}
 #' \item{sig_raw}{unrounded p-value for z statistic}
 #' \item{alt}{alternative hypothesis}
@@ -113,7 +121,8 @@ ifr_os_prop_test.default <- function(data, variable = NULL, prob = 0.5, phat = 0
          sig       = k$sig,
          sig_raw   = k$sig_raw,
          std       = k$std,
-         z         = k$z)
+         z         = k$z,
+         z_raw     = k$z_raw)
 
   class(result) <- "ifr_os_prop_test"
   return(result)
@@ -149,13 +158,23 @@ prop_comp <- function(n, prob, alternative, phat, obs = NULL) {
   exp  <- n * c(q, p)
   dif  <- obs - exp
   dev  <- round((dif / exp) * 100, 2)
+  dev_chr <- format(dev, nsmall = 2)
+  overflow <- which(!is.na(dev) & !is.finite(dev))
+  for (i in overflow) {
+    dev_chr[i] <-
+      if (is.finite(dif[i]) && is.finite(exp[i]) && exp[i] > 0) {
+        if (dif[i] > 0) "> 1e308" else "< -1e308"
+      } else {
+        as.character(dev[i])
+      }
+  }
+  dev_chr[is.na(dev)] <- "NA"
   std  <- round(dif / sqrt(exp), 2)
-  num  <- phat - prob
-  den  <- sqrt((p * q) / n)
-  z    <- num / den
+  z    <- prop_z_1sample(n, p, phat)
   lt   <- pnorm(z)
   ut   <- pnorm(z, lower.tail = FALSE)
-  tt   <- pnorm(abs(z), lower.tail = FALSE) * 2
+  tt   <- pmin(1, pnorm(abs(z), lower.tail = FALSE) * 2)
+  z_raw <- z
   z    <- round(z, 4)
   alt  <- alternative
 
@@ -171,7 +190,7 @@ prop_comp <- function(n, prob, alternative, phat, obs = NULL) {
 
   out <-
     list(alt       = alt,
-         deviation = format(dev, nsmall = 2),
+         deviation = dev_chr,
          exp       = exp,
          n         = n,
          obs       = obs,
@@ -180,7 +199,8 @@ prop_comp <- function(n, prob, alternative, phat, obs = NULL) {
          sig       = round(sig, 4),
          sig_raw   = sig,
          std       = format(std, nsmall = 2),
-         z         = z)
+         z         = z,
+         z_raw     = z_raw)
 
   return(out)
 }

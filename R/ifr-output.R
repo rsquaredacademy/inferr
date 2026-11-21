@@ -1,12 +1,20 @@
 print_owanova <- function(data) {
 
+  # keep the existing scientific display for representable small p-values;
+  # only an underflowed zero is replaced by a bound
+  p   <- format(data$pval, nsmall = 4)
+  if (length(data$pval) == 1L && !is.na(data$pval) && data$pval == 0 &&
+      is.finite(data$fstat) && data$fstat != 0) {
+    p <- "< 0.0001"
+  }
+
   # width
   w1  <- nchar("Between Groups")
   w2  <- max(nchar("Squares"), nchar(data$ss_between), nchar(data$ss_within), nchar(data$ss_total))
   w3  <- max(nchar("DF"), nchar(data$df_btw), nchar(data$df_btw), nchar(data$df_within), nchar(data$df_total))
   w4  <- max(nchar("Mean Square"), nchar(data$ms_btw), nchar(data$ms_within))
   w5  <- max(nchar("F"), nchar(data$fstat))
-  w6  <- max(nchar("Sig."), nchar(format(data$pval, nsmall = 4)))
+  w6  <- max(nchar("Sig."), nchar(p))
   w   <- sum(w1, w2, w3, w4, w5, w6, 21)
   w7  <- nchar(data$rmse)
 
@@ -18,7 +26,6 @@ print_owanova <- function(data) {
   w11 <- max(nchar("Std. Dev."), max(nchar(format(data$group_stats[[4]], nsmall = 3))))
   wr  <- sum(w8, w9, w10, w11, 13)
 
-  p   <- format(data$pval, nsmall = 4)
   q   <- nrow(data$group_stats)
   s   <- length(data$group_stats)
 
@@ -328,7 +335,7 @@ print_paired_ttest <- function(data) {
   corsig_width <- max(nchar("Sig."), nchar(char_corsig))
   t_width      <- nchar(data$tstat)
   df_width     <- max(nchar("DF"), nchar(data$df))
-  p_width      <- max(nchar("Sig."), nchar(char_corsig))
+  p_width      <- max(nchar("Sig."), nchar(char_p), nchar(char_corsig))
   conf_length  <- max(sum(nchar(data$conf_int1)), sum(nchar(data$conf_int2)))
   
   if (conf_length > 20) {
@@ -451,6 +458,9 @@ print_two_ttest <- function(data) {
   char_sig_pooled   <- format_p_bound(data$sig_pooled, data$sig_pooled_raw, digits = 4, nsmall = 4, scientific = FALSE, statistic = data$t_pooled)
   char_sig_pooled_l <- format_p_bound(data$sig_pooled_l, data$sig_pooled_l_raw, digits = 4, nsmall = 4, scientific = FALSE, statistic = data$t_pooled)
   char_sig_pooled_u <- format_p_bound(data$sig_pooled_u, data$sig_pooled_u_raw, digits = 4, nsmall = 4, scientific = FALSE, statistic = data$t_pooled)
+  char_f_sig        <- format_p_bound(data$f_sig, data$f_sig_raw, digits = 4,
+                                      nsmall = 4, scientific = FALSE,
+                                      statistic = data$f_raw)
 
   # hypothesis heading
   hyp_null  <- paste0("Ho: mean(", data$levels[1], ") - mean(", data$levels[2], ") = diff = ", "0")
@@ -485,7 +495,7 @@ print_two_ttest <- function(data) {
   )
   numdf_w     <- max(nchar("Num DF"), nchar(as.vector(data$num_df)), nchar(as.vector(data$den_df)))
   f_w         <- max(nchar("F Value"), nchar(as.vector(data$f)))
-  fp_w        <- max(nchar("P > F"), nchar(as.vector(data$f_sig)))
+  fp_w        <- max(nchar("P > F"), nchar(as.vector(char_f_sig)))
   conf_length <- nchar(data$lower[1]) + nchar(data$upper[1])
   
   if (conf_length > 20) {
@@ -640,7 +650,7 @@ print_two_ttest <- function(data) {
   cat(
     fw(data$var_y, w = grp_w), formats_t(), fw("Folded F", w = 8), formats_t(),
     fn(data$num_df, w = numdf_w), formats_t(), fn(data$den_df, w = numdf_w), formats_t(),
-    fn(data$f, w = f_w), formats_t(), fn(data$f_sig, w = fp_w), "\n"
+    fn(data$f, w = f_w), formats_t(), fn(char_f_sig, w = fp_w), "\n"
   )
   cat(rep("-", w3), sep = "")
 }
@@ -648,7 +658,8 @@ print_two_ttest <- function(data) {
 
 print_prop_test <- function(data) {
   
-  sig_disp <- format_p_bound(data$sig, data$sig_raw, digits = 4, statistic = data$z)
+  z_stat   <- if (is.null(data$z_raw)) data$z else data$z_raw
+  sig_disp <- format_p_bound(data$sig, data$sig_raw, digits = 4, statistic = z_stat)
   cwidth <- max(nchar("z"), nchar("DF"), nchar("Pr(|Z| > |z|)"), nchar("Sample Size"), nchar("phat"))
   nwidth <- max(nchar(data$z), nchar(data$p0), nchar(sig_disp), nchar(data$n), nchar(data$phat))
   w1     <- sum(cwidth, nwidth, 6)
@@ -710,7 +721,8 @@ print_prop_test <- function(data) {
 
 print_ts_prop_test <- function(data) {
   
-  sig_disp <- format_p_bound(data$sig, data$sig_raw, digits = 3, statistic = data$z)
+  z_stat   <- if (is.null(data$z_raw)) data$z else data$z_raw
+  sig_disp <- format_p_bound(data$sig, data$sig_raw, digits = 3, statistic = z_stat)
   cwidth <- max(nchar("z"), nchar("Pr(|Z| > |z|)"), nchar("Total Observations"))
   nwidth <- max(nchar(data$z), nchar(sig_disp), nchar(data$n1), nchar(data$n2))
   w1     <- sum(cwidth, nwidth, 6)
@@ -759,9 +771,10 @@ print_os_vartest <- function(data) {
   all_u    <- paste("Ha: sd >", as.character(data$sd))
   all_t    <- paste("Ha: sd !=", as.character(data$sd))
 
-  char_p_l <- format_p_bound(data$p_lower, digits = 4, nsmall = 4, scientific = FALSE, statistic = data$chi)
-  char_p_u <- format_p_bound(data$p_upper, digits = 4, nsmall = 4, scientific = FALSE, statistic = data$chi)
-  char_p   <- format_p_bound(data$p_two, digits = 4, nsmall = 4, scientific = FALSE, statistic = data$chi)
+  chi_stat <- if (is.null(data$chi_raw)) data$chi else data$chi_raw
+  char_p_l <- format_p_bound(data$p_lower, digits = 4, nsmall = 4, scientific = FALSE, statistic = chi_stat)
+  char_p_u <- format_p_bound(data$p_upper, digits = 4, nsmall = 4, scientific = FALSE, statistic = chi_stat)
+  char_p   <- format_p_bound(data$p_two, digits = 4, nsmall = 4, scientific = FALSE, statistic = chi_stat)
   
   if (data$p_lower < 0.5) {
     all_p_t <- paste("2 * Pr(C < c) =", char_p)
@@ -1231,8 +1244,9 @@ print_var_test <- function(data) {
   lhyp       <- "Ha: ratio < 1"
   uhyp       <- "Ha: ratio > 1"
 
-  char_p_l   <- format_p_bound(data$lower, data$lower_raw, digits = 4, nsmall = 4, scientific = FALSE, statistic = data$f)
-  char_p_u   <- format_p_bound(data$upper, data$upper_raw, digits = 4, nsmall = 4, scientific = FALSE, statistic = data$f)
+  f_stat     <- if (is.null(data$f_raw)) data$f else data$f_raw
+  char_p_l   <- format_p_bound(data$lower, data$lower_raw, digits = 4, nsmall = 4, scientific = FALSE, statistic = f_stat)
+  char_p_u   <- format_p_bound(data$upper, data$upper_raw, digits = 4, nsmall = 4, scientific = FALSE, statistic = f_stat)
   
   all_p_l    <- paste("Pr(F < f) =", char_p_l)
   all_p_u    <- paste("Pr(F > f) =", char_p_u)

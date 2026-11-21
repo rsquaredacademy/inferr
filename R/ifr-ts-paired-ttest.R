@@ -14,6 +14,13 @@
 #' places; p-values are stored unrounded and printed as bounds when they are
 #' below the display resolution.
 #'
+#' The Pearson correlation is ancillary to the paired t test. When either
+#' column is constant the correlation is undefined, so \code{corr} is
+#' \code{NA} while the t test on the differences is still computed. The
+#' correlation significance \code{corsig} is \code{NA} when the correlation is
+#' undefined or when fewer than three complete pairs remain. Both print as
+#' \code{NA}, which is a printable label rather than a numeric result.
+#'
 #' @return \code{ifr_ts_paired_ttest} returns an object of class \code{"ifr_ts_paired_ttest"}.
 #' An object of class \code{"ifr_ts_paired_ttest"} is a list containing the
 #' following components:
@@ -133,10 +140,15 @@ paired_comp <- function(x, y, confint, var_names) {
 
   check_finite_moment(b[[1]], "mean", var_names[1])
   check_finite_moment(b[[2]], "standard deviation", var_names[1])
-  check_finite_moment(corr, "correlation", xy)
 
-  corsig    <- if (n > 2L) cor_sig(corr, n) else NA_real_
-  corsig_raw <- if (n > 2L) cor_sig_raw(corr, n) else NA_real_
+  # the correlation is ancillary to the paired t test: with a constant column
+  # it is undefined (NA), but the t test on the differences is still valid
+  if (length(corr) != 1L || !is.finite(corr)) {
+    corr <- NA_real_
+  }
+
+  corsig     <- if (n > 2L && !is.na(corr)) cor_sig(corr, n) else NA_real_
+  corsig_raw <- if (n > 2L && !is.na(corr)) cor_sig_raw(corr, n) else NA_real_
 
   alpha     <- 1 - confint
 
@@ -150,7 +162,7 @@ paired_comp <- function(x, y, confint, var_names) {
 
   p_l       <- pt(t, df)
   p_u       <- pt(t, df, lower.tail = FALSE)
-  p         <- pt(abs(t), df, lower.tail = FALSE) * 2
+  p         <- min(1, pt(abs(t), df, lower.tail = FALSE) * 2)
 
   list(
     Obs = n, b = b, conf_int1 = confint1, conf_int2 = confint2,

@@ -60,6 +60,13 @@ and sample sizes \code{<= 1e15}. At least two complete pairs are required;
 incomplete pairs are removed. The t statistic is stored to four decimal
 places; p-values are stored unrounded and printed as bounds when they are
 below the display resolution.
+
+The Pearson correlation is ancillary to the paired t test. When either
+column is constant the correlation is undefined, so \code{corr} is
+\code{NA} while the t test on the differences is still computed. The
+correlation significance \code{corsig} is \code{NA} when the correlation is
+undefined or when fewer than three complete pairs remain. Both print as
+\code{NA}, which is a printable label rather than a numeric result.
 }
 \section{Deprecated Function}{
 

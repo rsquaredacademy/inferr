@@ -7,14 +7,27 @@
 #' @param alternative a character string specifying the alternative hypothesis,
 #' must be one of "less" (default), "greater" or "all". You can specify
 #' just the initial letter.
+#' @details Supported inputs: finite data with absolute value \code{<= 1e150}
+#' and sample sizes \code{<= 1e15}. Missing values are removed. Exactly two
+#' variables, or one variable and a two-level grouping variable, are required.
+#' Both groups must have positive, finite variances; a constant group or a
+#' variance too small to represent stops with a clear error. The F statistic
+#' is stored to four decimal places and unrounded in
+#' \code{f_raw}; the variances and group statistics are rounded for display.
+#' One-sided p-values are stored to four decimal places and unrounded in
+#' \code{lower_raw} and \code{upper_raw}; an underflowed positive tail is
+#' printed as a bound using \code{f_raw}, not the rounded statistic.
 #'
 #' @return \code{ifr_ts_var_test} returns an object of class \code{"ifr_ts_var_test"}.
 #' An object of class \code{"ifr_ts_var_test"} is a list containing the
 #' following components:
 #'
-#' \item{f}{f statistic}
-#' \item{lower}{lower one-sided p-value}
-#' \item{upper}{upper one-sided p-value}
+#' \item{f}{f statistic, stored to four decimal places}
+#' \item{f_raw}{unrounded f statistic}
+#' \item{lower}{lower one-sided p-value, stored to four decimal places}
+#' \item{lower_raw}{unrounded lower one-sided p-value}
+#' \item{upper}{upper one-sided p-value, stored to four decimal places}
+#' \item{upper_raw}{unrounded upper one-sided p-value}
 #' \item{two_tail}{two-sided p-value}
 #' \item{vars}{variances for each level of the grouping variable}
 #' \item{avgs}{means for each level of the grouping variable}
@@ -106,6 +119,7 @@ ifr_ts_var_test.default <- function(data, ..., group_var = NULL,
   out <- list(avg   = k$avg,
               avgs  = k$avgs,
               f     = k$f,
+              f_raw = k$f_raw,
               len   = k$len,
               lens  = k$lens,
               lev   = lev,
@@ -147,11 +161,21 @@ var_comp <- function(variable, group_var) {
   comp  <- complete.cases(variable, group_var)
   cvar  <- variable[comp]
   gvar  <- group_var[comp]
+  check_finite_range(cvar, "variable")
+  check_max_sample_size(length(cvar), "sample size")
+
   d     <- data.frame(cvar, gvar)
   vals  <- tibble_stats(d, "cvar", "gvar")
   lass  <- tbl_stats(d, "cvar")
   lens  <- vals[[2]]
   vars  <- vals[[4]]
+
+  if (any(!is.finite(vars)) || any(vars <= 0)) {
+    stop(paste0("both groups must have positive, finite variances; the ",
+                "variance ratio is undefined"),
+         call. = FALSE)
+  }
+
   f     <- vars[1] / vars[2]
   n1    <- lens[1] - 1
   n2    <- lens[2] - 1
@@ -162,6 +186,7 @@ var_comp <- function(variable, group_var) {
   list(avg      = round(lass[2], 2),
        avgs     = round(vals[[3]], 2),
        f        = round(f, 4),
+       f_raw    = f,
        len      = lass[1],
        lens     = lens,
        lower    = round(lower, 4),

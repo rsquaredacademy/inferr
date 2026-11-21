@@ -25,11 +25,14 @@ An object of class \code{"ifr_levene_test"} is a list containing the
 following components:
 
 \item{bf}{Brown and Forsythe f statistic}
-\item{p_bf}{p-value for Brown and Forsythe f statistic}
+\item{p_bf}{p-value for Brown and Forsythe f statistic, stored to four decimal places}
+\item{p_bf_raw}{unrounded p-value for Brown and Forsythe f statistic}
 \item{lev}{Levene's f statistic}
-\item{p_lev}{p-value for Levene's f statistic}
+\item{p_lev}{p-value for Levene's f statistic, stored to four decimal places}
+\item{p_lev_raw}{unrounded p-value for Levene's f statistic}
 \item{bft}{Brown and Forsythe f statistic using trimmed mean}
-\item{p_bft}{p-value for Brown and Forsythe f statistic using trimmed mean}
+\item{p_bft}{p-value for Brown and Forsythe f statistic using trimmed mean, stored to four decimal places}
+\item{p_bft_raw}{unrounded p-value for Brown and Forsythe f statistic using trimmed mean}
 \item{avgs}{mean for each level of the grouping variable}
 \item{sds}{standard deviations for each level of the grouping variable}
 \item{avg}{combined mean}
@@ -49,6 +52,15 @@ Levene's formula with alternative location estimators. The first alternative
 replaces the mean with the median. The second alternative replaces
 the mean with the 10% trimmed mean. Observations with missing values are
 removed.
+}
+\details{
+Supported inputs: finite numeric values with absolute value
+\code{<= 1e150}, sample sizes \code{<= 1e15}, and at least two groups.
+Observations with missing values are removed. The F statistics are stored
+to four decimal places. p-values are stored to four decimal places in the
+\code{p_*} fields and unrounded in the corresponding \code{*_raw} fields;
+an underflowed positive tail is printed as a bound rather than as an exact
+zero.
 }
 \section{Deprecated Function}{
 

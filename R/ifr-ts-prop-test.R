@@ -27,9 +27,15 @@
 #' All three entry points reject samples whose proportions are both zero or
 #' both one, because the pooled z test then has zero standard error and is
 #' undefined. A single boundary proportion or opposite boundary proportions
-#' are allowed. The z statistic and p-values are stored to three decimal
-#' places; the unrounded p-value is retained in \code{sig_raw} and printed as a
-#' bound when it is below the display resolution.
+#' are allowed.
+#'
+#' The pooled standard error is computed with the direct pooled-variance
+#' expression for ordinary proportions and with a factored square root when
+#' that product would underflow, so probabilities near zero and near one remain
+#' finite rather than producing an infinite z. The z statistic is stored to
+#' three decimal places and unrounded in \code{z_raw}. p-values are stored to
+#' three decimal places and unrounded in \code{sig_raw}; they are printed as
+#' bounds when they are below the display resolution.
 #'
 #' @return an object of class \code{"ifr_ts_prop_test"}.
 #' An object of class \code{"ifr_ts_prop_test"} is a list containing the
@@ -39,7 +45,8 @@
 #' \item{n2}{sample 2 size}
 #' \item{phat1}{sample 1 proportion}
 #' \item{phat2}{sample 2 proportion}
-#' \item{z}{z statistic}
+#' \item{z}{z statistic, stored to three decimal places}
+#' \item{z_raw}{unrounded z statistic}
 #' \item{sig}{p-value for z statistic, stored to three decimal places}
 #' \item{sig_raw}{unrounded p-value for z statistic}
 #' \item{alt}{alternative hypothesis}
@@ -99,7 +106,8 @@ ifr_ts_prop_test.default <- function(data, var1, var2,
          phat2 = k$phat2,
          sig   = k$sig,
          sig_raw = k$sig_raw,
-         z     = k$z)
+         z     = k$z,
+         z_raw = k$z_raw)
 
   class(result) <- "ifr_ts_prop_test"
   return(result)
@@ -186,17 +194,12 @@ ifr_ts_prop_group <- function(data, var, group,
   phat1 <- y1 / n1
   phat2 <- y2 / n2
   check_ts_prop_boundary(phat1, phat2)
-  phat  <- sum(y1, y2) / sum(n1, n2)
-  num   <- (phat1 - phat2)
-  den1  <- phat * (1 - phat)
-  den2  <- (1 / n1) + (1 / n2)
-  den   <- sqrt(den1 * den2)
-  z     <- num / den
+  z     <- prop_z_2sample(n1, n2, phat1, phat2)
 
 
   lt    <- pnorm(z)
   ut    <- pnorm(z, lower.tail = FALSE)
-  tt    <- pnorm(abs(z), lower.tail = FALSE) * 2
+  tt    <- pmin(1, pnorm(abs(z), lower.tail = FALSE) * 2)
 
   alt   <- match.arg(alternative)
 
@@ -218,7 +221,8 @@ ifr_ts_prop_group <- function(data, var, group,
          phat2 = phat2,
          sig   = round(sig, 3),
          sig_raw = sig,
-         z     = round(z, 3))
+         z     = round(z, 3),
+         z_raw = z)
 
   class(out) <- "ifr_ts_prop_test"
   return(out)
@@ -263,16 +267,11 @@ ifr_ts_prop_calc <- function(n1, n2, p1, p2,
   phat1 <- p1
   phat2 <- p2
   check_ts_prop_boundary(phat1, phat2)
-  phat  <- sum(n1 * p1, n2 * p2) / sum(n1, n2)
-  num   <- (phat1 - phat2)
-  den1  <- phat * (1 - phat)
-  den2  <- (1 / n1) + (1 / n2)
-  den   <- sqrt(den1 * den2)
-  z     <- num / den
+  z     <- prop_z_2sample(n1, n2, phat1, phat2)
 
   lt    <- pnorm(z)
   ut    <- pnorm(z, lower.tail = FALSE)
-  tt    <- pnorm(abs(z), lower.tail = FALSE) * 2
+  tt    <- pmin(1, pnorm(abs(z), lower.tail = FALSE) * 2)
 
   alt   <- match.arg(alternative)
 
@@ -294,7 +293,8 @@ ifr_ts_prop_calc <- function(n1, n2, p1, p2,
          phat2 = round(phat2, 3),
          sig   = round(sig, 3),
          sig_raw = sig,
-         z     = round(z, 3))
+         z     = round(z, 3),
+         z_raw = z)
 
   class(out) <- "ifr_ts_prop_test"
   return(out)
@@ -336,17 +336,11 @@ prop_comp2 <- function(var1, var2, alt) {
   phat1 <- y1 / n1
   phat2 <- y2 / n2
   check_ts_prop_boundary(phat1, phat2)
-  phat  <- sum(y1, y2) / sum(n1, n2)
-
-  num   <- (phat1 - phat2)
-  den1  <- phat * (1 - phat)
-  den2  <- (1 / n1) + (1 / n2)
-  den   <- sqrt(den1 * den2)
-  z     <- num / den
+  z     <- prop_z_2sample(n1, n2, phat1, phat2)
 
   lt    <- pnorm(z)
   ut    <- pnorm(z, lower.tail = FALSE)
-  tt    <- pnorm(abs(z), lower.tail = FALSE) * 2
+  tt    <- pmin(1, pnorm(abs(z), lower.tail = FALSE) * 2)
 
   if (alt == "all") {
     sig <- c("two-tail" = tt, "lower-tail" = lt, "upper-tail" = ut)
@@ -364,6 +358,7 @@ prop_comp2 <- function(var1, var2, alt) {
        phat2 = round(phat2, 4),
        sig   = round(sig, 3),
        sig_raw = sig,
-       z     = round(z, 3))
+       z     = round(z, 3),
+       z_raw = z)
 
 }

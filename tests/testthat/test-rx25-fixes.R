@@ -129,13 +129,22 @@ test_that("H4: variance and paired inputs outside the domain stop clearly", {
   )
 })
 
-test_that("M1: ANOVA's relative guard works at any finite response scale", {
-  d <- data.frame(x = (1:6) * 1e-170,
+test_that("M1: ANOVA's relative guard works at any representable response scale", {
+  d <- data.frame(x = (1:6) * 1e-140,
                   g = factor(rep(c("a", "b"), each = 3)))
   k <- ifr_oneway_anova(d, x, g)
 
   expect_equal(k$fstat, 13.5)
   expect_equal(round(k$pval, 8), 0.02131164)
+  expect_equal(k$ss_within, 4e-280)
+  expect_equal(k$ms_within, 1e-280)
+
+  # below the representable scale for sums of squares, stop honestly
+  d$x <- (1:6) * 1e-170
+  expect_error(
+    ifr_oneway_anova(d, x, g),
+    "sums of squares for response 'x' underflow"
+  )
 
   # the same design at an out-of-domain scale is rejected by the range guard
   d$x <- (1:6) * 1e160

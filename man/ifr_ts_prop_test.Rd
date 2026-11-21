@@ -67,7 +67,8 @@ following components:
 \item{n2}{sample 2 size}
 \item{phat1}{sample 1 proportion}
 \item{phat2}{sample 2 proportion}
-\item{z}{z statistic}
+\item{z}{z statistic, stored to three decimal places}
+\item{z_raw}{unrounded z statistic}
 \item{sig}{p-value for z statistic, stored to three decimal places}
 \item{sig_raw}{unrounded p-value for z statistic}
 \item{alt}{alternative hypothesis}
@@ -90,9 +91,15 @@ removed; each sample must retain at least one observation.
 All three entry points reject samples whose proportions are both zero or
 both one, because the pooled z test then has zero standard error and is
 undefined. A single boundary proportion or opposite boundary proportions
-are allowed. The z statistic and p-values are stored to three decimal
-places; the unrounded p-value is retained in \code{sig_raw} and printed as a
-bound when it is below the display resolution.
+are allowed.
+
+The pooled standard error is computed with the direct pooled-variance
+expression for ordinary proportions and with a factored square root when
+that product would underflow, so probabilities near zero and near one remain
+finite rather than producing an infinite z. The z statistic is stored to
+three decimal places and unrounded in \code{z_raw}. p-values are stored to
+three decimal places and unrounded in \code{sig_raw}; they are printed as
+bounds when they are below the display resolution.
 }
 \section{Deprecated Functions}{
 

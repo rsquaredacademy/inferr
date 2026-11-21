@@ -12,17 +12,27 @@
 #' @param ... numeric; columns in \code{data}
 #' @param group_var factor or character; column in \code{data}
 #' @param trim_mean trimmed mean
+#' @details Supported inputs: finite numeric values with absolute value
+#' \code{<= 1e150}, sample sizes \code{<= 1e15}, and at least two groups.
+#' Observations with missing values are removed. The F statistics are stored
+#' to four decimal places. p-values are stored to four decimal places in the
+#' \code{p_*} fields and unrounded in the corresponding \code{*_raw} fields;
+#' an underflowed positive tail is printed as a bound rather than as an exact
+#' zero.
 #'
 #' @return \code{ifr_levene_test} returns an object of class \code{"ifr_levene_test"}.
 #' An object of class \code{"ifr_levene_test"} is a list containing the
 #' following components:
 #'
 #' \item{bf}{Brown and Forsythe f statistic}
-#' \item{p_bf}{p-value for Brown and Forsythe f statistic}
+#' \item{p_bf}{p-value for Brown and Forsythe f statistic, stored to four decimal places}
+#' \item{p_bf_raw}{unrounded p-value for Brown and Forsythe f statistic}
 #' \item{lev}{Levene's f statistic}
-#' \item{p_lev}{p-value for Levene's f statistic}
+#' \item{p_lev}{p-value for Levene's f statistic, stored to four decimal places}
+#' \item{p_lev_raw}{unrounded p-value for Levene's f statistic}
 #' \item{bft}{Brown and Forsythe f statistic using trimmed mean}
-#' \item{p_bft}{p-value for Brown and Forsythe f statistic using trimmed mean}
+#' \item{p_bft}{p-value for Brown and Forsythe f statistic using trimmed mean, stored to four decimal places}
+#' \item{p_bft_raw}{unrounded p-value for Brown and Forsythe f statistic using trimmed mean}
 #' \item{avgs}{mean for each level of the grouping variable}
 #' \item{sds}{standard deviations for each level of the grouping variable}
 #' \item{avg}{combined mean}
@@ -149,6 +159,9 @@ lev_comp <- function(variable, group_var, trim.mean) {
   n    <- sum(comp)
   cvar <- variable[comp]
   gvar <- factor(group_var[comp])
+
+  check_finite_range(cvar, "variable")
+  check_max_sample_size(n, "sample size")
   k    <- nlevels(gvar)
   lens <- tapply(cvar, gvar, length)
   avgs <- tapply(cvar, gvar, mean)
