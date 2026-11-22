@@ -45,19 +45,14 @@
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #'
 #' @examples
-#' # using variables from data
-#' hb <- hsb
-#' hb$himath <- ifelse(hsb$math > 60, 1, 0)
-#' hb$hiread <- ifelse(hsb$read > 60, 1, 0)
-#' ifr_mcnemar_test(hb, himath, hiread)
+#' # Did the promotion change the proportion of customers who bought?
+#' ifr_mcnemar_test(campaign_responses, bought_before, bought_after)
 #'
-#' # test if the proportion of students in himath and hiread group is same
-#' himath <- ifelse(hsb$math > 60, 1, 0)
-#' hiread <- ifelse(hsb$read > 60, 1, 0)
-#' ifr_mcnemar_test(table(himath, hiread))
+#' # same test from a table
+#' ifr_mcnemar_test(table(campaign_responses[c("bought_before", "bought_after")]))
 #'
-#' # using matrix
-#' ifr_mcnemar_test(matrix(c(135, 18, 21, 26), nrow = 2))
+#' # same test from a matrix
+#' ifr_mcnemar_test(matrix(table(campaign_responses[c("bought_before", "bought_after")]), nrow = 2))
 #'
 #' @seealso \code{\link[stats]{mcnemar.test}}
 #'

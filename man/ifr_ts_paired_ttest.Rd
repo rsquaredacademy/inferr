@@ -75,17 +75,20 @@ undefined or when fewer than three complete pairs remain. Both print as
 }
 
 \examples{
+# Do customers spend more on groceries than milk? Compare logs because spending is right-skewed.
+w <- transform(wholesale_customers, log_grocery = log(grocery), log_milk = log(milk))
+
 # lower tail
-ifr_ts_paired_ttest(hsb, read, write, alternative = 'less')
+ifr_ts_paired_ttest(w, log_grocery, log_milk, alternative = 'less')
 
 # upper tail
-ifr_ts_paired_ttest(hsb, read, write, alternative = 'greater')
+ifr_ts_paired_ttest(w, log_grocery, log_milk, alternative = 'greater')
 
 # both tails
-ifr_ts_paired_ttest(hsb, read, write, alternative = 'both')
+ifr_ts_paired_ttest(w, log_grocery, log_milk, alternative = 'both')
 
 # all tails
-ifr_ts_paired_ttest(hsb, read, write, alternative = 'all')
+ifr_ts_paired_ttest(w, log_grocery, log_milk, alternative = 'all')
 
 }
 \references{

@@ -43,7 +43,8 @@ as a bound rather than as an exact zero.
 }
 
 \examples{
-ifr_cochran_qtest(exam, exam1, exam2, exam3)
+# Did the three campaigns get the same response rate?
+ifr_cochran_qtest(campaign_responses, promo_1, promo_2, promo_3)
 
 }
 \references{

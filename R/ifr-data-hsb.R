@@ -1,7 +1,7 @@
 #' High School and Beyond Data Set
 #'
 #' A dataset containing demographic information and standardized test
-#' scores of high school students.
+#' scores of high school students. Kept for backward compatibility; examples now use wholesale_customers / campaign_responses.
 #'
 #' @format A data frame with 200 rows and 10 variables:
 #' \describe{

@@ -15,6 +15,6 @@ A data frame with 200 rows and 2 variables:
 treatment2
 }
 \description{
-A dataset containing information about treatment outcomes
+A dataset containing information about treatment outcomes. Kept for backward compatibility; examples now use wholesale_customers / campaign_responses.
 }
 \keyword{datasets}

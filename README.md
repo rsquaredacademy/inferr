@@ -54,151 +54,157 @@ devtools::install_github("rsquaredacademy/inferr")
 
 ## Usage
 
+The examples use `wholesale_customers` (UCI, CC BY 4.0) and the
+simulated `campaign_responses`.
+
 #### One Sample t Test
 
 ``` r
-ifr_os_t_test(hsb, write, mu = 50)
+w <- transform(wholesale_customers, log_grocery = log(grocery))
+```
+
+``` r
+# Is average grocery spending different from 4,000? Use logs because spending is right-skewed.
+ifr_os_t_test(log(wholesale_customers$grocery), mu = log(4000))
 #>                               One-Sample Statistics                               
 #> ---------------------------------------------------------------------------------
 #>  Variable    Obs     Mean     Std. Err.    Std. Dev.    [95% Conf. Interval] 
 #> ---------------------------------------------------------------------------------
-#>   write      200    52.775     0.6702       9.4786       51.4533    54.0967   
+#>     x        440    8.4412     0.0532       1.1162        8.3366     8.5457   
 #> ---------------------------------------------------------------------------------
 #> 
-#>                                   Two Tail Test                                 
-#>                                  ---------------                                 
+#>                                   Two Tail Test                                  
+#>                                  ---------------                                  
 #> 
-#>                               Ho: mean(write) ~=50                              
-#>                               Ha: mean(write) !=50                               
-#> -------------------------------------------------------------------------------
-#>  Variable     t      DF       Sig       Mean Diff.    [95% Conf. Interval] 
-#> -------------------------------------------------------------------------------
-#>   write      4.14    199    0.00005       2.775         1.4533     4.0967   
-#> -------------------------------------------------------------------------------
+#>                           Ho: mean(x) ~=8.29404964010203                         
+#>                           Ha: mean(x) !=8.29404964010203                          
+#> --------------------------------------------------------------------------------
+#>  Variable      t      DF       Sig       Mean Diff.    [95% Conf. Interval] 
+#> --------------------------------------------------------------------------------
+#>     x        2.765    439    0.00594       0.1471        0.0425     0.2517   
+#> --------------------------------------------------------------------------------
 ```
 
 #### ANOVA
 
 ``` r
-ifr_oneway_anova(hsb, write, prog)
-#>                                    ANOVA                                     
-#> ----------------------------------------------------------------------------
-#>                    Sum of                                                   
-#>                    Squares     DF     Mean Square      F           Sig.     
-#> ----------------------------------------------------------------------------
-#> Between Groups    3175.698      2      1587.849      21.275    4.310163e-09 
-#> Within Groups     14703.177    197      74.635                              
-#> Total             17878.875    199                                          
-#> ----------------------------------------------------------------------------
+# Does average grocery spending differ by region? Use logs because spending is right-skewed.
+ifr_oneway_anova(w, log_grocery, region)
+#>                                 ANOVA                                  
+#> ----------------------------------------------------------------------
+#>                   Sum of                                              
+#>                   Squares    DF     Mean Square      F        Sig.    
+#> ----------------------------------------------------------------------
+#> Between Groups     3.866      2        1.933       1.556    0.2122285 
+#> Within Groups     543.057    437       1.243                          
+#> Total             546.923    439                                      
+#> ----------------------------------------------------------------------
 #> 
 #>                  Report                   
 #> -----------------------------------------
 #> Category     N       Mean      Std. Dev. 
 #> -----------------------------------------
-#>    1        45      51.333       9.398   
-#>    2        105     56.257       7.943   
-#>    3        50      46.760       9.319   
+#>  lisbon     77      8.358        1.069   
+#>  porto      47      8.703        0.905   
+#>  other      316     8.423        1.153   
 #> -----------------------------------------
 #> 
-#> Number of obs = 200       R-squared     = 0.1776 
-#> Root MSE      = 8.6392    Adj R-squared = 0.1693
+#> Number of obs = 440       R-squared     = 0.0071 
+#> Root MSE      = 1.1148    Adj R-squared = 0.0025
 ```
 
 #### Chi Square Test of Independence
 
 ``` r
-ifr_chisq_assoc_test(hsb, female, schtyp)
+# Is customer channel associated with region?
+ifr_chisq_assoc_test(wholesale_customers, channel, region)
 #>                Chi Square Statistics                 
 #> 
 #> Statistics                     DF    Value      Prob 
 #> ----------------------------------------------------
-#> Chi-Square                     1    0.0470    0.8283
-#> Likelihood Ratio Chi-Square    1    0.0471    0.8281
-#> Continuity Adj. Chi-Square     1    0.0005    0.9815
-#> Mantel-Haenszel Chi-Square     1    0.0468    0.8287
-#> Phi Coefficient                     0.0153          
-#> Contingency Coefficient             0.0153          
-#> Cramer's V                          0.0153          
+#> Chi-Square                     2    4.3491    0.1137
+#> Likelihood Ratio Chi-Square    2    4.4609    0.1075
+#> Phi Coefficient                         NA          
+#> Contingency Coefficient             0.0989          
+#> Cramer's V                          0.0994          
 #> ----------------------------------------------------
 ```
 
 #### Levene’s Test
 
 ``` r
-ifr_levene_test(hsb, read, group_var = race)
-#>            Summary Statistics             
-#> Levels    Frequency    Mean     Std. Dev  
-#> -----------------------------------------
-#>   1          24        46.67      10.24   
-#>   2          11        51.91      7.66    
-#>   3          20        46.8       7.12    
-#>   4          145       53.92      10.28   
-#> -----------------------------------------
-#> Total        200       52.23      10.25   
-#> -----------------------------------------
+# Do retail and hotel/restaurant/cafe customers have equal variance in log grocery spending?
+ifr_levene_test(w, log_grocery, group_var = channel)
+#>                   Summary Statistics                    
+#>        Levels            Frequency    Mean    Std. Dev  
+#> -------------------------------------------------------
+#> hotel_restaurant_cafe       298       7.93      0.93    
+#>        retail               142       9.51       0.6    
+#> -------------------------------------------------------
+#>         Total               440       8.44      1.12    
+#> -------------------------------------------------------
 #> 
-#>                              Test Statistics                              
-#> -------------------------------------------------------------------------
-#> Statistic                            Num DF    Den DF         F    Pr > F 
-#> -------------------------------------------------------------------------
-#> Brown and Forsythe                        3       196    3.4792     0.017 
-#> Levene                                    3       196      3.44    0.0179 
-#> Brown and Forsythe (Trimmed Mean)         3       196    3.3936     0.019 
-#> -------------------------------------------------------------------------
+#>                              Test Statistics                               
+#> --------------------------------------------------------------------------
+#> Statistic                            Num DF    Den DF          F    Pr > F 
+#> --------------------------------------------------------------------------
+#> Brown and Forsythe                        1       438    12.2545     5e-04 
+#> Levene                                    1       438    12.0327     6e-04 
+#> Brown and Forsythe (Trimmed Mean)         1       438    12.2628     5e-04 
+#> --------------------------------------------------------------------------
 ```
 
 #### Cochran’s Q Test
 
 ``` r
-ifr_cochran_qtest(exam, exam1, exam2, exam3)
-#>    Test Statistics     
-#> ----------------------
-#> N                   15 
-#> Cochran's Q       4.75 
-#> df                   2 
-#> p value          0.093 
-#> ----------------------
+# Did the three campaigns get the same response rate?
+ifr_cochran_qtest(campaign_responses, promo_1, promo_2, promo_3)
+#>          Test Statistics           
+#> ----------------------------------
+#> N                              200 
+#> Cochran's Q              0.4592593 
+#> df                               2 
+#> p value                     0.7948 
+#> ----------------------------------
 ```
 
 #### McNemar Test
 
 ``` r
-hb <- hsb
-hb$himath <- ifelse(hsb$math > 60, 1, 0)
-hb$hiread <- ifelse(hsb$read > 60, 1, 0)
-ifr_mcnemar_test(hb, himath, hiread)
+# Did the promotion change the proportion of customers who bought?
+ifr_mcnemar_test(campaign_responses, bought_before, bought_after)
 #>            Controls 
 #> ---------------------------------
-#> Cases       0       1       Total 
+#> Cases      0        1       Total 
 #> ---------------------------------
-#>   0        135      21        156 
-#>   1         18      26         44 
+#>   0        74       70        144 
+#>   1        20       36         56 
 #> ---------------------------------
-#> Total      153      47        200 
+#> Total      94      106        200 
 #> ---------------------------------
 #> 
-#>        McNemar's Test        
-#> ----------------------------
-#> McNemar's chi2        0.2308 
-#> DF                         1 
-#> Pr > chi2              0.631 
-#> Exact Pr >= chi2      0.7493 
-#> ----------------------------
+#>         McNemar's Test         
+#> ------------------------------
+#> McNemar's chi2         27.7778 
+#> DF                           1 
+#> Pr > chi2             < 0.0001 
+#> Exact Pr >= chi2      < 0.0001 
+#> ------------------------------
 #> 
 #>        Kappa Coefficient         
 #> --------------------------------
-#> Kappa                     0.4454 
-#> ASE                        0.075 
-#> 95% Lower Conf Limit      0.2984 
-#> 95% Upper Conf Limit      0.5923 
+#> Kappa                     0.1231 
+#> ASE                       0.0609 
+#> 95% Lower Conf Limit      0.0039 
+#> 95% Upper Conf Limit      0.2424 
 #> --------------------------------
 #> 
 #> Proportion With Factor 
 #> ----------------------
-#> cases             0.78 
-#> controls         0.765 
-#> ratio           1.0196 
-#> odds ratio      1.1667 
+#> cases             0.72 
+#> controls          0.47 
+#> ratio           1.5319 
+#> odds ratio         3.5 
 #> ----------------------
 ```
 

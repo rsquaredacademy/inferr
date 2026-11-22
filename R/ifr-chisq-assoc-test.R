@@ -46,9 +46,12 @@
 #' Cramér, H. (1946). \emph{Mathematical Methods of Statistics}. Princeton, NJ: Princeton University Press.
 #'
 #' @examples
-#' ifr_chisq_assoc_test(hsb, female, schtyp)
+#' # Is customer channel associated with region?
+#' ifr_chisq_assoc_test(wholesale_customers, channel, region)
 #'
-#' ifr_chisq_assoc_test(hsb, female, ses)
+#' # Is channel associated with above-median grocery spending?
+#' w <- transform(wholesale_customers, high_grocery = factor(grocery > median(grocery)))
+#' ifr_chisq_assoc_test(w, channel, high_grocery)
 #'
 #' @seealso \code{\link[stats]{chisq.test}}
 #'

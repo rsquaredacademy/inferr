@@ -1,6 +1,6 @@
 #' Dummy data set for 2 Sample Proportion test
 #'
-#' A dataset containing information about two treatments
+#' A dataset containing information about two treatments. Kept for backward compatibility; examples now use wholesale_customers / campaign_responses.
 #'
 #' @format A data frame with 50 rows and 2 variables:
 #' \describe{

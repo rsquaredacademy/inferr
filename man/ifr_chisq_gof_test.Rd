@@ -73,10 +73,11 @@ resolution.
 }
 
 \examples{
-ifr_chisq_gof_test(hsb, race, c(20, 20, 20, 140))
+# Is the channel mix evenly split between retail and hotel/restaurant/cafe?
+ifr_chisq_gof_test(wholesale_customers, channel, c(0.5, 0.5))
 
 # apply continuity correction
-ifr_chisq_gof_test(hsb, race, c(20, 20, 20, 140), correct = TRUE)
+ifr_chisq_gof_test(wholesale_customers, channel, c(0.5, 0.5), correct = TRUE)
 
 }
 \references{

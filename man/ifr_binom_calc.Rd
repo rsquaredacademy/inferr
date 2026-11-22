@@ -59,11 +59,12 @@ column to be a factor, so convert character, logical or 0/1 columns with
 }
 
 \examples{
-# using calculator
-ifr_binom_calc(32, 13, prob = 0.5)
+# Is the share of returning customers different from 50\%?
+ifr_binom_test(campaign_responses, segment, prob = 0.5)
 
-# using data set
-ifr_binom_test(hsb, female, prob = 0.5)
+# same test using the calculator
+ifr_binom_calc(nrow(campaign_responses),
+               sum(campaign_responses$segment == "returning"), prob = 0.5)
 
 }
 \references{

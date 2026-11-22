@@ -75,11 +75,16 @@ printed as a bound using \code{f_raw}, not the rounded statistic.
 }
 
 \examples{
+# Do retail and hotel/restaurant/cafe customers vary equally in grocery spending?
+# Use log(grocery) because spending is right-skewed.
+w <- transform(wholesale_customers, log_grocery = log(grocery), log_milk = log(milk))
+
 # using grouping variable
-ifr_ts_var_test(hsb, read, group_var = female, alternative = 'less')
+ifr_ts_var_test(w, log_grocery, group_var = channel, alternative = 'all')
 
 # using two variables
-ifr_ts_var_test(hsb, read, write, alternative = 'less')
+# Do grocery and milk spending vary equally on the log scale?
+ifr_ts_var_test(w, log_grocery, log_milk, alternative = 'all')
 
 }
 \references{
