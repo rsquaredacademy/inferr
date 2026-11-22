@@ -41,6 +41,20 @@ As of version 0.1, **inferr** includes a select set of parametric and non-parame
 - McNemar Test
 - Runs Test for Randomness
 
+The examples use `wholesale_customers`, a real data set from the UCI Machine
+Learning Repository, and `campaign_responses`, a simulated data set for a
+fictional online store. Annual spending is heavily right-skewed, so the tests
+that compare means, variances or regions use `log()` of the spending columns.
+
+```{r data}
+w <- transform(
+  wholesale_customers,
+  log_grocery = log(grocery),
+  log_milk = log(milk),
+  log_fresh = log(fresh)
+)
+```
+
 These tests are described in more detail in the following sections.
 
 ## One Sample t Test
@@ -49,11 +63,13 @@ A one sample t-test is used to determine whether a sample of observations comes 
 
 ### Example
 
-Using the hsb data, test whether the average of write differs significantly from 50.
+Is typical grocery spend (the geometric mean, tested on the log scale) different from 4,000? Because grocery spending is right-skewed, the test compares `log(grocery)` with `log(4000)`.
 
 ```{r ttest}
-ifr_os_t_test(hsb, write, mu = 50, alternative = 'all')
+ifr_os_t_test(log(wholesale_customers$grocery), mu = log(4000), alternative = 'all')
 ```
+
+The small two-sided p-value rejects the hypothesis that the geometric mean of grocery spending is 4,000.
 
 ## Paired t test
 
@@ -61,15 +77,17 @@ A paired (samples) t-test is used when you want to compare the means between two
 
 ### Examples
 
-Using the hsb data, test whether the mean of read is equal to the mean of write.
+Do the same customers spend more on groceries than on milk? Both columns are measured on the same customers, so the samples are paired, and spending is right-skewed, so the test compares logs.
 
 ```{r pair1}
 # Lower Tail Test
-ifr_ts_paired_ttest(hsb, read, write, alternative = 'less')
+ifr_ts_paired_ttest(w, log_grocery, log_milk, alternative = 'less')
 
 # Test all alternatives
-ifr_ts_paired_ttest(hsb, read, write, alternative = 'all')
+ifr_ts_paired_ttest(w, log_grocery, log_milk, alternative = 'all')
 ```
+
+The positive mean difference and small two-sided p-value show that grocery spending is higher than milk spending on the log scale.
 
 ## Two Independent Sample t Test
 
@@ -81,11 +99,13 @@ different i.e. a subject in one group cannot also be a subject of the other grou
 
 ### Example
 
-Using the hsb data, test whether the mean for write is the same for males and females.
+Is typical (log-scale) grocery spend higher for retail customers than for hotel/restaurant/cafe customers? Spending is right-skewed, so the test compares `log(grocery)`.
 
 ```{r ind}
-ifr_ts_ind_ttest(hsb, female, write, alternative = 'all')
+ifr_ts_ind_ttest(w, channel, log_grocery, alternative = 'all')
 ```
+
+The small p-value and positive mean difference show that typical grocery spending is higher for retail customers on the log scale.
 
 ## One Sample Test of Proportion
 
@@ -93,18 +113,21 @@ One sample test of proportion compares proportion in one group to a specified po
 
 ### Examples
 
-Using hsb data, test whether the proportion of females is 50%.
+Is the email open rate different from 50%?
 
 ```{r os_prop1}
 # Using Variables
-ifr_os_prop_test(hsb, female, prob = 0.5)
+ifr_os_prop_test(campaign_responses, opened_email, prob = 0.5)
 ```
 
-Using Calculator
+The open rate is significantly different from 50%.
+
+The same test can be run from the sample size and observed proportion.
 
 ```{r os_prop2}
 # Calculator
-ifr_os_prop_test(200, prob = 0.5, phat = 0.3)
+ifr_os_prop_test(nrow(campaign_responses), prob = 0.5,
+                 phat = mean(campaign_responses$opened_email))
 ```
 
 ## Two Sample Test of Proportion
@@ -113,33 +136,40 @@ Two sample test of proportion performs tests on the equality of proportions usin
 
 ### Examples
 
-#### Using Variables
-
-Using the treatment data, test equality of proportion of two treatments
-```{r ts_prop1}
-# Using Variables
-ifr_ts_prop_test(treatment, treatment1, treatment2, alternative = 'all')
-```
-
 #### Use Grouping Variable
 
-Using the treatment2 data, test whether outcome has same proportion for male and female
+Do new and returning customers open email at the same rate?
 
 ```{r ts_prop2}
 # Using Grouping Variable
-ifr_ts_prop_group(treatment2, outcome, female, alternative = 'all')
+ifr_ts_prop_group(campaign_responses, opened_email, segment, alternative = 'all')
+```
+
+The test does not find a significant difference between the two segments.
+
+#### Using Variables
+
+The same comparison can be made with two independent samples.
+
+```{r ts_prop1}
+# Using Variables
+samples <- split(campaign_responses$opened_email, campaign_responses$segment)
+ifr_ts_prop_test(samples, new, returning, alternative = 'all')
 ```
 
 #### Using Calculator
 
-Test whether the same proportion of people from two batches will pass a review
-exam for a training program. In the first batch of 30 participants, 30%
-passed the review, whereas in the second batch of 25 participants, 50% passed the
-review.
+The same test can be run from the sample sizes and proportions.
 
 ```{r ts_prop3}
 # Calculator
-ifr_ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'all')
+ifr_ts_prop_calc(
+  n1 = sum(campaign_responses$segment == "new"),
+  n2 = sum(campaign_responses$segment == "returning"),
+  p1 = mean(campaign_responses$opened_email[campaign_responses$segment == "new"]),
+  p2 = mean(campaign_responses$opened_email[campaign_responses$segment == "returning"]),
+  alternative = 'all'
+)
 ```
 
 ## One Sample Variance Test
@@ -152,15 +182,17 @@ One sample variance comparison test compares the standard deviation (variances) 
 
 ### Examples
 
-Using the mtcars data, compare the standard deviation of mpg to a hypothesized value.
+Is the standard deviation of log grocery spending different from 1? Spending is right-skewed, so the test uses `log(grocery)`.
 
 ```{r os_var}
 # Lower Tail Test
-ifr_os_var_test(mtcars, mpg, 0.3, alternative = 'less')
+ifr_os_var_test(w, log_grocery, 1, alternative = 'less')
 
 # Test all alternatives
-ifr_os_var_test(mtcars, mpg, 0.3, alternative = 'all')
+ifr_os_var_test(w, log_grocery, 1, alternative = 'all')
 ```
+
+The two-sided p-value rejects a standard deviation of 1 on the log scale.
 
 ## Two Sample Variance Test
 
@@ -170,21 +202,14 @@ Two sample variance comparison tests equality of standard deviations (variances)
 
 #### Use Grouping Variable
 
-Using the mtcars data, compare the standard deviation in miles per gallon for automatic and manual vehicles.
+Do retail and hotel/restaurant/cafe customers have the same variance in log grocery spending? Use logs because spending is right-skewed.
 
 ```{r ts_var1}
 # Using Grouping Variable
-ifr_ts_var_test(hsb, read, group_var = female, alternative = 'all')
+ifr_ts_var_test(w, log_grocery, group_var = channel, alternative = 'all')
 ```
 
-#### Using Variables
-
-Using the hsb data, compare the standard deviation of reading and writing scores.
-
-```{r ts_var2}
-# Using Variables
-ifr_ts_var_test(hsb, read, write, alternative = 'all')
-```
+The variance ratio test finds a significant difference between the two channels.
 
 ## Binomial Probability Test
 
@@ -192,18 +217,21 @@ A one sample binomial test allows us to test whether the proportion of successes
 
 ### Examples
 
-Using the hsb data, test whether the proportion of females and males are equal.
+Is the share of returning customers different from 50%?
 
 ```{r binom_calc}
 # Using variables
-ifr_binom_test(hsb, female, prob = 0.5)
+ifr_binom_test(campaign_responses, segment, prob = 0.5)
 ```
+
+The exact test finds that the share of returning customers differs from 50%.
 
 #### Using Calculator
 
 ```{r binom_calc2}
 # calculator
-ifr_binom_calc(32, 16, prob = 0.5)
+ifr_binom_calc(nrow(campaign_responses),
+               sum(campaign_responses$segment == "returning"), prob = 0.5)
 ```
 
 ## ANOVA
@@ -212,11 +240,13 @@ The one-way analysis of variance (ANOVA) is used to determine whether there are 
 
 ### Examples
 
-Using the hsb data, test whether the mean of write differs between the three program types.
+Does typical (log-scale) grocery spending differ by region? Use `log(grocery)` because spending is right-skewed.
 
 ```{r anova}
-ifr_oneway_anova(hsb, write, prog)
+ifr_oneway_anova(w, log_grocery, region)
 ```
+
+The test does not find a significant difference between the regions.
 
 ## Chi Square Goodness of Fit Test
 A chi-square goodness of fit test allows us to compare the observed sample distribution with expected probability distribution.
@@ -224,19 +254,20 @@ It tests whether the observed proportions for a categorical variable differ from
 
 ### Example
 
-Using the hsb data, test whether the observed proportions for race differs significantly from the
-hypothesized proportions.
+Is the channel mix evenly split between retail and hotel/restaurant/cafe customers?
 
 ```{r gof1}
 # basic example
-ifr_chisq_gof_test(hsb, race, c(20, 20, 20 , 140))
+ifr_chisq_gof_test(wholesale_customers, channel, c(0.5, 0.5))
 ```
+
+The observed channel mix is significantly different from an even split.
 
 #### Continuity Correction
 
 ```{r gof2}
 # using continuity correction
-ifr_chisq_gof_test(hsb, race, c(20, 20, 20 , 140), correct = TRUE)
+ifr_chisq_gof_test(wholesale_customers, channel, c(0.5, 0.5), correct = TRUE)
 ```
 
 ## Chi Square Test of Independence
@@ -246,18 +277,22 @@ A chi-square test is used when you want to test if there is a significant relati
 ### Examples
 
 
-Using the hsb data, test if there is a relationship between the type of school attended (schtyp) and students' gender (female).
+Is customer channel associated with region?
+
 ```{r chi1}
-ifr_chisq_assoc_test(hsb, female, schtyp)
+ifr_chisq_assoc_test(wholesale_customers, channel, region)
 ```
 
-Using the hsb data, test if there is a relationship between the type of school attended (schtyp) and students'
-socio economic status (ses).
+The test does not find a significant association between channel and region.
 
+Is channel associated with above-median grocery spending?
 
 ```{r chi2}
-ifr_chisq_assoc_test(hsb, schtyp, ses)
+w$high_grocery <- factor(w$grocery > median(w$grocery))
+ifr_chisq_assoc_test(w, channel, high_grocery)
 ```
+
+Channel and above-median grocery spending are significantly associated.
 
 ## Levene's Test
 
@@ -267,33 +302,37 @@ Levene's test is used to determine if k samples have equal variances. It is less
 
 #### Use Grouping Variable
 
-Using the hsb data, test whether variance in reading score is same across race.
+Do retail and hotel/restaurant/cafe customers have equal variance in log grocery spending? Use `log(grocery)` because spending is right-skewed.
 
 ```{r lev1}
 # Using Grouping Variable
-ifr_levene_test(hsb, read, group_var = race)
+ifr_levene_test(w, log_grocery, group_var = channel)
 ```
 
-#### Using Variables
+Levene's test finds unequal variances between the two channels.
 
-Using the hsb data, test whether variance is equal for reading, writing and
-social studies scores.
+#### Three Independent Groups
+
+Does the spread of log grocery spending differ across regions?
 
 ```{r lev2}
-# Using Variables
-ifr_levene_test(hsb, read, write, socst)
+ifr_levene_test(w, log_grocery, group_var = region)
 ```
+
+Levene's test does not find a significant difference in log-spend variances across the regions.
 
 ## Cochran's Q Test
 Cochran's Q test is an extension to the McNemar test for related samples that provides a method for testing for differences between three or more matched sets of frequencies or proportions. It is a procedure for testing if the proportions of 3 or more dichotomous variables are equal in some population. These outcome variables have been measured on the same people or other statistical units.
 
 ### Example
 
-The exam data set contains scores of 15 students for three exams (exam1, exam2, exam3). Test if three exams are equally difficult.
+Did the three campaigns get the same response rate? The campaigns in `campaign_responses` were measured on the same customers.
 
 ```{r cochran}
-ifr_cochran_qtest(exam, exam1, exam2, exam3)
+ifr_cochran_qtest(campaign_responses, promo_1, promo_2, promo_3)
 ```
+
+The test does not find a significant difference between the three response rates.
 
 ## McNemar Test
 
@@ -308,49 +347,49 @@ be used to answer whether:
 
 ### Examples
 
-Using the hsb data, test if the proportion of students in himath and hiread group is equal.
+Did the promotion change the proportion of customers who bought?
 
 ```{r mc3}
-hb <- hsb
-hb$himath <- ifelse(hsb$math > 60, 1, 0)
-hb$hiread <- ifelse(hsb$read > 60, 1, 0)
-ifr_mcnemar_test(hb, himath, hiread)
+ifr_mcnemar_test(campaign_responses, bought_before, bought_after)
 ```
 
+The test finds a significant change in the proportion of customers who bought.
+
+The same test can be run from a table.
 
 ```{r mc1}
-himath <- ifelse(hsb$math > 60, 1, 0)
-hiread <- ifelse(hsb$read > 60, 1, 0)
-ifr_mcnemar_test(table(himath, hiread))
+ifr_mcnemar_test(table(campaign_responses[c("bought_before", "bought_after")]))
 ```
 
 Perform the above test using matrix as input.
 
 ```{r mc2}
-ifr_mcnemar_test(matrix(c(135, 18, 21, 26), nrow = 2))
+ifr_mcnemar_test(matrix(table(campaign_responses[c("bought_before", "bought_after")]), nrow = 2))
 ```
 
 ## Runs Test for Randomness
 
-Runs Test can be used to decide if a data set is from a random process. It tests whether observations of a sequence are serially independent i.e. whether they occur in a random order by counting how many runs there are above and below a threshold. A run is defined as a series of increasing values or a series of decreasing values. The number of increasing, or decreasing, values is the length of the run.  By default, the median is used as the threshold.  A small number of runs indicates positive serial correlation; a large number indicates negative serial correlation.
+Runs Test can be used to decide if a data set is from a random process. It tests whether observations of a sequence are serially independent i.e. whether they occur in a random order by counting how many runs there are above and below a threshold. A run is a sequence of consecutive observations on the same side of the threshold: here, days above the 72-order target or days not above it. The number of observations in the sequence is the length of the run.  By default, the median is used as the threshold.  A small number of runs indicates positive serial correlation; a large number indicates negative serial correlation.
 
 ### Examples
 
-We will use runs test to check regression residuals for serial correlation.
+Are daily orders random around the 72-order target?
 
 ```{r runs1}
 # basic example
-ifr_runs_test(hsb, read)
+ifr_runs_test(campaign_responses, daily_orders, threshold = 72)
 
 # drop values equal to threshold
-ifr_runs_test(hsb, read, drop = TRUE)
+ifr_runs_test(campaign_responses, daily_orders, drop = TRUE, threshold = 72)
 
 # recode data in binary format
-ifr_runs_test(hsb, read, split = TRUE)
+ifr_runs_test(campaign_responses, daily_orders, split = TRUE, threshold = 72)
 
 # use mean as threshold
-ifr_runs_test(hsb, read, mean = TRUE)
+ifr_runs_test(campaign_responses, daily_orders, mean = TRUE)
 
-# threshold to be used for counting runs
-ifr_runs_test(hsb, read, threshold = 50)
+# use the pre-coded above/below-target sequence
+ifr_runs_test(campaign_responses, above_target, threshold = 0)
 ```
+
+The small p-value indicates serial dependence in daily orders.

@@ -75,11 +75,13 @@ printed as a bound using \code{f_raw}, not the rounded statistic.
 }
 
 \examples{
-# using grouping variable
-ifr_ts_var_test(hsb, read, group_var = female, alternative = 'less')
+# Do retail and hotel/restaurant/cafe customers have equal spread of log grocery spending?
+# Use log(grocery) because spending is right-skewed.
+w <- transform(wholesale_customers, log_grocery = log(grocery))
 
-# using two variables
-ifr_ts_var_test(hsb, read, write, alternative = 'less')
+# using grouping variable
+ifr_ts_var_test(w, log_grocery, group_var = channel, alternative = 'all')
+
 
 }
 \references{

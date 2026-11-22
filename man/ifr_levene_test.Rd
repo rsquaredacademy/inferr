@@ -68,11 +68,15 @@ zero.
 }
 
 \examples{
-# using grouping variable
-ifr_levene_test(hsb, read, group_var = race)
+# Do retail and hotel/restaurant/cafe customers have equal spread of log grocery spending?
+# Use log(grocery) because spending is right-skewed.
+w <- transform(wholesale_customers, log_grocery = log(grocery))
 
-# using  variables
-ifr_levene_test(hsb, read, write, socst)
+# using grouping variable
+ifr_levene_test(w, log_grocery, group_var = channel)
+
+# Does the spread of log grocery spending differ across regions?
+ifr_levene_test(w, log_grocery, group_var = region)
 
 }
 \references{

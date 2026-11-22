@@ -60,19 +60,22 @@
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #'
 #' @examples
-#' # using variables
-#' # lower tail
-#' ifr_ts_prop_test(treatment, treatment1, treatment2,
-#' alternative = 'less')
+#' # Do new and returning customers open email at the same rate?
+#' samples <- split(campaign_responses$opened_email, campaign_responses$segment)
+#' ifr_ts_prop_test(samples, new, returning, alternative = 'less')
 #'
 #' # using groups
-#' # lower tail
-#' ifr_ts_prop_group(treatment2, outcome, female,
+#' ifr_ts_prop_group(campaign_responses, opened_email, segment,
 #' alternative = 'less')
 #'
 #' # using sample size and proportions
-#' # lower tail
-#' ifr_ts_prop_calc(n1 = 30, n2 = 25, p1 = 0.3, p2 = 0.5, alternative = 'less')
+#' ifr_ts_prop_calc(
+#'   n1 = sum(campaign_responses$segment == "new"),
+#'   n2 = sum(campaign_responses$segment == "returning"),
+#'   p1 = mean(campaign_responses$opened_email[campaign_responses$segment == "new"]),
+#'   p2 = mean(campaign_responses$opened_email[campaign_responses$segment == "returning"]),
+#'   alternative = 'less'
+#' )
 #'
 #' @seealso \code{\link[stats]{prop.test}}
 #'

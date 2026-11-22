@@ -58,10 +58,11 @@
 #' Yates, F. (1934). Contingency tables involving small numbers and the chi-squared test. \emph{Supplement to the Journal of the Royal Statistical Society}, 1(2), 217--235.
 #'
 #' @examples
-#' ifr_chisq_gof_test(hsb, race, c(20, 20, 20, 140))
+#' # Is the channel mix evenly split between retail and hotel/restaurant/cafe?
+#' ifr_chisq_gof_test(wholesale_customers, channel, c(0.5, 0.5))
 #'
 #' # apply continuity correction
-#' ifr_chisq_gof_test(hsb, race, c(20, 20, 20, 140), correct = TRUE)
+#' ifr_chisq_gof_test(wholesale_customers, channel, c(0.5, 0.5), correct = TRUE)
 #'
 #' @seealso \code{\link[stats]{chisq.test}}
 #'

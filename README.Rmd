@@ -59,47 +59,58 @@ devtools::install_github("rsquaredacademy/inferr")
 
 ## Usage
 
+The examples use `wholesale_customers` (UCI, CC BY 4.0) and the simulated
+`campaign_responses`.
+
 #### One Sample t Test
 
 ```{r load, echo=FALSE, message=FALSE}
 library(inferr)
 ```
 
+```{r data}
+w <- transform(wholesale_customers, log_grocery = log(grocery))
+```
+
 ```{r infer1}
-ifr_os_t_test(hsb, write, mu = 50)
+# Is typical grocery spend (the geometric mean) different from 4,000?
+# Test on the log scale because spending is right-skewed.
+ifr_os_t_test(log(wholesale_customers$grocery), mu = log(4000))
 ```
 
 #### ANOVA
 
 ```{r anova}
-ifr_oneway_anova(hsb, write, prog)
+# Does typical (log-scale) grocery spending differ by region? Use logs because spending is right-skewed.
+ifr_oneway_anova(w, log_grocery, region)
 ```
 
 #### Chi Square Test of Independence
 
 ```{r chi1}
-ifr_chisq_assoc_test(hsb, female, schtyp)
+# Is customer channel associated with region?
+ifr_chisq_assoc_test(wholesale_customers, channel, region)
 ```
 
 #### Levene's Test
 
 ```{r lev1}
-ifr_levene_test(hsb, read, group_var = race)
+# Do retail and hotel/restaurant/cafe customers have equal variance in log grocery spending?
+ifr_levene_test(w, log_grocery, group_var = channel)
 ```
 
 #### Cochran's Q Test
 
 ```{r cochran}
-ifr_cochran_qtest(exam, exam1, exam2, exam3)
+# Did the three campaigns get the same response rate?
+ifr_cochran_qtest(campaign_responses, promo_1, promo_2, promo_3)
 ```
 
 #### McNemar Test
 
 ```{r mc1}
-hb <- hsb
-hb$himath <- ifelse(hsb$math > 60, 1, 0)
-hb$hiread <- ifelse(hsb$read > 60, 1, 0)
-ifr_mcnemar_test(hb, himath, hiread)
+# Did the promotion change the proportion of customers who bought?
+ifr_mcnemar_test(campaign_responses, bought_before, bought_after)
 ```
 
 ## Getting Help

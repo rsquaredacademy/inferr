@@ -55,17 +55,20 @@
 #' Snedecor, G. W. and Cochran, W. G. (1989). \emph{Statistical Methods}, 8th ed. Ames, IA: Iowa State University Press.
 #'
 #' @examples
+#' # Is the spread of log grocery spending different from 1? Spending is right-skewed.
+#' w <- transform(wholesale_customers, log_grocery = log(grocery))
+#'
 #' # lower tail
-#' ifr_os_var_test(mtcars, mpg, 5, alternative = 'less')
+#' ifr_os_var_test(w, log_grocery, 1, alternative = 'less')
 #'
 #' # upper tail
-#' ifr_os_var_test(mtcars, mpg, 5, alternative = 'greater')
+#' ifr_os_var_test(w, log_grocery, 1, alternative = 'greater')
 #'
 #' # both tails
-#' ifr_os_var_test(mtcars, mpg, 5, alternative = 'both')
+#' ifr_os_var_test(w, log_grocery, 1, alternative = 'both')
 #'
 #' # all tails
-#' ifr_os_var_test(mtcars, mpg, 5, alternative = 'all')
+#' ifr_os_var_test(w, log_grocery, 1, alternative = 'all')
 #'
 #' @seealso \code{\link[stats]{var.test}}
 #'

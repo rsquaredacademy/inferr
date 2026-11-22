@@ -42,11 +42,12 @@
 #' Hollander, M., Wolfe, D. A. and Chicken, E. (2014). \emph{Nonparametric Statistical Methods}, 3rd ed. Hoboken, NJ: Wiley.
 #'
 #' @examples
-#' # using calculator
-#' ifr_binom_calc(32, 13, prob = 0.5)
+#' # Is the share of returning customers different from 50%?
+#' ifr_binom_test(campaign_responses, segment, prob = 0.5)
 #'
-#' # using data set
-#' ifr_binom_test(hsb, female, prob = 0.5)
+#' # same test using the calculator
+#' ifr_binom_calc(nrow(campaign_responses),
+#'                sum(campaign_responses$segment == "returning"), prob = 0.5)
 #'
 #' @seealso \code{\link[stats]{binom.test}}
 #'

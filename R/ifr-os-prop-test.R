@@ -49,11 +49,12 @@
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #'
 #' @examples
-#' # use as a calculator
-#' ifr_os_prop_test(200, prob = 0.5, phat = 0.3)
+#' # Is the email open rate different from 50%?
+#' ifr_os_prop_test(campaign_responses, opened_email, prob = 0.5)
 #'
-#' # using data set
-#' ifr_os_prop_test(hsb, female, prob = 0.5)
+#' # same test using the calculator
+#' ifr_os_prop_test(nrow(campaign_responses), prob = 0.5,
+#'                  phat = mean(campaign_responses$opened_email))
 #'
 #' @seealso \code{\link[stats]{prop.test}} \code{\link[stats]{binom.test}}
 #'

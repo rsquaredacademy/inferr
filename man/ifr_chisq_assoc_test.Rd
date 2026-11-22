@@ -57,9 +57,12 @@ printed as a bound rather than as an exact zero.
 }
 
 \examples{
-ifr_chisq_assoc_test(hsb, female, schtyp)
+# Is customer channel associated with region?
+ifr_chisq_assoc_test(wholesale_customers, channel, region)
 
-ifr_chisq_assoc_test(hsb, female, ses)
+# Is channel associated with above-median grocery spending?
+w <- transform(wholesale_customers, high_grocery = factor(grocery > median(grocery)))
+ifr_chisq_assoc_test(w, channel, high_grocery)
 
 }
 \references{

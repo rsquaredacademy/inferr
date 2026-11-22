@@ -1,6 +1,6 @@
 #' Dummy data set for Cochran's Q test
 #'
-#' A dataset containing information about results of three exams.
+#' A dataset containing information about results of three exams. Kept for backward compatibility; examples now use wholesale_customers / campaign_responses.
 #'
 #' @format A data frame with 15 rows and 3 variables:
 #' \describe{

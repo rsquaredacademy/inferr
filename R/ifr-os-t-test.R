@@ -45,17 +45,19 @@
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #'
 #' @examples
+#' # Is typical grocery spend (the geometric mean) different from 4,000?
+#' # Test on the log scale because spending is right-skewed.
 #' # lower tail
-#' ifr_os_t_test(hsb, write, mu = 50, alternative = 'less')
+#' ifr_os_t_test(log(wholesale_customers$grocery), mu = log(4000), alternative = 'less')
 #'
 #' # upper tail
-#' ifr_os_t_test(hsb, write, mu = 50, alternative = 'greater')
+#' ifr_os_t_test(log(wholesale_customers$grocery), mu = log(4000), alternative = 'greater')
 #'
 #' # both tails
-#' ifr_os_t_test(hsb, write, mu = 50, alternative = 'both')
+#' ifr_os_t_test(log(wholesale_customers$grocery), mu = log(4000), alternative = 'both')
 #'
 #' # all tails
-#' ifr_os_t_test(hsb, write, mu = 50, alternative = 'all')
+#' ifr_os_t_test(log(wholesale_customers$grocery), mu = log(4000), alternative = 'all')
 #'
 #' @seealso \code{\link[stats]{t.test}}
 #'

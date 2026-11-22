@@ -28,6 +28,6 @@ hsb
 }
 \description{
 A dataset containing demographic information and standardized test
-scores of high school students.
+scores of high school students. Kept for backward compatibility; examples now use wholesale_customers / campaign_responses.
 }
 \keyword{datasets}

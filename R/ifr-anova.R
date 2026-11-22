@@ -54,8 +54,10 @@
 #' Applied linear statistical models. Boston: McGraw-Hill Irwin.
 #'
 #' @examples
-#' ifr_oneway_anova(mtcars, mpg, cyl)
-#' ifr_oneway_anova(hsb, write, prog)
+#' # Does typical (log-scale) grocery spending differ by region?
+#' # Use log(grocery) because spending is right-skewed.
+#' w <- transform(wholesale_customers, log_grocery = log(grocery))
+#' ifr_oneway_anova(w, log_grocery, region)
 #'
 #' @seealso \code{\link[stats]{anova}}
 #'

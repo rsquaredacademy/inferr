@@ -1,5 +1,7 @@
 # inferr (development version)
 
+- Examples, README and vignette use business data: `wholesale_customers` (UCI, CC BY 4.0) and the simulated `campaign_responses`. The old datasets are still exported.
+
 ## Bug Fixes
 
 - P-values are no longer printed as exact zero in the proportion tests, ANOVA,

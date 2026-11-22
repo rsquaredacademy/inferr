@@ -103,17 +103,22 @@ display resolution is not shown as zero.
 }
 
 \examples{
+# Is typical (log-scale) grocery spend higher for retail customers
+# than for hotel/restaurant/cafe customers?
+# Spending is right-skewed, so compare log(grocery).
+w <- transform(wholesale_customers, log_grocery = log(grocery))
+
 # lower tail
-ifr_ts_ind_ttest(hsb, female, write, alternative = 'less')
+ifr_ts_ind_ttest(w, channel, log_grocery, alternative = 'less')
 
 # upper tail
-ifr_ts_ind_ttest(hsb, female, write, alternative = 'greater')
+ifr_ts_ind_ttest(w, channel, log_grocery, alternative = 'greater')
 
 # both tails
-ifr_ts_ind_ttest(hsb, female, write, alternative = 'both')
+ifr_ts_ind_ttest(w, channel, log_grocery, alternative = 'both')
 
 # all tails
-ifr_ts_ind_ttest(hsb, female, write, alternative = 'all')
+ifr_ts_ind_ttest(w, channel, log_grocery, alternative = 'all')
 
 }
 \references{
