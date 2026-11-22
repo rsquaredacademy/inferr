@@ -13,15 +13,15 @@ library(inferr)
 ```
 
 Inferential statistics allows us to make generalizations about populations using data drawn from the population.
-We use them when it is impractical or impossible to collect data about the whole population under study and instead,
-we have a sample that represents the population under study and using inferential statistics technique, we make
-generalizations about the population from the sample. **inferr** builds upon the solid set of statistical tests provided in **stats** package by including additional data types as inputs, expanding and restructuring the test results.
+We use it when it is impractical or impossible to collect data about the whole population under study and instead,
+we have a sample that represents the population under study and using inferential statistical techniques, we make
+generalizations about the population from the sample. **inferr** builds upon the solid set of statistical tests provided in the **stats** package by including additional data types as inputs, expanding and restructuring the test results.
 
 The **inferr** package:
 
 - builds upon the statistical tests provided in **stats**  
 - provides additional and flexible options
-- more detailed and structured test results
+- provides more detailed and structured test results
 
 As of version 0.1, **inferr** includes a select set of parametric and non-parametric statistical tests which are listed below:
 
@@ -59,7 +59,7 @@ These tests are described in more detail in the following sections.
 
 ## One Sample t Test
 
-A one sample t-test is used to determine whether a sample of observations comes from a population with a specific mean. The observations must be continuous, independent of each other, approximately distributed and should not contain any outliers.
+A one sample t-test is used to determine whether a sample of observations comes from a population with a specific mean. The observations must be continuous, independent of each other, approximately normally distributed and should not contain any outliers.
 
 ### Example
 
@@ -109,7 +109,7 @@ The small p-value and positive mean difference show that typical grocery spendin
 
 ## One Sample Test of Proportion
 
-One sample test of proportion compares proportion in one group to a specified population proportion.
+A one sample test of proportion compares the proportion in one group to a specified population proportion.
 
 ### Examples
 
@@ -132,7 +132,7 @@ ifr_os_prop_test(nrow(campaign_responses), prob = 0.5,
 
 ## Two Sample Test of Proportion
 
-Two sample test of proportion performs tests on the equality of proportions using large-sample statistics. It tests that a categorical variable has the same proportion within two groups or that two variables have the same proportion.
+A two sample test of proportion performs tests on the equality of proportions using large-sample statistics. It tests that a categorical variable has the same proportion within two groups or that two variables have the same proportion.
 
 ### Examples
 
@@ -174,7 +174,7 @@ ifr_ts_prop_calc(
 
 ## One Sample Variance Test
 
-One sample variance comparison test compares the standard deviation (variances) to a hypothesized value. It determines whether the standard deviation of a population is equal to a hypothesized value. It can be used to answer the following questions:
+A one sample variance comparison test compares the standard deviation (variances) to a hypothesized value. It determines whether the standard deviation of a population is equal to a hypothesized value. It can be used to answer the following questions:
 
 - Is the variance equal to some pre-determined threshold value?
 - Is the variance greater than some pre-determined threshold value?
@@ -196,7 +196,7 @@ The two-sided p-value rejects a standard deviation of 1 on the log scale.
 
 ## Two Sample Variance Test
 
-Two sample variance comparison tests equality of standard deviations (variances). It tests that the standard deviation of a continuous variable is same within two groups or the standard deviation of two continuous variables is equal.
+A two sample variance comparison tests the equality of standard deviations (variances). It tests that the standard deviation of a continuous variable is the same within two groups or the standard deviation of two continuous variables is equal.
 
 ### Example
 
@@ -249,8 +249,8 @@ ifr_oneway_anova(w, log_grocery, region)
 The test does not find a significant difference between the regions.
 
 ## Chi Square Goodness of Fit Test
-A chi-square goodness of fit test allows us to compare the observed sample distribution with expected probability distribution.
-It tests whether the observed proportions for a categorical variable differ from hypothesized proportions. The proportion of cases expected in each group of categorical variable may be equal or unequal. It can be applied to any univariate distribution for which you can calculate the cumulative distribution function. It is applied to binned data and the value of the chi square test depends on how the data is binned. For the chi square approximation to be valid, the sample size must be sufficiently large.
+A chi-square goodness of fit test allows us to compare the observed sample distribution with an expected probability distribution.
+It tests whether the observed proportions for a categorical variable differ from hypothesized proportions. The proportion of cases expected in each group of a categorical variable may be equal or unequal. It can be applied to any univariate distribution for which you can calculate the cumulative distribution function. It is applied to binned data and the value of the chi square test depends on how the data is binned. For the chi square approximation to be valid, the sample size must be sufficiently large.
 
 ### Example
 
@@ -336,9 +336,9 @@ The test does not find a significant difference between the three response rates
 
 ## McNemar Test
 
-McNemar test is a non parametric test created by Quinn McNemar and first published in **Psychometrika** in 1947.
+The McNemar test is a nonparametric test created by Quinn McNemar and first published in **Psychometrika** in 1947.
 It is similar to a paired t test but applied to a dichotomous dependent variable. It is used to test if a statistically
-significant change in proportions have occurred on a dichotomous trait at two time points on the same population. It can
+significant change in proportions has occurred on a dichotomous trait at two time points on the same population. It can
 be used to answer whether:
 
 - two products are equally appealing?
@@ -361,7 +361,7 @@ The same test can be run from a table.
 ifr_mcnemar_test(table(campaign_responses[c("bought_before", "bought_after")]))
 ```
 
-Perform the above test using matrix as input.
+Perform the above test using a matrix as input.
 
 ```{r mc2}
 ifr_mcnemar_test(matrix(table(campaign_responses[c("bought_before", "bought_after")]), nrow = 2))
