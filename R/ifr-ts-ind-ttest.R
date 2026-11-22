@@ -82,7 +82,8 @@
 #' Welch, B. L. (1947). The generalization of "Student's" problem when several different population variances are involved. \emph{Biometrika}, 34(1/2), 28--35.
 #'
 #' @examples
-#' # Do retail customers spend more on groceries than hotel/restaurant/cafe customers?
+#' # Is typical (log-scale) grocery spend higher for retail customers
+#' # than for hotel/restaurant/cafe customers?
 #' # Spending is right-skewed, so compare log(grocery).
 #' w <- transform(wholesale_customers, log_grocery = log(grocery))
 #'

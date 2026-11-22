@@ -56,16 +56,13 @@
 #' Snedecor, G. W. and Cochran, W. G. (1989). \emph{Statistical Methods}, 8th ed. Ames, IA: Iowa State University Press.
 #'
 #' @examples
-#' # Do retail and hotel/restaurant/cafe customers vary equally in grocery spending?
+#' # Do retail and hotel/restaurant/cafe customers have equal spread of log grocery spending?
 #' # Use log(grocery) because spending is right-skewed.
-#' w <- transform(wholesale_customers, log_grocery = log(grocery), log_milk = log(milk))
+#' w <- transform(wholesale_customers, log_grocery = log(grocery))
 #'
 #' # using grouping variable
 #' ifr_ts_var_test(w, log_grocery, group_var = channel, alternative = 'all')
 #'
-#' # using two variables
-#' # Do grocery and milk spending vary equally on the log scale?
-#' ifr_ts_var_test(w, log_grocery, log_milk, alternative = 'all')
 #'
 #' @seealso \code{\link[stats]{var.test}}
 #'

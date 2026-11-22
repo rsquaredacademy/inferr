@@ -39,8 +39,8 @@ promo_3 <- rbinom(n, 1, plogis(qlogis(0.41) + 0.5 * latent))
 # sequence cluster above and below the 72-order target, so the runs test
 # detects serial dependence.
 day <- seq_len(n)
-order_day <- round(72 + 14 * sin(2 * pi * day / 28) + rnorm(n, 0, 4))
-above_target <- as.integer(order_day > 72)
+daily_orders <- round(72 + 14 * sin(2 * pi * day / 28) + rnorm(n, 0, 4))
+above_target <- as.integer(daily_orders > 72)
 
 campaign_responses <- data.frame(
   customer_id    = customer_id,
@@ -53,7 +53,7 @@ campaign_responses <- data.frame(
   promo_1        = promo_1,
   promo_2        = promo_2,
   promo_3        = promo_3,
-  order_day      = order_day,
+  daily_orders      = daily_orders,
   above_target   = above_target
 )
 

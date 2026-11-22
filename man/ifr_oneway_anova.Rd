@@ -71,7 +71,8 @@ variation at all is undefined and stops with an error.
 }
 
 \examples{
-# Does average grocery spending differ by region? Use log(grocery) because spending is right-skewed.
+# Does typical (log-scale) grocery spending differ by region?
+# Use log(grocery) because spending is right-skewed.
 w <- transform(wholesale_customers, log_grocery = log(grocery))
 ifr_oneway_anova(w, log_grocery, region)
 

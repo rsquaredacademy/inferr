@@ -45,7 +45,8 @@
 #' Statistical Procedures, 4th edition. : Chapman & Hall/CRC.
 #'
 #' @examples
-#' # Does average grocery spend differ from 4,000? Use logs because spending is right-skewed.
+#' # Is typical grocery spend (the geometric mean) different from 4,000?
+#' # Test on the log scale because spending is right-skewed.
 #' # lower tail
 #' ifr_os_t_test(log(wholesale_customers$grocery), mu = log(4000), alternative = 'less')
 #'

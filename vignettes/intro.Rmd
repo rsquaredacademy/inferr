@@ -63,13 +63,13 @@ A one sample t-test is used to determine whether a sample of observations comes 
 
 ### Example
 
-Do wholesale customers spend, on average, 4,000 on groceries? Because grocery spending is right-skewed, the test compares `log(grocery)` with `log(4000)`.
+Is typical grocery spend (the geometric mean, tested on the log scale) different from 4,000? Because grocery spending is right-skewed, the test compares `log(grocery)` with `log(4000)`.
 
 ```{r ttest}
 ifr_os_t_test(log(wholesale_customers$grocery), mu = log(4000), alternative = 'all')
 ```
 
-The small two-sided p-value rejects the hypothesis that average grocery spending is 4,000.
+The small two-sided p-value rejects the hypothesis that the geometric mean of grocery spending is 4,000.
 
 ## Paired t test
 
@@ -99,13 +99,13 @@ different i.e. a subject in one group cannot also be a subject of the other grou
 
 ### Example
 
-Do retail customers spend more on groceries than hotel/restaurant/cafe customers? Spending is right-skewed, so the test compares `log(grocery)`.
+Is typical (log-scale) grocery spend higher for retail customers than for hotel/restaurant/cafe customers? Spending is right-skewed, so the test compares `log(grocery)`.
 
 ```{r ind}
 ifr_ts_ind_ttest(w, channel, log_grocery, alternative = 'all')
 ```
 
-The small p-value and positive mean difference show that retail customers spend more on groceries.
+The small p-value and positive mean difference show that typical grocery spending is higher for retail customers on the log scale.
 
 ## One Sample Test of Proportion
 
@@ -182,7 +182,7 @@ One sample variance comparison test compares the standard deviation (variances) 
 
 ### Examples
 
-Is the standard deviation of grocery spending different from 1? Spending is right-skewed, so the test uses `log(grocery)`.
+Is the standard deviation of log grocery spending different from 1? Spending is right-skewed, so the test uses `log(grocery)`.
 
 ```{r os_var}
 # Lower Tail Test
@@ -202,7 +202,7 @@ Two sample variance comparison tests equality of standard deviations (variances)
 
 #### Use Grouping Variable
 
-Do retail and hotel/restaurant/cafe customers have the same variance in grocery spending? Use logs because spending is right-skewed.
+Do retail and hotel/restaurant/cafe customers have the same variance in log grocery spending? Use logs because spending is right-skewed.
 
 ```{r ts_var1}
 # Using Grouping Variable
@@ -210,17 +210,6 @@ ifr_ts_var_test(w, log_grocery, group_var = channel, alternative = 'all')
 ```
 
 The variance ratio test finds a significant difference between the two channels.
-
-#### Using Variables
-
-Do grocery and milk spending vary equally on the log scale?
-
-```{r ts_var2}
-# Using Variables
-ifr_ts_var_test(w, log_grocery, log_milk, alternative = 'all')
-```
-
-The test does not find a significant difference in the variances of the two log spending columns.
 
 ## Binomial Probability Test
 
@@ -251,7 +240,7 @@ The one-way analysis of variance (ANOVA) is used to determine whether there are 
 
 ### Examples
 
-Does average grocery spending differ by region? Use `log(grocery)` because spending is right-skewed.
+Does typical (log-scale) grocery spending differ by region? Use `log(grocery)` because spending is right-skewed.
 
 ```{r anova}
 ifr_oneway_anova(w, log_grocery, region)
@@ -313,7 +302,7 @@ Levene's test is used to determine if k samples have equal variances. It is less
 
 #### Use Grouping Variable
 
-Do retail and hotel/restaurant/cafe customers have equal variance in grocery spending? Use `log(grocery)` because spending is right-skewed.
+Do retail and hotel/restaurant/cafe customers have equal variance in log grocery spending? Use `log(grocery)` because spending is right-skewed.
 
 ```{r lev1}
 # Using Grouping Variable
@@ -322,16 +311,15 @@ ifr_levene_test(w, log_grocery, group_var = channel)
 
 Levene's test finds unequal variances between the two channels.
 
-#### Using Variables
+#### Three Independent Groups
 
-Do grocery, milk and fresh spending have equal variance on the log scale?
+Does the spread of log grocery spending differ across regions?
 
 ```{r lev2}
-# Using Variables
-ifr_levene_test(w, log_grocery, log_milk, log_fresh)
+ifr_levene_test(w, log_grocery, group_var = region)
 ```
 
-Levene's test also finds unequal variances across the three log spending columns.
+Levene's test does not find a significant difference in log-spend variances across the regions.
 
 ## Cochran's Q Test
 Cochran's Q test is an extension to the McNemar test for related samples that provides a method for testing for differences between three or more matched sets of frequencies or proportions. It is a procedure for testing if the proportions of 3 or more dichotomous variables are equal in some population. These outcome variables have been measured on the same people or other statistical units.
@@ -381,7 +369,7 @@ ifr_mcnemar_test(matrix(table(campaign_responses[c("bought_before", "bought_afte
 
 ## Runs Test for Randomness
 
-Runs Test can be used to decide if a data set is from a random process. It tests whether observations of a sequence are serially independent i.e. whether they occur in a random order by counting how many runs there are above and below a threshold. A run is defined as a series of increasing values or a series of decreasing values. The number of increasing, or decreasing, values is the length of the run.  By default, the median is used as the threshold.  A small number of runs indicates positive serial correlation; a large number indicates negative serial correlation.
+Runs Test can be used to decide if a data set is from a random process. It tests whether observations of a sequence are serially independent i.e. whether they occur in a random order by counting how many runs there are above and below a threshold. A run is a sequence of consecutive observations on the same side of the threshold: here, days above the 72-order target or days not above it. The number of observations in the sequence is the length of the run.  By default, the median is used as the threshold.  A small number of runs indicates positive serial correlation; a large number indicates negative serial correlation.
 
 ### Examples
 
@@ -389,16 +377,16 @@ Are daily orders random around the 72-order target?
 
 ```{r runs1}
 # basic example
-ifr_runs_test(campaign_responses, order_day, threshold = 72)
+ifr_runs_test(campaign_responses, daily_orders, threshold = 72)
 
 # drop values equal to threshold
-ifr_runs_test(campaign_responses, order_day, drop = TRUE, threshold = 72)
+ifr_runs_test(campaign_responses, daily_orders, drop = TRUE, threshold = 72)
 
 # recode data in binary format
-ifr_runs_test(campaign_responses, order_day, split = TRUE, threshold = 72)
+ifr_runs_test(campaign_responses, daily_orders, split = TRUE, threshold = 72)
 
 # use mean as threshold
-ifr_runs_test(campaign_responses, order_day, mean = TRUE)
+ifr_runs_test(campaign_responses, daily_orders, mean = TRUE)
 
 # use the pre-coded above/below-target sequence
 ifr_runs_test(campaign_responses, above_target, threshold = 0)

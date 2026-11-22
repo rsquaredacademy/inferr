@@ -64,7 +64,8 @@ w <- transform(wholesale_customers, log_grocery = log(grocery))
 ```
 
 ``` r
-# Is average grocery spending different from 4,000? Use logs because spending is right-skewed.
+# Is typical grocery spend (the geometric mean) different from 4,000?
+# Test on the log scale because spending is right-skewed.
 ifr_os_t_test(log(wholesale_customers$grocery), mu = log(4000))
 #>                               One-Sample Statistics                               
 #> ---------------------------------------------------------------------------------
@@ -88,7 +89,7 @@ ifr_os_t_test(log(wholesale_customers$grocery), mu = log(4000))
 #### ANOVA
 
 ``` r
-# Does average grocery spending differ by region? Use logs because spending is right-skewed.
+# Does typical (log-scale) grocery spending differ by region? Use logs because spending is right-skewed.
 ifr_oneway_anova(w, log_grocery, region)
 #>                                 ANOVA                                  
 #> ----------------------------------------------------------------------

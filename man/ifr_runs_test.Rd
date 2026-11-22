@@ -61,16 +61,16 @@ required.
 
 \examples{
 # Are daily orders random around the 72-order target?
-ifr_runs_test(campaign_responses, order_day, threshold = 72)
+ifr_runs_test(campaign_responses, daily_orders, threshold = 72)
 
 # drop days exactly on target
-ifr_runs_test(campaign_responses, order_day, drop = TRUE, threshold = 72)
+ifr_runs_test(campaign_responses, daily_orders, drop = TRUE, threshold = 72)
 
 # recode above/below target as 0/1
-ifr_runs_test(campaign_responses, order_day, split = TRUE, threshold = 72)
+ifr_runs_test(campaign_responses, daily_orders, split = TRUE, threshold = 72)
 
 # use the mean daily order count as threshold
-ifr_runs_test(campaign_responses, order_day, mean = TRUE)
+ifr_runs_test(campaign_responses, daily_orders, mean = TRUE)
 
 # use the pre-coded above/below-target sequence
 ifr_runs_test(campaign_responses, above_target, threshold = 0)

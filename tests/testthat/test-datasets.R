@@ -27,13 +27,13 @@ test_that("campaign_responses has the expected dimensions and column types", {
     campaign_responses,
     c("customer_id", "segment", "opened_email", "clicked", "purchased",
       "bought_before", "bought_after", "promo_1", "promo_2", "promo_3",
-      "order_day", "above_target")
+      "daily_orders", "above_target")
   )
 
   expect_type(campaign_responses$customer_id, "integer")
   expect_s3_class(campaign_responses$segment, "factor")
   expect_equal(levels(campaign_responses$segment), c("new", "returning"))
-  expect_type(campaign_responses$order_day, "double")
+  expect_type(campaign_responses$daily_orders, "double")
   expect_false(anyNA(campaign_responses))
 })
 
@@ -52,6 +52,6 @@ test_that("campaign_responses 0/1 columns are coded 0/1 with both values", {
 test_that("campaign_responses above_target matches the daily order counts", {
   expect_equal(
     campaign_responses$above_target,
-    as.integer(campaign_responses$order_day > 72)
+    as.integer(campaign_responses$daily_orders > 72)
   )
 })

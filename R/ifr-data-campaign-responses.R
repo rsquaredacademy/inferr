@@ -11,7 +11,7 @@
 #'   \item{opened_email, clicked, purchased}{0/1 indicators for one email campaign.}
 #'   \item{bought_before, bought_after}{0/1 purchase indicators before and after a promotion.}
 #'   \item{promo_1, promo_2, promo_3}{0/1 responses to three campaigns measured on the same customers.}
-#'   \item{order_day}{Number of orders received on each of 200 consecutive days.}
+#'   \item{daily_orders}{Number of orders received on each of 200 consecutive days.}
 #'   \item{above_target}{0/1 indicator for whether daily orders exceeded the 72-order target.}
 #' }
 #'
