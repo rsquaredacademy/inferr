@@ -4,6 +4,9 @@
 
 ## Bug Fixes
 
+- `ifr_ts_ind_ttest()` now orders groups by factor level (`levels(x)`) rather
+  than first-appearance row order, matching `stats::t.test()` and
+  `stats::var.test()`.
 - P-values are no longer printed as exact zero in the proportion tests, ANOVA,
   t tests, variance tests, chi-square tests or McNemar test. The unrounded
   p-value is retained in the returned object (for example `sig_raw` or

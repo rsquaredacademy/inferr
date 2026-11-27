@@ -182,3 +182,24 @@ test_that("Satterthwaite degrees of freedom are stored and printed unrounded (#8
   expect_false(any(grepl("Satterthwaite", out) &
                    grepl(" 170 ", out, fixed = TRUE)))
 })
+
+test_that("ifr_ts_ind_ttest follows factor level order regardless of row order", {
+  w <- transform(wholesale_customers, log_grocery = log(grocery))
+  k_orig <- ifr_ts_ind_ttest(w, channel, log_grocery)
+  k_ord  <- ifr_ts_ind_ttest(w[order(w$channel), ], channel, log_grocery)
+  ref_t  <- t.test(log_grocery ~ channel, data = w, var.equal = FALSE)
+  ref_tp <- t.test(log_grocery ~ channel, data = w, var.equal = TRUE)
+  ref_v  <- var.test(log_grocery ~ channel, data = w)
+
+  expect_equal(k_orig$levels, levels(w$channel))
+  expect_equal(k_orig$mean_diff, k_ord$mean_diff)
+  expect_equal(k_orig$t_satterthwaite, round(unname(ref_t$statistic), 4))
+  expect_equal(k_orig$t_pooled, round(unname(ref_tp$statistic), 4))
+  expect_equal(k_orig$conf_diff_satterthwaite, round(as.numeric(ref_t$conf.int), 5))
+  expect_equal(k_orig$conf_diff, round(as.numeric(ref_tp$conf.int), 5))
+  expect_equal(k_orig$f, round(unname(ref_v$statistic), 4))
+  expect_equal(k_orig$num_df, unname(ref_v$parameter[1]))
+  expect_equal(k_orig$den_df, unname(ref_v$parameter[2]))
+  expect_equal(k_orig$sig_l_raw, t.test(log_grocery ~ channel, data = w, alternative = "less")$p.value, tolerance = 1e-10)
+  expect_equal(k_orig$sig_u_raw, t.test(log_grocery ~ channel, data = w, alternative = "greater")$p.value, tolerance = 1e-10)
+})

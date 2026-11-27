@@ -241,6 +241,8 @@ data_split <- function(data, x, y) {
             by = ".ifr_group"]
 
   setDF(out)
+  out <- out[order(out[, 1]), ]
+  rownames(out) <- NULL
   names(out)[1] <- x
   out
 

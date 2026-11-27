@@ -105,7 +105,7 @@ Is typical (log-scale) grocery spend higher for retail customers than for hotel/
 ifr_ts_ind_ttest(w, channel, log_grocery, alternative = 'all')
 ```
 
-The small p-value and positive mean difference show that typical grocery spending is higher for retail customers on the log scale.
+The small p-value and negative mean difference (hotel/restaurant/cafe minus retail) show that typical grocery spending is higher for retail customers on the log scale.
 
 ## One Sample Test of Proportion
 
